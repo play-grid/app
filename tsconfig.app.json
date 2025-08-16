@@ -6,16 +6,16 @@
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "moduleDetection": "force",
     "useDefineForClassFields": true,
-    "module": "ESNext",
 
-  "baseUrl": ".",
+    "baseUrl": ".",
+    "module": "ESNext",
+    /* Bundler mode */
+    "moduleResolution": "bundler",
     "paths": {
       "@/*": [
         "./src/*"
       ]
     },
-    /* Bundler mode */
-    "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
 
     /* Linting */
@@ -28,7 +28,7 @@
     "erasableSyntaxOnly": true,
     "skipLibCheck": true,
     "noUncheckedSideEffectImports": true
-    
+
   },
   "include": ["src"]
 }

@@ -3,62 +3,6 @@ export function generateCompanyLogoUrl(name: string) {
   return `https://api.logo.dev/search?q=${query}`
 }
 
-export function generateCountryFlagUrl(name: string) {
-  const countryCodeMap: Record<string, string> = {
-    'United States': 'US',
-    'Canada': 'CA',
-    'Mexico': 'MX',
-    'Brazil': 'BR',
-    'Argentina': 'AR',
-    'United Kingdom': 'GB',
-    'France': 'FR',
-    'Germany': 'DE',
-    'Italy': 'IT',
-    'Spain': 'ES',
-    'Russia': 'RU',
-    'China': 'CN',
-    'Japan': 'JP',
-    'South Korea': 'KR',
-    'India': 'IN',
-    'Australia': 'AU',
-    'Egypt': 'EG',
-    'South Africa': 'ZA',
-    'Nigeria': 'NG',
-    'Kenya': 'KE',
-    'Turkey': 'TR',
-    'Greece': 'GR',
-    'Netherlands': 'NL',
-    'Belgium': 'BE',
-    'Sweden': 'SE',
-    'Norway': 'NO',
-    'Denmark': 'DK',
-    'Finland': 'FI',
-    'Poland': 'PL',
-    'Czech Republic': 'CZ',
-    'Hungary': 'HU',
-    'Romania': 'RO',
-    'Portugal': 'PT',
-    'Switzerland': 'CH',
-    'Austria': 'AT',
-    'Ireland': 'IE',
-    'Israel': 'IL',
-    'Saudi Arabia': 'SA',
-    'UAE': 'AE',
-    'Iran': 'IR',
-    'Thailand': 'TH',
-    'Vietnam': 'VN',
-    'Philippines': 'PH',
-    'Indonesia': 'ID',
-    'Malaysia': 'MY',
-    'Singapore': 'SG',
-    'New Zealand': 'NZ',
-    'Chile': 'CL',
-  }
-
-  const code = countryCodeMap[name] || 'US'
-  return `https://flagsapi.com/${code}/flat/64.png`
-}
-
 export function generateMoviePosterUrl(name: string) {
   const query = encodeURIComponent(name)
   // First try Arabic, fallback to English if needed

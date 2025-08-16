@@ -28,7 +28,7 @@ export async function fetchMoviePoster(movieName: string): Promise<string | null
     // If no results in Arabic, try English
     if (!data.results || data.results.length === 0) {
       response = await fetch(
-        `https://api.themoviedb.org/3/search/movie?include_adult=false&language=en&page=1&query=${encodeURIComponent(movieName)}&api_key=${env.NEXT_PUBLIC_TMDB_API_KEY}`,
+        `https://api.themoviedb.org/3/search/movie?include_adult=false&language=en&page=1&query=${encodeURIComponent(movieName)}`,
       )
 
       if (!response.ok) {

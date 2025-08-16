@@ -1,4 +1,4 @@
-export function generateCountryFlagUrl(name: string): string {
+export function generateFlagUrl(name: string): string {
   const countryCodeMap: Record<string, string> = {
     'United States': 'US',
     'Canada': 'CA',

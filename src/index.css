@@ -1,42 +1,47 @@
-@import 'tailwindcss';
-@import 'tw-animate-css';
+@import "tailwindcss";
+@import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  /* Updated color tokens to match the game design brief */
+  --background: oklch(0.98 0.005 240); /* Light background #f9fafb */
+  --foreground: oklch(0.35 0.01 240); /* Dark text #4b5563 */
+  --card: oklch(1 0 0); /* White cards #ffffff */
+  --card-foreground: oklch(0.35 0.01 240); /* Dark text on cards */
+  --popover: oklch(1 0 0); /* White popover background */
+  --popover-foreground: oklch(0.35 0.01 240); /* Dark text in popovers */
+  --primary: oklch(0.55 0.15 200); /* Cyan primary #0891b2 */
+  --primary-foreground: oklch(1 0 0); /* White text on primary */
+  --secondary: oklch(0.65 0.2 270); /* Purple accent #8b5cf6 */
+  --Easy:oklch(0.55 0.15 200); /* Cyan for easy difficulty */
+  --Medium:oklch(0.7 0.2 60); /* Yellow for medium difficulty */
+  --Hard:oklch(0.35 0.01 240); /* Blue for hard difficulty */
+  --Expert:oklch(0.55 0.25 25); /* Red for expert difficulty */
+  --secondary-foreground: oklch(1 0 0); /* White text on secondary */
+  --muted: oklch(0.96 0.005 240); /* Subtle background #f1f5f9 */
+  --muted-foreground: oklch(0.25 0.01 240); /* Dark muted text #374151 */
+  --accent: oklch(0.65 0.2 270); /* Purple interactive elements */
+  --accent-foreground: oklch(1 0 0); /* White text on accents */
+  --destructive: oklch(0.55 0.25 25); /* Red for elimination #dc2626 */
+  --destructive-foreground: oklch(1 0 0); /* White text on destructive */
+  --border: oklch(0.9 0.005 240); /* Light border #e5e7eb */
+  --input: oklch(1 0 0); /* White input fields */
+  --ring: oklch(0.55 0.15 200 / 0.5); /* Focus ring with transparency */
+  --chart-1: oklch(0.65 0.2 270);
+  --chart-2: oklch(0.55 0.15 200);
+  --chart-3: oklch(0.55 0.25 25);
+  --chart-4: oklch(0.7 0.2 60);
+  --chart-5: oklch(0.35 0.01 240);
+  --radius: 0.5rem;
+  --sidebar: oklch(1 0 0);
+  --sidebar-foreground: oklch(0.35 0.01 240);
+  --sidebar-primary: oklch(0.55 0.15 200);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent: oklch(0.65 0.2 270);
+  --sidebar-accent-foreground: oklch(1 0 0);
+  --sidebar-border: oklch(0.9 0.005 240);
+  --sidebar-ring: oklch(0.55 0.15 200 / 0.5);
 }
 
 .dark {

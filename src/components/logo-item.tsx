@@ -1,70 +1,35 @@
-'use client'
-
 import type { LogoItem } from '@/lib/logo-data'
 import { Trophy, X } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Card } from '@/components/ui/card'
-import { fetchCompanyLogo } from '@/services/company-service'
-import { fetchMoviePoster } from '@/services/movie-service'
 
-interface LogoItemProps {
+export interface LogoItemProps {
   logo: LogoItem
   isWinner: boolean
   onToggle: () => void
+  isQueryLoading?: boolean
+  hasQueryError?: boolean
 }
 
-export function LogoItemComponent({ logo, isWinner, onToggle }: LogoItemProps) {
-  const [imageError, setImageError] = useState(false)
+export function LogoItemComponent({
+  logo,
+  isWinner,
+  onToggle,
+  isQueryLoading = false,
+  hasQueryError = false,
+}: LogoItemProps) {
+  // Individual image loading state (separate from query loading)
   const [imageLoading, setImageLoading] = useState(true)
-  const [resolvedImageUrl, setResolvedImageUrl] = useState<string>('')
+  const [imageError, setImageError] = useState(false)
 
-  useEffect(() => {
-    const resolveImageUrl = async () => {
-      try {
-        setImageLoading(true)
+  // Determine if we should show an image or fallback to text
+  // Allow placeholder URLs for now, but exclude obvious text-only cases
+  const hasValidImageUrl = logo.imageUrl
+    && logo.imageUrl !== logo.name
+    && !hasQueryError
+    && !imageError
 
-        if (logo.imageUrl.includes('api.logo.dev')) {
-          // Extract company name from the URL
-          const urlParams = new URLSearchParams(logo.imageUrl.split('?')[1])
-          const companyName = urlParams.get('q') || ''
-          const logoUrl = await fetchCompanyLogo(companyName)
-
-          if (logoUrl) {
-            setResolvedImageUrl(logoUrl)
-          }
-          else {
-            setImageError(true)
-          }
-        }
-        else if (logo.imageUrl.includes('api.themoviedb.org')) {
-          // Extract movie name from the URL
-          const urlParams = new URLSearchParams(logo.imageUrl.split('?')[1])
-          const movieName = urlParams.get('query') || ''
-          const posterUrl = await fetchMoviePoster(movieName)
-
-          if (posterUrl) {
-            setResolvedImageUrl(posterUrl)
-          }
-          else {
-            setImageError(true)
-          }
-        }
-        else {
-          // For flag URLs and other direct image URLs
-          setResolvedImageUrl(logo.imageUrl)
-        }
-      }
-      catch (error) {
-        console.error('Error resolving image URL:', error)
-        setImageError(true)
-      }
-      finally {
-        setImageLoading(false)
-      }
-    }
-
-    resolveImageUrl()
-  }, [logo.imageUrl])
+  const showLoadingSpinner = isQueryLoading || (hasValidImageUrl && imageLoading)
 
   return (
     <Card
@@ -74,22 +39,24 @@ export function LogoItemComponent({ logo, isWinner, onToggle }: LogoItemProps) {
       onClick={onToggle}
     >
       <div className="h-full flex items-center justify-center relative">
-        {!imageError && resolvedImageUrl
+        {hasValidImageUrl
           ? (
               <div className="w-full h-full flex items-center justify-center">
                 <img
-                  src={resolvedImageUrl || '/placeholder.svg'}
+                  src={logo.imageUrl}
                   alt={logo.name}
                   className={`max-w-full max-h-full object-contain transition-opacity ${
                     logo.eliminated ? 'opacity-30 grayscale' : ''
                   } ${imageLoading ? 'opacity-0' : 'opacity-100'}`}
-                  onLoad={() => setImageLoading(false)}
+                  onLoad={() => {
+                    setImageLoading(false)
+                  }}
                   onError={() => {
                     setImageError(true)
                     setImageLoading(false)
                   }}
                 />
-                {imageLoading && (
+                {showLoadingSpinner && (
                   <div className="absolute inset-0 flex items-center justify-center">
                     <div className="w-6 h-6 border-2 border-primary border-t-transparent rounded-full animate-spin" />
                   </div>
@@ -97,13 +64,20 @@ export function LogoItemComponent({ logo, isWinner, onToggle }: LogoItemProps) {
               </div>
             )
           : (
-              <span
-                className={`text-xs text-center font-medium leading-tight ${
-                  logo.eliminated ? 'text-destructive line-through' : 'text-card-foreground'
-                } ${isWinner ? 'text-green-700 font-bold' : ''}`}
-              >
-                {logo.name}
-              </span>
+              <div className="w-full h-full flex items-center justify-center">
+                <span
+                  className={`text-xs text-center font-medium leading-tight ${
+                    logo.eliminated ? 'text-destructive line-through' : 'text-card-foreground'
+                  } ${isWinner ? 'text-green-700 font-bold' : ''}`}
+                >
+                  {logo.name}
+                </span>
+                {showLoadingSpinner && (
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="w-6 h-6 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+                  </div>
+                )}
+              </div>
             )}
 
         {logo.eliminated && (

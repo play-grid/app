@@ -2,11 +2,9 @@
 
 import type { LogoItem, LogoSetKey } from '@/lib/logo-data'
 import { useEffect, useState } from 'react'
+import { useLogoQuery } from '@/hooks/use-logo-query'
 import { getGridConfiguration } from '@/lib/grid-configurations'
 import { logoSets } from '@/lib/logo-data'
-import { generateCompanyLogoUrl } from '@/services/company-service'
-import { generateCountryFlagUrl } from '@/services/flag-service'
-import { generateMoviePosterUrl } from '@/services/movie-service'
 import { GameHeader } from './game-header'
 import { GameInstructions } from './game-instructions'
 import { GameSetup } from './game-setup'
@@ -21,6 +19,10 @@ export function LogoGuessingGame() {
   const [currentPlayer, setCurrentPlayer] = useState<'A' | 'B'>('A')
   const [playerAWinner, setPlayerAWinner] = useState<LogoItem | null>(null)
   const [playerBWinner, setPlayerBWinner] = useState<LogoItem | null>(null)
+
+  const gridConfig = getGridConfiguration(selectedGrid)
+  const logoNames = logoSets[selectedSet].slice(0, gridConfig.totalLogos)
+  const { data: fetchedLogos } = useLogoQuery(logoNames, selectedSet, !gameStarted)
 
   useEffect(() => {
     const activePlayerALogos = playerALogos.filter(logo => !logo.eliminated)
@@ -42,42 +44,22 @@ export function LogoGuessingGame() {
   }, [playerALogos, playerBLogos])
 
   const initializeGame = () => {
-    const gridConfig = getGridConfiguration(selectedGrid)
-    const logos = logoSets[selectedSet].slice(0, gridConfig.totalLogos).map((name, index) => {
-      let imageUrl = ''
-
-      // Generate appropriate URL based on logo set type
-      switch (selectedSet) {
-        case 'companies':
-          imageUrl = generateCompanyLogoUrl(name)
-          break
-        case 'countries':
-          imageUrl = generateCountryFlagUrl(name)
-          break
-        case 'movies':
-          imageUrl = generateMoviePosterUrl(name)
-          break
-        case 'sports':
-          imageUrl = `/placeholder.svg?height=100&width=100&query=${encodeURIComponent(`${name} logo`)}`
-          break
-        default:
-          imageUrl = `/placeholder.svg?height=100&width=100&query=${encodeURIComponent(name)}`
-      }
-
-      return {
-        id: index,
-        name,
-        imageUrl,
+    if (fetchedLogos) {
+      // Convert fetched logos to LogoItem format with proper structure
+      const initialLogos: LogoItem[] = fetchedLogos.map((fetchedLogo, index) => ({
+        id: index + 1,
+        name: fetchedLogo.name,
+        imageUrl: fetchedLogo.imageUrl,
         eliminated: false,
-      }
-    })
+      }))
 
-    setPlayerALogos([...logos])
-    setPlayerBLogos([...logos])
-    setGameStarted(true)
-    setCurrentPlayer('A')
-    setPlayerAWinner(null)
-    setPlayerBWinner(null)
+      setPlayerALogos([...initialLogos])
+      setPlayerBLogos([...initialLogos])
+      setGameStarted(true)
+      setCurrentPlayer('A')
+      setPlayerAWinner(null)
+      setPlayerBWinner(null)
+    }
   }
 
   const resetGame = () => {
@@ -115,11 +97,10 @@ export function LogoGuessingGame() {
         selectedGrid={selectedGrid}
         onGridChange={setSelectedGrid}
         onStartGame={initializeGame}
+        canStart={!!fetchedLogos}
       />
     )
   }
-
-  const gridConfig = getGridConfiguration(selectedGrid)
 
   return (
     <div className="min-h-screen p-4">
@@ -142,6 +123,7 @@ export function LogoGuessingGame() {
           winner={playerAWinner}
           onToggleLogo={togglePlayerALogo}
           gridConfig={gridConfig}
+          logoSet={selectedSet}
         />
         <PlayerGrid
           player="B"
@@ -149,6 +131,7 @@ export function LogoGuessingGame() {
           winner={playerBWinner}
           onToggleLogo={togglePlayerBLogo}
           gridConfig={gridConfig}
+          logoSet={selectedSet}
         />
       </div>
 

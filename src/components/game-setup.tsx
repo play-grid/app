@@ -14,6 +14,8 @@ interface GameSetupProps {
   selectedGrid: string
   onGridChange: (gridId: string) => void
   onStartGame: () => void
+  canStart?: boolean // Add this
+  isLoading?: boolean // Optional: show loading state
 }
 
 const logoSets = [
@@ -47,7 +49,15 @@ const logoSets = [
   },
 ]
 
-export function GameSetup({ selectedSet, onSetChange, selectedGrid, onGridChange, onStartGame }: GameSetupProps) {
+export function GameSetup({
+  selectedSet,
+  onSetChange,
+  selectedGrid,
+  onGridChange,
+  onStartGame,
+  canStart = true,
+  isLoading = false,
+}: GameSetupProps) {
   const currentGrid = gridConfigurations.find(g => g.id === selectedGrid) || gridConfigurations[2]
 
   return (
@@ -139,8 +149,13 @@ export function GameSetup({ selectedSet, onSetChange, selectedGrid, onGridChange
           </div>
         </div>
 
-        <Button onClick={onStartGame} className="w-full mt-8" size="lg">
-          Start Game
+        <Button
+          onClick={onStartGame}
+          className="w-full mt-8"
+          size="lg"
+          disabled={!canStart || isLoading}
+        >
+          {isLoading ? 'Loading logos...' : 'Start Game'}
         </Button>
       </Card>
     </div>
