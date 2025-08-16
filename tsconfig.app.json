@@ -8,6 +8,12 @@
     "useDefineForClassFields": true,
     "module": "ESNext",
 
+  "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    },
     /* Bundler mode */
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
@@ -22,6 +28,7 @@
     "erasableSyntaxOnly": true,
     "skipLibCheck": true,
     "noUncheckedSideEffectImports": true
+    
   },
   "include": ["src"]
 }
