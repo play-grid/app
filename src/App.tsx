@@ -1,9 +1,19 @@
-import { LogoGuessingGame } from './components/logo-guessing-game'
+// eslint-disable-next-line unicorn/filename-case
+import { Route, Router, Switch } from 'wouter'
+import { GamePlayPage } from '@/pages/game-play-page'
+import { GameSetupPage } from '@/pages/game-setup-page'
 
-function App() {
+export default function App() {
   return (
-    <LogoGuessingGame />
+    <Router>
+      <Switch>
+        <Route path="/" component={GameSetupPage} />
+        <Route path="/game/:logoSet/:gridSize" component={GamePlayPage} />
+        <Route>
+          {/* 404 - redirect to home */}
+          <GameSetupPage />
+        </Route>
+      </Switch>
+    </Router>
   )
 }
-
-export default App
