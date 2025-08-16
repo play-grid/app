@@ -4,6 +4,9 @@ import type { LogoItem, LogoSetKey } from '@/lib/logo-data'
 import { useEffect, useState } from 'react'
 import { getGridConfiguration } from '@/lib/grid-configurations'
 import { logoSets } from '@/lib/logo-data'
+import { generateCompanyLogoUrl } from '@/services/company-service'
+import { generateCountryFlagUrl } from '@/services/flag-service'
+import { generateMoviePosterUrl } from '@/services/movie-service'
 import { GameHeader } from './game-header'
 import { GameInstructions } from './game-instructions'
 import { GameSetup } from './game-setup'
@@ -40,11 +43,34 @@ export function LogoGuessingGame() {
 
   const initializeGame = () => {
     const gridConfig = getGridConfiguration(selectedGrid)
-    const logos = logoSets[selectedSet].slice(0, gridConfig.totalLogos).map((name, index) => ({
-      id: index,
-      name,
-      eliminated: false,
-    }))
+    const logos = logoSets[selectedSet].slice(0, gridConfig.totalLogos).map((name, index) => {
+      let imageUrl = ''
+
+      // Generate appropriate URL based on logo set type
+      switch (selectedSet) {
+        case 'companies':
+          imageUrl = generateCompanyLogoUrl(name)
+          break
+        case 'countries':
+          imageUrl = generateCountryFlagUrl(name)
+          break
+        case 'movies':
+          imageUrl = generateMoviePosterUrl(name)
+          break
+        case 'sports':
+          imageUrl = `/placeholder.svg?height=100&width=100&query=${encodeURIComponent(`${name} logo`)}`
+          break
+        default:
+          imageUrl = `/placeholder.svg?height=100&width=100&query=${encodeURIComponent(name)}`
+      }
+
+      return {
+        id: index,
+        name,
+        imageUrl,
+        eliminated: false,
+      }
+    })
 
     setPlayerALogos([...logos])
     setPlayerBLogos([...logos])
