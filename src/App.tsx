@@ -1,7 +1,9 @@
+import { LogoGuessingGame } from './components/logo-guessing-game'
+
 function App() {
   return (
     <>
-    dsad
+      <LogoGuessingGame />
     </>
   )
 }
