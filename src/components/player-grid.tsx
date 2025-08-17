@@ -1,37 +1,29 @@
-'use client'
-
 import type { GridConfiguration } from '@/lib/grid-configurations'
-import type { LogoItem } from '@/lib/logo-data'
+import type { Player } from '@/types/player'
 import { Badge } from '@/components/ui/badge'
 import { LogoItemComponent } from './logo-item'
 
+// Player interface to match the refactored structure
+
 interface PlayerGridProps {
-  player: 'A' | 'B'
-  playerName: string
-  logos: LogoItem[]
-  winner: LogoItem | null
+  player: Player
   onToggleLogo: (logoId: number) => void
   gridConfig: GridConfiguration
 }
 
 export function PlayerGrid({
-  playerName,
-  logos,
-  winner,
+  player,
   onToggleLogo,
   gridConfig,
 }: PlayerGridProps) {
-  const activeLogos = logos.filter(logo => !logo.eliminated).length
-
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <h2 className="text-xl font-semibold">
-          {playerName}
+          {player.name}
         </h2>
         <Badge variant="outline">
-          {activeLogos}
-          {' '}
+          {player.activeCount}
           /
           {gridConfig.totalLogos}
         </Badge>
@@ -43,12 +35,12 @@ export function PlayerGrid({
           gridTemplateRows: `repeat(${gridConfig.rows}, minmax(0, 1fr))`,
         }}
       >
-        {logos.map((logo) => {
+        {player.logos.map((logo) => {
           return (
             <LogoItemComponent
               key={logo.id}
               logo={logo}
-              isWinner={winner?.id === logo.id}
+              isWinner={player.winner?.id === logo.id}
               onToggle={() => onToggleLogo(logo.id)}
               isQueryLoading={false}
               hasQueryError={false}

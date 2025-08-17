@@ -1,6 +1,5 @@
-'use client'
-
 import type { LogoSetKey } from '@/lib/logo-data'
+import type { Player } from '@/types'
 import { Building2, Clock, Film, Flag, Grid3X3, Trophy, Users, Zap } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -15,11 +14,12 @@ interface GameSetupProps {
   onSetChange: (set: LogoSetKey) => void
   selectedGrid: string
   onGridChange: (gridId: string) => void
-  playerAName: string
+  playerA: Player
+  playerB: Player
   onPlayerANameChange: (name: string) => void
-  playerBName: string
   onPlayerBNameChange: (name: string) => void
   onStartGame: () => void
+  canStart: boolean
 }
 
 const logoSets = [
@@ -58,16 +58,17 @@ export function GameSetup({
   onSetChange,
   selectedGrid,
   onGridChange,
-  playerAName,
+  playerA,
+  playerB,
   onPlayerANameChange,
-  playerBName,
   onPlayerBNameChange,
   onStartGame,
+  canStart,
 }: GameSetupProps) {
   const currentGrid = gridConfigurations.find(g => g.id === selectedGrid) || gridConfigurations[2]
 
   // Validate that both player names are not empty (after trimming)
-  const canStartGame = playerAName.trim().length > 0 && playerBName.trim().length > 0
+  const canStartGame = playerA.name.trim().length > 0 && playerB.name.trim().length > 0 && canStart
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
@@ -97,7 +98,7 @@ export function GameSetup({
                   id="player-a"
                   type="text"
                   placeholder="Enter first player name"
-                  value={playerAName}
+                  value={playerA.name}
                   onChange={e => onPlayerANameChange(e.target.value)}
                   className="text-center border-blue-200 focus:border-blue-500"
                   maxLength={20}
@@ -111,14 +112,14 @@ export function GameSetup({
                   id="player-b"
                   type="text"
                   placeholder="Enter second player name"
-                  value={playerBName}
+                  value={playerB.name}
                   onChange={e => onPlayerBNameChange(e.target.value)}
                   className="text-center border-green-200 focus:border-green-500"
                   maxLength={20}
                 />
               </div>
             </div>
-            {(!playerAName.trim() || !playerBName.trim()) && (
+            {(!playerA.name.trim() || !playerB.name.trim()) && (
               <p className="text-sm text-muted-foreground mt-2">
                 Both player names are required to start the game
               </p>
@@ -147,7 +148,6 @@ export function GameSetup({
                     </div>
                     <h3 className="font-semibold text-lg mb-1">{set.name}</h3>
                     <p className="text-sm text-muted-foreground">{set.description}</p>
-                  
                   </Card>
                 )
               })}
@@ -185,7 +185,7 @@ export function GameSetup({
                 <div className="flex items-center gap-1">
                   <Grid3X3 className="w-4 h-4" />
                   <span>
-                    {currentGrid.totalLogos}
+
                     logos
                   </span>
                 </div>
@@ -204,7 +204,11 @@ export function GameSetup({
           size="lg"
           disabled={!canStartGame}
         >
-          {canStartGame ? 'Start Game' : 'Enter Player Names to Continue'}
+          {canStartGame
+            ? 'Start Game'
+            : (!playerA.name.trim() || !playerB.name.trim())
+                ? 'Enter Player Names to Continue'
+                : 'Loading logos...'}
         </Button>
       </Card>
     </div>

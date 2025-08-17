@@ -1,4 +1,4 @@
-import type { LogoItem } from '@/lib/logo-data'
+import type { LogoItem } from '@/types'
 import { Trophy, X } from 'lucide-react'
 import { useState } from 'react'
 import { Card } from '@/components/ui/card'

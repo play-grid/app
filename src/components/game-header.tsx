@@ -1,20 +1,17 @@
-'use client'
-
 import type { GridConfiguration } from '@/lib/grid-configurations'
-import type { LogoItem, LogoSetKey } from '@/lib/logo-data'
+import type { LogoSetKey } from '@/lib/logo-data'
+import type { Player } from '@/types'
 import { Grid3X3, RotateCcw } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 
+// Player interface to match the refactored game pag
+
 interface GameHeaderProps {
   selectedSet: LogoSetKey
   currentPlayer: 'A' | 'B'
-  playerAWinner: LogoItem | null
-  playerAName: string
-  playerBName: string
-  playerBWinner: LogoItem | null
-  playerAActive: number
-  playerBActive: number
+  playerA: Player
+  playerB: Player
   gridConfig: GridConfiguration
   onSwitchTurn: () => void
   onResetGame: () => void
@@ -23,12 +20,8 @@ interface GameHeaderProps {
 export function GameHeader({
   selectedSet,
   currentPlayer,
-  playerAWinner,
-  playerBWinner,
-  playerAActive,
-  playerAName,
-  playerBName,
-  playerBActive,
+  playerA,
+  playerB,
   gridConfig,
   onSwitchTurn,
   onResetGame,
@@ -44,21 +37,24 @@ export function GameHeader({
           <Badge variant="outline" className="flex items-center gap-1">
             <Grid3X3 className="w-3 h-3" />
             {gridConfig.name}
-            {' '}
             -
             {gridConfig.difficulty}
           </Badge>
-          {playerAWinner && (
+          {playerA.winner && (
             <Badge variant="default" className="bg-green-500 text-white animate-pulse">
-              🎉 {playerAName} Found:
-              {playerAWinner.name}
+              🎉
+              {playerA.name}
+              Found:
+              {playerA.winner.name}
               !
             </Badge>
           )}
-          {playerBWinner && (
+          {playerB.winner && (
             <Badge variant="default" className="bg-green-500 text-white animate-pulse">
-              🎉 {playerAName} Found:
-              {playerBWinner.name}
+              🎉
+              {playerB.name}
+              Found:
+              {playerB.winner.name}
               !
             </Badge>
           )}
@@ -78,21 +74,22 @@ export function GameHeader({
         <div className="flex items-center gap-4">
           <Badge variant={currentPlayer === 'A' ? 'default' : 'secondary'} className="text-sm">
             Current Turn: Player
-            {' '}
             {currentPlayer}
           </Badge>
         </div>
         <div className="flex items-center gap-6 text-sm text-muted-foreground">
           <span>
-            {playerAName}:
-            {playerAActive}
+            {playerA.name}
+            :
+            {playerA.activeCount}
             /
             {gridConfig.totalLogos}
             remaining
           </span>
           <span>
-            {playerBName}:
-            {playerBActive}
+            {playerB.name}
+            :
+            {playerB.activeCount}
             /
             {gridConfig.totalLogos}
             remaining

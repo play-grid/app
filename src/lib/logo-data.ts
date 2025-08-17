@@ -220,11 +220,4 @@ export const logoSets = {
   sports: sportsNames,
 }
 
-export interface LogoItem {
-  id: number
-  name: string
-  imageUrl: string
-  eliminated: boolean
-}
-
 export type LogoSetKey = keyof typeof logoSets

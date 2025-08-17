@@ -1,4 +1,5 @@
-import type { LogoItem, LogoSetKey } from '@/lib/logo-data'
+import type { LogoSetKey } from '@/lib/logo-data'
+import type { LogoItem, Player } from '@/types'
 import { useEffect, useState } from 'react'
 import { useLocation, useRoute } from 'wouter'
 import { GameHeader } from '@/components/game-header'
@@ -20,11 +21,21 @@ export function GamePlayPage() {
   const playerBName = decodeURIComponent(params?.playerB || 'Player B')
 
   // Game state
-  const [playerALogos, setPlayerALogos] = useState<LogoItem[]>([])
-  const [playerBLogos, setPlayerBLogos] = useState<LogoItem[]>([])
+  const [playerA, setPlayerA] = useState<Player>({
+    name: playerAName,
+    logos: [],
+    winner: null,
+    activeCount: 0,
+  })
+
+  const [playerB, setPlayerB] = useState<Player>({
+    name: playerBName,
+    logos: [],
+    winner: null,
+    activeCount: 0,
+  })
+
   const [currentPlayer, setCurrentPlayer] = useState<'A' | 'B'>('A')
-  const [playerAWinner, setPlayerAWinner] = useState<LogoItem | null>(null)
-  const [playerBWinner, setPlayerBWinner] = useState<LogoItem | null>(null)
   const [gameInitialized, setGameInitialized] = useState(false)
 
   // Get configuration
@@ -33,6 +44,15 @@ export function GamePlayPage() {
 
   // Fetch logos
   const { data: fetchedLogos, isLoading, error } = useLogoQuery(logoNames, logoSet, true)
+
+  // Helper function to calculate active logos and winner
+  const calculatePlayerStats = (logos: LogoItem[]) => {
+    const activeLogos = logos.filter(logo => !logo.eliminated)
+    return {
+      activeCount: activeLogos.length,
+      winner: activeLogos.length === 1 && logos.length > 0 ? activeLogos[0] : null,
+    }
+  }
 
   // Initialize game when logos are loaded
   useEffect(() => {
@@ -44,31 +64,34 @@ export function GamePlayPage() {
         eliminated: false,
       }))
 
-      setPlayerALogos([...initialLogos])
-      setPlayerBLogos([...initialLogos])
+      const stats = calculatePlayerStats(initialLogos)
+
+      setPlayerA(prev => ({
+        ...prev,
+        logos: [...initialLogos],
+        ...stats,
+      }))
+
+      setPlayerB(prev => ({
+        ...prev,
+        logos: [...initialLogos],
+        ...stats,
+      }))
+
       setGameInitialized(true)
     }
   }, [fetchedLogos, gameInitialized])
 
-  // Check for winners
+  // Update player stats when logos change
   useEffect(() => {
-    const activePlayerALogos = playerALogos.filter(logo => !logo.eliminated)
-    const activePlayerBLogos = playerBLogos.filter(logo => !logo.eliminated)
+    const playerAStats = calculatePlayerStats(playerA.logos)
+    setPlayerA(prev => ({ ...prev, ...playerAStats }))
+  }, [playerA.logos])
 
-    if (activePlayerALogos.length === 1 && playerALogos.length > 0) {
-      setPlayerAWinner(activePlayerALogos[0])
-    }
-    else {
-      setPlayerAWinner(null)
-    }
-
-    if (activePlayerBLogos.length === 1 && playerBLogos.length > 0) {
-      setPlayerBWinner(activePlayerBLogos[0])
-    }
-    else {
-      setPlayerBWinner(null)
-    }
-  }, [playerALogos, playerBLogos])
+  useEffect(() => {
+    const playerBStats = calculatePlayerStats(playerB.logos)
+    setPlayerB(prev => ({ ...prev, ...playerBStats }))
+  }, [playerB.logos])
 
   // Redirect to setup if invalid params
   if (!match || !logoSets[logoSet]) {
@@ -77,15 +100,21 @@ export function GamePlayPage() {
   }
 
   const togglePlayerALogo = (logoId: number) => {
-    setPlayerALogos(prev =>
-      prev.map(logo => (logo.id === logoId ? { ...logo, eliminated: !logo.eliminated } : logo)),
-    )
+    setPlayerA(prev => ({
+      ...prev,
+      logos: prev.logos.map(logo =>
+        logo.id === logoId ? { ...logo, eliminated: !logo.eliminated } : logo,
+      ),
+    }))
   }
 
   const togglePlayerBLogo = (logoId: number) => {
-    setPlayerBLogos(prev =>
-      prev.map(logo => (logo.id === logoId ? { ...logo, eliminated: !logo.eliminated } : logo)),
-    )
+    setPlayerB(prev => ({
+      ...prev,
+      logos: prev.logos.map(logo =>
+        logo.id === logoId ? { ...logo, eliminated: !logo.eliminated } : logo,
+      ),
+    }))
   }
 
   const switchTurn = () => {
@@ -96,8 +125,6 @@ export function GamePlayPage() {
     setLocation('/')
   }
 
-  const getActiveLogos = (logos: LogoItem[]) => logos.filter(logo => !logo.eliminated).length
-
   // Show loading state
   if (isLoading || !gameInitialized) {
     return (
@@ -106,9 +133,12 @@ export function GamePlayPage() {
           <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4" />
           <p className="text-lg">
             Loading game for
-            {playerAName}
+            {' '}
+            {playerA.name}
+            {' '}
             vs
-            {playerBName}
+            {' '}
+            {playerB.name}
           </p>
         </div>
       </div>
@@ -134,16 +164,11 @@ export function GamePlayPage() {
 
   return (
     <div className="min-h-screen p-4">
-      {/* TODO : remove the all player shit and replace it in one object player prop */}
       <GameHeader
         selectedSet={logoSet}
         currentPlayer={currentPlayer}
-        playerAWinner={playerAWinner}
-        playerBWinner={playerBWinner}
-        playerAActive={getActiveLogos(playerALogos)}
-        playerBActive={getActiveLogos(playerBLogos)}
-        playerAName={playerAName}
-        playerBName={playerBName}
+        playerA={playerA}
+        playerB={playerB}
         gridConfig={gridConfig}
         onSwitchTurn={switchTurn}
         onResetGame={resetGame}
@@ -151,21 +176,13 @@ export function GamePlayPage() {
 
       <div className="grid lg:grid-cols-[1fr_2px_1fr] gap-16 relative">
         <PlayerGrid
-          player="A"
-          playerName={playerAName}
-          logos={playerALogos}
-          winner={playerAWinner}
+          player={playerA}
           onToggleLogo={togglePlayerALogo}
           gridConfig={gridConfig}
         />
-
         <div className="bg-gray-300 border-1" />
-
         <PlayerGrid
-          player="B"
-          playerName={playerBName}
-          logos={playerBLogos}
-          winner={playerBWinner}
+          player={playerB}
           onToggleLogo={togglePlayerBLogo}
           gridConfig={gridConfig}
         />
