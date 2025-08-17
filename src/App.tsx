@@ -8,7 +8,7 @@ export default function App() {
     <Router>
       <Switch>
         <Route path="/" component={GameSetupPage} />
-        <Route path="/game/:logoSet/:gridSize" component={GamePlayPage} />
+        <Route path="/game/:logoSet/:gridSize/:playerA/:playerB" component={GamePlayPage} />
         <Route>
           {/* 404 - redirect to home */}
           <GameSetupPage />

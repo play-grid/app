@@ -1,12 +1,13 @@
 'use client'
 
 import type { GridConfiguration } from '@/lib/grid-configurations'
-import type { LogoItem } from '@/lib/logo-data'
+import type { LogoItem, LogoSetKey } from '@/lib/logo-data'
 import { Badge } from '@/components/ui/badge'
 import { LogoItemComponent } from './logo-item'
 
 interface PlayerGridProps {
   player: 'A' | 'B'
+  playerName: string
   logos: LogoItem[]
   winner: LogoItem | null
   onToggleLogo: (logoId: number) => void
@@ -14,7 +15,7 @@ interface PlayerGridProps {
 }
 
 export function PlayerGrid({
-  player,
+  playerName,
   logos,
   winner,
   onToggleLogo,
@@ -26,13 +27,10 @@ export function PlayerGrid({
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <h2 className="text-xl font-semibold">
-          Player
-          {' '}
-          {player}
+          {playerName}
         </h2>
         <Badge variant="outline">
           {activeLogos}
-          {' '}
           /
           {gridConfig.totalLogos}
         </Badge>

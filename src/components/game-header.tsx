@@ -10,6 +10,8 @@ interface GameHeaderProps {
   selectedSet: LogoSetKey
   currentPlayer: 'A' | 'B'
   playerAWinner: LogoItem | null
+  playerAName: string
+  playerBName: string
   playerBWinner: LogoItem | null
   playerAActive: number
   playerBActive: number
@@ -24,6 +26,8 @@ export function GameHeader({
   playerAWinner,
   playerBWinner,
   playerAActive,
+  playerAName,
+  playerBName,
   playerBActive,
   gridConfig,
   onSwitchTurn,
@@ -46,16 +50,14 @@ export function GameHeader({
           </Badge>
           {playerAWinner && (
             <Badge variant="default" className="bg-green-500 text-white animate-pulse">
-              🎉 Player A Found:
-              {' '}
+              🎉 {playerAName} Found:
               {playerAWinner.name}
               !
             </Badge>
           )}
           {playerBWinner && (
             <Badge variant="default" className="bg-green-500 text-white animate-pulse">
-              🎉 Player B Found:
-              {' '}
+              🎉 {playerAName} Found:
               {playerBWinner.name}
               !
             </Badge>
@@ -82,25 +84,17 @@ export function GameHeader({
         </div>
         <div className="flex items-center gap-6 text-sm text-muted-foreground">
           <span>
-            Player A:
-            {' '}
+            {playerAName}:
             {playerAActive}
-            {' '}
             /
-            {' '}
             {gridConfig.totalLogos}
-            {' '}
             remaining
           </span>
           <span>
-            Player B:
-            {' '}
+            {playerBName}:
             {playerBActive}
-            {' '}
             /
-            {' '}
             {gridConfig.totalLogos}
-            {' '}
             remaining
           </span>
         </div>

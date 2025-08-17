@@ -10,10 +10,16 @@ export function GameSetupPage() {
   const [, setLocation] = useLocation()
   const [selectedSet, setSelectedSet] = useState<LogoSetKey>('companies')
   const [selectedGrid, setSelectedGrid] = useState<string>('8x6')
+  const [playerAName, setPlayerAName] = useState<string>('Player A')
+  const [playerBName, setPlayerBName] = useState<string>('Player B')
 
   const handleStartGame = () => {
-    // Navigate to game page with selected parameters
-    setLocation(`/game/${selectedSet}/${selectedGrid}`)
+    // Encode player names for URL safety
+    const encodedPlayerA = encodeURIComponent(playerAName.trim() || 'Player A')
+    const encodedPlayerB = encodeURIComponent(playerBName.trim() || 'Player B')
+
+    // Navigate to game page with selected parameters and player names
+    setLocation(`/game/${selectedSet}/${selectedGrid}/${encodedPlayerA}/${encodedPlayerB}`)
   }
 
   return (
@@ -22,6 +28,10 @@ export function GameSetupPage() {
       onSetChange={setSelectedSet}
       selectedGrid={selectedGrid}
       onGridChange={setSelectedGrid}
+      playerAName={playerAName}
+      onPlayerANameChange={setPlayerAName}
+      playerBName={playerBName}
+      onPlayerBNameChange={setPlayerBName}
       onStartGame={handleStartGame}
     />
   )

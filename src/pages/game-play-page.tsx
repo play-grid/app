@@ -11,11 +11,13 @@ import { logoSets } from '@/lib/logo-data'
 
 export function GamePlayPage() {
   const [, setLocation] = useLocation()
-  const [match, params] = useRoute('/game/:logoSet/:gridSize')
+  const [match, params] = useRoute('/game/:logoSet/:gridSize/:playerA/:playerB')
 
-  // Extract params with defaults
+  // Extract params with defaults and decode player names
   const logoSet = (params?.logoSet as LogoSetKey) || 'companies'
   const gridSize = params?.gridSize || '8x6'
+  const playerAName = decodeURIComponent(params?.playerA || 'Player A')
+  const playerBName = decodeURIComponent(params?.playerB || 'Player B')
 
   // Game state
   const [playerALogos, setPlayerALogos] = useState<LogoItem[]>([])
@@ -102,7 +104,12 @@ export function GamePlayPage() {
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-          <p className="text-lg">Loading game...</p>
+          <p className="text-lg">
+            Loading game for
+            {playerAName}
+            vs
+            {playerBName}
+          </p>
         </div>
       </div>
     )
@@ -127,6 +134,7 @@ export function GamePlayPage() {
 
   return (
     <div className="min-h-screen p-4">
+      {/* TODO : remove the all player shit and replace it in one object player prop */}
       <GameHeader
         selectedSet={logoSet}
         currentPlayer={currentPlayer}
@@ -134,14 +142,17 @@ export function GamePlayPage() {
         playerBWinner={playerBWinner}
         playerAActive={getActiveLogos(playerALogos)}
         playerBActive={getActiveLogos(playerBLogos)}
+        playerAName={playerAName}
+        playerBName={playerBName}
         gridConfig={gridConfig}
         onSwitchTurn={switchTurn}
         onResetGame={resetGame}
       />
 
-      <div className="grid lg:grid-cols-2 gap-8">
+      <div className="grid lg:grid-cols-2 divide-x divide-black gap-16">
         <PlayerGrid
           player="A"
+          playerName={playerAName}
           logos={playerALogos}
           winner={playerAWinner}
           onToggleLogo={togglePlayerALogo}
@@ -150,6 +161,7 @@ export function GamePlayPage() {
         />
         <PlayerGrid
           player="B"
+          playerName={playerBName}
           logos={playerBLogos}
           winner={playerBWinner}
           onToggleLogo={togglePlayerBLogo}
