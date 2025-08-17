@@ -149,7 +149,7 @@ export function GamePlayPage() {
         onResetGame={resetGame}
       />
 
-      <div className="grid lg:grid-cols-2 divide-x divide-black gap-16">
+      <div className="grid lg:grid-cols-[1fr_2px_1fr] gap-16 relative">
         <PlayerGrid
           player="A"
           playerName={playerAName}
@@ -157,8 +157,10 @@ export function GamePlayPage() {
           winner={playerAWinner}
           onToggleLogo={togglePlayerALogo}
           gridConfig={gridConfig}
-          logoSet={logoSet}
         />
+
+        <div className="bg-gray-300 border-1" />
+
         <PlayerGrid
           player="B"
           playerName={playerBName}
@@ -166,7 +168,6 @@ export function GamePlayPage() {
           winner={playerBWinner}
           onToggleLogo={togglePlayerBLogo}
           gridConfig={gridConfig}
-          logoSet={logoSet}
         />
       </div>
 

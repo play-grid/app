@@ -41,7 +41,7 @@ export function LogoItemComponent({
       <div className="h-full flex items-center justify-center relative">
         {hasValidImageUrl
           ? (
-              <div className="w-full h-full flex items-center justify-center">
+              <div className="w-full h-full flex items-center justify-center select-none pointer-events-none">
                 <img
                   src={logo.imageUrl}
                   alt={logo.name}
@@ -79,7 +79,6 @@ export function LogoItemComponent({
                 )}
               </div>
             )}
-
         {logo.eliminated && (
           <X className="absolute top-1 right-1 w-4 h-4 text-destructive bg-white rounded-full p-0.5" />
         )}

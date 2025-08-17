@@ -1,7 +1,7 @@
 'use client'
 
 import type { GridConfiguration } from '@/lib/grid-configurations'
-import type { LogoItem, LogoSetKey } from '@/lib/logo-data'
+import type { LogoItem } from '@/lib/logo-data'
 import { Badge } from '@/components/ui/badge'
 import { LogoItemComponent } from './logo-item'
 
@@ -31,6 +31,7 @@ export function PlayerGrid({
         </h2>
         <Badge variant="outline">
           {activeLogos}
+          {' '}
           /
           {gridConfig.totalLogos}
         </Badge>
