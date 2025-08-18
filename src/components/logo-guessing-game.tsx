@@ -105,18 +105,14 @@ export function LogoGuessingGame() {
   const togglePlayerALogo = (logoId: number) => {
     setPlayerA(prev => ({
       ...prev,
-      logos: prev.logos.map(logo =>
-        logo.id === logoId ? { ...logo, eliminated: !logo.eliminated } : logo,
-      ),
+      logos: prev.logos.map(logo => (logo.id === logoId ? { ...logo, eliminated: !logo.eliminated } : logo)),
     }))
   }
 
   const togglePlayerBLogo = (logoId: number) => {
     setPlayerB(prev => ({
       ...prev,
-      logos: prev.logos.map(logo =>
-        logo.id === logoId ? { ...logo, eliminated: !logo.eliminated } : logo,
-      ),
+      logos: prev.logos.map(logo => (logo.id === logoId ? { ...logo, eliminated: !logo.eliminated } : logo)),
     }))
   }
 
@@ -162,16 +158,8 @@ export function LogoGuessingGame() {
       />
 
       <div className="grid lg:grid-cols-2 gap-8">
-        <PlayerGrid
-          player={playerA}
-          onToggleLogo={togglePlayerALogo}
-          gridConfig={gridConfig}
-        />
-        <PlayerGrid
-          player={playerB}
-          onToggleLogo={togglePlayerBLogo}
-          gridConfig={gridConfig}
-        />
+        <PlayerGrid player={playerA} onToggleLogo={togglePlayerALogo} gridConfig={gridConfig} />
+        <PlayerGrid player={playerB} onToggleLogo={togglePlayerBLogo} gridConfig={gridConfig} />
       </div>
 
       <GameInstructions />

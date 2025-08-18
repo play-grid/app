@@ -1,11 +1,9 @@
 import type { GridConfiguration } from '@/lib/grid-configurations'
 import type { LogoSetKey } from '@/lib/logo-data'
 import type { Player } from '@/types'
-import { Grid3X3, RotateCcw } from 'lucide-react'
+import { Grid3X3, Plus, RotateCcw } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-
-// Player interface to match the refactored game pag
 
 interface GameHeaderProps {
   selectedSet: LogoSetKey
@@ -15,6 +13,7 @@ interface GameHeaderProps {
   gridConfig: GridConfiguration
   onSwitchTurn: () => void
   onResetGame: () => void
+  onStartNewGame?: () => void
 }
 
 export function GameHeader({
@@ -25,6 +24,7 @@ export function GameHeader({
   gridConfig,
   onSwitchTurn,
   onResetGame,
+  onStartNewGame,
 }: GameHeaderProps) {
   return (
     <div className="mb-6">
@@ -37,14 +37,18 @@ export function GameHeader({
           <Badge variant="outline" className="flex items-center gap-1">
             <Grid3X3 className="w-3 h-3" />
             {gridConfig.name}
+            {' '}
             -
             {gridConfig.difficulty}
           </Badge>
           {playerA.winner && (
             <Badge variant="default" className="bg-green-500 text-white animate-pulse">
               🎉
+              {' '}
               {playerA.name}
+              {' '}
               Found:
+              {' '}
               {playerA.winner.name}
               !
             </Badge>
@@ -52,8 +56,11 @@ export function GameHeader({
           {playerB.winner && (
             <Badge variant="default" className="bg-green-500 text-white animate-pulse">
               🎉
+              {' '}
               {playerB.name}
+              {' '}
               Found:
+              {' '}
               {playerB.winner.name}
               !
             </Badge>
@@ -63,9 +70,15 @@ export function GameHeader({
           <Button variant="outline" onClick={onSwitchTurn}>
             Switch Turn
           </Button>
+          {onStartNewGame && (
+            <Button variant="outline" onClick={onStartNewGame}>
+              <Plus className="w-4 h-4 mr-2" />
+              New Game
+            </Button>
+          )}
           <Button variant="outline" onClick={onResetGame}>
             <RotateCcw className="w-4 h-4 mr-2" />
-            New Game
+            Setup
           </Button>
         </div>
       </div>
@@ -74,6 +87,7 @@ export function GameHeader({
         <div className="flex items-center gap-4">
           <Badge variant={currentPlayer === 'A' ? 'default' : 'secondary'} className="text-sm">
             Current Turn: Player
+            {' '}
             {currentPlayer}
           </Badge>
         </div>
@@ -84,6 +98,7 @@ export function GameHeader({
             {playerA.activeCount}
             /
             {gridConfig.totalLogos}
+            {' '}
             remaining
           </span>
           <span>
@@ -92,6 +107,7 @@ export function GameHeader({
             {playerB.activeCount}
             /
             {gridConfig.totalLogos}
+            {' '}
             remaining
           </span>
         </div>

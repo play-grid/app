@@ -77,8 +77,8 @@ export function GameSetup({
           <Trophy className="w-16 h-16 mx-auto mb-4 text-primary" />
           <h1 className="text-3xl font-bold mb-2">Logo Guessing Game</h1>
           <p className="text-muted-foreground">
-            Choose a logo set and grid size, enter player names, then start guessing! Players take turns asking questions and eliminating
-            logos.
+            Choose a logo set and grid size, enter player names, then start guessing! Players take turns asking
+            questions and eliminating logos.
           </p>
         </div>
 
@@ -120,9 +120,7 @@ export function GameSetup({
               </div>
             </div>
             {(!playerA.name.trim() || !playerB.name.trim()) && (
-              <p className="text-sm text-muted-foreground mt-2">
-                Both player names are required to start the game
-              </p>
+              <p className="text-sm text-muted-foreground mt-2">Both player names are required to start the game</p>
             )}
           </div>
 
@@ -185,7 +183,8 @@ export function GameSetup({
                 <div className="flex items-center gap-1">
                   <Grid3X3 className="w-4 h-4" />
                   <span>
-
+                    {currentGrid.totalLogos}
+                    {' '}
                     logos
                   </span>
                 </div>
@@ -198,15 +197,10 @@ export function GameSetup({
           </div>
         </div>
 
-        <Button
-          onClick={onStartGame}
-          className="w-full mt-8"
-          size="lg"
-          disabled={!canStartGame}
-        >
+        <Button onClick={onStartGame} className="w-full mt-8" size="lg" disabled={!canStartGame}>
           {canStartGame
             ? 'Start Game'
-            : (!playerA.name.trim() || !playerB.name.trim())
+            : !playerA.name.trim() || !playerB.name.trim()
                 ? 'Enter Player Names to Continue'
                 : 'Loading logos...'}
         </Button>

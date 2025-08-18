@@ -1,9 +1,7 @@
 import type { GridConfiguration } from '@/lib/grid-configurations'
-import type { Player } from '@/types/player'
+import type { Player } from '@/types'
 import { Badge } from '@/components/ui/badge'
 import { LogoItemComponent } from './logo-item'
-
-// Player interface to match the refactored structure
 
 interface PlayerGridProps {
   player: Player
@@ -11,19 +9,14 @@ interface PlayerGridProps {
   gridConfig: GridConfiguration
 }
 
-export function PlayerGrid({
-  player,
-  onToggleLogo,
-  gridConfig,
-}: PlayerGridProps) {
+export function PlayerGrid({ player, onToggleLogo, gridConfig }: PlayerGridProps) {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h2 className="text-xl font-semibold">
-          {player.name}
-        </h2>
+        <h2 className="text-xl font-semibold">{player.name}</h2>
         <Badge variant="outline">
           {player.activeCount}
+          {' '}
           /
           {gridConfig.totalLogos}
         </Badge>

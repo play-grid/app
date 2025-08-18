@@ -24,10 +24,7 @@ export function LogoItemComponent({
 
   // Determine if we should show an image or fallback to text
   // Allow placeholder URLs for now, but exclude obvious text-only cases
-  const hasValidImageUrl = logo.imageUrl
-    && logo.imageUrl !== logo.name
-    && !hasQueryError
-    && !imageError
+  const hasValidImageUrl = logo.imageUrl && logo.imageUrl !== logo.name && !hasQueryError && !imageError
 
   const showLoadingSpinner = isQueryLoading || (hasValidImageUrl && imageLoading)
 
@@ -41,9 +38,9 @@ export function LogoItemComponent({
       <div className="h-full flex items-center justify-center relative">
         {hasValidImageUrl
           ? (
-              <div className="w-full h-full flex items-center justify-center select-none pointer-events-none">
+              <div className="w-full h-full flex items-center justify-center select-none ">
                 <img
-                  src={logo.imageUrl}
+                  src={logo.imageUrl || '/placeholder.svg'}
                   alt={logo.name}
                   className={`max-w-full max-h-full object-contain transition-opacity ${
                     logo.eliminated ? 'opacity-30 grayscale' : ''
