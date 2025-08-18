@@ -1,6 +1,8 @@
 import type { LogoSetKey } from '@/lib/logo-data'
 import type { Player } from '@/types'
 import { Building2, Clock, Film, Flag, Grid3X3, Trophy, Users, Zap } from 'lucide-react'
+import React, { useState } from 'react'
+import { z } from 'zod'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
@@ -53,6 +55,8 @@ const logoSets = [
   },
 ]
 
+const playerNameSchema = z.string().trim().min(2, 'Name must be at least 2 characters').max(20, 'Name must be at most 20 characters')
+
 export function GameSetup({
   selectedSet,
   onSetChange,
@@ -65,10 +69,27 @@ export function GameSetup({
   onStartGame,
   canStart,
 }: GameSetupProps) {
+  const [attemptedStart, setAttemptedStart] = useState(false)
   const currentGrid = gridConfigurations.find(g => g.id === selectedGrid) || gridConfigurations[2]
 
-  // Validate that both player names are not empty (after trimming)
-  const canStartGame = playerA.name.trim().length > 0 && playerB.name.trim().length > 0 && canStart
+  // Zod validation for player names
+  const playerAValidation = playerNameSchema.safeParse(playerA.name)
+  const playerBValidation = playerNameSchema.safeParse(playerB.name)
+
+  const playerAError = !playerAValidation.success ? playerAValidation.error.issues[0].message : ''
+  const playerBError = !playerBValidation.success ? playerBValidation.error.issues[0].message : ''
+
+  const canStartGame
+    = playerAValidation.success
+      && playerBValidation.success
+      && canStart
+
+  function handleStartGame() {
+    setAttemptedStart(true)
+    if (canStartGame) {
+      onStartGame()
+    }
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
@@ -100,9 +121,12 @@ export function GameSetup({
                   placeholder="Enter first player name"
                   value={playerA.name}
                   onChange={e => onPlayerANameChange(e.target.value)}
-                  className="text-center border-blue-200 focus:border-blue-500"
+                  className={`text-center border-blue-200 focus:border-blue-500 ${attemptedStart && playerAError ? 'border-red-500' : ''}`}
                   maxLength={20}
                 />
+                {attemptedStart && playerAError && (
+                  <p className="text-xs text-red-500">{playerAError}</p>
+                )}
               </div>
               <div className="space-y-2">
                 <Label htmlFor="player-b" className="text-sm font-medium text-green-600">
@@ -114,13 +138,16 @@ export function GameSetup({
                   placeholder="Enter second player name"
                   value={playerB.name}
                   onChange={e => onPlayerBNameChange(e.target.value)}
-                  className="text-center border-green-200 focus:border-green-500"
+                  className={`text-center border-green-200 focus:border-green-500 ${attemptedStart && playerBError ? 'border-red-500' : ''}`}
                   maxLength={20}
                 />
+                {attemptedStart && playerBError && (
+                  <p className="text-xs text-red-500">{playerBError}</p>
+                )}
               </div>
             </div>
-            {(!playerA.name.trim() || !playerB.name.trim()) && (
-              <p className="text-sm text-muted-foreground mt-2">Both player names are required to start the game</p>
+            {attemptedStart && (!playerAValidation.success || !playerBValidation.success) && (
+              <p className="text-sm text-muted-foreground mt-2">Both player names are required and must be valid to start the game</p>
             )}
           </div>
 
@@ -197,13 +224,12 @@ export function GameSetup({
           </div>
         </div>
 
-        <Button onClick={onStartGame} className="w-full mt-8" size="lg" disabled={!canStartGame}>
-          {canStartGame
-            ? 'Start Game'
-            : !playerA.name.trim() || !playerB.name.trim()
-                ? 'Enter Player Names to Continue'
-                : 'Loading logos...'}
+        <Button onClick={handleStartGame} className="w-full mt-8" size="lg">
+          Start Game
         </Button>
+        {attemptedStart && (!playerAValidation.success || !playerBValidation.success) && (
+          <p className="text-sm text-red-500 mt-2">Enter valid player names to continue.</p>
+        )}
       </Card>
     </div>
   )

@@ -29,7 +29,8 @@
     "tailwindcss": "^4.1.12",
     "tw-animate-css": "^1.3.6",
     "wouter": "^3.7.1",
-    "zod": "^4.0.17"
+    "zod": "^4.0.17",
+    "zustand": "^5.0.7"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^5.2.1",
@@ -40,6 +41,7 @@
     "@types/react": "^19.1.10",
     "@types/react-dom": "^19.1.7",
     "@vitejs/plugin-react-swc": "^4.0.0",
+    "babel-plugin-react-compiler": "19.1.0-rc.2",
     "eslint": "^9.33.0",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",
