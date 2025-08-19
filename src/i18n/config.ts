@@ -5,17 +5,20 @@ import { initReactI18next } from 'react-i18next'
 
 i18next
   .use(HttpBackend)
-  .use(LanguageDetector)
+  .use(
+    new LanguageDetector({
+      // We don't need 'path' in the detector's order now
+      order: ['localStorage', 'navigator'],
+      caches: ['localStorage'],
+    }),
+  )
   .use(initReactI18next)
   .init({
     fallbackLng: 'en',
     supportedLngs: ['en', 'ar'],
-
     ns: ['default'],
     defaultNS: 'default',
-
     backend: {
-      // will load e.g. /locales/en.json or /locales/ar.json
       loadPath: '/locales/{{lng}}.json',
     },
   })

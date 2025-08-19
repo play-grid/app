@@ -192,9 +192,9 @@ export function GameSetup({
                   <SelectItem key={config.id} value={config.id}>
                     <div className="flex items-center gap-2">
                       <Grid3X3 className="w-4 h-4" />
-                      <span>{config.name}</span>
+                      <span>{t(config.name)}</span>
                       <Badge variant="secondary" className="text-xs">
-                        {config.difficulty}
+                        {t(config.difficulty)}
                       </Badge>
                     </div>
                   </SelectItem>
@@ -204,20 +204,20 @@ export function GameSetup({
 
             <div className="mt-3 p-4 bg-muted rounded-lg text-sm">
               <div className="flex items-center justify-between mb-2">
-                <span className="font-medium text-base">{currentGrid.name}</span>
-                <Badge variant="outline">{currentGrid.difficulty}</Badge>
+                <span className="font-medium text-base">{t(currentGrid.name)}</span>
+                <Badge variant="outline">{t(currentGrid.difficulty)}</Badge>
               </div>
               <div className="flex items-center gap-4 text-muted-foreground">
                 <div className="flex items-center gap-1">
                   <Grid3X3 className="w-4 h-4" />
                   <span>
                     {currentGrid.totalLogos}
-                    logos
+                    {t('logos')}
                   </span>
                 </div>
                 <div className="flex items-center gap-1">
                   <Clock className="w-4 h-4" />
-                  <span>{currentGrid.estimatedTime}</span>
+                  <span>{t(currentGrid.estimatedTime)}</span>
                 </div>
               </div>
             </div>

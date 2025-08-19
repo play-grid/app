@@ -38,5 +38,25 @@
   "continue-your-game-with": "Continue your game with",
   "resume-previous-game": "Resume Previous Game",
   "vs": "vs",
-  "remaining": "remaining"
+  "remaining": "remaining",
+  "25-40-min": "25-40 min",
+  "10-8-grid": "10×8 Grid",
+  "15-25-min": "15-25 min",
+  "8-6-grid": "8×6 Grid",
+  "10-15-min": "10-15 min",
+  "6-4-grid": "6×4 Grid",
+  "5-10-min": "5-10 min",
+  "4-3-grid": "4×3 Grid",
+  "expert": "Expert",
+  "hard": "Hard",
+  "medium": "Medium",
+  "easy": "Easy",
+  "logos": "logos",
+  "instructions": {
+    "step1": "1. Each player mentally selects one logo from their grid",
+    "step2": "2. Players take turns asking yes/no questions verbally",
+    "step3": "3. Click on logos to eliminate them based on the answers",
+    "step4": "4. First player to correctly guess their opponent's logo wins!",
+    "title": "How to Play:"
+  }
 }

@@ -1,19 +1,16 @@
-// eslint-disable-next-line unicorn/filename-case
-import { Route, Router, Switch } from 'wouter'
+import { Route, Switch } from 'wouter'
 import { GamePlayPage } from '@/pages/game-play-page'
 import { GameSetupPage } from '@/pages/game-setup-page'
 
 export default function App() {
   return (
-    <Router>
-      <Switch>
-        <Route path="/:lang(en|ar)/"  component={GameSetupPage} />
-        <Route path="/game/:logoSet/:gridSize/:playerA/:playerB" component={GamePlayPage} />
-        <Route>
-          {/* 404 - redirect to home */}
-          <GameSetupPage />
-        </Route>
-      </Switch>
-    </Router>
+    <Switch>
+      <Route path="/" component={GameSetupPage} />
+      <Route path="/game/:logoSet/:gridSize/:playerA/:playerB" component={GamePlayPage} />
+      <Route>
+        {/* 404 - redirect to home */}
+        <GameSetupPage />
+      </Route>
+    </Switch>
   )
 }
