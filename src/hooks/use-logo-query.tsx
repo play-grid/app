@@ -1,16 +1,19 @@
-import type { LogoSetKey } from '@/lib/logo-data'
+import type { LogoSetKey, SportsLogoItem } from '@/lib/logo-data'
 import { useQuery } from '@tanstack/react-query'
 import { fetchCompanyLogo } from '@/services/company-service'
 import { generateFlagUrl } from '@/services/flag-service'
 import { fetchMoviePoster } from '@/services/movie-service'
+import { fetchTeamLogoById } from '@/services/sport-service'
 
-export function useLogoQuery(logoNames: string[], logoSet: LogoSetKey, enabled = true) {
+export function useLogoQuery(logoNames: string[] | SportsLogoItem[], logoSet: LogoSetKey, enabled = true) {
   return useQuery({
     queryKey: ['logos', logoSet, logoNames.length],
     queryFn: async () => {
-      const logoPromises = logoNames.map(async (name) => {
+      const logoPromises = logoNames.map(async (item) => {
         try {
-          let imageUrl = `/placeholder.svg?height=100&width=100&query=${encodeURIComponent(name)}`
+          let imageUrl = `/placeholder.svg?height=100&width=100&query=${encodeURIComponent(item as string)}`
+          let name = item as string
+
           switch (logoSet) {
             case 'companies': {
               const companyUrl = await fetchCompanyLogo(name)
@@ -28,9 +31,14 @@ export function useLogoQuery(logoNames: string[], logoSet: LogoSetKey, enabled =
             case 'countries':
               imageUrl = generateFlagUrl(name)
               break
-            case 'sports':
-              imageUrl = `/placeholder.svg?height=100&width=100&query=${encodeURIComponent(`${name} sports logo`)}`
+            case 'sports':{
+              // Here's the key change: we now get the ID from the item object
+              const teamItem = item as SportsLogoItem
+              name = teamItem.name
+              const sportUrl = await fetchTeamLogoById(teamItem.id)
+              imageUrl = sportUrl || `/placeholder.svg?height=100&width=100&query=${encodeURIComponent(`${name} sports logo`)}`
               break
+            }
           }
 
           return { name, imageUrl }
@@ -43,7 +51,7 @@ export function useLogoQuery(logoNames: string[], logoSet: LogoSetKey, enabled =
 
       const results = await Promise.allSettled(logoPromises)
       return results.map((result, index) =>
-        result.status === 'fulfilled' ? result.value : { name: logoNames[index], imageUrl: logoNames[index] },
+        result.status === 'fulfilled' ? result.value : { name: logoNames[index] as string, imageUrl: `/placeholder.svg?height=100&width=100&query=${encodeURIComponent(logoNames[index] as string)}` },
       )
     },
     enabled: enabled && logoNames.length > 0,

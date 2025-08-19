@@ -38,7 +38,7 @@ export function LogoItemComponent({
       <div className="h-full flex items-center justify-center relative">
         {hasValidImageUrl
           ? (
-              <div className="w-full h-full flex items-center justify-center select-none ">
+              <div className="w-full h-full flex items-center justify-center select-none pointer-events-none relative">
                 <img
                   src={logo.imageUrl || '/placeholder.svg'}
                   alt={logo.name}

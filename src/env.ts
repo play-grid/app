@@ -5,6 +5,7 @@ export const env = createEnv({
   server: {
     TMDB_API_KEY: z.string().min(1),
     LOGO_DEV_API_KEY: z.string().min(1),
+    ALL_SPORTS_API_KEY: z.string().min(1),
   },
 
   /**
@@ -16,6 +17,7 @@ export const env = createEnv({
   client: {
     VITE_TMDB_API_KEY: z.string().min(1),
     VITE_LOGO_DEV_API_KEY: z.string().min(1),
+    VITE_ALL_SPORTS_API_KEY: z.string().min(1),
   },
 
   /**
