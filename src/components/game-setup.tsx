@@ -73,7 +73,7 @@ export function GameSetup({
 }: GameSetupProps) {
   const [attemptedStart, setAttemptedStart] = useState(false)
   const currentGrid = gridConfigurations.find(g => g.id === selectedGrid) || gridConfigurations[2]
-
+  const [playOnlineBtn, setPlayOnlineBtn] = useState(false)
   // Zod validation for player names
   const playerAValidation = playerNameSchema.safeParse(playerA.name)
   const playerBValidation = playerNameSchema.safeParse(playerB.name)
@@ -227,9 +227,24 @@ export function GameSetup({
           </div>
         </div>
 
-        <Button onClick={handleStartGame} className="w-full mt-8" size="lg">
-          {t('start-game')}
-        </Button>
+        <div className="flex flex-row gap-4 mt-8 w-full">
+          <Button
+            onClick={handleStartGame}
+            className="w-1/2"
+            size="lg"
+          >
+            {t('start-game')}
+          </Button>
+
+          <Button
+            onClick={() => setPlayOnlineBtn(true)}
+            className="w-1/2"
+            size="lg"
+            disabled={playOnlineBtn}
+          >
+            {!playOnlineBtn ? t('play-online') : t('soon')}
+          </Button>
+        </div>
         {attemptedStart && (!playerAValidation.success || !playerBValidation.success) && (
           <p className="text-sm text-red-500 mt-2">{t('enter-valid-player-names-to-continue')}</p>
         )}

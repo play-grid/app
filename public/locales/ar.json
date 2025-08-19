@@ -83,7 +83,7 @@
     "language_section_title": "اختر لغتك",
     "language_label": "اللغة",
     "app_info_title": "تعرّف على المطوّر 👋",
-    "developer_label": "صُنع بحب ❤️ من",
+    "developer_label": "صُنع بحب 🩵 من",
     "follow_on_x": "@{{handle}} على إكس (تويتر سابقاً) 🐦",
     "fun_fact_title": "معلومات عن اللعبه",
     "fun_fact_content": "هذه اللعبه بُنيت بـ React! و Tailwindcss 4",
@@ -92,5 +92,7 @@
     "save_button": "احفظ",
     "author_name": "محمد علاء"
   },
-  "found": "شاف"
+  "found": "شاف",
+  "play-online": "العب اونلاين",
+  "soon": "🔥🔥 قريباً"
 }
