@@ -16,7 +16,6 @@ export function PlayerGrid({ player, onToggleLogo, gridConfig }: PlayerGridProps
         <h2 className="text-xl font-semibold">{player.name}</h2>
         <Badge variant="outline">
           {player.activeCount}
-          {' '}
           /
           {gridConfig.totalLogos}
         </Badge>

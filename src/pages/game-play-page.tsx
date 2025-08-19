@@ -10,17 +10,20 @@ import { useGamePersistence } from '@/hooks/use-game-persistence'
 import { useLogoQuery } from '@/hooks/use-logo-query'
 import { getGridConfiguration } from '@/lib/grid-configurations'
 import { logoSets } from '@/lib/logo-data'
+import { useTranslation } from 'react-i18next'
 
 export function GamePlayPage() {
   const [, setLocation] = useLocation()
   const [match, params] = useRoute('/game/:logoSet/:gridSize/:playerA/:playerB')
   const { saveGameState, loadGameState, clearGameState } = useGamePersistence()
+  const { t } = useTranslation()
 
   // Extract params with defaults and decode player names
   const logoSet = (params?.logoSet as LogoSetKey) || 'companies'
   const gridSize = params?.gridSize || '8x6'
   const playerAName = decodeURIComponent(params?.playerA || 'Player A')
   const playerBName = decodeURIComponent(params?.playerB || 'Player B')
+
 
   // Game state
   const [playerA, setPlayerA] = useState<Player>({
@@ -248,12 +251,9 @@ export function GamePlayPage() {
         <div className="text-center">
           <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4" />
           <p className="text-lg">
-            Loading game for
-            {' '}
+            {t('loading-game-for')}
             {playerA.name}
-            {' '}
             vs
-            {' '}
             {playerB.name}
           </p>
         </div>
@@ -266,9 +266,9 @@ export function GamePlayPage() {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <p className="text-lg text-red-500 mb-4">Failed to load logos</p>
+          <p className="text-lg text-red-500 mb-4">{t('failed-to-load-logos')}</p>
           <Button onClick={resetGame} className="px-4 py-2 bg-primary text-white rounded-md">
-            Back to Setup
+            {t('back-to-setup')}
           </Button>
         </div>
       </div>

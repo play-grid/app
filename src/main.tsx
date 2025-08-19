@@ -1,14 +1,14 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import QueryProvider from '@/context/Api-Provider'
-
+import QueryProvider from '@/context/api-provider'
 import App from './App'
+import '@/i18n/config'
 import './index.css'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <QueryProvider>
-      <App />
-    </QueryProvider>
+      <QueryProvider>
+        <App />
+      </QueryProvider>
   </StrictMode>,
 )

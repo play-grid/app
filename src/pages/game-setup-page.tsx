@@ -2,6 +2,7 @@ import type { LogoSetKey } from '@/lib/logo-data'
 import type { Player } from '@/types'
 import { Play, Trash2 } from 'lucide-react'
 import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useLocation } from 'wouter'
 import { GameSetup } from '@/components/game-setup'
 import { Button } from '@/components/ui/button'
@@ -25,6 +26,7 @@ export function GameSetupPage() {
   const [showResumeOption, setShowResumeOption] = useState(false)
   const [savedGameInfo, setSavedGameInfo] = useState<SavedGameInfo | null>(null)
   const [resumeCheckComplete, setResumeCheckComplete] = useState(false)
+  const { t } = useTranslation()
 
   const [playerA, setPlayerA] = useState<Player>({
     name: '',
@@ -119,27 +121,24 @@ export function GameSetupPage() {
         {showResumeOption && savedGameInfo && (
           <Card className="p-6 border-2 border-primary/20 bg-primary/5">
             <div className="text-center space-y-4">
-              <h2 className="text-xl font-semibold text-primary">Resume Previous Game</h2>
+              <h2 className="text-xl font-semibold text-primary">{t('resume-previous-game')}</h2>
               <p className="text-muted-foreground">
-                Continue your game with
-                {' '}
+                {t('continue-your-game-with')}
                 <strong>{savedGameInfo.playerA}</strong>
-                {' '}
-                vs
-                {' '}
+                {t('vs')}
                 <strong>{savedGameInfo.playerB}</strong>
                 <br />
                 <span className="text-sm">
                   {savedGameInfo.selectedSet}
-                  {' '}
-                  •
+
+                  {t('key-1')}
                   {savedGameInfo.selectedGrid}
                 </span>
               </p>
               <div className="flex items-center justify-center gap-3">
                 <Button onClick={handleResumeGame} className="flex items-center gap-2">
                   <Play className="w-4 h-4" />
-                  Resume Game
+                  {t('resume-game')}
                 </Button>
                 <Button
                   variant="outline"
@@ -147,7 +146,7 @@ export function GameSetupPage() {
                   className="flex items-center gap-2 text-destructive border-destructive hover:bg-destructive hover:text-destructive-foreground bg-transparent"
                 >
                   <Trash2 className="w-4 h-4" />
-                  Clear Saved Game
+                  {t('clear-saved-game')}
                 </Button>
               </div>
             </div>

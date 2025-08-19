@@ -1,7 +1,8 @@
 import type { LogoSetKey } from '@/lib/logo-data'
 import type { Player } from '@/types'
 import { Building2, Clock, Film, Flag, Grid3X3, Trophy, Users, Zap } from 'lucide-react'
-import React, { useState } from 'react'
+import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { z } from 'zod'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -27,35 +28,35 @@ interface GameSetupProps {
 const logoSets = [
   {
     id: 'companies' as LogoSetKey,
-    name: 'Companies',
-    description: 'Famous brand logos',
+    name: 'companies',
+    description: 'famous-brand-logos',
     icon: Building2,
     color: 'bg-blue-500',
   },
   {
     id: 'countries' as LogoSetKey,
-    name: 'Countries',
-    description: 'National flags',
+    name: 'countries',
+    description: 'national-flags',
     icon: Flag,
     color: 'bg-green-500',
   },
   {
     id: 'movies' as LogoSetKey,
-    name: 'Movies',
-    description: 'Film & TV logos',
+    name: 'movies',
+    description: 'film-and-tv-logos',
     icon: Film,
     color: 'bg-purple-500',
   },
   {
     id: 'sports' as LogoSetKey,
-    name: 'Sports',
-    description: 'Team & league logos',
+    name: 'sports',
+    description: 'team-and-league-logos',
     icon: Zap,
     color: 'bg-orange-500',
   },
 ]
 
-const playerNameSchema = z.string().trim().min(2, 'Name must be at least 2 characters').max(20, 'Name must be at most 20 characters')
+const playerNameSchema = z.string().trim().min(2, { error: 'player-input-min-error' }).max(20, { error: 'player-input-max-error' })
 
 export function GameSetup({
   selectedSet,
@@ -90,16 +91,16 @@ export function GameSetup({
       onStartGame()
     }
   }
+  const { t } = useTranslation()
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
       <Card className="w-full max-w-2xl p-8 text-center">
         <div className="mb-8">
           <Trophy className="w-16 h-16 mx-auto mb-4 text-primary" />
-          <h1 className="text-3xl font-bold mb-2">Logo Guessing Game</h1>
+          <h1 className="text-3xl font-bold mb-2">{t('logo-guessing-game')}</h1>
           <p className="text-muted-foreground">
-            Choose a logo set and grid size, enter player names, then start guessing! Players take turns asking
-            questions and eliminating logos.
+            {t('game-setup-description')}
           </p>
         </div>
 
@@ -108,34 +109,34 @@ export function GameSetup({
           <div>
             <div className="flex items-center justify-center gap-2 mb-4">
               <Users className="w-5 h-5 text-primary" />
-              <label className="text-lg font-semibold">Player Names:</label>
+              <label className="text-lg font-semibold">{t('player-names')}</label>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="player-a" className="text-sm font-medium text-blue-600">
-                  First Player
+                  {t('first-player')}
                 </Label>
                 <Input
                   id="player-a"
                   type="text"
-                  placeholder="Enter first player name"
+                  placeholder={t('enter-first-player-name')}
                   value={playerA.name}
                   onChange={e => onPlayerANameChange(e.target.value)}
                   className={`text-center border-blue-200 focus:border-blue-500 ${attemptedStart && playerAError ? 'border-red-500' : ''}`}
                   maxLength={20}
                 />
                 {attemptedStart && playerAError && (
-                  <p className="text-xs text-red-500">{playerAError}</p>
+                  <p className="text-xs text-red-500">{t(playerAError)}</p>
                 )}
               </div>
               <div className="space-y-2">
                 <Label htmlFor="player-b" className="text-sm font-medium text-green-600">
-                  Second Player
+                  {t('second-player')}
                 </Label>
                 <Input
                   id="player-b"
                   type="text"
-                  placeholder="Enter second player name"
+                  placeholder={t('enter-second-player-name')}
                   value={playerB.name}
                   onChange={e => onPlayerBNameChange(e.target.value)}
                   className={`text-center border-green-200 focus:border-green-500 ${attemptedStart && playerBError ? 'border-red-500' : ''}`}
@@ -147,13 +148,13 @@ export function GameSetup({
               </div>
             </div>
             {attemptedStart && (!playerAValidation.success || !playerBValidation.success) && (
-              <p className="text-sm text-muted-foreground mt-2">Both player names are required and must be valid to start the game</p>
+              <p className="text-sm text-muted-foreground mt-2">{t('players-input-error')}</p>
             )}
           </div>
 
           {/* Logo Set Selection */}
           <div>
-            <label className="block text-lg font-semibold mb-4">Choose Logo Set:</label>
+            <label className="block text-lg font-semibold mb-4">{t('choose-logo-set')}</label>
             <div className="grid grid-cols-2 gap-4">
               {logoSets.map((set) => {
                 const IconComponent = set.icon
@@ -171,8 +172,8 @@ export function GameSetup({
                     >
                       <IconComponent className="w-6 h-6 text-white" />
                     </div>
-                    <h3 className="font-semibold text-lg mb-1">{set.name}</h3>
-                    <p className="text-sm text-muted-foreground">{set.description}</p>
+                    <h3 className="font-semibold text-lg mb-1">{t(set.name)}</h3>
+                    <p className="text-sm text-muted-foreground">{t(set.description)}</p>
                   </Card>
                 )
               })}
@@ -181,7 +182,7 @@ export function GameSetup({
 
           {/* Grid Size Selection */}
           <div>
-            <label className="block text-lg font-semibold mb-4">Choose Grid Size:</label>
+            <label className="block text-lg font-semibold mb-4">{t('choose-grid-size')}</label>
             <Select value={selectedGrid} onValueChange={onGridChange}>
               <SelectTrigger>
                 <SelectValue />
@@ -211,7 +212,6 @@ export function GameSetup({
                   <Grid3X3 className="w-4 h-4" />
                   <span>
                     {currentGrid.totalLogos}
-                    {' '}
                     logos
                   </span>
                 </div>
@@ -225,10 +225,10 @@ export function GameSetup({
         </div>
 
         <Button onClick={handleStartGame} className="w-full mt-8" size="lg">
-          Start Game
+          {t('start-game')}
         </Button>
         {attemptedStart && (!playerAValidation.success || !playerBValidation.success) && (
-          <p className="text-sm text-red-500 mt-2">Enter valid player names to continue.</p>
+          <p className="text-sm text-red-500 mt-2">{t('enter-valid-player-names-to-continue')}</p>
         )}
       </Card>
     </div>

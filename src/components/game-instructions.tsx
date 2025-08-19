@@ -1,14 +1,16 @@
+import { useTranslation } from 'react-i18next'
 import { Card } from '@/components/ui/card'
 
 export function GameInstructions() {
+  const { t } = useTranslation()
   return (
     <Card className="mt-8 p-4">
-      <h3 className="font-semibold mb-2">How to Play:</h3>
+      <h3 className="font-semibold mb-2">{t('instructions.title')}</h3>
       <div className="text-sm text-muted-foreground space-y-1">
-        <p>1. Each player mentally selects one logo from their grid</p>
-        <p>2. Players take turns asking yes/no questions verbally</p>
-        <p>3. Click on logos to eliminate them based on the answers</p>
-        <p>4. First player to correctly guess their opponent's logo wins!</p>
+        <p>{t('instructions.step1')}</p>
+        <p>{t('instructions.step2')}</p>
+        <p>{t('instructions.step3')}</p>
+        <p>{t('instructions.step4')}</p>
       </div>
     </Card>
   )
