@@ -146,7 +146,7 @@ export function GameSetup({
                   maxLength={20}
                 />
                 {attemptedStart && playerBError && (
-                  <p className="text-xs text-red-500">{playerBError}</p>
+                  <p className="text-xs text-red-500">{t(playerBError)}</p>
                 )}
               </div>
             </div>
