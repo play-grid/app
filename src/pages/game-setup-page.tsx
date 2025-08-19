@@ -152,7 +152,6 @@ export function GameSetupPage() {
             </div>
           </Card>
         )}
-
         {/* Regular Game Setup */}
         <GameSetup
           selectedSet={selectedSet}

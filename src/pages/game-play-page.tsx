@@ -1,6 +1,7 @@
 import type { LogoSetKey } from '@/lib/logo-data'
 import type { LogoItem, Player } from '@/types'
 import { useEffect, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useLocation, useRoute } from 'wouter'
 import { GameHeader } from '@/components/game-header'
 import { GameInstructions } from '@/components/game-instructions'
@@ -10,7 +11,6 @@ import { useGamePersistence } from '@/hooks/use-game-persistence'
 import { useLogoQuery } from '@/hooks/use-logo-query'
 import { getGridConfiguration } from '@/lib/grid-configurations'
 import { logoSets } from '@/lib/logo-data'
-import { useTranslation } from 'react-i18next'
 
 export function GamePlayPage() {
   const [, setLocation] = useLocation()
@@ -23,7 +23,6 @@ export function GamePlayPage() {
   const gridSize = params?.gridSize || '8x6'
   const playerAName = decodeURIComponent(params?.playerA || 'Player A')
   const playerBName = decodeURIComponent(params?.playerB || 'Player B')
-
 
   // Game state
   const [playerA, setPlayerA] = useState<Player>({

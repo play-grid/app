@@ -34,22 +34,20 @@ export function GameHeader({
         <div className="flex items-center gap-4">
           <h1 className="text-2xl font-bold">{t('logo-guessing-game')}</h1>
           <Badge variant="secondary" className="capitalize">
-            {selectedSet}
+            {t(selectedSet)}
           </Badge>
           <Badge variant="outline" className="flex items-center gap-1">
             <Grid3X3 className="w-3 h-3" />
-            {gridConfig.name}
+            {t(gridConfig.name)}
             -
-            {gridConfig.difficulty}
+            {t(gridConfig.difficulty)}
           </Badge>
           {playerA.winner && (
             <Badge variant="default" className="bg-green-500 text-white animate-pulse">
               🎉
-
               {playerA.name}
-
-              Found:
-
+              {t('found')}
+              :
               {playerA.winner.name}
               {t('key')}
             </Badge>
@@ -57,11 +55,8 @@ export function GameHeader({
           {playerB.winner && (
             <Badge variant="default" className="bg-green-500 text-white animate-pulse">
               🎉
-
               {playerB.name}
-
-              Found:
-
+              {t('found')}
               {playerB.winner.name}
               {t('key-0')}
             </Badge>
