@@ -18,19 +18,17 @@ export function LanguageRouter({ children }: LanguageRouterProps) {
     const pathSegments = location.split('/').filter(Boolean)
     const firstSegment = pathSegments[0]
 
-    // If the path doesn't have a language prefix
     if (!firstSegment || !supported.includes(firstSegment)) {
-      const lastLng = i18n.language
-      const newPath = `/${lastLng}/${location.substring(1)}`
+    // No prefix in the URL → redirect to use i18n.language
+      const newPath = `/${i18n.language}/${location.substring(1)}`
       setLocation(newPath, { replace: true })
     }
-    else {
-      // The path has a language prefix. Change the i18n language if different.
-      if (firstSegment !== i18n.language) {
-        i18n.changeLanguage(firstSegment)
-      }
+    else if (firstSegment !== i18n.language) {
+    // If URL prefix doesn't match current language → fix the URL
+      const newPath = `/${i18n.language}/${pathSegments.slice(1).join('/')}`
+      setLocation(newPath, { replace: true })
     }
-  }, [location, i18n, setLocation])
+  }, [location, i18n.language, setLocation])
 
   // Use useLayoutEffect to synchronously update the DOM's direction
   // This guarantees that the direction is correct before the browser paints.

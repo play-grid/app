@@ -1,7 +1,8 @@
 import { DirectionProvider } from '@radix-ui/react-direction'
 import { Globe, Info, Settings, Sparkles, User } from 'lucide-react'
-import { useTranslation } from 'react-i18next'
+import { useState } from 'react'
 
+import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
@@ -23,6 +24,12 @@ const AUTHOR_X_HANDLE = '_mohdalaa'
 
 function SiteCustomizations() {
   const { t, i18n } = useTranslation()
+  const [pendingLanguage, setPendingLanguage] = useState(i18n.language)
+
+  const handleSave = () => {
+    i18n.changeLanguage(pendingLanguage)
+  }
+
   const isRTL = i18n.language === 'ar'
   const sheetSide = window.matchMedia('(min-width: 640px)').matches
     ? isRTL ? 'right' : 'left'
@@ -34,28 +41,15 @@ function SiteCustomizations() {
         <Button
           name="site_customizations"
           className={cn(
-            'relative group overflow-hidden',
-            'bg-card hover:bg-accent/30 transition-all duration-300',
-            'border-2 border-border hover:border-primary/30',
-            'rounded-2xl p-5 min-w-[140px] shadow-sm hover:shadow-xl',
-            'hover:scale-[1.02] hover:-translate-y-1',
+            'group',
+            'bg-background/80 backdrop-blur-sm glass-effect',
+            'border-2 border-border hover:border-primary transition-all duration-300',
+            'rounded-full p-2 w-10 h-10 shadow-sm hover:shadow-md hover-lift',
+            isRTL ? 'ml-auto' : 'mr-auto',
           )}
           variant="ghost"
         >
-          <div className="flex flex-col items-center gap-3 text-center">
-            <div className={cn(
-              'relative p-3 rounded-2xl transition-all duration-500',
-              'bg-primary/10 group-hover:bg-primary/20',
-              'group-hover:rotate-12 group-hover:scale-110',
-            )}
-            >
-              <Settings className="w-6 h-6 text-primary transition-colors duration-300" />
-              <div className="absolute -top-1 -right-1 w-3 h-3 bg-destructive rounded-full animate-pulse opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            </div>
-            <span className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors duration-300">
-              {t('customizations.trigger_label')}
-            </span>
-          </div>
+          <Settings className="w-6 h-6 text-primary transition-colors duration-300" />
         </Button>
       </SheetTrigger>
 
@@ -70,32 +64,29 @@ function SiteCustomizations() {
       >
         <DirectionProvider dir={isRTL ? 'rtl' : 'ltr'}>
           {/* Enhanced Header Section with Gradient */}
-          <SheetHeader className={cn(
-            'relative px-6 pt-8 pb-8 overflow-hidden',
-            'bg-gradient-to-br from-primary via-primary to-primary/80',
-            'text-primary-foreground',
-          )}
+          <SheetHeader
+            className={cn(
+              'relative px-6 pt-8 pb-8 overflow-hidden',
+              'bg-gradient-to-br from-primary via-primary to-primary/80',
+              'text-primary-foreground',
+            )}
           >
-            {/* Decorative background pattern */}
-            <div className="absolute inset-0 opacity-10">
-              <div className="absolute top-4 right-4 w-16 h-16 rounded-full bg-primary-foreground/20" />
-              <div className="absolute bottom-4 left-4 w-12 h-12 rounded-full bg-primary-foreground/15" />
-              <div className="absolute top-1/2 left-1/2 w-20 h-20 rounded-full bg-primary-foreground/10 -translate-x-1/2 -translate-y-1/2" />
-            </div>
-
             <div className="relative flex items-center gap-4">
-              <div className={cn(
-                'p-3 rounded-2xl transition-transform duration-500 hover:rotate-12',
-                'bg-primary-foreground/20 backdrop-blur-sm border border-primary-foreground/30',
-              )}
+              <div
+                className={cn(
+                  'p-3 rounded-2xl transition-transform duration-500 hover:rotate-12',
+                  'bg-primary-foreground/20 backdrop-blur-sm border border-primary-foreground/30',
+                )}
               >
                 <Sparkles className="w-7 h-7" />
               </div>
-              <div className={cn('text-left flex-1', isRTL && 'text-right')}>
-                <SheetTitle className="text-2xl font-bold mb-2 leading-tight">
+              <div className="text-left flex-1 rtl:text-right">
+                <SheetTitle className="text-2xl font-bold leading-tight">
                   {t('customizations.sheet_title')}
                 </SheetTitle>
-                <SheetDescription className="text-primary-foreground/90 text-base font-medium">
+                <SheetDescription
+                  className="text-primary-foreground/80 text-sm font-normal leading-relaxed"
+                >
                   {t('customizations.sheet_description')}
                 </SheetDescription>
               </div>
@@ -103,7 +94,7 @@ function SiteCustomizations() {
           </SheetHeader>
 
           {/* Enhanced Content Section */}
-          <div className="flex-1 px-6 py-8 space-y-8">
+          <div className="flex-1 px-2 py-8 space-y-2">
             {/* Language Settings with enhanced styling */}
             <div className="space-y-5">
               <div className="flex items-center gap-3 mb-4">
@@ -134,7 +125,10 @@ function SiteCustomizations() {
                   {t('customizations.language_label')}
                 </Label>
                 <div className="relative z-10">
-                  <LanguageToggle />
+                  <LanguageToggle
+                    currentLocale={pendingLanguage}
+                    onChange={lng => setPendingLanguage(lng)}
+                  />
                 </div>
                 {/* Subtle background decoration */}
                 <div className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -265,7 +259,7 @@ function SiteCustomizations() {
                     'border-2 border-primary/20',
                   )}
                 >
-                  <span className="flex items-center gap-2">
+                  <span className="flex items-center gap-2" onClick={handleSave}>
                     {t('customizations.save_button')}
                     <Sparkles className="w-4 h-4 animate-pulse" />
                   </span>
