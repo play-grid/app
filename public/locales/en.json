@@ -58,5 +58,38 @@
     "step3": "3. Click on logos to eliminate them based on the answers",
     "step4": "4. First player to correctly guess their opponent's logo wins!",
     "title": "How to Play:"
-  }
+  },
+  "common": {
+    "settings": "Settings",
+    "language": "Language",
+    "cancel": "Cancel",
+    "save": "Save",
+    "close": "Close",
+    "back": "Back",
+    "next": "Next",
+    "done": "Done",
+    "loading": "Loading...",
+    "success": "Success! 🎉",
+    "error": "Oops! Something went wrong 😅",
+    "LanguageToggle_placeholder": "Select Language",
+    "LanguageToggle_ar": "العربية",
+    "LanguageToggle_en": "English"
+  },
+  "customizations": {
+    "trigger_label": "Magic Settings ✨",
+    "sheet_title": "Your Personal Corner 🎨",
+    "sheet_description": "Make this space truly yours!",
+    "language_section_title": "Speak Your Language 🌍",
+    "language_label": "Choose your vibe",
+    "app_info_title": "Meet the Creator 👋",
+    "developer_label": "Crafted with love 🩵 by",
+    "follow_on_x": "@{{handle}} on X (formerly Twitter) 🐦",
+    "fun_fact_title": "Did you know? 🤔",
+    "fun_fact_content": "This game was built with React, lots of coffee ☕, and a sprinkle of magic! ✨",
+    "version_info": "Version 1.0.0 - Fresh out of the oven!",
+    "cancel_button": "Maybe Later 🤷‍♂️",
+    "save_button": "Save My Awesomeness",
+    "author_name": "Mohammed alaa"
+  },
+  "found": "found"
 }

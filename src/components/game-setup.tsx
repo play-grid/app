@@ -11,6 +11,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { gridConfigurations } from '@/lib/grid-configurations'
+import SiteCustomizations from './site-about'
 
 interface GameSetupProps {
   selectedSet: LogoSetKey
@@ -96,6 +97,8 @@ export function GameSetup({
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
       <Card className="w-full max-w-2xl p-8 text-center">
+        <SiteCustomizations />
+
         <div className="mb-8">
           <Trophy className="w-16 h-16 mx-auto mb-4 text-primary" />
           <h1 className="text-3xl font-bold mb-2">{t('logo-guessing-game')}</h1>

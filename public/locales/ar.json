@@ -62,5 +62,35 @@
   "expert": "خبير",
   "hard": "صعب",
   "medium": "وسط",
-  "logos": "شعار"
+  "logos": "شعار",
+  "common": {
+    "settings": "الإعدادات",
+    "language": "اللغة",
+    "cancel": "إلغاء",
+    "save": "حفظ",
+    "close": "إغلاق",
+    "back": "رجوع",
+    "next": "التالي",
+    "done": "تم",
+    "loading": "جاري التحميل...",
+    "success": "نجح! 🎉",
+    "error": "عذراً! حدث خطأ ما 😅"
+  },
+  "customizations": {
+    "trigger_label": "إعدادات سحرية ✨",
+    "sheet_title": "ركنك الشخصي 🎨",
+    "sheet_description": "اجعل هذا المكان مُلكك حقاً!",
+    "language_section_title": "تحدث بلغتك 🌍",
+    "language_label": "اختر طاقتك المفضلة",
+    "app_info_title": "تعرّف على المطوّر 👋",
+    "developer_label": "صُنع بحب ❤️ من",
+    "follow_on_x": "@{{handle}} على إكس (تويتر سابقاً) 🐦",
+    "fun_fact_title": "تدري ان؟ 🤔",
+    "fun_fact_content": "هذه اللعبه بُنيت بـ React! ✨",
+    "version_info": "الإصدار 1.0.0 - طازج من الفرن!",
+    "cancel_button": "يمكن بعدين 🤷‍♂️",
+    "save_button": "احفظ",
+    "author_name": "محمد علاء"
+  },
+  "found": "شاف"
 }
