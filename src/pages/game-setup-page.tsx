@@ -3,11 +3,11 @@ import type { Player } from '@/types'
 import { Play, Trash2 } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useLocation } from 'wouter'
 import { GameSetup } from '@/components/game-setup'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { useGamePersistence } from '@/hooks/use-game-persistence'
+import { useLanguageNavigation } from '@/hooks/use-language-navigation'
 import { useLogoQuery } from '@/hooks/use-logo-query'
 import { getGridConfiguration } from '@/lib/grid-configurations'
 import { logoSets } from '@/lib/logo-data'
@@ -20,7 +20,7 @@ interface SavedGameInfo {
 }
 
 export function GameSetupPage() {
-  const [, setLocation] = useLocation()
+  const { navigate } = useLanguageNavigation()
   const [selectedSet, setSelectedSet] = useState<LogoSetKey>('companies')
   const [selectedGrid, setSelectedGrid] = useState<string>('8x6')
   const [showResumeOption, setShowResumeOption] = useState(false)
@@ -81,7 +81,7 @@ export function GameSetupPage() {
 
     clearGameState()
 
-    setLocation(`/game/${selectedSet}/${selectedGrid}/${encodedPlayerA}/${encodedPlayerB}`)
+    navigate(`/game/${selectedSet}/${selectedGrid}/${encodedPlayerA}/${encodedPlayerB}`)
   }
 
   const handleResumeGame = () => {
@@ -89,7 +89,7 @@ export function GameSetupPage() {
       const encodedPlayerA = encodeURIComponent(savedGameInfo.playerA)
       const encodedPlayerB = encodeURIComponent(savedGameInfo.playerB)
 
-      setLocation(
+      navigate(
         `/game/${savedGameInfo.selectedSet}/${savedGameInfo.selectedGrid}/${encodedPlayerA}/${encodedPlayerB}`,
       )
     }
@@ -130,7 +130,6 @@ export function GameSetupPage() {
                 <br />
                 <span className="text-sm">
                   {savedGameInfo.selectedSet}
-
                   {t('key-1')}
                   {savedGameInfo.selectedGrid}
                 </span>

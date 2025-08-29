@@ -2,27 +2,33 @@ import type { LogoSetKey } from '@/lib/logo-data'
 import type { LogoItem, Player } from '@/types'
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useLocation, useRoute } from 'wouter'
+import { useParams } from 'react-router-dom'
 import { GameHeader } from '@/components/game-header'
 import { GameInstructions } from '@/components/game-instructions'
 import { PlayerGrid } from '@/components/player-grid'
 import { Button } from '@/components/ui/button'
 import { useGamePersistence } from '@/hooks/use-game-persistence'
+import { useLanguageNavigation } from '@/hooks/use-language-navigation'
 import { useLogoQuery } from '@/hooks/use-logo-query'
 import { getGridConfiguration } from '@/lib/grid-configurations'
 import { logoSets } from '@/lib/logo-data'
 
 export function GamePlayPage() {
-  const [, setLocation] = useLocation()
-  const [match, params] = useRoute('/game/:logoSet/:gridSize/:playerA/:playerB')
+  const { navigate } = useLanguageNavigation()
+  const params = useParams<{
+    logoSet: string
+    gridSize: string
+    playerA: string
+    playerB: string
+  }>()
   const { saveGameState, loadGameState, clearGameState } = useGamePersistence()
   const { t } = useTranslation()
 
   // Extract params with defaults and decode player names
-  const logoSet = (params?.logoSet as LogoSetKey) || 'companies'
-  const gridSize = params?.gridSize || '8x6'
-  const playerAName = decodeURIComponent(params?.playerA || 'Player A')
-  const playerBName = decodeURIComponent(params?.playerB || 'Player B')
+  const logoSet = (params.logoSet as LogoSetKey) || 'companies'
+  const gridSize = params.gridSize || '8x6'
+  const playerAName = decodeURIComponent(params.playerA || 'Player A')
+  const playerBName = decodeURIComponent(params.playerB || 'Player B')
 
   // Game state
   const [playerA, setPlayerA] = useState<Player>({
@@ -192,9 +198,9 @@ export function GamePlayPage() {
     saveGameState,
   ])
 
-  // Early returns after all hooks
-  if (!match || !logoSets[logoSet]) {
-    setLocation('/')
+  // Early returns after all hooks - redirect if invalid route
+  if (!logoSets[logoSet]) {
+    navigate('/', { replace: true })
     return null
   }
 
@@ -228,12 +234,12 @@ export function GamePlayPage() {
 
   const resetGame = () => {
     clearGameState()
-    setLocation('/')
+    navigate('/')
   }
 
   const startNewGame = () => {
     clearGameState()
-    setLocation(`/game/${logoSet}/${gridSize}/${encodeURIComponent(playerAName)}/${encodeURIComponent(playerBName)}`)
+    navigate(`/game/${logoSet}/${gridSize}/${encodeURIComponent(playerAName)}/${encodeURIComponent(playerBName)}`, { replace: true })
 
     // Reset local state
     setGameInitialized(false)
