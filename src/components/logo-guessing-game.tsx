@@ -1,131 +1,47 @@
-import type { LogoSetKey } from '@/lib/logo-data'
-import type { LogoItem, Player } from '@/types'
-import { useEffect, useState } from 'react'
 import { useLogoQuery } from '@/hooks/use-logo-query'
 import { getGridConfiguration } from '@/lib/grid-configurations'
 import { logoSets } from '@/lib/logo-data'
+import { useGameStore } from '@/stores/game-state-store'
 import { GameHeader } from './game-header'
 import { GameInstructions } from './game-instructions'
 import { GameSetup } from './game-setup'
 import { PlayerGrid } from './player-grid'
 
 export function LogoGuessingGame() {
-  const [selectedSet, setSelectedSet] = useState<LogoSetKey>('companies')
-  const [selectedGrid, setSelectedGrid] = useState<string>('8x6')
-  const [gameStarted, setGameStarted] = useState(false)
-  const [currentPlayer, setCurrentPlayer] = useState<'A' | 'B'>('A')
-
-  // Refactored player state using Player objects
-  const [playerA, setPlayerA] = useState<Player>({
-    name: '',
-    logos: [],
-    winner: null,
-    activeCount: 0,
-  })
-
-  const [playerB, setPlayerB] = useState<Player>({
-    name: '',
-    logos: [],
-    winner: null,
-    activeCount: 0,
-  })
+  // All state is now managed by Zustand stores
+  const {
+    selectedSet,
+    selectedGrid,
+    gameStarted,
+    currentPlayer,
+    playerA,
+    playerB,
+    setSelectedSet,
+    setSelectedGrid,
+    setPlayerAName,
+    setPlayerBName,
+    initializeGame,
+    resetGame,
+    togglePlayerALogo,
+    togglePlayerBLogo,
+    switchTurn,
+  } = useGameStore()
 
   const gridConfig = getGridConfiguration(selectedGrid)
   const logoNames = logoSets[selectedSet].slice(0, gridConfig.totalLogos)
   const { data: fetchedLogos } = useLogoQuery(logoNames, selectedSet, !gameStarted)
 
-  // Helper function to calculate player stats
-  const calculatePlayerStats = (logos: LogoItem[]) => {
-    const activeLogos = logos.filter(logo => !logo.eliminated)
-    return {
-      activeCount: activeLogos.length,
-      winner: activeLogos.length === 1 && logos.length > 0 ? activeLogos[0] : null,
-    }
-  }
-
-  // Update player stats when logos change
-  useEffect(() => {
-    const playerAStats = calculatePlayerStats(playerA.logos)
-    setPlayerA(prev => ({ ...prev, ...playerAStats }))
-  }, [playerA.logos])
-
-  useEffect(() => {
-    const playerBStats = calculatePlayerStats(playerB.logos)
-    setPlayerB(prev => ({ ...prev, ...playerBStats }))
-  }, [playerB.logos])
-
-  const initializeGame = () => {
+  const handleStartGame = () => {
     if (fetchedLogos) {
-      // Convert fetched logos to LogoItem format with proper structure
-      const initialLogos: LogoItem[] = fetchedLogos.map((fetchedLogo, index) => ({
+      // Convert fetched logos to LogoItem format
+      const initialLogos = fetchedLogos.map((fetchedLogo, index) => ({
         id: index + 1,
-        name: fetchedLogo.name,
+        name: fetchedLogo.name || 'Unknown Logo',
         imageUrl: fetchedLogo.imageUrl,
         eliminated: false,
       }))
-
-      const stats = calculatePlayerStats(initialLogos)
-
-      setPlayerA(prev => ({
-        ...prev,
-        logos: [...initialLogos],
-        ...stats,
-      }))
-
-      setPlayerB(prev => ({
-        ...prev,
-        logos: [...initialLogos],
-        ...stats,
-      }))
-
-      setGameStarted(true)
-      setCurrentPlayer('A')
+      initializeGame(initialLogos)
     }
-  }
-
-  const resetGame = () => {
-    setPlayerA(prev => ({
-      ...prev,
-      logos: [],
-      winner: null,
-      activeCount: 0,
-    }))
-
-    setPlayerB(prev => ({
-      ...prev,
-      logos: [],
-      winner: null,
-      activeCount: 0,
-    }))
-
-    setGameStarted(false)
-    setCurrentPlayer('A')
-  }
-
-  const togglePlayerALogo = (logoId: number) => {
-    setPlayerA(prev => ({
-      ...prev,
-      logos: prev.logos.map(logo => (logo.id === logoId ? { ...logo, eliminated: !logo.eliminated } : logo)),
-    }))
-  }
-
-  const togglePlayerBLogo = (logoId: number) => {
-    setPlayerB(prev => ({
-      ...prev,
-      logos: prev.logos.map(logo => (logo.id === logoId ? { ...logo, eliminated: !logo.eliminated } : logo)),
-    }))
-  }
-
-  const switchTurn = () => {
-    setCurrentPlayer(prev => (prev === 'A' ? 'B' : 'A'))
-  }
-
-  const handlePlayerANameChange = (name: string) => {
-    setPlayerA(prev => ({ ...prev, name }))
-  }
-
-  const handlePlayerBNameChange = (name: string) => {
-    setPlayerB(prev => ({ ...prev, name }))
   }
 
   if (!gameStarted) {
@@ -137,10 +53,10 @@ export function LogoGuessingGame() {
         onGridChange={setSelectedGrid}
         playerA={playerA}
         playerB={playerB}
-        onPlayerANameChange={handlePlayerANameChange}
-        onPlayerBNameChange={handlePlayerBNameChange}
-        onStartGame={initializeGame}
+        onPlayerANameChange={setPlayerAName}
+        onPlayerBNameChange={setPlayerBName}
         canStart={!!fetchedLogos}
+        onStartGame={handleStartGame}
       />
     )
   }

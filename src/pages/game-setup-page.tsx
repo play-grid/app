@@ -1,48 +1,47 @@
-import type { LogoSetKey } from '@/lib/logo-data'
-import type { Player } from '@/types'
 import { Play, Trash2 } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { GameSetup } from '@/components/game-setup'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
-import { useGamePersistence } from '@/hooks/use-game-persistence'
 import { useLanguageNavigation } from '@/hooks/use-language-navigation'
 import { useLogoQuery } from '@/hooks/use-logo-query'
 import { getGridConfiguration } from '@/lib/grid-configurations'
 import { logoSets } from '@/lib/logo-data'
-
-interface SavedGameInfo {
-  playerA: string
-  playerB: string
-  selectedSet: LogoSetKey
-  selectedGrid: string
-}
+import { useGameStore } from '@/stores/game-state-store'
+import { usePersistenceStore } from '@/stores/persistence-store'
+import { useUIStore } from '@/stores/ui-state-store'
 
 export function GameSetupPage() {
   const { navigate } = useLanguageNavigation()
-  const [selectedSet, setSelectedSet] = useState<LogoSetKey>('companies')
-  const [selectedGrid, setSelectedGrid] = useState<string>('8x6')
-  const [showResumeOption, setShowResumeOption] = useState(false)
-  const [savedGameInfo, setSavedGameInfo] = useState<SavedGameInfo | null>(null)
-  const [resumeCheckComplete, setResumeCheckComplete] = useState(false)
   const { t } = useTranslation()
 
-  const [playerA, setPlayerA] = useState<Player>({
-    name: '',
-    logos: [],
-    winner: null,
-    activeCount: 0,
-  })
+  // Zustand stores
+  const {
+    selectedSet,
+    selectedGrid,
+    playerA,
+    playerB,
+    setSelectedSet,
+    setSelectedGrid,
+    setPlayerAName,
+    setPlayerBName,
+    resetGame,
+  } = useGameStore()
 
-  const [playerB, setPlayerB] = useState<Player>({
-    name: '',
-    logos: [],
-    winner: null,
-    activeCount: 0,
-  })
-
-  const { loadGameState, clearGameState, hasValidSavedGame } = useGamePersistence()
+  const {
+    savedGameInfo,
+    loadGameState,
+    clearGameState,
+    hasValidSavedGame,
+    setSavedGameInfo,
+  } = usePersistenceStore()
+  const {
+    showResumeOption,
+    resumeCheckComplete,
+    setShowResumeOption,
+    setResumeCheckComplete,
+  } = useUIStore()
 
   // Check for saved game on mount - only once
   useEffect(() => {
@@ -64,22 +63,30 @@ export function GameSetupPage() {
       }
     }
     catch (error) {
-      throw new Error(`Failed to load saved game state: ${error}`)
+      console.error('Failed to load saved game state:', error)
     }
 
     setResumeCheckComplete(true)
-  }, [hasValidSavedGame, loadGameState, resumeCheckComplete])
+  }, [
+    hasValidSavedGame,
+    loadGameState,
+    resumeCheckComplete,
+    setShowResumeOption,
+    setSavedGameInfo,
+    setResumeCheckComplete,
+  ])
 
   // Get logos for validation
   const gridConfig = getGridConfiguration(selectedGrid)
   const logoNames = logoSets[selectedSet]?.slice(0, gridConfig.totalLogos) || []
-  const { data: fetchedLogos, isLoading } = useLogoQuery(logoNames, selectedSet, true)
+  const { data: fetchedLogos } = useLogoQuery(logoNames, selectedSet, true)
 
   const handleStartGame = () => {
     const encodedPlayerA = encodeURIComponent(playerA.name.trim() || 'Player A')
     const encodedPlayerB = encodeURIComponent(playerB.name.trim() || 'Player B')
 
     clearGameState()
+    resetGame()
 
     navigate(`/game/${selectedSet}/${selectedGrid}/${encodedPlayerA}/${encodedPlayerB}`)
   }
@@ -100,19 +107,6 @@ export function GameSetupPage() {
     setShowResumeOption(false)
     setSavedGameInfo(null)
   }
-
-  const handlePlayerANameChange = (name: string) => {
-    setPlayerA(prev => ({ ...prev, name }))
-  }
-
-  const handlePlayerBNameChange = (name: string) => {
-    setPlayerB(prev => ({ ...prev, name }))
-  }
-
-  const canStartGame = playerA.name.trim().length > 0
-    && playerB.name.trim().length > 0
-    && !!fetchedLogos
-    && !isLoading
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
@@ -151,6 +145,7 @@ export function GameSetupPage() {
             </div>
           </Card>
         )}
+
         {/* Regular Game Setup */}
         <GameSetup
           selectedSet={selectedSet}
@@ -159,10 +154,10 @@ export function GameSetupPage() {
           onGridChange={setSelectedGrid}
           playerA={playerA}
           playerB={playerB}
-          onPlayerANameChange={handlePlayerANameChange}
-          onPlayerBNameChange={handlePlayerBNameChange}
+          onPlayerANameChange={setPlayerAName}
+          onPlayerBNameChange={setPlayerBName}
+          canStart={!!fetchedLogos}
           onStartGame={handleStartGame}
-          canStart={canStartGame}
         />
       </div>
     </div>
