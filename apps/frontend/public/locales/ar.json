@@ -92,15 +92,21 @@
     "save_button": "احفظ",
     "author_name": "محمد علاء"
   },
+  "found": "شاف",
+  "play-online": "العب اونلاين",
   "create-game-room": "إنشاء غرفة لعبة",
   "create-room-error": "فشل إنشاء الغرفة. الرجاء المحاولة مرة أخرى.",
   "creating-room": "جارٍ إنشاء الغرفة...",
   "room-created": "تم إنشاء الغرفة بنجاح!",
   "copy-id": "نسخ المعرف",
   "create-room": "إنشاء غرفة",
-  "save_button": "احفظ",
-  "author_name": "محمد علاء",
-  "found": "شاف",
-  "play-online": "العب اونلاين",
-  "soon": "🔥🔥 قريباً"
+  "soon": "🔥🔥 قريباً",
+  "room-url": "رابط الغرفة",
+  "copy-url": "نسخ الرابط",
+  "room-code": "كود الغرفة",
+  "copy-code": "نسخ الكود",
+  "join-game": "الانضمام إلى لعبة",
+  "enter-room-code": "أدخل كود الغرفة...",
+  "join": "انضم",
+  "join-room": "الانضمام إلى غرفة"
 }

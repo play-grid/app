@@ -99,5 +99,13 @@
   "room-created": "Room created successfully!",
   "copy-id": "Copy ID",
   "create-room": "Create Room",
-  "soon": "Soon 🔥🔥"
+  "soon": "Soon 🔥🔥",
+  "room-url": "Room URL",
+  "copy-url": "Copy URL",
+  "room-code": "Room Code",
+  "copy-code": "Copy Code",
+  "join-game": "Join Game",
+  "enter-room-code": "Enter room code...",
+  "join": "Join",
+  "join-room": "Join Room"
 }

@@ -24,6 +24,7 @@ interface GameSetupProps {
   onPlayerANameChange: (name: string) => void;
   onPlayerBNameChange: (name: string) => void;
   onStartGame: () => void;
+  onJoinGame: (roomId: string) => void;
   canStart: boolean;
 }
 
@@ -70,6 +71,7 @@ export function GameSetup({
   onPlayerANameChange,
   onPlayerBNameChange,
   onStartGame,
+  onJoinGame,
   canStart,
 }: GameSetupProps) {
   const [attemptedStart, setAttemptedStart] = useState(false);
@@ -237,7 +239,7 @@ export function GameSetup({
             {t('start-game')}
           </Button>
 
-          <CreateRoomDialog />
+          <CreateRoomDialog onJoinGame={onJoinGame} />
         </div>
         {attemptedStart && (!playerAValidation.success || !playerBValidation.success) && (
           <p className="text-sm text-red-500 mt-2">{t('enter-valid-player-names-to-continue')}</p>
