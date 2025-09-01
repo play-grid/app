@@ -18,6 +18,7 @@ export const env = createEnv({
     VITE_TMDB_API_KEY: z.string().min(1),
     VITE_LOGO_DEV_API_KEY: z.string().min(1),
     VITE_ALL_SPORTS_API_KEY: z.string().min(1),
+    VITE_API_URL: z.string().min(1),
   },
 
   /**

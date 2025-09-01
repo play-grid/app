@@ -7,7 +7,7 @@
     "simple-git-hooks": "^2.13.1"
   },
   "lint-staged": {
-    "apps/frontend/**/*.{js,ts,tsx}": "eslint --fix",
+    "apps/frontend/**/*.{js,ts,tsx}": "eslint --fix --config apps/frontend/eslint.config.js",
     "apps/api/**/*.ts": "eslint --fix --config apps/api/eslint.config.js"
   },
   "simple-git-hooks": {

@@ -92,6 +92,12 @@
     "author_name": "Mohammed alaa"
   },
   "found": "found",
-  "play-online": "Play Online 🌐",
+  "play-online": "Play Online",
+  "create-game-room": "Create Game Room",
+  "create-room-error": "Failed to create room. Please try again.",
+  "creating-room": "Creating room...",
+  "room-created": "Room created successfully!",
+  "copy-id": "Copy ID",
+  "create-room": "Create Room",
   "soon": "Soon 🔥🔥"
 }
