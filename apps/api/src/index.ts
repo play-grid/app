@@ -33,8 +33,15 @@ app.get('/', (c) => {
     endpoints: {
       websocket: '/game-room',
       stats: '/game-room/:roomId/stats',
+      create: '/game-room/create',
     },
   });
+});
+
+// Create a new game room
+app.post('/game-room/create', (c) => {
+  const roomId = crypto.randomUUID();
+  return c.json({ roomId });
 });
 
 // WebSocket connection endpoint
