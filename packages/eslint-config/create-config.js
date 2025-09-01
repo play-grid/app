@@ -7,7 +7,7 @@ export default function createConfig(options, ...userConfigs) {
     stylistic: {
       indent: 2,
       semi: true,
-      quotes: 'single',
+      quotes: "single",
     },
     ...options,
     // TypeScript and Vue are autodetected, you can also explicitly enable them:
@@ -17,23 +17,19 @@ export default function createConfig(options, ...userConfigs) {
     jsonc: false,
     yaml: false,
 
-    ignores: [
-      "**/fixtures",'node_modules', 'dist', 'build'
-    ],
-    
+    ignores: ["**/fixtures", "node_modules", "dist", "build"],
+
     unicorn: {
       overrides: {
-        'unicorn/filename-case': [
-          'error',
+        "unicorn/filename-case": [
+          "error",
           {
-            case: 'kebabCase',
-            ignore: ['^.*\\.d\\.ts$'],
+            case: "kebabCase",
+            ignore: ["^.*\\.d\\.ts$", "README\\.md"],
           },
         ],
       },
-      ignores:["README.md"]
     },
     ...userConfigs,
-  },
-  );
+  });
 }

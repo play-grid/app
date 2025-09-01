@@ -1,3 +1,3 @@
-import createConfig from '@guess-logo/eslint-config/create-config';
+import base from '@guess-logo/eslint-config';
 
-export default await createConfig();
+export default base;
