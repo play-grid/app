@@ -4,11 +4,11 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "bunx --bun vite",
-    "build": "bunx --bun vite build",
+    "dev": "vite",
+    "build": "vite build",
     "lint": "eslint .",
     "lint:fix": "eslint --fix",
-    "preview": "bunx --bun vite preview"
+    "preview": "vite preview"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.15",
@@ -46,7 +46,6 @@
     "@types/react-dom": "^19.1.9",
     "@vitejs/plugin-react-swc": "^4.0.1",
     "babel-plugin-react-compiler": "19.1.0-rc.2",
-    "bun-git-hooks": "^0.2.19",
     "eslint": "^9.34.0",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",

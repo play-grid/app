@@ -31,6 +31,7 @@ export default function createConfig(options, ...userConfigs) {
           },
         ],
       },
+      ignores:["README.md"]
     },
     ...userConfigs,
   },
