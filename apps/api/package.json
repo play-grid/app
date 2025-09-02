@@ -1,20 +1,28 @@
 {
-  "name": "api",
+  "name": "@guess-logo/api",
   "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "version": "0.1.0",
   "scripts": {
     "dev": "wrangler dev",
     "deploy": "wrangler deploy --minify",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "cf-typegen": "wrangler types --env-interface CloudflareBindings"
+    "cf-typegen": "wrangler types --env-interface CloudflareBindings",
+    "build": "tsc"
   },
   "dependencies": {
+    "@hono/zod-openapi": "^1.1.0",
+    "@scalar/hono-api-reference": "^0.9.16",
     "hono": "^4.9.5",
+    "stoker": "^2.0.1",
     "zod": "^4.1.5"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20250831.0",
     "@guess-logo/eslint-config": "workspace:*",
+    "typescript": "~5.8.3",
     "wrangler": "^4.33.1"
   }
 }

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "type": "module",
   "exports": {
-    ".": "./base.js",
+    ".": "./eslint.config.js",
     "./create-config": "./create-config.js"
 
   },

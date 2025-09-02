@@ -3,7 +3,7 @@
 // Runtime types generated with workerd@1.20250823.0 2025-09-01 
 declare namespace Cloudflare {
 	interface Env {
-		GAME_ROOM: DurableObjectNamespace<import("./src/index").GameRoom>;
+		GAME_ROOM: DurableObjectNamespace<import("./src/app").GameRoom>;
 	}
 }
 interface CloudflareBindings extends Cloudflare.Env {}

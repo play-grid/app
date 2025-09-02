@@ -1,0 +1,22 @@
+{
+  "name": "@guess-logo/api-client",
+  "type": "module",
+  "version": "1.0.0",
+  "main": "./dist/index.js",
+  "scripts": {
+    "dev": "tsc --watch",
+    "build": "rm -rf dist && tsc",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@guess-logo/api": "workspace:*",
+    "@guess-logo/eslint-config": "workspace:*",
+    "@types/node": "^24.3.0",
+    "hono": "^4.9.5"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250831.0",
+    "typescript": "~5.8.3"
+  }
+}

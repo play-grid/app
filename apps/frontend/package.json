@@ -11,6 +11,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@guess-logo/api":"workspace:*",
+    "@guess-logo/api-client":"workspace:*",
     "@radix-ui/react-dialog": "^1.1.15",
     "@radix-ui/react-direction": "^1.1.1",
     "@radix-ui/react-label": "^2.1.7",
@@ -26,6 +28,7 @@
     "@tanstack/react-query-persist-client": "^5.85.6",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "hono": "^4.9.5",
     "immer": "^10.1.1",
     "lucide-react": "^0.539.0",
     "react": "^19.1.1",

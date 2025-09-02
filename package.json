@@ -1,6 +1,11 @@
 {
   "name": "guess-logo",
   "private": true,
+  "scripts": {
+    "dev":"pnpm run -r --parallel --aggregate-output dev",
+    "lint":"pnpm run -r --parallel --aggregate-output lint",
+    "build":"pnpm run -r build"
+  },
   "devDependencies": {
     "eslint": "^9.34.0",
     "lint-staged": "^16.1.5",
