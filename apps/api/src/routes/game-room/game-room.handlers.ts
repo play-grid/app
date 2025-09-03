@@ -1,8 +1,11 @@
 import type { GameRoomStats } from '../../lib/game-room.do';
 import type { AppRouteHandler } from '../../lib/types';
-import type { CreateRoute, WebSocketUpgradeRoute } from './game-room.routes';
+import type {
+  CreateRoute,
+  GetRoomStatsRoute,
+  WebSocketUpgradeRoute,
+} from './game-room.routes';
 
-import { createRoute } from '@hono/zod-openapi';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 
 export const create: AppRouteHandler<CreateRoute> = async (c) => {
@@ -88,41 +91,30 @@ export const websocketUpgrade: AppRouteHandler<WebSocketUpgradeRoute> = async (c
   }
 };
 
-export const getGameRoomStats = createRoute({
-  method: 'get',
-  path: '/game-room/:id/stats',
-  summary: 'Get game room stats',
-  parameters: [
-    {
-      in: 'path',
-      name: 'id',
-      schema: { type: 'string' },
-      required: true,
-    },
-  ],
-  responses: {
-    200: {
-      description: 'Game room stats',
-      content: {
-        'application/json': {
-          schema: {
-            type: 'object',
-            properties: {
-              totalConnections: { type: 'number' },
-              maxPlayers: { type: 'number' },
-              roomConfig: { type: 'object' },
-              sessions: { type: 'array', items: { type: 'object' } },
-            },
-          },
-        },
-      },
-    },
-  },
-  handler: async (c) => {
+export const getGameRoomStats: AppRouteHandler<GetRoomStatsRoute> = async (c) => {
+  try {
     const { id: roomId } = c.req.valid('param');
     const id = c.env.GAME_ROOM.idFromName(String(roomId));
-    const gameRoom = c.env.GAME_ROOM.get(id);
-    const stats = await gameRoom.getStats() as GameRoomStats;
-    return c.json(stats);
-  },
-});
+    const stub = c.env.GAME_ROOM.get(id);
+
+    const response = await stub.fetch('http://internal/stats');
+
+    if (response.status === HttpStatusCodes.NOT_FOUND) {
+      return c.json({ error: 'Game room not found' }, HttpStatusCodes.NOT_FOUND);
+    }
+
+    if (!response.ok) {
+      throw new Error('Failed to get game room stats');
+    }
+
+    const stats = await response.json<GameRoomStats>();
+    return c.json(stats, HttpStatusCodes.OK);
+  }
+  catch (error) {
+    console.error('Error getting game room stats:', error);
+    return c.json(
+      { error: 'Failed to get game room stats' },
+      HttpStatusCodes.INTERNAL_SERVER_ERROR,
+    );
+  }
+};
