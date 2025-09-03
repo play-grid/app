@@ -7,13 +7,37 @@ interface SessionData {
   joinedAt: number;
 }
 
-export class GameRoom extends DurableObject {
+interface GameRoomConfig {
+  roomId: string;
+  name: string;
+  maxPlayers: number;
+  gameType: string;
+  isPrivate: boolean;
+  createdAt: string;
+}
+
+export interface GameRoomStats {
+  totalConnections: number;
+  maxPlayers: number;
+  roomConfig: GameRoomConfig | null;
+  sessions: Array<{
+    roomId: string;
+    playerId?: string;
+    joinedAt: number;
+    duration: number;
+  }>;
+}
+
+export class GameRoomDurableObject extends DurableObject {
   // Track all WebSocket sessions
   sessions: Map<WebSocket, SessionData>;
+  // Room configuration
+  config: GameRoomConfig | null;
 
   constructor(ctx: DurableObjectState, env: Env) {
     super(ctx, env);
     this.sessions = new Map();
+    this.config = null;
 
     // Restore hibernated WebSocket connections
     this.ctx.getWebSockets().forEach((ws) => {
@@ -31,10 +55,88 @@ export class GameRoom extends DurableObject {
   }
 
   async fetch(request: Request): Promise<Response> {
+    const url = new URL(request.url);
+    const pathname = url.pathname;
+
+    // Handle internal initialization
+    if (pathname === '/init' && request.method === 'POST') {
+      return this.handleInit(request);
+    }
+
+    // Handle internal stats request
+    if (pathname === '/stats' && request.method === 'GET') {
+      return this.handleStats();
+    }
+
+    // Handle WebSocket upgrade
+    const upgradeHeader = request.headers.get('Upgrade');
+    if (upgradeHeader && upgradeHeader.toLowerCase() === 'websocket') {
+      return this.handleWebSocketUpgrade(request);
+    }
+
+    return new Response('Not Found', { status: 404 });
+  }
+
+  private async handleInit(request: Request): Promise<Response> {
+    try {
+      const body = await request.json() as GameRoomConfig;
+      this.config = {
+        ...body,
+        createdAt: new Date().toISOString(),
+      };
+
+      // Persist the configuration
+      await this.ctx.storage.put('config', this.config);
+
+      return new Response(JSON.stringify({ success: true }), {
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+    catch (error) {
+      console.error('Error initializing room:', error);
+      return new Response(JSON.stringify({ error: 'Failed to initialize room' }), {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+  }
+
+  private async handleStats(): Promise<Response> {
+    if (!this.config) {
+      // Try to load config from storage
+      this.config = await this.ctx.storage.get('config') as GameRoomConfig | null;
+      if (!this.config) {
+        return new Response(JSON.stringify({ error: 'Room not found' }), {
+          status: 404,
+          headers: { 'Content-Type': 'application/json' },
+        });
+      }
+    }
+
+    const stats = this.getRoomStats();
+    return new Response(JSON.stringify(stats), {
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
+
+  private async handleWebSocketUpgrade(request: Request): Promise<Response> {
     // Validate WebSocket upgrade request
     const upgradeHeader = request.headers.get('Upgrade');
     if (!upgradeHeader || upgradeHeader !== 'websocket') {
       return new Response('Expected Upgrade: websocket', { status: 426 });
+    }
+
+    // Load config if not already loaded
+    if (!this.config) {
+      this.config = await this.ctx.storage.get('config') as GameRoomConfig | null;
+      if (!this.config) {
+        return new Response('Game room not initialized', { status: 400 });
+      }
+    }
+
+    // Check if room is full
+    if (this.sessions.size >= this.config.maxPlayers) {
+      return new Response('Game room is full', { status: 403 });
     }
 
     // Create WebSocket pair
@@ -45,9 +147,9 @@ export class GameRoom extends DurableObject {
     this.ctx.acceptWebSocket(server);
 
     // Generate session data
-    const roomId = crypto.randomUUID();
     const sessionData: SessionData = {
-      roomId,
+      roomId: this.config.roomId,
+      playerId: crypto.randomUUID(), // Generate unique player ID
       joinedAt: Date.now(),
     };
 
@@ -60,9 +162,20 @@ export class GameRoom extends DurableObject {
     // Notify other clients about new connection
     this.broadcastToOthers(server, {
       type: 'user_joined',
-      roomId,
+      roomId: this.config.roomId,
+      playerId: sessionData.playerId,
       totalConnections: this.sessions.size,
+      maxPlayers: this.config.maxPlayers,
     });
+
+    // Send welcome message to the new client
+    server.send(JSON.stringify({
+      type: 'welcome',
+      roomId: this.config.roomId,
+      playerId: sessionData.playerId,
+      roomConfig: this.config,
+      totalConnections: this.sessions.size,
+    }));
 
     return new Response(null, {
       status: 101,
@@ -89,20 +202,46 @@ export class GameRoom extends DurableObject {
       messageData = { type: 'message', content: message };
     }
 
-    // Echo message back to sender
-    ws.send(JSON.stringify({
-      type: 'echo',
-      originalMessage: messageData,
-      from: session.roomId,
-      totalConnections: this.sessions.size,
-    }));
+    // Handle different message types
+    switch (messageData.type) {
+      case 'chat':
+        this.handleChatMessage(ws, session, messageData);
+        break;
+      case 'game_action':
+        this.handleGameAction(ws, session, messageData);
+        break;
+      case 'ping':
+        ws.send(JSON.stringify({ type: 'pong', timestamp: Date.now() }));
+        break;
+      default:
+        // Echo unknown messages back to sender
+        ws.send(JSON.stringify({
+          type: 'echo',
+          originalMessage: messageData,
+          from: session.playerId,
+          totalConnections: this.sessions.size,
+        }));
+    }
+  }
 
-    // Broadcast to all other clients
+  private handleChatMessage(ws: WebSocket, session: SessionData, messageData: any) {
+    // Broadcast chat message to all clients
+    this.broadcastToAll({
+      type: 'chat',
+      message: messageData.message,
+      from: session.playerId,
+      timestamp: Date.now(),
+    });
+  }
+
+  private handleGameAction(ws: WebSocket, session: SessionData, messageData: any) {
+    // Handle game-specific actions
     this.broadcastToOthers(ws, {
-      type: 'broadcast',
-      message: messageData,
-      from: session.roomId,
-      totalConnections: this.sessions.size,
+      type: 'game_action',
+      action: messageData.action,
+      data: messageData.data,
+      from: session.playerId,
+      timestamp: Date.now(),
     });
   }
 
@@ -116,6 +255,7 @@ export class GameRoom extends DurableObject {
     if (session) {
       this.broadcastToAll({
         type: 'user_left',
+        playerId: session.playerId,
         roomId: session.roomId,
         totalConnections: this.sessions.size,
         reason: wasClean ? 'normal' : 'abnormal',
@@ -138,6 +278,7 @@ export class GameRoom extends DurableObject {
     if (session) {
       this.broadcastToAll({
         type: 'user_error',
+        playerId: session.playerId,
         roomId: session.roomId,
         totalConnections: this.sessions.size,
       });
@@ -178,12 +319,15 @@ export class GameRoom extends DurableObject {
     });
   }
 
-  // Optional: Method to get room statistics
-  getRoomStats() {
+  // Method to get room statistics
+  getRoomStats(): GameRoomStats {
     return {
       totalConnections: this.sessions.size,
+      maxPlayers: this.config?.maxPlayers || 4,
+      roomConfig: this.config,
       sessions: Array.from(this.sessions.values()).map(session => ({
         roomId: session.roomId,
+        playerId: session.playerId,
         joinedAt: session.joinedAt,
         duration: Date.now() - session.joinedAt,
       })),
