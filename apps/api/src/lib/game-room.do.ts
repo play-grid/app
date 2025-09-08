@@ -205,7 +205,7 @@ export class GameRoomDurableObject extends DurableObject {
     // Handle different message types
     switch (messageData.type) {
       case 'chat':
-        this.handleChatMessage(ws, session, messageData);
+        this.handleChatMessage(session, messageData);
         break;
       case 'game_action':
         this.handleGameAction(ws, session, messageData);
@@ -224,7 +224,7 @@ export class GameRoomDurableObject extends DurableObject {
     }
   }
 
-  private handleChatMessage(ws: WebSocket, session: SessionData, messageData: any) {
+  private handleChatMessage(session: SessionData, messageData: any) {
     // Broadcast chat message to all clients
     this.broadcastToAll({
       type: 'chat',
@@ -288,7 +288,7 @@ export class GameRoomDurableObject extends DurableObject {
   // Helper method to broadcast to all clients except the sender
   private broadcastToOthers(sender: WebSocket, data: any) {
     const message = JSON.stringify(data);
-    this.sessions.forEach((sessionData, ws) => {
+    this.sessions.forEach((_sessionData, ws) => {
       if (ws !== sender && ws.readyState === WebSocket.READY_STATE_OPEN) {
         try {
           ws.send(message);
@@ -305,7 +305,7 @@ export class GameRoomDurableObject extends DurableObject {
   // Helper method to broadcast to all clients
   private broadcastToAll(data: any) {
     const message = JSON.stringify(data);
-    this.sessions.forEach((sessionData, ws) => {
+    this.sessions.forEach((_sessionData, ws) => {
       if (ws.readyState === WebSocket.READY_STATE_OPEN) {
         try {
           ws.send(message);

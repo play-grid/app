@@ -5,14 +5,14 @@ import createRouter from '@/api/lib/create-router';
 
 import { BASE_PATH } from '../lib/constants';
 import gameRoom from './game-room/game-room.index';
-import { registerGameTypeRoutes } from './game-type/game-type.index';
+import gameType from './game-type/game-type.index';
 import index from './index.route';
 
 export function registerRoutes(app: AppOpenAPI) {
-  registerGameTypeRoutes(app);
   return app
     .route('/', index)
-    .route('/', gameRoom);
+    .route('/', gameRoom)
+    .route('/', gameType);
 }
 
 // stand alone router type used for api client

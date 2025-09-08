@@ -24,8 +24,11 @@ export const create: AppRouteHandler<CreateRoute> = async (c) => {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        ...body,
         roomId,
+        name: body.name,
+        maxPlayers: body.maxPlayers,
+        gameType: body.gameType,
+        isPrivate: body.isPrivate,
       }),
     });
 
@@ -52,7 +55,6 @@ export const create: AppRouteHandler<CreateRoute> = async (c) => {
   }
   catch (error) {
     console.error('Error creating game room:', error);
-    // Return a 500 error with a simple message schema instead of createErrorSchema
     return c.json(
       { message: 'Failed to create game room' },
       HttpStatusCodes.INTERNAL_SERVER_ERROR,
@@ -74,7 +76,7 @@ export const websocketUpgrade: AppRouteHandler<WebSocketUpgradeRoute> = async (c
     }
 
     // Get the Durable Object stub
-    const id = c.env.GAME_ROOM.idFromName(roomId.toString());
+    const id = c.env.GAME_ROOM.idFromName(String(roomId));
     const stub = c.env.GAME_ROOM.get(id);
 
     // Forward the WebSocket upgrade request to the Durable Object
@@ -94,8 +96,15 @@ export const websocketUpgrade: AppRouteHandler<WebSocketUpgradeRoute> = async (c
 export const getGameRoomStats: AppRouteHandler<GetRoomStatsRoute> = async (c) => {
   try {
     const { id: roomId } = c.req.valid('param');
-    const id = c.env.GAME_ROOM.idFromName(String(roomId));
-    const stub = c.env.GAME_ROOM.get(id);
+
+    // Debug: Log the roomId to see what we're getting
+    // console.log('Stats request roomId:', roomId, typeof roomId);
+
+    // Ensure roomId is a string
+    const roomIdString = String(roomId);
+
+    const doId = c.env.GAME_ROOM.idFromName(roomIdString);
+    const stub = c.env.GAME_ROOM.get(doId);
 
     const response = await stub.fetch('http://internal/stats');
 
