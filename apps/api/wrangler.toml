@@ -1,0 +1,18 @@
+name = "api"
+main = "src/app.ts"
+compatibility_date = "2025-09-01"
+
+[assets]
+directory = "public"
+binding = "ASSETS"
+
+[[durable_objects.bindings]]
+name = "GAME_ROOM"
+class_name = "GameRoomDurableObject"
+
+[[migrations]]
+tag = "v1" # Should be unique for each entry
+new_sqlite_classes = [ "GameRoomDurableObject" ] # Array of new classes
+
+[observability]
+enabled = true

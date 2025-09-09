@@ -1,0 +1,13 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "jsxImportSource": "hono/jsx",
+    "baseUrl": "./",
+    "paths": {
+      "@/api/*": ["./src/*"]
+    },
+    "typeRoots": ["./node_modules/@types", "./node_modules/@cloudflare"],
+    "noEmit": false,
+  }
+}

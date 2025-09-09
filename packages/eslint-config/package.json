@@ -1,0 +1,16 @@
+{
+  "name": "@guess-logo/eslint-config",
+  "version": "1.0.0",
+  "type": "module",
+  "exports": {
+    ".": "./eslint.config.js",
+    "./create-config": "./create-config.js"
+
+  },
+  "peerDependencies": {
+    "eslint": "^9.34.0"
+  },
+  "dependencies": {
+    "@antfu/eslint-config": "^5.2.1"
+  }
+}
