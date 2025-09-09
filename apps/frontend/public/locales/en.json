@@ -107,5 +107,17 @@
   "join-game": "Join Game",
   "enter-room-code": "Enter room code...",
   "join": "Join",
-  "join-room": "Join Room"
+  "join-room": "Join Room",
+  "welcome-to-game-room": "Welcome to Game Room",
+  "room-id": "Room ID: ",
+  "online-gameplay-coming-soon": "Online gameplay coming soon!",
+  "room-name-required": "Room name is required",
+  "room-name-too-long": "Room name too long",
+  "room-name": "Room Name",
+  "max-players": "Max Players",
+  "select-game-type": "Select a game type",
+  "game-type": "Game Type",
+  "private-room": "Private Room",
+  "room-name-placeholder": "Enter a room name",
+  "failed-to-load-game-types": "Failed to load game types"
 }

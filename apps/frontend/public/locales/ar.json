@@ -108,5 +108,18 @@
   "join-game": "الانضمام إلى لعبة",
   "enter-room-code": "أدخل كود الغرفة...",
   "join": "انضم",
-  "join-room": "الانضمام إلى غرفة"
+  "join-room": "الانضمام إلى غرفة",
+  "quick-match": "",
+  "welcome-to-game-room": "أهلاً بك في غرفة اللعب",
+  "room-id": "معرف الغرفة: ",
+  "online-gameplay-coming-soon": "اللعب الجماعي عبر الإنترنت قادم قريباً!",
+  "room-name-required": "اسم الغرفة مطلوب",
+  "room-name-too-long": "اسم الغرفة طويل جدا",
+  "room-name": "اسم الغرفة",
+  "max-players": "أقصى عدد لاعبين",
+  "select-game-type": "اختر نوع اللعبة",
+  "game-type": "نوع اللعبة",
+  "private-room": "غرفة خاصة",
+  "room-name-placeholder": "أدخل اسم الغرفة",
+  "failed-to-load-game-types": "فشل تحميل أنواع الألعاب"
 }

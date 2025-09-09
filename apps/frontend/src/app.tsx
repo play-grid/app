@@ -1,5 +1,6 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { GamePlayPage } from '@/pages/game-play-page';
+import { GameRoomPage } from '@/pages/game-room-page'; // Import the new page
 import { GameSetupPage } from '@/pages/game-setup-page';
 import { LanguageLayout } from './i18n/language-layout';
 import { LanguageRouter } from './i18n/language-router';
@@ -27,6 +28,7 @@ function LanguageRoutes() {
   return (
     <Routes>
       <Route path="/" element={<GameSetupPage />} />
+      <Route path="/room/:roomId" element={<GameRoomPage />} />
       <Route path="/game/:logoSet/:gridSize/:playerA/:playerB" element={<GamePlayPage />} />
       <Route path="*" element={<Navigate to="" replace />} />
     </Routes>
