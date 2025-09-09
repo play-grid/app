@@ -1,12 +1,10 @@
+import type { ExtractJsonPayload } from '@/lib/extract-json-payload';
 import client from '@/lib/hono-client';
 
-export async function createGameRoom(roomConfig: {
-  name: string;
-  maxPlayers: number;
-  gameType: 'logo-guess' | 'quick-match';
-  isPrivate: boolean;
-}) {
-  const response = await client.api['game-room'].$post({ json: roomConfig });
+type CreateRoomPayload = ExtractJsonPayload<(typeof client.api['game-room'])['$post']>;
+
+export async function createGameRoom(payload: CreateRoomPayload) {
+  const response = await client.api['game-room'].$post({ json: payload });
 
   if (!response.ok) {
     throw new Error('Failed to create game room');
