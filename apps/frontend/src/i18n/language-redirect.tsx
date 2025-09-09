@@ -20,7 +20,7 @@ export function LanguageRedirect() {
       // Language in path doesn't match current i18n language, update i18n
       i18n.changeLanguage(currentLangInPath);
     }
-  }, [location.pathname, i18n.language, navigate, i18n]);
+  }, [location.pathname, location.search, location.hash, i18n.language, navigate, i18n]);
 
   return null;
 }

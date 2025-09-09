@@ -37,7 +37,7 @@ export function LanguageRouter({ children }: LanguageRouterProps) {
     document.body.dir = i18nInstance.dir();
     // Also set the html lang attribute for accessibility
     document.documentElement.lang = i18nInstance.language;
-  }, [i18nInstance.language]);
+  }, [i18nInstance, i18nInstance.language]);
 
   // Don't render children until we have a valid language in the URL
   const pathSegments = location.pathname.split('/').filter(Boolean);
