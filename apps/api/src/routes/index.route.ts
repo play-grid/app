@@ -16,6 +16,9 @@ const router = createRouter()
           createMessageObjectSchema('Game-Guess API'),
           'Game-Guess API',
         ),
+        [HttpStatusCodes.NOT_MODIFIED]: {
+          description: 'Not Modified',
+        },
       },
     }),
     (c) => {

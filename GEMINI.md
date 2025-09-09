@@ -27,14 +27,14 @@ The backend is a **Cloudflare Worker** application built with **Hono**, a lightw
 *   **Install dependencies:** `pnpm install`
 *   **Run development server:** `pnpm --filter @guess-logo/frontend dev`
 *   **Build for production:** `pnpm --filter @guess-logo/frontend build`
-*   **Lint:** `pnpm --filter @guess-logo/frontend lint`
+*   **Lint:** `pnpm --filter @guess-logo/frontend lint:fix`
 
 ### Backend
 
 *   **Install dependencies:** `pnpm install`
 *   **Run development server:** `pnpm --filter api dev`
 *   **Deploy:** `pnpm --filter api deploy`
-*   **Lint:** `pnpm --filter api lint`
+*   **Lint:** `pnpm --filter api lint:fix`
 
 ## Development Conventions
 
@@ -42,3 +42,4 @@ The backend is a **Cloudflare Worker** application built with **Hono**, a lightw
 *   **TypeScript** is used in both the frontend and backend.
 *   The frontend uses a path alias `@` for the `src` directory.
 *   Commits are linted using `lint-staged` and `simple-git-hooks`.
+*   always use pnpm  lint:fix instead of pnpm lint so format always.

@@ -18,6 +18,9 @@ export const getGameTypes = createRoute({
       z.array(gameTypeSchema),
       'A list of available game types',
     ),
+    [HttpStatusCodes.NOT_MODIFIED]: {
+      description: 'Not Modified',
+    },
   },
 });
 
