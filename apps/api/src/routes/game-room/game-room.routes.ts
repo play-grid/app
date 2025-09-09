@@ -9,7 +9,7 @@ const tags = ['GameRoom'];
 export const createGameRoomSchema = z.object({
   name: z.string().min(1, 'Room name is required').max(50, 'Room name too long'),
   maxPlayers: z.number().int().min(2).max(8).optional(),
-  gameType: z.enum(['logo-guess', 'quick-match']).optional(),
+  gameType: z.enum(['logo-guess']).optional(),
   isPrivate: z.boolean().optional(),
 });
 
@@ -17,7 +17,7 @@ export const createGameRoomSchema = z.object({
 export const createGameRoomInputSchema = z.object({
   name: z.string().min(1, 'Room name is required').max(50, 'Room name too long'),
   maxPlayers: z.number().int().min(2).max(8).optional().default(4),
-  gameType: z.enum(['logo-guess', 'quick-match']).optional().default('logo-guess'),
+  gameType: z.enum(['logo-guess']).optional().default('logo-guess'),
   isPrivate: z.boolean().optional().default(false),
 }).transform(data => ({
   name: data.name,
