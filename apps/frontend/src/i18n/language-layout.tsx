@@ -9,6 +9,7 @@ export function LanguageLayout({ children }: LanguageLayoutProps) {
   const { i18n } = useTranslation();
 
   useLayoutEffect(() => {
+    document.documentElement.lang = i18n.language;
     document.body.dir = i18n.dir();
   }, [i18n, i18n.language]);
 

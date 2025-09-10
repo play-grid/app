@@ -16,7 +16,7 @@ function SelectTrigger({ ref, className, children, ...props }: React.ComponentPr
     <SelectPrimitive.Trigger
       ref={ref}
       className={cn(
-        'flex h-12 w-full items-center justify-between rounded-lg border border-border bg-background/80 backdrop-blur-sm px-4 py-3 text-sm font-medium shadow-sm transition-all duration-300 hover-lift hover:border-primary focus:outline-none focus:ring-2 focus:ring-ring focus:border-primary disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 group glass-effect',
+        'flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
         isRTL ? 'flex-row-reverse' : 'flex-row',
         isRTL ? 'text-right' : 'text-left',
         className,

@@ -84,7 +84,7 @@ function SiteCustomizations() {
                 <Sparkles className="w-7 h-7" />
               </div>
               <div className="text-left flex-1 rtl:text-right">
-                <SheetTitle className="text-2xl font-bold text-background leading-tight">
+                <SheetTitle className="text-3xl font-serif font-thin text-background leading-tight">
                   {t('customizations.sheet_title')}
                 </SheetTitle>
                 <SheetDescription
@@ -97,7 +97,7 @@ function SiteCustomizations() {
           </SheetHeader>
 
           {/* Enhanced Content Section */}
-          <div className="flex-1 px-2 py-8 space-y-2">
+          <div className="flex-1 px-2 py-4 space-y-2">
             {/* Language Settings with enhanced styling */}
             <div className="space-y-5">
               <div className="flex items-center gap-3 mb-4">
@@ -279,12 +279,9 @@ function SiteCustomizations() {
             <div className="flex gap-4 w-full">
               <SheetClose asChild>
                 <Button
-                  variant="outline"
+                  variant="secondary"
                   className={cn(
-                    'flex-1 h-12 text-base font-semibold rounded-2xl',
-                    'border-2 border-border hover:border-muted-foreground/40',
-                    'hover:bg-muted/50 transition-all duration-300',
-                    'hover:scale-[1.02]',
+                    'flex-1 h-12 text-base',
                   )}
                 >
                   {t('customizations.cancel_button')}

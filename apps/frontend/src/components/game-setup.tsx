@@ -59,7 +59,7 @@ const logoSets = [
   },
 ];
 
-const playerNameSchema = z.string().trim().min(2, { error: 'player-input-min-error' }).max(20, { error: 'player-input-max-error' });
+const playerNameSchema = z.string().trim().min(2, { message: 'player-input-min-message' }).max(20, { message: 'player-input-max-error' });
 
 export function GameSetup({
   selectedSet,
@@ -104,7 +104,7 @@ export function GameSetup({
 
         <div className="mb-8">
           <Trophy className="w-16 h-16 mx-auto mb-4 text-primary" />
-          <h1 className="text-3xl font-bold mb-2">{t('logo-guessing-game')}</h1>
+          <h1 className="text-4xl font-serif text-center tracking-tight font-light mb-2">{t('logo-guessing-game')}</h1>
           <p className="text-muted-foreground">
             {t('game-setup-description')}
           </p>

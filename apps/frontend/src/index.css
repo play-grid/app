@@ -3,39 +3,65 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/*
+ * =============================================================================
+ * FONT DEFINITIONS
+ * =============================================================================
+ */
+
+/* English Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Allerta&display=swap'); /* Main English font */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap'); /* For unique English elements */
+
+/* Arabic Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap'); /* Main Arabic font */
+@import url('https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&display=swap');  /* For Arabic titles */
+
+/*
+ * =============================================================================
+ * BASE & LANGUAGE-SPECIFIC STYLES
+ * =============================================================================
+ */
+
+@layer base {
+  body {
+    @apply font-sans;
+  }
+}
+
 :root {
-  --background: oklch(0.9491 0.0085 197.0126);
-  --foreground: oklch(0.3772 0.0619 212.6640);
-  --card: oklch(0.9724 0.0053 197.0692);
-  --card-foreground: oklch(0.3772 0.0619 212.6640);
-  --popover: oklch(0.9724 0.0053 197.0692);
-  --popover-foreground: oklch(0.3772 0.0619 212.6640);
-  --primary: oklch(0.1970 0.0279 203.4292);
-  --primary-foreground: oklch(1.0000 0 0);
-  --secondary: oklch(0.9244 0.0181 196.8450);
-  --secondary-foreground: oklch(0.3772 0.0619 212.6640);
-  --muted: oklch(0.9295 0.0107 196.9723);
-  --muted-foreground: oklch(0.5428 0.0594 201.5662);
-  --accent: oklch(0.9021 0.0297 201.8915);
-  --accent-foreground: oklch(0.3772 0.0619 212.6640);
-  --destructive: oklch(0.5732 0.1901 25.5409);
-  --destructive-foreground: oklch(1.0000 0 0);
-  --border: oklch(0.8931 0.0205 204.4136);
-  --input: oklch(0.9244 0.0181 196.8450);
-  --ring: oklch(0.5624 0.0947 203.2755);
-  --chart-1: oklch(0.5624 0.0947 203.2755);
-  --chart-2: oklch(0.6389 0.1029 201.5918);
-  --chart-3: oklch(0.7124 0.1075 201.2486);
-  --chart-4: oklch(0.7701 0.0979 201.1816);
-  --chart-5: oklch(0.8336 0.0771 200.9702);
-  --sidebar: oklch(0.9280 0.0183 205.3151);
-  --sidebar-foreground: oklch(0.3772 0.0619 212.6640);
-  --sidebar-primary: oklch(0.5624 0.0947 203.2755);
-  --sidebar-primary-foreground: oklch(1.0000 0 0);
-  --sidebar-accent: oklch(0.9021 0.0297 201.8915);
-  --sidebar-accent-foreground: oklch(0.3772 0.0619 212.6640);
-  --sidebar-border: oklch(0.8931 0.0205 204.4136);
-  --sidebar-ring: oklch(0.5624 0.0947 203.2755);
+ --background: #e8f0f0;
+  --foreground: #0a4a55;
+  --card: #f2f7f7;
+  --card-foreground: #0a4a55;
+  --popover: #f2f7f7;
+  --popover-foreground: #0a4a55;
+  --primary: #04191b;
+  --primary-foreground: #ffffff;
+  --secondary: #d9eaea;
+  --secondary-foreground: #0a4a55;
+  --muted: #e0eaea;
+  --muted-foreground: #427a7e;
+  --accent: #c9e5e7;
+  --accent-foreground: #0a4a55;
+  --destructive: #d13838;
+  --destructive-foreground: #ffffff;
+  --border: #cde0e2;
+  --input: #d9eaea;
+  --ring: #06858e;
+  --chart-1: #06858e;
+  --chart-2: #1e9ea6;
+  --chart-3: #37b6be;
+  --chart-4: #5dc7ce;
+  --chart-5: #8ad8dd;
+  --sidebar: #daebed;
+  --sidebar-foreground: #0a4a55;
+  --sidebar-primary: #06858e;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #c9e5e7;
+  --sidebar-accent-foreground: #0a4a55;
+  --sidebar-border: #cde0e2;
+  --sidebar-ring: #06858e;
   --radius: 0.7rem;
   --shadow-2xs: 1px 1px 2px 0px hsl(185 70% 30% / 0.04);
   --shadow-xs: 1px 1px 2px 0px hsl(185 70% 30% / 0.04);
@@ -47,41 +73,47 @@
   --shadow-2xl: 1px 1px 2px 0px hsl(185 70% 30% / 0.22);
   --tracking-normal: 0em;
   --spacing: 0.25rem;
+
+  /* Font family CSS custom properties */
+  --font-sans-en: "Allerta", system-ui, ui-sans-serif, sans-serif;
+  --font-serif-en: "Playfair Display", serif;
+  --font-sans-ar: "Rubik", sans-serif;
+  --font-serif-ar: "Amiri", serif;
 }
 
 .dark {
-  --background: oklch(0.2068 0.0247 224.4533);
-  --foreground: oklch(0.8520 0.1269 195.0354);
-  --card: oklch(0.2293 0.0276 216.0674);
-  --card-foreground: oklch(0.8520 0.1269 195.0354);
-  --popover: oklch(0.2293 0.0276 216.0674);
-  --popover-foreground: oklch(0.8520 0.1269 195.0354);
-  --primary: oklch(0.8520 0.1269 195.0354);
-  --primary-foreground: oklch(0.2068 0.0247 224.4533);
-  --secondary: oklch(0.3775 0.0564 216.5010);
-  --secondary-foreground: oklch(0.8520 0.1269 195.0354);
-  --muted: oklch(0.2894 0.0412 218.8153);
-  --muted-foreground: oklch(0.6611 0.0975 195.0526);
-  --accent: oklch(0.3775 0.0564 216.5010);
-  --accent-foreground: oklch(0.8520 0.1269 195.0354);
-  --destructive: oklch(0.6168 0.2086 25.8088);
-  --destructive-foreground: oklch(0.9612 0 0);
-  --border: oklch(0.3775 0.0564 216.5010);
-  --input: oklch(0.3775 0.0564 216.5010);
-  --ring: oklch(0.8520 0.1269 195.0354);
-  --chart-1: oklch(0.8520 0.1269 195.0354);
-  --chart-2: oklch(0.6611 0.0975 195.0526);
-  --chart-3: oklch(0.5804 0.0849 195.0673);
-  --chart-4: oklch(0.4269 0.0630 202.6247);
-  --chart-5: oklch(0.3142 0.0455 204.1575);
-  --sidebar: oklch(0.2068 0.0247 224.4533);
-  --sidebar-foreground: oklch(0.8520 0.1269 195.0354);
-  --sidebar-primary: oklch(0.8520 0.1269 195.0354);
-  --sidebar-primary-foreground: oklch(0.2068 0.0247 224.4533);
-  --sidebar-accent: oklch(0.3775 0.0564 216.5010);
-  --sidebar-accent-foreground: oklch(0.8520 0.1269 195.0354);
-  --sidebar-border: oklch(0.3775 0.0564 216.5010);
-  --sidebar-ring: oklch(0.8520 0.1269 195.0354);
+  --background: #0a1a20;
+  --foreground: #4de8e8;
+  --card: #0c2025;
+  --card-foreground: #4de8e8;
+  --popover: #0c2025;
+  --popover-foreground: #4de8e8;
+  --primary: #4de8e8;
+  --primary-foreground: #0a1a20;
+  --secondary: #164955;
+  --secondary-foreground: #4de8e8;
+  --muted: #0f3039;
+  --muted-foreground: #36a5a5;
+  --accent: #164955;
+  --accent-foreground: #4de8e8;
+  --destructive: #e83c3c;
+  --destructive-foreground: #f2f2f2;
+  --border: #164955;
+  --input: #164955;
+  --ring: #4de8e8;
+  --chart-1: #4de8e8;
+  --chart-2: #36a5a5;
+  --chart-3: #2d8a8a;
+  --chart-4: #19595e;
+  --chart-5: #0e383c;
+  --sidebar: #0a1a20;
+  --sidebar-foreground: #4de8e8;
+  --sidebar-primary: #4de8e8;
+  --sidebar-primary-foreground: #0a1a20;
+  --sidebar-accent: #164955;
+  --sidebar-accent-foreground: #4de8e8;
+  --sidebar-border: #164955;
+  --sidebar-ring: #4de8e8;
   --radius: 0.7rem;
   --shadow-2xs: 1px 1px 2px 0px hsl(180 70% 60% / 0.04);
   --shadow-xs: 1px 1px 2px 0px hsl(180 70% 60% / 0.04);
@@ -127,9 +159,9 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 
-  --font-sans: var(--font-sans);
-  --font-mono: var(--font-mono);
-  --font-serif: var(--font-serif);
+  --font-family-sans: var(--font-sans-en);
+  --font-family-serif: var(--font-serif-en);
+  --font-family-mono: "Playfair Display", monospace;
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -146,8 +178,25 @@
   --shadow-2xl: var(--shadow-2xl);
 }
 
-/* Additional utility classes for enhanced visuals */
 @layer utilities {
+  /* Language-specific font overrides */
+  :lang(ar) {
+    --font-family-sans: var(--font-sans-ar);
+    --font-family-serif: var(--font-serif-ar);
+  }
+
+  /* Alternative approach - direct element targeting */
+  [lang="ar"] .font-sans,
+  [lang="ar"].font-sans {
+    font-family: var(--font-sans-ar);
+  }
+  
+  [lang="ar"] .font-serif,
+  [lang="ar"].font-serif {
+    font-family: var(--font-serif-ar);
+  }
+
+  /* Additional utility classes for enhanced visuals */
   .glass-effect {
     @apply bg-background/80 backdrop-blur-xl border border-border/60;
   }
@@ -165,5 +214,22 @@
     content: '';
     mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     mask-composite: xor;
+  }
+
+  /* Font utility classes for manual switching */
+  .font-en-sans {
+    font-family: var(--font-sans-en);
+  }
+  
+  .font-en-serif {
+    font-family: var(--font-serif-en);
+  }
+  
+  .font-ar-sans {
+    font-family: var(--font-sans-ar);
+  }
+  
+  .font-ar-serif {
+    font-family: var(--font-serif-ar);
   }
 }
