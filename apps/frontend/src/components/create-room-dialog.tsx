@@ -120,7 +120,7 @@ export function CreateRoomDialog({ onJoinGame }: CreateRoomDialogProps) {
                       )
                     : (
                         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                          <div>
+                          <div className="space-y-2">
                             <Label htmlFor="name">{t('room-name')}</Label>
                             <Input
                               id="name"
@@ -130,7 +130,7 @@ export function CreateRoomDialog({ onJoinGame }: CreateRoomDialogProps) {
                             />
                             {errors.name && <p className="text-red-500 text-sm mt-1">{t(errors.name.message as string)}</p>}
                           </div>
-                          <div>
+                          <div className="space-y-2">
                             <Label htmlFor="maxPlayers">{t('max-players')}</Label>
                             <Input
                               id="maxPlayers"
