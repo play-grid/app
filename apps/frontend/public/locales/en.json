@@ -122,5 +122,9 @@
   "game-type": "Game Type",
   "private-room": "Private Room",
   "room-name-placeholder": "Enter a room name",
-  "failed-to-load-game-types": "Failed to load game types"
+  "failed-to-load-game-types": "Failed to load game types",
+  "your-name": "Your Name",
+  "your-name-placeholder": "Enter your name...",
+  "joining...": "Joining...",
+  "join-room-error": "Failed joining the room"
 }

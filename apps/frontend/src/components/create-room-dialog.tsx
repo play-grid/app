@@ -1,10 +1,12 @@
+import type { CreateRoomFormValues } from '@guess-logo/api/schemas';
+import { createGameRoomBaseSchema } from '@guess-logo/api/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { DirectionProvider } from '@radix-ui/react-direction';
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import * as z from 'zod';
+
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
@@ -13,25 +15,15 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useCreateRoom } from '@/hooks/use-create-room';
+import { useJoinRoom } from '@/hooks/use-join-room';
 import { getGameTypes } from '@/services/game-type-service';
 
-interface CreateRoomDialogProps {
-  onJoinGame: (roomId: string) => void;
-}
-
-const createRoomSchema = z.object({
-  name: z.string().min(1, 'room-name-required').max(50, 'room-name-too-long'),
-  maxPlayers: z.number().int().min(2).max(8),
-  gameType: z.enum(['logo-guess']),
-  isPrivate: z.boolean(),
-});
-
-type CreateRoomFormValues = z.infer<typeof createRoomSchema>;
-
-export function CreateRoomDialog({ onJoinGame }: CreateRoomDialogProps) {
+export function CreateRoomDialog() {
   const { t, i18n } = useTranslation();
   const { mutate, data: room, isPending, isError } = useCreateRoom();
+  const { mutate: joinRoom, isPending: isJoining, isError: isJoiningErorr } = useJoinRoom();
   const [joinRoomId, setJoinRoomId] = useState('');
+  const [playerName, setPlayerName] = useState('');
 
   const {
     register,
@@ -40,7 +32,7 @@ export function CreateRoomDialog({ onJoinGame }: CreateRoomDialogProps) {
     setValue,
     watch,
   } = useForm<CreateRoomFormValues>({
-    resolver: zodResolver(createRoomSchema),
+    resolver: zodResolver(createGameRoomBaseSchema),
     defaultValues: {
       name: '',
       maxPlayers: 4,
@@ -62,8 +54,8 @@ export function CreateRoomDialog({ onJoinGame }: CreateRoomDialogProps) {
   }
 
   function handleJoinGame() {
-    if (joinRoomId.trim()) {
-      onJoinGame(joinRoomId.trim());
+    if (joinRoomId.trim() && playerName.trim()) {
+      joinRoom({ roomId: joinRoomId.trim(), playerName: playerName.trim() });
     }
   }
 
@@ -175,17 +167,33 @@ export function CreateRoomDialog({ onJoinGame }: CreateRoomDialogProps) {
                       )}
             </TabsContent>
             <TabsContent value="join-room">
+              {/* TODO refactor this to use RHF with shared zod schema this is temporary */}
               <div className="space-y-4">
-                <Label htmlFor="join-room-id">{t('enter-room-code')}</Label>
-                <div className="flex items-center gap-2">
+                <div className="space-y-2">
+                  <Label htmlFor="player-name">{t('your-name')}</Label>
                   <Input
-                    id="join-room-id"
+                    id="player-name"
                     type="text"
-                    placeholder={t('enter-room-code')}
-                    value={joinRoomId}
-                    onChange={e => setJoinRoomId(e.target.value)}
+                    placeholder={t('your-name-placeholder')}
+                    value={playerName}
+                    onChange={e => setPlayerName(e.target.value)}
                   />
-                  <Button onClick={handleJoinGame}>{t('join')}</Button>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="join-room-id">{t('enter-room-code')}</Label>
+                  <div className="flex items-center gap-2">
+                    <Input
+                      id="join-room-id"
+                      type="text"
+                      placeholder={t('enter-room-code')}
+                      value={joinRoomId}
+                      onChange={e => setJoinRoomId(e.target.value)}
+                    />
+                    <Button onClick={handleJoinGame} disabled={isJoining}>
+                      {isJoining ? t('joining...') : t('join')}
+                    </Button>
+                  </div>
+                  {isJoiningErorr && <p className="text-red-500">{t('join-room-error')}</p>}
                 </div>
               </div>
             </TabsContent>

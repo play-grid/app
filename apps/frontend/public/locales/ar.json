@@ -124,5 +124,9 @@
   "game-type": "نوع اللعبة",
   "private-room": "غرفة خاصة",
   "room-name-placeholder": "أدخل اسم الغرفة",
-  "failed-to-load-game-types": "فشل تحميل أنواع الألعاب"
+  "failed-to-load-game-types": "فشل تحميل أنواع الألعاب",
+  "your-name": "اسمك",
+  "your-name-placeholder": "أدخل اسمك...",
+  "joining...": "جار الانضمام...",
+  "join-room-error": "فشل الانضمام للغرفة"
 }

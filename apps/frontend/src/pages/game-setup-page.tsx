@@ -91,12 +91,6 @@ export function GameSetupPage() {
     navigate(`/game/${selectedSet}/${selectedGrid}/${encodedPlayerA}/${encodedPlayerB}`);
   };
 
-  const handleJoinGame = (roomId: string) => {
-    // eslint-disable-next-line no-console
-    console.log('Joining room:', roomId);
-    // Implement actual join logic here
-  };
-
   const handleResumeGame = () => {
     if (savedGameInfo) {
       const encodedPlayerA = encodeURIComponent(savedGameInfo.playerA);
@@ -164,7 +158,6 @@ export function GameSetupPage() {
           onPlayerBNameChange={setPlayerBName}
           canStart={!!fetchedLogos}
           onStartGame={handleStartGame}
-          onJoinGame={handleJoinGame}
         />
       </div>
     </div>
