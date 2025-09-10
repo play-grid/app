@@ -3,41 +3,14 @@ import * as HttpStatusCodes from 'stoker/http-status-codes';
 import { jsonContent, jsonContentRequired } from 'stoker/openapi/helpers';
 import { createErrorSchema } from 'stoker/openapi/schemas';
 
+import {
+  createGameRoomInputSchema,
+  gameRoomResponseSchema,
+  joinGameRoomResponseSchema,
+  joinGameRoomSchema,
+} from './schemas';
+
 const tags = ['GameRoom'];
-
-// Base schema for creating a game room - keep this for createErrorSchema
-export const createGameRoomSchema = z.object({
-  name: z.string().min(1, 'Room name is required').max(50, 'Room name too long'),
-  maxPlayers: z.number().int().min(2).max(8).optional(),
-  gameType: z.enum(['logo-guess']).optional(),
-  isPrivate: z.boolean().optional(),
-});
-
-// Input schema with preprocessing to handle defaults
-export const createGameRoomInputSchema = z.object({
-  name: z.string().min(1, 'Room name is required').max(50, 'Room name too long'),
-  maxPlayers: z.number().int().min(2).max(8).optional().default(4),
-  gameType: z.enum(['logo-guess']).optional().default('logo-guess'),
-  isPrivate: z.boolean().optional().default(false),
-}).transform(data => ({
-  name: data.name,
-  maxPlayers: data.maxPlayers ?? 4,
-  gameType: data.gameType ?? 'logo-guess' as const,
-  isPrivate: data.isPrivate ?? false,
-}));
-
-// Schema for game room response
-export const gameRoomResponseSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  maxPlayers: z.number(),
-  currentPlayers: z.number(),
-  gameType: z.string(),
-  isPrivate: z.boolean(),
-  status: z.enum(['waiting', 'active', 'finished']),
-  createdAt: z.string(),
-  websocketUrl: z.string(),
-});
 
 // Simple error schema
 const simpleErrorSchema = z.object({
@@ -147,18 +120,6 @@ export const getRoomStats = createRoute({
       'Internal server error',
     ),
   },
-});
-
-// Schema for joining a game room
-export const joinGameRoomSchema = z.object({
-  playerName: z.string().min(1, 'Player name is required').max(25, 'Player name too long'),
-});
-
-export const joinGameRoomResponseSchema = gameRoomResponseSchema.extend({
-  player: z.object({
-    id: z.string(),
-    name: z.string(),
-  }),
 });
 
 export const join = createRoute({

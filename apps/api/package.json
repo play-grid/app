@@ -16,7 +16,8 @@
     "./routes": {
       "types": "./dist/routes/index.d.ts",
       "default": "./dist/routes/index.js"
-    }
+    },
+    "./schemas": "./src/schemas.ts"
   },
   "dependencies": {
     "@hono/zod-openapi": "^1.1.0",
