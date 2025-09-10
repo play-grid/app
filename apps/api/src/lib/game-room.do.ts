@@ -16,6 +16,11 @@ interface GameRoomConfig {
   createdAt: string;
 }
 
+interface Player {
+  id: string;
+  name: string;
+}
+
 export interface GameRoomStats {
   totalConnections: number;
   maxPlayers: number;
@@ -33,11 +38,19 @@ export class GameRoomDurableObject extends DurableObject {
   sessions: Map<WebSocket, SessionData>;
   // Room configuration
   config: GameRoomConfig | null;
+  players: Player[];
 
   constructor(ctx: DurableObjectState, env: Env) {
     super(ctx, env);
     this.sessions = new Map();
     this.config = null;
+    this.players = [];
+
+    this.ctx.storage.get('players').then((players) => {
+      if (players) {
+        this.players = players as Player[];
+      }
+    });
 
     // Restore hibernated WebSocket connections
     this.ctx.getWebSockets().forEach((ws) => {
@@ -63,6 +76,10 @@ export class GameRoomDurableObject extends DurableObject {
       return this.handleInit(request);
     }
 
+    if (pathname === '/join' && request.method === 'POST') {
+      return this.handleJoin(request);
+    }
+
     // Handle internal stats request
     if (pathname === '/stats' && request.method === 'GET') {
       return this.handleStats();
@@ -84,9 +101,11 @@ export class GameRoomDurableObject extends DurableObject {
         ...body,
         createdAt: new Date().toISOString(),
       };
+      this.players = [];
 
       // Persist the configuration
       await this.ctx.storage.put('config', this.config);
+      await this.ctx.storage.put('players', this.players);
 
       return new Response(JSON.stringify({ success: true }), {
         headers: { 'Content-Type': 'application/json' },
@@ -95,6 +114,64 @@ export class GameRoomDurableObject extends DurableObject {
     catch (error) {
       console.error('Error initializing room:', error);
       return new Response(JSON.stringify({ error: 'Failed to initialize room' }), {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+  }
+
+  private async handleJoin(request: Request): Promise<Response> {
+    try {
+      if (!this.config) {
+        this.config = (await this.ctx.storage.get('config')) as GameRoomConfig | null;
+        if (!this.config) {
+          return new Response(JSON.stringify({ error: 'Room not found' }), {
+            status: 404,
+            headers: { 'Content-Type': 'application/json' },
+          });
+        }
+      }
+
+      if (!this.players) {
+        this.players = ((await this.ctx.storage.get('players')) as Player[]) || [];
+      }
+
+      if (this.players.length >= this.config.maxPlayers) {
+        return new Response(JSON.stringify({ error: 'Game room is full' }), {
+          status: 403, // Forbidden
+          headers: { 'Content-Type': 'application/json' },
+        });
+      }
+
+      const { playerName } = await request.json<{ playerName: string }>();
+      if (!playerName) {
+        return new Response(JSON.stringify({ error: 'Player name is required' }), {
+          status: 400,
+          headers: { 'Content-Type': 'application/json' },
+        });
+      }
+
+      const newPlayer: Player = {
+        id: crypto.randomUUID(),
+        name: playerName,
+      };
+
+      this.players.push(newPlayer);
+      await this.ctx.storage.put('players', this.players);
+
+      const roomState = {
+        ...this.config,
+        currentPlayers: this.players.length,
+        player: newPlayer,
+      };
+
+      return new Response(JSON.stringify(roomState), {
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+    catch (error) {
+      console.error('Error handling join:', error);
+      return new Response(JSON.stringify({ error: 'Failed to join room' }), {
         status: 500,
         headers: { 'Content-Type': 'application/json' },
       });
@@ -120,6 +197,9 @@ export class GameRoomDurableObject extends DurableObject {
   }
 
   private async handleWebSocketUpgrade(request: Request): Promise<Response> {
+    const url = new URL(request.url);
+    const playerId = url.searchParams.get('playerId');
+
     // Validate WebSocket upgrade request
     const upgradeHeader = request.headers.get('Upgrade');
     if (!upgradeHeader || upgradeHeader !== 'websocket') {
@@ -128,7 +208,7 @@ export class GameRoomDurableObject extends DurableObject {
 
     // Load config if not already loaded
     if (!this.config) {
-      this.config = await this.ctx.storage.get('config') as GameRoomConfig | null;
+      this.config = (await this.ctx.storage.get('config')) as GameRoomConfig | null;
       if (!this.config) {
         return new Response('Game room not initialized', { status: 400 });
       }
@@ -149,7 +229,7 @@ export class GameRoomDurableObject extends DurableObject {
     // Generate session data
     const sessionData: SessionData = {
       roomId: this.config.roomId,
-      playerId: crypto.randomUUID(), // Generate unique player ID
+      playerId: playerId ?? crypto.randomUUID(), // Generate unique player ID
       joinedAt: Date.now(),
     };
 
@@ -169,13 +249,15 @@ export class GameRoomDurableObject extends DurableObject {
     });
 
     // Send welcome message to the new client
-    server.send(JSON.stringify({
-      type: 'welcome',
-      roomId: this.config.roomId,
-      playerId: sessionData.playerId,
-      roomConfig: this.config,
-      totalConnections: this.sessions.size,
-    }));
+    server.send(
+      JSON.stringify({
+        type: 'welcome',
+        roomId: this.config.roomId,
+        playerId: sessionData.playerId,
+        roomConfig: this.config,
+        totalConnections: this.sessions.size,
+      }),
+    );
 
     return new Response(null, {
       status: 101,

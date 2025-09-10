@@ -1,7 +1,7 @@
 import { createRoute, z } from '@hono/zod-openapi';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import { jsonContent, jsonContentRequired } from 'stoker/openapi/helpers';
-import { createErrorSchema, IdParamsSchema } from 'stoker/openapi/schemas';
+import { createErrorSchema } from 'stoker/openapi/schemas';
 
 const tags = ['GameRoom'];
 
@@ -79,7 +79,7 @@ export const websocketUpgrade = createRoute({
   path: '/game-room/{id}/ws',
   method: 'get',
   request: {
-    params: IdParamsSchema,
+    params: z.object({ id: z.string() }),
     headers: z.object({
       'upgrade': z.string().optional(),
       'connection': z.string().optional(),
@@ -149,6 +149,50 @@ export const getRoomStats = createRoute({
   },
 });
 
+// Schema for joining a game room
+export const joinGameRoomSchema = z.object({
+  playerName: z.string().min(1, 'Player name is required').max(25, 'Player name too long'),
+});
+
+export const joinGameRoomResponseSchema = gameRoomResponseSchema.extend({
+  player: z.object({
+    id: z.string(),
+    name: z.string(),
+  }),
+});
+
+export const join = createRoute({
+  path: '/game-room/{id}/join',
+  method: 'post',
+  request: {
+    params: z.object({ id: z.string() }),
+    body: jsonContentRequired(
+      joinGameRoomSchema,
+      'The player to add to the room',
+    ),
+  },
+  tags,
+  responses: {
+    [HttpStatusCodes.OK]: jsonContent(
+      joinGameRoomResponseSchema,
+      'The updated game room',
+    ),
+    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
+      createErrorSchema(joinGameRoomSchema),
+      'The validation error(s)',
+    ),
+    [HttpStatusCodes.NOT_FOUND]: jsonContent(
+      simpleErrorSchema,
+      'Game room not found',
+    ),
+    [HttpStatusCodes.INTERNAL_SERVER_ERROR]: jsonContent(
+      messageSchema,
+      'Internal server error',
+    ),
+  },
+});
+
 export type CreateRoute = typeof create;
 export type WebSocketUpgradeRoute = typeof websocketUpgrade;
 export type GetRoomStatsRoute = typeof getRoomStats;
+export type JoinRoute = typeof join;

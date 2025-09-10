@@ -3,6 +3,7 @@ import type { AppRouteHandler } from '../../lib/types';
 import type {
   CreateRoute,
   GetRoomStatsRoute,
+  JoinRoute,
   WebSocketUpgradeRoute,
 } from './game-room.routes';
 
@@ -123,6 +124,65 @@ export const getGameRoomStats: AppRouteHandler<GetRoomStatsRoute> = async (c) =>
     console.error('Error getting game room stats:', error);
     return c.json(
       { error: 'Failed to get game room stats' },
+      HttpStatusCodes.INTERNAL_SERVER_ERROR,
+    );
+  }
+};
+
+export const join: AppRouteHandler<JoinRoute> = async (c) => {
+  try {
+    const { id: roomId } = c.req.valid('param');
+    const { playerName } = c.req.valid('json');
+
+    // Get the Durable Object stub
+    const id = c.env.GAME_ROOM.idFromName(String(roomId));
+    const stub = c.env.GAME_ROOM.get(id);
+
+    // Add the player to the room
+    const joinResponse = await stub.fetch('http://internal/join', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ playerName }),
+    });
+
+    if (joinResponse.status === HttpStatusCodes.NOT_FOUND) {
+      return c.json({ error: 'Game room not found' }, HttpStatusCodes.NOT_FOUND);
+    }
+
+    if (!joinResponse.ok) {
+      const errorText = await joinResponse.text();
+      try {
+        const error = JSON.parse(errorText);
+        return c.json({ error: error.error || error.message || 'Unknown error' }, joinResponse.status as any);
+      }
+      catch {
+        return c.json({ error: errorText || 'Unknown error' }, joinResponse.status as any);
+      }
+    }
+
+    const roomState = (await joinResponse.json()) as any;
+
+    const websocketUrl = `wss://${c.req.header('host')}/api/game-room/${roomId}/ws`;
+
+    const gameRoom = {
+      id: roomState.roomId,
+      name: roomState.name,
+      maxPlayers: roomState.maxPlayers,
+      currentPlayers: roomState.currentPlayers,
+      gameType: roomState.gameType,
+      isPrivate: roomState.isPrivate,
+      status: 'waiting' as const,
+      createdAt: roomState.createdAt,
+      websocketUrl,
+      player: roomState.player,
+    };
+
+    return c.json(gameRoom, HttpStatusCodes.OK);
+  }
+  catch (error) {
+    console.error('Error joining game room:', error);
+    return c.json(
+      { error: 'Failed to join game room' },
       HttpStatusCodes.INTERNAL_SERVER_ERROR,
     );
   }
