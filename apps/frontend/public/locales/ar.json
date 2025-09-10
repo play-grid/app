@@ -90,7 +90,10 @@
     "version_info": "الإصدار 1.0.0 !",
     "cancel_button": "يمكن بعدين 🤷‍♂️",
     "save_button": "احفظ",
-    "author_name": "محمد علاء"
+    "author_name": "محمد علاء",
+    "theme_section_title": "غير الثيم",
+    "theme_label": "الثيم",
+    "toggle_theme": "تغيير الثيم"
   },
   "found": "شاف",
   "play-online": "العب اونلاين",

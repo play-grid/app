@@ -99,7 +99,7 @@ export function GameSetup({
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
-      <Card className="w-full max-w-2xl p-8 text-center">
+      <Card className="w-full p-8 text-center">
         <SiteCustomizations />
 
         <div className="mb-8">

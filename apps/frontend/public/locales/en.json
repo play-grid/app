@@ -85,11 +85,14 @@
     "developer_label": "Crafted with love 🩵 by",
     "follow_on_x": "@{{handle}} on X (formerly Twitter) 🐦",
     "fun_fact_title": "Did you know? 🤔",
-    "fun_fact_content": "This game was built with React, lots of coffee ☕, and a sprinkle of magic! ✨",
+    "fun_fact_content": "This game was built with React and Tailwindcss 4 ✨",
     "version_info": "Version 1.0.0 - Fresh out of the oven!",
     "cancel_button": "Maybe Later 🤷‍♂️",
     "save_button": "Save",
-    "author_name": "Mohammed alaa"
+    "author_name": "Mohammed alaa",
+    "theme_section_title": "Change The Theme",
+    "theme_label": "Theme",
+    "toggle_theme": "Toggle theme"
   },
   "found": "found",
   "play-online": "Play Online",
