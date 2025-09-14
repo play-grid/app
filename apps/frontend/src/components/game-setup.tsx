@@ -58,7 +58,7 @@ const logoSets = [
   },
 ];
 
-const playerNameSchema = z.string().trim().min(2, { message: 'player-input-min-message' }).max(20, { message: 'player-input-max-error' });
+const playerNameSchema = z.string().trim().min(2, { message: 'player-input-min-error' }).max(20, { message: 'player-input-max-error' });
 
 export function GameSetup({
   selectedSet,

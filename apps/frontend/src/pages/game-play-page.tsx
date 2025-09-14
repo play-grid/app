@@ -27,7 +27,6 @@ export function GamePlayPage() {
     playerB: string;
   }>();
 
-  // Zustand stores
   const {
     playerA,
     playerB,

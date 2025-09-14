@@ -118,14 +118,19 @@ export function GameSetupPage() {
               <h2 className="text-xl font-semibold text-primary">{t('resume-previous-game')}</h2>
               <p className="text-muted-foreground">
                 {t('continue-your-game-with')}
+                {' '}
                 <strong>{savedGameInfo.playerA}</strong>
+                {' '}
                 {t('vs')}
+                {' '}
                 <strong>{savedGameInfo.playerB}</strong>
                 <br />
                 <span className="text-sm">
+                  {' '}
                   {savedGameInfo.selectedSet}
                   {t('key-1')}
                   {savedGameInfo.selectedGrid}
+
                 </span>
               </p>
               <div className="flex items-center justify-center gap-3">

@@ -16,7 +16,7 @@ export function GameRoomPage() {
           {t('room-id')}
           {roomId}
         </p>
-        <p className="mt-4 text-gray-500">{t('online-gameplay-coming-soon')}</p>
+        <p className="mt-4">{t('online-gameplay-coming-soon')}</p>
       </div>
     </div>
   );

@@ -11,7 +11,7 @@ export default function Root() {
     <BrowserRouter>
       <QueryProvider>
         <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
-          <div className="bg-background text-primary-foreground min-h-screen">
+          <div className="bg-background text-primary min-h-screen">
             <LanguageRouter>
               <App />
             </LanguageRouter>

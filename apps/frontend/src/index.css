@@ -1,8 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-@custom-variant dark (&:is(.dark *));
-
 /*
  * =============================================================================
  * FONT DEFINITIONS
@@ -16,6 +14,8 @@
 /* Arabic Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap'); /* Main Arabic font */
 @import url('https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&display=swap');  /* For Arabic titles */
+
+@custom-variant dark (&:is(.dark *));
 
 /*
  * =============================================================================
