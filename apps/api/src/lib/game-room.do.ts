@@ -1,6 +1,9 @@
 import type { Env } from 'hono';
+import type { GameState, IGameLogic } from './game-logic';
 import { DurableObject } from 'cloudflare:workers';
+import { gameLogicFactory } from './game-logic.factory';
 
+// --- Generic Types --- //
 interface SessionData {
   roomId: string;
   playerId?: string;
@@ -15,53 +18,34 @@ interface GameRoomConfig {
   isPrivate: boolean;
   createdAt: string;
 }
-
-interface Player {
-  id: string;
-  name: string;
-}
-
-export interface GameRoomStats {
-  totalConnections: number;
-  maxPlayers: number;
-  roomConfig: GameRoomConfig | null;
-  sessions: Array<{
-    roomId: string;
-    playerId?: string;
-    joinedAt: number;
-    duration: number;
-  }>;
-}
+// --- End of Generic Types --- //
 
 export class GameRoomDurableObject extends DurableObject {
-  // Track all WebSocket sessions
   sessions: Map<WebSocket, SessionData>;
-  // Room configuration
   config: GameRoomConfig | null;
-  players: Player[];
+  state: GameState;
+  gameLogic: IGameLogic | null;
 
   constructor(ctx: DurableObjectState, env: Env) {
     super(ctx, env);
     this.sessions = new Map();
     this.config = null;
-    this.players = [];
+    this.state = {};
+    this.gameLogic = null;
 
-    this.ctx.storage.get('players').then((players) => {
-      if (players) {
-        this.players = players as Player[];
+    // Load persisted state and initialize game logic
+    this.ctx.storage.get(['config', 'state']).then((persisted) => {
+      if (persisted.has('config')) {
+        this.config = persisted.get('config') as GameRoomConfig;
+        if (this.config) {
+          this.gameLogic = gameLogicFactory(this.config.gameType);
+        }
+      }
+      if (persisted.has('state')) {
+        this.state = persisted.get('state') as GameState;
       }
     });
 
-    // Restore hibernated WebSocket connections
-    this.ctx.getWebSockets().forEach((ws) => {
-      const attachment = ws.deserializeAttachment() as SessionData | null;
-      if (attachment) {
-        // Restore the session state from the attachment
-        this.sessions.set(ws, attachment);
-      }
-    });
-
-    // Set auto-response for ping-pong without waking the DO
     this.ctx.setWebSocketAutoResponse(
       new WebSocketRequestResponsePair('ping', 'pong'),
     );
@@ -71,21 +55,13 @@ export class GameRoomDurableObject extends DurableObject {
     const url = new URL(request.url);
     const pathname = url.pathname;
 
-    // Handle internal initialization
     if (pathname === '/init' && request.method === 'POST') {
       return this.handleInit(request);
     }
-
     if (pathname === '/join' && request.method === 'POST') {
       return this.handleJoin(request);
     }
 
-    // Handle internal stats request
-    if (pathname === '/stats' && request.method === 'GET') {
-      return this.handleStats();
-    }
-
-    // Handle WebSocket upgrade
     const upgradeHeader = request.headers.get('Upgrade');
     if (upgradeHeader && upgradeHeader.toLowerCase() === 'websocket') {
       return this.handleWebSocketUpgrade(request);
@@ -95,324 +71,107 @@ export class GameRoomDurableObject extends DurableObject {
   }
 
   private async handleInit(request: Request): Promise<Response> {
-    try {
-      const body = await request.json() as GameRoomConfig;
-      this.config = {
-        ...body,
-        createdAt: new Date().toISOString(),
-      };
-      this.players = [];
+    const body = await request.json() as GameRoomConfig;
+    this.config = {
+      ...body,
+      createdAt: new Date().toISOString(),
+    };
 
-      // Persist the configuration
-      await this.ctx.storage.put('config', this.config);
-      await this.ctx.storage.put('players', this.players);
+    // Get the game logic module for the specified game type
+    this.gameLogic = gameLogicFactory(this.config.gameType);
+    if (!this.gameLogic) {
+      return new Response(`Invalid game type: ${this.config.gameType}`, { status: 400 });
+    }
 
-      return new Response(JSON.stringify({ success: true }), {
-        headers: { 'Content-Type': 'application/json' },
-      });
-    }
-    catch (error) {
-      console.error('Error initializing room:', error);
-      return new Response(JSON.stringify({ error: 'Failed to initialize room' }), {
-        status: 500,
-        headers: { 'Content-Type': 'application/json' },
-      });
-    }
+    // Initialize the game state using the game logic module
+    this.state = this.gameLogic.getInitialState(this.config);
+
+    await this.ctx.storage.put('config', this.config);
+    await this.ctx.storage.put('state', this.state);
+
+    return new Response(JSON.stringify({ success: true }), { headers: { 'Content-Type': 'application/json' } });
   }
 
   private async handleJoin(request: Request): Promise<Response> {
-    try {
-      if (!this.config) {
-        this.config = (await this.ctx.storage.get('config')) as GameRoomConfig | null;
-        if (!this.config) {
-          return new Response(JSON.stringify({ error: 'Room not found' }), {
-            status: 404,
-            headers: { 'Content-Type': 'application/json' },
-          });
-        }
-      }
-
-      if (!this.players) {
-        this.players = ((await this.ctx.storage.get('players')) as Player[]) || [];
-      }
-
-      if (this.players.length >= this.config.maxPlayers) {
-        return new Response(JSON.stringify({ error: 'Game room is full' }), {
-          status: 403, // Forbidden
-          headers: { 'Content-Type': 'application/json' },
-        });
-      }
-
-      const { playerName } = await request.json<{ playerName: string }>();
-      if (!playerName) {
-        return new Response(JSON.stringify({ error: 'Player name is required' }), {
-          status: 400,
-          headers: { 'Content-Type': 'application/json' },
-        });
-      }
-
-      const newPlayer: Player = {
-        id: crypto.randomUUID(),
-        name: playerName,
-      };
-
-      this.players.push(newPlayer);
-      await this.ctx.storage.put('players', this.players);
-
-      const roomState = {
-        ...this.config,
-        currentPlayers: this.players.length,
-        player: newPlayer,
-      };
-
-      return new Response(JSON.stringify(roomState), {
-        headers: { 'Content-Type': 'application/json' },
-      });
+    if (!this.config || !this.gameLogic) {
+      return new Response('Room not initialized', { status: 400 });
     }
-    catch (error) {
-      console.error('Error handling join:', error);
-      return new Response(JSON.stringify({ error: 'Failed to join room' }), {
-        status: 500,
-        headers: { 'Content-Type': 'application/json' },
-      });
-    }
+
+    const { playerName } = await request.json<{ playerName: string }>();
+    const { newState, player } = this.gameLogic.onPlayerJoin(this.state, playerName);
+    this.state = newState;
+
+    await this.ctx.storage.put('state', this.state);
+    this.broadcastGameState();
+
+    // Return a success response including the player info
+    return new Response(JSON.stringify({ ...this.state, player }), { headers: { 'Content-Type': 'application/json' } });
   }
 
-  private async handleStats(): Promise<Response> {
-    if (!this.config) {
-      // Try to load config from storage
-      this.config = await this.ctx.storage.get('config') as GameRoomConfig | null;
-      if (!this.config) {
-        return new Response(JSON.stringify({ error: 'Room not found' }), {
-          status: 404,
-          headers: { 'Content-Type': 'application/json' },
-        });
-      }
-    }
-
-    const stats = this.getRoomStats();
-    return new Response(JSON.stringify(stats), {
-      headers: { 'Content-Type': 'application/json' },
-    });
-  }
-
-  private async handleWebSocketUpgrade(request: Request): Promise<Response> {
-    const url = new URL(request.url);
-    const playerId = url.searchParams.get('playerId');
-
-    // Validate WebSocket upgrade request
-    const upgradeHeader = request.headers.get('Upgrade');
-    if (!upgradeHeader || upgradeHeader !== 'websocket') {
-      return new Response('Expected Upgrade: websocket', { status: 426 });
-    }
-
-    // Load config if not already loaded
-    if (!this.config) {
-      this.config = (await this.ctx.storage.get('config')) as GameRoomConfig | null;
-      if (!this.config) {
-        return new Response('Game room not initialized', { status: 400 });
-      }
-    }
-
-    // Check if room is full
-    if (this.sessions.size >= this.config.maxPlayers) {
-      return new Response('Game room is full', { status: 403 });
-    }
-
-    // Create WebSocket pair
+  private async handleWebSocketUpgrade(_request: Request): Promise<Response> {
     const webSocketPair = new WebSocketPair();
     const [client, server] = Object.values(webSocketPair);
-
-    // Accept the server-side connection for hibernation
     this.ctx.acceptWebSocket(server);
+    return new Response(null, { status: 101, webSocket: client });
+  }
 
-    // Generate session data
+  async webSocketOpen(ws: WebSocket) {
     const sessionData: SessionData = {
-      roomId: this.config.roomId,
-      playerId: playerId ?? crypto.randomUUID(), // Generate unique player ID
+      roomId: this.config?.roomId ?? '',
       joinedAt: Date.now(),
     };
+    this.sessions.set(ws, sessionData);
 
-    // Serialize attachment for hibernation persistence
-    server.serializeAttachment(sessionData);
-
-    // Add to active sessions
-    this.sessions.set(server, sessionData);
-
-    // Notify other clients about new connection
-    this.broadcastToOthers(server, {
-      type: 'user_joined',
-      roomId: this.config.roomId,
-      playerId: sessionData.playerId,
-      totalConnections: this.sessions.size,
-      maxPlayers: this.config.maxPlayers,
-    });
-
-    // Send welcome message to the new client
-    server.send(
-      JSON.stringify({
-        type: 'welcome',
-        roomId: this.config.roomId,
-        playerId: sessionData.playerId,
-        roomConfig: this.config,
-        totalConnections: this.sessions.size,
-      }),
-    );
-
-    return new Response(null, {
-      status: 101,
-      webSocket: client,
-    });
+    // Send the current game state to the newly connected client
+    ws.send(JSON.stringify({
+      type: 'GAME_STATE_UPDATE',
+      payload: this.state,
+    }));
   }
 
   async webSocketMessage(ws: WebSocket, message: ArrayBuffer | string) {
-    const session = this.sessions.get(ws);
-    if (!session) {
-      // This shouldn't happen, but handle gracefully
-      ws.send(JSON.stringify({ error: 'Session not found' }));
+    if (!this.gameLogic)
       return;
-    }
 
-    let messageData;
+    const session = this.sessions.get(ws);
+    if (!session)
+      return;
+
     try {
-      // Parse message as JSON if it's a string
-      messageData = typeof message === 'string' ? JSON.parse(message) : message;
-    }
-    // eslint-disable-next-line unused-imports/no-unused-vars
-    catch (e) {
-      // If not JSON, treat as plain message
-      messageData = { type: 'message', content: message };
-    }
+      const messageData = JSON.parse(message as string);
+      const { type, payload } = messageData;
 
-    // Handle different message types
-    switch (messageData.type) {
-      case 'chat':
-        this.handleChatMessage(session, messageData);
-        break;
-      case 'game_action':
-        this.handleGameAction(ws, session, messageData);
-        break;
-      case 'ping':
-        ws.send(JSON.stringify({ type: 'pong', timestamp: Date.now() }));
-        break;
-      default:
-        // Echo unknown messages back to sender
-        ws.send(JSON.stringify({
-          type: 'echo',
-          originalMessage: messageData,
-          from: session.playerId,
-          totalConnections: this.sessions.size,
-        }));
+      // Delegate action handling to the game logic module
+      const newState = this.gameLogic.handleAction(this.state, type, payload, session.playerId ?? '');
+      this.state = newState;
+
+      // Persist and broadcast the updated state
+      await this.ctx.storage.put('state', this.state);
+      this.broadcastGameState();
+    }
+    catch (error) {
+      console.error('Invalid WebSocket message:', error);
     }
   }
 
-  private handleChatMessage(session: SessionData, messageData: any) {
-    // Broadcast chat message to all clients
-    this.broadcastToAll({
-      type: 'chat',
-      message: messageData.message,
-      from: session.playerId,
-      timestamp: Date.now(),
-    });
-  }
-
-  private handleGameAction(ws: WebSocket, session: SessionData, messageData: any) {
-    // Handle game-specific actions
-    this.broadcastToOthers(ws, {
-      type: 'game_action',
-      action: messageData.action,
-      data: messageData.data,
-      from: session.playerId,
-      timestamp: Date.now(),
-    });
-  }
-
-  async webSocketClose(ws: WebSocket, code: number, reason: string, wasClean: boolean) {
-    const session = this.sessions.get(ws);
-
-    // Remove from sessions
+  async webSocketClose(ws: WebSocket) {
     this.sessions.delete(ws);
-
-    // Notify remaining clients about disconnection
-    if (session) {
-      this.broadcastToAll({
-        type: 'user_left',
-        playerId: session.playerId,
-        roomId: session.roomId,
-        totalConnections: this.sessions.size,
-        reason: wasClean ? 'normal' : 'abnormal',
-      });
-    }
-
-    // Don't call ws.close() here - the connection is already closing
-    // eslint-disable-next-line no-console
-    console.log(`WebSocket closed: code=${code}, reason=${reason}, wasClean=${wasClean}`);
+    // Here you could delegate to gameLogic.onPlayerLeave if needed
   }
 
-  async webSocketError(ws: WebSocket, error: unknown) {
-    console.error('WebSocket error:', error);
-
-    // Clean up the session
-    const session = this.sessions.get(ws);
+  async webSocketError(ws: WebSocket) {
     this.sessions.delete(ws);
-
-    // Notify about error disconnection
-    if (session) {
-      this.broadcastToAll({
-        type: 'user_error',
-        playerId: session.playerId,
-        roomId: session.roomId,
-        totalConnections: this.sessions.size,
-      });
-    }
   }
 
-  // Helper method to broadcast to all clients except the sender
-  private broadcastToOthers(sender: WebSocket, data: any) {
-    const message = JSON.stringify(data);
-    this.sessions.forEach((_sessionData, ws) => {
-      if (ws !== sender && ws.readyState === WebSocket.READY_STATE_OPEN) {
-        try {
-          ws.send(message);
-        }
-        catch (error) {
-          console.error('Failed to send to client:', error);
-          // Clean up failed connection
-          this.sessions.delete(ws);
-        }
-      }
+  private broadcastGameState() {
+    const message = JSON.stringify({
+      type: 'GAME_STATE_UPDATE',
+      payload: this.state,
     });
-  }
-
-  // Helper method to broadcast to all clients
-  private broadcastToAll(data: any) {
-    const message = JSON.stringify(data);
-    this.sessions.forEach((_sessionData, ws) => {
+    this.sessions.forEach((_session, ws) => {
       if (ws.readyState === WebSocket.READY_STATE_OPEN) {
-        try {
-          ws.send(message);
-        }
-        catch (error) {
-          console.error('Failed to send to client:', error);
-          // Clean up failed connection
-          this.sessions.delete(ws);
-        }
+        ws.send(message);
       }
     });
-  }
-
-  // Method to get room statistics
-  getRoomStats(): GameRoomStats {
-    return {
-      totalConnections: this.sessions.size,
-      maxPlayers: this.config?.maxPlayers || 4,
-      roomConfig: this.config,
-      sessions: Array.from(this.sessions.values()).map(session => ({
-        roomId: session.roomId,
-        playerId: session.playerId,
-        joinedAt: session.joinedAt,
-        duration: Date.now() - session.joinedAt,
-      })),
-    };
   }
 }
