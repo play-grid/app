@@ -17,6 +17,8 @@ interface GameRoomConfig {
   gameType: string;
   isPrivate: boolean;
   createdAt: string;
+  selectedSet?: string;
+  selectedGrid?: string;
 }
 // --- End of Generic Types --- //
 
@@ -61,6 +63,9 @@ export class GameRoomDurableObject extends DurableObject {
     if (pathname === '/join' && request.method === 'POST') {
       return this.handleJoin(request);
     }
+    if (pathname === '/stats' && request.method === 'GET') {
+      return this.handleStats();
+    }
 
     const upgradeHeader = request.headers.get('Upgrade');
     if (upgradeHeader && upgradeHeader.toLowerCase() === 'websocket') {
@@ -98,14 +103,24 @@ export class GameRoomDurableObject extends DurableObject {
     }
 
     const { playerName } = await request.json<{ playerName: string }>();
-    const { newState, player } = this.gameLogic.onPlayerJoin(this.state, playerName);
-    this.state = newState;
+
+    // Delegate join logic and player limit checks to the game module
+    const joinResult = this.gameLogic.onPlayerJoin(this.state, playerName);
+
+    if (!joinResult.success) {
+      return new Response(JSON.stringify({ error: joinResult.error || 'Failed to join room' }), {
+        status: 403, // Forbidden
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+
+    this.state = joinResult.newState;
 
     await this.ctx.storage.put('state', this.state);
     this.broadcastGameState();
 
     // Return a success response including the player info
-    return new Response(JSON.stringify({ ...this.state, player }), { headers: { 'Content-Type': 'application/json' } });
+    return new Response(JSON.stringify({ ...this.state, player: joinResult.player }), { headers: { 'Content-Type': 'application/json' } });
   }
 
   private async handleWebSocketUpgrade(_request: Request): Promise<Response> {
@@ -161,6 +176,17 @@ export class GameRoomDurableObject extends DurableObject {
 
   async webSocketError(ws: WebSocket) {
     this.sessions.delete(ws);
+  }
+
+  private async handleStats(): Promise<Response> {
+    const stats = {
+      config: this.config,
+      state: this.state,
+      connectedPlayers: this.sessions.size,
+    };
+    return new Response(JSON.stringify(stats), {
+      headers: { 'Content-Type': 'application/json' },
+    });
   }
 
   private broadcastGameState() {

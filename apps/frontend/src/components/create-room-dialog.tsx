@@ -17,13 +17,17 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useCreateRoom } from '@/hooks/use-create-room';
 import { useJoinRoom } from '@/hooks/use-join-room';
 import { getGameTypes } from '@/services/game-type-service';
+import { useGameStore } from '@/stores/game-state-store'; // Import the game store
 
 export function CreateRoomDialog() {
   const { t, i18n } = useTranslation();
   const { mutate, data: room, isPending, isError } = useCreateRoom();
-  const { mutate: joinRoom, isPending: isJoining, isError: isJoiningErorr } = useJoinRoom();
+  const { mutate: joinRoom, isPending: isJoining, isError: isJoiningError } = useJoinRoom();
   const [joinRoomId, setJoinRoomId] = useState('');
   const [playerName, setPlayerName] = useState('');
+
+  // Get current game settings from the store
+  const { selectedSet, selectedGrid } = useGameStore();
 
   const {
     register,
@@ -38,6 +42,9 @@ export function CreateRoomDialog() {
       maxPlayers: 4,
       gameType: 'logo-guess',
       isPrivate: false,
+      // Include game settings from the store as defaults
+      selectedSet,
+      selectedGrid,
     },
   });
 
@@ -60,7 +67,13 @@ export function CreateRoomDialog() {
   }
 
   const onSubmit = (values: CreateRoomFormValues) => {
-    mutate(values);
+    // Ensure we're passing the current game settings to the backend
+    const roomData = {
+      ...values,
+      selectedSet,
+      selectedGrid,
+    };
+    mutate(roomData);
   };
 
   return (
@@ -94,6 +107,18 @@ export function CreateRoomDialog() {
                     ? (
                         <div className="space-y-4">
                           <p>{t('room-created')}</p>
+                          <div className="text-sm text-muted-foreground mb-4">
+                            <p>
+                              {t('game-settings')}
+                              :
+                              {' '}
+                              {selectedSet}
+                              {' '}
+                              -
+                              {' '}
+                              {selectedGrid}
+                            </p>
+                          </div>
                           <div>
                             <Label htmlFor="room-url">{t('room-url')}</Label>
                             <div className="flex items-center gap-2 mt-1">
@@ -122,6 +147,27 @@ export function CreateRoomDialog() {
                             />
                             {errors.name && <p className="text-red-500 text-sm mt-1">{t(errors.name.message as string)}</p>}
                           </div>
+
+                          {/* Display current game settings (TODO: style will be refactored) */}
+                          <div className="p-3 bg-muted rounded-lg">
+                            <Label className="text-sm font-medium">{t('current-game-settings')}</Label>
+                            <div className="text-sm text-muted-foreground mt-1">
+                              <p>
+                                {t('logo-set')}
+                                :
+                                {' '}
+                                {t(selectedSet)}
+                              </p>
+                              <p>
+                                {t('grid-size')}
+                                :
+                                {' '}
+                                {selectedGrid}
+                              </p>
+                              <p className="text-xs mt-1 italic">{t('change-settings-on-setup-screen')}</p>
+                            </div>
+                          </div>
+
                           <div className="space-y-2">
                             <Label htmlFor="maxPlayers">{t('max-players')}</Label>
                             <Input
@@ -193,7 +239,7 @@ export function CreateRoomDialog() {
                       {isJoining ? t('joining...') : t('join')}
                     </Button>
                   </div>
-                  {isJoiningErorr && <p className="text-red-500">{t('join-room-error')}</p>}
+                  {isJoiningError && <p className="text-red-500">{t('join-room-error')}</p>}
                 </div>
               </div>
             </TabsContent>

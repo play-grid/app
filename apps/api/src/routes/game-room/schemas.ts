@@ -6,6 +6,8 @@ export const createGameRoomBaseSchema = z.object({
   maxPlayers: z.number().int().min(2).max(8).optional(),
   gameType: z.enum(['logo-guess']).optional(),
   isPrivate: z.boolean().optional(),
+  selectedSet: z.string().optional(),
+  selectedGrid: z.string().optional(),
 });
 
 // Input schema with preprocessing to handle defaults
