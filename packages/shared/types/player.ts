@@ -1,4 +1,4 @@
-import type { LogoItem } from './logo-item';
+import type { LogoItem } from './logo-types';
 
 export interface Player {
   name: string;

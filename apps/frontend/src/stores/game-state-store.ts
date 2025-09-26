@@ -1,5 +1,4 @@
-import type { LogoItem, Player } from '@/types';
-import type { LogoSetKey } from '@/types/logo-item';
+import type { LogoItem, LogoSetKey, Player } from '@guess-logo/shared/types';
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';

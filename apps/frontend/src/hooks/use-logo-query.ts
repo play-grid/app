@@ -1,5 +1,4 @@
-import type { LogoItem, LogoSetKey } from '@/types/logo-item';
-import type { SupportedLanguage } from '@/utils/language-utils';
+import type { LogoItem, LogoSetKey, SupportedLanguage } from '@guess-logo/shared/types';
 import { useQuery } from '@tanstack/react-query';
 import { fetchCompanyLogo } from '@/services/companies/company-logo-service';
 import { generateFlagUrl } from '@/services/countries/flag-logo-service';

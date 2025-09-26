@@ -1,4 +1,4 @@
-import type { LogoSetKey } from '@/types/logo-item';
+import type { LogoSetKey } from '@guess-logo/shared/types';
 import { useQuery } from '@tanstack/react-query';
 import { fetchLogoLists } from '@/services/logo-lists-service';
 

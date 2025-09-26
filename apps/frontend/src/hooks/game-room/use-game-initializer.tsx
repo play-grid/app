@@ -1,6 +1,5 @@
+import type { LogoItem, SupportedLanguage } from '@guess-logo/shared/types';
 import type { LogoSetKey } from '@/lib/logo-data';
-import type { LogoItem } from '@/types';
-import type { SupportedLanguage } from '@/utils/language-utils';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLogoItems } from '@/hooks/use-logo-items';

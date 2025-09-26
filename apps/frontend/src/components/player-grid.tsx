@@ -1,5 +1,5 @@
+import type { Player } from '@guess-logo/shared/types';
 import type { GridConfiguration } from '@/lib/grid-configurations';
-import type { Player } from '@/types';
 import { Badge } from '@/components/ui/badge';
 import { LogoItemComponent } from './logo-item';
 

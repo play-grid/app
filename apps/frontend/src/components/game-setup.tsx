@@ -1,5 +1,5 @@
+import type { Player } from '@guess-logo/shared/types';
 import type { LogoSetKey } from '@/lib/logo-data';
-import type { Player } from '@/types';
 import { Building2, Clock, Film, Flag, Grid3X3, Trophy, Users, Zap } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';

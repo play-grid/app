@@ -1,9 +1,9 @@
+import { SUPPORTED_LANGUAGES } from '@guess-logo/shared/types';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { GamePlayPage } from '@/pages/game-play-page';
 import { GameSetupPage } from '@/pages/game-setup-page';
 import { LanguageLayout } from './i18n/language-layout';
 import { LanguageRouter } from './i18n/language-router';
-import { SUPPORTED_LANGUAGES } from './utils/language-utils';
 
 export default function App() {
   return (

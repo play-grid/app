@@ -1,4 +1,4 @@
-import type { SupportedLanguage } from '@/utils/language-utils';
+import type { SupportedLanguage } from './i18n';
 
 export interface LogoItem {
   id: number;

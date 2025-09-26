@@ -1,6 +1,5 @@
+import type { LogoList, LogoSetKey, Player } from '@guess-logo/shared/types';
 import type { GridConfiguration } from '@/lib/grid-configurations';
-import type { Player } from '@/types';
-import type { LogoList, LogoSetKey } from '@/types/logo-item';
 import { Grid3X3, Plus, RotateCcw } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Badge } from '@/components/ui/badge';
