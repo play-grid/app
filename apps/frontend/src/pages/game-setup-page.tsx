@@ -5,9 +5,6 @@ import { GameSetup } from '@/components/game-setup';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useLanguageNavigation } from '@/hooks/use-language-navigation';
-import { useLogoQuery } from '@/hooks/use-logo-query';
-import { getGridConfiguration } from '@/lib/grid-configurations';
-import { logoSets } from '@/lib/logo-data';
 import { useGameStore } from '@/stores/game-state-store';
 import { usePersistenceStore } from '@/stores/persistence-store';
 import { useUIStore } from '@/stores/ui-state-store';
@@ -20,6 +17,7 @@ export function GameSetupPage() {
   const {
     selectedSet,
     selectedGrid,
+    selectedList,
     playerA,
     playerB,
     setSelectedSet,
@@ -58,6 +56,7 @@ export function GameSetupPage() {
             playerB: savedState.playerB.name,
             selectedSet: savedState.selectedSet,
             selectedGrid: savedState.selectedGrid,
+            selectedList: savedState.selectedList,
           });
         }
       }
@@ -77,9 +76,7 @@ export function GameSetupPage() {
   ]);
 
   // Get logos for validation
-  const gridConfig = getGridConfiguration(selectedGrid);
-  const logoNames = logoSets[selectedSet]?.slice(0, gridConfig.totalLogos) || [];
-  const { data: fetchedLogos } = useLogoQuery(logoNames, selectedSet, true);
+  const canStart = true;
 
   const handleStartGame = () => {
     const encodedPlayerA = encodeURIComponent(playerA.name.trim() || 'Player A');
@@ -88,7 +85,7 @@ export function GameSetupPage() {
     clearGameState();
     resetGame();
 
-    navigate(`/game/${selectedSet}/${selectedGrid}/${encodedPlayerA}/${encodedPlayerB}`);
+    navigate(`/game/${selectedSet}/${selectedList}/${selectedGrid}/${encodedPlayerA}/${encodedPlayerB}`);
   };
 
   const handleResumeGame = () => {
@@ -97,7 +94,7 @@ export function GameSetupPage() {
       const encodedPlayerB = encodeURIComponent(savedGameInfo.playerB);
 
       navigate(
-        `/game/${savedGameInfo.selectedSet}/${savedGameInfo.selectedGrid}/${encodedPlayerA}/${encodedPlayerB}`,
+        `/game/${savedGameInfo.selectedSet}/${savedGameInfo.selectedList}/${savedGameInfo.selectedGrid}/${encodedPlayerA}/${encodedPlayerB}`,
       );
     }
   };
@@ -130,6 +127,8 @@ export function GameSetupPage() {
                   {savedGameInfo.selectedSet}
                   {t('key-1')}
                   {savedGameInfo.selectedGrid}
+                  {t('key-2')}
+                  {savedGameInfo.selectedList}
 
                 </span>
               </p>
@@ -161,7 +160,7 @@ export function GameSetupPage() {
           playerB={playerB}
           onPlayerANameChange={setPlayerAName}
           onPlayerBNameChange={setPlayerBName}
-          canStart={!!fetchedLogos}
+          canStart={canStart}
           onStartGame={handleStartGame}
         />
       </div>

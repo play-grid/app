@@ -19,6 +19,7 @@ export function useGameRoomPersistence(config: GameRoomPersistenceConfig) {
     playerB,
     currentPlayer,
     gameInitialized,
+    selectedList,
     gameStarted,
   } = useGameStore();
 
@@ -81,6 +82,7 @@ export function useGameRoomPersistence(config: GameRoomPersistenceConfig) {
       playerB,
       currentPlayer,
       selectedSet: config.logoSet,
+      selectedList, // Add this line
       selectedGrid: config.gridSize,
       gameStarted,
       gameInitialized,
@@ -91,10 +93,10 @@ export function useGameRoomPersistence(config: GameRoomPersistenceConfig) {
       playerAEliminated: playerA.logos.map(l => ({ id: l.id, eliminated: l.eliminated })),
       playerBEliminated: playerB.logos.map(l => ({ id: l.id, eliminated: l.eliminated })),
       currentPlayer,
+      selectedList,
       gameStarted,
       gameInitialized,
     });
-
     // Only save if state has actually changed
     if (currentStateHash !== lastSaveHash) {
       // Clear any existing timeout
@@ -127,6 +129,7 @@ export function useGameRoomPersistence(config: GameRoomPersistenceConfig) {
     saveGameState,
     lastSaveHash,
     updateLastSaveHash,
+    selectedList, // Add this line
   ]);
 
   const handleClearGameState = () => {

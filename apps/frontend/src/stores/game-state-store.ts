@@ -1,12 +1,14 @@
-import type { LogoSetKey } from '@/lib/logo-data';
 import type { LogoItem, Player } from '@/types';
+import type { LogoSetKey } from '@/types/logo-item';
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
+import { fetchLogoLists } from '@/services/logo-lists-service';
 
 export interface GameState {
   // Game Configuration
   selectedSet: LogoSetKey;
+  selectedList: string;
   selectedGrid: string;
 
   // Players
@@ -20,6 +22,7 @@ export interface GameState {
 
   // Actions
   setSelectedSet: (set: LogoSetKey) => void;
+  setSelectedList: (listId: string) => void;
   setSelectedGrid: (grid: string) => void;
   setPlayerAName: (name: string) => void;
   setPlayerBName: (name: string) => void;
@@ -63,6 +66,8 @@ export const useGameStore = create<GameState>()(
       immer((set, get) => ({
         // Initial state
         selectedSet: 'companies',
+        selectedList: 'companies',
+
         selectedGrid: '8x6',
         playerA: initialPlayerA,
         playerB: initialPlayerB,
@@ -70,10 +75,17 @@ export const useGameStore = create<GameState>()(
         gameStarted: false,
         gameInitialized: false,
 
-        // Configuration actions
-        setSelectedSet: selectedSet =>
+        setSelectedSet: async (selectedSet) => {
+          const lists = await fetchLogoLists(selectedSet);
+          const defaultList = lists[0]?.id || '';
           set((state) => {
             state.selectedSet = selectedSet;
+            state.selectedList = defaultList;
+          });
+        },
+        setSelectedList: selectedList =>
+          set((state) => {
+            state.selectedList = selectedList;
           }),
 
         setSelectedGrid: selectedGrid =>
@@ -121,7 +133,7 @@ export const useGameStore = create<GameState>()(
               logos: [...initialLogos],
               ...stats,
             };
-
+            // Don't reset selectedList here - keep it for saving
             state.gameStarted = true;
             state.gameInitialized = true;
             state.currentPlayer = 'A';
@@ -140,6 +152,9 @@ export const useGameStore = create<GameState>()(
             state.gameStarted = false;
             state.gameInitialized = false;
             state.currentPlayer = 'A';
+            state.selectedSet = 'companies';
+            state.selectedList = 'companies';
+            state.selectedGrid = '8x6';
           }),
 
         startNewGame: () =>
@@ -214,6 +229,7 @@ export const useGameStore = create<GameState>()(
         name: 'logo-guessing-game-storage',
         partialize: state => ({
           selectedSet: state.selectedSet,
+          selectedList: state.selectedList, // Include in persistence
           selectedGrid: state.selectedGrid,
           playerA: state.playerA,
           playerB: state.playerB,

@@ -28,7 +28,7 @@ function LanguageRoutes() {
     <Routes>
       <Route path="/" element={<GameSetupPage />} />
       <Route path="/game/room/:roomId" element={<GamePlayPage />} />
-      <Route path="/game/:logoSet/:gridSize/:playerA/:playerB" element={<GamePlayPage />} />
+      <Route path="/game/:logoSet/:listId/:gridSize/:playerA/:playerB" element={<GamePlayPage />} />
       <Route path="*" element={<Navigate to="" replace />} />
     </Routes>
   );

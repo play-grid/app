@@ -9,6 +9,7 @@ import { useGameRoomPersistence } from '@/hooks/game-room/use-game-room-persiste
 import { useGameRouteParams } from '@/hooks/game-room/use-game-route-params';
 import { useGameUI } from '@/hooks/game-room/use-game-ui';
 import { useLanguageNavigation } from '@/hooks/use-language-navigation';
+import { useLogoListsQuery } from '@/hooks/use-logo-lists-query';
 import { getGridConfiguration } from '@/lib/grid-configurations';
 import { useGameStore } from '@/stores/game-state-store';
 
@@ -32,6 +33,8 @@ export function LocalGamePlayPage() {
     isValidRoute: routeParams.isValidRoute,
   });
 
+  const { data: availableLists } = useLogoListsQuery(routeParams.logoSet, true);
+
   // --- Store --- //
   const {
     playerA,
@@ -42,6 +45,8 @@ export function LocalGamePlayPage() {
     togglePlayerALogo,
     togglePlayerBLogo,
     switchTurn,
+    selectedList,
+    setSelectedList,
   } = useGameStore();
 
   // --- UI Logic --- //
@@ -100,6 +105,9 @@ export function LocalGamePlayPage() {
         playerA={playerA}
         playerB={playerB}
         gridConfig={gridConfig}
+        availableLists={availableLists || []}
+        selectedList={selectedList}
+        onListChange={setSelectedList}
         onSwitchTurn={switchTurn}
         onResetGame={handleResetGame}
         onStartNewGame={handleStartNewGame}

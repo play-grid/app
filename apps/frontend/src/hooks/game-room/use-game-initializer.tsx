@@ -1,9 +1,11 @@
 import type { LogoSetKey } from '@/lib/logo-data';
 import type { LogoItem } from '@/types';
+import type { SupportedLanguage } from '@/utils/language-utils';
 import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useLogoItems } from '@/hooks/use-logo-items';
 import { useLogoQuery } from '@/hooks/use-logo-query';
 import { getGridConfiguration } from '@/lib/grid-configurations';
-import { logoSets } from '@/lib/logo-data';
 import { useGameStore } from '@/stores/game-state-store';
 
 export interface GameInitializerConfig {
@@ -20,24 +22,37 @@ export interface GameInitializerResult {
 }
 
 export function useGameInitializer(config: GameInitializerConfig): GameInitializerResult {
+  const { i18n } = useTranslation();
   const {
     playerA,
     gameInitialized,
     initializeGame,
+    selectedList,
   } = useGameStore();
 
   // Get configuration
   const gridConfig = getGridConfiguration(config.gridSize);
-  const logoNames = logoSets[config.logoSet]?.slice(0, gridConfig.totalLogos) || [];
 
-  // Fetch logos
-  const { data: fetchedLogos, isLoading, error: fetchError } = useLogoQuery(
-    logoNames,
+  // Fetch logo items from the selected list
+  const { data: logoItems, isLoading: isLoadingItems, error: itemsError } = useLogoItems(
     config.logoSet,
+    selectedList,
+    i18n.language as SupportedLanguage,
     config.enabled,
   );
 
-  // Initialize game when logos are loaded (only if not loaded from save)
+  const logoItemsSliced = logoItems?.slice(0, gridConfig.totalLogos) || [];
+
+  // Fetch logo images
+  const { data: fetchedLogos, isLoading: isLoadingLogos, error: logosError } = useLogoQuery(
+    logoItemsSliced,
+    config.logoSet,
+    i18n.language as SupportedLanguage,
+    selectedList,
+    config.enabled && logoItemsSliced.length > 0,
+  );
+
+  // Initialize game when logos are loaded
   useEffect(() => {
     if (
       config.enabled
@@ -46,9 +61,8 @@ export function useGameInitializer(config: GameInitializerConfig): GameInitializ
       && config.loadAttempted
       && playerA.logos.length === 0
     ) {
-      // Convert fetched logos to LogoItem format
-      const initialLogos: LogoItem[] = fetchedLogos.map((fetchedLogo, index) => ({
-        id: index + 1,
+      const initialLogos: LogoItem[] = fetchedLogos.map(fetchedLogo => ({
+        id: fetchedLogo.id,
         name: fetchedLogo.name || 'Unknown Logo',
         imageUrl: fetchedLogo.imageUrl,
         eliminated: false,
@@ -66,8 +80,8 @@ export function useGameInitializer(config: GameInitializerConfig): GameInitializ
   ]);
 
   return {
-    isLoading,
-    error: fetchError,
+    isLoading: isLoadingItems || isLoadingLogos,
+    error: itemsError || logosError,
     isInitialized: gameInitialized && config.loadAttempted,
   };
 }

@@ -7,6 +7,7 @@ import { useGameStore } from '@/stores/game-state-store';
 
 export interface GameRouteParams {
   logoSet: LogoSetKey;
+  listId: string;
   gridSize: string;
   playerAName: string;
   playerBName: string;
@@ -18,6 +19,7 @@ export function useGameRouteParams({ enabled }: { enabled: boolean }): GameRoute
   const { navigate } = useLanguageNavigation();
   const params = useParams<{
     logoSet: string;
+    listId: string;
     gridSize: string;
     playerA: string;
     playerB: string;
@@ -25,6 +27,7 @@ export function useGameRouteParams({ enabled }: { enabled: boolean }): GameRoute
 
   const {
     setSelectedSet,
+    setSelectedList,
     setSelectedGrid,
     setPlayerAName,
     setPlayerBName,
@@ -32,6 +35,7 @@ export function useGameRouteParams({ enabled }: { enabled: boolean }): GameRoute
 
   // Extract params with defaults and decode player names
   const logoSet = (params.logoSet as LogoSetKey) || 'companies';
+  const listId = params.listId || 'companies';
   const gridSize = params.gridSize || '8x6';
   const playerAName = decodeURIComponent(params.playerA || 'Player A');
   const playerBName = decodeURIComponent(params.playerB || 'Player B');
@@ -51,18 +55,21 @@ export function useGameRouteParams({ enabled }: { enabled: boolean }): GameRoute
     }
 
     setSelectedSet(logoSet);
+    setSelectedList(listId);
     setSelectedGrid(gridSize);
     setPlayerAName(playerAName);
     setPlayerBName(playerBName);
   }, [
     enabled,
     logoSet,
+    listId,
     gridSize,
     playerAName,
     playerBName,
     isValidRoute,
     navigate,
     setSelectedSet,
+    setSelectedList,
     setSelectedGrid,
     setPlayerAName,
     setPlayerBName,
@@ -70,6 +77,7 @@ export function useGameRouteParams({ enabled }: { enabled: boolean }): GameRoute
 
   return {
     logoSet,
+    listId,
     gridSize,
     playerAName,
     playerBName,
