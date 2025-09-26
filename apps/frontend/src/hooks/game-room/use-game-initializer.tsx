@@ -10,6 +10,7 @@ export interface GameInitializerConfig {
   logoSet: LogoSetKey;
   gridSize: string;
   loadAttempted: boolean;
+  enabled: boolean;
 }
 
 export interface GameInitializerResult {
@@ -33,13 +34,14 @@ export function useGameInitializer(config: GameInitializerConfig): GameInitializ
   const { data: fetchedLogos, isLoading, error: fetchError } = useLogoQuery(
     logoNames,
     config.logoSet,
-    true,
+    config.enabled,
   );
 
   // Initialize game when logos are loaded (only if not loaded from save)
   useEffect(() => {
     if (
-      fetchedLogos
+      config.enabled
+      && fetchedLogos
       && !gameInitialized
       && config.loadAttempted
       && playerA.logos.length === 0
@@ -55,6 +57,7 @@ export function useGameInitializer(config: GameInitializerConfig): GameInitializ
       initializeGame(initialLogos);
     }
   }, [
+    config.enabled,
     fetchedLogos,
     gameInitialized,
     config.loadAttempted,

@@ -14,7 +14,7 @@ export interface GameRouteParams {
   isLoading: boolean;
 }
 
-export function useGameRouteParams(): GameRouteParams {
+export function useGameRouteParams({ enabled }: { enabled: boolean }): GameRouteParams {
   const { navigate } = useLanguageNavigation();
   const params = useParams<{
     logoSet: string;
@@ -41,6 +41,10 @@ export function useGameRouteParams(): GameRouteParams {
 
   // Set URL params in store on mount or when params change
   useEffect(() => {
+    if (!enabled) {
+      return;
+    }
+
     if (!isValidRoute) {
       navigate('/', { replace: true });
       return;
@@ -51,6 +55,7 @@ export function useGameRouteParams(): GameRouteParams {
     setPlayerAName(playerAName);
     setPlayerBName(playerBName);
   }, [
+    enabled,
     logoSet,
     gridSize,
     playerAName,

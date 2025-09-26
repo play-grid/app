@@ -38,6 +38,9 @@ export interface GameState {
   // Computed helpers
   getPlayerStats: (logos: LogoItem[]) => { activeCount: number; winner: LogoItem | null };
   canStartGame: (hasLogos: boolean) => boolean;
+
+  // Server state sync
+  applyServerState: (gameState: Partial<GameState>) => void;
 }
 
 const initialPlayerA: Player = {
@@ -201,6 +204,11 @@ export const useGameStore = create<GameState>()(
           const playerBValid = playerB.name.trim().length >= 2 && playerB.name.trim().length <= 20;
           return playerAValid && playerBValid && hasLogos;
         },
+
+        applyServerState: (newGameState: Partial<GameState>) =>
+          set((state) => {
+            Object.assign(state, newGameState);
+          }),
       })),
       {
         name: 'logo-guessing-game-storage',

@@ -10,6 +10,7 @@ export interface GameRoomPersistenceConfig {
   gridSize: string;
   playerAName: string;
   playerBName: string;
+  enabled: boolean;
 }
 
 export function useGameRoomPersistence(config: GameRoomPersistenceConfig) {
@@ -39,8 +40,9 @@ export function useGameRoomPersistence(config: GameRoomPersistenceConfig) {
 
   // Load saved game state ONCE on mount
   useEffect(() => {
-    if (loadAttempted)
+    if (!config.enabled || loadAttempted) {
       return;
+    }
 
     const savedState = loadGameState();
     if (
@@ -58,6 +60,7 @@ export function useGameRoomPersistence(config: GameRoomPersistenceConfig) {
     }
     setLoadAttempted(true);
   }, [
+    config.enabled,
     config.logoSet,
     config.gridSize,
     config.playerAName,
@@ -69,7 +72,7 @@ export function useGameRoomPersistence(config: GameRoomPersistenceConfig) {
 
   // Save game state with proper debouncing
   useEffect(() => {
-    if (!gameInitialized || !gameStarted || !loadAttempted || playerA.logos.length === 0) {
+    if (!config.enabled || !gameInitialized || !gameStarted || !loadAttempted || playerA.logos.length === 0) {
       return;
     }
 
@@ -112,6 +115,7 @@ export function useGameRoomPersistence(config: GameRoomPersistenceConfig) {
       }
     };
   }, [
+    config.enabled,
     playerA,
     playerB,
     currentPlayer,
