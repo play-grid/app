@@ -1,3 +1,5 @@
+import type { z } from 'zod';
+import type { logoSetSchema } from '../schemas/logo-schemas';
 import type { SupportedLanguage } from './i18n';
 
 export interface LogoItem {
@@ -12,4 +14,4 @@ export interface LogoList {
   fetchItems: (language: SupportedLanguage) => Promise<LogoItem[]>;
 }
 
-export type LogoSetKey = 'companies' | 'sports' | 'movies' | 'countries';
+export type LogoSetKey = z.infer<typeof logoSetSchema>;
