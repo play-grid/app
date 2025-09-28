@@ -1,5 +1,4 @@
-import type { LogoList } from '@/types/logo-item';
-
+import type { LogoList } from '@guess-logo/shared/types';
 import { fetchTopRatedMovies } from './top-rated-movies-service';
 
 export const moviesLists: LogoList[] = [

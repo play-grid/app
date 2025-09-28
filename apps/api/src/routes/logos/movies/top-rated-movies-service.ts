@@ -1,15 +1,12 @@
-import type { LogoItem } from '@/types';
-import type { SupportedLanguage } from '@/utils/language-utils';
+import type { LogoItem, SupportedLanguage } from '@guess-logo/shared/types';
 import { TMDB } from 'tmdb-ts';
-import { env } from '@/env';
+import env from '@/env';
 import { getBaseOptions } from './utils/get-base-options';
 
-/**
- * Fetches Top rated Movies from TMDB.
- * @returns An array of top rated movies.
- */
-export async function fetchTopRatedMovies(language: SupportedLanguage): Promise<LogoItem[]> {
-  const tmdb = new TMDB(env.VITE_TMDB_API_KEY);
+export async function fetchTopRatedMovies(
+  language: SupportedLanguage,
+): Promise<LogoItem[]> {
+  const tmdb = new TMDB(env.TMDB_API_KEY);
   try {
     const options = getBaseOptions(language);
     const pagesToFetch = [1, 2, 3, 4]; // Fetch pages 1 to 4 to get 80 movies
