@@ -1,118 +1,128 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+/*
+ * =============================================================================
+ * FONT DEFINITIONS
+ * =============================================================================
+ */
+
+/* English Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Allerta&display=swap'); /* Main English font */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap'); /* For unique English elements */
+
+/* Arabic Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap'); /* Main Arabic font */
+@import url('https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&display=swap');  /* For Arabic titles */
+
 @custom-variant dark (&:is(.dark *));
 
+/*
+ * =============================================================================
+ * BASE & LANGUAGE-SPECIFIC STYLES
+ * =============================================================================
+ */
+
+@layer base {
+  body {
+    @apply font-sans;
+  }
+}
+
 :root {
-  /* Enhanced color tokens for better visual appeal */
-  --background: oklch(0.99 0.002 240); /* Very light background #fafbfc */
-  --foreground: oklch(0.25 0.015 240); /* Dark text #374151 */
-  --card: oklch(1 0 0); /* Pure white cards */
-  --card-foreground: oklch(0.25 0.015 240); /* Dark text on cards */
-  --popover: oklch(1 0 0); /* White popover background */
-  --popover-foreground: oklch(0.25 0.015 240); /* Dark text in popovers */
-  
-  /* Enhanced primary - vibrant teal/cyan */
-  --primary: oklch(0.58 0.18 200); /* Rich teal #0d9488 */
-  --primary-foreground: oklch(1 0 0); /* Pure white text on primary */
-  
-  /* Enhanced secondary - warm purple */
-  --secondary: oklch(0.95 0.008 270); /* Very light purple background #f8fafc */
-  --secondary-foreground: oklch(0.35 0.02 270); /* Purple-tinted text #64748b */
-  
-  /* Game difficulty colors */
-  --Easy: oklch(0.65 0.15 145); /* Fresh green #10b981 */
-  --Medium: oklch(0.75 0.18 85); /* Warm yellow #f59e0b */
-  --Hard: oklch(0.6 0.2 25); /* Orange-red #ea580c */
-  --Expert: oklch(0.55 0.22 15); /* Deep red #dc2626 */
-  
-  /* Enhanced muted colors */
-  --muted: oklch(0.97 0.004 240); /* Very subtle background #f8fafc */
-  --muted-foreground: oklch(0.45 0.012 240); /* Softer muted text #64748b */
-  
-  /* Enhanced accent - complementary to primary */
-  --accent: oklch(0.92 0.025 200); /* Light teal accent #e6fffa */
-  --accent-foreground: oklch(0.35 0.18 200); /* Dark teal text #0f766e */
-  
-  /* Refined destructive */
-  --destructive: oklch(0.55 0.22 15); /* Consistent red #dc2626 */
-  --destructive-foreground: oklch(1 0 0); /* White text on destructive */
-  
-  /* Subtle borders and inputs */
-  --border: oklch(0.92 0.006 240); /* Light border #e2e8f0 */
-  --input: oklch(1 0 0); /* White input fields */
-  --ring: oklch(0.58 0.18 200 / 0.4); /* Primary focus ring with transparency */
-  
-  /* Enhanced chart colors for better variety */
-  --chart-1: oklch(0.58 0.18 200); /* Primary teal */
-  --chart-2: oklch(0.65 0.15 145); /* Fresh green */
-  --chart-3: oklch(0.6 0.2 270); /* Rich purple #8b5cf6 */
-  --chart-4: oklch(0.75 0.18 85); /* Warm yellow */
-  --chart-5: oklch(0.6 0.2 25); /* Orange-red */
-  
-  --radius: 0.75rem; /* Slightly larger radius for modern look */
-  
-  /* Enhanced sidebar colors */
-  --sidebar: oklch(0.99 0.002 240);
-  --sidebar-foreground: oklch(0.25 0.015 240);
-  --sidebar-primary: oklch(0.58 0.18 200);
-  --sidebar-primary-foreground: oklch(1 0 0);
-  --sidebar-accent: oklch(0.92 0.025 200);
-  --sidebar-accent-foreground: oklch(0.35 0.18 200);
-  --sidebar-border: oklch(0.92 0.006 240);
-  --sidebar-ring: oklch(0.58 0.18 200 / 0.4);
+ --background: #e8f0f0;
+  --foreground: #0a4a55;
+  --card: #f2f7f7;
+  --card-foreground: #0a4a55;
+  --popover: #f2f7f7;
+  --popover-foreground: #0a4a55;
+  --primary: #04191b;
+  --primary-foreground: #ffffff;
+  --secondary: #d9eaea;
+  --secondary-foreground: #0a4a55;
+  --muted: #e0eaea;
+  --muted-foreground: #427a7e;
+  --accent: #c9e5e7;
+  --accent-foreground: #0a4a55;
+  --destructive: #d13838;
+  --destructive-foreground: #ffffff;
+  --border: #cde0e2;
+  --input: #d9eaea;
+  --ring: #06858e;
+  --chart-1: #06858e;
+  --chart-2: #1e9ea6;
+  --chart-3: #37b6be;
+  --chart-4: #5dc7ce;
+  --chart-5: #8ad8dd;
+  --sidebar: #daebed;
+  --sidebar-foreground: #0a4a55;
+  --sidebar-primary: #06858e;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #c9e5e7;
+  --sidebar-accent-foreground: #0a4a55;
+  --sidebar-border: #cde0e2;
+  --sidebar-ring: #06858e;
+  --radius: 0.7rem;
+  --shadow-2xs: 1px 1px 2px 0px hsl(185 70% 30% / 0.04);
+  --shadow-xs: 1px 1px 2px 0px hsl(185 70% 30% / 0.04);
+  --shadow-sm: 1px 1px 2px 0px hsl(185 70% 30% / 0.09), 1px 1px 2px -1px hsl(185 70% 30% / 0.09);
+  --shadow: 1px 1px 2px 0px hsl(185 70% 30% / 0.09), 1px 1px 2px -1px hsl(185 70% 30% / 0.09);
+  --shadow-md: 1px 1px 2px 0px hsl(185 70% 30% / 0.09), 1px 2px 4px -1px hsl(185 70% 30% / 0.09);
+  --shadow-lg: 1px 1px 2px 0px hsl(185 70% 30% / 0.09), 1px 4px 6px -1px hsl(185 70% 30% / 0.09);
+  --shadow-xl: 1px 1px 2px 0px hsl(185 70% 30% / 0.09), 1px 8px 10px -1px hsl(185 70% 30% / 0.09);
+  --shadow-2xl: 1px 1px 2px 0px hsl(185 70% 30% / 0.22);
+  --tracking-normal: 0em;
+  --spacing: 0.25rem;
+
+  /* Font family CSS custom properties */
+  --font-sans-en: "Allerta", system-ui, ui-sans-serif, sans-serif;
+  --font-serif-en: "Playfair Display", serif;
+  --font-sans-ar: "Rubik", sans-serif;
+  --font-serif-ar: "Amiri", serif;
 }
 
 .dark {
-  /* Enhanced dark mode colors */
-  --background: oklch(0.08 0.004 240); /* Deeper dark background #0f172a */
-  --foreground: oklch(0.95 0.006 240); /* Light text #f1f5f9 */
-  --card: oklch(0.12 0.008 240); /* Dark cards #1e293b */
-  --card-foreground: oklch(0.95 0.006 240);
-  --popover: oklch(0.12 0.008 240);
-  --popover-foreground: oklch(0.95 0.006 240);
-  
-  /* Enhanced dark primary - brighter teal */
-  --primary: oklch(0.68 0.18 200); /* Bright teal #14b8a6 */
-  --primary-foreground: oklch(0.08 0.004 240); /* Dark text on bright primary */
-  
-  /* Enhanced dark secondary */
-  --secondary: oklch(0.15 0.01 240); /* Dark secondary background #334155 */
-  --secondary-foreground: oklch(0.85 0.008 240); /* Light secondary text */
-  
-  /* Enhanced dark muted */
-  --muted: oklch(0.18 0.012 240); /* Dark muted background #475569 */
-  --muted-foreground: oklch(0.7 0.01 240); /* Muted text #94a3b8 */
-  
-  /* Enhanced dark accent */
-  --accent: oklch(0.2 0.025 200); /* Dark teal accent */
-  --accent-foreground: oklch(0.8 0.15 200); /* Light teal text */
-  
-  /* Enhanced dark destructive */
-  --destructive: oklch(0.65 0.25 15); /* Brighter red for dark mode #ef4444 */
-  --destructive-foreground: oklch(0.95 0.006 240);
-  
-  /* Dark borders and inputs */
-  --border: oklch(0.2 0.012 240); /* Dark border #475569 */
-  --input: oklch(0.15 0.01 240); /* Dark input background */
-  --ring: oklch(0.68 0.18 200 / 0.5); /* Bright focus ring */
-  
-  /* Enhanced dark chart colors */
-  --chart-1: oklch(0.68 0.18 200); /* Bright teal */
-  --chart-2: oklch(0.7 0.15 145); /* Bright green #22c55e */
-  --chart-3: oklch(0.7 0.2 270); /* Bright purple #a855f7 */
-  --chart-4: oklch(0.8 0.18 85); /* Bright yellow #fbbf24 */
-  --chart-5: oklch(0.7 0.2 25); /* Bright orange #fb7185 */
-  
-  /* Enhanced dark sidebar */
-  --sidebar: oklch(0.1 0.006 240);
-  --sidebar-foreground: oklch(0.9 0.008 240);
-  --sidebar-primary: oklch(0.68 0.18 200);
-  --sidebar-primary-foreground: oklch(0.08 0.004 240);
-  --sidebar-accent: oklch(0.2 0.025 200);
-  --sidebar-accent-foreground: oklch(0.8 0.15 200);
-  --sidebar-border: oklch(0.2 0.012 240);
-  --sidebar-ring: oklch(0.68 0.18 200 / 0.5);
+  --background: #0a1a20;
+  --foreground: #4de8e8;
+  --card: #0c2025;
+  --card-foreground: #4de8e8;
+  --popover: #0c2025;
+  --popover-foreground: #4de8e8;
+  --primary: #4de8e8;
+  --primary-foreground: #0a1a20;
+  --secondary: #164955;
+  --secondary-foreground: #4de8e8;
+  --muted: #0f3039;
+  --muted-foreground: #36a5a5;
+  --accent: #164955;
+  --accent-foreground: #4de8e8;
+  --destructive: #e83c3c;
+  --destructive-foreground: #f2f2f2;
+  --border: #164955;
+  --input: #164955;
+  --ring: #4de8e8;
+  --chart-1: #4de8e8;
+  --chart-2: #36a5a5;
+  --chart-3: #2d8a8a;
+  --chart-4: #19595e;
+  --chart-5: #0e383c;
+  --sidebar: #0a1a20;
+  --sidebar-foreground: #4de8e8;
+  --sidebar-primary: #4de8e8;
+  --sidebar-primary-foreground: #0a1a20;
+  --sidebar-accent: #164955;
+  --sidebar-accent-foreground: #4de8e8;
+  --sidebar-border: #164955;
+  --sidebar-ring: #4de8e8;
+  --radius: 0.7rem;
+  --shadow-2xs: 1px 1px 2px 0px hsl(180 70% 60% / 0.04);
+  --shadow-xs: 1px 1px 2px 0px hsl(180 70% 60% / 0.04);
+  --shadow-sm: 1px 1px 2px 0px hsl(180 70% 60% / 0.09), 1px 1px 2px -1px hsl(180 70% 60% / 0.09);
+  --shadow: 1px 1px 2px 0px hsl(180 70% 60% / 0.09), 1px 1px 2px -1px hsl(180 70% 60% / 0.09);
+  --shadow-md: 1px 1px 2px 0px hsl(180 70% 60% / 0.09), 1px 2px 4px -1px hsl(180 70% 60% / 0.09);
+  --shadow-lg: 1px 1px 2px 0px hsl(180 70% 60% / 0.09), 1px 4px 6px -1px hsl(180 70% 60% / 0.09);
+  --shadow-xl: 1px 1px 2px 0px hsl(180 70% 60% / 0.09), 1px 8px 10px -1px hsl(180 70% 60% / 0.09);
+  --shadow-2xl: 1px 1px 2px 0px hsl(180 70% 60% / 0.22);
 }
 
 @theme inline {
@@ -140,15 +150,6 @@
   --color-chart-3: var(--chart-3);
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
-  
-  /* Enhanced radius system */
-  --radius-xs: calc(var(--radius) - 6px);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-  --radius-2xl: calc(var(--radius) + 8px);
-  
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);
@@ -157,39 +158,45 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
-  
-  /* Game difficulty colors */
-  --color-easy: var(--Easy);
-  --color-medium: var(--Medium);
-  --color-hard: var(--Hard);
-  --color-expert: var(--Expert);
+
+  --font-family-sans: var(--font-sans-en);
+  --font-family-serif: var(--font-serif-en);
+  --font-family-mono: "Playfair Display", monospace;
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --shadow-2xs: var(--shadow-2xs);
+  --shadow-xs: var(--shadow-xs);
+  --shadow-sm: var(--shadow-sm);
+  --shadow: var(--shadow);
+  --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
+  --shadow-xl: var(--shadow-xl);
+  --shadow-2xl: var(--shadow-2xl);
 }
 
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground antialiased;
-  }
-  
-  /* Enhanced scrollbar styling */
-  ::-webkit-scrollbar {
-    @apply w-2;
-  }
-  ::-webkit-scrollbar-track {
-    @apply bg-muted;
-  }
-  ::-webkit-scrollbar-thumb {
-    @apply bg-border rounded-full;
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    @apply bg-muted-foreground/30;
-  }
-}
-
-/* Additional utility classes for enhanced visuals */
 @layer utilities {
+  /* Language-specific font overrides */
+  :lang(ar) {
+    --font-family-sans: var(--font-sans-ar);
+    --font-family-serif: var(--font-serif-ar);
+  }
+
+  /* Alternative approach - direct element targeting */
+  [lang="ar"] .font-sans,
+  [lang="ar"].font-sans {
+    font-family: var(--font-sans-ar);
+  }
+  
+  [lang="ar"] .font-serif,
+  [lang="ar"].font-serif {
+    font-family: var(--font-serif-ar);
+  }
+
+  /* Additional utility classes for enhanced visuals */
   .glass-effect {
     @apply bg-background/80 backdrop-blur-xl border border-border/60;
   }
@@ -207,5 +214,22 @@
     content: '';
     mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     mask-composite: xor;
+  }
+
+  /* Font utility classes for manual switching */
+  .font-en-sans {
+    font-family: var(--font-sans-en);
+  }
+  
+  .font-en-serif {
+    font-family: var(--font-serif-en);
+  }
+  
+  .font-ar-sans {
+    font-family: var(--font-sans-ar);
+  }
+  
+  .font-ar-serif {
+    font-family: var(--font-serif-ar);
   }
 }

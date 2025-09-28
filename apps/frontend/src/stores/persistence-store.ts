@@ -1,5 +1,4 @@
-import type { LogoSetKey } from '@/lib/logo-data';
-import type { Player } from '@/types';
+import type { LogoSetKey, Player } from '@guess-logo/shared/types';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
@@ -9,6 +8,7 @@ export interface SavedGameState {
   playerB: Player;
   currentPlayer: 'A' | 'B';
   selectedSet: LogoSetKey;
+  selectedList: string; // Added selectedList
   selectedGrid: string;
   gameStarted: boolean;
   gameInitialized: boolean;
@@ -19,6 +19,7 @@ export interface SavedGameInfo {
   playerA: string;
   playerB: string;
   selectedSet: LogoSetKey;
+  selectedList: string; // Added selectedList
   selectedGrid: string;
 }
 
@@ -66,6 +67,7 @@ function isValidGameState(state: any): state is SavedGameState {
     && Array.isArray(state.playerB.logos)
     && (state.currentPlayer === 'A' || state.currentPlayer === 'B')
     && typeof state.selectedSet === 'string'
+    && typeof state.selectedList === 'string' // Added validation
     && typeof state.selectedGrid === 'string'
     && typeof state.gameStarted === 'boolean'
     && typeof state.gameInitialized === 'boolean'
@@ -98,6 +100,7 @@ export const usePersistenceStore = create<PersistenceState>()(
               playerA: gameState.playerA.name,
               playerB: gameState.playerB.name,
               selectedSet: gameState.selectedSet,
+              selectedList: gameState.selectedList, // Added selectedList
               selectedGrid: gameState.selectedGrid,
             };
           });
@@ -139,7 +142,7 @@ export const usePersistenceStore = create<PersistenceState>()(
         catch (error) {
           console.error('Failed to load game state:', error);
           if (isLocalStorageAvailable()) {
-            window.localStorage.removeItem(STORAGE_KEY);
+            window.localStorage.removeTime(STORAGE_KEY);
           }
           return null;
         }

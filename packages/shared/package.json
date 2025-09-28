@@ -1,0 +1,14 @@
+{
+  "name": "@guess-logo/shared",
+  "version": "1.0.0",
+  "type": "module",
+  "exports": {
+    "./types": "./types/index.ts",
+    "./data": "./data/index.ts",
+    "./types/logos": "./types/logo-types.ts",
+    "./schemas": "./schemas/logo-schemas.ts"
+  },
+  "devDependencies": {
+    "zod": "^4.1.8"
+  }
+}

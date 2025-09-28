@@ -1,5 +1,5 @@
-export const SUPPORTED_LANGUAGES = ['en', 'ar'] as const;
-export type SupportedLanguage = typeof SUPPORTED_LANGUAGES[number];
+import type { SupportedLanguage } from '@guess-logo/shared/types';
+import { SUPPORTED_LANGUAGES } from '@guess-logo/shared/types';
 
 export function isValidLanguage(lang: string): lang is SupportedLanguage {
   return SUPPORTED_LANGUAGES.includes(lang as SupportedLanguage);

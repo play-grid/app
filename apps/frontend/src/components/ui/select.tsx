@@ -16,7 +16,7 @@ function SelectTrigger({ ref, className, children, ...props }: React.ComponentPr
     <SelectPrimitive.Trigger
       ref={ref}
       className={cn(
-        'flex h-12 w-full items-center justify-between rounded-lg border border-border bg-background/80 backdrop-blur-sm px-4 py-3 text-sm font-medium shadow-sm transition-all duration-300 hover-lift hover:border-primary focus:outline-none focus:ring-2 focus:ring-ring focus:border-primary disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 group glass-effect',
+        'flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
         isRTL ? 'flex-row-reverse' : 'flex-row',
         isRTL ? 'text-right' : 'text-left',
         className,
@@ -26,7 +26,7 @@ function SelectTrigger({ ref, className, children, ...props }: React.ComponentPr
       {children}
       <SelectPrimitive.Icon asChild>
         <ChevronDown className={cn(
-          'h-5 w-5 text-muted-foreground transition-all duration-300 group-hover:text-primary group-data-[state=open]:rotate-180',
+          'h-5 w-5 text-foreground transition-all duration-300 group-hover:text-primary group-data-[state=open]:rotate-180',
           isRTL ? 'mr-2' : 'ml-2',
         )}
         />
@@ -43,7 +43,7 @@ function SelectScrollUpButton({ ref, className, ...props }: React.ComponentProps
       className={cn('flex cursor-default items-center justify-center py-2 hover:bg-accent transition-colors', className)}
       {...props}
     >
-      <ChevronUp className="h-4 w-4 text-primary" />
+      <ChevronUp className="h-4 w-4 text-foreground" />
     </SelectPrimitive.ScrollUpButton>
   );
 }
@@ -56,7 +56,7 @@ function SelectScrollDownButton({ ref, className, ...props }: React.ComponentPro
       className={cn('flex cursor-default items-center justify-center py-2 hover:bg-accent transition-colors', className)}
       {...props}
     >
-      <ChevronDown className="h-4 w-4 text-primary" />
+      <ChevronDown className="h-4 w-4 text-foreground" />
     </SelectPrimitive.ScrollDownButton>
   );
 }
@@ -106,7 +106,7 @@ function SelectLabel({ ref, className, ...props }: React.ComponentPropsWithoutRe
     <SelectPrimitive.Label
       ref={ref}
       className={cn(
-        'py-2 text-sm font-semibold text-muted-foreground',
+        'py-2 text-sm font-semibold text-foreground',
         isRTL ? 'text-right pr-10 pl-3' : 'text-left pl-10 pr-3',
         className,
       )}
@@ -136,7 +136,7 @@ function SelectItem({ ref, className, children, ...props }: React.ComponentProps
       )}
       >
         <SelectPrimitive.ItemIndicator>
-          <Check className="h-4 w-4 text-primary" />
+          <Check className="h-4 w-4 text-foreground" />
         </SelectPrimitive.ItemIndicator>
       </span>
 

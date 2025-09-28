@@ -1,8 +1,10 @@
 import type { AppOpenAPI } from './types';
 
+import { cache } from 'hono/cache';
 import { cors } from 'hono/cors';
+import { etag } from 'hono/etag';
 import { notFound, onError } from 'stoker/middlewares';
-
+import rateLimiterMiddleware from '@/api/middlewares/rate-limter';
 import { BASE_PATH } from './constants';
 import createRouter from './create-router';
 
@@ -31,6 +33,15 @@ export default function createApp() {
       return c.env.ASSETS.fetch(new URL('/index.html', requestUrl.origin));
     })
     .basePath(BASE_PATH) as AppOpenAPI;
+
+  app.use('*', cache({
+    cacheName: 'logo-api',
+    cacheControl: 'public, max-age=86400',
+  }));
+  app.use('*', etag());
+
+  app.use('*', (c, next) =>
+    rateLimiterMiddleware(c)(c, next));
 
   app
     .use(

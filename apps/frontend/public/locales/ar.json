@@ -90,7 +90,10 @@
     "version_info": "الإصدار 1.0.0 !",
     "cancel_button": "يمكن بعدين 🤷‍♂️",
     "save_button": "احفظ",
-    "author_name": "محمد علاء"
+    "author_name": "محمد علاء",
+    "theme_section_title": "غير الثيم",
+    "theme_label": "الثيم",
+    "toggle_theme": "تغيير الثيم"
   },
   "found": "شاف",
   "play-online": "العب اونلاين",
@@ -121,5 +124,9 @@
   "game-type": "نوع اللعبة",
   "private-room": "غرفة خاصة",
   "room-name-placeholder": "أدخل اسم الغرفة",
-  "failed-to-load-game-types": "فشل تحميل أنواع الألعاب"
+  "failed-to-load-game-types": "فشل تحميل أنواع الألعاب",
+  "your-name": "اسمك",
+  "your-name-placeholder": "أدخل اسمك...",
+  "joining...": "جار الانضمام...",
+  "join-room-error": "فشل الانضمام للغرفة"
 }

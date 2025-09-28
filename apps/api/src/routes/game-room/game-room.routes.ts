@@ -1,43 +1,16 @@
 import { createRoute, z } from '@hono/zod-openapi';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import { jsonContent, jsonContentRequired } from 'stoker/openapi/helpers';
-import { createErrorSchema, IdParamsSchema } from 'stoker/openapi/schemas';
+import { createErrorSchema } from 'stoker/openapi/schemas';
+
+import {
+  createGameRoomInputSchema,
+  gameRoomResponseSchema,
+  joinGameRoomResponseSchema,
+  joinGameRoomSchema,
+} from './schemas';
 
 const tags = ['GameRoom'];
-
-// Base schema for creating a game room - keep this for createErrorSchema
-export const createGameRoomSchema = z.object({
-  name: z.string().min(1, 'Room name is required').max(50, 'Room name too long'),
-  maxPlayers: z.number().int().min(2).max(8).optional(),
-  gameType: z.enum(['logo-guess']).optional(),
-  isPrivate: z.boolean().optional(),
-});
-
-// Input schema with preprocessing to handle defaults
-export const createGameRoomInputSchema = z.object({
-  name: z.string().min(1, 'Room name is required').max(50, 'Room name too long'),
-  maxPlayers: z.number().int().min(2).max(8).optional().default(4),
-  gameType: z.enum(['logo-guess']).optional().default('logo-guess'),
-  isPrivate: z.boolean().optional().default(false),
-}).transform(data => ({
-  name: data.name,
-  maxPlayers: data.maxPlayers ?? 4,
-  gameType: data.gameType ?? 'logo-guess' as const,
-  isPrivate: data.isPrivate ?? false,
-}));
-
-// Schema for game room response
-export const gameRoomResponseSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  maxPlayers: z.number(),
-  currentPlayers: z.number(),
-  gameType: z.string(),
-  isPrivate: z.boolean(),
-  status: z.enum(['waiting', 'active', 'finished']),
-  createdAt: z.string(),
-  websocketUrl: z.string(),
-});
 
 // Simple error schema
 const simpleErrorSchema = z.object({
@@ -79,7 +52,7 @@ export const websocketUpgrade = createRoute({
   path: '/game-room/{id}/ws',
   method: 'get',
   request: {
-    params: IdParamsSchema,
+    params: z.object({ id: z.string() }),
     headers: z.object({
       'upgrade': z.string().optional(),
       'connection': z.string().optional(),
@@ -149,6 +122,38 @@ export const getRoomStats = createRoute({
   },
 });
 
+export const join = createRoute({
+  path: '/game-room/{id}/join',
+  method: 'post',
+  request: {
+    params: z.object({ id: z.string() }),
+    body: jsonContentRequired(
+      joinGameRoomSchema,
+      'The player to add to the room',
+    ),
+  },
+  tags,
+  responses: {
+    [HttpStatusCodes.OK]: jsonContent(
+      joinGameRoomResponseSchema,
+      'The updated game room',
+    ),
+    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
+      createErrorSchema(joinGameRoomSchema),
+      'The validation error(s)',
+    ),
+    [HttpStatusCodes.NOT_FOUND]: jsonContent(
+      simpleErrorSchema,
+      'Game room not found',
+    ),
+    [HttpStatusCodes.INTERNAL_SERVER_ERROR]: jsonContent(
+      messageSchema,
+      'Internal server error',
+    ),
+  },
+});
+
 export type CreateRoute = typeof create;
 export type WebSocketUpgradeRoute = typeof websocketUpgrade;
 export type GetRoomStatsRoute = typeof getRoomStats;
+export type JoinRoute = typeof join;

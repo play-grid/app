@@ -1,4 +1,4 @@
-import type { LogoItem } from '@/types';
+import type { LogoItem } from '@guess-logo/shared/types';
 import { Trophy, X } from 'lucide-react';
 import { useState } from 'react';
 import { Card } from '@/components/ui/card';

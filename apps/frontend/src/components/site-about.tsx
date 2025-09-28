@@ -1,5 +1,5 @@
 import { DirectionProvider } from '@radix-ui/react-direction';
-import { Globe, Info, Settings, Sparkles, User } from 'lucide-react';
+import { Globe, Info, Settings, Sparkles, Sun, User } from 'lucide-react';
 import { useState } from 'react';
 
 import { useTranslation } from 'react-i18next';
@@ -19,6 +19,7 @@ import {
 import { useLanguageNavigation } from '@/hooks/use-language-navigation';
 import { cn } from '@/lib/utils';
 import LanguageToggle from '../i18n/language-toggle';
+import { ThemeToggle } from './theme/theme-toggle';
 
 // Define author details to keep them in one place
 const AUTHOR_X_HANDLE = '_mohdalaa';
@@ -46,7 +47,7 @@ function SiteCustomizations() {
             'group',
             'bg-background/80 backdrop-blur-sm glass-effect',
             'border-2 border-border hover:border-primary transition-all duration-300',
-            'rounded-full p-2 w-10 h-10 shadow-sm hover:shadow-md hover-lift',
+            'rounded-full p-2 size-9 shadow-sm hover:shadow-md hover-lift',
             isRTL ? 'ml-auto' : 'mr-auto',
           )}
           variant="ghost"
@@ -70,7 +71,7 @@ function SiteCustomizations() {
             className={cn(
               'relative px-6 pt-8 pb-8 overflow-hidden',
               'bg-gradient-to-br from-primary via-primary to-primary/80',
-              'text-primary-foreground',
+              'text-background',
             )}
           >
             <div className="relative flex items-center gap-4">
@@ -83,11 +84,11 @@ function SiteCustomizations() {
                 <Sparkles className="w-7 h-7" />
               </div>
               <div className="text-left flex-1 rtl:text-right">
-                <SheetTitle className="text-2xl font-bold leading-tight">
+                <SheetTitle className="text-3xl font-serif font-thin text-background leading-tight">
                   {t('customizations.sheet_title')}
                 </SheetTitle>
                 <SheetDescription
-                  className="text-primary-foreground/80 text-sm font-normal leading-relaxed"
+                  className="text-background/80 text-sm font-normal leading-relaxed"
                 >
                   {t('customizations.sheet_description')}
                 </SheetDescription>
@@ -96,7 +97,7 @@ function SiteCustomizations() {
           </SheetHeader>
 
           {/* Enhanced Content Section */}
-          <div className="flex-1 px-2 py-8 space-y-2">
+          <div className="flex-1 px-2 py-4 space-y-2">
             {/* Language Settings with enhanced styling */}
             <div className="space-y-5">
               <div className="flex items-center gap-3 mb-4">
@@ -131,6 +132,45 @@ function SiteCustomizations() {
                     currentLocale={pendingLanguage}
                     onChange={lng => setPendingLanguage(lng)}
                   />
+                </div>
+                {/* Subtle background decoration */}
+                <div className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              </div>
+            </div>
+
+            <Separator className="bg-border/60" />
+
+            {/* Theme Settings */}
+            <div className="space-y-5">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="p-2 rounded-xl bg-accent">
+                  <Sun className="w-5 h-5 text-accent-foreground" />
+                </div>
+                <h3 className="font-bold text-lg text-foreground">
+                  {t('customizations.theme_section_title')}
+                </h3>
+              </div>
+
+              <div className={cn(
+                'group relative overflow-hidden',
+                'flex items-center justify-between p-5 rounded-2xl',
+                'bg-card border-2 border-border hover:border-primary/40',
+                'shadow-sm hover:shadow-lg transition-all duration-300',
+                'hover:bg-accent/20',
+              )}
+              >
+                <Label
+                  htmlFor="theme"
+                  className={cn(
+                    'font-semibold text-card-foreground text-base',
+                    'text-left',
+                    isRTL && 'text-right',
+                  )}
+                >
+                  {t('customizations.theme_label')}
+                </Label>
+                <div className="relative z-10">
+                  <ThemeToggle />
                 </div>
                 {/* Subtle background decoration */}
                 <div className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -239,12 +279,9 @@ function SiteCustomizations() {
             <div className="flex gap-4 w-full">
               <SheetClose asChild>
                 <Button
-                  variant="outline"
+                  variant="secondary"
                   className={cn(
-                    'flex-1 h-12 text-base font-semibold rounded-2xl',
-                    'border-2 border-border hover:border-muted-foreground/40',
-                    'hover:bg-muted/50 transition-all duration-300',
-                    'hover:scale-[1.02]',
+                    'flex-1 h-12 text-base',
                   )}
                 >
                   {t('customizations.cancel_button')}

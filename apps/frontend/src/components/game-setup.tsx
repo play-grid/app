@@ -1,5 +1,5 @@
+import type { Player } from '@guess-logo/shared/types';
 import type { LogoSetKey } from '@/lib/logo-data';
-import type { Player } from '@/types';
 import { Building2, Clock, Film, Flag, Grid3X3, Trophy, Users, Zap } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -24,7 +24,6 @@ interface GameSetupProps {
   onPlayerANameChange: (name: string) => void;
   onPlayerBNameChange: (name: string) => void;
   onStartGame: () => void;
-  onJoinGame: (roomId: string) => void;
   canStart: boolean;
 }
 
@@ -59,7 +58,7 @@ const logoSets = [
   },
 ];
 
-const playerNameSchema = z.string().trim().min(2, { error: 'player-input-min-error' }).max(20, { error: 'player-input-max-error' });
+const playerNameSchema = z.string().trim().min(2, { message: 'player-input-min-error' }).max(20, { message: 'player-input-max-error' });
 
 export function GameSetup({
   selectedSet,
@@ -71,7 +70,6 @@ export function GameSetup({
   onPlayerANameChange,
   onPlayerBNameChange,
   onStartGame,
-  onJoinGame,
   canStart,
 }: GameSetupProps) {
   const [attemptedStart, setAttemptedStart] = useState(false);
@@ -99,12 +97,12 @@ export function GameSetup({
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
-      <Card className="w-full max-w-2xl p-8 text-center">
+      <Card className="w-full p-8 text-center">
         <SiteCustomizations />
 
         <div className="mb-8">
           <Trophy className="w-16 h-16 mx-auto mb-4 text-primary" />
-          <h1 className="text-3xl font-bold mb-2">{t('logo-guessing-game')}</h1>
+          <h1 className="text-4xl font-serif text-center tracking-tight font-light mb-2">{t('logo-guessing-game')}</h1>
           <p className="text-muted-foreground">
             {t('game-setup-description')}
           </p>
@@ -239,7 +237,7 @@ export function GameSetup({
             {t('start-game')}
           </Button>
 
-          <CreateRoomDialog onJoinGame={onJoinGame} />
+          <CreateRoomDialog />
         </div>
         {attemptedStart && (!playerAValidation.success || !playerBValidation.success) && (
           <p className="text-sm text-red-500 mt-2">{t('enter-valid-player-names-to-continue')}</p>
