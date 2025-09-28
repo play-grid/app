@@ -20,6 +20,18 @@ interface GameRoomConfig {
   selectedSet?: string;
   selectedGrid?: string;
 }
+
+export interface GameRoomStats {
+  totalConnections: number;
+  maxPlayers: number;
+  roomConfig: GameRoomConfig | null;
+  sessions: {
+    roomId: string;
+    playerId?: string;
+    joinedAt: number;
+    duration: number;
+  }[];
+}
 // --- End of Generic Types --- //
 
 export class GameRoomDurableObject extends DurableObject {
@@ -179,10 +191,17 @@ export class GameRoomDurableObject extends DurableObject {
   }
 
   private async handleStats(): Promise<Response> {
-    const stats = {
-      config: this.config,
-      state: this.state,
-      connectedPlayers: this.sessions.size,
+    const now = Date.now();
+    const sessionDetails = Array.from(this.sessions.values()).map(s => ({
+      ...s,
+      duration: now - s.joinedAt,
+    }));
+
+    const stats: GameRoomStats = {
+      totalConnections: this.sessions.size,
+      maxPlayers: this.config?.maxPlayers ?? 0,
+      roomConfig: this.config,
+      sessions: sessionDetails,
     };
     return new Response(JSON.stringify(stats), {
       headers: { 'Content-Type': 'application/json' },

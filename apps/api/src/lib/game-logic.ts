@@ -27,9 +27,9 @@ export interface IGameLogic {
    * Handles a player joining the game.
    * @param state The current game state.
    * @param playerName The name of the player joining.
-   * @returns The new game state.
+   * @returns An object indicating the result of the join attempt.
    */
-  onPlayerJoin: (state: GameState, playerName: string) => { newState: GameState; player: Player };
+  onPlayerJoin: (state: GameState, playerName: string) => { success: boolean; newState: GameState; player?: Player; error?: string };
 
   /**
    * Processes a game-specific action from a client.
