@@ -1,24 +1,12 @@
-import type { LogoList, LogoSetKey } from '@/types/logo-item';
-import { companyList } from './companies/company-list-service';
-import { countriesLists } from './countries/lists';
-import { moviesLists } from './movies/lists';
-import { sportLists } from './sport/sport-list-service';
+import type { LogoSetKey } from '@guess-logo/shared/types';
+import client from '@/lib/hono-client';
 
-export async function fetchLogoLists(logoSet: LogoSetKey): Promise<LogoList[]> {
-  switch (logoSet) {
-    case 'companies':
-      return [{ id: 'companies', name: 'companies', fetchItems: companyList }];
+export async function fetchLogoLists(logoSet: LogoSetKey) {
+  const res = await client.api.logos[':set'].$get({ param: { set: logoSet } });
 
-    case 'movies':
-      return moviesLists;
-
-    case 'countries':
-      return countriesLists;
-
-    case 'sports':
-      return sportLists;
-
-    default:
-      return [];
+  if (!res.ok) {
+    throw new Error('Failed to fetch logo lists');
   }
+
+  return res.json();
 }

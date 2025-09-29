@@ -1,10 +1,9 @@
-import type { LogoItem } from '@/types';
-import type { SupportedLanguage } from '@/utils/language-utils';
-import countryCodeMap from '@/data/country-code.json';
+import type { LogoItem, SupportedLanguage } from '@guess-logo/shared/types';
+import { countryCode } from '@guess-logo/shared/data';
 import { generateFlagUrl } from './flag-logo-service';
 
 export async function countriesList(_language: SupportedLanguage): Promise<LogoItem[]> {
-  const arr = countryCodeMap as Record<string, string>;
+  const arr = countryCode as Record<string, string>;
 
   return Object.entries(arr).map(([countryName], index) => ({
     id: index,

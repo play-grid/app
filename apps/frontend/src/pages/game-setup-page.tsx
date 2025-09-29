@@ -20,7 +20,8 @@ export function GameSetupPage() {
     selectedList,
     playerA,
     playerB,
-    setSelectedSet,
+    isUpdatingList,
+    updateSelectedSet,
     setSelectedGrid,
     setPlayerAName,
     setPlayerBName,
@@ -153,7 +154,7 @@ export function GameSetupPage() {
         {/* Regular Game Setup */}
         <GameSetup
           selectedSet={selectedSet}
-          onSetChange={setSelectedSet}
+          onSetChange={updateSelectedSet}
           selectedGrid={selectedGrid}
           onGridChange={setSelectedGrid}
           playerA={playerA}
@@ -161,6 +162,7 @@ export function GameSetupPage() {
           onPlayerANameChange={setPlayerAName}
           onPlayerBNameChange={setPlayerBName}
           canStart={canStart}
+          isUpdating={isUpdatingList}
           onStartGame={handleStartGame}
         />
       </div>

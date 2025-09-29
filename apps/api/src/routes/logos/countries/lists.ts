@@ -1,4 +1,4 @@
-import type { LogoList } from '@/types/logo-item';
+import type { LogoList } from '@guess-logo/shared/types';
 import { countriesList } from './countries-list';
 
 export const countriesLists: LogoList[] = [

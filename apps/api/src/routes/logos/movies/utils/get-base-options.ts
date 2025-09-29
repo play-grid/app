@@ -1,5 +1,5 @@
+import type { SupportedLanguage, SupportedRegion } from '@guess-logo/shared/types';
 import type { LanguageOption, PageOption } from 'tmdb-ts';
-import type { SupportedLanguage, SupportedRegion } from '@/utils/language-utils';
 
 // This object acts as a type-safe mapping from language codes to region codes.
 // You can add more mappings here as you add supported languages.

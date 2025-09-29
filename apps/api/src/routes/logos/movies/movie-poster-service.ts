@@ -1,21 +1,13 @@
-import type { SupportedLanguage } from '@/utils/language-utils';
+import type { SupportedLanguage } from '@guess-logo/shared/types';
 import { TMDB } from 'tmdb-ts';
-import { env } from '@/env';
+import env from '@/env';
 import { getBaseOptions } from './utils/get-base-options';
 
-/**
- * Fetches the poster URL for a given movie name from TMDB.
- * It tries to search in Arabic first and falls back to English if no results are found.
- * @param movieName The name of the movie to search for.
- * @returns The full URL of the movie poster, or null if not found.
- */
-export async function fetchMoviePoster(movieName: string, language: SupportedLanguage): Promise<string | null> {
-  // Check for the TMDB API key and warn if it's missing.
-  if (!env.VITE_TMDB_API_KEY) {
-    console.warn('TMDB API key not configured');
-    return null;
-  }
-  const tmdb = new TMDB(env.VITE_TMDB_API_KEY);
+export async function fetchMoviePoster(
+  movieName: string,
+  language: SupportedLanguage,
+): Promise<string | null> {
+  const tmdb = new TMDB(env.TMDB_API_KEY);
 
   try {
     // Attempt to search for the movie in Arabic.
