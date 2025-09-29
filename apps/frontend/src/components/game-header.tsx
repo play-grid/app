@@ -18,7 +18,7 @@ interface GameHeaderProps {
   playerA: Player;
   playerB: Player;
   gridConfig: GridConfiguration;
-  availableLists: LogoList[];
+  availableLists: Pick<LogoList, 'id' | 'name'>[];
   onSwitchTurn: () => void;
   onResetGame: () => void;
   onStartNewGame?: () => void;

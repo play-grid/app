@@ -25,6 +25,7 @@ interface GameSetupProps {
   onPlayerBNameChange: (name: string) => void;
   onStartGame: () => void;
   canStart: boolean;
+  isUpdating: boolean;
 }
 
 const logoSets = [
@@ -71,6 +72,7 @@ export function GameSetup({
   onPlayerBNameChange,
   onStartGame,
   canStart,
+  isUpdating,
 }: GameSetupProps) {
   const [attemptedStart, setAttemptedStart] = useState(false);
   const currentGrid = gridConfigurations.find(g => g.id === selectedGrid) || gridConfigurations[2];
@@ -233,6 +235,7 @@ export function GameSetup({
             onClick={handleStartGame}
             className="w-1/2"
             size="lg"
+            disabled={isUpdating}
           >
             {t('start-game')}
           </Button>

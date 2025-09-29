@@ -1,10 +1,10 @@
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { GameHeader } from '@/components/game-header';
 import { GameInstructions } from '@/components/game-instructions';
 import { PlayerGrid } from '@/components/player-grid';
 import { Button } from '@/components/ui/button';
 import { useGameError } from '@/hooks/game-room/use-game-error';
-import { useGameInitializer } from '@/hooks/game-room/use-game-initializer';
 import { useGameRoomPersistence } from '@/hooks/game-room/use-game-room-persistence';
 import { useGameRouteParams } from '@/hooks/game-room/use-game-route-params';
 import { useGameUI } from '@/hooks/game-room/use-game-ui';
@@ -15,7 +15,7 @@ import { useGameStore } from '@/stores/game-state-store';
 
 export function LocalGamePlayPage() {
   const { navigate } = useLanguageNavigation();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   // --- Local Mode Hooks --- //
   const routeParams = useGameRouteParams({ enabled: true });
@@ -23,13 +23,9 @@ export function LocalGamePlayPage() {
     ...routeParams,
     enabled: true,
   });
-  const gameInitializer = useGameInitializer({
-    ...routeParams,
-    loadAttempted,
-    enabled: true,
-  });
+
   const gameError = useGameError({
-    fetchError: gameInitializer.error,
+    fetchError: null, // TODO: get error from store
     isValidRoute: routeParams.isValidRoute,
   });
 
@@ -46,16 +42,29 @@ export function LocalGamePlayPage() {
     togglePlayerBLogo,
     switchTurn,
     selectedList,
-    setSelectedList,
+    updateLogosForList,
+    isUpdatingLogos,
   } = useGameStore();
+
+  const gridConfig = getGridConfiguration(routeParams.gridSize);
+
+  useEffect(() => {
+    if (loadAttempted) {
+      updateLogosForList(
+        routeParams.listId,
+        routeParams.logoSet,
+        i18n.language as any,
+        gridConfig.totalLogos,
+      );
+    }
+  }, [loadAttempted, routeParams.listId, routeParams.logoSet, i18n.language, updateLogosForList]);
 
   // --- UI Logic --- //
   const { showLoading, loadingMessage, showError, errorMessage } = useGameUI({
     mode: 'local',
-    isLocalLoading: gameInitializer.isLoading || !gameInitializer.isInitialized,
+    isLocalLoading: isUpdatingLogos, // Use the new loading state
     localError: gameError.hasError ? new Error(gameError.error || '') : null,
   });
-
   // --- Event Handlers --- //
   const handleResetGame = () => {
     clearGameState();
@@ -96,7 +105,6 @@ export function LocalGamePlayPage() {
     );
   }
 
-  const gridConfig = getGridConfiguration(routeParams.gridSize);
   return (
     <div className="min-h-screen p-4">
       <GameHeader
@@ -107,7 +115,14 @@ export function LocalGamePlayPage() {
         gridConfig={gridConfig}
         availableLists={availableLists || []}
         selectedList={selectedList}
-        onListChange={setSelectedList}
+        onListChange={(listId) => {
+          navigate(
+            `/game/${routeParams.logoSet}/${listId}/${routeParams.gridSize}/${encodeURIComponent(
+              routeParams.playerAName,
+            )}/${encodeURIComponent(routeParams.playerBName)}`,
+            { replace: true },
+          );
+        }}
         onSwitchTurn={switchTurn}
         onResetGame={handleResetGame}
         onStartNewGame={handleStartNewGame}

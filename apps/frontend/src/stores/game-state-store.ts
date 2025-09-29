@@ -1,8 +1,9 @@
-import type { LogoItem, LogoSetKey, Player } from '@guess-logo/shared/types';
+import type { LogoItem, LogoSetKey, Player, SupportedLanguage } from '@guess-logo/shared/types';
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 import { fetchLogoLists } from '@/services/logo-lists-service';
+import { fetchLogos } from '@/services/logo-query-service';
 
 export interface GameState {
   // Game Configuration
@@ -18,10 +19,14 @@ export interface GameState {
   // Game Status
   gameStarted: boolean;
   gameInitialized: boolean;
+  isUpdatingList: boolean;
+  isUpdatingLogos: boolean;
 
   // Actions
+  updateSelectedSet: (set: LogoSetKey) => Promise<void>;
   setSelectedSet: (set: LogoSetKey) => void;
   setSelectedList: (listId: string) => void;
+  updateLogosForList: (listId: string, logoSet: LogoSetKey, language: SupportedLanguage, count: number) => Promise<void>;
   setSelectedGrid: (grid: string) => void;
   setPlayerAName: (name: string) => void;
   setPlayerBName: (name: string) => void;
@@ -66,22 +71,86 @@ export const useGameStore = create<GameState>()(
         // Initial state
         selectedSet: 'companies',
         selectedList: 'companies',
-
         selectedGrid: '8x6',
         playerA: initialPlayerA,
         playerB: initialPlayerB,
         currentPlayer: 'A',
         gameStarted: false,
         gameInitialized: false,
+        isUpdatingList: false,
+        isUpdatingLogos: false,
 
-        setSelectedSet: async (selectedSet) => {
-          const lists = await fetchLogoLists(selectedSet);
-          const defaultList = lists[0]?.id || '';
+        updateLogosForList: async (listId, logoSet, language, count) => {
+          set({ isUpdatingLogos: true });
+          try {
+            const fetchedLogos = await fetchLogos(logoSet, listId, language, count);
+
+            const logos: LogoItem[] = fetchedLogos.map((logo, index) => ({
+              id: index, // Using index as a temporary ID
+              name: logo.name,
+              imageUrl: logo.imageUrl,
+              eliminated: false,
+            }));
+
+            // Instead of calling initializeGame from within set callback,
+            // we'll inline the logic here to avoid nested set calls
+            set((state) => {
+              const { getPlayerStats } = get();
+
+              // Initialize logos directly without calling another action
+              const stats = getPlayerStats(logos);
+              // Initialize both players with the same logos
+              state.playerA = {
+                ...state.playerA,
+                logos: [...logos],
+                ...stats,
+              };
+
+              state.playerB = {
+                ...state.playerB,
+                logos: [...logos],
+                ...stats,
+              };
+
+              // Update other game state
+              state.selectedList = listId;
+              state.gameStarted = true;
+              state.gameInitialized = true;
+              state.currentPlayer = 'A';
+            });
+          }
+          catch (error) {
+            console.error('Failed to update logos for list', error);
+          }
+          finally {
+            set({ isUpdatingLogos: false });
+          }
+        },
+
+        setSelectedSet: (selectedSet) => {
           set((state) => {
             state.selectedSet = selectedSet;
-            state.selectedList = defaultList;
           });
         },
+
+        updateSelectedSet: async (selectedSet) => {
+          set({ isUpdatingList: true });
+          try {
+            const lists = await fetchLogoLists(selectedSet);
+            const defaultList = lists[0]?.id || '';
+            set((state) => {
+              state.selectedSet = selectedSet;
+              state.selectedList = defaultList;
+            });
+          }
+          catch (error) {
+            console.error('Failed to update selected set', error);
+          }
+          finally {
+            set({ isUpdatingList: false });
+          }
+        },
+
         setSelectedList: selectedList =>
           set((state) => {
             state.selectedList = selectedList;
@@ -228,7 +297,7 @@ export const useGameStore = create<GameState>()(
         name: 'logo-guessing-game-storage',
         partialize: state => ({
           selectedSet: state.selectedSet,
-          selectedList: state.selectedList, // Include in persistence
+          selectedList: state.selectedList,
           selectedGrid: state.selectedGrid,
           playerA: state.playerA,
           playerB: state.playerB,

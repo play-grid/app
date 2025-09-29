@@ -54,11 +54,20 @@ export function useGameRouteParams({ enabled }: { enabled: boolean }): GameRoute
       return;
     }
 
-    setSelectedSet(logoSet);
-    setSelectedList(listId);
-    setSelectedGrid(gridSize);
-    setPlayerAName(playerAName);
-    setPlayerBName(playerBName);
+    const store = useGameStore.getState();
+    if (
+      store.selectedSet !== logoSet
+      || store.selectedList !== listId
+      || store.selectedGrid !== gridSize
+      || store.playerA.name !== playerAName
+      || store.playerB.name !== playerBName
+    ) {
+      setSelectedSet(logoSet);
+      setSelectedList(listId);
+      setSelectedGrid(gridSize);
+      setPlayerAName(playerAName);
+      setPlayerBName(playerBName);
+    }
   }, [
     enabled,
     logoSet,
