@@ -1,6 +1,7 @@
 import type { LogoItem, SupportedLanguage } from '@guess-logo/shared/types';
 import { TMDB } from 'tmdb-ts';
 import env from '@/env';
+import { fetchPaginatedMovies } from './utils/fetch-paginated-movies';
 import { getBaseOptions } from './utils/get-base-options';
 
 export async function fetchTopRatedMovies(
@@ -9,14 +10,9 @@ export async function fetchTopRatedMovies(
   const tmdb = new TMDB(env.TMDB_API_KEY);
   try {
     const options = getBaseOptions(language);
-    const pagesToFetch = [1, 2, 3, 4]; // Fetch pages 1 to 4 to get 80 movies
-
-    const pagePromises = pagesToFetch.map(page =>
+    const allMovies = await fetchPaginatedMovies(page =>
       tmdb.movies.topRated({ ...options, page }),
     );
-
-    const pages = await Promise.all(pagePromises);
-    const allMovies = pages.flatMap(page => page.results);
 
     return allMovies.map(m => ({
       id: m.id,
