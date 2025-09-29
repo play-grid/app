@@ -1,9 +1,9 @@
 import type { LogoItem, SupportedLanguage } from '@guess-logo/shared/types';
-import { companies } from '@guess-logo/shared/data';
+import { saudiCompanies } from '@guess-logo/shared/data';
 import { fetchCompanyLogo } from './fetch-company-logo';
 
-export async function companyList(_language: SupportedLanguage): Promise<LogoItem[]> {
-  const logoPromises = companies.logos.map(async (name, index) => {
+export async function saudiCompanyList(_language: SupportedLanguage): Promise<LogoItem[]> {
+  const logoPromises = saudiCompanies.logos.map(async (name, index) => {
     const imageUrl = await fetchCompanyLogo(name);
     return {
       id: index,
