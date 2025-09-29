@@ -1,7 +1,7 @@
 import type { Env } from 'hono';
-import type { GameState, IGameLogic } from './game-logic';
+import type { GameState, IGameLogic } from '../game-engine/game-logic';
 import { DurableObject } from 'cloudflare:workers';
-import { gameLogicFactory } from './game-logic.factory';
+import { gameLogicFactory } from '../game-engine/game-logic.factory';
 
 // --- Generic Types --- //
 interface SessionData {

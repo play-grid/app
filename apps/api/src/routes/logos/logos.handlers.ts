@@ -5,7 +5,7 @@ import type {
   GetLogosBySetAndListRoute,
 } from './logos.routes';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
-import { fetchLogoLists } from './logo-lists-service';
+import { fetchLogoLists } from './services/logo-lists-service';
 // Handler to get available lists for a logo set
 export const getLogoLists: AppRouteHandler<GetLogoListsRoute> = async (c) => {
   const set = c.req.valid('param').set as LogoSetKey;
