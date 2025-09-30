@@ -62,11 +62,9 @@ export class LogoGuessGame implements IGameLogic {
       player = state.playerB;
     }
 
-    // If both players have now joined, mark the game as initialized and load logos
+    // If both players have now joined, mark the game as initialized
     if (state.playerA.name !== 'Player A' && state.playerB.name !== 'Player B') {
       state.gameInitialized = true;
-      // Initialize logos for both players based on the selected set and grid
-      this.initializeLogos(state);
     }
 
     return { success: true, newState: state, player };
@@ -104,8 +102,13 @@ export class LogoGuessGame implements IGameLogic {
   }
 
   private handleInitializeLogos(state: LogoGameState, payload: { logos: LogoItem[] }): LogoGameState {
-    // Initialize both players with the same set of logos
-    const logos = payload.logos || this.getDefaultLogos(state.selectedSet, state.selectedGrid);
+    // The payload must contain the logos. If not, the caller has made a mistake.
+    if (!payload.logos || payload.logos.length === 0) {
+      console.error('INITIALIZE_LOGOS action called without a valid logos payload.');
+      return state; // Return state unchanged to prevent errors.
+    }
+
+    const { logos } = payload;
 
     state.playerA.logos = [...logos];
     state.playerB.logos = [...logos];
@@ -135,38 +138,5 @@ export class LogoGuessGame implements IGameLogic {
     const activeLogos = player.logos.filter(logo => !logo.eliminated);
     player.activeCount = activeLogos.length;
     player.winner = activeLogos.length === 1 ? activeLogos[0] : null;
-  }
-
-  private initializeLogos(state: LogoGameState) {
-    // This would typically load logos based on selectedSet and selectedGrid
-    // For now, we'll create some default logos
-    const logos = this.getDefaultLogos(state.selectedSet, state.selectedGrid);
-
-    state.playerA.logos = [...logos];
-    state.playerB.logos = [...logos];
-
-    this.updatePlayerStats(state.playerA);
-    this.updatePlayerStats(state.playerB);
-  }
-
-  private getDefaultLogos(selectedSet: string, selectedGrid: string): LogoItem[] {
-    // This is a placeholder - you'll want to implement actual logo loading
-    // based on your selectedSet and selectedGrid parameters
-    const gridSizes: { [key: string]: number } = {
-      '4x3': 12,
-      '6x4': 24,
-      '8x6': 48,
-      // Add more grid configurations as needed
-    };
-
-    const logoCount = gridSizes[selectedGrid] || 12;
-
-    // Generate placeholder logos - replace with actual logo loading logic
-    return Array.from({ length: logoCount }, (_, index) => ({
-      id: index + 1,
-      name: `${selectedSet} Logo ${index + 1}`,
-      imageUrl: `/api/logos/${selectedSet}/${index + 1}.png`, // Adjust URL as needed
-      eliminated: false,
-    }));
   }
 }
