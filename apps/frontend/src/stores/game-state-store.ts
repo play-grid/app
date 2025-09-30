@@ -81,6 +81,10 @@ export const useGameStore = create<GameState>()(
         isUpdatingLogos: false,
 
         updateLogosForList: async (listId, logoSet, language, count) => {
+          const { gameInitialized, selectedList, selectedSet: currentSet } = get();
+          if (gameInitialized && selectedList === listId && currentSet === logoSet) {
+            return;
+          }
           set({ isUpdatingLogos: true });
           try {
             const fetchedLogos = await fetchLogos(logoSet, listId, language, count);
