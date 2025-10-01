@@ -126,5 +126,8 @@
   "your-name": "Your Name",
   "your-name-placeholder": "Enter your name...",
   "joining...": "Joining...",
-  "join-room-error": "Failed joining the room"
+  "join-room-error": "Failed joining the room",
+  "invalid-game-title": "Invalid Game",
+  "invalid-game-description": "The game link is either incorrect or the session has expired. Please create a new game.",
+  "back-to-home": "Back to Home"
 }

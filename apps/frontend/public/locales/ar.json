@@ -128,5 +128,8 @@
   "your-name": "اسمك",
   "your-name-placeholder": "أدخل اسمك...",
   "joining...": "جار الانضمام...",
-  "join-room-error": "فشل الانضمام للغرفة"
+  "join-room-error": "فشل الانضمام للغرفة",
+  "invalid-game-title": "لعبة غير صالحة",
+  "invalid-game-description": "رابط اللعبة غير صحيح أو أن الجلسة قد انتهت. يرجى إنشاء لعبة جديدة.",
+  "back-to-home": "العودة إلى الرئيسية"
 }
