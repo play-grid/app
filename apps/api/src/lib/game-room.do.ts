@@ -1,3 +1,4 @@
+import type { GameRoomConfig, GameRoomStats } from '@guess-logo/shared/types';
 import type { Env } from 'hono';
 import type { GameState, IGameLogic } from '../game-engine/game-logic';
 import { DurableObject } from 'cloudflare:workers';
@@ -9,30 +10,6 @@ interface SessionData {
   playerId?: string;
   joinedAt: number;
 }
-
-interface GameRoomConfig {
-  roomId: string;
-  name: string;
-  maxPlayers: number;
-  gameType: string;
-  isPrivate: boolean;
-  createdAt: string;
-  selectedSet?: string;
-  selectedGrid?: string;
-}
-
-export interface GameRoomStats {
-  totalConnections: number;
-  maxPlayers: number;
-  roomConfig: GameRoomConfig | null;
-  sessions: {
-    roomId: string;
-    playerId?: string;
-    joinedAt: number;
-    duration: number;
-  }[];
-}
-// --- End of Generic Types --- //
 
 export class GameRoomDurableObject extends DurableObject {
   sessions: Map<WebSocket, SessionData>;

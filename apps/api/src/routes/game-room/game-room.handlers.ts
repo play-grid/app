@@ -1,4 +1,4 @@
-import type { GameRoomStats } from '../../lib/game-room.do';
+import type { GameRoomStats } from '@guess-logo/shared/types';
 import type { AppRouteHandler } from '../../lib/types';
 import type {
   CreateRoute,

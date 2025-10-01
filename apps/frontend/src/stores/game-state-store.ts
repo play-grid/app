@@ -1,24 +1,18 @@
-import type { LogoItem, LogoSetKey, Player, SupportedLanguage } from '@guess-logo/shared/types';
+import type {
+  LogoItem,
+  LogoSetKey,
+  Player,
+  SharedGameState,
+  SupportedLanguage,
+} from '@guess-logo/shared/types';
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 import { fetchLogoLists } from '@/services/logo-lists-service';
 import { fetchLogos } from '@/services/logo-query-service';
 
-export interface GameState {
-  // Game Configuration
-  selectedSet: LogoSetKey;
-  selectedList: string;
-  selectedGrid: string;
-
-  // Players
-  playerA: Player;
-  playerB: Player;
-  currentPlayer: 'A' | 'B';
-
+export interface GameState extends SharedGameState {
   // Game Status
-  gameStarted: boolean;
-  gameInitialized: boolean;
   isUpdatingList: boolean;
   isUpdatingLogos: boolean;
 
@@ -26,7 +20,12 @@ export interface GameState {
   updateSelectedSet: (set: LogoSetKey) => Promise<void>;
   setSelectedSet: (set: LogoSetKey) => void;
   setSelectedList: (listId: string) => void;
-  updateLogosForList: (listId: string, logoSet: LogoSetKey, language: SupportedLanguage, count: number) => Promise<void>;
+  updateLogosForList: (
+    listId: string,
+    logoSet: LogoSetKey,
+    language: SupportedLanguage,
+    count: number,
+  ) => Promise<void>;
   setSelectedGrid: (grid: string) => void;
   setPlayerAName: (name: string) => void;
   setPlayerBName: (name: string) => void;
@@ -47,10 +46,11 @@ export interface GameState {
   canStartGame: (hasLogos: boolean) => boolean;
 
   // Server state sync
-  applyServerState: (gameState: Partial<GameState>) => void;
+  applyServerState: (gameState: Partial<SharedGameState>) => void;
 }
 
 const initialPlayerA: Player = {
+  id: '',
   name: '',
   logos: [],
   winner: null,
@@ -58,6 +58,7 @@ const initialPlayerA: Player = {
 };
 
 const initialPlayerB: Player = {
+  id: '',
   name: '',
   logos: [],
   winner: null,

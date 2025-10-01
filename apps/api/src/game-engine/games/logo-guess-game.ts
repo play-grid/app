@@ -1,38 +1,13 @@
-import type { GameState, IGameLogic, Player } from '../game-logic';
-
-// --- Types specific to the Logo Guess Game ---
-interface LogoItem {
-  id: number;
-  name: string;
-  imageUrl: string;
-  eliminated: boolean;
-}
-
-interface LogoPlayer extends Player {
-  logos: LogoItem[];
-  winner: LogoItem | null;
-  activeCount: number;
-}
-
-interface LogoGameState {
-  playerA: LogoPlayer;
-  playerB: LogoPlayer;
-  currentPlayer: 'A' | 'B';
-  gameInitialized: boolean;
-  gameStarted: boolean;
-  selectedSet: string;
-  selectedGrid: string;
-}
-
-interface LogoGameConfig {
-  selectedSet?: string;
-  selectedGrid?: string;
-  // Add other game-specific config options here
-}
-// --- End of specific types ---
+import type {
+  GameRoomConfig,
+  LogoItem,
+  Player,
+  SharedGameState,
+} from '@guess-logo/shared/types';
+import type { GameState, IGameLogic } from '../game-logic';
 
 export class LogoGuessGame implements IGameLogic {
-  getInitialState(roomConfig: LogoGameConfig): LogoGameState {
+  getInitialState(roomConfig: GameRoomConfig): SharedGameState {
     return {
       playerA: this.createEmptyPlayer('Player A'),
       playerB: this.createEmptyPlayer('Player B'),
@@ -40,11 +15,15 @@ export class LogoGuessGame implements IGameLogic {
       gameInitialized: false, // Will be true once players join and logos are loaded
       gameStarted: false,
       selectedSet: roomConfig.selectedSet || 'companies',
+      selectedList: roomConfig.selectedSet || 'companies',
       selectedGrid: roomConfig.selectedGrid || '8x6',
     };
   }
 
-  onPlayerJoin(state: LogoGameState, playerName: string): { success: boolean; newState: GameState; player?: Player; error?: string } {
+  onPlayerJoin(
+    state: SharedGameState,
+    playerName: string,
+  ): { success: boolean; newState: GameState; player?: Player; error?: string } {
     // This game has a hard limit of 2 players.
     if (state.playerA.name !== 'Player A' && state.playerB.name !== 'Player B') {
       return { success: false, newState: state, error: 'Room is full' };
@@ -52,7 +31,7 @@ export class LogoGuessGame implements IGameLogic {
 
     const playerSlot = state.playerA.name === 'Player A' ? 'A' : 'B';
 
-    let player: LogoPlayer;
+    let player: Player;
     if (playerSlot === 'A') {
       state.playerA.name = playerName;
       player = state.playerA;
@@ -70,7 +49,7 @@ export class LogoGuessGame implements IGameLogic {
     return { success: true, newState: state, player };
   }
 
-  handleAction(state: LogoGameState, type: string, payload: any, _playerId: string): LogoGameState {
+  handleAction(state: SharedGameState, type: string, payload: any, _playerId: string): SharedGameState {
     switch (type) {
       case 'TOGGLE_LOGO':
         return this.handleToggleLogo(state, payload);
@@ -87,7 +66,7 @@ export class LogoGuessGame implements IGameLogic {
 
   // --- Private helpers for Logo Guess Game logic ---
 
-  private handleToggleLogo(state: LogoGameState, payload: { playerId: 'A' | 'B'; logoId: number }): LogoGameState {
+  private handleToggleLogo(state: SharedGameState, payload: { playerId: 'A' | 'B'; logoId: number }): SharedGameState {
     const player = payload.playerId === 'A' ? state.playerA : state.playerB;
     player.logos = player.logos.map(logo =>
       logo.id === payload.logoId ? { ...logo, eliminated: !logo.eliminated } : logo,
@@ -96,12 +75,12 @@ export class LogoGuessGame implements IGameLogic {
     return state;
   }
 
-  private handleSwitchTurn(state: LogoGameState): LogoGameState {
+  private handleSwitchTurn(state: SharedGameState): SharedGameState {
     state.currentPlayer = state.currentPlayer === 'A' ? 'B' : 'A';
     return state;
   }
 
-  private handleInitializeLogos(state: LogoGameState, payload: { logos: LogoItem[] }): LogoGameState {
+  private handleInitializeLogos(state: SharedGameState, payload: { logos: LogoItem[] }): SharedGameState {
     // The payload must contain the logos. If not, the caller has made a mistake.
     if (!payload.logos || payload.logos.length === 0) {
       console.error('INITIALIZE_LOGOS action called without a valid logos payload.');
@@ -119,12 +98,12 @@ export class LogoGuessGame implements IGameLogic {
     return state;
   }
 
-  private handleStartGame(state: LogoGameState): LogoGameState {
+  private handleStartGame(state: SharedGameState): SharedGameState {
     state.gameStarted = true;
     return state;
   }
 
-  private createEmptyPlayer(name: string): LogoPlayer {
+  private createEmptyPlayer(name: string): Player {
     return {
       id: crypto.randomUUID(),
       name,
@@ -134,7 +113,7 @@ export class LogoGuessGame implements IGameLogic {
     };
   }
 
-  private updatePlayerStats(player: LogoPlayer) {
+  private updatePlayerStats(player: Player) {
     const activeLogos = player.logos.filter(logo => !logo.eliminated);
     player.activeCount = activeLogos.length;
     player.winner = activeLogos.length === 1 ? activeLogos[0] : null;

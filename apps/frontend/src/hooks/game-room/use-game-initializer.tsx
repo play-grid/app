@@ -1,6 +1,6 @@
 import type { LogoItem, SupportedLanguage } from '@guess-logo/shared/types';
 import type { LogoSetKey } from '@/lib/logo-data';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLogoItems } from '@/hooks/use-logo-items';
 import { useLogoQuery } from '@/hooks/use-logo-query';
@@ -40,7 +40,15 @@ export function useGameInitializer(config: GameInitializerConfig): GameInitializ
     config.enabled,
   );
 
-  const logoItemsSliced = logoItems?.slice(0, gridConfig.totalLogos) || [];
+  const logoItemsSliced = useMemo(() => {
+    const items = logoItems?.slice(0, gridConfig.totalLogos) || [];
+    return items.map((item, index) => ({
+      id: index,
+      name: item.name,
+      imageUrl: item.imageUrl,
+      eliminated: false,
+    }));
+  }, [logoItems, gridConfig]);
 
   // Fetch logo images
   const { data: fetchedLogos, isLoading: isLoadingLogos, error: logosError } = useLogoQuery(
@@ -60,9 +68,9 @@ export function useGameInitializer(config: GameInitializerConfig): GameInitializ
       && config.loadAttempted
       && playerA.logos.length === 0
     ) {
-      const initialLogos: LogoItem[] = fetchedLogos.map(fetchedLogo => ({
-        id: fetchedLogo.id,
-        name: fetchedLogo.name || 'Unknown Logo',
+      const initialLogos: LogoItem[] = fetchedLogos.map((fetchedLogo, index) => ({
+        id: logoItemsSliced[index].id,
+        name: fetchedLogo.name,
         imageUrl: fetchedLogo.imageUrl,
         eliminated: false,
       }));
@@ -76,6 +84,7 @@ export function useGameInitializer(config: GameInitializerConfig): GameInitializ
     config.loadAttempted,
     playerA.logos.length,
     initializeGame,
+    logoItemsSliced,
   ]);
 
   return {
