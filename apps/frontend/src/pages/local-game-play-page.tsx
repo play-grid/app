@@ -9,6 +9,7 @@ import { useGameRoomPersistence } from '@/hooks/game-room/use-game-room-persiste
 import { useGameRouteParams } from '@/hooks/game-room/use-game-route-params';
 import { useGameUI } from '@/hooks/game-room/use-game-ui';
 import { useLanguageNavigation } from '@/hooks/use-language-navigation';
+import { useLogoListChanger } from '@/hooks/use-logo-list-changer';
 import { useLogoListsQuery } from '@/hooks/use-logo-lists-query';
 import { getGridConfiguration } from '@/lib/grid-configurations';
 import { useGameStore } from '@/stores/game-state-store';
@@ -16,6 +17,7 @@ import { useGameStore } from '@/stores/game-state-store';
 export function LocalGamePlayPage() {
   const { navigate } = useLanguageNavigation();
   const { t, i18n } = useTranslation();
+  const { changeLogoList } = useLogoListChanger();
 
   // --- Local Mode Hooks --- //
   const routeParams = useGameRouteParams({ enabled: true });
@@ -116,6 +118,7 @@ export function LocalGamePlayPage() {
         availableLists={availableLists || []}
         selectedList={selectedList}
         onListChange={(listId) => {
+          changeLogoList(listId);
           navigate(
             `/game/${routeParams.logoSet}/${listId}/${routeParams.gridSize}/${encodeURIComponent(
               routeParams.playerAName,

@@ -159,6 +159,10 @@ export const useGameStore = create<GameState>()(
         setSelectedList: selectedList =>
           set((state) => {
             state.selectedList = selectedList;
+            // Clear logos and reset game initialization to force a refetch
+            state.playerA.logos = [];
+            state.playerB.logos = [];
+            state.gameInitialized = false;
           }),
 
         setSelectedGrid: selectedGrid =>
