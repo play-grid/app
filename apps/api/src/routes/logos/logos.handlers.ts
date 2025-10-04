@@ -1,11 +1,15 @@
-import type { LogoItem, LogoSetKey, LogoSetKey as TLogoSet } from '@guess-logo/shared/types';
-import type { AppRouteHandler } from '../../lib/types';
 import type {
-  GetLogoListsRoute,
-  GetLogosBySetAndListRoute,
-} from './logos.routes';
+  LogoItem,
+  LogoOverrides,
+  LogoSetKey,
+  LogoSetKey as TLogoSet,
+} from '@guess-logo/shared/types';
+import type { GetLogoListsRoute, GetLogosBySetAndListRoute } from './logos.routes';
+import type { AppRouteHandler } from '@/api/lib/types';
+import { logoOverrides as rawOverrides } from '@guess-logo/shared/data';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import { fetchLogoLists } from './services/logo-lists-service';
+
 // Handler to get available lists for a logo set
 export const getLogoLists: AppRouteHandler<GetLogoListsRoute> = async (c) => {
   const set = c.req.valid('param').set as LogoSetKey;
@@ -37,8 +41,10 @@ export const getLogosBySetAndList: AppRouteHandler<GetLogosBySetAndListRoute> = 
   const { set, list } = c.req.valid('param');
   const { count, language } = c.req.valid('query');
   const countNum = Math.min(Number.parseInt(count, 10), 100);
+  const logoOverrides = rawOverrides as LogoOverrides;
 
-  const cacheKey = `logos:${set}:${list}:${countNum}:${language}`;
+  const overrideVersion = logoOverrides._v || '';
+  const cacheKey = `logos:${set}:${list}:${countNum}:${language}:${overrideVersion}`;
 
   try {
     // Check cache first
@@ -50,12 +56,21 @@ export const getLogosBySetAndList: AppRouteHandler<GetLogosBySetAndListRoute> = 
     // Fetch logos from the specific list
     const logos = await fetchLogosFromList(set, list, countNum, language);
 
+    // Apply overrides from the JSON file
+    const overriddenLogos = logos.map((logo) => {
+      const overrideUrl = logoOverrides.sets[set]?.[list]?.[logo.name];
+      if (overrideUrl) {
+        return { ...logo, imageUrl: overrideUrl };
+      }
+      return logo;
+    });
+
     // Cache for 24 hours
-    await c.env.LOGO_CACHE.put(cacheKey, JSON.stringify(logos), {
+    await c.env.LOGO_CACHE.put(cacheKey, JSON.stringify(overriddenLogos), {
       expirationTtl: 86400,
     });
 
-    return c.json(logos, HttpStatusCodes.OK);
+    return c.json(overriddenLogos, HttpStatusCodes.OK);
   }
   catch (error) {
     console.error(`Failed to fetch logos for set ${set}, list ${list}:`, error);

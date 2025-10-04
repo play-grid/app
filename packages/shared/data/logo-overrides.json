@@ -1,0 +1,12 @@
+{
+  "_v": "2025-10-03T10:30:00Z",
+  "sets": {
+    "companies": {
+      "saudi": {
+        "humain.ai": "https://pub-9df3c09e2c264f328b6770ef318b615e.r2.dev/logos/Humain-logo.png",
+        "Fitness Time": "https://pub-9df3c09e2c264f328b6770ef318b615e.r2.dev/logos/fitness-time.png",
+        "Shahid": "https://pub-9df3c09e2c264f328b6770ef318b615e.r2.dev/logos/shahid-logo.png"
+      }
+    }
+  }
+}

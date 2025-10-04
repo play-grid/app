@@ -59,7 +59,14 @@ export function LocalGamePlayPage() {
         gridConfig.totalLogos,
       );
     }
-  }, [loadAttempted, routeParams.listId, routeParams.logoSet, i18n.language, updateLogosForList]);
+  }, [
+    loadAttempted,
+    routeParams.listId,
+    routeParams.logoSet,
+    i18n.language,
+    updateLogosForList,
+    gridConfig.totalLogos,
+  ]);
 
   // --- UI Logic --- //
   const { showLoading, loadingMessage, showError, errorMessage } = useGameUI({
@@ -135,6 +142,19 @@ export function LocalGamePlayPage() {
         <div className="bg-gray-300 border-1" />
         <PlayerGrid player={playerB} onToggleLogo={togglePlayerBLogo} gridConfig={gridConfig} />
       </div>
+      {routeParams.logoSet === 'companies' && (
+        <div className="text-center mt-4">
+          <a
+            href="https://logo.dev"
+            title="Logo API"
+            className="text-sm text-gray-500"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Logos provided by Logo.dev
+          </a>
+        </div>
+      )}
       <GameInstructions />
     </div>
   );
