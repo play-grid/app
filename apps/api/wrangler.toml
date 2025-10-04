@@ -1,7 +1,7 @@
 name = "game-rooms-api"
 main = "src/app.ts"
 compatibility_date = "2025-09-01"
-compatibility_flags = ["nodejs_compat"]
+compatibility_flags = [ "nodejs_compat" ]
 workers_dev = true
 
 [assets]

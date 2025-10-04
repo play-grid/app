@@ -59,7 +59,8 @@ export const getLogosBySetAndList: AppRouteHandler<GetLogosBySetAndListRoute> = 
 
     // Apply overrides from the JSON file
     const overriddenLogos = logos.map((logo) => {
-      const overrideUrl = logoOverrides.sets[set]?.[list]?.[logo.name];
+      const overrideKey = logo.originalName || logo.name; // Use originalName for lookup, fallback to name
+      const overrideUrl = logoOverrides.sets[set]?.[list]?.[overrideKey];
       if (overrideUrl) {
         return { ...logo, imageUrl: overrideUrl };
       }

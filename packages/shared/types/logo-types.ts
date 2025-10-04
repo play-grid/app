@@ -5,6 +5,7 @@ import type { SupportedLanguage } from './i18n';
 export interface LogoItem {
   id: number;
   name: string;
+  originalName?: string;
   imageUrl: string;
   eliminated: boolean;
 }
