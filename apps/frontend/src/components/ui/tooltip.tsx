@@ -6,13 +6,11 @@ import * as React from 'react';
 import { cn } from '@/lib/utils';
 
 function TooltipProvider({
-  delayDuration = 0,
   ...props
 }: React.ComponentProps<typeof TooltipPrimitive.Provider>) {
   return (
-    <TooltipPrimitive
-      data-slot="tooltip-provider"
-      delayDuration={delayDuration}
+    // eslint-disable-next-line react/no-context-provider
+    <TooltipPrimitive.Provider
       {...props}
     />
   );
@@ -22,9 +20,7 @@ function Tooltip({
   ...props
 }: React.ComponentProps<typeof TooltipPrimitive.Root>) {
   return (
-    <TooltipProvider>
-      <TooltipPrimitive.Root data-slot="tooltip" {...props} />
-    </TooltipProvider>
+    <TooltipPrimitive.Root data-slot="tooltip" {...props} />
   );
 }
 

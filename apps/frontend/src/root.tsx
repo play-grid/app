@@ -1,5 +1,6 @@
 import { BrowserRouter } from 'react-router-dom';
 import { ThemeProvider } from '@/components/theme-provider';
+import { TooltipProvider } from '@/components/ui/tooltip';
 import QueryProvider from '@/context/api-provider';
 import { LanguageRouter } from '@/i18n/language-router';
 import App from './app';
@@ -11,11 +12,13 @@ export default function Root() {
     <BrowserRouter>
       <QueryProvider>
         <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
-          <div className="bg-background text-primary min-h-screen">
-            <LanguageRouter>
-              <App />
-            </LanguageRouter>
-          </div>
+          <TooltipProvider>
+            <div className="bg-background text-primary min-h-screen">
+              <LanguageRouter>
+                <App />
+              </LanguageRouter>
+            </div>
+          </TooltipProvider>
         </ThemeProvider>
       </QueryProvider>
     </BrowserRouter>
