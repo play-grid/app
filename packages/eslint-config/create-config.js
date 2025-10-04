@@ -17,7 +17,7 @@ export default function createConfig(options, ...userConfigs) {
     jsonc: false,
     yaml: false,
 
-    ignores: ["**/fixtures", "node_modules", "dist", "build"],
+    ignores: ["**/fixtures", "node_modules", "dist", "build", "**/*.md"],
 
     unicorn: {
       overrides: {

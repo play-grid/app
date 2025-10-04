@@ -2,6 +2,7 @@ name = "game-rooms-api"
 main = "src/app.ts"
 compatibility_date = "2025-09-01"
 compatibility_flags = ["nodejs_compat"]
+workers_dev = true
 
 [assets]
 directory = "public"
@@ -29,3 +30,8 @@ preview_id = "beac11884fff4280a9ecad02adf2961c"
 binding = "RATE_LIMIT"
 id = "2935fac12f184133b095fc52a402d801"
 preview_id = "57a9aedd01974845a191abf28f2b2710"
+
+# logos-Bucket
+[[r2_buckets]]
+bucket_name = "guess-logo"
+binding = "guess_logo"

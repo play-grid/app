@@ -40,7 +40,7 @@ Your `MyNewGame` class must implement the following methods:
 
 -   **`getInitialState(roomConfig)`**: This method must return the default starting state for your game. You can use the `roomConfig` object to pass in game-specific settings from the client during room creation.
 
-    ```typescript
+    ```ts
     getInitialState(roomConfig: any): MyGameState {
       return {
         board: Array(9).fill(null),
@@ -52,7 +52,7 @@ Your `MyNewGame` class must implement the following methods:
 
 -   **`onPlayerJoin(state, playerName)`**: This method handles adding a new player to the game state. It should return an object containing the `newState` and the `player` object that was added.
 
-    ```typescript
+    ```ts
     onPlayerJoin(state: MyGameState, playerName: string): { newState: GameState; player: Player } {
       // logic to add player
       return { newState, player };
@@ -61,7 +61,7 @@ Your `MyNewGame` class must implement the following methods:
 
 -   **`handleAction(state, type, payload, playerId)`**: This is the core of your game logic. It receives actions sent from clients (e.g., `{ type: 'MAKE_MOVE', payload: { x: 1, y: 2 } }`). It should process the action, update the state accordingly, and return the new, updated state.
 
-    ```typescript
+    ```ts
     handleAction(state: MyGameState, type: string, payload: any, playerId: string): MyGameState {
       if (type === 'MAKE_MOVE') {
         // Your game logic for making a move
