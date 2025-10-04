@@ -46,6 +46,7 @@ export function LocalGamePlayPage() {
     selectedList,
     updateLogosForList,
     isUpdatingLogos,
+    shuffleLogos,
   } = useGameStore();
 
   const gridConfig = getGridConfiguration(routeParams.gridSize);
@@ -136,6 +137,7 @@ export function LocalGamePlayPage() {
         onSwitchTurn={switchTurn}
         onResetGame={handleResetGame}
         onStartNewGame={handleStartNewGame}
+        onShuffle={shuffleLogos}
       />
       <div className="grid lg:grid-cols-[1fr_2px_1fr] gap-16 relative">
         <PlayerGrid player={playerA} onToggleLogo={togglePlayerALogo} gridConfig={gridConfig} />

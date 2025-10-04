@@ -6,7 +6,8 @@
     "./types": "./types/index.ts",
     "./data": "./data/index.ts",
     "./types/logos": "./types/logo-types.ts",
-    "./schemas": "./schemas/logo-schemas.ts"
+    "./schemas": "./schemas/logo-schemas.ts",
+    "./utils": "./utils/index.ts"
   },
   "devDependencies": {
     "zod": "^4.1.8"

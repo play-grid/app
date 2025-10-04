@@ -5,6 +5,7 @@ import type {
   SharedGameState,
 } from '@guess-logo/shared/types';
 import type { GameState, IGameLogic } from '../game-logic';
+import { shuffleArray } from '@guess-logo/shared/utils';
 
 export class LogoGuessGame implements IGameLogic {
   getInitialState(roomConfig: GameRoomConfig): SharedGameState {
@@ -59,9 +60,19 @@ export class LogoGuessGame implements IGameLogic {
         return this.handleInitializeLogos(state, payload);
       case 'START_GAME':
         return this.handleStartGame(state);
+      case 'SHUFFLE_LOGOS':
+        return this.handleShuffleLogos(state);
       default:
         return state; // Return unchanged state for unknown actions
     }
+  }
+
+  // --- Private helpers for Logo Guess Game logic ---
+
+  private handleShuffleLogos(state: SharedGameState): SharedGameState {
+    state.playerA.logos = shuffleArray(state.playerA.logos);
+    state.playerB.logos = shuffleArray(state.playerB.logos);
+    return state;
   }
 
   // --- Private helpers for Logo Guess Game logic ---

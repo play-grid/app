@@ -36,8 +36,16 @@ export function useGameActions({ mode, sendAction }: GameActionConfig) {
     }
   };
 
+  const shuffleLogos = () => {
+    if (mode === 'online' && sendAction) {
+      sendAction({ type: 'SHUFFLE_LOGOS' });
+    }
+    // No local mode for shuffle, as it's a backend-only action
+  };
+
   return {
     toggleLogo,
     switchTurn,
+    shuffleLogos,
   };
 }

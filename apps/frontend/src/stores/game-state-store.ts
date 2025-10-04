@@ -5,6 +5,7 @@ import type {
   SharedGameState,
   SupportedLanguage,
 } from '@guess-logo/shared/types';
+import { shuffleArray } from '@guess-logo/shared/utils';
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
@@ -31,6 +32,7 @@ export interface GameState extends SharedGameState {
   setPlayerBName: (name: string) => void;
   setCurrentPlayer: (player: 'A' | 'B') => void;
   switchTurn: () => void;
+  shuffleLogos: () => void;
 
   // Game Initialization
   initializeGame: (logos: LogoItem[]) => void;
@@ -184,7 +186,11 @@ export const useGameStore = create<GameState>()(
           set((state) => {
             state.currentPlayer = player;
           }),
-
+        shuffleLogos: () =>
+          set((state) => {
+            state.playerA.logos = shuffleArray(state.playerA.logos);
+            state.playerB.logos = shuffleArray(state.playerB.logos);
+          }),
         switchTurn: () =>
           set((state) => {
             state.currentPlayer = state.currentPlayer === 'A' ? 'B' : 'A';

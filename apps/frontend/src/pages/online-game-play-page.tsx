@@ -20,7 +20,7 @@ export function OnlineGamePlayPage({ roomId }: OnlineGamePlayPageProps) {
 
   // --- Online Mode Hooks --- //
   const { connectionStatus, sendAction } = useOnlineGame(roomId);
-  const { toggleLogo, switchTurn } = useGameActions({ mode: 'online', sendAction });
+  const { toggleLogo, switchTurn, shuffleLogos } = useGameActions({ mode: 'online', sendAction });
 
   // --- Store --- //
   const { playerA, playerB, currentPlayer, selectedGrid, selectedSet, resetGame } = useGameStore();
@@ -75,6 +75,7 @@ export function OnlineGamePlayPage({ roomId }: OnlineGamePlayPageProps) {
         onSwitchTurn={switchTurn}
         onResetGame={handleLeaveGame}
         onStartNewGame={handleLeaveGame} // Rematch logic would differ for online
+        onShuffle={shuffleLogos}
       />
       <div className="grid lg:grid-cols-[1fr_2px_1fr] gap-16 relative">
         <PlayerGrid player={playerA} onToggleLogo={logoId => toggleLogo('A', logoId)} gridConfig={gridConfig} />

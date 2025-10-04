@@ -24,6 +24,7 @@ interface GameHeaderProps {
   onStartNewGame?: () => void;
   onListChange: (value: string) => void;
   selectedList: string;
+  onShuffle?: () => void;
 }
 
 export function GameHeader({
@@ -38,6 +39,7 @@ export function GameHeader({
   onResetGame,
   onStartNewGame,
   onListChange,
+  onShuffle,
 }: GameHeaderProps) {
   const { t, i18n } = useTranslation();
 
@@ -79,6 +81,9 @@ export function GameHeader({
         <div className="flex items-center gap-2">
           <Button variant="outline" onClick={onSwitchTurn}>
             {t('switch-turn')}
+          </Button>
+          <Button variant="outline" onClick={onShuffle}>
+            {t('shuffle')}
           </Button>
           {onStartNewGame && (
             <Button variant="outline" onClick={onStartNewGame}>

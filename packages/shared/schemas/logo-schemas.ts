@@ -24,4 +24,5 @@ export const logoListSchema = z.object({
 export const logoQuerySchema = z.object({
   count: z.string().optional().default('48'),
   language: z.string().optional().default('en'),
+  shuffle: z.string().optional().default('true').transform(v => v === 'true'),
 });

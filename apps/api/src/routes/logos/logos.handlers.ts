@@ -7,6 +7,7 @@ import type {
 import type { GetLogoListsRoute, GetLogosBySetAndListRoute } from './logos.routes';
 import type { AppRouteHandler } from '@/api/lib/types';
 import { logoOverrides as rawOverrides } from '@guess-logo/shared/data';
+import { shuffleArray } from '@guess-logo/shared/utils';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import { fetchLogoLists } from './services/logo-lists-service';
 
@@ -39,12 +40,12 @@ export const getLogosBySetAndList: AppRouteHandler<GetLogosBySetAndListRoute> = 
   c,
 ) => {
   const { set, list } = c.req.valid('param');
-  const { count, language } = c.req.valid('query');
+  const { count, language, shuffle } = c.req.valid('query');
   const countNum = Math.min(Number.parseInt(count, 10), 100);
   const logoOverrides = rawOverrides as LogoOverrides;
 
   const overrideVersion = logoOverrides._v || '';
-  const cacheKey = `logos:${set}:${list}:${countNum}:${language}:${overrideVersion}`;
+  const cacheKey = `logos:${set}:${list}:${countNum}:${language}:${overrideVersion}:${shuffle}`;
 
   try {
     // Check cache first
@@ -64,6 +65,11 @@ export const getLogosBySetAndList: AppRouteHandler<GetLogosBySetAndListRoute> = 
       }
       return logo;
     });
+
+    // shuffle
+    if (shuffle === true) {
+      shuffleArray(overriddenLogos);
+    }
 
     // Cache for 24 hours
     await c.env.LOGO_CACHE.put(cacheKey, JSON.stringify(overriddenLogos), {
