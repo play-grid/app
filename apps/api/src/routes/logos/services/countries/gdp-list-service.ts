@@ -18,6 +18,7 @@ export async function gdpList(_language: SupportedLanguage): Promise<LogoItem[]>
           originalName: country.name,
           imageUrl: generateFlagUrl(country),
           eliminated: false,
+          countryData: country,
         });
       }
       else {

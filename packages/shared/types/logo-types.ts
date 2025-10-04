@@ -1,5 +1,6 @@
 import type { z } from 'zod';
 import type { logoSetSchema } from '../schemas/logo-schemas';
+import type { Country } from './country';
 import type { SupportedLanguage } from './i18n';
 
 export interface LogoItem {
@@ -8,6 +9,7 @@ export interface LogoItem {
   originalName?: string;
   imageUrl: string;
   eliminated: boolean;
+  countryData?: Country;
 }
 export type LocaleRecord = {
   [key in SupportedLanguage]: string;

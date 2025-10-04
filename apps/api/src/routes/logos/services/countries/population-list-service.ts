@@ -15,5 +15,6 @@ export async function populationList(_language: SupportedLanguage): Promise<Logo
     originalName: country.name,
     imageUrl: generateFlagUrl(country),
     eliminated: false,
+    countryData: country,
   }));
 }

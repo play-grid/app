@@ -1,4 +1,4 @@
-import type { LogoSetKey, SupportedLanguage } from '@guess-logo/shared/types';
+import type { LogoItem, LogoSetKey, SupportedLanguage } from '@guess-logo/shared/types';
 import client from '@/lib/hono-client';
 
 export async function fetchLogos(
@@ -22,5 +22,5 @@ export async function fetchLogos(
     throw new Error('Failed to fetch logos');
   }
 
-  return res.json();
+  return (await res.json()) as LogoItem[];
 }

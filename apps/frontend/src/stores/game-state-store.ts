@@ -92,11 +92,13 @@ export const useGameStore = create<GameState>()(
           try {
             const fetchedLogos = await fetchLogos(logoSet, listId, language, count);
 
-            const logos: LogoItem[] = fetchedLogos.map((logo, index) => ({
-              id: index, // Using index as a temporary ID
+            const logos: LogoItem[] = fetchedLogos.map(logo => ({
+              id: logo.id,
               name: logo.name,
+              originalName: logo.originalName,
               imageUrl: logo.imageUrl,
               eliminated: false,
+              countryData: logo.countryData,
             }));
 
             // Instead of calling initializeGame from within set callback,

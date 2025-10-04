@@ -92,6 +92,28 @@ export function LogoItemComponent({
       </TooltipTrigger>
       <TooltipContent>
         <p>{formattedName}</p>
+        {logo.countryData && (
+          <div className="text-xs text-muted-foreground mt-1">
+            {logo.countryData.region && (
+              <p>
+                Region:
+                {logo.countryData.region}
+              </p>
+            )}
+            {logo.countryData.languages && logo.countryData.languages.length > 0 && (
+              <p>
+                Languages:
+                {logo.countryData.languages.slice(0, 2).map(lang => lang.name).join(', ')}
+              </p>
+            )}
+            {logo.countryData.currencies && logo.countryData.currencies.length > 0 && (
+              <p>
+                Currency:
+                {logo.countryData.currencies.map(curr => curr.name).join(', ')}
+              </p>
+            )}
+          </div>
+        )}
       </TooltipContent>
     </Tooltip>
   );
