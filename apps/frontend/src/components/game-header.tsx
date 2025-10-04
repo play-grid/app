@@ -39,7 +39,7 @@ export function GameHeader({
   onStartNewGame,
   onListChange,
 }: GameHeaderProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const renderWinnerBadge = (player: Player, key: string) =>
     player.winner && (
@@ -135,7 +135,7 @@ export function GameHeader({
           <SelectContent>
             {availableLists.map(list => (
               <SelectItem key={list.id} value={list.id}>
-                {t(list.name)}
+                {list.name[i18n.language as keyof typeof list.name]}
               </SelectItem>
             ))}
           </SelectContent>

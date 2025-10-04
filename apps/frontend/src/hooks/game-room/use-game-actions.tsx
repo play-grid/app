@@ -5,7 +5,7 @@ interface GameActionConfig {
   mode: GameMode;
   sendAction?: (action: any) => void; // from useOnlineGame
 }
-// TODO : implement game logic actions like "ELIMINATED" logo 
+// TODO : implement game logic actions like "ELIMINATED" logo
 export function useGameActions({ mode, sendAction }: GameActionConfig) {
   const {
     togglePlayerALogo,

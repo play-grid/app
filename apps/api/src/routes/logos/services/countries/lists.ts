@@ -4,7 +4,10 @@ import { countriesList } from './countries-list';
 export const countriesLists: LogoList[] = [
   {
     id: 'countries',
-    name: 'Countries',
+    name: {
+      en: 'Countries',
+      ar: 'دول',
+    },
     fetchItems: countriesList,
   },
 ];

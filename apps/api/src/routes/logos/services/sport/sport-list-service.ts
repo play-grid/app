@@ -13,9 +13,12 @@ function createLeagueFetcher(leagueId: number) {
       }));
   };
 }
-
+// todo fix sport Lists
 export const sportLists: LogoList[] = leagues.map(league => ({
   id: String(league.id),
-  name: league.name,
+  name: {
+    en: league.name,
+    ar: league.name,
+  },
   fetchItems: createLeagueFetcher(league.id),
 }));

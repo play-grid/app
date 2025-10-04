@@ -9,10 +9,15 @@ export const logoItemSchema = z.object({
   imageUrl: z.string(),
 });
 
+export const localeRecordSchema = z.object({
+  en: z.string(),
+  ar: z.string(),
+});
+
 // Logo list schema
 export const logoListSchema = z.object({
   id: z.string(),
-  name: z.string(),
+  name: localeRecordSchema,
 });
 
 // Query parameters schema

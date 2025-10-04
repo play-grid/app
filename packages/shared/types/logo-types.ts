@@ -8,9 +8,13 @@ export interface LogoItem {
   imageUrl: string;
   eliminated: boolean;
 }
+export type LocaleRecord = {
+  [key in SupportedLanguage]: string;
+};
+
 export interface LogoList {
   id: string;
-  name: string;
+  name: LocaleRecord;
   fetchItems: (language: SupportedLanguage) => Promise<LogoItem[]>;
 }
 
