@@ -1,6 +1,5 @@
-import { countryCode } from '@guess-logo/shared/data';
+import type { Country } from '@guess-logo/shared/types';
 
-export function generateFlagUrl(name: string): string {
-  const code = (countryCode as Record<string, string>)[name] || 'US';
-  return `https://flagsapi.com/${code}/flat/64.png`;
+export function generateFlagUrl(country: Country): string {
+  return country.flags.png; // Using png for consistency, can be svg if preferred
 }

@@ -1,5 +1,6 @@
 import type { LogoList } from '@guess-logo/shared/types';
-import { countriesList } from './countries-list';
+import { gdpList } from './gdp-list-service';
+import { populationList } from './population-list-service';
 
 export const countriesLists: LogoList[] = [
   {
@@ -8,6 +9,14 @@ export const countriesLists: LogoList[] = [
       en: 'Countries',
       ar: 'دول',
     },
-    fetchItems: countriesList,
+    fetchItems: gdpList,
+  },
+  {
+    id: 'top-population',
+    name: {
+      en: 'Top Population',
+      ar: 'أعلى كثافة سكانية',
+    },
+    fetchItems: populationList,
   },
 ];
