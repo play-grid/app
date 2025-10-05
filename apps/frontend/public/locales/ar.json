@@ -132,5 +132,8 @@
   "invalid-game-title": "لعبة غير صالحة",
   "invalid-game-description": "رابط اللعبة غير صحيح أو أن الجلسة قد انتهت. يرجى إنشاء لعبة جديدة.",
   "back-to-home": "العودة إلى الرئيسية",
-  "shuffle": "خلط"
+  "shuffle": "خلط",
+  "country-data-region": "المنطقة:",
+  "country-data-languages": "اللغات:",
+  "country-data-currency": "العملة:"
 }

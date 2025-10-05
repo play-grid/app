@@ -1,6 +1,8 @@
 import type { LogoItem } from '@guess-logo/shared/types';
+import { containsArabic } from '@guess-logo/shared/utils';
 import { Trophy, X } from 'lucide-react';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Card } from '@/components/ui/card';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 
@@ -19,6 +21,7 @@ export function LogoItemComponent({
   isQueryLoading = false,
   hasQueryError = false,
 }: LogoItemProps) {
+  const { t } = useTranslation();
   // Individual image loading state (separate from query loading)
   const [imageLoading, setImageLoading] = useState(true);
   const [imageError, setImageError] = useState(false);
@@ -96,19 +99,27 @@ export function LogoItemComponent({
           <div className="text-xs text-muted-foreground mt-1">
             {logo.countryData.region && (
               <p>
-                Region:
+                {t('country-data-region')}
                 {logo.countryData.region}
               </p>
             )}
             {logo.countryData.languages && logo.countryData.languages.length > 0 && (
               <p>
-                Languages:
-                {logo.countryData.languages.slice(0, 2).map(lang => lang.name).join(', ')}
+                {t('country-data-languages')}
+                {' '}
+                {logo.countryData.languages
+                  .slice(0, 2)
+                  .map(lang =>
+                    lang?.nativeName && containsArabic(lang.nativeName)
+                      ? lang.nativeName
+                      : lang.name,
+                  )
+                  .join(', ')}
               </p>
             )}
             {logo.countryData.currencies && logo.countryData.currencies.length > 0 && (
               <p>
-                Currency:
+                {t('country-data-currency')}
                 {logo.countryData.currencies.map(curr => curr.name).join(', ')}
               </p>
             )}

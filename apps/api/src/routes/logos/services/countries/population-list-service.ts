@@ -1,8 +1,9 @@
 import type { LogoItem, SupportedLanguage } from '@guess-logo/shared/types';
 import { getAllCountries } from './apicountries-service';
+import { getLocalizedCountryName } from './country-utils';
 import { generateFlagUrl } from './flag-logo-service';
 
-export async function populationList(_language: SupportedLanguage): Promise<LogoItem[]> {
+export async function populationList(language: SupportedLanguage): Promise<LogoItem[]> {
   const countries = await getAllCountries();
 
   // Sort by population in descending order
@@ -11,7 +12,7 @@ export async function populationList(_language: SupportedLanguage): Promise<Logo
 
   return sortedCountries.map((country, index) => ({
     id: index,
-    name: country.name,
+    name: getLocalizedCountryName(country, language),
     originalName: country.name,
     imageUrl: generateFlagUrl(country),
     eliminated: false,

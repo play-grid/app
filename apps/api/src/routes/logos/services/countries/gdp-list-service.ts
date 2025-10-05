@@ -1,9 +1,10 @@
 import type { LogoItem, SupportedLanguage } from '@guess-logo/shared/types';
 import { topGdpCountryNames } from '@guess-logo/shared/data';
 import { getCountryByName } from './apicountries-service';
+import { getLocalizedCountryName } from './country-utils';
 import { generateFlagUrl } from './flag-logo-service';
 
-export async function gdpList(_language: SupportedLanguage): Promise<LogoItem[]> {
+export async function gdpList(language: SupportedLanguage): Promise<LogoItem[]> {
   const logoItems: LogoItem[] = [];
   let idCounter = 0;
 
@@ -14,7 +15,7 @@ export async function gdpList(_language: SupportedLanguage): Promise<LogoItem[]>
         const country = countries[0];
         logoItems.push({
           id: idCounter++,
-          name: country.name,
+          name: getLocalizedCountryName(country, language),
           originalName: country.name,
           imageUrl: generateFlagUrl(country),
           eliminated: false,
