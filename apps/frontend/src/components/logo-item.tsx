@@ -21,7 +21,7 @@ export function LogoItemComponent({
   isQueryLoading = false,
   hasQueryError = false,
 }: LogoItemProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   // Individual image loading state (separate from query loading)
   const [imageLoading, setImageLoading] = useState(true);
   const [imageError, setImageError] = useState(false);
@@ -93,38 +93,54 @@ export function LogoItemComponent({
           </div>
         </Card>
       </TooltipTrigger>
-      <TooltipContent>
-        <p>{formattedName}</p>
-        {logo.countryData && (
-          <div className="text-xs text-muted-foreground mt-1">
-            {logo.countryData.region && (
-              <p>
-                {t('country-data-region')}
-                {logo.countryData.region}
-              </p>
-            )}
-            {logo.countryData.languages && logo.countryData.languages.length > 0 && (
-              <p>
-                {t('country-data-languages')}
-                {' '}
-                {logo.countryData.languages
-                  .slice(0, 2)
-                  .map(lang =>
-                    lang?.nativeName && containsArabic(lang.nativeName)
-                      ? lang.nativeName
-                      : lang.name,
-                  )
-                  .join(', ')}
-              </p>
-            )}
-            {logo.countryData.currencies && logo.countryData.currencies.length > 0 && (
-              <p>
-                {t('country-data-currency')}
-                {logo.countryData.currencies.map(curr => curr.name).join(', ')}
-              </p>
-            )}
-          </div>
-        )}
+      <TooltipContent className="max-w-xs">
+        <div className="space-y-3">
+          <p className="font-bold text-sm tracking-wide border-b border-background/20 pb-2">{formattedName}</p>
+          {logo.countryData && (
+            <div className="space-y-2.5 text-xs">
+              {logo.countryData.region && (
+                <div className="flex items-start gap-3 group">
+                  <span className="text-background/60 min-w-[4.5rem] font-medium uppercase text-[10px] tracking-wider pt-0.5">
+                    {t('country-data-region')}
+                  </span>
+                  <span className="font-medium flex-1 group-hover:text-background/80 transition-colors">
+                    {logo.countryData.region}
+                  </span>
+                </div>
+              )}
+              {logo.countryData.languages && logo.countryData.languages.length > 0 && (
+                <div className="flex items-start gap-3 group">
+                  <span className="text-background/60 min-w-[4.5rem] font-medium uppercase text-[10px] tracking-wider pt-0.5">
+                    {t('country-data-languages')}
+                  </span>
+                  <span className="font-medium flex-1 group-hover:text-background/80 transition-colors">
+                    {logo.countryData.languages
+                      .slice(0, 2)
+                      .map((lang) => {
+                        if (i18n.language === 'ar') {
+                          return lang?.nativeName && containsArabic(lang.nativeName)
+                            ? lang.nativeName
+                            : lang.name;
+                        }
+                        return lang.name;
+                      })
+                      .join(', ')}
+                  </span>
+                </div>
+              )}
+              {logo.countryData.currencies && logo.countryData.currencies.length > 0 && (
+                <div className="flex items-start gap-3 group">
+                  <span className="text-background/60 min-w-[4.5rem] font-medium uppercase text-[10px] tracking-wider pt-0.5">
+                    {t('country-data-currency')}
+                  </span>
+                  <span className="font-medium flex-1 group-hover:text-background/80 transition-colors">
+                    {logo.countryData.currencies.map(curr => curr.name).join(', ')}
+                  </span>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
       </TooltipContent>
     </Tooltip>
   );
