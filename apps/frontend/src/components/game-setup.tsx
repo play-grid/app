@@ -1,12 +1,21 @@
 import type { Player } from '@guess-logo/shared/types';
 import type { LogoSetKey } from '@/lib/logo-data';
-import { Building2, Clock, Film, Flag, Grid3X3, Trophy, Users, Zap } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { z } from 'zod';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import {
+  BasketballIcon,
+  BuildingsIcon,
+  ClockIcon,
+  FlagIcon,
+  GridIcon,
+  TrophyIcon,
+  UsersIcon,
+  VideoIcon,
+} from '@/components/ui/icons';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -33,28 +42,28 @@ const logoSets = [
     id: 'companies' as LogoSetKey,
     name: 'companies',
     description: 'famous-brand-logos',
-    icon: Building2,
+    icon: BuildingsIcon,
     color: 'bg-blue-500',
   },
   {
     id: 'countries' as LogoSetKey,
     name: 'countries',
     description: 'national-flags',
-    icon: Flag,
+    icon: FlagIcon,
     color: 'bg-green-500',
   },
   {
     id: 'movies' as LogoSetKey,
     name: 'movies',
     description: 'film-and-tv-logos',
-    icon: Film,
+    icon: VideoIcon,
     color: 'bg-purple-500',
   },
   {
     id: 'sports' as LogoSetKey,
     name: 'sports',
     description: 'team-and-league-logos',
-    icon: Zap,
+    icon: BasketballIcon,
     color: 'bg-orange-500',
   },
 ];
@@ -103,7 +112,7 @@ export function GameSetup({
         <SiteCustomizations />
 
         <div className="mb-8">
-          <Trophy className="w-16 h-16 mx-auto mb-4 text-primary" />
+          <TrophyIcon className="w-16 h-16 mx-auto mb-4 text-primary" />
           <h1 className="text-4xl font-serif text-center tracking-tight font-light mb-2">{t('logo-guessing-game')}</h1>
           <p className="text-muted-foreground">
             {t('game-setup-description')}
@@ -114,7 +123,7 @@ export function GameSetup({
           {/* Player Names Section */}
           <div>
             <div className="flex items-center justify-center gap-2 mb-4">
-              <Users className="w-5 h-5 text-primary" />
+              <UsersIcon className="w-5 h-5 text-primary" />
               <label className="text-lg font-semibold">{t('player-names')}</label>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -197,7 +206,7 @@ export function GameSetup({
                 {gridConfigurations.map(config => (
                   <SelectItem key={config.id} value={config.id}>
                     <div className="flex items-center gap-2">
-                      <Grid3X3 className="w-4 h-4" />
+                      <GridIcon className="w-4 h-4" />
                       <span>{t(config.name)}</span>
                       <Badge variant="secondary" className="text-xs">
                         {t(config.difficulty)}
@@ -215,14 +224,14 @@ export function GameSetup({
               </div>
               <div className="flex items-center gap-4 text-muted-foreground">
                 <div className="flex items-center gap-1">
-                  <Grid3X3 className="w-4 h-4" />
+                  <GridIcon className="w-4 h-4" />
                   <span>
                     {currentGrid.totalLogos}
                     {t('logos')}
                   </span>
                 </div>
                 <div className="flex items-center gap-1">
-                  <Clock className="w-4 h-4" />
+                  <ClockIcon className="w-4 h-4" />
                   <span>{t(currentGrid.estimatedTime)}</span>
                 </div>
               </div>

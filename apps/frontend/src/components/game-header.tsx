@@ -1,6 +1,5 @@
 import type { LogoList, LogoSetKey, Player } from '@guess-logo/shared/types';
 import type { GridConfiguration } from '@/lib/grid-configurations';
-import { Grid3X3, Plus, RotateCcw, Trophy } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -11,6 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { GridIcon, PlusIcon, RefreshIcon, RestartIcon, TrophyIcon } from './ui/icons';
 
 interface GameHeaderProps {
   selectedSet: LogoSetKey;
@@ -52,7 +52,7 @@ export function GameHeader({
       {winner && winningPlayer && (
         <div className="bg-gradient-to-r from-green-500/20 via-green-400/20 to-green-500/20 border-2 border-green-500/50 rounded-lg p-4 animate-pulse">
           <div className="flex items-center justify-center gap-3">
-            <Trophy className="w-6 h-6 text-green-600" />
+            {/* <Trophy className="w-6 h-6 text-green-600" /> */}
             <span className="text-lg font-bold text-green-700 dark:text-green-400">
               🎉
               {' '}
@@ -63,7 +63,7 @@ export function GameHeader({
               {winner.name}
               !
             </span>
-            <Trophy className="w-6 h-6 text-green-600" />
+            <TrophyIcon className="w-6 h-6 text-green-600" />
           </div>
         </div>
       )}
@@ -121,7 +121,7 @@ export function GameHeader({
               {t(selectedSet)}
             </Badge>
             <Badge variant="outline" className="flex items-center gap-1.5">
-              <Grid3X3 className="w-3 h-3" />
+              <GridIcon className="w-3 h-3" />
               <span>
                 {t(gridConfig.name)}
                 {' '}
@@ -152,15 +152,16 @@ export function GameHeader({
               {t('switch-turn')}
             </Button>
             <Button variant="ghost" size="sm" onClick={onShuffle}>
+              <RefreshIcon className="w-4 h-4" />
               {t('shuffle')}
             </Button>
             {onStartNewGame && (
               <Button variant="outline" size="sm" onClick={onStartNewGame}>
-                <Plus className="w-4 h-4" />
+                <PlusIcon className="w-4 h-4" />
               </Button>
             )}
             <Button variant="outline" size="sm" onClick={onResetGame}>
-              <RotateCcw className="w-4 h-4" />
+              <RestartIcon className="w-4 h-4" />
             </Button>
           </div>
         </div>
