@@ -6,7 +6,6 @@ import Root from './root';
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ErrorBoundary>
-
       <Root />
     </ErrorBoundary>
   </StrictMode>,

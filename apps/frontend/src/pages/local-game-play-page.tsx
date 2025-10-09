@@ -4,6 +4,7 @@ import { GameHeader } from '@/components/game-header';
 import { GameInstructions } from '@/components/game-instructions';
 import { PlayerGrid } from '@/components/player-grid';
 import { Button } from '@/components/ui/button';
+import { Spinner } from '@/components/ui/spinner';
 import { useGameError } from '@/hooks/game-room/use-game-error';
 import { useGameRoomPersistence } from '@/hooks/game-room/use-game-room-persistence';
 import { useGameRouteParams } from '@/hooks/game-room/use-game-route-params';
@@ -93,11 +94,9 @@ export function LocalGamePlayPage() {
 
   if (showLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-          <p className="text-lg">{loadingMessage}</p>
-        </div>
+      <div className="fixed inset-0 flex flex-col items-center justify-center bg-[#e9f1f1]">
+        <Spinner className="size-12 mb-3" />
+        <p className="text-lg font-medium text-gray-800">{loadingMessage}</p>
       </div>
     );
   }

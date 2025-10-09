@@ -45,12 +45,10 @@ function SiteCustomizations() {
           name="site_customizations"
           className={cn(
             'group',
-            'bg-background/80 backdrop-blur-sm glass-effect',
-            'border-2 border-border hover:border-primary transition-all duration-300',
-            'rounded-full p-2 size-9 shadow-sm hover:shadow-md hover-lift',
+            'rounded-full p-2 size-9',
             isRTL ? 'ml-auto' : 'mr-auto',
           )}
-          variant="ghost"
+          variant="secondary"
         >
           <Settings className="w-6 h-6 text-primary transition-colors duration-300" />
         </Button>

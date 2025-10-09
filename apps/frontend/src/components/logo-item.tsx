@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card } from '@/components/ui/card';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import { Spinner } from './ui/spinner';
 
 export interface LogoItemProps {
   logo: LogoItem;
@@ -63,7 +64,7 @@ export function LogoItemComponent({
                     />
                     {showLoadingSpinner && (
                       <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="w-6 h-6 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+                        <Spinner />
                       </div>
                     )}
                   </div>
@@ -79,7 +80,7 @@ export function LogoItemComponent({
                     </span>
                     {showLoadingSpinner && (
                       <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="w-6 h-6 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+                        <Spinner />
                       </div>
                     )}
                   </div>
