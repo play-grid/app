@@ -3,7 +3,13 @@ import type { Country } from '@guess-logo/shared/types';
 const BASE_URL = 'https://www.apicountries.com';
 
 async function fetchFromApi<T>(path: string): Promise<T> {
-  const response = await fetch(`${BASE_URL}${path}`);
+  // Ensure every segment of the path is URI-encoded
+  const encodedPath = path
+    .split('/')
+    .map(segment => encodeURIComponent(segment))
+    .join('/');
+
+  const response = await fetch(`${BASE_URL}${encodedPath}`);
   if (!response.ok) {
     throw new Error(`API request failed: ${response.statusText}`);
   }

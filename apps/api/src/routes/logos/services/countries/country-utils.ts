@@ -1,30 +1,36 @@
-import type { Country } from '@guess-logo/shared/types';
-import { containsArabic } from '@guess-logo/shared/utils';
+import type { Country, SupportedLanguage } from '@guess-logo/shared/types';
+import { regionOverrides } from '@guess-logo/shared/data';
 
-function cleanName(name: string): string {
-  return name
-    .replace(/ of .*/i, '') // remove "of …"
-    .replace(/,.*$/, '') // remove anything after comma
-    .replace(/ Minor Outlying Islands/i, '') // special cleanup
-    .replace(/ Republic$/i, '') // optional: remove trailing "Republic"
-    .trim();
-}
+// function cleanName(name: string): string {
+//   return name
+//     .replace(/ of .*/i, '') // remove "of …"
+//     .replace(/,.*$/, '') // remove anything after comma
+//     .replace(/ Minor Outlying Islands/i, '') // special cleanup
+//     .replace(/ Republic$/i, '') // optional: remove trailing "Republic"
+//     .trim();
+// }
 
-function getCleanName(country: Country) {
-  if (country.altSpellings?.length) {
-    const readable = country.altSpellings
-      .map(cleanName)
-      .find(n => n.length > 2 && n.length <= 20);
-    if (readable)
-      return readable;
-  }
-  return cleanName(country.name);
-}
-export function getLocalizedCountryName(country: Country, language: 'en' | 'ar') {
+// function getCleanName(country: Country) {
+//   if (country.altSpellings?.length) {
+//     const readable = country.altSpellings
+//       .map(cleanName)
+//       .find(n => n.length > 2 && n.length <= 20);
+//     if (readable)
+//       return readable;
+//   }
+//   return cleanName(country.name);
+// }
+
+export function getLocalizedCountryData(
+  country: Country,
+  language: SupportedLanguage,
+): Country {
   if (language === 'ar') {
-    return country.nativeName && containsArabic(country.nativeName)
-      ? country.nativeName
-      : getCleanName(country);
+    const translatedRegion = (regionOverrides.en_to_ar as Record<string, string>)[country.region];
+    return {
+      ...country,
+      region: translatedRegion ?? country.region,
+    };
   }
-  return getCleanName(country);
+  return country;
 }

@@ -1,6 +1,6 @@
 import type { LogoItem, SupportedLanguage } from '@guess-logo/shared/types';
 import { getAllCountries } from './apicountries-service';
-import { getLocalizedCountryName } from './country-utils';
+import { getLocalizedCountryData } from './country-utils';
 import { generateFlagUrl } from './flag-logo-service';
 
 export async function populationList(language: SupportedLanguage): Promise<LogoItem[]> {
@@ -10,12 +10,15 @@ export async function populationList(language: SupportedLanguage): Promise<LogoI
   const sortedCountries = countries
     .sort((a, b) => (b.population || 0) - (a.population || 0));
 
-  return sortedCountries.map((country, index) => ({
-    id: index,
-    name: getLocalizedCountryName(country, language),
-    originalName: country.name,
-    imageUrl: generateFlagUrl(country),
-    eliminated: false,
-    countryData: country,
-  }));
+  return sortedCountries.map((country, index) => {
+    const name = language === 'ar' ? country.translations?.ar ?? '' : country.name;
+    return {
+      id: index,
+      name,
+      originalName: country.name,
+      imageUrl: generateFlagUrl(country),
+      eliminated: false,
+      countryData: getLocalizedCountryData(country, language),
+    };
+  });
 }
