@@ -1,4 +1,5 @@
 import type { SupportedLanguage } from '@guess-logo/shared/types';
+import type { FooterAttribution, FooterLogoSet } from '@/lib/footer-attribution';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { GameHeader } from '@/components/game-header';
@@ -14,6 +15,7 @@ import { useGameUI } from '@/hooks/game-room/use-game-ui';
 import { useLanguageNavigation } from '@/hooks/use-language-navigation';
 import { useLogoListChanger } from '@/hooks/use-logo-list-changer';
 import { useLogoListsQuery } from '@/hooks/use-logo-lists-query';
+import { footerAttribution } from '@/lib/footer-attribution';
 import { getGridConfiguration } from '@/lib/grid-configurations';
 import { useGameStore } from '@/stores/game-state-store';
 
@@ -114,6 +116,12 @@ export function LocalGamePlayPage() {
         </div>
       </div>
     );
+  }
+  const logoSetKey = routeParams.logoSet as string;
+
+  let footerData: FooterAttribution | null = null;
+  if (logoSetKey in footerAttribution) {
+    footerData = footerAttribution[logoSetKey as FooterLogoSet];
   }
 
   return (
