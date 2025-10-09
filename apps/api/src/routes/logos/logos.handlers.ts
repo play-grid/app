@@ -45,39 +45,52 @@ export const getLogosBySetAndList: AppRouteHandler<GetLogosBySetAndListRoute> = 
   const logoOverrides = rawOverrides as LogoOverrides;
 
   const overrideVersion = logoOverrides._v || '';
-  const cacheKey = `logos:${set}:${list}:${countNum}:${language}:${overrideVersion}:${shuffle}`;
+
+  // Cache key for the FULL dataset (without count or shuffle in the key)
+  const fullDatasetCacheKey = `logos:full:${set}:${list}:${language}:${overrideVersion}`;
 
   try {
-    // Check cache first
-    const cached = await c.env.LOGO_CACHE.get(cacheKey);
+    let allLogos: LogoItem[];
+
+    // Check cache for full dataset first
+    const cached = await c.env.LOGO_CACHE.get(fullDatasetCacheKey);
+
     if (cached) {
-      return c.json(JSON.parse(cached), HttpStatusCodes.OK);
+      allLogos = JSON.parse(cached);
+    }
+    else {
+      // Fetch ALL logos from the specific list
+      const logos = await fetchLogosFromList(set, list, language);
+
+      // Apply overrides from the JSON file
+      allLogos = logos.map((logo) => {
+        const overrideKey = logo.originalName || logo.name;
+        const overrideUrl = logoOverrides.sets[set]?.[list]?.[overrideKey];
+        if (overrideUrl) {
+          return { ...logo, imageUrl: overrideUrl };
+        }
+        return logo;
+      });
+
+      // Cache the FULL dataset for 24 hours
+      await c.env.LOGO_CACHE.put(fullDatasetCacheKey, JSON.stringify(allLogos), {
+        expirationTtl: 86400,
+      });
     }
 
-    // Fetch logos from the specific list
-    const logos = await fetchLogosFromList(set, list, countNum, language);
+    let processedLogos: LogoItem[];
 
-    // Apply overrides from the JSON file
-    const overriddenLogos = logos.map((logo) => {
-      const overrideKey = logo.originalName || logo.name; // Use originalName for lookup, fallback to name
-      const overrideUrl = logoOverrides.sets[set]?.[list]?.[overrideKey];
-      if (overrideUrl) {
-        return { ...logo, imageUrl: overrideUrl };
-      }
-      return logo;
-    });
-
-    // shuffle
+    // If shuffle is requested, shuffle the full dataset then slice
     if (shuffle === true) {
-      shuffleArray(overriddenLogos);
+      const shuffledLogos = shuffleArray([...allLogos]); // Clone to avoid mutating cache
+      processedLogos = shuffledLogos.slice(0, countNum);
+    }
+    else {
+      // No shuffle, just take the first N items
+      processedLogos = allLogos.slice(0, countNum);
     }
 
-    // Cache for 24 hours
-    await c.env.LOGO_CACHE.put(cacheKey, JSON.stringify(overriddenLogos), {
-      expirationTtl: 86400,
-    });
-
-    return c.json(overriddenLogos, HttpStatusCodes.OK);
+    return c.json(processedLogos, HttpStatusCodes.OK);
   }
   catch (error) {
     console.error(`Failed to fetch logos for set ${set}, list ${list}:`, error);
@@ -92,7 +105,6 @@ export const getLogosBySetAndList: AppRouteHandler<GetLogosBySetAndListRoute> = 
 async function fetchLogosFromList(
   set: TLogoSet,
   listId: string,
-  count: number,
   language = 'en',
 ): Promise<LogoItem[]> {
   try {
@@ -108,10 +120,7 @@ async function fetchLogosFromList(
     // Get logo items from the list with language parameter
     const logoItems = await targetList.fetchItems(language as any);
 
-    // Take only the requested count
-    const selectedItems = logoItems.slice(0, count);
-
-    return selectedItems;
+    return logoItems;
   }
   catch (error) {
     console.error(`Error fetching logos from list ${listId} in set ${set}:`, error);

@@ -5,7 +5,6 @@ import type {
   SharedGameState,
   SupportedLanguage,
 } from '@guess-logo/shared/types';
-import { shuffleArray } from '@guess-logo/shared/utils';
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
@@ -32,7 +31,7 @@ export interface GameState extends SharedGameState {
   setPlayerBName: (name: string) => void;
   setCurrentPlayer: (player: 'A' | 'B') => void;
   switchTurn: () => void;
-  shuffleLogos: () => void;
+  shuffleLogos: (language: SupportedLanguage) => Promise<void>;
 
   // Game Initialization
   initializeGame: (logos: LogoItem[]) => void;
@@ -188,11 +187,52 @@ export const useGameStore = create<GameState>()(
           set((state) => {
             state.currentPlayer = player;
           }),
-        shuffleLogos: () =>
-          set((state) => {
-            state.playerA.logos = shuffleArray(state.playerA.logos);
-            state.playerB.logos = shuffleArray(state.playerB.logos);
-          }),
+
+        shuffleLogos: async (language) => {
+          const state = get();
+          if (!state.gameInitialized) {
+            return;
+          }
+
+          try {
+            const fetchedLogos = await fetchLogos(
+              state.selectedSet,
+              state.selectedList,
+              language,
+              state.playerA.logos.length,
+              true, // Request a shuffled list
+            );
+
+            const newLogos: LogoItem[] = fetchedLogos.map(logo => ({
+              id: logo.id,
+              name: logo.name,
+              originalName: logo.originalName,
+              imageUrl: logo.imageUrl,
+              eliminated: false,
+              countryData: logo.countryData,
+            }));
+
+            set((s) => {
+              const { getPlayerStats } = get();
+              const stats = getPlayerStats(newLogos);
+
+              // Both players get the same fresh shuffled logos
+              s.playerA.logos = [...newLogos];
+              s.playerA.activeCount = stats.activeCount;
+              s.playerA.winner = stats.winner;
+
+              s.playerB.logos = [...newLogos];
+              s.playerB.activeCount = stats.activeCount;
+              s.playerB.winner = stats.winner;
+            });
+          }
+          catch (error) {
+            console.error('Failed to shuffle logos', error);
+          }
+          finally {
+            set({ isUpdatingLogos: false });
+          }
+        },
         switchTurn: () =>
           set((state) => {
             state.currentPlayer = state.currentPlayer === 'A' ? 'B' : 'A';

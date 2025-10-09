@@ -6,16 +6,24 @@ export async function fetchLogos(
   listId: string,
   language: SupportedLanguage,
   count: number,
+  shuffle = false,
 ) {
+  const query: any = {
+    language,
+    count: count.toString(),
+    shuffle: shuffle ? 'true' : 'false',
+  };
+
+  if (shuffle) {
+    query._cb = new Date().getTime().toString(); // Cache buster
+  }
+
   const res = await client.api.logos[':set'][':list'].$get({
     param: {
       set: logoSet,
       list: listId,
     },
-    query: {
-      language,
-      count: count.toString(),
-    },
+    query,
   });
 
   if (!res.ok) {

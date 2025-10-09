@@ -1,3 +1,4 @@
+import type { SupportedLanguage } from '@guess-logo/shared/types';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { GameHeader } from '@/components/game-header';
@@ -94,7 +95,7 @@ export function LocalGamePlayPage() {
 
   if (showLoading) {
     return (
-      <div className="fixed inset-0 flex flex-col items-center justify-center bg-[#e9f1f1]">
+      <div className="fixed inset-0 flex flex-col items-center justify-center">
         <Spinner className="size-12 mb-3" />
         <p className="text-lg font-medium text-gray-800">{loadingMessage}</p>
       </div>
@@ -136,7 +137,7 @@ export function LocalGamePlayPage() {
         onSwitchTurn={switchTurn}
         onResetGame={handleResetGame}
         onStartNewGame={handleStartNewGame}
-        onShuffle={shuffleLogos}
+        onShuffle={() => { shuffleLogos(i18n.language as SupportedLanguage); }}
       />
       <div className="grid lg:grid-cols-[1fr_2px_1fr] gap-16 relative">
         <PlayerGrid player={playerA} onToggleLogo={togglePlayerALogo} gridConfig={gridConfig} />
