@@ -1,5 +1,5 @@
 {
-  "current-turn-player": "Current Turn: Player",
+  "current-turn-player": "Now it's {{name}} Turn's",
   "setup": "Setup",
   "new-game": "New Game",
   "switch-turn": "Switch Turn",

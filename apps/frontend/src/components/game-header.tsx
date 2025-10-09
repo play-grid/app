@@ -92,9 +92,9 @@ export function GameHeader({
             variant={currentPlayer === 'A' ? 'default' : 'secondary'}
             className="px-4 py-1.5 text-sm font-semibold"
           >
-            {t('current-turn-player')}
-            {' '}
-            {currentPlayer}
+            {i18n.language === 'ar'
+              ? `${t('current-turn-player')} ${currentPlayer === 'A' ? playerA.name : playerB.name}`
+              : t('current-turn-player', { name: currentPlayer === 'A' ? playerA.name : playerB.name })}
           </Badge>
 
           {/* Player B */}
