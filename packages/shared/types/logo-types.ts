@@ -18,7 +18,7 @@ export type LocaleRecord = {
 export interface LogoList {
   id: string;
   name: LocaleRecord;
-  fetchItems: (language: SupportedLanguage) => Promise<LogoItem[]>;
+  fetchItems: (language: SupportedLanguage, listId?: string) => Promise<LogoItem[]>;
 }
 
 export type LogoSetKey = z.infer<typeof logoSetSchema>;

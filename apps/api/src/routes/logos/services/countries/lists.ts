@@ -14,8 +14,8 @@ export const countriesLists: LogoList[] = [
   {
     id: 'top-population',
     name: {
-      en: 'Top Population',
-      ar: 'أعلى كثافة سكانية',
+      en: 'Highest population density countries',
+      ar: 'أعلى دول كثافة سكانية',
     },
     fetchItems: populationList,
   },

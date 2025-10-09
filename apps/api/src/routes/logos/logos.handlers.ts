@@ -59,20 +59,18 @@ export const getLogosBySetAndList: AppRouteHandler<GetLogosBySetAndListRoute> = 
       allLogos = JSON.parse(cached);
     }
     else {
-      // Fetch ALL logos from the specific list
       const logos = await fetchLogosFromList(set, list, language);
 
-      // Apply overrides from the JSON file
       allLogos = logos.map((logo) => {
         const overrideKey = logo.originalName || logo.name;
         const overrideUrl = logoOverrides.sets[set]?.[list]?.[overrideKey];
+
         if (overrideUrl) {
           return { ...logo, imageUrl: overrideUrl };
         }
         return logo;
       });
 
-      // Cache the FULL dataset for 24 hours
       await c.env.LOGO_CACHE.put(fullDatasetCacheKey, JSON.stringify(allLogos), {
         expirationTtl: 86400,
       });
@@ -118,7 +116,8 @@ async function fetchLogosFromList(
     }
 
     // Get logo items from the list with language parameter
-    const logoItems = await targetList.fetchItems(language as any);
+    // Pass listId so fetchItems can check for overrides
+    const logoItems = await targetList.fetchItems(language as any, listId);
 
     return logoItems;
   }

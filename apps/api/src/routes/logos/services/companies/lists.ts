@@ -9,7 +9,7 @@ export const companiesLists: LogoList[] = [
       en: 'Companies',
       ar: 'شركات',
     },
-    fetchItems: companyList,
+    fetchItems: async (language, listId) => companyList(language, listId || 'companies'),
   },
   {
     id: 'saudi',
@@ -17,6 +17,6 @@ export const companiesLists: LogoList[] = [
       en: 'Saudi Companies',
       ar: 'شركات سعودية',
     },
-    fetchItems: saudiCompanyList,
+    fetchItems: async (language, listId) => saudiCompanyList(language, listId || 'saudi'),
   },
 ];
