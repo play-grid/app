@@ -133,5 +133,6 @@
   "shuffle": "shuffle",
   "country-data-region": "Region:",
   "country-data-languages": "Languages:",
-  "country-data-currency": "Currency:"
+  "country-data-currency": "Currency:",
+  "grid-size": "Grid size"
 }

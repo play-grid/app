@@ -48,6 +48,9 @@ export interface GameState extends SharedGameState {
 
   // Server state sync
   applyServerState: (gameState: Partial<SharedGameState>) => void;
+
+  gridCols: number;
+  setGridCols: (cols: number) => void;
 }
 
 const initialPlayerA: Player = {
@@ -81,6 +84,11 @@ export const useGameStore = create<GameState>()(
         gameInitialized: false,
         isUpdatingList: false,
         isUpdatingLogos: false,
+        gridCols: 4,
+
+        setGridCols: (cols) => {
+          set({ gridCols: cols });
+        },
 
         updateLogosForList: async (listId, logoSet, language, count) => {
           const { gameInitialized, selectedList, selectedSet: currentSet } = get();
@@ -361,6 +369,7 @@ export const useGameStore = create<GameState>()(
           currentPlayer: state.currentPlayer,
           gameStarted: state.gameStarted,
           gameInitialized: state.gameInitialized,
+          gridCols: state.gridCols,
         }),
       },
     ),

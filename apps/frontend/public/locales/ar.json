@@ -135,5 +135,6 @@
   "shuffle": "خلط",
   "country-data-region": "المنطقة:",
   "country-data-languages": "اللغات:",
-  "country-data-currency": "العملة:"
+  "country-data-currency": "العملة:",
+  "grid-size": "حجم الشبكة"
 }

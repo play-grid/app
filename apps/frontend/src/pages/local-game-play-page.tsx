@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { GameHeader } from '@/components/game-header';
 import { GameInstructions } from '@/components/game-instructions';
+import { GridSizeSlider } from '@/components/grid-size-slider';
 import { PlayerGrid } from '@/components/player-grid';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
@@ -139,10 +140,13 @@ export function LocalGamePlayPage() {
         onStartNewGame={handleStartNewGame}
         onShuffle={() => { shuffleLogos(i18n.language as SupportedLanguage); }}
       />
+      <div className="w-1/4 mx-auto">
+        <GridSizeSlider />
+      </div>
       <div className="grid lg:grid-cols-[1fr_2px_1fr] gap-16 relative">
-        <PlayerGrid player={playerA} onToggleLogo={togglePlayerALogo} gridConfig={gridConfig} />
+        <PlayerGrid player={playerA} onToggleLogo={togglePlayerALogo} />
         <div className="bg-gray-300 border-1" />
-        <PlayerGrid player={playerB} onToggleLogo={togglePlayerBLogo} gridConfig={gridConfig} />
+        <PlayerGrid player={playerB} onToggleLogo={togglePlayerBLogo} />
       </div>
       {routeParams.logoSet === 'companies' && (
         <div className="text-center mt-4">

@@ -1,15 +1,18 @@
 import type { Player } from '@guess-logo/shared/types';
-import type { GridConfiguration } from '@/lib/grid-configurations';
 import { Badge } from '@/components/ui/badge';
+import { useGameStore } from '@/stores/game-state-store';
 import { LogoItemComponent } from './logo-item';
 
 interface PlayerGridProps {
   player: Player;
   onToggleLogo: (logoId: number) => void;
-  gridConfig: GridConfiguration;
 }
 
-export function PlayerGrid({ player, onToggleLogo, gridConfig }: PlayerGridProps) {
+export function PlayerGrid({ player, onToggleLogo }: PlayerGridProps) {
+  const gridCols = useGameStore(state => state.gridCols);
+  const totalLogos = player.logos.length;
+  const gridRows = Math.ceil(totalLogos / gridCols);
+
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
@@ -17,14 +20,14 @@ export function PlayerGrid({ player, onToggleLogo, gridConfig }: PlayerGridProps
         <Badge variant="outline">
           {player.activeCount}
           /
-          {gridConfig.totalLogos}
+          {totalLogos}
         </Badge>
       </div>
       <div
         className="grid gap-2"
         style={{
-          gridTemplateColumns: `repeat(${gridConfig.cols}, minmax(0, 1fr))`,
-          gridTemplateRows: `repeat(${gridConfig.rows}, minmax(0, 1fr))`,
+          gridTemplateColumns: `repeat(${gridCols}, minmax(0, 1fr))`,
+          gridTemplateRows: `repeat(${gridRows}, minmax(0, 1fr))`,
         }}
       >
         {player.logos.map((logo) => {
