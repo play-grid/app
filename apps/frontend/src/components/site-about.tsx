@@ -1,6 +1,7 @@
 import { DirectionProvider } from '@radix-ui/react-direction';
-import { Globe, Info, Settings, Sparkles, Sun, User } from 'lucide-react';
+import { Globe, Settings, Sparkles, Sun } from 'lucide-react';
 
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
@@ -21,12 +22,16 @@ import LanguageToggle from '../i18n/language-toggle';
 import { ThemeToggle } from './theme/theme-toggle';
 
 // Define author details to keep them in one place
-const AUTHOR_X_HANDLE = '_mohdalaa';
 
 function SiteCustomizations() {
   const { t, i18n } = useTranslation();
   const { changeLanguage } = useGameNavigation();
+  const [pendingLanguage, setPendingLanguage] = useState(i18n.language);
 
+  const handleSave = () => {
+    // Change language via URL navigation instead of direct i18n change
+    changeLanguage(pendingLanguage as any);
+  };
   const isRTL = i18n.language === 'ar';
   const sheetSide = window.matchMedia('(min-width: 640px)').matches
     ? isRTL ? 'right' : 'left'
@@ -114,15 +119,15 @@ function SiteCustomizations() {
                   className={cn(
                     'font-semibold text-card-foreground text-base',
                     'text-left',
-                    isRTL && 'text-right',
+                    'rtl:text-right',
                   )}
                 >
                   {t('customizations.language_label')}
                 </Label>
                 <div className="relative z-10">
                   <LanguageToggle
-                    currentLocale={i18n.language}
-                    onChange={lng => changeLanguage(lng)}
+                    currentLocale={pendingLanguage}
+                    onChange={lng => setPendingLanguage(lng)}
                   />
                 </div>
                 {/* Subtle background decoration */}
@@ -168,100 +173,7 @@ function SiteCustomizations() {
                 <div className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </div>
             </div>
-
-            <Separator className="bg-border/60" />
-
-            {/* Enhanced App Info Section */}
-            <div className="space-y-5">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="p-2 rounded-xl bg-secondary">
-                  <Info className="w-5 h-5 text-secondary-foreground" />
-                </div>
-                <h3 className="font-bold text-lg text-foreground">
-                  {t('customizations.app_info_title')}
-                </h3>
-              </div>
-
-              <div className={cn(
-                'group relative p-6 rounded-2xl space-y-4',
-                'bg-gradient-to-br from-card to-accent/10',
-                'border-2 border-border hover:border-accent/50',
-                'shadow-sm hover:shadow-xl transition-all duration-500',
-                'hover:scale-[1.01]',
-              )}
-              >
-                <div className="flex items-center gap-3">
-                  <div className="p-2 rounded-lg bg-muted">
-                    <User className="w-4 h-4 text-muted-foreground" />
-                  </div>
-                  <span className="text-sm font-semibold text-foreground/90 flex items-center gap-1">
-                    {t('customizations.developer_label')}
-                  </span>
-                </div>
-
-                <div className={cn('text-left space-y-3', isRTL && 'text-right')}>
-                  <p className="text-base font-bold text-foreground">
-                    {t('customizations.author_name')}
-                  </p>
-                  <a
-                    href={`https://x.com/${AUTHOR_X_HANDLE}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={cn(
-                      'inline-flex items-center gap-2 text-sm px-4 py-2',
-                      'bg-primary/10 hover:bg-primary/20 text-primary font-medium',
-                      'rounded-xl transition-all duration-300 hover:scale-105',
-                      'hover:shadow-lg border border-primary/20 hover:border-primary/40',
-                    )}
-                  >
-                    <span>{t('customizations.follow_on_x', { handle: AUTHOR_X_HANDLE })}</span>
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            {/* Enhanced Fun Facts Section */}
-            <div className={cn(
-              'group relative p-5 rounded-2xl space-y-3 overflow-hidden',
-              'bg-gradient-to-r from-destructive/5 via-destructive/10 to-destructive/5',
-              'border-2 border-destructive/20 hover:border-destructive/40',
-              'shadow-sm hover:shadow-lg transition-all duration-300',
-            )}
-            >
-              <div className="relative z-10">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="p-2 rounded-xl bg-destructive/20">
-                    <Sparkles className="w-5 h-5 text-destructive " />
-                  </div>
-                  <span className="text-base font-bold text-destructive">
-                    {t('customizations.fun_fact_title')}
-                  </span>
-                </div>
-                <p className="text-sm text-muted-foreground leading-relaxed font-medium">
-                  {t('customizations.fun_fact_content')}
-                </p>
-              </div>
-              {/* Animated background decoration */}
-              <div className="absolute -top-4 -right-4 w-16 h-16 rounded-full bg-destructive/10 group-hover:scale-150 transition-transform duration-700" />
-            </div>
-
-            {/* Enhanced Version Info */}
-            <div className={cn(
-              'relative p-4 rounded-2xl text-center overflow-hidden',
-              'bg-gradient-to-r from-muted via-accent/20 to-muted',
-              'border border-border/60',
-            )}
-            >
-              <div className="relative z-10">
-                <p className="text-sm font-bold text-muted-foreground flex items-center justify-center gap-2">
-                  {t('customizations.version_info')}
-                  <span className="">🚀</span>
-                </p>
-              </div>
-              <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-transparent to-accent/5 opacity-0 hover:opacity-100 transition-opacity duration-300" />
-            </div>
           </div>
-
           {/* Enhanced Footer Section */}
           <SheetFooter className={cn(
             'relative px-6 py-6 mt-auto',
@@ -276,7 +188,7 @@ function SiteCustomizations() {
                     'flex-1 h-12 text-base',
                   )}
                 >
-                  {t('customizations.cancel_button')}
+                  {t('cancel_button')}
                 </Button>
               </SheetClose>
               <SheetClose asChild>
@@ -291,7 +203,7 @@ function SiteCustomizations() {
                     'border-2 border-primary/20',
                   )}
                 >
-                  <span className="flex items-center gap-2">
+                  <span className="flex items-center gap-2" onClick={handleSave}>
                     {t('customizations.save_button')}
                     <Sparkles className="w-4 h-4 animate-pulse" />
                   </span>

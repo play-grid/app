@@ -3,13 +3,23 @@
     "title": "Welcome to Our Fun Games",
     "subtitle": "Enjoy a variety of interactive games in Arabic and English",
     "playNow": "Play Now",
-    "footer": "© 2025 All Rights Reserved"
+    "footer": "© 2025 All Rights Reserved",
+    "about": "About"
   },
   "games": {
     "guessLogo": {
       "title": "Guess the Logo",
       "description": "Test your logo knowledge in a fun and challenging game!"
     }
+  },
+  "about":{
+    "author_name": "Mohammed alaa",
+    "app_info_title": "Learn more about the game",
+    "developer_label": "Crafted with love 🩵 by",
+    "follow_on_x": "@{{handle}} on X (formerly Twitter) 🐦",
+    "fun_fact_title": "Did you know? 🤔",
+    "fun_fact_content": "This game was built with React and tailwindcss✨",
+    "version_info": "Version 1.0.0"
   },
   "current-turn-player": "Now it's {{name}} Turn's",
   "setup": "Setup",
@@ -93,19 +103,12 @@
     "sheet_description": "Customize your game experience",
     "language_section_title": "Change The language",
     "language_label": "Language",
-    "app_info_title": "Meet the Creator 👋",
-    "developer_label": "Crafted with love 🩵 by",
-    "follow_on_x": "@{{handle}} on X (formerly Twitter) 🐦",
-    "fun_fact_title": "Did you know? 🤔",
-    "fun_fact_content": "This game was built with React and Tailwindcss 4 ✨",
-    "version_info": "Version 1.0.0 - Fresh out of the oven!",
-    "cancel_button": "Maybe Later 🤷‍♂️",
     "save_button": "Save",
-    "author_name": "Mohammed alaa",
     "theme_section_title": "Change The Theme",
     "theme_label": "Theme",
     "toggle_theme": "Toggle theme"
   },
+  "cancel_button": "Maybe Later 🤷‍♂️",
   "found": "found",
   "play-online": "Play Online",
   "create-game-room": "Create Game Room",

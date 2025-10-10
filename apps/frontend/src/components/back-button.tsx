@@ -5,11 +5,10 @@ import { Button } from '@/components/ui/button';
 
 function BackButton() {
   const navigate = useNavigate();
-  const { t } = useTranslation('common');
+  const { i18n } = useTranslation('common');
   return (
     <Button variant="outline" onClick={() => navigate(-1)}>
-      <Icon icon="solar:arrow-left-line-duotone" className="size-4" />
-      {t('back')}
+      <Icon icon={`solar:arrow-${i18n.language === 'en' ? 'left' : 'right'}-line-duotone`} className="size-4" />
     </Button>
   );
 }

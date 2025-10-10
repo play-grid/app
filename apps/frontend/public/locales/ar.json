@@ -1,15 +1,25 @@
 {
-   "home": {
+  "home": {
     "title": "مرحبًا بك في ألعابنا الممتعة",
-    "subtitle": "استمتع بمجموعة متنوعة من الألعاب التفاعلية باللغة العربية",
+    "subtitle": "استمتع بمجموعة متنوعة من الألعاب التفاعلية باللغتين العربية والإنجليزية",
     "playNow": "العب الآن",
-    "footer": "© 2025 جميع الحقوق محفوظة"
+    "footer": "© 2025 جميع الحقوق محفوظة",
+    "about": "عنا"
   },
   "games": {
     "guessLogo": {
       "title": "خمن الشعار",
       "description": "اختر مجموعة شعارات وشبكة تناسبك، اكتب أسماء اللاعبين، وكل لاعب يسأل أسئلة ويستبعد الشعارات بدوره"
     }
+  },
+  "about": {
+    "author_name": "محمد علاء",
+    "app_info_title": "تعرف على اللعبه ",
+    "developer_label": "صُنع بحب 🩵 من",
+    "follow_on_x": "@{{handle}} على إكس (تويتر سابقاً) 🐦",
+    "fun_fact_title": "هل تعلم؟ 🤔",
+    "fun_fact_content": "هذه اللعبة بنيت باستخدام React و tailwindcss✨",
+    "version_info": "الإصدار 1.0.0"
   },
   "back-to-setup": "العودة إلى الخيارات",
   "choose-grid-size": "اختر حجم الشبكة:",
@@ -86,7 +96,10 @@
     "done": "تم",
     "loading": "جاري التحميل...",
     "success": "نجح! 🎉",
-    "error": "عذراً! حدث خطأ ما 😅"
+    "error": "عذراً! حدث خطأ ما 😅",
+    "LanguageToggle_placeholder": "اختر اللغة",
+    "LanguageToggle_ar": "العربية",
+    "LanguageToggle_en": "English"
   },
   "customizations": {
     "trigger_label": "إعدادات سحرية ✨",
@@ -94,19 +107,12 @@
     "sheet_description": "خصص تجربتك في اللعبة",
     "language_section_title": "اختر لغتك",
     "language_label": "اللغة",
-    "app_info_title": "تعرّف على المطوّر 👋",
-    "developer_label": "صُنع بحب 🩵 من",
-    "follow_on_x": "@{{handle}} على إكس (تويتر سابقاً) 🐦",
-    "fun_fact_title": "معلومات عن اللعبه",
-    "fun_fact_content": "هذه اللعبه بُنيت بـ React! و Tailwindcss 4",
-    "version_info": "الإصدار 1.0.0 !",
-    "cancel_button": "يمكن بعدين 🤷‍♂️",
     "save_button": "احفظ",
-    "author_name": "محمد علاء",
-    "theme_section_title": "غير الثيم",
+    "theme_section_title": "تغيير الثيم",
     "theme_label": "الثيم",
     "toggle_theme": "تغيير الثيم"
   },
+  "cancel_button": "يمكن بعدين 🤷‍♂️",
   "found": "شاف",
   "play-online": "العب اونلاين",
   "create-game-room": "إنشاء غرفة لعبة",
@@ -124,7 +130,6 @@
   "enter-room-code": "أدخل كود الغرفة...",
   "join": "انضم",
   "join-room": "الانضمام إلى غرفة",
-  "quick-match": "",
   "welcome-to-game-room": "أهلاً بك في غرفة اللعب",
   "room-id": "معرف الغرفة: ",
   "online-gameplay-coming-soon": "اللعب الجماعي عبر الإنترنت قادم قريباً!",

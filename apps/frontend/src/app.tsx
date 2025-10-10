@@ -3,6 +3,7 @@ import { lazy, Suspense } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { LanguageLayout } from './i18n/language-layout';
 import { LanguageRouter } from './i18n/language-router';
+import AboutPage from './pages/about-page';
 import HomePage from './pages/home-page';
 
 // Lazy-loaded game routes
@@ -14,15 +15,15 @@ export default function App() {
     <LanguageLayout>
       <LanguageRouter>
         <Routes>
-          {/* Root route for home page */}
-          <Route path="/" element={<HomePage />} />
+          {/* Root route - redirect to default language */}
+          <Route path="/" element={<Navigate to="/en" replace />} />
 
           {/* Language-prefixed routes */}
           {SUPPORTED_LANGUAGES.map(lang => (
             <Route key={lang} path={`/${lang}/*`} element={<LanguageRoutes />} />
           ))}
 
-          {/* Fallback: redirect to default language or home */}
+          {/* Fallback: redirect to default language */}
           <Route path="/*" element={<Navigate to="/en" replace />} />
         </Routes>
       </LanguageRouter>
@@ -36,6 +37,9 @@ function LanguageRoutes() {
       <Routes>
         {/* Home page for language prefix */}
         <Route path="/" element={<HomePage />} />
+
+        {/* About page */}
+        <Route path="/about" element={<AboutPage />} />
 
         {/* Game-specific routes */}
         <Route path="/guess-logo/*" element={<GuessLogoRoutes />} />

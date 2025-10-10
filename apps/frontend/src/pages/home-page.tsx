@@ -47,6 +47,11 @@ function HomePage() {
       </main>
       <footer className="mt-8 text-center text-muted-foreground">
         <p>{t('home.footer')}</p>
+        <Link to="/about">
+          <span className="w-full underline hover:text-foreground hover:no-underline cursor-pointer">
+            {t('home.about')}
+          </span>
+        </Link>
       </footer>
     </div>
   );
