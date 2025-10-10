@@ -1,4 +1,16 @@
 {
+  "home": {
+    "title": "Welcome to Our Fun Games",
+    "subtitle": "Enjoy a variety of interactive games in Arabic and English",
+    "playNow": "Play Now",
+    "footer": "© 2025 All Rights Reserved"
+  },
+  "games": {
+    "guessLogo": {
+      "title": "Guess the Logo",
+      "description": "Test your logo knowledge in a fun and challenging game!"
+    }
+  },
   "current-turn-player": "Now it's {{name}} Turn's",
   "setup": "Setup",
   "new-game": "New Game",

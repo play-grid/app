@@ -1,6 +1,7 @@
 import { Play, Trash2 } from 'lucide-react';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import BackButton from '@/components/back-button';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useGameNavigation } from '@/hooks/use-game-navigation';
@@ -109,6 +110,7 @@ export default function GameSetupPage() {
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
       <div className="w-full max-w-2xl space-y-6">
+        <BackButton />
         {/* Resume Game Option */}
         {showResumeOption && savedGameInfo && (
           <Card className="p-6 border-2 border-primary/20 bg-primary/5">

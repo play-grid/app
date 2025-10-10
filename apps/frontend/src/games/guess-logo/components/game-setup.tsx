@@ -3,7 +3,6 @@ import type { LogoSetKey } from '../lib/logo-data';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { z } from 'zod';
-import SiteCustomizations from '@/components/site-about';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -109,8 +108,6 @@ export function GameSetup({
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
       <Card className="w-full p-8 text-center">
-        <SiteCustomizations />
-
         <div className="mb-8">
           <TrophyIcon className="w-16 h-16 mx-auto mb-4 text-primary" />
           <h1 className="text-4xl font-serif text-center tracking-tight font-light mb-2">{t('logo-guessing-game')}</h1>

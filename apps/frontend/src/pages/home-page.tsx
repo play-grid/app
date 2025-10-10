@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
+import SiteCustomizations from '@/components/site-about';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 
@@ -17,6 +18,7 @@ function HomePage() {
   const { t } = useTranslation();
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col items-center p-4">
+      <SiteCustomizations />
       <header className="mb-8 text-center">
         <h1 className="text-4xl font-bold mb-2">{t('home.title')}</h1>
         <p className="text-lg text-muted-foreground">{t('home.subtitle')}</p>
