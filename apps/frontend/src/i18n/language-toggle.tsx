@@ -36,7 +36,7 @@ function LanguageToggle({ currentLocale, onChange }: LanguageToggleProps) {
   return (
     <div>
       <Select onValueChange={handleLanguageChange} value={activeLanguage}>
-        <SelectTrigger className="text-right">
+        <SelectTrigger className="text-right" data-testid="language-toggle-trigger">
           <SelectValue placeholder={t('common.LanguageToggle_placeholder')} />
         </SelectTrigger>
         <SelectContent>

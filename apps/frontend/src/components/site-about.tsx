@@ -36,6 +36,7 @@ function SiteCustomizations() {
       <SheetTrigger asChild>
         <Button
           name="site_customizations"
+          data-testid="site-customizations-button"
           className={cn(
             'group',
             'rounded-full p-2 size-9',
@@ -281,6 +282,7 @@ function SiteCustomizations() {
               <SheetClose asChild>
                 <Button
                   type="submit"
+                  data-testid="save-customizations-button"
                   className={cn(
                     'flex-1 h-12 text-base font-bold rounded-2xl',
                     'bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary',
@@ -289,7 +291,7 @@ function SiteCustomizations() {
                     'border-2 border-primary/20',
                   )}
                 >
-                  <span className="flex items-center gap-2" onClick={handleSave}>
+                  <span className="flex items-center gap-2">
                     {t('customizations.save_button')}
                     <Sparkles className="w-4 h-4 animate-pulse" />
                   </span>
