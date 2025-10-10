@@ -1,6 +1,5 @@
 import { DirectionProvider } from '@radix-ui/react-direction';
 import { Globe, Info, Settings, Sparkles, Sun, User } from 'lucide-react';
-import { useState } from 'react';
 
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
@@ -27,12 +26,6 @@ const AUTHOR_X_HANDLE = '_mohdalaa';
 function SiteCustomizations() {
   const { t, i18n } = useTranslation();
   const { changeLanguage } = useGameNavigation();
-  const [pendingLanguage, setPendingLanguage] = useState(i18n.language);
-
-  const handleSave = () => {
-    // Change language via URL navigation instead of direct i18n change
-    changeLanguage(pendingLanguage as any);
-  };
 
   const isRTL = i18n.language === 'ar';
   const sheetSide = window.matchMedia('(min-width: 640px)').matches
@@ -127,8 +120,8 @@ function SiteCustomizations() {
                 </Label>
                 <div className="relative z-10">
                   <LanguageToggle
-                    currentLocale={pendingLanguage}
-                    onChange={lng => setPendingLanguage(lng)}
+                    currentLocale={i18n.language}
+                    onChange={lng => changeLanguage(lng)}
                   />
                 </div>
                 {/* Subtle background decoration */}
