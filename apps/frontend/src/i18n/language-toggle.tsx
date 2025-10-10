@@ -1,4 +1,4 @@
-import type { SupportedLanguage } from '@/utils/language-utils';
+import type { SupportedLanguage } from '@guess-logo/shared/types';
 import { useTranslation } from 'react-i18next';
 import {
   Select,
@@ -7,7 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { useLanguageNavigation } from '@/hooks/use-language-navigation';
+import { useGameNavigation } from '@/hooks/use-game-navigation';
 
 interface LanguageToggleProps {
   currentLocale?: string;
@@ -17,7 +17,7 @@ interface LanguageToggleProps {
 
 function LanguageToggle({ currentLocale, onChange }: LanguageToggleProps) {
   const { t } = useTranslation();
-  const { changeLanguage, currentLanguage } = useLanguageNavigation();
+  const { changeLanguage, currentLanguage } = useGameNavigation();
 
   // Use currentLanguage from hook if currentLocale is not provided
   const activeLanguage = currentLocale || currentLanguage;

@@ -16,7 +16,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
-import { useLanguageNavigation } from '@/hooks/use-language-navigation';
+import { useGameNavigation } from '@/hooks/use-game-navigation';
 import { cn } from '@/lib/utils';
 import LanguageToggle from '../i18n/language-toggle';
 import { ThemeToggle } from './theme/theme-toggle';
@@ -26,7 +26,7 @@ const AUTHOR_X_HANDLE = '_mohdalaa';
 
 function SiteCustomizations() {
   const { t, i18n } = useTranslation();
-  const { changeLanguage } = useLanguageNavigation();
+  const { changeLanguage } = useGameNavigation();
   const [pendingLanguage, setPendingLanguage] = useState(i18n.language);
 
   const handleSave = () => {
