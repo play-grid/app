@@ -20,7 +20,7 @@ export function useGameNavigation(defaultGameId: string = 'guess-logo') {
 
   const getCurrentPathWithoutGameAndLanguage = () => {
     const withoutLang = removeLanguageFromPath(location.pathname);
-    return withoutLang.replace(`/${defaultGameId}`, '');
+    return withoutLang.replace(`/`, '');
   };
 
   const changeLanguage = (lng: string) => {
@@ -28,7 +28,7 @@ export function useGameNavigation(defaultGameId: string = 'guess-logo') {
       i18n.changeLanguage(lng);
     }
     const pathWithoutLang = getCurrentPathWithoutGameAndLanguage();
-    const newPath = addLanguageToPath(`/${defaultGameId}${pathWithoutLang}`, lng as any);
+    const newPath = addLanguageToPath(`/${pathWithoutLang}`, lng as any);
     navigate(newPath, { replace: true });
   };
 

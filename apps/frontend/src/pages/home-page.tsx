@@ -37,7 +37,7 @@ function HomePage() {
                 {t(game.descriptionKey)}
               </p>
               <Link to={`/${game.path}`}>
-                <Button variant="default" className="w-full">
+                <Button variant="default" data-testid="card-game-play" className="w-full">
                   {t('home.playNow')}
                 </Button>
               </Link>
