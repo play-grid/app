@@ -10,7 +10,7 @@ export const env = createEnv({
 
   client: {
     VITE_SERVER_PORT: z.coerce.number().default(5173),
-    VITE_API_URL: z.string().url(),
+    VITE_API_URL: z.string().url().default('http://localhost:8787'),
   },
 
   /**

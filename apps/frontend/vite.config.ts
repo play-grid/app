@@ -17,7 +17,7 @@ export default defineConfig(({ mode }) => {
       port: Number(env.VITE_SERVER_PORT) || 5173,
       proxy: {
         '/api': {
-          target: 'http://localhost:8787',
+          target: env.VITE_API_URL,
           changeOrigin: true,
           ws: true,
         },
