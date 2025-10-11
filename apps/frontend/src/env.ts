@@ -2,12 +2,6 @@ import { createEnv } from '@t3-oss/env-core';
 import { z } from 'zod';
 
 export const env = createEnv({
-  server: {
-    TMDB_API_KEY: z.string().min(1),
-    LOGO_DEV_API_KEY: z.string().min(1),
-    ALL_SPORTS_API_KEY: z.string().min(1),
-  },
-
   /**
    * The prefix that client-side variables must have. This is enforced both at
    * a type-level and at runtime.
@@ -15,10 +9,8 @@ export const env = createEnv({
   clientPrefix: 'VITE_',
 
   client: {
-    VITE_TMDB_API_KEY: z.string().min(1),
-    VITE_LOGO_DEV_API_KEY: z.string().min(1),
-    VITE_ALL_SPORTS_API_KEY: z.string().min(1),
-    VITE_API_URL: z.string().min(1),
+    VITE_SERVER_PORT: z.coerce.number().default(5173),
+    VITE_API_URL: z.string().url(),
   },
 
   /**

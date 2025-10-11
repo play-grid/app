@@ -4,7 +4,8 @@
   "scripts": {
     "dev":"pnpm run -r --parallel --aggregate-output dev",
     "lint":"pnpm run -r --parallel --aggregate-output lint",
-    "build":"pnpm run -r build"
+    "build":"pnpm run -r build",
+    "test:e2e": "pnpm --filter @guess-logo/frontend test:e2e"
   },
   "devDependencies": {
     "eslint": "^9.34.0",
@@ -16,10 +17,7 @@
       "esbuild": "0.25.9"
     }
   },
-  "lint-staged": {
-    "apps/frontend/**/*.{js,ts,tsx}": "eslint --fix --config apps/frontend/eslint.config.js",
-    "apps/api/**/*.ts": "eslint --fix --config apps/api/eslint.config.js"
-  },
+  "lint-staged": { "apps/frontend/**/*.{js,ts,tsx}": "eslint --fix --config apps/frontend/eslint.config.js" },
   "simple-git-hooks": {
     "pre-commit": "pnpm lint-staged"
   },
