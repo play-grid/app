@@ -110,7 +110,7 @@ export function GameSetup({
       <Card className="w-full p-8 text-center">
         <div className="mb-8">
           <TrophyIcon className="w-16 h-16 mx-auto mb-4 text-primary" />
-          <h1 className="text-4xl font-serif text-center tracking-tight font-light mb-2">{t('logo-guessing-game')}</h1>
+          <h1 className="text-4xl font-serif text-center tracking-tighter font-light mb-2">{t('logo-guessing-game')}</h1>
           <p className="text-muted-foreground">
             {t('game-setup-description')}
           </p>
