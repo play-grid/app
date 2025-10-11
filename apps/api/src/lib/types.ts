@@ -10,6 +10,7 @@ export interface AppEnv extends Env {
     LOGO_CACHE: KVNamespace;
     RATE_LIMIT: KVNamespace;
     GAME_ROOM: DurableObjectNamespace<GameRoomDurableObject>;
+    ALLOWED_ORIGINS: string;
   };
 }
 

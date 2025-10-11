@@ -4,9 +4,8 @@ compatibility_date = "2025-09-01"
 compatibility_flags = [ "nodejs_compat" ]
 workers_dev = true
 
-[assets]
-directory = "public"
-binding = "ASSETS"
+[vars]
+ALLOWED_ORIGINS = "http://localhost:5173,http://localhost:4173,https://guess-logo.pages.dev"
 
 [[durable_objects.bindings]]
 name = "GAME_ROOM"
