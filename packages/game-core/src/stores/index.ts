@@ -1,2 +1,2 @@
-export * from './game-store';
-export * from './ui-state-store';
+export * from './base-store';
+export * from './create-game-store';
