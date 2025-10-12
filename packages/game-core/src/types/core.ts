@@ -67,7 +67,7 @@ export interface BaseGameActions<TSettings, TPlayer extends Player = Player> {
 }
 
 // Combined store interface
-export interface GameStore<TSettings, TPlayer extends Player = Player> 
+export interface GameStore<TSettings, TPlayer extends Player = Player>
   extends BaseGameState<TSettings, TPlayer>,
-          BaseGameActions<TSettings, TPlayer> {
+  BaseGameActions<TSettings, TPlayer> {
 }
