@@ -1,0 +1,14 @@
+{
+  "name": "@guess-logo/game-core",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "exports":{
+    "./stores": "./stores/index.ts",
+    "./stores/game-store": "./stores/game-store.ts"
+  },
+  "dependencies": {
+     "zustand": "^5.0.8",
+     "immer": "^5.0.8"
+  }
+}
