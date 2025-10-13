@@ -10,6 +10,10 @@
     "guessLogo": {
       "title": "Guess the Logo",
       "description": "Test your logo knowledge in a fun and challenging game!"
+    },
+    "fiveSeconds": {
+      "title": "Five Seconds Game",
+      "description": "A fast-paced game where you have 5 seconds to name 3 things in a category."
     }
   },
   "about":{
@@ -149,5 +153,13 @@
   "country-data-region": "Region:",
   "country-data-languages": "Languages:",
   "country-data-currency": "Currency:",
-  "grid-size": "Grid size"
-}
+      "grid-size": "Grid size",
+      "players": "Players",
+      "add-player": "Add Player",
+      "player-name": "Player Name",
+      "game-settings": "Game Settings",
+      "difficulty": "Difficulty",
+      "select-difficulty": "Select Difficulty",
+      "categories": "Categories",
+      "five-seconds-game": "Five Seconds Game"
+  }

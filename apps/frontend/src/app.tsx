@@ -8,6 +8,7 @@ import HomePage from './pages/home-page';
 
 // Lazy-loaded game routes
 const GuessLogoRoutes = lazy(() => import('./games/guess-logo/routes'));
+const FiveSecondsRoutes = lazy(() => import('./games/five-seconds/routes'));
 // Add more games here as needed
 
 export default function App() {
@@ -43,6 +44,7 @@ function LanguageRoutes() {
 
         {/* Game-specific routes */}
         <Route path="/guess-logo/*" element={<GuessLogoRoutes />} />
+        <Route path="/five-seconds/*" element={<FiveSecondsRoutes />} />
         {/* Add more game routes here */}
 
         {/* Fallback: redirect to language home */}
