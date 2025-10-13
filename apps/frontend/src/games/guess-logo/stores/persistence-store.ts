@@ -1,194 +1,130 @@
-import type { LogoSetKey, Player } from '@guess-logo/shared/types';
-import { create } from 'zustand';
-import { devtools } from 'zustand/middleware';
-import { immer } from 'zustand/middleware/immer';
+// games/guess-logo/stores/persistence-store.ts
+import type { GamePhase, TurnState } from '@guess-logo/game-core/types';
+import type { GuessLogoPlayer, GuessLogoSettings } from '../types/game';
+import { createPersistenceStore } from '@guess-logo/game-core/stores/persistence';
 
-export interface SavedGameState {
-  playerA: Player;
-  playerB: Player;
-  currentPlayer: 'A' | 'B';
-  selectedSet: LogoSetKey;
-  selectedList: string; // Added selectedList
+// ============ Modern Saved State Type ============
+export interface GuessLogoSavedState {
+  settings: GuessLogoSettings;
+  players: GuessLogoPlayer[];
+  turnState: TurnState | undefined;
+  phase: GamePhase;
+}
+
+// ============ UI Display Info ============
+export interface GuessLogoSavedInfo {
+  playerNames: string[];
+  selectedSet: string;
+  selectedList: string;
   selectedGrid: string;
-  gameStarted: boolean;
-  gameInitialized: boolean;
-  timestamp: number;
+  playerCount: number;
+  timestamp?: number;
 }
 
-export interface SavedGameInfo {
-  playerA: string;
-  playerB: string;
-  selectedSet: LogoSetKey;
-  selectedList: string; // Added selectedList
-  selectedGrid: string;
-}
-
-export interface PersistenceState {
-  savedGameInfo: SavedGameInfo | null;
-
-  // Actions
-  saveGameState: (gameState: Omit<SavedGameState, 'timestamp'>) => void;
-  loadGameState: () => SavedGameState | null;
-  clearGameState: () => void;
-  hasValidSavedGame: () => boolean;
-  setSavedGameInfo: (info: SavedGameInfo | null) => void;
-
-  // Auto-save management
-  lastSaveHash: string;
-  updateLastSaveHash: (hash: string) => void;
-}
-
-const STORAGE_KEY = 'logo-guessing-game-state';
-const MAX_STORAGE_AGE = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
-
-function isLocalStorageAvailable(): boolean {
-  try {
-    if (typeof window === 'undefined')
-      return false;
-    const test = '__test__';
-    window.localStorage.setItem(test, test);
-    window.localStorage.removeItem(test);
-    return true;
-  }
-  catch {
-    return false;
-  }
-}
-
-function isValidGameState(state: any): state is SavedGameState {
+// ============ Validation Function ============
+function validateGuessLogoState(state: any): boolean {
   return (
     state
     && typeof state === 'object'
-    && state.playerA
-    && typeof state.playerA.name === 'string'
-    && Array.isArray(state.playerA.logos)
-    && state.playerB
-    && typeof state.playerB.name === 'string'
-    && Array.isArray(state.playerB.logos)
-    && (state.currentPlayer === 'A' || state.currentPlayer === 'B')
-    && typeof state.selectedSet === 'string'
-    && typeof state.selectedList === 'string' // Added validation
-    && typeof state.selectedGrid === 'string'
-    && typeof state.gameStarted === 'boolean'
-    && typeof state.gameInitialized === 'boolean'
-    && typeof state.timestamp === 'number'
+    // Validate players
+    && state.players
+    && Array.isArray(state.players)
+    && state.players.length >= 1
+    && state.players.every((p: any) =>
+      p.id
+      && typeof p.id === 'string'
+      && p.name
+      && typeof p.name === 'string'
+      && Array.isArray(p.logos)
+      && p.logos.length > 0
+      && typeof p.activeCount === 'number'
+      && typeof p.isHost === 'boolean',
+    )
+    // Validate settings
+    && state.settings
+    && typeof state.settings === 'object'
+    && typeof state.settings.selectedSet === 'string'
+    && typeof state.settings.selectedList === 'string'
+    && typeof state.settings.selectedGrid === 'string'
+    && typeof state.settings.gridCols === 'number'
+    // Validate phase
+    && typeof state.phase === 'string'
+    && ['lobby', 'playing', 'results'].includes(state.phase)
+    // Validate turnState (optional)
+    && (state.turnState === undefined || (
+      typeof state.turnState === 'object'
+      && typeof state.turnState.currentPlayerId === 'string'
+      && typeof state.turnState.turnIndex === 'number'
+      && typeof state.turnState.roundNumber === 'number'
+    ))
   );
 }
 
-export const usePersistenceStore = create<PersistenceState>()(
-  devtools(
-    immer((set, get) => ({
-      // Initial state
-      savedGameInfo: null,
-      lastSaveHash: '',
+// ============ Create Persistence Store ============
+export const usePersistenceStore = createPersistenceStore<GuessLogoSavedState>({
+  storageKey: 'guess-logo-game-state',
+  maxAge: 24 * 60 * 60 * 1000, // 24 hours
+  validate: validateGuessLogoState,
+  hasValidData: hasValidGameData,
+});
 
-      // Actions
-      saveGameState: (gameState) => {
-        if (!isLocalStorageAvailable())
-          return;
-        try {
-          const stateWithTimestamp: SavedGameState = {
-            ...gameState,
-            timestamp: Date.now(),
-          };
+// ============ Helper Functions ============
 
-          window.localStorage.setItem(STORAGE_KEY, JSON.stringify(stateWithTimestamp));
+/**
+ * Create display info from saved state for UI
+ */
+export function createSaveInfo(state: GuessLogoSavedState): GuessLogoSavedInfo {
+  return {
+    playerNames: state.players.map(p => p.name),
+    selectedSet: state.settings.selectedSet,
+    selectedList: state.settings.selectedList,
+    selectedGrid: state.settings.selectedGrid,
+    playerCount: state.players.length,
+  };
+}
 
-          // Update saved game info for UI
-          set((state) => {
-            state.savedGameInfo = {
-              playerA: gameState.playerA.name,
-              playerB: gameState.playerB.name,
-              selectedSet: gameState.selectedSet,
-              selectedList: gameState.selectedList, // Added selectedList
-              selectedGrid: gameState.selectedGrid,
-            };
-          });
-        }
-        catch (error) {
-          console.error('Failed to save game state:', error);
-        }
-      },
+/**
+ * Check if saved state matches current config
+ */
+export function matchesConfig(
+  saved: GuessLogoSavedState,
+  config: {
+    selectedSet: string;
+    selectedGrid: string;
+  },
+): boolean {
+  return (
+    saved.settings.selectedSet === config.selectedSet
+    && saved.settings.selectedGrid === config.selectedGrid
+  );
+}
 
-      loadGameState: () => {
-        if (!isLocalStorageAvailable())
-          return null;
-        try {
-          const saved = window.localStorage.getItem(STORAGE_KEY);
-          if (!saved)
-            return null;
+/**
+ * Check if saved state has valid game data
+ */
+export function hasValidGameData(saved: GuessLogoSavedState | null): boolean {
+  if (!saved)
+    return false;
 
-          const gameState = JSON.parse(saved);
-          if (!isValidGameState(gameState)) {
-            window.localStorage.removeItem(STORAGE_KEY);
-            return null;
-          }
+  return (
+    saved.phase === 'playing'
+    && saved.players.length >= 2
+    && saved.players.every(p =>
+      p.logos.length > 0
+      && p.name.trim().length >= 2,
+    )
+  );
+}
 
-          // Check age - expire after 24 hours
-          const age = Date.now() - gameState.timestamp;
-          if (age > MAX_STORAGE_AGE) {
-            window.localStorage.removeItem(STORAGE_KEY);
-            return null;
-          }
+/**
+ * Get a summary of the saved game for display
+ */
+export function getSavedGameSummary(saved: GuessLogoSavedState | null): string | null {
+  if (!saved || !hasValidGameData(saved))
+    return null;
 
-          // Validate that players have logos
-          if (gameState.playerA.logos.length === 0 || gameState.playerB.logos.length === 0) {
-            window.localStorage.removeItem(STORAGE_KEY);
-            return null;
-          }
+  const playerNames = saved.players.map(p => p.name).join(' vs ');
+  const { selectedSet, selectedGrid } = saved.settings;
 
-          return gameState;
-        }
-        catch (error) {
-          console.error('Failed to load game state:', error);
-          if (isLocalStorageAvailable()) {
-            window.localStorage.removeTime(STORAGE_KEY);
-          }
-          return null;
-        }
-      },
-
-      clearGameState: () => {
-        if (!isLocalStorageAvailable())
-          return;
-        try {
-          window.localStorage.removeItem(STORAGE_KEY);
-          set((state) => {
-            state.savedGameInfo = null;
-            state.lastSaveHash = '';
-          });
-        }
-        catch (error) {
-          console.error('Failed to clear game state:', error);
-        }
-      },
-
-      hasValidSavedGame: () => {
-        try {
-          const { loadGameState } = get();
-          const saved = loadGameState();
-          return (
-            saved !== null
-            && saved.gameStarted
-            && saved.playerA?.logos?.length > 0
-            && saved.playerB?.logos?.length > 0
-          );
-        }
-        catch {
-          return false;
-        }
-      },
-
-      setSavedGameInfo: savedGameInfo =>
-        set((state) => {
-          state.savedGameInfo = savedGameInfo;
-        }),
-
-      updateLastSaveHash: lastSaveHash =>
-        set((state) => {
-          state.lastSaveHash = lastSaveHash;
-        }),
-    })),
-    { name: 'PersistenceStore' },
-  ),
-);
+  return `${playerNames} • ${selectedSet} • ${selectedGrid}`;
+}
