@@ -6,6 +6,7 @@
   "exports": {
     "./stores": "./src/stores/index.ts",
     "./stores/ui": "./src/stores/ui/index.ts",
+    "./stores/persistence": "./src/stores/create-persistence-store.ts",
     "./types": "./src/types/core.ts"
   },
   "dependencies": {
