@@ -12,6 +12,12 @@ const games = [
     descriptionKey: 'games.guessLogo.description',
     path: 'guess-logo',
   },
+  {
+    id: 'five-seconds',
+    nameKey: 'games.fiveSeconds.title',
+    descriptionKey: 'games.fiveSeconds.description',
+    path: 'five-seconds',
+  },
 ];
 
 function HomePage() {
