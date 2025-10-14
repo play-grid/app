@@ -1,5 +1,6 @@
 import { FiveSecondsLobby } from './components/five-seconds-lobby';
 import { GameplayPage } from './pages/gameplay-page';
+import { ResultsPage } from './pages/results-page';
 import { useFiveSecondsStore } from './store';
 
 export default function FiveSecondsPage() {
@@ -11,7 +12,7 @@ export default function FiveSecondsPage() {
     case 'playing':
       return <GameplayPage />;
     case 'results':
-      return <div>Results</div>; // Placeholder for results screen
+      return <ResultsPage />;
     default:
       return <FiveSecondsLobby />;
   }
