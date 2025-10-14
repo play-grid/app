@@ -1,5 +1,5 @@
-import { ArrowRight, Timer, Trophy } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { ArrowRight, ThumbsDown, ThumbsUp, Timer, Trophy, Users } from 'lucide-react';
+import { useCallback, useEffect, useState } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -11,22 +11,24 @@ export function GameplayPage() {
   const players = useFiveSecondsStore(state => state.players);
   const settings = useFiveSecondsStore(state => state.settings);
   const turnState = useFiveSecondsStore(state => state.turnState);
+  const votingState = useFiveSecondsStore(state => state.votingState);
   const updatePlayer = useFiveSecondsStore(state => state.updatePlayer);
   const nextTurn = useFiveSecondsStore(state => state.nextTurn);
   const endGame = useFiveSecondsStore(state => state.endGame);
+  const startVoting = useFiveSecondsStore(state => state.startVoting);
+  const submitVote = useFiveSecondsStore(state => state.submitVote);
+  const tallyVotes = useFiveSecondsStore(state => state.tallyVotes);
+  const resetVoting = useFiveSecondsStore(state => state.resetVoting);
 
   const [currentQuestion, setCurrentQuestion] = useState(() =>
     getRandomQuestion(settings.categories, settings.difficulty),
   );
-
   const [timeLeft, setTimeLeft] = useState(settings.timePerTurn);
   const [isAnswering, setIsAnswering] = useState(false);
 
   const currentPlayer = players.find(p => p.id === turnState?.currentPlayerId);
-  const handleTimeUp = () => {
-    setIsAnswering(false);
-  };
 
+  // --- Turn Timer Effects ---
   useEffect(() => {
     if (!isAnswering)
       return;
@@ -35,7 +37,6 @@ export function GameplayPage() {
       setTimeLeft((prev) => {
         if (prev <= 1) {
           clearInterval(timer);
-          handleTimeUp();
           return 0;
         }
         return prev - 1;
@@ -45,42 +46,60 @@ export function GameplayPage() {
     return () => clearInterval(timer);
   }, [isAnswering]);
 
-  const handleNextTurn = () => {
-    setIsAnswering(false);
+  useEffect(() => {
+    if (timeLeft === 0 && isAnswering && currentPlayer) {
+      setIsAnswering(false);
+      startVoting(currentPlayer.id, players);
+    }
+  }, [timeLeft, isAnswering, currentPlayer, players, startVoting]);
 
-    // Check if all players have had enough turns (e.g., 5 rounds)
+  // --- Voting Logic ---
+  const isVotingFinished = votingState && votingState.currentVoterIndex >= votingState.voters.length;
+  const currentVoterId = votingState && votingState.voters[votingState.currentVoterIndex];
+  const currentVoter = players.find(p => p.id === currentVoterId);
+
+  const handleVote = (isValid: boolean) => {
+    submitVote(isValid);
+  };
+    // --- Turn Management ---
+  const handleNextTurn = useCallback(() => {
+    setIsAnswering(false);
+    resetVoting();
+
     if (turnState && turnState.roundNumber >= 5 && turnState.turnIndex === players.length - 1) {
       endGame();
       return;
     }
 
-    // Move to next turn
     if (nextTurn) {
       nextTurn();
     }
 
-    // Generate new question
     setCurrentQuestion(getRandomQuestion(settings.categories, settings.difficulty));
     setTimeLeft(settings.timePerTurn);
-  };
-
-  const handleCorrect = () => {
-    if (currentPlayer) {
-      updatePlayer(currentPlayer.id, { score: currentPlayer.score + 1 });
-    }
-    handleNextTurn();
-  };
-
-  const handleIncorrect = () => {
-    handleNextTurn();
-  };
+  }, [turnState, players, endGame, nextTurn, settings, resetVoting]);
 
   const handleStartTurn = () => {
     setIsAnswering(true);
     setTimeLeft(settings.timePerTurn);
   };
 
+  useEffect(() => {
+    if (isVotingFinished) {
+      // All votes are in, tally and move to the next turn immediately.
+      const isValid = tallyVotes();
+      if (isValid && currentPlayer) {
+        updatePlayer(currentPlayer.id, { score: currentPlayer.score + 1 });
+      }
+      handleNextTurn();
+    }
+  }, [isVotingFinished, tallyVotes, currentPlayer, updatePlayer, handleNextTurn]);
+
+  // --- Render Helpers ---
   const progressPercentage = (timeLeft / settings.timePerTurn) * 100;
+  const votingProgress = votingState
+    ? (votingState.votes.length / votingState.voters.length) * 100
+    : 0;
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-4 md:p-8">
@@ -121,8 +140,9 @@ export function GameplayPage() {
 
         {/* Main Game Card */}
         <Card className="p-8 md:p-12 space-y-8 bg-card border-border">
-          {!isAnswering
+          {!isAnswering && !votingState?.isVoting
             ? (
+          // --- Pre-Turn ---
                 <div className="text-center space-y-6">
                   <div className="space-y-2">
                     <h2 className="text-3xl font-bold">
@@ -137,41 +157,104 @@ export function GameplayPage() {
                   </Button>
                 </div>
               )
-            : (
-                <div className="space-y-8">
-                  {/* Timer */}
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-center gap-4">
-                      <Timer className="w-8 h-8 text-accent" />
-                      <span className="text-6xl font-bold tabular-nums">{timeLeft}</span>
+            : votingState?.isVoting && !isVotingFinished
+              ? (
+            // --- Voting Turn ---
+                  <div className="space-y-8">
+                    <div className="text-center space-y-4">
+                      <div className="flex items-center justify-center gap-2">
+                        <Users className="w-6 h-6 text-accent" />
+                        <h2 className="text-2xl font-bold">
+                          {currentVoter?.name}
+                          , please vote!
+                        </h2>
+                      </div>
+                      <p className="text-muted-foreground">
+                        Was
+                        {' '}
+                        {currentPlayer?.name}
+                        's answer valid?
+                      </p>
                     </div>
-                    <Progress value={progressPercentage} className="h-3" />
-                  </div>
 
-                  {/* Question */}
-                  <div className="text-center space-y-4">
-                    <Badge variant="outline" className="text-sm">
-                      {currentQuestion.category}
-                      {' '}
-                      •
-                      {currentQuestion.difficulty}
-                    </Badge>
-                    <h3 className="text-3xl md:text-4xl font-bold text-balance">{currentQuestion.question}</h3>
-                  </div>
+                    <div className="text-center space-y-2">
+                      <Badge variant="outline" className="text-sm">
+                        {currentQuestion.category}
+                        {' '}
+                        •
+                        {currentQuestion.difficulty}
+                      </Badge>
+                      <h3 className="text-2xl md:text-4xl font-bold text-balance">
+                        {currentQuestion.question}
+                      </h3>
+                    </div>
 
-                  {/* Answer Buttons */}
-                  {timeLeft === 0 && (
+                    <div className="space-y-2">
+                      <div className="flex justify-between text-sm text-muted-foreground">
+                        <span>
+                          Votes:
+                          {' '}
+                          {votingState.votes.length}
+                          {' '}
+                          /
+                          {' '}
+                          {votingState.voters.length}
+                        </span>
+                        <span>
+                          {Math.round(votingProgress)}
+                          %
+                        </span>
+                      </div>
+                      <Progress value={votingProgress} className="h-2" />
+                    </div>
+
                     <div className="flex gap-4 justify-center">
-                      <Button size="lg" variant="default" onClick={handleCorrect} className="text-lg px-8">
-                        Correct (+1 point)
+                      <Button
+                        size="lg"
+                        onClick={() => handleVote(true)}
+                        className="text-lg px-8 bg-green-600 hover:bg-green-700"
+                      >
+                        <ThumbsUp className="w-5 h-5 mr-2" />
+                        {' '}
+                        Valid
                       </Button>
-                      <Button size="lg" variant="outline" onClick={handleIncorrect} className="text-lg px-8 bg-transparent">
-                        Incorrect
+                      <Button
+                        size="lg"
+                        variant="destructive"
+                        onClick={() => handleVote(false)}
+                        className="text-lg px-8"
+                      >
+                        <ThumbsDown className="w-5 h-5 mr-2" />
+                        {' '}
+                        Invalid
                       </Button>
                     </div>
-                  )}
-                </div>
-              )}
+                  </div>
+                )
+              : (
+            // --- Answering Turn ---
+                  <div className="space-y-8">
+                    <div className="space-y-4">
+                      <div className="flex items-center justify-center gap-4">
+                        <Timer className="w-8 h-8 text-accent" />
+                        <span className="text-6xl font-bold tabular-nums">{timeLeft}</span>
+                      </div>
+                      <Progress value={progressPercentage} className="h-3" />
+                    </div>
+
+                    <div className="text-center space-y-4">
+                      <Badge variant="outline" className="text-sm">
+                        {currentQuestion.category}
+                        {' '}
+                        •
+                        {currentQuestion.difficulty}
+                      </Badge>
+                      <h3 className="text-3xl md:text-4xl font-bold text-balance">
+                        {currentQuestion.question}
+                      </h3>
+                    </div>
+                  </div>
+                )}
         </Card>
       </div>
     </div>
