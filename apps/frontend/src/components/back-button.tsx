@@ -7,7 +7,7 @@ function BackButton() {
   const navigate = useNavigate();
   const { i18n } = useTranslation('common');
   return (
-    <Button variant="outline" onClick={() => navigate(-1)}>
+    <Button variant="outline" onClick={() => navigate('/')}>
       <Icon icon={`solar:arrow-${i18n.language === 'en' ? 'left' : 'right'}-line-duotone`} className="size-4" />
     </Button>
   );

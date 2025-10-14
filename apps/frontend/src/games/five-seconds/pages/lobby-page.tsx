@@ -1,6 +1,7 @@
 import type { Category, Difficulty } from '../types';
 import { Check, Play, Settings, Timer, Users, X } from 'lucide-react';
 import { useState } from 'react';
+import BackButton from '@/components/back-button';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -43,6 +44,7 @@ export function FiveSecondsLobby() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-4 md:p-8">
       <div className="w-full max-w-6xl space-y-8">
+        <BackButton />
         {/* Header */}
         <div className="text-center space-y-4">
           <h1 className="text-6xl md:text-8xl font-bold text-balance">Five Seconds</h1>

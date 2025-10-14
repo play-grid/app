@@ -1,5 +1,5 @@
-import { FiveSecondsLobby } from './components/five-seconds-lobby';
 import { GameplayPage } from './pages/gameplay-page';
+import { FiveSecondsLobby } from './pages/lobby-page';
 import { ResultsPage } from './pages/results-page';
 import { useFiveSecondsStore } from './store';
 
