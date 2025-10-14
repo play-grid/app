@@ -1,5 +1,18 @@
+import { RotateCcw } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
 import { AnsweringView } from '../components/answering-view';
 import { PlayerScores } from '../components/player-scores';
 import { PreTurnView } from '../components/pre-turn-view';
@@ -21,13 +34,16 @@ export function GameplayPage() {
   const submitVote = useFiveSecondsStore(state => state.submitVote);
   const tallyVotes = useFiveSecondsStore(state => state.tallyVotes);
   const resetVoting = useFiveSecondsStore(state => state.resetVoting);
+  const resetGame = useFiveSecondsStore(state => state.resetGame);
 
+  const { t } = useTranslation();
   // Local component state
   const [currentQuestion, setCurrentQuestion] = useState(() =>
     getRandomQuestion(settings.categories, settings.difficulty),
   );
   const [timeLeft, setTimeLeft] = useState(settings.timePerTurn);
   const [isAnswering, setIsAnswering] = useState(false);
+  const [isResetConfirmOpen, setIsResetConfirmOpen] = useState(false);
 
   // Derived state
   const currentPlayer = players.find(p => p.id === turnState?.currentPlayerId);
@@ -101,11 +117,40 @@ export function GameplayPage() {
     submitVote(isValid);
   };
 
+  const handleResetGame = () => {
+    resetGame();
+    setIsResetConfirmOpen(false);
+  };
+
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-4 md:p-8">
+      <div className="flex justify-center items-start gap-4">
+        <Dialog open={isResetConfirmOpen} onOpenChange={setIsResetConfirmOpen}>
+          <DialogTrigger asChild>
+            <Button variant="outline" size="icon" aria-label={t('fiveSecondsGame.gameplay.resetGame')}>
+              <RotateCcw className="w-4 h-4" />
+            </Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>{t('fiveSecondsGame.gameplay.resetConfirmTitle')}</DialogTitle>
+              <DialogDescription>
+                {t('fiveSecondsGame.gameplay.resetConfirmDescription')}
+              </DialogDescription>
+            </DialogHeader>
+            <DialogFooter>
+              <DialogClose asChild>
+                <Button variant="outline">{t('common.cancel')}</Button>
+              </DialogClose>
+              <Button variant="destructive" onClick={handleResetGame}>
+                {t('fiveSecondsGame.gameplay.resetGame')}
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      </div>
       <div className="w-full max-w-4xl space-y-8">
         <PlayerScores players={players} currentPlayerId={currentPlayer?.id} />
-
         <RoundInfo roundNumber={turnState?.roundNumber || 1} />
 
         <Card className="p-8 md:p-12 space-y-8 bg-card border-border">

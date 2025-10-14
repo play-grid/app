@@ -189,9 +189,11 @@
       "wasAnswerValid": "هل كانت إجابة {{name}} صحيحة؟",
       "votes": "الأصوات: {{count}} / {{total}}",
       "valid": "صحيح",
-      "invalid": "غير صحيح"
-    },
-    "results": {
+      "invalid": "غير صحيح",
+      "resetGame": "إعادة ضبط اللعبة",
+      "resetConfirmTitle": "هل أنت متأكد من أنك تريد إعادة التعيين؟",
+      "resetConfirmDescription": "سيؤدي هذا إلى إنهاء اللعبة الحالية بشكل دائم وإعادتك إلى الردهة. سيتم فقدان جميع النتائج."
+    },    "results": {
       "wins": "{{name}} فاز!",
       "withPoints_one": "بنقطة واحدة",
       "withPoints_other": "مع {{count}} نقاط",
