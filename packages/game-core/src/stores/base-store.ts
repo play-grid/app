@@ -13,9 +13,14 @@ import {
   rotateTurn,
 } from './helpers';
 
-export function createBaseStore<TSettings, TPlayer extends Player = Player>(
+export function createBaseStore<
+  TSettings,
+  TPlayer extends Player = Player,
+  TCustom extends object = Record<string, never>,
+>(
   initialSettings: TSettings,
   options: GameStoreOptions = {},
+  initialCustomState: Partial<TCustom> = {},
 ) {
   const {
     maxPlayers,
@@ -230,6 +235,7 @@ export function createBaseStore<TSettings, TPlayer extends Player = Player>(
         createdAt: Date.now(),
         startedAt: undefined,
         endedAt: undefined,
+        ...initialCustomState,
       });
     },
   });

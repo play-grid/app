@@ -33,7 +33,7 @@ export function createGameStore<
   } = config;
 
   const storeCreator = (set: any, get: any): GameStore<TSettings, TPlayer> & TCustom & Record<string, any> => ({
-    ...createBaseStore<TSettings, TPlayer>(initialSettings, options)(set, get),
+    ...createBaseStore<TSettings, TPlayer, TCustom>(initialSettings, options, customState)(set, get),
     ...({ ...customState, ...(customActions ? customActions(set, get) : {}) } as TCustom),
   });
 
