@@ -1,9 +1,6 @@
 import { FiveSecondsLobby } from './components/five-seconds-lobby';
+import { GameplayPage } from './pages/gameplay-page';
 import { useFiveSecondsStore } from './store';
-
-function GamePhaseComponent() {
-  return <div>Playing...</div>;
-}
 
 export default function FiveSecondsPage() {
   const phase = useFiveSecondsStore(s => s.phase);
@@ -12,7 +9,7 @@ export default function FiveSecondsPage() {
     case 'lobby':
       return <FiveSecondsLobby />;
     case 'playing':
-      return <GamePhaseComponent />; // Placeholder for the game screen
+      return <GameplayPage />;
     case 'results':
       return <div>Results</div>; // Placeholder for results screen
     default:
