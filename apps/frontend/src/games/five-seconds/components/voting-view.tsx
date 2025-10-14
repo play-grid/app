@@ -1,6 +1,7 @@
 import type { Question } from '../lib/questions';
 import type { FiveSecondsPlayer, VotingState } from '../types';
 import { ThumbsDown, ThumbsUp, Users } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
@@ -20,6 +21,7 @@ export function VotingView({
   currentQuestion,
   onVote,
 }: VotingViewProps) {
+  const { t } = useTranslation();
   const votingProgress = (votingState.votes.length / votingState.voters.length) * 100;
 
   return (
@@ -28,24 +30,20 @@ export function VotingView({
         <div className="flex items-center justify-center gap-2">
           <Users className="w-6 h-6 text-accent" />
           <h2 className="text-2xl font-bold">
-            {currentVoter?.name}
-            , please vote!
+            {t('fiveSecondsGame.gameplay.pleaseVote', { name: currentVoter?.name })}
           </h2>
         </div>
         <p className="text-muted-foreground">
-          Was
-          {' '}
-          {currentPlayer?.name}
-          's answer valid?
+          {t('fiveSecondsGame.gameplay.wasAnswerValid', { name: currentPlayer?.name })}
         </p>
       </div>
 
       <div className="text-center space-y-2">
         <Badge variant="outline" className="text-sm">
-          {currentQuestion.category}
+          {t(currentQuestion.category)}
           {' '}
           •
-          {currentQuestion.difficulty}
+          {t(currentQuestion.difficulty.toLowerCase())}
         </Badge>
         <h3 className="text-2xl md:text-4xl font-bold text-balance">
           {currentQuestion.question}
@@ -55,13 +53,7 @@ export function VotingView({
       <div className="space-y-2">
         <div className="flex justify-between text-sm text-muted-foreground">
           <span>
-            Votes:
-            {' '}
-            {votingState.votes.length}
-            {' '}
-            /
-            {' '}
-            {votingState.voters.length}
+            {t('fiveSecondsGame.gameplay.votes', { count: votingState.votes.length, total: votingState.voters.length })}
           </span>
           <span>
             {Math.round(votingProgress)}
@@ -79,7 +71,7 @@ export function VotingView({
         >
           <ThumbsUp className="w-5 h-5 mr-2" />
           {' '}
-          Valid
+          {t('fiveSecondsGame.gameplay.valid')}
         </Button>
         <Button
           size="lg"
@@ -89,7 +81,7 @@ export function VotingView({
         >
           <ThumbsDown className="w-5 h-5 mr-2" />
           {' '}
-          Invalid
+          {t('fiveSecondsGame.gameplay.invalid')}
         </Button>
       </div>
     </div>

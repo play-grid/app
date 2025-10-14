@@ -157,5 +157,50 @@
   "country-data-region": "المنطقة:",
   "country-data-languages": "اللغات:",
   "country-data-currency": "العملة:",
-  "grid-size": "حجم الشبكة"
+  "grid-size": "حجم الشبكة",
+  "points_one": "نقطة واحدة",
+  "points_other": "{{count}} نقاط",
+  "fiveSecondsGame": {
+    "lobby": {
+      "title": "لعبة الخمس ثواني",
+      "subtitle": "فكر بسرعة. جاوب أسرع. اغلب الساعة.",
+      "playersTitle": "اللاعبون ({{count}}/{{max}})",
+      "enterYourName": "أدخل اسمك",
+      "join": "انضم",
+      "noPlayers": "لا يوجد لاعبون بعد. أضف نفسك لتبدأ!",
+      "host": "المضيف",
+      "notReady": "غير جاهز",
+      "ready": "جاهز",
+      "remove": "إزالة",
+      "gameSettings": "إعدادات اللعبة",
+      "categories": "الفئات",
+      "difficulty": "الصعوبة",
+      "timePerTurn": "الوقت لكل دور",
+      "timeUnit": "{{time}} ثانية",
+      "startGame": "ابدأ اللعبة",
+      "startRequirement": "يجب أن يكون جميع اللاعبين جاهزين للبدء (لاعبان على الأقل)"
+    },
+    "gameplay": {
+      "playerTurn": "دور {{name}}",
+      "getReady": "استعد للإجابة!",
+      "startTurn": "ابدأ الدور",
+      "round": "الجولة {{number}}",
+      "pleaseVote": "{{name}}، من فضلك قم بالتصويت!",
+      "wasAnswerValid": "هل كانت إجابة {{name}} صحيحة؟",
+      "votes": "الأصوات: {{count}} / {{total}}",
+      "valid": "صحيح",
+      "invalid": "غير صحيح"
+    },
+    "results": {
+      "wins": "{{name}} فاز!",
+      "withPoints_one": "بنقطة واحدة",
+      "withPoints_other": "مع {{count}} نقاط",
+      "finalScores": "النتائج النهائية",
+      "firstPlace": "المركز الأول",
+      "secondPlace": "المركز الثاني",
+      "thirdPlace": "المركز الثالث",
+      "nthPlace": "المركز الـ{{ordinal}}",
+      "playAgain": "العب مرة أخرى"
+    }
+  }
 }

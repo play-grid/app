@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { Badge } from '@/components/ui/badge';
 
 interface RoundInfoProps {
@@ -5,12 +6,11 @@ interface RoundInfoProps {
 }
 
 export function RoundInfo({ roundNumber }: RoundInfoProps) {
+  const { t } = useTranslation();
   return (
     <div className="text-center">
       <Badge variant="secondary" className="text-lg px-4 py-2">
-        Round
-        {' '}
-        {roundNumber}
+        {t('fiveSecondsGame.gameplay.round', { number: roundNumber })}
       </Badge>
     </div>
   );
