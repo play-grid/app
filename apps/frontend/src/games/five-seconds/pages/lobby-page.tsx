@@ -1,6 +1,7 @@
 import type { Category, Difficulty } from '../types';
 import { Check, Play, Settings, Timer, Users, X } from 'lucide-react';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import BackButton from '@/components/back-button';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -10,6 +11,7 @@ import { useFiveSecondsStore } from '../store';
 import { CATEGORIES, DIFFICULTIES } from '../types';
 
 export function FiveSecondsLobby() {
+  const { t } = useTranslation();
   const [playerName, setPlayerName] = useState('');
   const players = useFiveSecondsStore(state => state.players);
   const settings = useFiveSecondsStore(state => state.settings);
@@ -47,9 +49,9 @@ export function FiveSecondsLobby() {
         <BackButton />
         {/* Header */}
         <div className="text-center space-y-4">
-          <h1 className="text-6xl md:text-8xl font-bold text-balance">Five Seconds</h1>
+          <h1 className="text-6xl md:text-8xl font-bold text-balance">{t('fiveSecondsGame.lobby.title')}</h1>
           <p className="text-xl md:text-2xl text-muted-foreground text-pretty">
-            Think fast. Answer faster. Beat the clock.
+            {t('fiveSecondsGame.lobby.subtitle')}
           </p>
         </div>
 
@@ -59,23 +61,21 @@ export function FiveSecondsLobby() {
             <div className="flex items-center gap-3">
               <Users className="w-6 h-6 text-accent" />
               <h2 className="text-2xl font-bold">
-                Players (
-                {players.length}
-                /4)
+                {t('fiveSecondsGame.lobby.playersTitle', { count: players.length, max: 4 })}
               </h2>
             </div>
 
             {/* Add Player */}
             <div className="flex gap-2">
               <Input
-                placeholder="Enter your name"
+                placeholder={t('fiveSecondsGame.lobby.enterYourName')}
                 value={playerName}
                 onChange={e => setPlayerName(e.target.value)}
                 onKeyDown={e => e.key === 'Enter' && handleAddPlayer()}
                 className="bg-background border-border"
               />
               <Button onClick={handleAddPlayer} disabled={players.length >= 4}>
-                Join
+                {t('fiveSecondsGame.lobby.join')}
               </Button>
             </div>
 
@@ -83,7 +83,7 @@ export function FiveSecondsLobby() {
             <div className="space-y-3">
               {players.length === 0
                 ? (
-                    <p className="text-center text-muted-foreground py-8">No players yet. Add yourself to start!</p>
+                    <p className="text-center text-muted-foreground py-8">{t('fiveSecondsGame.lobby.noPlayers')}</p>
                   )
                 : (
                     players.map(player => (
@@ -99,7 +99,7 @@ export function FiveSecondsLobby() {
                             <p className="font-semibold">{player.name}</p>
                             {player.isHost && (
                               <Badge variant="secondary" className="text-xs">
-                                Host
+                                {t('fiveSecondsGame.lobby.host')}
                               </Badge>
                             )}
                           </div>
@@ -117,10 +117,10 @@ export function FiveSecondsLobby() {
                             variant={player.isReady ? 'secondary' : 'default'}
                             onClick={() => togglePlayerReady(player.id)}
                           >
-                            {player.isReady ? 'Not Ready' : 'Ready'}
+                            {player.isReady ? t('fiveSecondsGame.lobby.notReady') : t('fiveSecondsGame.lobby.ready')}
                           </Button>
                           <Button size="sm" variant="destructive" onClick={() => removePlayer(player.id)}>
-                            Remove
+                            {t('fiveSecondsGame.lobby.remove')}
                           </Button>
                         </div>
                       </div>
@@ -133,12 +133,12 @@ export function FiveSecondsLobby() {
           <Card className="p-6 space-y-6 bg-card border-border">
             <div className="flex items-center gap-3">
               <Settings className="w-6 h-6 text-accent" />
-              <h2 className="text-2xl font-bold">Game Settings</h2>
+              <h2 className="text-2xl font-bold">{t('fiveSecondsGame.lobby.gameSettings')}</h2>
             </div>
 
             {/* Categories */}
             <div className="space-y-3">
-              <label className="text-sm font-semibold text-muted-foreground">Categories</label>
+              <label className="text-sm font-semibold text-muted-foreground">{t('fiveSecondsGame.lobby.categories')}</label>
               <div className="flex flex-wrap gap-2">
                 {CATEGORIES.map(category => (
                   <Button
@@ -148,7 +148,7 @@ export function FiveSecondsLobby() {
                     onClick={() => toggleCategory(category)}
                     className="rounded-full"
                   >
-                    {category}
+                    {t(category)}
                   </Button>
                 ))}
               </div>
@@ -156,7 +156,7 @@ export function FiveSecondsLobby() {
 
             {/* Difficulty */}
             <div className="space-y-3">
-              <label className="text-sm font-semibold text-muted-foreground">Difficulty</label>
+              <label className="text-sm font-semibold text-muted-foreground">{t('fiveSecondsGame.lobby.difficulty')}</label>
               <div className="flex gap-2">
                 {DIFFICULTIES.map(difficulty => (
                   <Button
@@ -165,7 +165,7 @@ export function FiveSecondsLobby() {
                     onClick={() => updateSettings({ difficulty: difficulty as Difficulty })}
                     className="flex-1"
                   >
-                    {difficulty}
+                    {t(difficulty.toLowerCase())}
                   </Button>
                 ))}
               </div>
@@ -173,7 +173,7 @@ export function FiveSecondsLobby() {
 
             {/* Time Per Turn */}
             <div className="space-y-3">
-              <label className="text-sm font-semibold text-muted-foreground">Time Per Turn</label>
+              <label className="text-sm font-semibold text-muted-foreground">{t('fiveSecondsGame.lobby.timePerTurn')}</label>
               <div className="flex items-center gap-4">
                 <Timer className="w-5 h-5 text-accent" />
                 <div className="flex gap-2 flex-1">
@@ -184,8 +184,7 @@ export function FiveSecondsLobby() {
                       onClick={() => updateSettings({ timePerTurn: time })}
                       className="flex-1"
                     >
-                      {time}
-                      s
+                      {t('fiveSecondsGame.lobby.timeUnit', { time })}
                     </Button>
                   ))}
                 </div>
@@ -195,12 +194,12 @@ export function FiveSecondsLobby() {
             {/* Start Game Button */}
             <Button size="lg" className="w-full text-lg" onClick={startGame} disabled={!canStartGame()}>
               <Play className="w-5 h-5 mr-2" />
-              Start Game
+              {t('fiveSecondsGame.lobby.startGame')}
             </Button>
 
             {!canStartGame() && players.length > 0 && (
               <p className="text-sm text-center text-muted-foreground">
-                All players must be ready to start (minimum 2 players)
+                {t('fiveSecondsGame.lobby.startRequirement')}
               </p>
             )}
           </Card>

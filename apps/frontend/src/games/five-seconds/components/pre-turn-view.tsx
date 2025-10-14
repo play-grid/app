@@ -1,4 +1,5 @@
 import { ArrowRight } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 
 interface PreTurnViewProps {
@@ -7,17 +8,17 @@ interface PreTurnViewProps {
 }
 
 export function PreTurnView({ currentPlayerName, onStartTurn }: PreTurnViewProps) {
+  const { t } = useTranslation();
   return (
     <div className="text-center space-y-6">
       <div className="space-y-2">
         <h2 className="text-3xl font-bold">
-          {currentPlayerName}
-          's Turn
+          {t('fiveSecondsGame.gameplay.playerTurn', { name: currentPlayerName })}
         </h2>
-        <p className="text-muted-foreground">Get ready to answer!</p>
+        <p className="text-muted-foreground">{t('fiveSecondsGame.gameplay.getReady')}</p>
       </div>
       <Button size="lg" onClick={onStartTurn} className="text-xl px-8 py-6">
-        Start Turn
+        {t('fiveSecondsGame.gameplay.startTurn')}
         <ArrowRight className="w-6 h-6 ml-2" />
       </Button>
     </div>

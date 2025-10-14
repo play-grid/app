@@ -1,11 +1,13 @@
 'use client';
 
 import { Award, Medal, RotateCcw, Trophy } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useFiveSecondsStore } from '../store';
 
 export function ResultsPage() {
+  const { t } = useTranslation();
   const players = useFiveSecondsStore(state => state.players);
   const resetGame = useFiveSecondsStore(state => state.resetGame);
 
@@ -29,13 +31,13 @@ export function ResultsPage() {
   const getPositionLabel = (index: number) => {
     switch (index) {
       case 0:
-        return '1st Place';
+        return t('fiveSecondsGame.results.firstPlace');
       case 1:
-        return '2nd Place';
+        return t('fiveSecondsGame.results.secondPlace');
       case 2:
-        return '3rd Place';
+        return t('fiveSecondsGame.results.thirdPlace');
       default:
-        return `${index + 1}th Place`;
+        return t('fiveSecondsGame.results.nthPlace', { ordinal: index + 1 });
     }
   };
 
@@ -47,23 +49,17 @@ export function ResultsPage() {
           <Trophy className="w-24 h-24 mx-auto text-accent animate-bounce" />
           <div className="space-y-2">
             <h1 className="text-5xl md:text-7xl font-bold text-balance">
-              {winner?.name}
-              {' '}
-              Wins!
+              {t('fiveSecondsGame.results.wins', { name: winner?.name })}
             </h1>
             <p className="text-2xl text-muted-foreground">
-              With
-              {' '}
-              {winner?.score}
-              {' '}
-              {winner?.score === 1 ? 'point' : 'points'}
+              {t('fiveSecondsGame.results.withPoints', { count: winner?.score || 0 })}
             </p>
           </div>
         </div>
 
         {/* Leaderboard */}
         <Card className="p-6 md:p-8 space-y-6 bg-card border-border">
-          <h2 className="text-3xl font-bold text-center">Final Scores</h2>
+          <h2 className="text-3xl font-bold text-center">{t('fiveSecondsGame.results.finalScores')}</h2>
 
           <div className="space-y-4">
             {sortedPlayers.map((player, index) => (
@@ -87,7 +83,7 @@ export function ResultsPage() {
                 </div>
                 <div className="text-right">
                   <p className="text-4xl font-bold tabular-nums">{player.score}</p>
-                  <p className="text-sm opacity-80">{player.score === 1 ? 'point' : 'points'}</p>
+                  <p className="text-sm opacity-80">{t('points', { count: player.score })}</p>
                 </div>
               </div>
             ))}
@@ -98,7 +94,7 @@ export function ResultsPage() {
         <div className="flex justify-center">
           <Button size="lg" onClick={resetGame} className="text-xl px-8 py-6">
             <RotateCcw className="w-6 h-6 mr-2" />
-            Play Again
+            {t('fiveSecondsGame.results.playAgain')}
           </Button>
         </div>
       </div>
