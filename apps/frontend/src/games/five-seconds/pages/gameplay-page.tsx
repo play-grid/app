@@ -106,8 +106,8 @@ export function GameplayPage() {
     }
   }, [isVotingFinished, tallyVotes, currentPlayer, updatePlayer, handleNextTurn]);
 
-  // --- Event Handlers ---
-
+  // TODO: refactor this to be in game-core
+  // ---  Event Handlers ---
   const handleStartTurn = () => {
     setIsAnswering(true);
     setTimeLeft(settings.timePerTurn);
@@ -123,62 +123,75 @@ export function GameplayPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-4 md:p-8">
-      <div className="flex justify-center items-start gap-4">
-        <Dialog open={isResetConfirmOpen} onOpenChange={setIsResetConfirmOpen}>
-          <DialogTrigger asChild>
-            <Button variant="outline" size="icon" aria-label={t('fiveSecondsGame.gameplay.resetGame')}>
-              <RotateCcw className="w-4 h-4" />
-            </Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>{t('fiveSecondsGame.gameplay.resetConfirmTitle')}</DialogTitle>
-              <DialogDescription>
-                {t('fiveSecondsGame.gameplay.resetConfirmDescription')}
-              </DialogDescription>
-            </DialogHeader>
-            <DialogFooter>
-              <DialogClose asChild>
-                <Button variant="outline">{t('common.cancel')}</Button>
-              </DialogClose>
-              <Button variant="destructive" onClick={handleResetGame}>
-                {t('fiveSecondsGame.gameplay.resetGame')}
+    <div className="min-h-screen flex flex-col p-4 md:p-8">
+      {/* Header with Reset Button */}
+      <div className="w-full max-w-4xl mx-auto mb-6">
+        <div className="flex justify-start">
+          <Dialog open={isResetConfirmOpen} onOpenChange={setIsResetConfirmOpen}>
+            <DialogTrigger asChild>
+              <Button
+                variant="outline"
+                size="sm"
+                className="gap-2"
+                aria-label={t('fiveSecondsGame.gameplay.resetGame')}
+              >
+                <RotateCcw className="w-4 h-4" />
+                <span className="hidden sm:inline">{t('fiveSecondsGame.gameplay.resetGame')}</span>
               </Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>{t('fiveSecondsGame.gameplay.resetConfirmTitle')}</DialogTitle>
+                <DialogDescription>
+                  {t('fiveSecondsGame.gameplay.resetConfirmDescription')}
+                </DialogDescription>
+              </DialogHeader>
+              <DialogFooter>
+                <DialogClose asChild>
+                  <Button variant="outline">{t('common.cancel')}</Button>
+                </DialogClose>
+                <Button variant="destructive" onClick={handleResetGame}>
+                  {t('fiveSecondsGame.gameplay.resetGame')}
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+        </div>
       </div>
-      <div className="w-full max-w-4xl space-y-8">
-        <PlayerScores players={players} currentPlayerId={currentPlayer?.id} />
-        <RoundInfo roundNumber={turnState?.roundNumber || 1} />
 
-        <Card className="p-8 md:p-12 space-y-8 bg-card border-border">
-          {!isAnswering && !votingState?.isVoting
-            ? (
-                <PreTurnView
-                  currentPlayerName={currentPlayer?.name || ''}
-                  onStartTurn={handleStartTurn}
-                />
-              )
-            : votingState?.isVoting && !isVotingFinished
+      {/* Main Game Content */}
+      <div className="flex-1 flex items-center justify-center">
+        <div className="w-full max-w-4xl space-y-6">
+          <PlayerScores players={players} currentPlayerId={currentPlayer?.id} />
+          <RoundInfo roundNumber={turnState?.roundNumber || 1} />
+
+          <Card className="p-8 md:p-12 space-y-8 bg-card border-border">
+            {!isAnswering && !votingState?.isVoting
               ? (
-                  <VotingView
-                    votingState={votingState}
-                    currentVoter={currentVoter}
-                    currentPlayer={currentPlayer}
-                    currentQuestion={currentQuestion}
-                    onVote={handleVote}
+                  <PreTurnView
+                    currentPlayerName={currentPlayer?.name || ''}
+                    onStartTurn={handleStartTurn}
                   />
                 )
-              : (
-                  <AnsweringView
-                    timeLeft={timeLeft}
-                    timePerTurn={settings.timePerTurn}
-                    currentQuestion={currentQuestion}
-                  />
-                )}
-        </Card>
+              : votingState?.isVoting && !isVotingFinished
+                ? (
+                    <VotingView
+                      votingState={votingState}
+                      currentVoter={currentVoter}
+                      currentPlayer={currentPlayer}
+                      currentQuestion={currentQuestion}
+                      onVote={handleVote}
+                    />
+                  )
+                : (
+                    <AnsweringView
+                      timeLeft={timeLeft}
+                      timePerTurn={settings.timePerTurn}
+                      currentQuestion={currentQuestion}
+                    />
+                  )}
+          </Card>
+        </div>
       </div>
     </div>
   );
