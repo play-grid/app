@@ -1,6 +1,6 @@
-import type { FiveSecondsGameSettings, FiveSecondsPlayer, VotingState } from './types';
+import type { FiveSecondsGameSettings, FiveSecondsPlayer, VotingState } from '../types';
 import { createGameStore } from '@guess-logo/game-core/stores';
-import { CATEGORIES, DIFFICULTIES } from './types';
+import { CATEGORIES, DIFFICULTIES } from '../types';
 
 const initialSettings: FiveSecondsGameSettings = {
   categories: [CATEGORIES[0]],

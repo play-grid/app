@@ -103,7 +103,11 @@
     "error": "عذراً! حدث خطأ ما 😅",
     "LanguageToggle_placeholder": "اختر اللغة",
     "LanguageToggle_ar": "العربية",
-    "LanguageToggle_en": "English"
+    "LanguageToggle_en": "English",
+    "toasts":{
+      "playerRemoved":"{{name}} طلع من اللعبه",
+      "playerRemoveUndo":"رجعه"
+    }
   },
   "customizations": {
     "trigger_label": "إعدادات سحرية ✨",

@@ -99,7 +99,11 @@
     "error": "Oops! Something went wrong 😅",
     "LanguageToggle_placeholder": "Select Language",
     "LanguageToggle_ar": "العربية",
-    "LanguageToggle_en": "English"
+    "LanguageToggle_en": "English",
+    "toasts":{
+      "playerRemoved":"Oh {{name}} got kicked out",
+      "playerRemoveUndo":"Bring them back"
+    }
   },
   "customizations": {
     "trigger_label": "Magic Settings ✨",
