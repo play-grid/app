@@ -7,7 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { useFiveSecondsStore } from '../store';
+import { useFiveSecondsStore } from '../stores/game-store';
 import { CATEGORIES, DIFFICULTIES } from '../types';
 
 export function FiveSecondsLobby() {
@@ -35,7 +35,7 @@ export function FiveSecondsLobby() {
 
   const toggleCategory = (category: Category) => {
     const newCategories = settings.categories.includes(category)
-      ? settings.categories.filter(c => c !== category)
+      ? settings.categories.filter((c: string) => c !== category)
       : [...settings.categories, category];
 
     if (newCategories.length > 0) {
@@ -49,7 +49,7 @@ export function FiveSecondsLobby() {
         <BackButton />
         {/* Header */}
         <div className="text-center space-y-4">
-          <h1 className="text-6xl md:text-8xl font-bold text-balance">{t('fiveSecondsGame.lobby.title')}</h1>
+          <h1 className="text-4xl md:text-8xl font-bold text-balance">{t('fiveSecondsGame.lobby.title')}</h1>
           <p className="text-xl md:text-2xl text-muted-foreground text-pretty">
             {t('fiveSecondsGame.lobby.subtitle')}
           </p>

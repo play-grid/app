@@ -19,7 +19,7 @@ import { PreTurnView } from '../components/pre-turn-view';
 import { RoundInfo } from '../components/round-info';
 import { VotingView } from '../components/voting-view';
 import { getRandomQuestion } from '../lib/questions';
-import { useFiveSecondsStore } from '../store';
+import { useFiveSecondsStore } from '../stores/game-store';
 
 export function GameplayPage() {
   // Store selectors
@@ -41,6 +41,7 @@ export function GameplayPage() {
   const [currentQuestion, setCurrentQuestion] = useState(() =>
     getRandomQuestion(settings.categories, settings.difficulty),
   );
+
   const [timeLeft, setTimeLeft] = useState(settings.timePerTurn);
   const [isAnswering, setIsAnswering] = useState(false);
   const [isResetConfirmOpen, setIsResetConfirmOpen] = useState(false);
@@ -59,7 +60,7 @@ export function GameplayPage() {
     if (!isAnswering)
       return;
     const timer = setInterval(() => {
-      setTimeLeft((prev) => {
+      setTimeLeft((prev: number) => {
         if (prev <= 1) {
           clearInterval(timer);
           return 0;

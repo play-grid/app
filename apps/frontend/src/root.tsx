@@ -1,5 +1,6 @@
 import { BrowserRouter } from 'react-router-dom';
 import { ThemeProvider } from '@/components/theme-provider';
+import { Toaster } from '@/components/ui/sonner';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import QueryProvider from '@/context/api-provider';
 import { LanguageRouter } from '@/i18n/language-router';
@@ -15,6 +16,7 @@ export default function Root() {
           <TooltipProvider>
             <div className="bg-background text-primary min-h-screen">
               <LanguageRouter>
+                <Toaster />
                 <App />
               </LanguageRouter>
             </div>
