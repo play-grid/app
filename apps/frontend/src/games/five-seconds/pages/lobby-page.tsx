@@ -2,6 +2,7 @@ import type { Category, Difficulty } from '../types';
 import { Play, Settings, Timer, Users } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'sonner';
 import BackButton from '@/components/back-button';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -122,7 +123,22 @@ export function FiveSecondsLobby() {
                             {player.isReady ? t('fiveSecondsGame.lobby.notReady') : t('fiveSecondsGame.lobby.ready')}
                           </Button>
                            */}
-                          <Button size="sm" variant="destructive" onClick={() => removePlayer(player.id)}>
+                          <Button
+                            size="sm"
+                            variant="destructive"
+                            onClick={() => {
+                              const removedPlayer = player;
+                              removePlayer(player.id);
+                              toast(t('common.toasts.playerRemoved', { name: player.name }), {
+                                action: {
+                                  label: t('common.toasts.playerRemoveUndo'),
+                                  onClick: () => {
+                                    useFiveSecondsStore.getState().addPlayer(removedPlayer);
+                                  },
+                                },
+                              });
+                            }}
+                          >
                             {t('fiveSecondsGame.lobby.remove')}
                           </Button>
                         </div>
