@@ -1,21 +1,9 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-/*
- * =============================================================================
- * FONT DEFINITIONS
- * =============================================================================
- */
-
-/* English Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Allerta&display=swap'); /* Main English font */
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap'); /* For unique English elements */
-
-/* Arabic Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap'); /* Main Arabic font */
-@import url('https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&display=swap');  /* For Arabic titles */
-
 @custom-variant dark (&:is(.dark *));
+@custom-variant rtl (&:is([dir="rtl"], [dir="rtl"] *));
+@custom-variant ltr (&:is([dir="ltr"], [dir="ltr"] *));
 
 /*
  * =============================================================================
