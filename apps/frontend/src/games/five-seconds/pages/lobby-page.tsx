@@ -1,5 +1,5 @@
 import type { Category, Difficulty } from '../types';
-import { Check, Play, Settings, Timer, Users, X } from 'lucide-react';
+import { Play, Settings, Timer, Users } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import BackButton from '@/components/back-button';
@@ -17,7 +17,7 @@ export function FiveSecondsLobby() {
   const settings = useFiveSecondsStore(state => state.settings);
   const addPlayer = useFiveSecondsStore(state => state.addPlayer);
   const removePlayer = useFiveSecondsStore(state => state.removePlayer);
-  const togglePlayerReady = useFiveSecondsStore(state => state.togglePlayerReady);
+  // const togglePlayerReady = useFiveSecondsStore(state => state.togglePlayerReady);
   const updateSettings = useFiveSecondsStore(state => state.updateSettings);
   const canStartGame = useFiveSecondsStore(state => state.canStartGame);
   const startGame = useFiveSecondsStore(state => state.startGame);
@@ -105,13 +105,15 @@ export function FiveSecondsLobby() {
                           </div>
                         </div>
                         <div className="flex items-center gap-2">
+                          {/*
+                          uncomment this if i make online mode multiplayer
                           {player.isReady
                             ? (
-                                <Check className="w-5 h-5 text-accent" />
+                              <Check className="w-5 h-5 text-accent" />
                               )
-                            : (
+                              : (
                                 <X className="w-5 h-5 text-muted-foreground" />
-                              )}
+                                )}
                           <Button
                             size="sm"
                             variant={player.isReady ? 'secondary' : 'default'}
@@ -119,6 +121,7 @@ export function FiveSecondsLobby() {
                           >
                             {player.isReady ? t('fiveSecondsGame.lobby.notReady') : t('fiveSecondsGame.lobby.ready')}
                           </Button>
+                           */}
                           <Button size="sm" variant="destructive" onClick={() => removePlayer(player.id)}>
                             {t('fiveSecondsGame.lobby.remove')}
                           </Button>

@@ -25,7 +25,7 @@ export const useFiveSecondsStore = createGameStore<
     maxPlayers: 4,
     minPlayers: 2,
     turnBased: true,
-    requireReady: true,
+    requireReady: false,
   },
   // Custom state and actions for voting
   customState: {
