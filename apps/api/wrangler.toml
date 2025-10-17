@@ -30,6 +30,11 @@ binding = "RATE_LIMIT"
 id = "2935fac12f184133b095fc52a402d801"
 preview_id = "57a9aedd01974845a191abf28f2b2710"
 
+[[kv_namespaces]]
+binding = "QUESTIONS"
+id = "07bd0d479a8444139fc0b3584f9c28ae"
+preview_id = "07bd0d479a8444139fc0b3584f9c28ae"
+
 # logos-Bucket
 [[r2_buckets]]
 bucket_name = "guess-logo"
