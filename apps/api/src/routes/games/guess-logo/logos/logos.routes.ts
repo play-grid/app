@@ -12,7 +12,7 @@ const tags = ['Logos'];
 
 // Route for getting available lists for a set (used in select)
 export const getLogoLists = createRoute({
-  path: '/logos/{set}',
+  path: '/{set}',
   method: 'get',
   tags,
   request: {
@@ -38,7 +38,7 @@ export const getLogoLists = createRoute({
 
 // Route for getting logos by set and list
 export const getLogosBySetAndList = createRoute({
-  path: '/logos/{set}/{list}',
+  path: '/{set}/{list}',
   method: 'get',
   tags,
   request: {
