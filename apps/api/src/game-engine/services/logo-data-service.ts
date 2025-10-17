@@ -1,5 +1,5 @@
 import type { LogoItem, LogoSetKey, LogoItem as SharedLogoItem } from '@guess-logo/shared/types';
-import { fetchLogoLists } from '../../routes/logos/services/logo-lists-service';
+import { fetchLogoLists } from '../../routes/games/guess-logo/logos/services/logo-lists-service';
 
 /**
  * Fetches and prepares logos for a game session.

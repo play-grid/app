@@ -8,7 +8,7 @@ import gameRoom from './game-room/game-room.index';
 import gameType from './game-type/game-type.index';
 import health from './health/health.index';
 import index from './index.route';
-import logos from './logos/logos.index';
+import logos from './games/guess-logo/logos/logos.index';
 
 export function registerRoutes(app: AppOpenAPI) {
   return app
