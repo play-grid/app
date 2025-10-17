@@ -6,7 +6,7 @@ import { question, questionQuery } from './schemas';
 export const tags = ['questions'];
 
 export const getRandomQuestion = createRoute({
-  path: '/question/random',
+  path: '/random',
   request: {
     query: questionQuery,
   },
