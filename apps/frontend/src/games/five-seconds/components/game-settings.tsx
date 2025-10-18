@@ -1,4 +1,5 @@
 import type { SupportedLanguage } from '@guess-logo/shared/types';
+import { difficultySchema } from '@guess-logo/shared/schemas/five-seconds';
 import { Timer } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
@@ -6,7 +7,6 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useCategories } from '../hooks/use-categories';
 import { useFiveSecondsStore } from '../stores/game-store';
-import { DIFFICULTIES } from '../types';
 
 export function GameSettings() {
   const { t, i18n } = useTranslation();
@@ -36,7 +36,7 @@ export function GameSettings() {
             <SelectValue placeholder={t('fiveSecondsGame.lobby.difficulty')} />
           </SelectTrigger>
           <SelectContent>
-            {DIFFICULTIES.map(diff => (
+            {difficultySchema.options.map(diff => (
               <SelectItem key={diff} value={diff}>
                 {t(diff.toLowerCase())}
               </SelectItem>
