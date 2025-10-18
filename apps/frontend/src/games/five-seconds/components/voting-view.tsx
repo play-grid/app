@@ -4,7 +4,7 @@ import { ThumbsDown, ThumbsUp, Users } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
-import { QuestionInfoBadge } from './question-info-badge';
+import { QuestionInfo } from './question-info';
 
 interface VotingViewProps {
   votingState: VotingState;
@@ -38,12 +38,7 @@ export function VotingView({
         </p>
       </div>
 
-      <div className="text-center space-y-2">
-        <QuestionInfoBadge currentQuestion={currentQuestion} />
-        <h3 className="text-2xl md:text-4xl font-bold text-balance">
-          {currentQuestion.question}
-        </h3>
-      </div>
+      <QuestionInfo currentQuestion={currentQuestion} />
 
       <div className="space-y-2">
         <div className="flex justify-between text-sm text-muted-foreground">

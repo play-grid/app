@@ -3,7 +3,7 @@ import { createGameStore } from '@guess-logo/game-core/stores';
 import { difficultySchema } from '@guess-logo/shared/schemas/five-seconds';
 
 const initialSettings: FiveSecondsGameSettings = {
-  categoryIds: [],
+  categoryIds: ['cat_general_v1'],
   difficulty: difficultySchema.enum.easy,
   timePerTurn: 5,
 };
