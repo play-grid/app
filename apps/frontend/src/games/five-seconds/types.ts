@@ -1,13 +1,10 @@
 import type { Player } from '@guess-logo/game-core/types';
+import type {
+  Category,
+  Difficulty,
+} from '@guess-logo/shared/schemas/five-seconds';
 
-export interface Category {
-  id: string;
-  name: string;
-  icon: string;
-}
-
-export const DIFFICULTIES = ['Easy', 'Medium', 'Hard'] as const;
-export type Difficulty = (typeof DIFFICULTIES)[number];
+export type { Category, Difficulty };
 
 export interface Vote {
   playerId: string;

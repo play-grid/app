@@ -1,10 +1,10 @@
 import type { FiveSecondsGameSettings, FiveSecondsPlayer, VotingState } from '../types';
 import { createGameStore } from '@guess-logo/game-core/stores';
-import { DIFFICULTIES } from '../types';
+import { difficultySchema } from '@guess-logo/shared/schemas/five-seconds';
 
 const initialSettings: FiveSecondsGameSettings = {
   categoryIds: [],
-  difficulty: DIFFICULTIES[0],
+  difficulty: difficultySchema.enum.easy,
   timePerTurn: 5,
 };
 
