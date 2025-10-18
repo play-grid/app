@@ -2,9 +2,9 @@ import type { Question } from '@guess-logo/shared/schemas/five-seconds';
 import type { FiveSecondsPlayer, VotingState } from '../types';
 import { ThumbsDown, ThumbsUp, Users } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
+import { QuestionInfoBadge } from './question-info-badge';
 
 interface VotingViewProps {
   votingState: VotingState;
@@ -39,13 +39,7 @@ export function VotingView({
       </div>
 
       <div className="text-center space-y-2">
-        <Badge variant="outline" className="text-sm">
-          {/* TODO: fetch category name from id */}
-          {t(currentQuestion.categoryIds[0])}
-          {' '}
-          •
-          {t(currentQuestion.difficulty.toLowerCase())}
-        </Badge>
+        <QuestionInfoBadge currentQuestion={currentQuestion} />
         <h3 className="text-2xl md:text-4xl font-bold text-balance">
           {currentQuestion.question}
         </h3>
