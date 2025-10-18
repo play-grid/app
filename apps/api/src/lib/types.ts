@@ -9,6 +9,7 @@ export interface AppEnv extends Env {
     ASSETS: Fetcher;
     LOGO_CACHE: KVNamespace;
     RATE_LIMIT: KVNamespace;
+    QUESTIONS: KVNamespace;
     GAME_ROOM: DurableObjectNamespace<GameRoomDurableObject>;
     ALLOWED_ORIGINS: string;
   };

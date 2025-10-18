@@ -10,9 +10,13 @@
     "guessLogo": {
       "title": "Guess the Logo",
       "description": "Test your logo knowledge in a fun and challenging game!"
+    },
+    "fiveSeconds": {
+      "title": "Five Seconds Game",
+      "description": "A fast-paced game where you have 5 seconds to name 3 things in a category."
     }
   },
-  "about":{
+  "about": {
     "author_name": "Mohammed alaa",
     "app_info_title": "Learn more about the game",
     "developer_label": "Crafted with love 🩵 by",
@@ -95,7 +99,11 @@
     "error": "Oops! Something went wrong 😅",
     "LanguageToggle_placeholder": "Select Language",
     "LanguageToggle_ar": "العربية",
-    "LanguageToggle_en": "English"
+    "LanguageToggle_en": "English",
+    "toasts": {
+      "playerRemoved": "Oh {{name}} got kicked out",
+      "playerRemoveUndo": "Bring them back"
+    }
   },
   "customizations": {
     "trigger_label": "Magic Settings ✨",
@@ -149,5 +157,74 @@
   "country-data-region": "Region:",
   "country-data-languages": "Languages:",
   "country-data-currency": "Currency:",
-  "grid-size": "Grid size"
+  "grid-size": "Grid size",
+  "players": "Players",
+  "add-player": "Add Player",
+  "player-name": "Player Name",
+  "game-settings": "Game Settings",
+  "difficulty": "Difficulty",
+  "select-difficulty": "Select Difficulty",
+  "categories": "Categories",
+  "five-seconds-game": "Five Seconds Game",
+  "points_one": "{{count}} point",
+  "points_other": "{{count}} points",
+  "fiveSecondsGame": {
+    "lobby": {
+      "title": "Five Seconds",
+      "subtitle": "Think fast. Answer faster. Beat the clock.",
+      "gameSettings": "Game Settings",
+      "categories": "Categories",
+      "difficulty": "Difficulty",
+      "timePerTurn": "Time Per Turn",
+      "timeUnit": "{{time}}s",
+      "startGame": "Start Game",
+      "startRequirement": "All players must be ready to start (minimum 2 players)",
+      "playersTitle": "Players ({{count}}/{{max}})",
+      "enterYourName": "Enter your name",
+      "join": "Join",
+      "noPlayers": "No players yet. Be the first to join!",
+      "host": "Host",
+      "remove": "Remove",
+      "nameAlreadyExists": "This name is already taken",
+      "nameRequired": "Please enter a name",
+      "maxPlayersReached": "Maximum number of players reached",
+      "playerAdded": "{{name}} joined the game!",
+      "maxPlayersInfo": "Maximum number of players reached",
+      "currentPlayers": "Current players",
+      "removePlayer": "Remove {{name}}",
+      "ready": "Ready",
+      "notReady": "Not Ready",
+      "validation": {
+        "minLength": "Name must be at least 2 characters",
+        "maxLength": "Name must be at most 20 characters",
+        "invalidCharacters": "Name can only contain letters, numbers, and spaces"
+      }
+    },
+    "gameplay": {
+      "playerTurn": "{{name}}'s Turn",
+      "getReady": "Get ready to answer!",
+      "startTurn": "Start Turn",
+      "round": "Round {{number}}",
+      "pleaseVote": "{{name}}, please vote!",
+      "wasAnswerValid": "Was {{name}}'s answer valid?",
+      "votes": "Votes: {{count}} / {{total}}",
+      "valid": "Valid",
+      "invalid": "Invalid",
+      "resetGame": "Reset Game",
+      "resetConfirmTitle": "Are you sure you want to reset?",
+      "resetConfirmDescription": "This will permanently end the current game and return you to the lobby. All scores will be lost.",
+      "nameThree": "Name 3"
+    },
+    "results": {
+      "wins": "{{name}} Wins!",
+      "withPoints_one": "With {{count}} point",
+      "withPoints_other": "With {{count}} points",
+      "finalScores": "Final Scores",
+      "firstPlace": "1st Place",
+      "secondPlace": "2nd Place",
+      "thirdPlace": "3rd Place",
+      "nthPlace": "{{ordinal}}th Place",
+      "playAgain": "Play Again"
+    }
+  }
 }

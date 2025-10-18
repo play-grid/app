@@ -7,7 +7,9 @@ interface LanguageRouterProps {
   children: React.ReactNode;
 }
 
-const supported = i18n.options.supportedLngs?.filter(lang => lang !== 'cimode') || ['en', 'ar'];
+const supportedLngs = i18n.options.supportedLngs;
+const supported
+  = Array.isArray(supportedLngs) ? supportedLngs.filter((lng: string) => lng !== 'cimode') : [];
 
 export function LanguageRouter({ children }: LanguageRouterProps) {
   const location = useLocation();
@@ -34,7 +36,7 @@ export function LanguageRouter({ children }: LanguageRouterProps) {
 
   // Use useLayoutEffect to synchronously update the DOM's direction
   useLayoutEffect(() => {
-    document.body.dir = i18nInstance.dir();
+    document.documentElement.dir = i18nInstance.dir();
     // Also set the html lang attribute for accessibility
     document.documentElement.lang = i18nInstance.language;
   }, [i18nInstance, i18nInstance.language]);

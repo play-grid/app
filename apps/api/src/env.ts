@@ -15,6 +15,9 @@ const EnvSchema = z.object({
   TMDB_API_KEY: z.string(),
   LOGO_DEV_API_KEY: z.string(),
   ALL_SPORTS_API_KEY: z.string(),
+  CLOUDFLARE_ACCOUNT_ID: z.string(),
+  CLOUDFLARE_API_TOKEN: z.string(),
+  QUESTIONS_KV_ID: z.string(),
 });
 
 export type Env = z.infer<typeof EnvSchema>;

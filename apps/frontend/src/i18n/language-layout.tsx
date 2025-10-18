@@ -10,7 +10,7 @@ export function LanguageLayout({ children }: LanguageLayoutProps) {
 
   useLayoutEffect(() => {
     document.documentElement.lang = i18n.language;
-    document.body.dir = i18n.dir();
+    document.documentElement.dir = i18n.dir();
   }, [i18n, i18n.language]);
 
   return <>{children}</>;

@@ -10,7 +10,9 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "cf-typegen": "wrangler types --env-interface CloudflareBindings",
-    "build": "tsc --project tsconfig.build.json"
+    "build": "tsc --project tsconfig.build.json",
+    "seed:questions": "tsx src/scripts/seed-questions.ts"
+
   },
   "exports": {
     "./routes": {
@@ -36,6 +38,8 @@
     "@cloudflare/workers-types": "^4.20250831.0",
     "@guess-logo/eslint-config": "workspace:*",
     "@types/node": "^24.3.1",
+    "cloudflare": "^5.2.0",
+    "tsx": "^4.20.6",
     "typescript": "~5.8.3",
     "wrangler": "^4.33.2"
   }
