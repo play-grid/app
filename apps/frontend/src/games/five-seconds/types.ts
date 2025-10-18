@@ -1,8 +1,10 @@
 import type { Player } from '@guess-logo/game-core/types';
 
-// TODO: WILL MAKE CATEGORIES DYNAMIC LATER using API
-export const CATEGORIES = ['Movies', 'Music', 'History', 'Science', 'General Knowledge'] as const;
-export type Category = (typeof CATEGORIES)[number];
+export interface Category {
+  id: string;
+  name: string;
+  icon: string;
+}
 
 export const DIFFICULTIES = ['Easy', 'Medium', 'Hard'] as const;
 export type Difficulty = (typeof DIFFICULTIES)[number];
@@ -20,7 +22,7 @@ export interface VotingState {
 }
 
 export interface FiveSecondsGameSettings {
-  categories: Category[];
+  categoryIds: string[];
   difficulty: Difficulty;
   timePerTurn: number; // in seconds
 }
