@@ -7,8 +7,7 @@
     "./stores": "./src/stores/index.ts",
     "./stores/ui": "./src/stores/ui/index.ts",
     "./types": "./src/types/core.ts",
-    "./stores/persistence": "./src/stores/create-persistence-store.ts",
-    "./multiplayer": "./src/multiplayer/index.ts"
+    "./stores/persistence": "./src/stores/create-persistence-store.ts"
   },
   "dependencies": {
     "@guess-logo/eslint-config": "workspace:*",
