@@ -1,11 +1,10 @@
+import { languageQuery } from '@guess-logo/shared/schemas';
 import { createRoute, z } from '@hono/zod-openapi';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import { jsonContent } from 'stoker/openapi/helpers';
 import { categorySchema } from './categories.schemas';
 
 export const tags = ['categories'];
-
-export const languageQuery = z.object({ language: z.enum(['en', 'ar'], { error: 'Language not supported' }).default('en') });
 
 export const listCategories = createRoute({
   path: '/',
