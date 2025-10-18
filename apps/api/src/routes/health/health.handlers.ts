@@ -21,7 +21,7 @@ export const getHealthStatus: AppRouteHandler<typeof health> = async (c) => {
       serviceChecks.tmdb = 'degraded';
     }
   }
-  catch (error) {
+  catch {
     serviceChecks.tmdb = 'fail';
   }
 
@@ -36,7 +36,7 @@ export const getHealthStatus: AppRouteHandler<typeof health> = async (c) => {
       serviceChecks.logoDev = 'degraded';
     }
   }
-  catch (error) {
+  catch {
     serviceChecks.logoDev = 'fail';
   }
 
@@ -47,7 +47,7 @@ export const getHealthStatus: AppRouteHandler<typeof health> = async (c) => {
       serviceChecks.apiCountries = 'degraded';
     }
   }
-  catch (error) {
+  catch {
     serviceChecks.apiCountries = 'fail';
   }
 
@@ -55,7 +55,7 @@ export const getHealthStatus: AppRouteHandler<typeof health> = async (c) => {
   try {
     await c.env.LOGO_CACHE.list({ limit: 1 });
   }
-  catch (error) {
+  catch {
     serviceChecks.kvStore = 'fail';
   }
 
