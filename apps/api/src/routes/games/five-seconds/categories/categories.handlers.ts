@@ -1,8 +1,8 @@
 import type { getCategory, listCategories } from './categories.routes';
 import type { AppRouteHandler } from '@/api/lib/types';
+import { languageQuery } from '@guess-logo/shared/schemas';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import categories from './categories.json';
-import { languageQuery } from './categories.routes';
 
 export const listCategoriesHandler: AppRouteHandler<typeof listCategories> = async (c) => {
   const query = languageQuery.parse(c.req.query());
