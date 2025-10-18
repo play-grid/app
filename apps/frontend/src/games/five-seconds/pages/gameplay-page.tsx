@@ -13,12 +13,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import { Spinner } from '@/components/ui/spinner';
 import { AnsweringView } from '../components/answering-view';
 import { PlayerScores } from '../components/player-scores';
 import { PreTurnView } from '../components/pre-turn-view';
 import { RoundInfo } from '../components/round-info';
 import { VotingView } from '../components/voting-view';
-import { getRandomQuestion } from '../lib/questions';
+import { useQuestion } from '../hooks/use-question';
 import { useFiveSecondsStore } from '../stores/game-store';
 
 export function GameplayPage() {
@@ -38,9 +39,11 @@ export function GameplayPage() {
 
   const { t } = useTranslation();
   // Local component state
-  const [currentQuestion, setCurrentQuestion] = useState(() =>
-    getRandomQuestion(settings.categories, settings.difficulty),
-  );
+  const {
+    data: currentQuestion,
+    isLoading,
+    refetch: fetchQuestion,
+  } = useQuestion(settings.categoryIds, settings.difficulty);
 
   const [timeLeft, setTimeLeft] = useState(settings.timePerTurn);
   const [isAnswering, setIsAnswering] = useState(false);
@@ -53,24 +56,6 @@ export function GameplayPage() {
   const currentVoterId = votingState && votingState.voters[votingState.currentVoterIndex];
   const currentVoter = players.find(p => p.id === currentVoterId);
 
-  // --- Game Flow Effects ---
-
-  // Timer effect
-  useEffect(() => {
-    if (!isAnswering)
-      return;
-    const timer = setInterval(() => {
-      setTimeLeft((prev: number) => {
-        if (prev <= 1) {
-          clearInterval(timer);
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-    return () => clearInterval(timer);
-  }, [isAnswering]);
-
   // Effect to start voting when timer ends
   useEffect(() => {
     if (timeLeft === 0 && isAnswering && currentPlayer) {
@@ -78,6 +63,19 @@ export function GameplayPage() {
       startVoting(currentPlayer.id, players);
     }
   }, [timeLeft, isAnswering, currentPlayer, players, startVoting]);
+
+  // Effect to handle the countdown timer
+  useEffect(() => {
+    if (!isAnswering) {
+      return undefined;
+    }
+
+    const timerId = setInterval(() => {
+      setTimeLeft(prevTime => (prevTime > 0 ? prevTime - 1 : 0));
+    }, 1000);
+
+    return () => clearInterval(timerId);
+  }, [isAnswering]);
 
   // Effect to tally votes when voting is finished
   const handleNextTurn = useCallback(() => {
@@ -93,9 +91,9 @@ export function GameplayPage() {
       nextTurn();
     }
 
-    setCurrentQuestion(getRandomQuestion(settings.categories, settings.difficulty));
+    fetchQuestion();
     setTimeLeft(settings.timePerTurn);
-  }, [turnState, players, endGame, nextTurn, settings, resetVoting]);
+  }, [turnState, players, endGame, nextTurn, settings, resetVoting, fetchQuestion]);
 
   useEffect(() => {
     if (isVotingFinished) {
@@ -167,30 +165,38 @@ export function GameplayPage() {
           <RoundInfo roundNumber={turnState?.roundNumber || 1} />
 
           <Card className="p-8 md:p-12 space-y-8 bg-card border-border">
-            {!isAnswering && !votingState?.isVoting
+            {isLoading
               ? (
-                  <PreTurnView
-                    currentPlayerName={currentPlayer?.name || ''}
-                    onStartTurn={handleStartTurn}
-                  />
+                  <div className="flex items-center justify-center">
+                    <Spinner />
+                  </div>
                 )
-              : votingState?.isVoting && !isVotingFinished
-                ? (
-                    <VotingView
-                      votingState={votingState}
-                      currentVoter={currentVoter}
-                      currentPlayer={currentPlayer}
-                      currentQuestion={currentQuestion}
-                      onVote={handleVote}
-                    />
-                  )
-                : (
-                    <AnsweringView
-                      timeLeft={timeLeft}
-                      timePerTurn={settings.timePerTurn}
-                      currentQuestion={currentQuestion}
-                    />
-                  )}
+              : !isAnswering && !votingState?.isVoting && currentQuestion
+                  ? (
+                      <PreTurnView
+                        currentPlayerName={currentPlayer?.name || ''}
+                        onStartTurn={handleStartTurn}
+                      />
+                    )
+                  : votingState?.isVoting && !isVotingFinished && currentQuestion
+                    ? (
+                        <VotingView
+                          votingState={votingState}
+                          currentVoter={currentVoter}
+                          currentPlayer={currentPlayer}
+                          currentQuestion={currentQuestion}
+                          onVote={handleVote}
+                        />
+                      )
+                    : currentQuestion
+                      ? (
+                          <AnsweringView
+                            timeLeft={timeLeft}
+                            timePerTurn={settings.timePerTurn}
+                            currentQuestion={currentQuestion}
+                          />
+                        )
+                      : null}
           </Card>
         </div>
       </div>

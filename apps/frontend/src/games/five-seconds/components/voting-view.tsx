@@ -1,4 +1,4 @@
-import type { Question } from '../lib/questions';
+import type { Question } from '@guess-logo/shared/schemas/five-seconds';
 import type { FiveSecondsPlayer, VotingState } from '../types';
 import { ThumbsDown, ThumbsUp, Users } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
@@ -40,7 +40,8 @@ export function VotingView({
 
       <div className="text-center space-y-2">
         <Badge variant="outline" className="text-sm">
-          {t(currentQuestion.category)}
+          {/* TODO: fetch category name from id */}
+          {t(currentQuestion.categoryIds[0])}
           {' '}
           •
           {t(currentQuestion.difficulty.toLowerCase())}
