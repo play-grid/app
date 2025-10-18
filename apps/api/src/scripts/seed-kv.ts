@@ -23,14 +23,7 @@ async function seedKV(options: SeedOptions) {
 
   // Get environment variables
   const ACCOUNT_ID = env.CLOUDFLARE_ACCOUNT_ID;
-  const API_TOKEN = env.CLOUDFLARE_API_TOKEN;
-
-  if (!ACCOUNT_ID || !API_TOKEN) {
-    console.error('Missing required environment variables:');
-    console.error('- CLOUDFLARE_ACCOUNT_ID');
-    console.error('- CLOUDFLARE_API_TOKEN');
-    process.exit(1);
-  }
+  const API_TOKEN = env.CLOUDFLARE_KV_API_TOKEN;
 
   const client = new Cloudflare({
     apiToken: API_TOKEN,
