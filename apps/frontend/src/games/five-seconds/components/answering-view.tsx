@@ -1,7 +1,7 @@
 import type { Question } from '@guess-logo/shared/schemas/five-seconds';
 import { Timer } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
+import { QuestionInfoBadge } from './question-info-badge';
 
 interface AnsweringViewProps {
   timeLeft: number;
@@ -11,6 +11,7 @@ interface AnsweringViewProps {
 
 export function AnsweringView({ timeLeft, timePerTurn, currentQuestion }: AnsweringViewProps) {
   const progressPercentage = (timeLeft / timePerTurn) * 100;
+
   return (
     <div className="space-y-8">
       <div className="space-y-4">
@@ -20,14 +21,9 @@ export function AnsweringView({ timeLeft, timePerTurn, currentQuestion }: Answer
         </div>
         <Progress value={progressPercentage} className="h-3" />
       </div>
+
       <div className="text-center space-y-4">
-        <Badge variant="outline" className="text-sm">
-          {/* TODO: fetch category name from id */}
-          {currentQuestion.categoryIds[0]}
-          {' '}
-          •
-          {currentQuestion.difficulty}
-        </Badge>
+        <QuestionInfoBadge currentQuestion={currentQuestion} />
         <h3 className="text-3xl md:text-4xl font-bold text-balance">
           {currentQuestion.question}
         </h3>
