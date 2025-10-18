@@ -22,7 +22,7 @@ export function QuestionInfo({ currentQuestion }: { currentQuestion: Question })
                 {category?.name ?? firstCategoryId}
                 {' '}
                 •
-                {currentQuestion.difficulty}
+                {t(currentQuestion.difficulty)}
               </>
             )}
       </Badge>

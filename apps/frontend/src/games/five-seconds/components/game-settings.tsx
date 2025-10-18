@@ -68,7 +68,7 @@ export function GameSettings() {
     <div className="space-y-6">
       {/* Difficulty */}
       <div className="space-y-2">
-        <Label>{t('difficulty')}</Label>
+        <Label>{t('fiveSecondsGame.lobby.difficulty')}</Label>
         <Select
           value={settings.difficulty}
           onValueChange={value => updateSettings({ difficulty: value as any })}
