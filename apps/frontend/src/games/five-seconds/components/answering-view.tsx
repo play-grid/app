@@ -1,4 +1,4 @@
-import type { Question } from '../lib/questions';
+import type { Question } from '@guess-logo/shared/schemas/five-seconds';
 import { Timer } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
@@ -22,7 +22,8 @@ export function AnsweringView({ timeLeft, timePerTurn, currentQuestion }: Answer
       </div>
       <div className="text-center space-y-4">
         <Badge variant="outline" className="text-sm">
-          {currentQuestion.category}
+          {/* TODO: fetch category name from id */}
+          {currentQuestion.categoryIds[0]}
           {' '}
           •
           {currentQuestion.difficulty}
