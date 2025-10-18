@@ -10,6 +10,10 @@
     "guessLogo": {
       "title": "خمن الشعار",
       "description": "اختر مجموعة شعارات وشبكة تناسبك، اكتب أسماء اللاعبين، وكل لاعب يسأل أسئلة ويستبعد الشعارات بدوره"
+    },
+    "fiveSeconds": {
+      "title": "لعبة خمس ثواني",
+      "description": "لعبة سريعة حيث لديك 5 ثواني لتسمية 3 أشياء في فئة معينة."
     }
   },
   "about": {
@@ -99,7 +103,11 @@
     "error": "عذراً! حدث خطأ ما 😅",
     "LanguageToggle_placeholder": "اختر اللغة",
     "LanguageToggle_ar": "العربية",
-    "LanguageToggle_en": "English"
+    "LanguageToggle_en": "English",
+    "toasts":{
+      "playerRemoved":"{{name}} طلع من اللعبه",
+      "playerRemoveUndo":"رجعه"
+    }
   },
   "customizations": {
     "trigger_label": "إعدادات سحرية ✨",
@@ -153,5 +161,66 @@
   "country-data-region": "المنطقة:",
   "country-data-languages": "اللغات:",
   "country-data-currency": "العملة:",
-  "grid-size": "حجم الشبكة"
+  "grid-size": "حجم الشبكة",
+  "points_one": "نقطة واحدة",
+  "points_other": "{{count}} نقاط",
+  "fiveSecondsGame": {
+    "lobby": {
+      "title": "لعبة الخمس ثواني",
+      "subtitle": "فكر بسرعة. جاوب أسرع. اغلب الساعة.",
+      "playersTitle": "اللاعبون ({{count}}/{{max}})",
+      "enterYourName": "أدخل اسمك",
+      "join": "انضم",
+      "noPlayers": "لا يوجد لاعبون بعد. أضف نفسك لتبدأ!",
+      "host": "المضيف",
+      "notReady": "غير جاهز",
+      "ready": "جاهز",
+      "remove": "إزالة",
+      "gameSettings": "إعدادات اللعبة",
+      "categories": "الفئات",
+      "difficulty": "الصعوبة",
+      "timePerTurn": "الوقت لكل دور",
+      "timeUnit": "{{time}} ثانية",
+      "startGame": "ابدأ اللعبة",
+      "startRequirement": "يجب أن يكون جميع اللاعبين جاهزين للبدء (لاعبان على الأقل)",
+      "nameAlreadyExists": "هذا الاسم مستخدم بالفعل",
+      "nameRequired": "الرجاء إدخال اسم",
+      "maxPlayersReached": "تم الوصول للحد الأقصى من اللاعبين",
+      "playerAdded": "{{name}} انضم للعبة!",
+      "maxPlayersInfo": "تم الوصول للحد الأقصى من اللاعبين",
+      "currentPlayers": "اللاعبون الحاليون",
+      "removePlayer": "إزالة {{name}}",
+      "validation": {
+      "minLength": "الاسم لازم يكون أكثر من حرفين",
+      "maxLength": "الاسم ما يتعدى ٢٠ حرف",
+      "invalidCharacters": "الاسم مسموح فيه بس حروف وأرقام ومسافات"
+      }
+    },
+    "gameplay": {
+      "playerTurn": "دور {{name}}",
+      "getReady": "استعد للإجابة!",
+      "startTurn": "ابدأ الدور",
+      "nameThree":"عدد ثلاثة",
+      "round": "الجولة {{number}}",
+      "pleaseVote": "{{name}}، من فضلك قم بالتصويت!",
+      "wasAnswerValid": "هل كانت إجابة {{name}} صحيحة؟",
+      "votes": "الأصوات: {{count}} / {{total}}",
+      "valid": "صحيح",
+      "invalid": "غير صحيح",
+      "resetGame": "إعادة ضبط اللعبة",
+      "resetConfirmTitle": "هل أنت متأكد من أنك تريد إعادة التعيين؟",
+      "resetConfirmDescription": "سيؤدي هذا إلى إنهاء اللعبة الحالية بشكل دائم وإعادتك إلى الردهة. سيتم فقدان جميع النتائج."
+    },
+    "results": {
+      "wins": "{{name}} فاز!",
+      "withPoints_one": "بنقطة واحدة",
+      "withPoints_other": "مع {{count}} نقاط",
+      "finalScores": "النتائج النهائية",
+      "firstPlace": "المركز الأول",
+      "secondPlace": "المركز الثاني",
+      "thirdPlace": "المركز الثالث",
+      "nthPlace": "المركز الـ{{ordinal}}",
+      "playAgain": "العب مرة أخرى"
+    }
+  }
 }

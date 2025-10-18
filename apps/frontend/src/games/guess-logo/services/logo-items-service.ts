@@ -7,7 +7,7 @@ export async function fetchLogoItems(
   language: SupportedLanguage,
   count = 80,
 ) {
-  const res = await client.api.logos[':set'][':list'].$get({
+  const res = await client.api.games['guess-logo'].logos[':set'][':list'].$get({
     param: {
       set: logoSet,
       list: listId,

@@ -12,19 +12,8 @@ export interface BaseUIState {
   activeModal: string | null;
   modalData?: Record<string, any>;
 
-  // Toast/Notification queue
-  notifications: UINotification[];
-
   // General UI flags
   isInitialized: boolean;
-}
-
-export interface UINotification {
-  id: string;
-  type: 'success' | 'error' | 'warning' | 'info';
-  message: string;
-  duration?: number;
-  autoClose?: boolean;
 }
 
 // Actions interface
@@ -39,11 +28,6 @@ export interface BaseUIActions {
   // Modals
   openModal: (modalId: string, data?: Record<string, any>) => void;
   closeModal: () => void;
-
-  // Notifications
-  addNotification: (notification: Omit<UINotification, 'id'>) => void;
-  removeNotification: (id: string) => void;
-  clearNotifications: () => void;
 
   // Initialization
   initialize: () => void;
