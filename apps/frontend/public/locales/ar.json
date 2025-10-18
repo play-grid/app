@@ -182,7 +182,19 @@
       "timePerTurn": "الوقت لكل دور",
       "timeUnit": "{{time}} ثانية",
       "startGame": "ابدأ اللعبة",
-      "startRequirement": "يجب أن يكون جميع اللاعبين جاهزين للبدء (لاعبان على الأقل)"
+      "startRequirement": "يجب أن يكون جميع اللاعبين جاهزين للبدء (لاعبان على الأقل)",
+      "nameAlreadyExists": "هذا الاسم مستخدم بالفعل",
+      "nameRequired": "الرجاء إدخال اسم",
+      "maxPlayersReached": "تم الوصول للحد الأقصى من اللاعبين",
+      "playerAdded": "{{name}} انضم للعبة!",
+      "maxPlayersInfo": "تم الوصول للحد الأقصى من اللاعبين",
+      "currentPlayers": "اللاعبون الحاليون",
+      "removePlayer": "إزالة {{name}}",
+      "validation": {
+      "minLength": "الاسم لازم يكون أكثر من حرفين",
+      "maxLength": "الاسم ما يتعدى ٢٠ حرف",
+      "invalidCharacters": "الاسم مسموح فيه بس حروف وأرقام ومسافات"
+      }
     },
     "gameplay": {
       "playerTurn": "دور {{name}}",

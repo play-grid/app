@@ -1,6 +1,7 @@
-import { RotateCcw } from 'lucide-react';
+import { ArrowLeft, RotateCcw } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import {
@@ -36,8 +37,10 @@ export function GameplayPage() {
   const tallyVotes = useFiveSecondsStore(state => state.tallyVotes);
   const resetVoting = useFiveSecondsStore(state => state.resetVoting);
   const resetGame = useFiveSecondsStore(state => state.resetGame);
+  const setPhase = useFiveSecondsStore(state => state.setPhase);
 
   const { t } = useTranslation();
+  const navigate = useNavigate();
   // Local component state
   const {
     data: currentQuestion,
@@ -125,7 +128,22 @@ export function GameplayPage() {
     <div className="min-h-screen flex flex-col p-4 md:p-8">
       {/* Header with Reset Button */}
       <div className="w-full max-w-4xl mx-auto mb-6">
-        <div className="flex justify-start">
+        <div className="flex justify-start gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            className="gap-2"
+            onClick={() => {
+              setPhase('lobby');
+              navigate('/five-seconds');
+            }}
+            aria-label={t('common.back')}
+          >
+            <ArrowLeft className="w-4 h-4" />
+            {' '}
+            {/* Using ArrowLeft icon */}
+            <span className="hidden sm:inline">{t('common.back')}</span>
+          </Button>
           <Dialog open={isResetConfirmOpen} onOpenChange={setIsResetConfirmOpen}>
             <DialogTrigger asChild>
               <Button
