@@ -1,7 +1,6 @@
 import { ArrowLeft, RotateCcw } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import {
@@ -42,7 +41,6 @@ export function GameplayPage() {
   const addSeenQuestionId = useFiveSecondsStore(state => state.addSeenQuestionId);
 
   const { t } = useTranslation();
-  const navigate = useNavigate();
   // Local component state
   const {
     data: currentQuestion,
@@ -149,7 +147,6 @@ export function GameplayPage() {
             className="gap-2"
             onClick={() => {
               setPhase('lobby');
-              navigate('/five-seconds');
             }}
             aria-label={t('common.back')}
           >
