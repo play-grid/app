@@ -1,12 +1,12 @@
-name: Deploy api
+name: Deploy Backend
 
 on:
   push:
     branches:
       - main
     paths:
-      - 'apps/api/**'
-      - '.github/workflows/api-deploy.yml'
+      - 'apps/backend/**'
+      - '.github/workflows/backend-deploy.yml'
   workflow_dispatch:
 
 # Ensures only one deployment runs at a time
@@ -14,19 +14,18 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: false
 
-
-permissions:
-  contents: read
-  deployments: write
 jobs:
   deploy:
     name: Deploy to Cloudflare Workers
     runs-on: ubuntu-latest
     
+    permissions:
+      contents: read
+      deployments: write
     
     defaults:
       run:
-        working-directory: apps/api
+        working-directory: apps/backend
     
     steps:
       - name: Checkout repository
@@ -58,7 +57,7 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          workingDirectory: apps/api
+          workingDirectory: apps/backend
           command: deploy
       
       - name: Create deployment summary
@@ -66,7 +65,7 @@ jobs:
         run: |
           echo "## ✅ Deployment Successful" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "api deployed successfully to Cloudflare Workers" >> $GITHUB_STEP_SUMMARY
+          echo "Backend deployed successfully to Cloudflare Workers" >> $GITHUB_STEP_SUMMARY
           echo "- **Commit**: ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
           echo "- **Branch**: ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
           echo "- **Triggered by**: ${{ github.actor }}" >> $GITHUB_STEP_SUMMARY
