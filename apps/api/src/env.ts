@@ -16,7 +16,7 @@ const EnvSchema = z.object({
   LOGO_DEV_API_KEY: z.string(),
   ALL_SPORTS_API_KEY: z.string(),
   CLOUDFLARE_ACCOUNT_ID: z.string(),
-  CLOUDFLARE_API_TOKEN: z.string(),
+  CLOUDFLARE_KV_API_TOKEN: z.string(),
   QUESTIONS_KV_ID: z.string(),
 });
 

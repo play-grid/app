@@ -1,7 +1,6 @@
 import { ArrowLeft, RotateCcw } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import {
@@ -38,19 +37,33 @@ export function GameplayPage() {
   const resetVoting = useFiveSecondsStore(state => state.resetVoting);
   const resetGame = useFiveSecondsStore(state => state.resetGame);
   const setPhase = useFiveSecondsStore(state => state.setPhase);
+  const seenQuestionIds = useFiveSecondsStore(state => state.seenQuestionIds);
+  const addSeenQuestionId = useFiveSecondsStore(state => state.addSeenQuestionId);
 
   const { t } = useTranslation();
-  const navigate = useNavigate();
   // Local component state
   const {
     data: currentQuestion,
     isLoading,
+    isError,
     refetch: fetchQuestion,
-  } = useQuestion(settings.categoryIds, settings.difficulty);
+  } = useQuestion(settings.categoryIds, settings.difficulty, seenQuestionIds);
 
   const [timeLeft, setTimeLeft] = useState(settings.timePerTurn);
   const [isAnswering, setIsAnswering] = useState(false);
   const [isResetConfirmOpen, setIsResetConfirmOpen] = useState(false);
+
+  // Fetch initial question on mount
+  useEffect(() => {
+    fetchQuestion();
+  }, [fetchQuestion]);
+
+  // Add question to seen list
+  useEffect(() => {
+    if (currentQuestion && !seenQuestionIds.includes(currentQuestion.id)) {
+      addSeenQuestionId(currentQuestion.id);
+    }
+  }, [currentQuestion, seenQuestionIds, addSeenQuestionId]);
 
   // Derived state
   const currentPlayer = players.find(p => p.id === turnState?.currentPlayerId);
@@ -129,21 +142,23 @@ export function GameplayPage() {
       {/* Header with Reset Button */}
       <div className="w-full max-w-4xl mx-auto mb-6">
         <div className="flex justify-start gap-2">
-          <Button
-            variant="outline"
-            size="sm"
-            className="gap-2"
-            onClick={() => {
-              setPhase('lobby');
-              navigate('/five-seconds');
-            }}
-            aria-label={t('common.back')}
-          >
-            <ArrowLeft className="w-4 h-4" />
-            {' '}
-            {/* Using ArrowLeft icon */}
-            <span className="hidden sm:inline">{t('common.back')}</span>
-          </Button>
+          {!isError
+            && (
+              <Button
+                variant="outline"
+                size="sm"
+                className="gap-2"
+                onClick={() => {
+                  setPhase('lobby');
+                }}
+                aria-label={t('common.back')}
+              >
+                <ArrowLeft className="w-4 h-4" />
+                {' '}
+                {/* Using ArrowLeft icon */}
+                <span className="hidden sm:inline">{t('common.back')}</span>
+              </Button>
+            )}
           <Dialog open={isResetConfirmOpen} onOpenChange={setIsResetConfirmOpen}>
             <DialogTrigger asChild>
               <Button
@@ -189,32 +204,41 @@ export function GameplayPage() {
                     <Spinner />
                   </div>
                 )
-              : !isAnswering && !votingState?.isVoting && currentQuestion
-                  ? (
-                      <PreTurnView
-                        currentPlayerName={currentPlayer?.name || ''}
-                        onStartTurn={handleStartTurn}
-                      />
-                    )
-                  : votingState?.isVoting && !isVotingFinished && currentQuestion
+              : isError
+                ? (
+                    <div className="text-center">
+                      <p className="mb-4">{t('fiveSecondsGame.gameplay.noMoreQuestions')}</p>
+                      <Button onClick={() => resetGame()}>
+                        {t('fiveSecondsGame.gameplay.backToLobby')}
+                      </Button>
+                    </div>
+                  )
+                : !isAnswering && !votingState?.isVoting && currentQuestion
                     ? (
-                        <VotingView
-                          votingState={votingState}
-                          currentVoter={currentVoter}
-                          currentPlayer={currentPlayer}
-                          currentQuestion={currentQuestion}
-                          onVote={handleVote}
+                        <PreTurnView
+                          currentPlayerName={currentPlayer?.name || ''}
+                          onStartTurn={handleStartTurn}
                         />
                       )
-                    : currentQuestion
+                    : votingState?.isVoting && !isVotingFinished && currentQuestion
                       ? (
-                          <AnsweringView
-                            timeLeft={timeLeft}
-                            timePerTurn={settings.timePerTurn}
+                          <VotingView
+                            votingState={votingState}
+                            currentVoter={currentVoter}
+                            currentPlayer={currentPlayer}
                             currentQuestion={currentQuestion}
+                            onVote={handleVote}
                           />
                         )
-                      : null}
+                      : currentQuestion
+                        ? (
+                            <AnsweringView
+                              timeLeft={timeLeft}
+                              timePerTurn={settings.timePerTurn}
+                              currentQuestion={currentQuestion}
+                            />
+                          )
+                        : null}
           </Card>
         </div>
       </div>

@@ -4,6 +4,7 @@ import z from 'zod';
 export const questionSchema = fiveSecondsQuestionSchema.extend({
   estimatedReadingTime: z.string(), // this calculated dynamically
   exampleAnswers: z.string(),
+  categoryId: z.string(),
   metadata: z.record(z.string(), z.string()),
 });
 
@@ -31,3 +32,4 @@ export const questionQuery = z.object({
     )
     .optional(),
 });
+    

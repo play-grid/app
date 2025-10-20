@@ -13,6 +13,8 @@ export const useFiveSecondsStore = createGameStore<
   FiveSecondsPlayer,
   {
     votingState: VotingState | null;
+    seenQuestionIds: string[];
+    addSeenQuestionId: (id: string) => void;
     submitVote: (isValid: boolean) => void;
     startVoting: (currentPlayerId: string, players: FiveSecondsPlayer[]) => void;
     resetVoting: () => void;
@@ -30,8 +32,15 @@ export const useFiveSecondsStore = createGameStore<
   // Custom state and actions for voting
   customState: {
     votingState: null,
+    seenQuestionIds: [],
   },
   customActions: (set, get) => ({
+    addSeenQuestionId: (id: string) => {
+      const { seenQuestionIds } = get();
+      set({
+        seenQuestionIds: [...seenQuestionIds, id],
+      });
+    },
     startVoting: (currentPlayerId: string, players: FiveSecondsPlayer[]) => {
       const voters = players.filter(p => p.id !== currentPlayerId).map(p => p.id);
       if (voters.length === 0) {
