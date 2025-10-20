@@ -38,6 +38,8 @@ export function GameplayPage() {
   const resetVoting = useFiveSecondsStore(state => state.resetVoting);
   const resetGame = useFiveSecondsStore(state => state.resetGame);
   const setPhase = useFiveSecondsStore(state => state.setPhase);
+  const seenQuestionIds = useFiveSecondsStore(state => state.seenQuestionIds);
+  const addSeenQuestionId = useFiveSecondsStore(state => state.addSeenQuestionId);
 
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -46,11 +48,23 @@ export function GameplayPage() {
     data: currentQuestion,
     isLoading,
     refetch: fetchQuestion,
-  } = useQuestion(settings.categoryIds, settings.difficulty);
+  } = useQuestion(settings.categoryIds, settings.difficulty, seenQuestionIds);
 
   const [timeLeft, setTimeLeft] = useState(settings.timePerTurn);
   const [isAnswering, setIsAnswering] = useState(false);
   const [isResetConfirmOpen, setIsResetConfirmOpen] = useState(false);
+
+  // Fetch initial question on mount
+  useEffect(() => {
+    fetchQuestion();
+  }, [fetchQuestion]);
+
+  // Add question to seen list
+  useEffect(() => {
+    if (currentQuestion && !seenQuestionIds.includes(currentQuestion.id)) {
+      addSeenQuestionId(currentQuestion.id);
+    }
+  }, [currentQuestion, seenQuestionIds, addSeenQuestionId]);
 
   // Derived state
   const currentPlayer = players.find(p => p.id === turnState?.currentPlayerId);
