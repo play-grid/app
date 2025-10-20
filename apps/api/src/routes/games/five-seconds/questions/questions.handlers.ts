@@ -5,42 +5,47 @@ import * as HttpStatusCodes from 'stoker/http-status-codes';
 import questions from './data/questions.json';
 
 export const getRandomQuestion: AppRouteHandler<getRandomQuestionRoute> = async (c) => {
-  const { difficulty, categoryIds, excludeIds } = c.req.query();
+  const { difficulty, categoryIds, excludeIds } = c.req.valid('query');
+  let filteredQuestions = [...(questions as {
+    question: string;
+    estimatedReadingTime: string;
+    exampleAnswers: string;
+    categoryId: string;
+    difficulty: Difficulty;
+    metadata: Record<string, string>;
+  }[])];
 
-  // TODO: Replace this with a call to the KV store, not now we will use local json
-  const allQuestions = questions;
-
-  let filteredQuestions = allQuestions;
-
+  // Filter by difficulty
   if (difficulty) {
-    const difficultyFiltered = allQuestions.filter(q => q.difficulty === difficulty);
-    if (difficultyFiltered.length > 0) {
-      filteredQuestions = difficultyFiltered;
-    }
+    filteredQuestions = filteredQuestions.filter(q => q.difficulty === difficulty);
   }
 
-  if (categoryIds) {
+  // Filter by requested categories (multiple)
+  if (categoryIds && categoryIds.length > 0) {
     filteredQuestions = filteredQuestions.filter(q =>
-      q.categoryIds.some((id: string) => categoryIds.includes(id)),
+      categoryIds.includes(q.categoryId),
     );
   }
 
-  if (excludeIds) {
-    const excluded = Array.isArray(excludeIds) ? excludeIds : [excludeIds];
-    filteredQuestions = filteredQuestions.filter(q => !excluded.includes(q.question));
+  // Exclude certain questions
+  if (excludeIds && excludeIds.length > 0) {
+    filteredQuestions = filteredQuestions.filter(
+      q => !excludeIds.includes(q.question.toLowerCase().replace(/\s/g, '-')),
+    );
   }
 
-  if (filteredQuestions.length === 0) {
-    return c.json({ error: 'No questions found' }, HttpStatusCodes.NOT_FOUND);
+  if (!filteredQuestions.length) {
+    return c.json({ error: 'No questions found matching the criteria' }, HttpStatusCodes.NOT_FOUND);
   }
 
+  // Random selection
   const randomIndex = Math.floor(Math.random() * filteredQuestions.length);
   const randomQuestion = filteredQuestions[randomIndex];
 
+  // Return question with single category
   const randomQuestionWithId = {
     ...randomQuestion,
     id: randomQuestion.question.toLowerCase().replace(/\s/g, '-'),
-    difficulty: randomQuestion.difficulty as Difficulty,
   };
 
   return c.json(randomQuestionWithId, HttpStatusCodes.OK);

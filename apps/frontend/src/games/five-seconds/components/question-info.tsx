@@ -6,7 +6,7 @@ import { Spinner } from '@/components/ui/spinner';
 import { useCategory } from '../hooks/use-category';
 
 export function QuestionInfo({ currentQuestion }: { currentQuestion: Question }) {
-  const firstCategoryId = currentQuestion.categoryIds[0];
+  const firstCategoryId = currentQuestion.categoryId;
   const { t, i18n } = useTranslation();
   const { data: category, isLoading } = useCategory(firstCategoryId, i18n.language as SupportedLanguage);
 
