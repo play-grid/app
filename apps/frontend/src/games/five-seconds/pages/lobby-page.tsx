@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { GameSettings } from '../components/game-settings';
 import { PlayerList } from '../components/player-list';
+import { useUrlSyncedSettingsOnly } from '../hooks/use-url-synced-settings';
 import { useFiveSecondsStore } from '../stores/game-store';
 
 export function FiveSecondsLobby() {
@@ -12,6 +13,7 @@ export function FiveSecondsLobby() {
   const players = useFiveSecondsStore(state => state.players);
   const canStartGame = useFiveSecondsStore(state => state.canStartGame);
   const startGame = useFiveSecondsStore(state => state.startGame);
+  useUrlSyncedSettingsOnly();
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-4 md:p-8">
