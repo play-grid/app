@@ -45,6 +45,7 @@ export function GameplayPage() {
   const {
     data: currentQuestion,
     isLoading,
+    isError,
     refetch: fetchQuestion,
   } = useQuestion(settings.categoryIds, settings.difficulty, seenQuestionIds);
 
@@ -141,20 +142,23 @@ export function GameplayPage() {
       {/* Header with Reset Button */}
       <div className="w-full max-w-4xl mx-auto mb-6">
         <div className="flex justify-start gap-2">
-          <Button
-            variant="outline"
-            size="sm"
-            className="gap-2"
-            onClick={() => {
-              setPhase('lobby');
-            }}
-            aria-label={t('common.back')}
-          >
-            <ArrowLeft className="w-4 h-4" />
-            {' '}
-            {/* Using ArrowLeft icon */}
-            <span className="hidden sm:inline">{t('common.back')}</span>
-          </Button>
+          {!isError
+            && (
+              <Button
+                variant="outline"
+                size="sm"
+                className="gap-2"
+                onClick={() => {
+                  setPhase('lobby');
+                }}
+                aria-label={t('common.back')}
+              >
+                <ArrowLeft className="w-4 h-4" />
+                {' '}
+                {/* Using ArrowLeft icon */}
+                <span className="hidden sm:inline">{t('common.back')}</span>
+              </Button>
+            )}
           <Dialog open={isResetConfirmOpen} onOpenChange={setIsResetConfirmOpen}>
             <DialogTrigger asChild>
               <Button
@@ -200,32 +204,41 @@ export function GameplayPage() {
                     <Spinner />
                   </div>
                 )
-              : !isAnswering && !votingState?.isVoting && currentQuestion
-                  ? (
-                      <PreTurnView
-                        currentPlayerName={currentPlayer?.name || ''}
-                        onStartTurn={handleStartTurn}
-                      />
-                    )
-                  : votingState?.isVoting && !isVotingFinished && currentQuestion
+              : isError
+                ? (
+                    <div className="text-center">
+                      <p className="mb-4">{t('fiveSecondsGame.gameplay.noMoreQuestions')}</p>
+                      <Button onClick={() => resetGame()}>
+                        {t('fiveSecondsGame.gameplay.backToLobby')}
+                      </Button>
+                    </div>
+                  )
+                : !isAnswering && !votingState?.isVoting && currentQuestion
                     ? (
-                        <VotingView
-                          votingState={votingState}
-                          currentVoter={currentVoter}
-                          currentPlayer={currentPlayer}
-                          currentQuestion={currentQuestion}
-                          onVote={handleVote}
+                        <PreTurnView
+                          currentPlayerName={currentPlayer?.name || ''}
+                          onStartTurn={handleStartTurn}
                         />
                       )
-                    : currentQuestion
+                    : votingState?.isVoting && !isVotingFinished && currentQuestion
                       ? (
-                          <AnsweringView
-                            timeLeft={timeLeft}
-                            timePerTurn={settings.timePerTurn}
+                          <VotingView
+                            votingState={votingState}
+                            currentVoter={currentVoter}
+                            currentPlayer={currentPlayer}
                             currentQuestion={currentQuestion}
+                            onVote={handleVote}
                           />
                         )
-                      : null}
+                      : currentQuestion
+                        ? (
+                            <AnsweringView
+                              timeLeft={timeLeft}
+                              timePerTurn={settings.timePerTurn}
+                              currentQuestion={currentQuestion}
+                            />
+                          )
+                        : null}
           </Card>
         </div>
       </div>

@@ -213,7 +213,9 @@
       "resetGame": "Reset Game",
       "resetConfirmTitle": "Are you sure you want to reset?",
       "resetConfirmDescription": "This will permanently end the current game and return you to the lobby. All scores will be lost.",
-      "nameThree": "Name 3"
+      "nameThree": "Name 3",
+      "noMoreQuestions": "Sorry, there are no more questions matching your settings change them to play more questions.",
+      "backToLobby": "Back to Lobby"
     },
     "results": {
       "wins": "{{name}} Wins!",
