@@ -11,7 +11,7 @@ export const categorySchema = z.object({
 export const questionSchema = z.object({
   id: z.string(),
   question: z.string(),
-  categoryIds: z.array(z.string()),
+  categoryId: z.string(),
   difficulty: difficultySchema,
 });
 
