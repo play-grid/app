@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { UsersIcon } from '@/components/ui/icons';
 import { Input } from '@/components/ui/input';
+import { cn } from '@/lib/utils';
 import { useFiveSecondsStore } from '../stores/game-store';
 
 // Zod schema for player name validation
@@ -28,6 +29,9 @@ export function PlayerList() {
   const removePlayer = useFiveSecondsStore(s => s.removePlayer);
 
   const [playerName, setPlayerName] = useState('');
+  const [exiting, setExiting] = useState<string[]>([]);
+  const [entering, setEntering] = useState<string[]>([]);
+
   const [validationError, setValidationError] = useState<string>('');
 
   const validatePlayerName = (name: string): boolean => {
@@ -82,11 +86,18 @@ export function PlayerList() {
       return;
     }
 
-    addPlayer({
+    const newPlayer = {
       id: `player-${Date.now()}`,
       name: trimmedName,
       score: 0,
-    });
+    };
+
+    addPlayer(newPlayer);
+    setEntering([newPlayer.id]); // Mark as entering
+
+    setTimeout(() => {
+      setEntering([]);
+    }, 200);
 
     setPlayerName('');
     setValidationError('');
@@ -94,13 +105,20 @@ export function PlayerList() {
   };
 
   const handleRemovePlayer = (player: { id: string; name: string; score: number; isHost?: boolean }) => {
-    removePlayer(player.id);
+    setExiting([player.id]);
+
+    setTimeout(() => {
+      removePlayer(player.id);
+      setExiting([]);
+    }, 200);
 
     toast(t('common.toasts.playerRemoved', { name: player.name }), {
       action: {
         label: t('common.toasts.playerRemoveUndo'),
         onClick: () => {
           useFiveSecondsStore.getState().addPlayer(player);
+          setEntering([player.id]); // Animate when undoing
+          setTimeout(() => setEntering([]), 200);
         },
       },
     });
@@ -163,7 +181,11 @@ export function PlayerList() {
       </div>
 
       {/* Player List */}
-      <div className="space-y-3" role="list" aria-label={t('fiveSecondsGame.lobby.currentPlayers')}>
+      <div
+        className="space-y-3"
+        role="list"
+        aria-label={t('fiveSecondsGame.lobby.currentPlayers')}
+      >
         {players.length === 0
           ? (
               <div className="text-center py-8">
@@ -174,7 +196,14 @@ export function PlayerList() {
               players.map(player => (
                 <div
                   key={player.id}
-                  className="flex items-center justify-between p-4 bg-secondary rounded-lg border border-border transition-colors hover:bg-secondary/80"
+                  className={cn(
+                    'flex items-center justify-between p-4 bg-secondary rounded-lg border border-border hover:bg-secondary/80',
+                    'transition-[background-color] duration-300 ease-(--ease-snappy) origin-center',
+                    exiting.includes(player.id)
+                    && 'animate-exit [animation-duration:300ms] [animation-timing-function:var(--ease-snappy)] opacity-0 pointer-events-none',
+                    entering.includes(player.id)
+                    && 'animate-enter [animation-duration:200ms] [animation-timing-function:var(--ease-snappy)]',
+                  )}
                   role="listitem"
                 >
                   <div className="flex items-center gap-3 flex-1 min-w-0">
