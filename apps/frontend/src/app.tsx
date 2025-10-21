@@ -1,6 +1,8 @@
 import { SUPPORTED_LANGUAGES } from '@guess-logo/shared/types';
 import { lazy, Suspense } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
+import { FiveSecondsSkeleton } from './games/five-seconds/components/five-seconds-skeleton';
+import { GuessLogoSkeleton } from './games/guess-logo/components/guess-logo-skeleton';
 import { LanguageLayout } from './i18n/language-layout';
 import { LanguageRouter } from './i18n/language-router';
 import AboutPage from './pages/about-page';
@@ -34,22 +36,36 @@ export default function App() {
 
 function LanguageRoutes() {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <Routes>
-        {/* Home page for language prefix */}
-        <Route path="/" element={<HomePage />} />
+    <Routes>
+      {/* Home page for language prefix */}
+      <Route path="/" element={<HomePage />} />
 
-        {/* About page */}
-        <Route path="/about" element={<AboutPage />} />
+      {/* About page */}
+      <Route path="/about" element={<AboutPage />} />
 
-        {/* Game-specific routes */}
-        <Route path="/guess-logo/*" element={<GuessLogoRoutes />} />
-        <Route path="/five-seconds/*" element={<FiveSecondsRoutes />} />
-        {/* Add more game routes here */}
+      {/* Game-specific routes */}
+      <Route
+        path="/guess-logo/*"
+        element={(
+          <Suspense fallback={<GuessLogoSkeleton />}>
+            {/* <NeverResolve/> */}
+            <GuessLogoRoutes />
+          </Suspense>
+        )}
+      />
+      <Route
+        path="/five-seconds/*"
+        element={(
+          <Suspense fallback={<FiveSecondsSkeleton />}>
+            {/* <NeverResolve/> */}
+            <FiveSecondsRoutes />
+          </Suspense>
+        )}
+      />
+      {/* Add more game routes here */}
 
-        {/* Fallback: redirect to language home */}
-        <Route path="*" element={<Navigate to="" replace />} />
-      </Routes>
-    </Suspense>
+      {/* Fallback: redirect to language home */}
+      <Route path="*" element={<Navigate to="" replace />} />
+    </Routes>
   );
 }
