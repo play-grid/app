@@ -107,6 +107,9 @@
     "toasts":{
       "playerRemoved":"{{name}} طلع من اللعبه",
       "playerRemoveUndo":"رجعه"
+    },
+    "network": {
+      "offline": "أنت غير متصل. يرجى التحقق من اتصالك بالإنترنت."
     }
   },
   "customizations": {
