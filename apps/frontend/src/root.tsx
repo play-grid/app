@@ -1,4 +1,5 @@
 import { BrowserRouter } from 'react-router-dom';
+import { NetworkStatusNotifier } from '@/components/network-status-notifier';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from '@/components/ui/sonner';
 import { TooltipProvider } from '@/components/ui/tooltip';
@@ -16,7 +17,8 @@ export default function Root() {
           <TooltipProvider>
             <div className="bg-background text-primary min-h-screen">
               <LanguageRouter>
-                <Toaster />
+                <Toaster richColors />
+                <NetworkStatusNotifier />
                 <App />
               </LanguageRouter>
             </div>

@@ -103,6 +103,9 @@
     "toasts": {
       "playerRemoved": "Oh {{name}} got kicked out",
       "playerRemoveUndo": "Bring them back"
+    },
+    "network": {
+      "offline": "You are offline. Please check your internet connection."
     }
   },
   "customizations": {
