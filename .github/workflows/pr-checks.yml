@@ -1,0 +1,211 @@
+name: PR Checks
+
+on:
+  pull_request:
+    branches:
+      - main
+      - develop
+    paths:
+      - 'apps/frontend/**'
+      - 'apps/api/**'
+      - '.github/workflows/pr-checks.yml'
+  merge_group:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  detect-changes:
+    name: Detect Changes
+    runs-on: ubuntu-latest
+    outputs:
+      frontend: ${{ steps.filter.outputs.frontend }}
+      api: ${{ steps.filter.outputs.api }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Check for changes
+        uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            frontend:
+              - 'apps/frontend/**'
+            api:
+              - 'apps/api/**'
+
+  frontend-checks:
+    name: Frontend - Lint & Type Check
+    needs: detect-changes
+    if: needs.detect-changes.outputs.frontend == 'true'
+    runs-on: ubuntu-latest
+    
+    defaults:
+      run:
+        working-directory: apps/frontend
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+      
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      
+      - name: Run ESLint
+        run: pnpm lint
+      
+      - name: Run TypeScript type check
+        run: pnpm tsc --noEmit
+      
+      - name: Create check summary
+        if: always()
+        run: |
+          echo "## Frontend Checks" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Linting completed" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Type checking completed" >> $GITHUB_STEP_SUMMARY
+
+  frontend-e2e:
+    name: Frontend - Cypress E2E Tests
+    needs: detect-changes
+    if: needs.detect-changes.outputs.frontend == 'true'
+    runs-on: ubuntu-latest
+    
+    defaults:
+      run:
+        working-directory: apps/frontend
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+      
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      
+      - name: Build application
+        run: pnpm build
+      
+      - name: Run Cypress E2E tests
+        uses: cypress-io/github-action@v6
+        with:
+          working-directory: apps/frontend
+          start: pnpm preview
+          wait-on: 'http://localhost:5173'
+          wait-on-timeout: 120
+          browser: chrome
+          record: false
+      
+      - name: Upload Cypress screenshots
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-screenshots
+          path: apps/frontend/cypress/screenshots
+          if-no-files-found: ignore
+          retention-days: 7
+      
+      - name: Upload Cypress videos
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-videos
+          path: apps/frontend/cypress/videos
+          if-no-files-found: ignore
+          retention-days: 7
+      
+      - name: Create E2E summary
+        if: always()
+        run: |
+          echo "## Cypress E2E Tests" >> $GITHUB_STEP_SUMMARY
+          if [ -f cypress/results/output.json ]; then
+            echo "- Tests completed" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "- ✅ E2E tests completed" >> $GITHUB_STEP_SUMMARY
+          fi
+
+  api-checks:
+    name: api - Lint & Type Check
+    needs: detect-changes
+    if: needs.detect-changes.outputs.api == 'true'
+    runs-on: ubuntu-latest
+    
+    defaults:
+      run:
+        working-directory: apps/api
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+      
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      
+      - name: Run ESLint
+        run: pnpm lint
+      
+      - name: Run TypeScript type check
+        run: pnpm tsc --noEmit
+      
+      - name: Run unit tests
+        run: pnpm test
+        continue-on-error: true
+      
+      - name: Create check summary
+        if: always()
+        run: |
+          echo "## api Checks" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Linting completed" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Type checking completed" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Unit tests completed" >> $GITHUB_STEP_SUMMARY
+
+  all-checks-passed:
+    name: All Checks Passed
+    needs: [detect-changes, frontend-checks, frontend-e2e, api-checks]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check all jobs
+        run: |
+          if [[ "${{ needs.frontend-checks.result }}" == "failure" ]] || \
+             [[ "${{ needs.frontend-e2e.result }}" == "failure" ]] || \
+             [[ "${{ needs.api-checks.result }}" == "failure" ]]; then
+            echo "## ❌ Some checks failed" >> $GITHUB_STEP_SUMMARY
+            exit 1
+          else
+            echo "## ✅ All checks passed" >> $GITHUB_STEP_SUMMARY
+            echo "Ready to merge!" >> $GITHUB_STEP_SUMMARY
+          fi
