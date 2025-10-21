@@ -1,12 +1,12 @@
-name: Deploy Backend
+name: Deploy api
 
 on:
   push:
     branches:
       - main
     paths:
-      - 'apps/backend/**'
-      - '.github/workflows/backend-deploy.yml'
+      - 'apps/api/**'
+      - '.github/workflows/api-deploy.yml'
   workflow_dispatch:
 
 # Ensures only one deployment runs at a time
@@ -25,7 +25,7 @@ jobs:
     
     defaults:
       run:
-        working-directory: apps/backend
+        working-directory: apps/api
     
     steps:
       - name: Checkout repository
@@ -57,7 +57,7 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          workingDirectory: apps/backend
+          workingDirectory: apps/api
           command: deploy
       
       - name: Create deployment summary
@@ -65,7 +65,7 @@ jobs:
         run: |
           echo "## ✅ Deployment Successful" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "Backend deployed successfully to Cloudflare Workers" >> $GITHUB_STEP_SUMMARY
+          echo "api deployed successfully to Cloudflare Workers" >> $GITHUB_STEP_SUMMARY
           echo "- **Commit**: ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
           echo "- **Branch**: ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
           echo "- **Triggered by**: ${{ github.actor }}" >> $GITHUB_STEP_SUMMARY
