@@ -230,6 +230,21 @@
       "thirdPlace": "3rd Place",
       "nthPlace": "{{ordinal}}th Place",
       "playAgain": "Play Again"
+    },
+    "howToPlay": "How to Play",
+      "instructions": {
+        "rule1": "When it's your turn, you have exactly 5 seconds to say 3 things that match the category shown on screen.",
+        "rule2": "Speak your answers out loud - don't type them! Think fast and say the first things that come to mind.",
+        "rule3": "After time's up, other players vote whether your answers were valid. Get majority votes to earn 1 point and build your streak.",
+        "rule4": "Build a streak of 3 correct answers to earn a random Power-Up! Use them strategically to help yourself or sabotage others.",
+        "rule5": "The player with the most points at the end wins. Remember: it's about quick thinking, laughter, and friendly chaos!"
+      },
+    "gameRules": {
+      "yourTurn": "Your Turn",
+      "speakAloud": "Speak Aloud",
+      "votingTime": "Voting Time",
+      "powerUps": "Power-Ups",
+      "winCondition": "Win Condition"
     }
   }
 }
