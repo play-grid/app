@@ -1,12 +1,17 @@
-import { Play, Settings } from 'lucide-react';
+import { Info, Play, Settings } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import BackButton from '@/components/back-button';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
+import { GameInstructions } from '../components/game-instructions';
 import { GameSettings } from '../components/game-settings';
 import { PlayerList } from '../components/player-list';
 import { useUrlSyncedSettingsOnly } from '../hooks/use-url-synced-settings';
 import { useFiveSecondsStore } from '../stores/game-store';
+
+const FIRST_VISIT_KEY = 'FIVE_SECONDS_FIRST_VISIT';
 
 export function FiveSecondsLobby() {
   const { t } = useTranslation();
@@ -15,16 +20,46 @@ export function FiveSecondsLobby() {
   const startGame = useFiveSecondsStore(state => state.startGame);
   useUrlSyncedSettingsOnly();
 
+  const [isInstructionsOpen, setIsInstructionsOpen] = useState(false);
+
+  useEffect(() => {
+    // Check if this is the first visit
+    const hasVisited = localStorage.getItem(FIRST_VISIT_KEY);
+
+    if (!hasVisited) {
+      // Open instructions dialog on first visit
+      setIsInstructionsOpen(true);
+      localStorage.setItem(FIRST_VISIT_KEY, 'true');
+    }
+  }, []);
+
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-4 md:p-8">
       <div className="w-full max-w-6xl space-y-8">
+        {/* Back Button */}
         <BackButton />
+
         {/* Header */}
         <div className="text-center space-y-4">
-          <h1 className="text-4xl md:text-8xl font-bold text-balance">{t('fiveSecondsGame.lobby.title')}</h1>
-          <p className="text-xl md:text-2xl text-muted-foreground text-pretty">
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-balance">
+            {t('fiveSecondsGame.lobby.title')}
+          </h1>
+          <p className="text-lg md:text-xl lg:text-2xl text-muted-foreground text-pretty max-w-3xl mx-auto">
             {t('fiveSecondsGame.lobby.subtitle')}
           </p>
+
+          {/* How to Play Button */}
+          <Dialog open={isInstructionsOpen} onOpenChange={setIsInstructionsOpen}>
+            <DialogTrigger asChild>
+              <Button variant="outline" size="lg" className="gap-2">
+                <Info className="w-5 h-5" />
+                {t('fiveSecondsGame.howToPlay')}
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="max-h-[90vh] overflow-y-auto">
+              <GameInstructions />
+            </DialogContent>
+          </Dialog>
         </div>
 
         <div className="grid md:grid-cols-2 gap-6">
@@ -34,14 +69,19 @@ export function FiveSecondsLobby() {
           {/* Settings Section */}
           <Card className="p-6 space-y-6 bg-card border-border">
             <div className="flex items-center gap-3">
-              <Settings className="w-6 h-6 text-accent" />
+              <Settings className="w-6 h-6 text-primary" />
               <h2 className="text-2xl font-bold">{t('fiveSecondsGame.lobby.gameSettings')}</h2>
             </div>
 
             <GameSettings />
 
             {/* Start Game Button */}
-            <Button size="lg" className="w-full text-lg" onClick={startGame} disabled={!canStartGame()}>
+            <Button
+              size="lg"
+              className="w-full text-lg font-semibold"
+              onClick={startGame}
+              disabled={!canStartGame()}
+            >
               <Play className="w-5 h-5 mr-2" />
               {t('fiveSecondsGame.lobby.startGame')}
             </Button>
