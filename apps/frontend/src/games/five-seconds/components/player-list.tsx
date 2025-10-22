@@ -200,9 +200,9 @@ export function PlayerList() {
                     'flex items-center justify-between p-4 bg-secondary rounded-lg border border-border hover:bg-secondary/80',
                     'transition-[background-color] duration-300 ease-(--ease-snappy) origin-center',
                     exiting.includes(player.id)
-                    && 'animate-exit [animation-duration:300ms] [animation-timing-function:var(--ease-snappy)] opacity-0 pointer-events-none',
+                    && 'animate-player-list-exit [animation-duration:300ms] [animation-timing-function:var(--ease-snappy)] opacity-0 pointer-events-none',
                     entering.includes(player.id)
-                    && 'animate-enter [animation-duration:200ms] [animation-timing-function:var(--ease-snappy)]',
+                    && 'animate-player-list-enter [animation-duration:200ms] [animation-timing-function:var(--ease-snappy)]',
                   )}
                   role="listitem"
                 >
