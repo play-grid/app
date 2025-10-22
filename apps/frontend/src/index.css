@@ -225,10 +225,10 @@
 
 @theme {
     --ease-snappy: cubic-bezier(0.2, 0.4, 0.1, 0.95);
-    --animate-enter: enter 300ms ease-in-out;
-    --animate-exit: exit 300ms ease-in-out;
+    --animate-player-list-enter: enter 300ms ease-in-out;
+    --animate-player-list-exit: exit 300ms ease-in-out;
 
- @keyframes enter {
+ @keyframes player-list-enter {
     from {
       opacity: 0;
       transform: translateY(8px) scale(0.96);
@@ -239,7 +239,7 @@
     }
   }
 
-  @keyframes exit {
+  @keyframes player-list-exit {
     from {
       opacity: 1;
       transform: scale(1);
