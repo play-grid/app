@@ -198,14 +198,13 @@ export function PlayerList() {
                   key={player.id}
                   className={cn(
                     'flex items-center justify-between p-4 bg-secondary rounded-lg border border-border hover:bg-secondary/80',
-                    'transition-[background-color] duration-300 ease-(--ease-snappy) origin-center',
-                    exiting.includes(player.id)
-                    && 'animate-player-list-exit [animation-duration:300ms] [animation-timing-function:var(--ease-snappy)] opacity-0 pointer-events-none',
-                    entering.includes(player.id)
-                    && 'animate-player-list-enter [animation-duration:200ms] [animation-timing-function:var(--ease-snappy)]',
+                    'transition-[background-color] duration-300 origin-center',
+                    exiting.includes(player.id) && 'animate-player-list-exit opacity-0 pointer-events-none',
+                    entering.includes(player.id) && 'animate-player-list-enter',
                   )}
                   role="listitem"
                 >
+
                   <div className="flex items-center gap-3 flex-1 min-w-0">
                     <div
                       className="w-10 h-10 rounded-full bg-accent flex items-center justify-center text-accent-foreground font-bold flex-shrink-0"
