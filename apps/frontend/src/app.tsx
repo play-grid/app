@@ -34,7 +34,11 @@ export default function App() {
   );
 }
 
-function LanguageRoutes() {
+// function NeverResolve() {
+//   throw new Promise(() => {});
+// }
+
+export function LanguageRoutes() {
   return (
     <Routes>
       {/* Home page for language prefix */}
@@ -48,7 +52,6 @@ function LanguageRoutes() {
         path="/guess-logo/*"
         element={(
           <Suspense fallback={<GuessLogoSkeleton />}>
-            {/* <NeverResolve/> */}
             <GuessLogoRoutes />
           </Suspense>
         )}
@@ -57,12 +60,10 @@ function LanguageRoutes() {
         path="/five-seconds/*"
         element={(
           <Suspense fallback={<FiveSecondsSkeleton />}>
-            {/* <NeverResolve/> */}
             <FiveSecondsRoutes />
           </Suspense>
         )}
       />
-      {/* Add more game routes here */}
 
       {/* Fallback: redirect to language home */}
       <Route path="*" element={<Navigate to="" replace />} />
