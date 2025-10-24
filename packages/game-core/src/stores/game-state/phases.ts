@@ -1,4 +1,4 @@
-import type { GamePhase } from '../types/core';
+import type { GamePhase } from '../../types/core';
 
 export const GAME_PHASES = {
   LOBBY: 'lobby',

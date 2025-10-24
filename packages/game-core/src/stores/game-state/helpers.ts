@@ -1,4 +1,4 @@
-import type { Player, TurnState } from '../types/core';
+import type { Player, TurnState } from '../../types/core';
 
 // ============ Player Helpers ============
 

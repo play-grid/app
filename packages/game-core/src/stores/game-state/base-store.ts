@@ -1,10 +1,4 @@
-import type {
-  BaseGameActions,
-  BaseGameState,
-  GameStoreOptions,
-  Player,
-} from '../types/core';
-
+import type { BaseGameActions, BaseGameState, GameStoreOptions, Player } from '../../types/core';
 import {
   areAllPlayersReady,
   getCurrentPlayer,

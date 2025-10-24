@@ -1,4 +1,4 @@
-import type { GameStore, GameStoreOptions, Player } from '../types/core';
+import type { GameStore, GameStoreOptions, Player } from '../../types/core';
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 import { createBaseStore } from './base-store';
