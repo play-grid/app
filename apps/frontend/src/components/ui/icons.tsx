@@ -1,50 +1,25 @@
-import type { ComponentProps } from 'react';
-import { Icon } from '@iconify/react';
+import type { IconifyJSON } from '@iconify/react';
+import solar from '@iconify-json/solar/icons.json';
+import { addCollection, Icon } from '@iconify/react';
 
-// Centralized icon components using @iconify/react
-// This allows easy icon changes across the entire application
+addCollection(solar as IconifyJSON);
 
-type IconProps = Omit<ComponentProps<typeof Icon>, 'icon'>;
+export type AppIconProps = React.ComponentProps<typeof Icon>;
 
-export function TrophyIcon(props: IconProps) {
-  return <Icon icon="solar:cup-bold-duotone" {...props} />;
+type IconProps = Omit<AppIconProps, 'icon'>;
+
+export function AppIcon(props: AppIconProps) {
+  return <Icon {...props} className={`inline-block align-middle ${props.className ?? ''}`} />;
 }
 
-export function GridIcon(props: IconProps) {
-  return <Icon icon="mynaui:grid-one" {...props} />;
-}
-
-export function UsersIcon(props: IconProps) {
-  return <Icon icon="solar:users-group-rounded-line-duotone" {...props} />;
-}
-
-export function ClockIcon(props: IconProps) {
-  return <Icon icon="solar:history-line-duotone" {...props} />;
-}
-
-export function BuildingsIcon(props: IconProps) {
-  return <Icon icon="solar:buildings-2-bold-duotone" {...props} />;
-}
-
-export function FlagIcon(props: IconProps) {
-  return <Icon icon="solar:flag-2-bold-duotone" {...props} />;
-}
-
-export function VideoIcon(props: IconProps) {
-  return <Icon icon="solar:video-frame-line-duotone" {...props} />;
-}
-
-export function BasketballIcon(props: IconProps) {
-  return <Icon icon="solar:basketball-line-duotone" {...props} />;
-}
-
-export function PlusIcon(props: IconProps) {
-  return <Icon icon="mingcute:add-fill" {...props} />;
-}
-
-export function RestartIcon(props: IconProps) {
-  return <Icon icon="solar:restart-line-duotone" {...props} />;
-}
-export function RefreshIcon(props: IconProps) {
-  return <Icon icon="solar:refresh-line-duotone" {...props} />;
-}
+export const TrophyIcon = (props: IconProps) => <AppIcon icon="solar:cup-bold-duotone" {...props} />;
+export const GridIcon = (props: IconProps) => <AppIcon icon="mynaui:grid-one" {...props} />;
+export const UsersIcon = (props: IconProps) => <AppIcon icon="solar:users-group-rounded-line-duotone" {...props} />;
+export const ClockIcon = (props: IconProps) => <AppIcon icon="solar:history-line-duotone" {...props} />;
+export const BuildingsIcon = (props: IconProps) => <AppIcon icon="solar:buildings-2-bold-duotone" {...props} />;
+export const FlagIcon = (props: IconProps) => <AppIcon icon="solar:flag-2-bold-duotone" {...props} />;
+export const VideoIcon = (props: IconProps) => <AppIcon icon="solar:video-frame-line-duotone" {...props} />;
+export const BasketballIcon = (props: IconProps) => <AppIcon icon="solar:basketball-line-duotone" {...props} />;
+export const PlusIcon = (props: IconProps) => <AppIcon icon="mingcute:add-fill" {...props} />;
+export const RestartIcon = (props: IconProps) => <AppIcon icon="solar:restart-line-duotone" {...props} />;
+export const RefreshIcon = (props: IconProps) => <AppIcon icon="solar:refresh-line-duotone" {...props} />;
