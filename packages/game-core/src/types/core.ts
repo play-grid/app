@@ -1,24 +1,38 @@
-// Core phase types
-export type GamePhase = 'lobby' | 'playing' | 'results';
+import { z } from 'zod';
 
-// Base player interface
-export interface Player {
-  id: string;
-  name: string;
-  avatar?: string;
-  isHost: boolean;
-  isReady?: boolean;
-  metadata?: Record<string, any>; // Game-specific extensions
-}
+export const GamePhaseSchema = z.enum(['lobby', 'playing', 'results']);
 
-// Turn/round state (optional for turn-based games)
-export interface TurnState {
-  currentPlayerId: string;
-  turnIndex: number;
-  roundNumber: number;
-}
+export const PlayerSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  avatar: z.string().optional(),
+  isHost: z.boolean(),
+  isReady: z.boolean().optional(),
+  metadata: z.record(z.string(), z.any()).optional(),
+});
 
-// Base game state
+export const TurnStateSchema = z.object({
+  currentPlayerId: z.string(),
+  turnIndex: z.number().int().min(0),
+  roundNumber: z.number().int().min(1),
+});
+
+export const BaseGameStateSchema = z.object({
+  phase: GamePhaseSchema,
+  players: z.array(PlayerSchema),
+  hostId: z.string(),
+  settings: z.any(),
+  turnState: TurnStateSchema.optional(),
+  createdAt: z.number(),
+  startedAt: z.number().optional(),
+  endedAt: z.number().optional(),
+});
+
+export type GamePhase = z.infer<typeof GamePhaseSchema>;
+export type Player = z.infer<typeof PlayerSchema>;
+export type TurnState = z.infer<typeof TurnStateSchema>;
+export type BaseGameStateWire = z.infer<typeof BaseGameStateSchema>;
+
 export interface BaseGameState<TSettings = any, TPlayer extends Player = Player> {
   phase: GamePhase;
   players: TPlayer[];
@@ -30,44 +44,50 @@ export interface BaseGameState<TSettings = any, TPlayer extends Player = Player>
   endedAt?: number;
 }
 
-// Store options
 export interface GameStoreOptions {
   maxPlayers?: number;
   minPlayers?: number;
   turnBased?: boolean;
-  requireReady?: boolean; // Must all players be ready to start?
+  requireReady?: boolean;
 }
 
-// Base actions interface
 export interface BaseGameActions<TSettings, TPlayer extends Player = Player> {
-  // Phase management
+
   setPhase: (phase: GamePhase) => void;
 
-  // Player management
   addPlayer: (player: Omit<TPlayer, 'isHost' | 'isReady'>) => void;
   removePlayer: (playerId: string) => void;
   updatePlayer: (playerId: string, updates: Partial<TPlayer>) => void;
   setPlayers: (players: TPlayer[]) => void;
   togglePlayerReady: (playerId: string) => void;
 
-  // Settings
   updateSettings: (updates: Partial<TSettings>) => void;
 
-  // Turn management (only if turnBased: true)
   nextTurn?: () => void;
   previousTurn?: () => void;
   setCurrentPlayer?: (playerId: string) => void;
   nextRound?: () => void;
 
-  // Lifecycle
   canStartGame: () => boolean;
   startGame: () => void;
   endGame: () => void;
   resetGame: () => void;
 }
 
-// Combined store interface
 export interface GameStore<TSettings, TPlayer extends Player = Player>
   extends BaseGameState<TSettings, TPlayer>,
-  BaseGameActions<TSettings, TPlayer> {
+  BaseGameActions<TSettings, TPlayer> {}
+
+export function createGameStateSchema<TSettings extends z.ZodType>(
+  settingsSchema: TSettings,
+) {
+  return BaseGameStateSchema.extend({
+    settings: settingsSchema,
+  });
+}
+
+export function createPlayerSchema<TExtensions extends z.ZodRawShape>(
+  extensions: TExtensions,
+) {
+  return PlayerSchema.extend(extensions);
 }
