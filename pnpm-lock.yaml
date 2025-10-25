@@ -380,18 +380,9 @@ importers:
 
   packages/game-core:
     dependencies:
-      '@guess-logo/eslint-config':
-        specifier: workspace:*
-        version: link:../eslint-config
-      '@orpc/client':
-        specifier: ^1.10.1
-        version: 1.10.2
       '@orpc/contract':
         specifier: ^1.10.1
-        version: 1.10.2
-      '@orpc/experimental-durable-iterator':
-        specifier: ^1.10.1
-        version: 1.10.2(typescript@5.8.3)
+        version: 1.10.1
       immer:
         specifier: 'catalog:'
         version: 10.2.0

@@ -1,11 +1,13 @@
-import type { GameEventType } from '../game-logic/schema/actions';
-import type { BaseGameStateWire } from '../game-logic/schema/state';
+import type { BaseGameStateWire } from '../types/core';
 import { oc } from '@orpc/contract';
 import { z } from 'zod';
-import { GameEventSchema } from '../game-logic/schema/actions';
-import { BaseGameStateSchema, GamePhaseSchema, PlayerSchema } from '../game-logic/schema/state';
+import {
+  BaseGameStateSchema,
 
-export { PlayerSchema } from '../game-logic/schema/state';
+  GamePhaseSchema,
+  PlayerSchema,
+  TurnStateSchema,
+} from '../types/core';
 
 // ============ Input Schemas ============
 
@@ -30,7 +32,7 @@ export const UpdatePlayerInputSchema = z.object({
 });
 
 export const SetPlayersInputSchema = z.object({
-  players: z.record(z.string(), PlayerSchema),
+  players: z.array(PlayerSchema),
 });
 
 export const TogglePlayerReadyInputSchema = z.object({
@@ -56,6 +58,38 @@ export const SuccessOutputSchema = z.object({
 
 export const CanStartGameOutputSchema = z.boolean();
 
+// ============ Event Schema ============
+
+export const GameEventSchema = z.discriminatedUnion('type', [
+  z.object({
+    type: z.literal('state_update'),
+    state: GameStateOutputSchema,
+    timestamp: z.number(),
+  }),
+  z.object({
+    type: z.literal('player_joined'),
+    player: PlayerSchema,
+    timestamp: z.number(),
+  }),
+  z.object({
+    type: z.literal('player_left'),
+    playerId: z.string(),
+    timestamp: z.number(),
+  }),
+  z.object({
+    type: z.literal('phase_changed'),
+    phase: GamePhaseSchema,
+    timestamp: z.number(),
+  }),
+  z.object({
+    type: z.literal('turn_changed'),
+    turnState: TurnStateSchema,
+    timestamp: z.number(),
+  }),
+]);
+
+export type GameEventType = z.infer<typeof GameEventSchema>;
+
 // ============ Procedure Contracts ============
 
 // State query
@@ -65,28 +99,44 @@ export const getStateContract = oc.output(GameStateOutputSchema);
 export const onStateUpdateContract = oc.output(GameEventSchema);
 
 // Phase Management
-export const setPhaseContract = oc.input(SetPhaseInputSchema).output(GameStateOutputSchema);
+export const setPhaseContract = oc
+  .input(SetPhaseInputSchema)
+  .output(GameStateOutputSchema);
 
 // Player Management
-export const addPlayerContract = oc.input(AddPlayerInputSchema).output(GameStateOutputSchema);
+export const addPlayerContract = oc
+  .input(AddPlayerInputSchema)
+  .output(GameStateOutputSchema);
 
-export const removePlayerContract = oc.input(RemovePlayerInputSchema).output(GameStateOutputSchema);
+export const removePlayerContract = oc
+  .input(RemovePlayerInputSchema)
+  .output(GameStateOutputSchema);
 
-export const updatePlayerContract = oc.input(UpdatePlayerInputSchema).output(GameStateOutputSchema);
+export const updatePlayerContract = oc
+  .input(UpdatePlayerInputSchema)
+  .output(GameStateOutputSchema);
 
-export const setPlayersContract = oc.input(SetPlayersInputSchema).output(GameStateOutputSchema);
+export const setPlayersContract = oc
+  .input(SetPlayersInputSchema)
+  .output(GameStateOutputSchema);
 
-export const togglePlayerReadyContract = oc.input(TogglePlayerReadyInputSchema).output(GameStateOutputSchema);
+export const togglePlayerReadyContract = oc
+  .input(TogglePlayerReadyInputSchema)
+  .output(GameStateOutputSchema);
 
 // Settings
-export const updateSettingsContract = oc.input(UpdateSettingsInputSchema).output(GameStateOutputSchema);
+export const updateSettingsContract = oc
+  .input(UpdateSettingsInputSchema)
+  .output(GameStateOutputSchema);
 
 // Turn Management
 export const nextTurnContract = oc.output(GameStateOutputSchema);
 
 export const previousTurnContract = oc.output(GameStateOutputSchema);
 
-export const setCurrentPlayerContract = oc.input(SetCurrentPlayerInputSchema).output(GameStateOutputSchema);
+export const setCurrentPlayerContract = oc
+  .input(SetCurrentPlayerInputSchema)
+  .output(GameStateOutputSchema);
 
 export const nextRoundContract = oc.output(GameStateOutputSchema);
 
