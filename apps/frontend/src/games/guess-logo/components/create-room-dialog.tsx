@@ -1,6 +1,6 @@
 import type { CreateRoomFormValues } from '@guess-logo/api/schemas';
 import { createGameRoomBaseSchema } from '@guess-logo/api/schemas';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { standardSchemaResolver } from '@hookform/resolvers/standard-schema';
 import { DirectionProvider } from '@radix-ui/react-direction';
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
@@ -36,7 +36,7 @@ export function CreateRoomDialog() {
     setValue,
     watch,
   } = useForm<CreateRoomFormValues>({
-    resolver: zodResolver(createGameRoomBaseSchema),
+    resolver: standardSchemaResolver(createGameRoomBaseSchema),
     defaultValues: {
       name: '',
       maxPlayers: 4,
