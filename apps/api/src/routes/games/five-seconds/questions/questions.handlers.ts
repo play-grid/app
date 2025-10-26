@@ -4,6 +4,16 @@ import type { AppRouteHandler } from '@/api/lib/types';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import questions from './data/questions.json';
 
+function calculateReadingTime(text: string) {
+  // Average reading speed is around 15-20 characters per second.
+  // Using a lower value to be safe and give more time.
+  const charsPerSecond = 10;
+  const seconds = Math.ceil(text.length / charsPerSecond);
+  // Ensure a minimum of 2 seconds
+  const readingTime = Math.max(2, seconds);
+  return `${readingTime}s`;
+}
+
 export const getRandomQuestion: AppRouteHandler<getRandomQuestionRoute> = async (c) => {
   const { difficulty, categoryIds, excludeIds } = c.req.valid('query');
   let filteredQuestions = [...(questions as {
@@ -46,6 +56,7 @@ export const getRandomQuestion: AppRouteHandler<getRandomQuestionRoute> = async 
   const randomQuestionWithId = {
     ...randomQuestion,
     id: randomQuestion.question.toLowerCase().replace(/\s/g, '-'),
+    estimatedReadingTime: calculateReadingTime(randomQuestion.question),
   };
 
   return c.json(randomQuestionWithId, HttpStatusCodes.OK);
