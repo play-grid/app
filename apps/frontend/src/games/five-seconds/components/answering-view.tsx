@@ -5,12 +5,12 @@ import { QuestionInfo } from './question-info';
 
 interface AnsweringViewProps {
   timeLeft: number;
-  timePerTurn: number;
+  totalTime: number;
   currentQuestion: Question;
 }
 
-export function AnsweringView({ timeLeft, timePerTurn, currentQuestion }: AnsweringViewProps) {
-  const progressPercentage = (timeLeft / timePerTurn) * 100;
+export function AnsweringView({ timeLeft, totalTime, currentQuestion }: AnsweringViewProps) {
+  const progressPercentage = (timeLeft / totalTime) * 100;
   return (
     <div className="space-y-8">
       <div className="space-y-4">
