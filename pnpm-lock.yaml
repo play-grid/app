@@ -319,12 +319,21 @@ importers:
 
   packages/game-core:
     dependencies:
+      '@orpc/client':
+        specifier: ^1.10.1
+        version: 1.10.1
       '@orpc/contract':
         specifier: ^1.10.1
         version: 1.10.1
+      '@orpc/experimental-durable-iterator':
+        specifier: ^1.10.1
+        version: 1.10.1(typescript@5.8.3)
       immer:
         specifier: ^5.0.8
         version: 5.3.6
+      partysocket:
+        specifier: ^1.1.6
+        version: 1.1.6
       xstate:
         specifier: ^5.23.0
         version: 5.23.0
@@ -3336,6 +3345,9 @@ packages:
   esutils@2.0.3:
     resolution: {integrity: sha512-kVscqXk4OCp68SZ0dkgEKVi6/8ij300KBWTJq32P/dYeWTSwK41WyTxalN1eRmA5Z9UU/LX9D7FWSmV9SAYx6g==}
     engines: {node: '>=0.10.0'}
+
+  event-target-polyfill@0.0.4:
+    resolution: {integrity: sha512-Gs6RLjzlLRdT8X9ZipJdIZI/Y6/HhRLyq9RdDlCsnpxr/+Nn6bU2EFGuC94GjxqhM+Nmij2Vcq98yoHrU8uNFQ==}
 
   event-target-shim@5.0.1:
     resolution: {integrity: sha512-i/2XbnSz/uxRCU6+NdVJgKWDTM427+MqYbkQzD321DuCQJUqOuJKIA0IM2+W2xtYHdKOmZ4dR6fExsd4SXL+WQ==}
@@ -8514,6 +8526,8 @@ snapshots:
       '@types/estree': 1.0.8
 
   esutils@2.0.3: {}
+
+  event-target-polyfill@0.0.4: {}
 
   event-target-shim@5.0.1: {}
 

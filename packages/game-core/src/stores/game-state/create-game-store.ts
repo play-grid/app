@@ -6,7 +6,7 @@ import { createBaseStore } from './base-store';
 export interface CreateGameStoreConfig<
   TSettings,
   _TPlayer extends Player,
-  TCustom extends object = Record<string, never>
+  TCustom extends object = Record<string, never>,
 > {
   name: string;
   initialSettings: TSettings;
@@ -20,7 +20,7 @@ export interface CreateGameStoreConfig<
 export function createGameStore<
   TSettings,
   TPlayer extends Player = Player,
-  TCustom extends object = Record<string, never>
+  TCustom extends object = Record<string, never>,
 >(config: CreateGameStoreConfig<TSettings, TPlayer, TCustom>) {
   const {
     name,
