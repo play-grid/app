@@ -1,5 +1,5 @@
 import { ArrowLeft, RotateCcw } from 'lucide-react';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -49,7 +49,15 @@ export function GameplayPage() {
     refetch: fetchQuestion,
   } = useQuestion(settings.categoryIds, settings.difficulty, seenQuestionIds);
 
-  const [timeLeft, setTimeLeft] = useState(settings.timePerTurn);
+  const timeForCurrentQuestion = useMemo(() => {
+    if (currentQuestion?.estimatedReadingTime) {
+      const readingTime = Number.parseInt(currentQuestion.estimatedReadingTime, 10) || 0;
+      return settings.timePerTurn + readingTime;
+    }
+    return settings.timePerTurn;
+  }, [currentQuestion, settings.timePerTurn]);
+
+  const [timeLeft, setTimeLeft] = useState(timeForCurrentQuestion);
   const [isAnswering, setIsAnswering] = useState(false);
   const [isResetConfirmOpen, setIsResetConfirmOpen] = useState(false);
 
@@ -57,6 +65,10 @@ export function GameplayPage() {
   useEffect(() => {
     fetchQuestion();
   }, [fetchQuestion]);
+
+  useEffect(() => {
+    setTimeLeft(timeForCurrentQuestion);
+  }, [timeForCurrentQuestion]);
 
   // Add question to seen list
   useEffect(() => {
@@ -108,8 +120,8 @@ export function GameplayPage() {
     }
 
     fetchQuestion();
-    setTimeLeft(settings.timePerTurn);
-  }, [turnState, players, endGame, nextTurn, settings, resetVoting, fetchQuestion]);
+    setTimeLeft(timeForCurrentQuestion);
+  }, [turnState, players, endGame, nextTurn, timeForCurrentQuestion, resetVoting, fetchQuestion]);
 
   useEffect(() => {
     if (isVotingFinished) {
@@ -125,7 +137,7 @@ export function GameplayPage() {
   // ---  Event Handlers ---
   const handleStartTurn = () => {
     setIsAnswering(true);
-    setTimeLeft(settings.timePerTurn);
+    setTimeLeft(timeForCurrentQuestion);
   };
 
   const handleVote = (isValid: boolean) => {
@@ -234,7 +246,7 @@ export function GameplayPage() {
                         ? (
                             <AnsweringView
                               timeLeft={timeLeft}
-                              timePerTurn={settings.timePerTurn}
+                              totalTime={timeForCurrentQuestion}
                               currentQuestion={currentQuestion}
                             />
                           )
