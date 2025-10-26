@@ -380,9 +380,15 @@ importers:
 
   packages/game-core:
     dependencies:
+      '@orpc/client':
+        specifier: ^1.10.1
+        version: 1.10.1
       '@orpc/contract':
         specifier: ^1.10.1
         version: 1.10.1
+      '@orpc/experimental-durable-iterator':
+        specifier: ^1.10.1
+        version: 1.10.1(typescript@5.8.3)
       immer:
         specifier: 'catalog:'
         version: 10.2.0

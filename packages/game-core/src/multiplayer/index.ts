@@ -1,3 +1,3 @@
-export * from '../network/store-proxy';
 export * from './orpc-contract';
 export * from './state-subscriber';
+export * from './store-proxy';
