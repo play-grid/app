@@ -77,6 +77,7 @@
   "hard": "Hard",
   "medium": "Medium",
   "easy": "Easy",
+  "all": "All",
   "logos": "logos",
   "instructions": {
     "step1": "1. Each player mentally selects one logo from their grid",
@@ -97,6 +98,7 @@
     "loading": "Loading...",
     "success": "Success! 🎉",
     "error": "Oops! Something went wrong 😅",
+    "retry": "Retry",
     "LanguageToggle_placeholder": "Select Language",
     "LanguageToggle_ar": "العربية",
     "LanguageToggle_en": "English",
@@ -169,8 +171,6 @@
   "select-difficulty": "Select Difficulty",
   "categories": "Categories",
   "five-seconds-game": "Five Seconds Game",
-  "points_one": "{{count}} point",
-  "points_other": "{{count}} points",
   "fiveSecondsGame": {
     "lobby": {
       "title": "Five Seconds",
@@ -180,6 +180,8 @@
       "difficulty": "Difficulty",
       "timePerTurn": "Time Per Turn",
       "timeUnit": "{{time}}s",
+      "roundsToWin": "Rounds to Win",
+      "roundsUnit": "{{rounds}} rounds",
       "startGame": "Start Game",
       "startRequirement": "All players must be ready to start (minimum 2 players)",
       "playersTitle": "Players ({{count}}/{{max}})",
@@ -222,14 +224,29 @@
     },
     "results": {
       "wins": "{{name}} Wins!",
-      "withPoints_one": "With {{count}} point",
-      "withPoints_other": "With {{count}} points",
+      "withPoints": "With {{count}} point",
+      "withPoints_plural": "With {{count}} points",
       "finalScores": "Final Scores",
       "firstPlace": "1st Place",
       "secondPlace": "2nd Place",
       "thirdPlace": "3rd Place",
       "nthPlace": "{{ordinal}}th Place",
       "playAgain": "Play Again"
+    },
+    "howToPlay": "How to Play",
+      "instructions": {
+        "rule1": "When it's your turn, you have exactly 5 seconds to say 3 things that match the category shown on screen.",
+        "rule2": "Speak your answers out loud - don't type them! Think fast and say the first things that come to mind.",
+        "rule3": "After time's up, other players vote whether your answers were valid. Get majority votes to earn 1 point and build your streak.",
+        "rule4": "Build a streak of 3 correct answers to earn a random Power-Up! Use them strategically to help yourself or sabotage others.",
+        "rule5": "The player with the most points at the end wins. Remember: it's about quick thinking, laughter, and friendly chaos!"
+      },
+    "gameRules": {
+      "yourTurn": "Your Turn",
+      "speakAloud": "Speak Aloud",
+      "votingTime": "Voting Time",
+      "powerUps": "Power-Ups",
+      "winCondition": "Win Condition"
     }
   }
 }

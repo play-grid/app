@@ -84,10 +84,10 @@
   "5-10-min": "5-10 دقيقة",
   "6-4-grid": "6 × 4 شبكة",
   "8-6-grid": "8 × 6 شبكة",
-  "easy": "سهل",
-  "expert": "خبير",
-  "hard": "صعب",
+"hard": "صعب",
   "medium": "وسط",
+  "easy": "سهل",
+  "all": "الكل",
   "logos": "شعار",
   "common": {
     "settings": "الإعدادات",
@@ -100,16 +100,17 @@
     "done": "تم",
     "loading": "جاري التحميل...",
     "success": "نجح! 🎉",
-    "error": "عذراً! حدث خطأ ما 😅",
+    "error": "اوبس! في مشكلة تقنية😅",
+    "retry": "إعادة المحاولة",
     "LanguageToggle_placeholder": "اختر اللغة",
     "LanguageToggle_ar": "العربية",
     "LanguageToggle_en": "English",
-    "toasts":{
-      "playerRemoved":"{{name}} طلع من اللعبه",
-      "playerRemoveUndo":"رجعه"
+    "toasts": {
+      "playerRemoved": "{{name}} طلع من اللعبه",
+      "playerRemoveUndo": "رجعه"
     },
     "network": {
-      "offline": "أنت غير متصل. يرجى التحقق من اتصالك بالإنترنت."
+      "offline": "تأكد من الوايفاي أو الشبكة وجرب مرة ثانية"
     }
   },
   "customizations": {
@@ -165,8 +166,12 @@
   "country-data-languages": "اللغات:",
   "country-data-currency": "العملة:",
   "grid-size": "حجم الشبكة",
+  "points_zero": "صفر نقاط",
   "points_one": "نقطة واحدة",
-  "points_other": "{{count}} نقاط",
+  "points_two": "نقطتان",
+  "points_few": "{{count}} نقاط",
+  "points_many": "{{count}} نقطة",
+  "points_other": "{{count}} نقطة",
   "fiveSecondsGame": {
     "lobby": {
       "title": "لعبة الخمس ثواني",
@@ -184,6 +189,8 @@
       "difficulty": "الصعوبة",
       "timePerTurn": "الوقت لكل دور",
       "timeUnit": "{{time}} ثانية",
+      "roundsToWin": "جولات الفوز",
+      "roundsUnit": "{{rounds}} جولات",
       "startGame": "ابدأ اللعبة",
       "startRequirement": "يجب أن يكون جميع اللاعبين جاهزين للبدء (لاعبان على الأقل)",
       "nameAlreadyExists": "هذا الاسم مستخدم بالفعل",
@@ -194,16 +201,16 @@
       "currentPlayers": "اللاعبون الحاليون",
       "removePlayer": "إزالة {{name}}",
       "validation": {
-      "minLength": "الاسم لازم يكون أكثر من حرفين",
-      "maxLength": "الاسم ما يتعدى ٢٠ حرف",
-      "invalidCharacters": "الاسم مسموح فيه بس حروف وأرقام ومسافات"
+        "minLength": "الاسم لازم يكون أكثر من حرفين",
+        "maxLength": "الاسم ما يتعدى ٢٠ حرف",
+        "invalidCharacters": "الاسم مسموح فيه بس حروف وأرقام ومسافات"
       }
     },
     "gameplay": {
       "playerTurn": "دور {{name}}",
       "getReady": "استعد للإجابة!",
       "startTurn": "ابدأ الدور",
-      "nameThree":"عدد ثلاثة",
+      "nameThree": "عدد ثلاثة",
       "round": "الجولة {{number}}",
       "pleaseVote": "{{name}}، من فضلك قم بالتصويت!",
       "wasAnswerValid": "هل كانت إجابة {{name}} صحيحة؟",
@@ -217,15 +224,33 @@
       "backToLobby": "العودة إلى الردهة"
     },
     "results": {
-      "wins": "{{name}} فاز!",
+      "withPoints_zero": "مع ٠ نقاط",
       "withPoints_one": "بنقطة واحدة",
-      "withPoints_other": "مع {{count}} نقاط",
+      "withPoints_two": "بنقطتين",
+      "withPoints_few": "مع {{count}} نقاط",
+      "withPoints_many": "مع {{count}} نقطة",
+      "withPoints_other": "مع {{count}} نقطة",
       "finalScores": "النتائج النهائية",
       "firstPlace": "المركز الأول",
       "secondPlace": "المركز الثاني",
       "thirdPlace": "المركز الثالث",
       "nthPlace": "المركز الـ{{ordinal}}",
       "playAgain": "العب مرة أخرى"
+    },
+    "howToPlay": "كيف تلعب",
+      "instructions": {
+      "rule1": "عندما يأتي دورك، لديك 5 ثوانٍ بالضبط لتقول 3 أشياء تطابق الفئة المعروضة على الشاشة.",
+      "rule2": "انطق إجاباتك بصوت عالٍ - لا تكتبها! فكر بسرعة وقل أول الأشياء التي تخطر ببالك.",
+      "rule3": "بعد انتهاء الوقت، يصوت اللاعبون الآخرون على صحة إجاباتك. احصل على أغلبية الأصوات لتكسب نقطة واحدة وتبني سلسلة نجاحك.",
+      "rule4": "احصل على سلسلة من 3 إجابات صحيحة متتالية لتحصل على قوة خارقة عشوائية! استخدمها بذكاء لمساعدة نفسك أو تعطيل الآخرين.",
+      "rule5": "الفائز هو اللاعب صاحب أكبر عدد من النقاط في النهاية. تذكر: اللعبة تدور حول التفكير السريع والضحك والفوضى الودية!"
     }
+  },
+  "gameRules": {
+    "yourTurn": "دورك",
+    "speakAloud": "تحدث بصوت عالٍ",
+    "votingTime": "وقت التصويت",
+    "powerUps": "القوى الخارقة",
+    "winCondition": "شرط الفوز"
   }
 }

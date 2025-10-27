@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const difficultySchema = z.enum(['easy', 'medium', 'hard']);
+export const difficultySchema = z.enum(['easy', 'medium', 'hard', 'all']);
 
 export const categorySchema = z.object({
   id: z.string(),
@@ -13,6 +13,7 @@ export const questionSchema = z.object({
   question: z.string(),
   categoryId: z.string(),
   difficulty: difficultySchema,
+  estimatedReadingTime: z.string().optional(),
 });
 
 export type Difficulty = z.infer<typeof difficultySchema>;

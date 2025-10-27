@@ -34,7 +34,11 @@ export default function App() {
   );
 }
 
-function LanguageRoutes() {
+// function NeverResolve() {
+//   throw new Promise(() => {});
+// }
+
+export function LanguageRoutes() {
   return (
     <Routes>
       {/* Home page for language prefix */}

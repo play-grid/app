@@ -4,8 +4,9 @@ import { difficultySchema } from '@guess-logo/shared/schemas/five-seconds';
 
 const initialSettings: FiveSecondsGameSettings = {
   categoryIds: ['cat_general_v1'],
-  difficulty: difficultySchema.enum.easy,
+  difficulty: difficultySchema.enum.all,
   timePerTurn: 5,
+  roundsToWin: 5,
 };
 
 export const useFiveSecondsStore = createGameStore<

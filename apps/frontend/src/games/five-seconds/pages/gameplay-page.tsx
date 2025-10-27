@@ -1,5 +1,5 @@
 import { ArrowLeft, RotateCcw } from 'lucide-react';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -20,6 +20,7 @@ import { PreTurnView } from '../components/pre-turn-view';
 import { RoundInfo } from '../components/round-info';
 import { VotingView } from '../components/voting-view';
 import { useQuestion } from '../hooks/use-question';
+import { NoQuestionsFoundError } from '../services/questions.service';
 import { useFiveSecondsStore } from '../stores/game-store';
 
 export function GameplayPage() {
@@ -46,10 +47,20 @@ export function GameplayPage() {
     data: currentQuestion,
     isLoading,
     isError,
+    isPaused,
+    error,
     refetch: fetchQuestion,
   } = useQuestion(settings.categoryIds, settings.difficulty, seenQuestionIds);
 
-  const [timeLeft, setTimeLeft] = useState(settings.timePerTurn);
+  const timeForCurrentQuestion = useMemo(() => {
+    if (currentQuestion?.estimatedReadingTime) {
+      const readingTime = Number.parseInt(currentQuestion.estimatedReadingTime, 10) || 0;
+      return settings.timePerTurn + readingTime;
+    }
+    return settings.timePerTurn;
+  }, [currentQuestion, settings.timePerTurn]);
+
+  const [timeLeft, setTimeLeft] = useState(timeForCurrentQuestion);
   const [isAnswering, setIsAnswering] = useState(false);
   const [isResetConfirmOpen, setIsResetConfirmOpen] = useState(false);
 
@@ -57,6 +68,10 @@ export function GameplayPage() {
   useEffect(() => {
     fetchQuestion();
   }, [fetchQuestion]);
+
+  useEffect(() => {
+    setTimeLeft(timeForCurrentQuestion);
+  }, [timeForCurrentQuestion]);
 
   // Add question to seen list
   useEffect(() => {
@@ -98,7 +113,7 @@ export function GameplayPage() {
     setIsAnswering(false);
     resetVoting();
 
-    if (turnState && turnState.roundNumber >= 5 && turnState.turnIndex === players.length - 1) {
+    if (turnState && turnState.roundNumber >= settings.roundsToWin && turnState.turnIndex === players.length - 1) {
       endGame();
       return;
     }
@@ -108,8 +123,8 @@ export function GameplayPage() {
     }
 
     fetchQuestion();
-    setTimeLeft(settings.timePerTurn);
-  }, [turnState, players, endGame, nextTurn, settings, resetVoting, fetchQuestion]);
+    setTimeLeft(timeForCurrentQuestion);
+  }, [turnState, players, endGame, nextTurn, timeForCurrentQuestion, resetVoting, fetchQuestion, settings]);
 
   useEffect(() => {
     if (isVotingFinished) {
@@ -125,7 +140,7 @@ export function GameplayPage() {
   // ---  Event Handlers ---
   const handleStartTurn = () => {
     setIsAnswering(true);
-    setTimeLeft(settings.timePerTurn);
+    setTimeLeft(timeForCurrentQuestion);
   };
 
   const handleVote = (isValid: boolean) => {
@@ -142,7 +157,7 @@ export function GameplayPage() {
       {/* Header with Reset Button */}
       <div className="w-full max-w-4xl mx-auto mb-6">
         <div className="flex justify-start gap-2">
-          {!isError
+          {!isError && !isPaused
             && (
               <Button
                 variant="outline"
@@ -204,14 +219,25 @@ export function GameplayPage() {
                     <Spinner />
                   </div>
                 )
-              : isError
+              : isError || isPaused
                 ? (
-                    <div className="text-center">
-                      <p className="mb-4">{t('fiveSecondsGame.gameplay.noMoreQuestions')}</p>
-                      <Button onClick={() => resetGame()}>
-                        {t('fiveSecondsGame.gameplay.backToLobby')}
-                      </Button>
-                    </div>
+                    error instanceof NoQuestionsFoundError
+                      ? (
+                          <div className="text-center">
+                            <p className="mb-4">{t('fiveSecondsGame.gameplay.noMoreQuestions')}</p>
+                            <Button onClick={() => resetGame()}>
+                              {t('fiveSecondsGame.gameplay.backToLobby')}
+                            </Button>
+                          </div>
+                        )
+                      : (
+                          <div className="text-center">
+                            <p className="mb-4">{t('common.error')}</p>
+                            <Button onClick={() => fetchQuestion()}>
+                              {t('common.retry')}
+                            </Button>
+                          </div>
+                        )
                   )
                 : !isAnswering && !votingState?.isVoting && currentQuestion
                     ? (
@@ -234,7 +260,7 @@ export function GameplayPage() {
                         ? (
                             <AnsweringView
                               timeLeft={timeLeft}
-                              timePerTurn={settings.timePerTurn}
+                              totalTime={timeForCurrentQuestion}
                               currentQuestion={currentQuestion}
                             />
                           )
