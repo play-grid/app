@@ -1,6 +1,6 @@
 [
   {
-    "question": "دول أوربيه",
+    "question": "دول أوربية",
     "estimatedReadingTime": "10s",
     "exampleAnswers": "",
     "categoryId": "cat_general_v1",
@@ -12,7 +12,7 @@
     "estimatedReadingTime": "10s",
     "exampleAnswers": "",
     "categoryId": "cat_tech_games_v1",
-    "difficulty": "medium",
+    "difficulty": "hard",
     "metadata": {}
   },
   {
@@ -20,7 +20,7 @@
     "estimatedReadingTime": "10s",
     "exampleAnswers": "",
     "categoryId": "cat_cinema_v1",
-    "difficulty": "easy",
+    "difficulty": "medium",
     "metadata": {}
   },
   {
@@ -48,7 +48,7 @@
     "metadata": {}
   },
   {
-    "question": "سور من القرآن من أسماء الانبياء",
+    "question": "سور من القرآن من أسماء الأنبياء",
     "estimatedReadingTime": "10s",
     "exampleAnswers": "",
     "categoryId": "cat_general_v1",
@@ -60,78 +60,22 @@
     "estimatedReadingTime": "10s",
     "exampleAnswers": "",
     "categoryId": "cat_tech_games_v1",
-    "difficulty": "easy",
-    "metadata": {}
-  },
-  {
-    "question": "مسلسلات تصنيفه دراما",
-    "estimatedReadingTime": "10s",
-    "exampleAnswers": "",
-    "categoryId": "cat_cinema_v1",
-    "difficulty": "easy",
-    "metadata": {}
-  },
-  {
-    "question": "شركات أجهزه منزلية",
-    "estimatedReadingTime": "10s",
-    "exampleAnswers": "",
-    "categoryId": "cat_general_v1",
-    "difficulty": "easy",
-    "metadata": {}
-  },
-  {
-    "question": "برامج تواصل",
-    "estimatedReadingTime": "10s",
-    "exampleAnswers": "",
-    "categoryId": "cat_tech_games_v1",
-    "difficulty": "easy",
-    "metadata": {}
-  },
-  {
-    "question": "مسسلات من أنتاج نيتفلكس",
-    "estimatedReadingTime": "10s",
-    "exampleAnswers": "",
-    "categoryId": "cat_cinema_v1",
-    "difficulty": "easy",
-    "metadata": {}
-  },
-  {
-    "question": "حرف قديمه",
-    "estimatedReadingTime": "10s",
-    "exampleAnswers": "",
-    "categoryId": "cat_general_v1",
     "difficulty": "medium",
     "metadata": {}
   },
   {
-    "question": "أنظمة كمبيوتر",
-    "estimatedReadingTime": "10s",
-    "exampleAnswers": "",
-    "categoryId": "cat_tech_games_v1",
-    "difficulty": "easy",
-    "metadata": {}
-  },
-  {
-    "question": "مسلسلات",
+    "question": "مسلسلات تصنيفها دراما",
     "estimatedReadingTime": "10s",
     "exampleAnswers": "",
     "categoryId": "cat_cinema_v1",
-    "difficulty": "easy",
+    "difficulty": "medium",
     "metadata": {}
   },
   {
-    "question": "أنواع كورن فليكس",
+    "question": "مسلسلات من إنتاج نيتفلكس",
     "estimatedReadingTime": "10s",
     "exampleAnswers": "",
-    "categoryId": "cat_general_v1",
-    "difficulty": "easy",
-    "metadata": {}
-  },
-  {
-    "question": "حصريات بلاي ستيشن",
-    "estimatedReadingTime": "10s",
-    "exampleAnswers": "",
-    "categoryId": "cat_tech_games_v1",
+    "categoryId": "cat_cinema_v1",
     "difficulty": "medium",
     "metadata": {}
   },
@@ -144,43 +88,11 @@
     "metadata": {}
   },
   {
-    "question": "محلات اجهزة  الاكترونية في السعودية",
-    "estimatedReadingTime": "10s",
-    "exampleAnswers": "",
-    "categoryId": "cat_general_v1",
-    "difficulty": "easy",
-    "metadata": {}
-  },
-  {
-    "question": "ماركات لابتوبات",
-    "estimatedReadingTime": "10s",
-    "exampleAnswers": "",
-    "categoryId": "cat_tech_games_v1",
-    "difficulty": "easy",
-    "metadata": {}
-  },
-  {
     "question": "انميات مشهورة",
     "estimatedReadingTime": "10s",
     "exampleAnswers": "",
     "categoryId": "cat_cinema_v1",
-    "difficulty": "easy",
-    "metadata": {}
-  },
-  {
-    "question": "كواكب",
-    "estimatedReadingTime": "10s",
-    "exampleAnswers": "",
-    "categoryId": "cat_general_v1",
-    "difficulty": "easy",
-    "metadata": {}
-  },
-  {
-    "question": "شركات لأجهزة العاب",
-    "estimatedReadingTime": "10s",
-    "exampleAnswers": "",
-    "categoryId": "cat_tech_games_v1",
-    "difficulty": "easy",
+    "difficulty": "medium",
     "metadata": {}
   },
   {
@@ -188,71 +100,31 @@
     "estimatedReadingTime": "10s",
     "exampleAnswers": "",
     "categoryId": "cat_cinema_v1",
+    "difficulty": "easy",
+    "metadata": {}
+  },
+  {
+    "question": "دول زرتها",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "easy",
+    "metadata": {}
+  },
+  {
+    "question": "أبطال خارقين من MARVEL",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_cinema_v1",
     "difficulty": "medium",
     "metadata": {}
   },
   {
-    "question": "بحار",
-    "estimatedReadingTime": "10s",
-    "exampleAnswers": "",
-    "categoryId": "cat_general_v1",
-    "difficulty": "medium",
-    "metadata": {}
-  },
-  {
-    "question": "العاب FPS",
-    "estimatedReadingTime": "10s",
-    "exampleAnswers": "",
-    "categoryId": "cat_tech_games_v1",
-    "difficulty": "easy",
-    "metadata": {}
-  },
-  {
-    "question": "ابطال خارقين من MARVEL",
+    "question": "أبطال خارقين من DC",
     "estimatedReadingTime": "10s",
     "exampleAnswers": "",
     "categoryId": "cat_cinema_v1",
-    "difficulty": "easy",
-    "metadata": {}
-  },
-  {
-    "question": "قطع موجوده في السيارة",
-    "estimatedReadingTime": "10s",
-    "exampleAnswers": "",
-    "categoryId": "cat_general_v1",
-    "difficulty": "easy",
-    "metadata": {}
-  },
-  {
-    "question": "العاب مغامرات",
-    "estimatedReadingTime": "10s",
-    "exampleAnswers": "",
-    "categoryId": "cat_tech_games_v1",
-    "difficulty": "easy",
-    "metadata": {}
-  },
-  {
-    "question": "ابطال خارقين من DC",
-    "estimatedReadingTime": "10s",
-    "exampleAnswers": "",
-    "categoryId": "cat_cinema_v1",
-    "difficulty": "easy",
-    "metadata": {}
-  },
-  {
-    "question": "بنوك في السعوديه",
-    "estimatedReadingTime": "10s",
-    "exampleAnswers": "",
-    "categoryId": "cat_general_v1",
-    "difficulty": "easy",
-    "metadata": {}
-  },
-  {
-    "question": "العاب جوال",
-    "estimatedReadingTime": "10s",
-    "exampleAnswers": "",
-    "categoryId": "cat_tech_games_v1",
-    "difficulty": "easy",
+    "difficulty": "hard",
     "metadata": {}
   },
   {
@@ -264,22 +136,6 @@
     "metadata": {}
   },
   {
-    "question": "تطبيقات تسوق",
-    "estimatedReadingTime": "10s",
-    "exampleAnswers": "",
-    "categoryId": "cat_general_v1",
-    "difficulty": "easy",
-    "metadata": {}
-  },
-  {
-    "question": "العاب حصلت على جوائز",
-    "estimatedReadingTime": "10s",
-    "exampleAnswers": "",
-    "categoryId": "cat_tech_games_v1",
-    "difficulty": "medium",
-    "metadata": {}
-  },
-  {
     "question": "مخرجين",
     "estimatedReadingTime": "10s",
     "exampleAnswers": "",
@@ -288,7 +144,7 @@
     "metadata": {}
   },
   {
-    "question": "أصوات حيوانات",
+    "question": "حِرف قديمة",
     "estimatedReadingTime": "10s",
     "exampleAnswers": "",
     "categoryId": "cat_general_v1",
@@ -296,58 +152,42 @@
     "metadata": {}
   },
   {
-    "question": "العاب ماتت",
+    "question": "أنواع كورن فليكس",
     "estimatedReadingTime": "10s",
     "exampleAnswers": "",
-    "categoryId": "cat_tech_games_v1",
-    "difficulty": "medium",
+    "categoryId": "cat_general_v1",
+    "difficulty": "hard",
     "metadata": {}
   },
   {
-    "question": "مسلسلات خليجيه",
+    "question": "كواكب",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "easy",
+    "metadata": {}
+  },
+  {
+    "question": "بحار",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "easy",
+    "metadata": {}
+  },
+  {
+    "question": "مسلسلات خليجية",
     "estimatedReadingTime": "10s",
     "exampleAnswers": "",
     "categoryId": "cat_cinema_v1",
-    "difficulty": "medium",
-    "metadata": {}
-  },
-  {
-    "question": "من عجائب الدنيا",
-    "estimatedReadingTime": "10s",
-    "exampleAnswers": "",
-    "categoryId": "cat_general_v1",
     "difficulty": "easy",
     "metadata": {}
   },
   {
-    "question": "برامج تصميم",
-    "estimatedReadingTime": "10s",
-    "exampleAnswers": "",
-    "categoryId": "cat_tech_games_v1",
-    "difficulty": "easy",
-    "metadata": {}
-  },
-  {
-    "question": "مسلسلات قديمه",
+    "question": "مسلسلات قديمة",
     "estimatedReadingTime": "10s",
     "exampleAnswers": "",
     "categoryId": "cat_cinema_v1",
-    "difficulty": "medium",
-    "metadata": {}
-  },
-  {
-    "question": "حيوانات تطير",
-    "estimatedReadingTime": "10s",
-    "exampleAnswers": "",
-    "categoryId": "cat_general_v1",
-    "difficulty": "easy",
-    "metadata": {}
-  },
-  {
-    "question": "قطع في الكمبيوتر",
-    "estimatedReadingTime": "10s",
-    "exampleAnswers": "",
-    "categoryId": "cat_tech_games_v1",
     "difficulty": "easy",
     "metadata": {}
   },
@@ -360,34 +200,10 @@
     "metadata": {}
   },
   {
-    "question": "تخصصات جامعية",
-    "estimatedReadingTime": "10s",
-    "exampleAnswers": "",
-    "categoryId": "cat_general_v1",
-    "difficulty": "easy",
-    "metadata": {}
-  },
-  {
-    "question": "العاب قديمه",
-    "estimatedReadingTime": "10s",
-    "exampleAnswers": "",
-    "categoryId": "cat_tech_games_v1",
-    "difficulty": "medium",
-    "metadata": {}
-  },
-  {
-    "question": "كراتين قديمه",
+    "question": "كراتين قديمة",
     "estimatedReadingTime": "10s",
     "exampleAnswers": "",
     "categoryId": "cat_cinema_v1",
-    "difficulty": "medium",
-    "metadata": {}
-  },
-  {
-    "question": "متاجر الاكترونية",
-    "estimatedReadingTime": "10s",
-    "exampleAnswers": "",
-    "categoryId": "cat_tech_games_v1",
     "difficulty": "easy",
     "metadata": {}
   },
@@ -400,7 +216,23 @@
     "metadata": {}
   },
   {
-    "question": "أنواع اجبان",
+    "question": "قطع موجودة في السيارة",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "medium",
+    "metadata": {}
+  },
+  {
+    "question": "بنوك في السعودية",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "medium",
+    "metadata": {}
+  },
+  {
+    "question": "تطبيقات تسوق",
     "estimatedReadingTime": "10s",
     "exampleAnswers": "",
     "categoryId": "cat_general_v1",
@@ -408,18 +240,34 @@
     "metadata": {}
   },
   {
-    "question": "برامج صوتيات",
+    "question": "من عجائب الدنيا السبع",
     "estimatedReadingTime": "10s",
     "exampleAnswers": "",
-    "categoryId": "cat_tech_games_v1",
+    "categoryId": "cat_general_v1",
+    "difficulty": "hard",
+    "metadata": {}
+  },
+  {
+    "question": "حيوانات تطير",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "easy",
+    "metadata": {}
+  },
+  {
+    "question": "تخصصات جامعية",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
     "difficulty": "medium",
     "metadata": {}
   },
   {
-    "question": "شخصيات انمي",
+    "question": "أنواع أجبان",
     "estimatedReadingTime": "10s",
     "exampleAnswers": "",
-    "categoryId": "cat_cinema_v1",
+    "categoryId": "cat_general_v1",
     "difficulty": "easy",
     "metadata": {}
   },
@@ -432,43 +280,11 @@
     "metadata": {}
   },
   {
-    "question": "متصفحات",
-    "estimatedReadingTime": "10s",
-    "exampleAnswers": "",
-    "categoryId": "cat_tech_games_v1",
-    "difficulty": "easy",
-    "metadata": {}
-  },
-  {
-    "question": "شخصيات من عالم الكرتون",
-    "estimatedReadingTime": "10s",
-    "exampleAnswers": "",
-    "categoryId": "cat_cinema_v1",
-    "difficulty": "easy",
-    "metadata": {}
-  },
-  {
     "question": "شركات شبس",
     "estimatedReadingTime": "10s",
     "exampleAnswers": "",
     "categoryId": "cat_general_v1",
     "difficulty": "easy",
-    "metadata": {}
-  },
-  {
-    "question": "أشياء في سيت اب الكمبيوتر",
-    "estimatedReadingTime": "10s",
-    "exampleAnswers": "",
-    "categoryId": "cat_tech_games_v1",
-    "difficulty": "medium",
-    "metadata": {}
-  },
-  {
-    "question": "أفلام حصلت على اوسكار",
-    "estimatedReadingTime": "10s",
-    "exampleAnswers": "",
-    "categoryId": "cat_cinema_v1",
-    "difficulty": "medium",
     "metadata": {}
   },
   {
@@ -480,22 +296,6 @@
     "metadata": {}
   },
   {
-    "question": "محلات الكترونيات في السعوديه",
-    "estimatedReadingTime": "10s",
-    "exampleAnswers": "",
-    "categoryId": "cat_tech_games_v1",
-    "difficulty": "easy",
-    "metadata": {}
-  },
-  {
-    "question": "مسلسلات حصلت على جوائز",
-    "estimatedReadingTime": "10s",
-    "exampleAnswers": "",
-    "categoryId": "cat_cinema_v1",
-    "difficulty": "medium",
-    "metadata": {}
-  },
-  {
     "question": "مكتبات",
     "estimatedReadingTime": "10s",
     "exampleAnswers": "",
@@ -504,34 +304,10 @@
     "metadata": {}
   },
   {
-    "question": "شركات منتجه للافلام",
-    "estimatedReadingTime": "10s",
-    "exampleAnswers": "",
-    "categoryId": "cat_cinema_v1",
-    "difficulty": "easy",
-    "metadata": {}
-  },
-  {
-    "question": "أنواع الوان",
+    "question": "أنواع ألوان",
     "estimatedReadingTime": "10s",
     "exampleAnswers": "",
     "categoryId": "cat_general_v1",
-    "difficulty": "easy",
-    "metadata": {}
-  },
-  {
-    "question": "العاب رهيبه  بنسبه لك",
-    "estimatedReadingTime": "10s",
-    "exampleAnswers": "",
-    "categoryId": "cat_tech_games_v1",
-    "difficulty": "easy",
-    "metadata": {}
-  },
-  {
-    "question": "أشياء في السينما",
-    "estimatedReadingTime": "10s",
-    "exampleAnswers": "",
-    "categoryId": "cat_cinema_v1",
     "difficulty": "easy",
     "metadata": {}
   },
@@ -544,55 +320,23 @@
     "metadata": {}
   },
   {
-    "question": "مواقع عربية",
-    "estimatedReadingTime": "10s",
-    "exampleAnswers": "",
-    "categoryId": "cat_tech_games_v1",
-    "difficulty": "medium",
-    "metadata": {}
-  },
-  {
-    "question": "أفلام أكشن",
-    "estimatedReadingTime": "10s",
-    "exampleAnswers": "",
-    "categoryId": "cat_cinema_v1",
-    "difficulty": "easy",
-    "metadata": {}
-  },
-  {
     "question": "سوبرماركتات مشهورة في السعودية",
     "estimatedReadingTime": "10s",
     "exampleAnswers": "",
     "categoryId": "cat_general_v1",
-    "difficulty": "easy",
-    "metadata": {}
-  },
-  {
-    "question": "منصات مشاهده",
-    "estimatedReadingTime": "10s",
-    "exampleAnswers": "",
-    "categoryId": "cat_cinema_v1",
-    "difficulty": "easy",
-    "metadata": {}
-  },
-  {
-    "question": "عواصم بحرف الاف",
-    "estimatedReadingTime": "10s",
-    "exampleAnswers": "",
-    "categoryId": "cat_general_v1",
     "difficulty": "medium",
     "metadata": {}
   },
   {
-    "question": "شركات سينما",
+    "question": "عواصم بحرف الفاء",
     "estimatedReadingTime": "10s",
     "exampleAnswers": "",
-    "categoryId": "cat_cinema_v1",
-    "difficulty": "easy",
+    "categoryId": "cat_general_v1",
+    "difficulty": "hard",
     "metadata": {}
   },
   {
-    "question": "مستلزمات  للسفر",
+    "question": "مستلزمات للسفر",
     "estimatedReadingTime": "10s",
     "exampleAnswers": "",
     "categoryId": "cat_general_v1",
@@ -600,39 +344,7 @@
     "metadata": {}
   },
   {
-    "question": "احسن مسلسلات عندك / كِ",
-    "estimatedReadingTime": "10s",
-    "exampleAnswers": "",
-    "categoryId": "cat_cinema_v1",
-    "difficulty": "easy",
-    "metadata": {}
-  },
-  {
-    "question": "احسن افلام عندك / كِ",
-    "estimatedReadingTime": "10s",
-    "exampleAnswers": "",
-    "categoryId": "cat_cinema_v1",
-    "difficulty": "easy",
-    "metadata": {}
-  },
-  {
-    "question": "شركات اجبان",
-    "estimatedReadingTime": "10s",
-    "exampleAnswers": "",
-    "categoryId": "cat_general_v1",
-    "difficulty": "medium",
-    "metadata": {}
-  },
-  {
-    "question": "افلام انتجت هذه السنه",
-    "estimatedReadingTime": "10s",
-    "exampleAnswers": "",
-    "categoryId": "cat_cinema_v1",
-    "difficulty": "easy",
-    "metadata": {}
-  },
-  {
-    "question": "مطاعم وجبات سريعه",
+    "question": "شركات أجبان",
     "estimatedReadingTime": "10s",
     "exampleAnswers": "",
     "categoryId": "cat_general_v1",
@@ -640,19 +352,11 @@
     "metadata": {}
   },
   {
-    "question": "روايات",
+    "question": "مطاعم وجبات سريعة",
     "estimatedReadingTime": "10s",
     "exampleAnswers": "",
-    "categoryId": "cat_cinema_v1",
+    "categoryId": "cat_general_v1",
     "difficulty": "easy",
-    "metadata": {}
-  },
-  {
-    "question": "كُتاب كتب",
-    "estimatedReadingTime": "10s",
-    "exampleAnswers": "",
-    "categoryId": "cat_cinema_v1",
-    "difficulty": "medium",
     "metadata": {}
   },
   {
@@ -664,15 +368,7 @@
     "metadata": {}
   },
   {
-    "question": "شعراء",
-    "estimatedReadingTime": "10s",
-    "exampleAnswers": "",
-    "categoryId": "cat_cinema_v1",
-    "difficulty": "medium",
-    "metadata": {}
-  },
-  {
-    "question": "اكلات رمضان",
+    "question": "أكلات رمضان",
     "estimatedReadingTime": "10s",
     "exampleAnswers": "",
     "categoryId": "cat_general_v1",
@@ -688,19 +384,11 @@
     "metadata": {}
   },
   {
-    "question": "دول زرتها",
+    "question": "أنواع من الأسماك",
     "estimatedReadingTime": "10s",
     "exampleAnswers": "",
     "categoryId": "cat_general_v1",
-    "difficulty": "easy",
-    "metadata": {}
-  },
-  {
-    "question": "أنواع من الاسماك",
-    "estimatedReadingTime": "10s",
-    "exampleAnswers": "",
-    "categoryId": "cat_general_v1",
-    "difficulty": "easy",
+    "difficulty": "medium",
     "metadata": {}
   },
   {
@@ -712,11 +400,11 @@
     "metadata": {}
   },
   {
-    "question": "لهجات عربيه",
+    "question": "لهجات عربية",
     "estimatedReadingTime": "10s",
     "exampleAnswers": "",
     "categoryId": "cat_general_v1",
-    "difficulty": "easy",
+    "difficulty": "medium",
     "metadata": {}
   },
   {
@@ -724,11 +412,11 @@
     "estimatedReadingTime": "10s",
     "exampleAnswers": "",
     "categoryId": "cat_general_v1",
-    "difficulty": "easy",
+    "difficulty": "medium",
     "metadata": {}
   },
   {
-    "question": "عملات عربيه",
+    "question": "عملات عربية",
     "estimatedReadingTime": "10s",
     "exampleAnswers": "",
     "categoryId": "cat_general_v1",
@@ -752,7 +440,7 @@
     "metadata": {}
   },
   {
-    "question": "أغاني عربيه",
+    "question": "أغاني عربية",
     "estimatedReadingTime": "10s",
     "exampleAnswers": "",
     "categoryId": "cat_general_v1",
@@ -772,31 +460,31 @@
     "estimatedReadingTime": "10s",
     "exampleAnswers": "",
     "categoryId": "cat_general_v1",
-    "difficulty": "medium",
-    "metadata": {}
-  },
-  {
-    "question": "وزارات سعوديه",
-    "estimatedReadingTime": "10s",
-    "exampleAnswers": "",
-    "categoryId": "cat_general_v1",
-    "difficulty": "medium",
-    "metadata": {}
-  },
-  {
-    "question": "جوائز عالميه",
-    "estimatedReadingTime": "10s",
-    "exampleAnswers": "",
-    "categoryId": "cat_general_v1",
     "difficulty": "easy",
     "metadata": {}
   },
   {
-    "question": "شراكات سيارات المانيه",
+    "question": "وزارات سعودية",
     "estimatedReadingTime": "10s",
     "exampleAnswers": "",
     "categoryId": "cat_general_v1",
-    "difficulty": "easy",
+    "difficulty": "medium",
+    "metadata": {}
+  },
+  {
+    "question": "جوائز عالمية",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "medium",
+    "metadata": {}
+  },
+  {
+    "question": "شركات سيارات ألمانية",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "medium",
     "metadata": {}
   },
   {
@@ -840,11 +528,11 @@
     "metadata": {}
   },
   {
-    "question": "جامعات في السعوديه",
+    "question": "جامعات في السعودية",
     "estimatedReadingTime": "10s",
     "exampleAnswers": "",
     "categoryId": "cat_general_v1",
-    "difficulty": "easy",
+    "difficulty": "medium",
     "metadata": {}
   },
   {
@@ -884,7 +572,7 @@
     "estimatedReadingTime": "10s",
     "exampleAnswers": "",
     "categoryId": "cat_general_v1",
-    "difficulty": "easy",
+    "difficulty": "medium",
     "metadata": {}
   },
   {
@@ -900,15 +588,15 @@
     "estimatedReadingTime": "10s",
     "exampleAnswers": "",
     "categoryId": "cat_general_v1",
-    "difficulty": "medium",
+    "difficulty": "easy",
     "metadata": {}
   },
   {
-    "question": "قنوات اخباريه",
+    "question": "قنوات إخبارية",
     "estimatedReadingTime": "10s",
     "exampleAnswers": "",
     "categoryId": "cat_general_v1",
-    "difficulty": "easy",
+    "difficulty": "medium",
     "metadata": {}
   },
   {
@@ -920,7 +608,7 @@
     "metadata": {}
   },
   {
-    "question": "مدن في السعوديه",
+    "question": "مدن في السعودية",
     "estimatedReadingTime": "10s",
     "exampleAnswers": "",
     "categoryId": "cat_general_v1",
@@ -936,7 +624,7 @@
     "metadata": {}
   },
   {
-    "question": "أعضاء في جسم الانسان",
+    "question": "أعضاء في جسم الإنسان",
     "estimatedReadingTime": "10s",
     "exampleAnswers": "",
     "categoryId": "cat_general_v1",
@@ -944,7 +632,7 @@
     "metadata": {}
   },
   {
-    "question": "مشروبات غازيه",
+    "question": "مشروبات غازية",
     "estimatedReadingTime": "10s",
     "exampleAnswers": "",
     "categoryId": "cat_general_v1",
@@ -952,7 +640,7 @@
     "metadata": {}
   },
   {
-    "question": "محلات اسكريم",
+    "question": "محلات آيس كريم",
     "estimatedReadingTime": "10s",
     "exampleAnswers": "",
     "categoryId": "cat_general_v1",
@@ -976,6 +664,14 @@
     "metadata": {}
   },
   {
+    "question": "علماء مسلمين",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "medium",
+    "metadata": {}
+  },
+  {
     "question": "علماء",
     "estimatedReadingTime": "10s",
     "exampleAnswers": "",
@@ -984,7 +680,7 @@
     "metadata": {}
   },
   {
-    "question": "أندية من اسبانيا",
+    "question": "أندية من إسبانيا",
     "estimatedReadingTime": "10s",
     "exampleAnswers": "",
     "categoryId": "cat_general_v1",
@@ -1008,14 +704,6 @@
     "metadata": {}
   },
   {
-    "question": "غزوات\nانبياء",
-    "estimatedReadingTime": "10s",
-    "exampleAnswers": "",
-    "categoryId": "cat_general_v1",
-    "difficulty": "medium",
-    "metadata": {}
-  },
-  {
     "question": "أنبياء",
     "estimatedReadingTime": "10s",
     "exampleAnswers": "",
@@ -1024,7 +712,7 @@
     "metadata": {}
   },
   {
-    "question": "أكلات صحيه",
+    "question": "أكلات صحية",
     "estimatedReadingTime": "10s",
     "exampleAnswers": "",
     "categoryId": "cat_general_v1",
@@ -1032,7 +720,7 @@
     "metadata": {}
   },
   {
-    "question": "من أسماء الله الحسنه",
+    "question": "من أسماء الله الحسنى",
     "estimatedReadingTime": "10s",
     "exampleAnswers": "",
     "categoryId": "cat_general_v1",
@@ -1040,7 +728,7 @@
     "metadata": {}
   },
   {
-    "question": "أركان الاسلام",
+    "question": "أركان الإسلام",
     "estimatedReadingTime": "10s",
     "exampleAnswers": "",
     "categoryId": "cat_general_v1",
@@ -1048,7 +736,7 @@
     "metadata": {}
   },
   {
-    "question": "خطوط عربيه",
+    "question": "خطوط عربية",
     "estimatedReadingTime": "10s",
     "exampleAnswers": "",
     "categoryId": "cat_general_v1",
@@ -1056,7 +744,7 @@
     "metadata": {}
   },
   {
-    "question": "سوبرماركتات مشهورة في امريكا",
+    "question": "سوبرماركتات مشهورة في أمريكا",
     "estimatedReadingTime": "10s",
     "exampleAnswers": "",
     "categoryId": "cat_general_v1",
@@ -1068,11 +756,11 @@
     "estimatedReadingTime": "10s",
     "exampleAnswers": "",
     "categoryId": "cat_general_v1",
-    "difficulty": "medium",
+    "difficulty": "easy",
     "metadata": {}
   },
   {
-    "question": "حيوانات مفترسه",
+    "question": "حيوانات مفترسة",
     "estimatedReadingTime": "10s",
     "exampleAnswers": "",
     "categoryId": "cat_general_v1",
@@ -1080,7 +768,7 @@
     "metadata": {}
   },
   {
-    "question": "أشهر أنجليزيه",
+    "question": "أشهر إنجليزية",
     "estimatedReadingTime": "10s",
     "exampleAnswers": "",
     "categoryId": "cat_general_v1",
@@ -1100,11 +788,11 @@
     "estimatedReadingTime": "10s",
     "exampleAnswers": "",
     "categoryId": "cat_general_v1",
-    "difficulty": "easy",
+    "difficulty": "medium",
     "metadata": {}
   },
   {
-    "question": "ألعاب رياضيه",
+    "question": "ألعاب رياضية",
     "estimatedReadingTime": "10s",
     "exampleAnswers": "",
     "categoryId": "cat_general_v1",
@@ -1116,11 +804,11 @@
     "estimatedReadingTime": "10s",
     "exampleAnswers": "",
     "categoryId": "cat_general_v1",
-    "difficulty": "easy",
+    "difficulty": "medium",
     "metadata": {}
   },
   {
-    "question": "لاعبين برشلونه",
+    "question": "لاعبين برشلونة",
     "estimatedReadingTime": "10s",
     "exampleAnswers": "",
     "categoryId": "cat_general_v1",
@@ -1132,7 +820,7 @@
     "estimatedReadingTime": "10s",
     "exampleAnswers": "",
     "categoryId": "cat_general_v1",
-    "difficulty": "medium",
+    "difficulty": "easy",
     "metadata": {}
   },
   {
@@ -1144,11 +832,11 @@
     "metadata": {}
   },
   {
-    "question": "مطاعم بيتزا مشهوره",
+    "question": "مطاعم بيتزا مشهورة",
     "estimatedReadingTime": "10s",
     "exampleAnswers": "",
     "categoryId": "cat_general_v1",
-    "difficulty": "medium",
+    "difficulty": "easy",
     "metadata": {}
   },
   {
@@ -1160,7 +848,583 @@
     "metadata": {}
   },
   {
-    "question": "ولايات في الولايات المتحدة الامريكيا",
+    "question": "ماركات عطور",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "easy",
+    "metadata": {}
+  },
+  {
+    "question": "مدن أوروبية",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "easy",
+    "metadata": {}
+  },
+  {
+    "question": "أنواع طيور",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "easy",
+    "metadata": {}
+  },
+  {
+    "question": "شركات سيارات يابانية",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "medium",
+    "metadata": {}
+  },
+  {
+    "question": "آلات موسيقية",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "medium",
+    "metadata": {}
+  },
+  {
+    "question": "أنواع حلويات",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "easy",
+    "metadata": {}
+  },
+  {
+    "question": "محلات ملابس في السعودية",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "medium",
+    "metadata": {}
+  },
+  {
+    "question": "ماركات ساعات",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "easy",
+    "metadata": {}
+  },
+  {
+    "question": "أنواع أحذية",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "easy",
+    "metadata": {}
+  },
+  {
+    "question": "أنواع سفن فضائية",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "hard",
+    "metadata": {}
+  },
+  {
+    "question": "شركات طيران",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "easy",
+    "metadata": {}
+  },
+  {
+    "question": "جبال مشهورة",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "medium",
+    "metadata": {}
+  },
+  {
+    "question": "أنواع سيارات كهربائية",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "medium",
+    "metadata": {}
+  },
+  {
+    "question": "ماركات مكياج",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "easy",
+    "metadata": {}
+  },
+  {
+    "question": "مستلزمات مطبخ",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "easy",
+    "metadata": {}
+  },
+  {
+    "question": "أنواع أشجار",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "medium",
+    "metadata": {}
+  },
+  {
+    "question": "معالم سياحية",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "easy",
+    "metadata": {}
+  },
+  {
+    "question": "حيوانات مائية",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "medium",
+    "metadata": {}
+  },
+  {
+    "question": "وظائف طبية",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "medium",
+    "metadata": {}
+  },
+  {
+    "question": "أنواع مشروبات طاقة",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "easy",
+    "metadata": {}
+  },
+  {
+    "question": "ماركات شوكولاتة",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "easy",
+    "metadata": {}
+  },
+  {
+    "question": "حيوانات أليفة",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "easy",
+    "metadata": {}
+  },
+  {
+    "question": "مكتبات إلكترونية",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "medium",
+    "metadata": {}
+  },
+  {
+    "question": "أنواع بهارات",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "medium",
+    "metadata": {}
+  },
+  {
+    "question": "مطاعم شاورما",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "easy",
+    "metadata": {}
+  },
+  {
+    "question": "شركات شحن",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "easy",
+    "metadata": {}
+  },
+  {
+    "question": "عواصم بحرف الباء",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "hard",
+    "metadata": {}
+  },
+  {
+    "question": "مستلزمات رياضية",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "easy",
+    "metadata": {}
+  },
+  {
+    "question": "ماركات معجنات",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "easy",
+    "metadata": {}
+  },
+  {
+    "question": "مطاعم برجر",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "easy",
+    "metadata": {}
+  },
+  {
+    "question": "كتب علمية",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "medium",
+    "metadata": {}
+  },
+  {
+    "question": "تطبيقات توصيل طعام",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "easy",
+    "metadata": {}
+  },
+  {
+    "question": "شعراء عرب",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "medium",
+    "metadata": {}
+  },
+  {
+    "question": "أكلات بحرية",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "easy",
+    "metadata": {}
+  },
+  {
+    "question": "ماركات أحذية رياضية",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "easy",
+    "metadata": {}
+  },
+  {
+    "question": "دول آسيوية",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "easy",
+    "metadata": {}
+  },
+  {
+    "question": "أنواع حيتان",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "medium",
+    "metadata": {}
+  },
+  {
+    "question": "محلات حلويات في السعودية",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "medium",
+    "metadata": {}
+  },
+  {
+    "question": "أنواع حبوب",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "medium",
+    "metadata": {}
+  },
+  {
+    "question": "عملات أجنبية",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "easy",
+    "metadata": {}
+  },
+  {
+    "question": "ماركات كعك",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "easy",
+    "metadata": {}
+  },
+  {
+    "question": "أنواع رياضات مائية",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "medium",
+    "metadata": {}
+  },
+  {
+    "question": "عناصر فلزية",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "medium",
+    "metadata": {}
+  },
+  {
+    "question": "ماركات حقائب ظهر",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "easy",
+    "metadata": {}
+  },
+  {
+    "question": "هيئات حكومية سعودية",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "medium",
+    "metadata": {}
+  },
+  {
+    "question": "شركات سيارات كورية",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "medium",
+    "metadata": {}
+  },
+  {
+    "question": "ملاعب كرة قدم",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "easy",
+    "metadata": {}
+  },
+  {
+    "question": "أسماء أولاد عربية",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "easy",
+    "metadata": {}
+  },
+  {
+    "question": "أسماء بنات عربية",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "easy",
+    "metadata": {}
+  },
+  {
+    "question": "أنواع طيور مفترسه",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "medium",
+    "metadata": {}
+  },
+  {
+    "question": "جامعات عالمية",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "medium",
+    "metadata": {}
+  },
+  {
+    "question": "إمبراطوريات تاريخية",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "hard",
+    "metadata": {}
+  },
+  {
+    "question": "حركات لاعبين مشهورة",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "medium",
+    "metadata": {}
+  },
+  {
+    "question": "تمور",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "medium",
+    "metadata": {}
+  },
+  {
+    "question": "مذاهب دينية",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "medium",
+    "metadata": {}
+  },
+  {
+    "question": "أنواع خضروات ورقية",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "medium",
+    "metadata": {}
+  },
+  {
+    "question": "قنوات رياضية",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "medium",
+    "metadata": {}
+  },
+  {
+    "question": "أدوات رسم",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "easy",
+    "metadata": {}
+  },
+  {
+    "question": "مدن في الإمارات",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "easy",
+    "metadata": {}
+  },
+  {
+    "question": "مشروبات باردة",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "easy",
+    "metadata": {}
+  },
+  {
+    "question": "عظام في جسم الإنسان",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "medium",
+    "metadata": {}
+  },
+  {
+    "question": "منتجات ألبان",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "easy",
+    "metadata": {}
+  },
+  {
+    "question": "أندية من إيطاليا",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "medium",
+    "metadata": {}
+  },
+  {
+    "question": "معارك تاريخية",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "medium",
+    "metadata": {}
+  },
+  {
+    "question": "صحابة الرسول",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "easy",
+    "metadata": {}
+  },
+  {
+    "question": "أكلات شعبية",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "easy",
+    "metadata": {}
+  },
+  {
+    "question": "أسماء الصحابيات",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "medium",
+    "metadata": {}
+  },
+  {
+    "question": "من أركان الإيمان",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "easy",
+    "metadata": {}
+  },
+  {
+    "question": "لاعبين من مانشستر يونايتد",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "medium",
+    "metadata": {}
+  },
+  {
+    "question": "حيوانات زاحفة",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "medium",
+    "metadata": {}
+  },
+  {
+    "question": "لاعبين ريال مدريد",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "easy",
+    "metadata": {}
+  },
+  {
+    "question": "أنواع حبوب قهوة",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_general_v1",
+    "difficulty": "medium",
+    "metadata": {}
+  },
+  {
+    "question": "ولايات في الولايات المتحدة الأمريكية",
     "estimatedReadingTime": "10s",
     "exampleAnswers": "",
     "categoryId": "cat_general_v1",
@@ -1176,7 +1440,7 @@
     "metadata": {}
   },
   {
-    "question": "رئساء دول حالين",
+    "question": "رؤساء دول حاليين",
     "estimatedReadingTime": "10s",
     "exampleAnswers": "",
     "categoryId": "cat_general_v1",
@@ -1184,7 +1448,7 @@
     "metadata": {}
   },
   {
-    "question": "رئساء دول (سابقين)",
+    "question": "رؤساء دول (سابقين)",
     "estimatedReadingTime": "10s",
     "exampleAnswers": "",
     "categoryId": "cat_general_v1",
@@ -1192,19 +1456,579 @@
     "metadata": {}
   },
   {
-    "question": "شركات اجهزه منزليه",
+    "question": "شركات أجهزة منزلية",
     "estimatedReadingTime": "10s",
     "exampleAnswers": "",
     "categoryId": "cat_general_v1",
-    "difficulty": "easy",
+    "difficulty": "medium",
     "metadata": {}
   },
   {
-    "question": "ماركات معجون اسنان",
+    "question": "ماركات معجون أسنان",
     "estimatedReadingTime": "10s",
     "exampleAnswers": "",
     "categoryId": "cat_general_v1",
     "difficulty": "hard",
+    "metadata": {}
+  },
+  {
+    "question": "أنظمة كمبيوتر",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_tech_games_v1",
+    "difficulty": "medium",
+    "metadata": {}
+  },
+  {
+    "question": "برامج تواصل",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_tech_games_v1",
+    "difficulty": "easy",
+    "metadata": {}
+  },
+  {
+    "question": "حصريات بلاي ستيشن",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_tech_games_v1",
+    "difficulty": "medium",
+    "metadata": {}
+  },
+  {
+    "question": "شركات لأجهزة ألعاب",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_tech_games_v1",
+    "difficulty": "easy",
+    "metadata": {}
+  },
+  {
+    "question": "ماركات لابتوبات",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_tech_games_v1",
+    "difficulty": "medium",
+    "metadata": {}
+  },
+  {
+    "question": "ألعاب FPS",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_tech_games_v1",
+    "difficulty": "medium",
+    "metadata": {}
+  },
+  {
+    "question": "ألعاب مغامرات",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_tech_games_v1",
+    "difficulty": "easy",
+    "metadata": {}
+  },
+  {
+    "question": "ألعاب جوال",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_tech_games_v1",
+    "difficulty": "medium",
+    "metadata": {}
+  },
+  {
+    "question": "ألعاب حصلت على جوائز",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_tech_games_v1",
+    "difficulty": "medium",
+    "metadata": {}
+  },
+  {
+    "question": "(ماتت) ألعاب توقفت شعبيتها",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_tech_games_v1",
+    "difficulty": "medium",
+    "metadata": {}
+  },
+  {
+    "question": "قطع في الكمبيوتر",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_tech_games_v1",
+    "difficulty": "medium",
+    "metadata": {}
+  },
+  {
+    "question": "متاجر إلكترونية",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_tech_games_v1",
+    "difficulty": "easy",
+    "metadata": {}
+  },
+  {
+    "question": "برامج محتوى صوتي",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_tech_games_v1",
+    "difficulty": "medium",
+    "metadata": {}
+  },
+  {
+    "question": "متصفحات",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_tech_games_v1",
+    "difficulty": "medium",
+    "metadata": {}
+  },
+  {
+    "question": "أشياء في سيت أب الكمبيوتر",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_tech_games_v1",
+    "difficulty": "easy",
+    "metadata": {}
+  },
+  {
+    "question": "محلات إلكترونيات في السعودية",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_tech_games_v1",
+    "difficulty": "medium",
+    "metadata": {}
+  },
+  {
+    "question": "ألعاب رهيبة بالنسبة لك",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_tech_games_v1",
+    "difficulty": "easy",
+    "metadata": {}
+  },
+  {
+    "question": "مواقع عربية",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_tech_games_v1",
+    "difficulty": "medium",
+    "metadata": {}
+  },
+  {
+    "question": "ألعاب استراتيجية",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_tech_games_v1",
+    "difficulty": "medium",
+    "metadata": {}
+  },
+  {
+    "question": "أجهزة من شركة سامسونج",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_tech_games_v1",
+    "difficulty": "medium",
+    "metadata": {}
+  },
+  {
+    "question": "برامج حماية من الفيروسات",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_tech_games_v1",
+    "difficulty": "hard",
+    "metadata": {}
+  },
+  {
+    "question": "pc/العاب حصرية على الإكس بوكس",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_tech_games_v1",
+    "difficulty": "medium",
+    "metadata": {}
+  },
+  {
+    "question": "ألعاب سباقات",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_tech_games_v1",
+    "difficulty": "medium",
+    "metadata": {}
+  },
+  {
+    "question": "ألعاب متعددة اللاعبين (multiplayer)",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_tech_games_v1",
+    "difficulty": "easy",
+    "metadata": {}
+  },
+  {
+    "question": "مكونات الهاتف الذكي",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_tech_games_v1",
+    "difficulty": "medium",
+    "metadata": {}
+  },
+  {
+    "question": "ألعاب كلاسيكية",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_tech_games_v1",
+    "difficulty": "medium",
+    "metadata": {}
+  },
+  {
+    "question": "محافظ اكترونية",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_tech_games_v1",
+    "difficulty": "medium",
+    "metadata": {}
+  },
+  {
+    "question": "مكونات في الكمبيوتر",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_tech_games_v1",
+    "difficulty": "hard",
+    "metadata": {}
+  },
+  {
+    "question": "محلات ألعاب في السعودية",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_tech_games_v1",
+    "difficulty": "medium",
+    "metadata": {}
+  },
+  {
+    "question": "ألعاب نينتندو",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_tech_games_v1",
+    "difficulty": "medium",
+    "metadata": {}
+  },
+  {
+    "question": "ألعاب قتالية",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_tech_games_v1",
+    "difficulty": "medium",
+    "metadata": {}
+  },
+  {
+    "question": "شركات اتصالات عالمية",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_tech_games_v1",
+    "difficulty": "hard",
+    "metadata": {}
+  },
+  {
+    "question": "شخصيات أنمي",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_cinema_v1",
+    "difficulty": "medium",
+    "metadata": {}
+  },
+  {
+    "question": "شخصيات من عالم الكرتون",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_cinema_v1",
+    "difficulty": "easy",
+    "metadata": {}
+  },
+  {
+    "question": "أفلام حصلت على أوسكار",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_cinema_v1",
+    "difficulty": "medium",
+    "metadata": {}
+  },
+  {
+    "question": "مسلسلات حصلت على جوائز",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_cinema_v1",
+    "difficulty": "medium",
+    "metadata": {}
+  },
+  {
+    "question": "شركات منتجة للأفلام",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_cinema_v1",
+    "difficulty": "easy",
+    "metadata": {}
+  },
+  {
+    "question": "أشياء في السينما",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_cinema_v1",
+    "difficulty": "easy",
+    "metadata": {}
+  },
+  {
+    "question": "أفلام أكشن",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_cinema_v1",
+    "difficulty": "easy",
+    "metadata": {}
+  },
+  {
+    "question": "منصات مشاهدة",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_cinema_v1",
+    "difficulty": "easy",
+    "metadata": {}
+  },
+  {
+    "question": "شركات سينما",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_cinema_v1",
+    "difficulty": "easy",
+    "metadata": {}
+  },
+  {
+    "question": "أحسن مسلسلات عندك / كِ",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_cinema_v1",
+    "difficulty": "easy",
+    "metadata": {}
+  },
+  {
+    "question": "أحسن أفلام عندك / كِ",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_cinema_v1",
+    "difficulty": "easy",
+    "metadata": {}
+  },
+  {
+    "question": "أفلام أنتجت هذه السنة",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_cinema_v1",
+    "difficulty": "easy",
+    "metadata": {}
+  },
+  {
+    "question": "روايات",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_cinema_v1",
+    "difficulty": "medium",
+    "metadata": {}
+  },
+  {
+    "question": "كُتاب كتب",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_cinema_v1",
+    "difficulty": "medium",
+    "metadata": {}
+  },
+  {
+    "question": "شعراء",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_cinema_v1",
+    "difficulty": "medium",
+    "metadata": {}
+  },
+  {
+    "question": "أفلام كوميدية",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_cinema_v1",
+    "difficulty": "easy",
+    "metadata": {}
+  },
+  {
+    "question": "مسلسلات خيال علمي",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_cinema_v1",
+    "difficulty": "medium",
+    "metadata": {}
+  },
+  {
+    "question": "أفلام وثائقية",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_cinema_v1",
+    "difficulty": "medium",
+    "metadata": {}
+  },
+  {
+    "question": "مسلسلات كرتونية للأطفال",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_cinema_v1",
+    "difficulty": "easy",
+    "metadata": {}
+  },
+  {
+    "question": "أفلام رسوم متحركة",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_cinema_v1",
+    "difficulty": "easy",
+    "metadata": {}
+  },
+  {
+    "question": "شخصيات مارفل",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_cinema_v1",
+    "difficulty": "medium",
+    "metadata": {}
+  },
+  {
+    "question": "مسلسلات كوميدية عربية",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_cinema_v1",
+    "difficulty": "easy",
+    "metadata": {}
+  },
+  {
+    "question": "أفلام خيال علمي",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_cinema_v1",
+    "difficulty": "medium",
+    "metadata": {}
+  },
+  {
+    "question": "ممثلين عرب",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_cinema_v1",
+    "difficulty": "easy",
+    "metadata": {}
+  },
+  {
+    "question": "مخرجين عرب",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_cinema_v1",
+    "difficulty": "medium",
+    "metadata": {}
+  },
+  {
+    "question": "مسلسلات تركية",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_cinema_v1",
+    "difficulty": "easy",
+    "metadata": {}
+  },
+  {
+    "question": "مسلسلات أجنبية",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_cinema_v1",
+    "difficulty": "easy",
+    "metadata": {}
+  },
+  {
+    "question": "كرتون نتورك",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_cinema_v1",
+    "difficulty": "easy",
+    "metadata": {}
+  },
+  {
+    "question": "كرتون ديزني",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_cinema_v1",
+    "difficulty": "easy",
+    "metadata": {}
+  },
+  {
+    "question": "ممثلين كوميديين",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_cinema_v1",
+    "difficulty": "easy",
+    "metadata": {}
+  },
+  {
+    "question": "شخصيات كرتونية مضحكة",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_cinema_v1",
+    "difficulty": "easy",
+    "metadata": {}
+  },
+  {
+    "question": "أفلام ديزني",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_cinema_v1",
+    "difficulty": "easy",
+    "metadata": {}
+  },
+  {
+    "question": "شركات إنتاج أنمي",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_cinema_v1",
+    "difficulty": "medium",
+    "metadata": {}
+  },
+  {
+    "question": "أشياء في المسرح",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_cinema_v1",
+    "difficulty": "easy",
+    "metadata": {}
+  },
+  {
+    "question": "أفلام مغامرات",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_cinema_v1",
+    "difficulty": "easy",
+    "metadata": {}
+  },
+  {
+    "question": "مغنيين عرب",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_cinema_v1",
+    "difficulty": "easy",
+    "metadata": {}
+  },
+  {
+    "question": "مغنين اجانب",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_cinema_v1",
+    "difficulty": "easy",
+    "metadata": {}
+  },
+  {
+    "question": "جوائز سينمائية",
+    "estimatedReadingTime": "10s",
+    "exampleAnswers": "",
+    "categoryId": "cat_cinema_v1",
+    "difficulty": "medium",
     "metadata": {}
   }
 ]

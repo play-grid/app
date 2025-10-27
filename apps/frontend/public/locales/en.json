@@ -181,6 +181,8 @@
       "difficulty": "Difficulty",
       "timePerTurn": "Time Per Turn",
       "timeUnit": "{{time}}s",
+      "roundsToWin": "Rounds to Win",
+      "roundsUnit": "{{rounds}} rounds",
       "startGame": "Start Game",
       "startRequirement": "All players must be ready to start (minimum 2 players)",
       "playersTitle": "Players ({{count}}/{{max}})",

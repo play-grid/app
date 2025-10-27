@@ -1,7 +1,7 @@
 import type { SupportedLanguage } from '@guess-logo/shared/types';
 import { difficultySchema } from '@guess-logo/shared/schemas/five-seconds';
 import { useQueryClient } from '@tanstack/react-query';
-import { Timer } from 'lucide-react';
+import { Timer, Trophy } from 'lucide-react';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
@@ -122,6 +122,28 @@ export function GameSettings() {
                 className="flex-1"
               >
                 {t('fiveSecondsGame.lobby.timeUnit', { time })}
+              </Button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Rounds to Win */}
+      <div className="space-y-3">
+        <Label className="text-sm font-semibold text-muted-foreground">
+          {t('fiveSecondsGame.lobby.roundsToWin')}
+        </Label>
+        <div className="flex items-center gap-4">
+          <Trophy className="w-5 h-5 text-accent" />
+          <div className="flex gap-2 flex-1">
+            {[3, 5, 7].map(rounds => (
+              <Button
+                key={rounds}
+                variant={settings.roundsToWin === rounds ? 'default' : 'outline'}
+                onClick={() => updateSettings({ roundsToWin: rounds })}
+                className="flex-1"
+              >
+                {t('fiveSecondsGame.lobby.roundsUnit', { rounds })}
               </Button>
             ))}
           </div>
