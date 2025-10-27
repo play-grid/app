@@ -52,6 +52,7 @@ export function LanguageRoutes() {
         path="/guess-logo/*"
         element={(
           <Suspense fallback={<GuessLogoSkeleton />}>
+            {/* <NeverResolve/> */}
             <GuessLogoRoutes />
           </Suspense>
         )}
@@ -60,10 +61,12 @@ export function LanguageRoutes() {
         path="/five-seconds/*"
         element={(
           <Suspense fallback={<FiveSecondsSkeleton />}>
+            {/* <NeverResolve/> */}
             <FiveSecondsRoutes />
           </Suspense>
         )}
       />
+      {/* Add more game routes here */}
 
       {/* Fallback: redirect to language home */}
       <Route path="*" element={<Navigate to="" replace />} />
