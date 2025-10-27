@@ -77,6 +77,7 @@
   "hard": "Hard",
   "medium": "Medium",
   "easy": "Easy",
+  "all": "All",
   "logos": "logos",
   "instructions": {
     "step1": "1. Each player mentally selects one logo from their grid",
