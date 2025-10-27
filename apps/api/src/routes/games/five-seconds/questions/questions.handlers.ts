@@ -26,7 +26,7 @@ export const getRandomQuestion: AppRouteHandler<getRandomQuestionRoute> = async 
   }[])];
 
   // Filter by difficulty
-  if (difficulty) {
+  if (difficulty && difficulty !== 'all') {
     filteredQuestions = filteredQuestions.filter(q => q.difficulty === difficulty);
   }
 
