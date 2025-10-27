@@ -20,6 +20,7 @@ import { PreTurnView } from '../components/pre-turn-view';
 import { RoundInfo } from '../components/round-info';
 import { VotingView } from '../components/voting-view';
 import { useQuestion } from '../hooks/use-question';
+import { NoQuestionsFoundError } from '../services/questions.service';
 import { useFiveSecondsStore } from '../stores/game-store';
 
 export function GameplayPage() {
@@ -46,6 +47,8 @@ export function GameplayPage() {
     data: currentQuestion,
     isLoading,
     isError,
+    isPaused,
+    error,
     refetch: fetchQuestion,
   } = useQuestion(settings.categoryIds, settings.difficulty, seenQuestionIds);
 
@@ -154,7 +157,7 @@ export function GameplayPage() {
       {/* Header with Reset Button */}
       <div className="w-full max-w-4xl mx-auto mb-6">
         <div className="flex justify-start gap-2">
-          {!isError
+          {!isError && !isPaused
             && (
               <Button
                 variant="outline"
@@ -216,14 +219,25 @@ export function GameplayPage() {
                     <Spinner />
                   </div>
                 )
-              : isError
+              : isError || isPaused
                 ? (
-                    <div className="text-center">
-                      <p className="mb-4">{t('fiveSecondsGame.gameplay.noMoreQuestions')}</p>
-                      <Button onClick={() => resetGame()}>
-                        {t('fiveSecondsGame.gameplay.backToLobby')}
-                      </Button>
-                    </div>
+                    error instanceof NoQuestionsFoundError
+                      ? (
+                          <div className="text-center">
+                            <p className="mb-4">{t('fiveSecondsGame.gameplay.noMoreQuestions')}</p>
+                            <Button onClick={() => resetGame()}>
+                              {t('fiveSecondsGame.gameplay.backToLobby')}
+                            </Button>
+                          </div>
+                        )
+                      : (
+                          <div className="text-center">
+                            <p className="mb-4">{t('common.error')}</p>
+                            <Button onClick={() => fetchQuestion()}>
+                              {t('common.retry')}
+                            </Button>
+                          </div>
+                        )
                   )
                 : !isAnswering && !votingState?.isVoting && currentQuestion
                     ? (

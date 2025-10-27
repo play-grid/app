@@ -100,7 +100,8 @@
     "done": "تم",
     "loading": "جاري التحميل...",
     "success": "نجح! 🎉",
-    "error": "عذراً! حدث خطأ ما 😅",
+    "error": "اوبس! في مشكلة تقنية😅",
+    "retry": "إعادة المحاولة",
     "LanguageToggle_placeholder": "اختر اللغة",
     "LanguageToggle_ar": "العربية",
     "LanguageToggle_en": "English",
@@ -109,7 +110,7 @@
       "playerRemoveUndo": "رجعه"
     },
     "network": {
-      "offline": "أنت غير متصل. يرجى التحقق من اتصالك بالإنترنت."
+      "offline": "تأكد من الوايفاي أو الشبكة وجرب مرة ثانية"
     }
   },
   "customizations": {
