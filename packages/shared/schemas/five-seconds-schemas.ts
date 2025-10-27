@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const difficultySchema = z.enum(['easy', 'medium', 'hard']);
+export const difficultySchema = z.enum(['easy', 'medium', 'hard', 'all']);
 
 export const categorySchema = z.object({
   id: z.string(),
