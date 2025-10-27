@@ -110,7 +110,7 @@ export function GameplayPage() {
     setIsAnswering(false);
     resetVoting();
 
-    if (turnState && turnState.roundNumber >= 5 && turnState.turnIndex === players.length - 1) {
+    if (turnState && turnState.roundNumber >= settings.roundsToWin && turnState.turnIndex === players.length - 1) {
       endGame();
       return;
     }
@@ -121,7 +121,7 @@ export function GameplayPage() {
 
     fetchQuestion();
     setTimeLeft(timeForCurrentQuestion);
-  }, [turnState, players, endGame, nextTurn, timeForCurrentQuestion, resetVoting, fetchQuestion]);
+  }, [turnState, players, endGame, nextTurn, timeForCurrentQuestion, resetVoting, fetchQuestion, settings]);
 
   useEffect(() => {
     if (isVotingFinished) {

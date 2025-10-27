@@ -6,6 +6,7 @@ const initialSettings: FiveSecondsGameSettings = {
   categoryIds: ['cat_general_v1'],
   difficulty: difficultySchema.enum.all,
   timePerTurn: 5,
+  roundsToWin: 5,
 };
 
 export const useFiveSecondsStore = createGameStore<

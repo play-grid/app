@@ -184,6 +184,8 @@
       "difficulty": "الصعوبة",
       "timePerTurn": "الوقت لكل دور",
       "timeUnit": "{{time}} ثانية",
+      "roundsToWin": "جولات الفوز",
+      "roundsUnit": "{{rounds}} جولات",
       "startGame": "ابدأ اللعبة",
       "startRequirement": "يجب أن يكون جميع اللاعبين جاهزين للبدء (لاعبان على الأقل)",
       "nameAlreadyExists": "هذا الاسم مستخدم بالفعل",
