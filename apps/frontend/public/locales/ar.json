@@ -165,8 +165,12 @@
   "country-data-languages": "اللغات:",
   "country-data-currency": "العملة:",
   "grid-size": "حجم الشبكة",
+  "points_zero": "صفر نقاط",
   "points_one": "نقطة واحدة",
-  "points_other": "{{count}} نقاط",
+  "points_two": "نقطتان",
+  "points_few": "{{count}} نقاط",
+  "points_many": "{{count}} نقطة",
+  "points_other": "{{count}} نقطة",
   "fiveSecondsGame": {
     "lobby": {
       "title": "لعبة الخمس ثواني",
@@ -219,9 +223,12 @@
       "backToLobby": "العودة إلى الردهة"
     },
     "results": {
-      "wins": "{{name}} فاز!",
+      "withPoints_zero": "مع ٠ نقاط",
       "withPoints_one": "بنقطة واحدة",
-      "withPoints_other": "مع {{count}} نقاط",
+      "withPoints_two": "بنقطتين",
+      "withPoints_few": "مع {{count}} نقاط",
+      "withPoints_many": "مع {{count}} نقطة",
+      "withPoints_other": "مع {{count}} نقطة",
       "finalScores": "النتائج النهائية",
       "firstPlace": "المركز الأول",
       "secondPlace": "المركز الثاني",

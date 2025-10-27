@@ -26,19 +26,6 @@ export function ResultsPage() {
     }
   };
 
-  const getPositionLabel = (index: number) => {
-    switch (index) {
-      case 0:
-        return t('fiveSecondsGame.results.firstPlace');
-      case 1:
-        return t('fiveSecondsGame.results.secondPlace');
-      case 2:
-        return t('fiveSecondsGame.results.thirdPlace');
-      default:
-        return t('fiveSecondsGame.results.nthPlace', { ordinal: index + 1 });
-    }
-  };
-
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-4 md:p-8">
       <div className="w-full max-w-4xl space-y-8">
@@ -76,7 +63,9 @@ export function ResultsPage() {
                   </div>
                   <div>
                     <p className="text-xl font-bold">{player.name}</p>
-                    <p className="text-sm opacity-80">{getPositionLabel(index)}</p>
+                    <p className="text-2xl text-muted-foreground">
+                      {t('fiveSecondsGame.results.withPoints', { count: winner?.score || 0 })}
+                    </p>
                   </div>
                 </div>
                 <div className="text-right">
