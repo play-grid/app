@@ -170,8 +170,6 @@
   "select-difficulty": "Select Difficulty",
   "categories": "Categories",
   "five-seconds-game": "Five Seconds Game",
-  "points_one": "{{count}} point",
-  "points_other": "{{count}} points",
   "fiveSecondsGame": {
     "lobby": {
       "title": "Five Seconds",
@@ -225,8 +223,8 @@
     },
     "results": {
       "wins": "{{name}} Wins!",
-      "withPoints_one": "With {{count}} point",
-      "withPoints_other": "With {{count}} points",
+      "withPoints": "With {{count}} point",
+      "withPoints_plural": "With {{count}} points",
       "finalScores": "Final Scores",
       "firstPlace": "1st Place",
       "secondPlace": "2nd Place",
