@@ -22,6 +22,7 @@ export interface FiveSecondsGameSettings {
   categoryIds: string[];
   difficulty: Difficulty;
   timePerTurn: number; // in seconds
+  roundsToWin: number;
 }
 
 export interface FiveSecondsPlayer extends Player {

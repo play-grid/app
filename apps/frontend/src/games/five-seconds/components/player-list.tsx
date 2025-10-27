@@ -51,7 +51,7 @@ export function PlayerList() {
     }
     catch (error) {
       if (error instanceof z.ZodError) {
-        setValidationError(error.errors[0].message);
+        setValidationError(error.issues[0].message);
       }
       return false;
     }
