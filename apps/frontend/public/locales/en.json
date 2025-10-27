@@ -98,6 +98,7 @@
     "loading": "Loading...",
     "success": "Success! 🎉",
     "error": "Oops! Something went wrong 😅",
+    "retry": "Retry",
     "LanguageToggle_placeholder": "Select Language",
     "LanguageToggle_ar": "العربية",
     "LanguageToggle_en": "English",
