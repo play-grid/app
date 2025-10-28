@@ -11,6 +11,7 @@ export interface AppEnv extends Env {
     RATE_LIMIT: KVNamespace;
     QUESTIONS: KVNamespace;
     GAME_ROOM: DurableObjectNamespace<GameRoomDurableObject>;
+    GAME_HUB_DB: D1Database;
     ALLOWED_ORIGINS: string;
   };
 }
