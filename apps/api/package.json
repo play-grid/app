@@ -12,7 +12,6 @@
     "cf-typegen": "wrangler types --env-interface CloudflareBindings",
     "build": "tsc --project tsconfig.build.json",
     "seed:questions": "tsx src/scripts/seed-questions.ts"
-
   },
   "exports": {
     "./routes": {
@@ -28,6 +27,8 @@
     "@scalar/hono-api-reference": "^0.9.16",
     "dotenv": "^17.2.2",
     "dotenv-expand": "^12.0.3",
+    "drizzle-orm": "^0.44.7",
+    "drizzle-zod": "^0.8.3",
     "hono": "^4.9.5",
     "hono-rate-limiter": "^0.4.2",
     "stoker": "^2.0.1",
@@ -39,6 +40,7 @@
     "@guess-logo/eslint-config": "workspace:*",
     "@types/node": "^24.3.1",
     "cloudflare": "^5.2.0",
+    "drizzle-kit": "^0.31.6",
     "tsx": "^4.20.6",
     "typescript": "~5.8.3",
     "wrangler": "^4.33.2"

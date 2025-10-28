@@ -36,6 +36,7 @@ id = "07bd0d479a8444139fc0b3584f9c28ae"
 preview_id = "07bd0d479a8444139fc0b3584f9c28ae"
 
 [[d1_databases]]
-binding = "game-hub"
+binding = "GAME_HUB_DB"
 database_name = "GAME_HUB_DB"
 database_id = "985b789d-4062-4f3f-9abb-0b9553650548"
+migrations_dir = "src/db/migrations"
