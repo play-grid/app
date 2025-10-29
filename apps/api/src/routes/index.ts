@@ -4,6 +4,7 @@ import type { AppOpenAPI } from '../lib/types';
 import createRouter from '@/lib/create-router';
 
 import { BASE_PATH } from '../lib/constants';
+import auth from './auth/auth.index';
 import gameRoom from './game-room/game-room.index';
 import gameType from './game-type/game-type.index';
 import { gamesRoutes } from './games';
@@ -13,6 +14,7 @@ import index from './index.route';
 export function registerRoutes(app: AppOpenAPI) {
   return app
     .route('/', index)
+    .route('/', auth)
     .route('/', health)
     .route('/', gameRoom)
     .route('/', gameType)
