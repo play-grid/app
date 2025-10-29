@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import process from 'node:process';
 import Cloudflare from 'cloudflare';
-import env from '@/api/env';
+import env from '@/env';
 
 interface SeedOptions {
   kvNamespaceId: string;

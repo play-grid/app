@@ -1,5 +1,5 @@
 import type { getCategory, listCategories } from './categories.routes';
-import type { AppRouteHandler } from '@/api/lib/types';
+import type { AppRouteHandler } from '@/lib/types';
 import { languageQuery } from '@guess-logo/shared/schemas';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import categories from './categories.json';

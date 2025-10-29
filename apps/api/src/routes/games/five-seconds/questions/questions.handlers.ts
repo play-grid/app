@@ -1,6 +1,6 @@
 import type { Difficulty } from '@guess-logo/shared/schemas/five-seconds';
 import type { getRandomQuestionRoute } from './questions.routes';
-import type { AppRouteHandler } from '@/api/lib/types';
+import type { AppRouteHandler } from '@/lib/types';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import questions from './data/questions.json';
 

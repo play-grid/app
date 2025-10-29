@@ -3,7 +3,7 @@ import { cache } from 'hono/cache';
 import { cors } from 'hono/cors';
 import { etag } from 'hono/etag';
 import { notFound, onError } from 'stoker/middlewares';
-import rateLimiterMiddleware from '@/api/middlewares/rate-limter';
+import rateLimiterMiddleware from '@/middlewares/rate-limter';
 import { BASE_PATH } from './constants';
 import createRouter from './create-router';
 

@@ -1,4 +1,4 @@
-import { registerRoutes } from '@/api/routes';
+import { registerRoutes } from '@/routes';
 import configureOpenAPI from './lib/configure-open-api';
 import createApp from './lib/create-app';
 
