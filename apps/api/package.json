@@ -7,16 +7,19 @@
   "scripts": {
     "dev": "wrangler dev",
     "deploy": "wrangler deploy --minify",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:run": "vitest run",
+    "test:coverage": "vitest run --coverage",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "cf-typegen": "wrangler types --env-interface CloudflareBindings",
     "build": "tsc --project tsconfig.build.json",
-    "seed:questions": "tsx src/scripts/seed-questions.ts",
     "db:studio": "drizzle-kit studio",
     "db:generate": "drizzle-kit generate",
-    "db:push": "drizzle-kit push",
     "db:migrate:local": "wrangler d1 migrations apply GAME_HUB_DB --local",
-    "db:migrate:prod": "NODE_ENV=production drizzle-kit push"
+    "db:migrate:prod": "wrangler d1 migrations apply GAME_HUB_DB --remote",
+    "seed:questions": "tsx src/scripts/seed-questions.ts"
   },
   "exports": {
     "./routes": {
@@ -41,6 +44,7 @@
     "zod": "4.1.8"
   },
   "devDependencies": {
+    "@cloudflare/vitest-pool-workers": "^0.10.2",
     "@cloudflare/workers-types": "^4.20250831.0",
     "@guess-logo/eslint-config": "workspace:*",
     "@types/node": "^24.3.1",
@@ -48,6 +52,7 @@
     "drizzle-kit": "^0.31.6",
     "tsx": "^4.20.6",
     "typescript": "~5.8.3",
+    "vitest": "~3.2.4",
     "wrangler": "^4.33.2"
   }
 }
