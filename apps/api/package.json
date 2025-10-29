@@ -11,7 +11,12 @@
     "lint:fix": "eslint . --fix",
     "cf-typegen": "wrangler types --env-interface CloudflareBindings",
     "build": "tsc --project tsconfig.build.json",
-    "seed:questions": "tsx src/scripts/seed-questions.ts"
+    "seed:questions": "tsx src/scripts/seed-questions.ts",
+    "db:studio": "drizzle-kit studio",
+    "db:generate": "drizzle-kit generate",
+    "db:push": "drizzle-kit push",
+    "db:migrate:local": "wrangler d1 migrations apply GAME_HUB_DB --local",
+    "db:migrate:prod": "NODE_ENV=production drizzle-kit push"
   },
   "exports": {
     "./routes": {
