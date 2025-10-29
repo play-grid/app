@@ -1,4 +1,4 @@
-import createRouter from '@/api/lib/create-router';
+import createRouter from '@/lib/create-router';
 import * as handlers from './questions.handlers';
 import * as routes from './questions.routes';
 

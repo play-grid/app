@@ -5,7 +5,7 @@ import type {
   LogoSetKey as TLogoSet,
 } from '@guess-logo/shared/types';
 import type { GetLogoListsRoute, GetLogosBySetAndListRoute } from './logos.routes';
-import type { AppRouteHandler } from '@/api/lib/types';
+import type { AppRouteHandler } from '@/lib/types';
 import { logoOverrides as rawOverrides } from '@guess-logo/shared/data';
 import { shuffleArray } from '@guess-logo/shared/utils';
 import * as HttpStatusCodes from 'stoker/http-status-codes';

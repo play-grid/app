@@ -1,7 +1,7 @@
 /* eslint-disable ts/no-redeclare */
 import type { AppOpenAPI } from '../lib/types';
 
-import createRouter from '@/api/lib/create-router';
+import createRouter from '@/lib/create-router';
 
 import { BASE_PATH } from '../lib/constants';
 import gameRoom from './game-room/game-room.index';
