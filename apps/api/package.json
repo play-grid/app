@@ -33,6 +33,8 @@
     "@hono-rate-limiter/cloudflare": "^0.2.2",
     "@hono/zod-openapi": "^1.1.0",
     "@scalar/hono-api-reference": "^0.9.16",
+    "better-auth": "^1.3.34",
+    "better-auth-cloudflare": "^0.2.8",
     "dotenv": "^17.2.2",
     "dotenv-expand": "^12.0.3",
     "drizzle-orm": "^0.44.7",
