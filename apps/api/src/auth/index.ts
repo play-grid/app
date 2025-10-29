@@ -3,6 +3,7 @@ import type { AppEnv } from '@/lib/types';
 import { betterAuth } from 'better-auth';
 import { withCloudflare } from 'better-auth-cloudflare';
 import { drizzleAdapter } from 'better-auth/adapters/drizzle';
+import { openAPI } from 'better-auth/plugins';
 import { drizzle } from 'drizzle-orm/d1';
 import { schema } from '../db/schema';
 
@@ -31,6 +32,9 @@ function createAuth(env?: AppEnv['Bindings'], cf?: IncomingRequestCfProperties) 
         emailAndPassword: {
           enabled: true,
         },
+        plugins: [
+          openAPI(),
+        ],
       },
     ),
     // Only add database adapter for CLI schema generation
