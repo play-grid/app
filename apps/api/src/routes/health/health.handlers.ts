@@ -1,6 +1,6 @@
 import type { AppRouteHandler } from '../../lib/types';
 import type { health } from './health.routes';
-import env from '@/api/env';
+import env from '@/env';
 import packageJson from '../../../package.json';
 
 export const getHealthStatus: AppRouteHandler<typeof health> = async (c) => {

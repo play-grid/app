@@ -1,5 +1,5 @@
-import env from '@/api/env';
-import { seedKV } from '@/api/scripts/seed-kv';
+import env from '@/env';
+import { seedKV } from '@/scripts/seed-kv';
 
 async function seedQuestions() {
   await seedKV({

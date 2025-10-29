@@ -1,4 +1,4 @@
-import createRouter from '@/api/lib/create-router';
+import createRouter from '@/lib/create-router';
 import { fiveSecondsRoutes } from './five-seconds';
 import { guessLogoRoutes } from './guess-logo';
 

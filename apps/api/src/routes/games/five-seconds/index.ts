@@ -1,4 +1,4 @@
-import createRouter from '@/api/lib/create-router';
+import createRouter from '@/lib/create-router';
 import { fiveSecondsCategoryRoutes } from './categories/categories.index';
 import { fiveSecondsQuestionRoutes } from './questions/questions.index';
 
