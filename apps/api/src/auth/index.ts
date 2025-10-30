@@ -4,10 +4,11 @@ import type { AppEnv } from '@/lib/types';
 import { betterAuth } from 'better-auth';
 import { withCloudflare } from 'better-auth-cloudflare';
 import { drizzleAdapter } from 'better-auth/adapters/drizzle';
-import { openAPI } from 'better-auth/plugins';
-import { drizzle } from 'drizzle-orm/d1';
+import { admin, openAPI } from 'better-auth/plugins';
 
+import { drizzle } from 'drizzle-orm/d1';
 import { schema } from '../db/schema';
+import { ac, adminRole, creatorRole, playerRole } from './permissions';
 
 // Single auth configuration that handles both CLI and runtime scenarios
 function createAuth(env?: AppEnv['Bindings'], cf?: IncomingRequestCfProperties) {
@@ -35,6 +36,14 @@ function createAuth(env?: AppEnv['Bindings'], cf?: IncomingRequestCfProperties) 
           enabled: true,
         },
         plugins: [
+          admin({
+            ac,
+            roles: { player: playerRole, creator: creatorRole, admin: adminRole },
+            defaultRole: 'player',
+            adminRoles: ['admin'],
+            defaultBanReason: 'Violation of terms',
+            impersonationSessionDuration: 3600,
+          }),
           openAPI(),
         ],
       },
