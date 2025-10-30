@@ -7,6 +7,7 @@ import { notFound, onError } from 'stoker/middlewares';
 
 import rateLimiterMiddleware from '@/middlewares/rate-limter';
 
+import { isAllowedOrigin } from '@/utils/origin';
 import { createAuth } from '../auth';
 import { BASE_PATH } from './constants';
 import createRouter from './create-router';
@@ -15,19 +16,15 @@ export default function createApp(): AppOpenAPI {
   const app = createRouter();
 
   app.use('*', async (c, next) => {
-    const allowedOrigins = (c.env.ALLOWED_ORIGINS || '')
-      .split(',')
-      .map(s => s.trim())
-      .filter(Boolean);
-
-    const localhostRegex = /^http:\/\/localhost:\d+$/;
     const origin = c.req.header('Origin') || '';
-    const isAllowed = allowedOrigins.includes(origin) || localhostRegex.test(origin);
+    const allowed = isAllowedOrigin(c);
 
     const handler = cors({
-      origin: () => (isAllowed ? origin : undefined),
-      allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+      origin: () => (allowed ? origin : undefined),
+      allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
       allowHeaders: ['Content-Type', 'Authorization'],
+      credentials: true,
+      maxAge: 600,
     });
 
     return handler(c, next);
