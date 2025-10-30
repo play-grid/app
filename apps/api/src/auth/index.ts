@@ -34,6 +34,7 @@ function createAuth(env?: AppEnv['Bindings'], cf?: IncomingRequestCfProperties) 
       {
         emailAndPassword: {
           enabled: true,
+          autoSignIn: true,
         },
         plugins: [
           admin({
