@@ -1,11 +1,56 @@
+<<<<<<< HEAD
+import { AuthQueryProvider } from '@daveyplate/better-auth-tanstack';
+
+import { BrowserRouter } from 'react-router-dom';
+=======
 import { AuthUIProvider } from '@daveyplate/better-auth-ui';
 import { BrowserRouter, NavLink, redirect, useNavigate } from 'react-router-dom';
+>>>>>>> 3aac96e (feat(frontend-auth): integrate better-auth system using better-auth-ui)
 import { NetworkStatusNotifier } from '@/components/network-status-notifier';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from '@/components/ui/sonner';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import QueryProvider from '@/context/api-provider';
 import { LanguageRouter } from '@/i18n/language-router';
+<<<<<<< HEAD
+
+import App from './app';
+import '@/i18n/config';
+import './index.css';
+
+function ReactRouterLink(props: {
+  href: string;
+  className?: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <NavLink to={props.href} className={props.className}>
+      {props.children}
+    </NavLink>
+  );
+}
+
+function AppProviders() {
+  const navigate = useNavigate();
+
+  return (
+    <QueryProvider>
+      <AuthQueryProvider>
+        <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
+          <TooltipProvider>
+            <div className="bg-background text-primary min-h-screen">
+              <LanguageRouter>
+                <AuthProvider>
+                  <Toaster richColors />
+                  <NetworkStatusNotifier />
+                  <App />
+                </AuthProvider>
+              </LanguageRouter>
+            </div>
+          </TooltipProvider>
+        </ThemeProvider>
+      </AuthQueryProvider>
+=======
 import { authClient } from '@/lib/auth-client';
 import App from './app';
 import '@/i18n/config';
@@ -46,6 +91,7 @@ function AppProviders() {
           </div>
         </TooltipProvider>
       </ThemeProvider>
+>>>>>>> 3aac96e (feat(frontend-auth): integrate better-auth system using better-auth-ui)
     </QueryProvider>
   );
 }
