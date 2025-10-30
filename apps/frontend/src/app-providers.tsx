@@ -1,4 +1,5 @@
-import { AuthUIProvider } from '@daveyplate/better-auth-ui';
+import { AuthQueryProvider } from '@daveyplate/better-auth-tanstack';
+import { AuthUIProviderTanstack } from '@daveyplate/better-auth-ui/tanstack';
 import { BrowserRouter, NavLink, redirect, useNavigate } from 'react-router-dom';
 import { NetworkStatusNotifier } from '@/components/network-status-notifier';
 import { ThemeProvider } from '@/components/theme-provider';
@@ -28,24 +29,26 @@ function AppProviders() {
 
   return (
     <QueryProvider>
-      <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
-        <TooltipProvider>
-          <div className="bg-background text-primary min-h-screen">
-            <LanguageRouter>
-              <AuthUIProvider
-                authClient={authClient}
-                navigate={navigate}
-                replace={href => redirect(href)}
-                Link={ReactRouterLink}
-              >
-                <Toaster richColors />
-                <NetworkStatusNotifier />
-                <App />
-              </AuthUIProvider>
-            </LanguageRouter>
-          </div>
-        </TooltipProvider>
-      </ThemeProvider>
+      <AuthQueryProvider>
+        <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
+          <TooltipProvider>
+            <div className="bg-background text-primary min-h-screen">
+              <LanguageRouter>
+                <AuthUIProviderTanstack
+                  authClient={authClient}
+                  navigate={navigate}
+                  replace={href => redirect(href)}
+                  Link={ReactRouterLink}
+                >
+                  <Toaster richColors />
+                  <NetworkStatusNotifier />
+                  <App />
+                </AuthUIProviderTanstack>
+              </LanguageRouter>
+            </div>
+          </TooltipProvider>
+        </ThemeProvider>
+      </AuthQueryProvider>
     </QueryProvider>
   );
 }
