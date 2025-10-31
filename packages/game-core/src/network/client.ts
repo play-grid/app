@@ -1,264 +1,99 @@
-import type { ClientDurableIterator } from '@orpc/experimental-durable-iterator/client';
-import type { gameContract, GameEventType } from '../multiplayer/orpc-contract';
-import type { BaseGameStateWire } from '../types/core';
-import { createORPCClient, RPCLink } from '@orpc/client';
-
-import { DurableIteratorLinkPlugin } from '@orpc/experimental-durable-iterator/client';
+import { createORPCClient } from '@orpc/client';
+import { RPCLink as FetchRPCLink } from '@orpc/client/fetch';
+import { RPCLink as WebSocketRPCLink } from '@orpc/client/websocket';
 import PartySocket from 'partysocket';
 
 export interface NetworkClientConfig {
-  roomId: string;
-  baseUrl: string;
-  signingKey: string;
-  playerId?: string;
-  playerName?: string;
-  metadata?: Record<string, any>;
-
-  // PartySocket options
-  reconnectAttempts?: number;
-  reconnectDelay?: number;
-  minReconnectDelay?: number;
-  maxReconnectDelay?: number;
-
-  // Debug
-  debug?: boolean;
+  httpUrl: string;
+  wsUrl?: string;
+  roomId?: string;
+  headers?: () => Record<string, string>;
+  onConnect?: () => void;
+  onDisconnect?: () => void;
+  onError?: (error: Error) => void;
 }
 
-/**
- * Network client that connects to Durable Object via oRPC + Durable Iterator
- * Uses PartySocket for automatic reconnection with exponential backoff
- */
-export function createNetworkClient(config: NetworkClientConfig) {
-  const {
-    roomId,
-    baseUrl,
-    signingKey,
-    playerId,
-    playerName,
-    metadata,
-    reconnectAttempts = Infinity,
-    reconnectDelay = 1000,
-    minReconnectDelay = 1000,
-    maxReconnectDelay = 30000,
-    debug = false,
-  } = config;
+export class NetworkClient<TContract = any> {
+  private httpClient: ReturnType<typeof createORPCClient>;
+  private wsClient?: ReturnType<typeof createORPCClient>;
+  private partySocket?: PartySocket;
+  private isConnected = false;
 
-  let isConnected = false;
-  let iterator: ClientDurableIterator<any, any> | null = null;
-  let partySocket: PartySocket | null = null;
+  constructor(private config: NetworkClientConfig) {
+    // Create HTTP client with RPCLink
+    const httpLink = new FetchRPCLink({
+      url: config.httpUrl,
+      headers: config.headers,
+      fetch: fetch.bind(globalThis),
+    });
 
-  // Parse URLs
-  const httpUrl = baseUrl.replace(/^ws/, 'http');
-  const wsUrl = baseUrl.replace(/^http/, 'ws');
+    this.httpClient = createORPCClient(httpLink);
 
-  // Create PartySocket for automatic reconnection
-  partySocket = new PartySocket({
-    host: wsUrl,
-    room: roomId,
-
-    // Reconnection config
-    maxReconnectionDelay: maxReconnectDelay,
-    minReconnectionDelay: minReconnectDelay,
-    reconnectionDelayGrowFactor: 1.3,
-    connectionTimeout: 10000,
-
-    // Debug
-    debug,
-  });
-
-  // Setup event listeners
-  partySocket.addEventListener('open', () => {
-    if (debug)
-      console.log('[NetworkClient] WebSocket connected');
-    isConnected = true;
-  });
-
-  partySocket.addEventListener('close', () => {
-    if (debug)
-      console.log('[NetworkClient] WebSocket disconnected');
-    isConnected = false;
-  });
-
-  partySocket.addEventListener('error', (error) => {
-    console.error('[NetworkClient] WebSocket error:', error);
-  });
-
-  // Create oRPC client with Durable Iterator plugin
-
-  const link = new RPCLink({
-    url: `${httpUrl}/rpc`,
-    plugins: [
-      new DurableIteratorLinkPlugin({
-        url: `${wsUrl}/game-room/${roomId}`,
-        refreshTokenBeforeExpireInSeconds: 10 * 60, // 10 minutes
-      }),
-    ],
-  });
-
-  const client = createORPCClient<typeof gameContract>(link);
-
-  // Helper to ensure connection
-  async function ensureConnected(): Promise<void> {
-    if (!isConnected) {
-      throw new Error('WebSocket not connected');
+    // WebSocket setup for real-time updates (optional)
+    if (config.wsUrl) {
+      this.setupWebSocket();
     }
   }
 
-  // Network client implementation
-  return {
-    // Connection status
-    isConnected: () => isConnected,
+  private setupWebSocket() {
+    if (!this.config.wsUrl)
+      return;
 
-    connect: async () => {
-      if (isConnected)
-        return;
+    // Use PartySocket for automatic reconnection
+    this.partySocket = new PartySocket({
+      host: this.config.wsUrl,
+      room: this.config.roomId || 'default',
+    });
 
-      if (debug)
-        console.log('[NetworkClient] Connecting...');
+    this.partySocket.addEventListener('open', () => {
+      this.isConnected = true;
+      this.config.onConnect?.();
+      console.log('WebSocket connected');
+    });
 
-      // PartySocket handles connection automatically
-      // Just wait for it to be ready
-      await new Promise<void>((resolve, reject) => {
-        const timeout = setTimeout(() => {
-          reject(new Error('Connection timeout'));
-        }, 10000);
+    this.partySocket.addEventListener('close', () => {
+      this.isConnected = false;
+      this.config.onDisconnect?.();
+      console.log('WebSocket disconnected');
+    });
 
-        const onOpen = () => {
-          clearTimeout(timeout);
-          partySocket!.removeEventListener('open', onOpen);
-          resolve();
-        };
+    this.partySocket.addEventListener('error', (event) => {
+      const error = new Error('WebSocket error');
+      this.config.onError?.(error);
+      console.error('WebSocket error:', event);
+    });
 
-        if (isConnected) {
-          clearTimeout(timeout);
-          resolve();
-        }
-        else {
-          partySocket!.addEventListener('open', onOpen);
-        }
-      });
-
-      if (debug)
-        console.log('[NetworkClient] Connected!');
-    },
-
-    disconnect: () => {
-      if (partySocket) {
-        partySocket.close();
-        partySocket = null;
+    this.partySocket.addEventListener('open', () => {
+      if (this.partySocket) {
+        const wsLink = new WebSocketRPCLink({
+          websocket: this.partySocket as any,
+        });
+        this.wsClient = createORPCClient(wsLink);
       }
-      iterator = null;
-      isConnected = false;
-    },
+    });
+  }
 
-    // State query
-    getState: async (): Promise<BaseGameStateWire> => {
-      await ensureConnected();
-      return client.getState();
-    },
+  getClient(): TContract {
+    return this.httpClient as TContract;
+  }
 
-    // Real-time subscription
-    async* onStateUpdate(): AsyncIterableIterator<GameEventType> {
-      await ensureConnected();
+  getWebSocketClient(): TContract | undefined {
+    return this.wsClient as TContract | undefined;
+  }
 
-      if (!iterator) {
-        iterator = await client.onStateUpdate();
-      }
+  getSocket() {
+    return this.partySocket;
+  }
 
-      for await (const event of iterator) {
-        yield event;
-      }
-    },
+  isSocketConnected() {
+    return this.isConnected;
+  }
 
-    // Phase Management
-    setPhase: async (input: { phase: string }) => {
-      await ensureConnected();
-      return client.setPhase(input);
-    },
-
-    // Player Management
-    addPlayer: async (input: {
-      id: string;
-      name: string;
-      avatar?: string;
-      metadata?: any;
-    }) => {
-      await ensureConnected();
-      return client.player.add(input);
-    },
-
-    removePlayer: async (input: { playerId: string }) => {
-      await ensureConnected();
-      return client.player.remove(input);
-    },
-
-    updatePlayer: async (input: { playerId: string; updates: any }) => {
-      await ensureConnected();
-      return client.player.update(input);
-    },
-
-    setPlayers: async (input: { players: any[] }) => {
-      await ensureConnected();
-      return client.player.setAll(input);
-    },
-
-    togglePlayerReady: async (input: { playerId: string }) => {
-      await ensureConnected();
-      return client.player.toggleReady(input);
-    },
-
-    // Settings
-    updateSettings: async (input: { updates: any }) => {
-      await ensureConnected();
-      return client.settings.update(input);
-    },
-
-    // Turn Management
-    nextTurn: async () => {
-      await ensureConnected();
-      return client.turn.next();
-    },
-
-    previousTurn: async () => {
-      await ensureConnected();
-      return client.turn.previous();
-    },
-
-    setCurrentPlayer: async (input: { playerId: string }) => {
-      await ensureConnected();
-      return client.turn.setCurrent(input);
-    },
-
-    nextRound: async () => {
-      await ensureConnected();
-      return client.turn.nextRound();
-    },
-
-    // Lifecycle
-    canStartGame: async () => {
-      await ensureConnected();
-      return client.lifecycle.canStart();
-    },
-
-    startGame: async () => {
-      await ensureConnected();
-      return client.lifecycle.start();
-    },
-
-    endGame: async () => {
-      await ensureConnected();
-      return client.lifecycle.end();
-    },
-
-    resetGame: async () => {
-      await ensureConnected();
-      return client.lifecycle.reset();
-    },
-
-    // Direct client access for advanced use
-    _client: client,
-    _partySocket: partySocket,
-  };
+  disconnect() {
+    this.partySocket?.close();
+  }
 }
 
-export type NetworkClient = ReturnType<typeof createNetworkClient>;
+export function createNetworkClient<TContract>(config: NetworkClientConfig): NetworkClient<TContract> {
+  return new NetworkClient<TContract>(config);
+}

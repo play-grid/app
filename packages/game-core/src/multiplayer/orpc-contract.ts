@@ -1,13 +1,9 @@
 import type { BaseGameStateWire } from '../types/core';
 import { oc } from '@orpc/contract';
 import { z } from 'zod';
-import {
-  BaseGameStateSchema,
+import { BaseGameStateSchema, GamePhaseSchema, PlayerSchema, TurnStateSchema } from '../types/core';
 
-  GamePhaseSchema,
-  PlayerSchema,
-  TurnStateSchema,
-} from '../types/core';
+export { PlayerSchema } from '../types/core';
 
 // ============ Input Schemas ============
 
@@ -99,44 +95,28 @@ export const getStateContract = oc.output(GameStateOutputSchema);
 export const onStateUpdateContract = oc.output(GameEventSchema);
 
 // Phase Management
-export const setPhaseContract = oc
-  .input(SetPhaseInputSchema)
-  .output(GameStateOutputSchema);
+export const setPhaseContract = oc.input(SetPhaseInputSchema).output(GameStateOutputSchema);
 
 // Player Management
-export const addPlayerContract = oc
-  .input(AddPlayerInputSchema)
-  .output(GameStateOutputSchema);
+export const addPlayerContract = oc.input(AddPlayerInputSchema).output(GameStateOutputSchema);
 
-export const removePlayerContract = oc
-  .input(RemovePlayerInputSchema)
-  .output(GameStateOutputSchema);
+export const removePlayerContract = oc.input(RemovePlayerInputSchema).output(GameStateOutputSchema);
 
-export const updatePlayerContract = oc
-  .input(UpdatePlayerInputSchema)
-  .output(GameStateOutputSchema);
+export const updatePlayerContract = oc.input(UpdatePlayerInputSchema).output(GameStateOutputSchema);
 
-export const setPlayersContract = oc
-  .input(SetPlayersInputSchema)
-  .output(GameStateOutputSchema);
+export const setPlayersContract = oc.input(SetPlayersInputSchema).output(GameStateOutputSchema);
 
-export const togglePlayerReadyContract = oc
-  .input(TogglePlayerReadyInputSchema)
-  .output(GameStateOutputSchema);
+export const togglePlayerReadyContract = oc.input(TogglePlayerReadyInputSchema).output(GameStateOutputSchema);
 
 // Settings
-export const updateSettingsContract = oc
-  .input(UpdateSettingsInputSchema)
-  .output(GameStateOutputSchema);
+export const updateSettingsContract = oc.input(UpdateSettingsInputSchema).output(GameStateOutputSchema);
 
 // Turn Management
 export const nextTurnContract = oc.output(GameStateOutputSchema);
 
 export const previousTurnContract = oc.output(GameStateOutputSchema);
 
-export const setCurrentPlayerContract = oc
-  .input(SetCurrentPlayerInputSchema)
-  .output(GameStateOutputSchema);
+export const setCurrentPlayerContract = oc.input(SetCurrentPlayerInputSchema).output(GameStateOutputSchema);
 
 export const nextRoundContract = oc.output(GameStateOutputSchema);
 
