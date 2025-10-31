@@ -15,7 +15,9 @@
       ]
     },
     "allowImportingTsExtensions": true,
-    "noEmit": true
+    "noEmit": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true
   },
   "include": ["src", "../../packages/game-core/src/stores"]
 }
