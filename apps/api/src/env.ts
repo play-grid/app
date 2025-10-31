@@ -22,6 +22,7 @@ const EnvSchema = z.object({
   QUESTIONS_KV_ID: z.string(),
   BETTER_AUTH_URL: z.string(),
   BETTER_AUTH_SECRET: z.string(),
+  APP_NAME: z.string(),
 });
 
 export type Env = z.infer<typeof EnvSchema>;
