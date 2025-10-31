@@ -19,7 +19,8 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate:local": "wrangler d1 migrations apply GAME_HUB_DB --local",
     "db:migrate:prod": "wrangler d1 migrations apply GAME_HUB_DB --remote",
-    "seed:questions": "tsx src/scripts/seed-questions.ts"
+    "seed:questions": "tsx src/scripts/seed-questions.ts",
+    "auth:generate": "npx @better-auth/cli@latest generate --config src/auth/index.ts --output src/db/auth.schema.ts -y"
   },
   "exports": {
     "./routes": {
