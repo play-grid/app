@@ -1,6 +1,4 @@
 {{#if (eq action "list")}}
-import { list{{pascalCase name}}sOutputSchema } from './schemas';
-
 // List {{pascalCase name}}s (GET /{{kebabCase name}})
 export const list{{pascalCase name}}s = createRoute({
   path: '/{{kebabCase name}}',
@@ -18,8 +16,6 @@ export type List{{pascalCase name}}sRoute = typeof list{{pascalCase name}}s;
 {{/if}}
 
 {{#if (eq action "getById")}}
-import { {{camelCase name}}OutputSchema } from './schemas';
-
 // Get {{pascalCase name}} by ID (GET /{{kebabCase name}}/:id)
 export const get{{pascalCase name}}ById = createRoute({
   path: '/{{kebabCase name}}/:id',
@@ -45,8 +41,6 @@ export type Get{{pascalCase name}}ByIdRoute = typeof get{{pascalCase name}}ById;
 {{/if}}
 
 {{#if (eq action "create")}}
-import { create{{pascalCase name}}InputSchema, {{camelCase name}}OutputSchema } from './schemas';
-
 // Create {{pascalCase name}} (POST /{{kebabCase name}})
 export const create{{pascalCase name}} = createRoute({
   path: '/{{kebabCase name}}',
@@ -73,8 +67,6 @@ export type Create{{pascalCase name}}Route = typeof create{{pascalCase name}};
 {{/if}}
 
 {{#if (eq action "update")}}
-import { update{{pascalCase name}}InputSchema, {{camelCase name}}OutputSchema } from './schemas';
-
 // Update {{pascalCase name}} (PATCH /{{kebabCase name}}/:id)
 export const update{{pascalCase name}} = createRoute({
   path: '/{{kebabCase name}}/:id',
@@ -107,8 +99,6 @@ export type Update{{pascalCase name}}Route = typeof update{{pascalCase name}};
 {{/if}}
 
 {{#if (eq action "replace")}}
-import { replace{{pascalCase name}}InputSchema, {{camelCase name}}OutputSchema } from './schemas';
-
 // Replace {{pascalCase name}} (PUT /{{kebabCase name}}/:id)
 export const replace{{pascalCase name}} = createRoute({
   path: '/{{kebabCase name}}/:id',
@@ -119,7 +109,7 @@ export const replace{{pascalCase name}} = createRoute({
       id: z.string(),
     }),
     body: jsonContentRequired(
-      replace{{pascalCase name}}InputSchema,
+      create{{pascalCase name}}InputSchema,
       'The complete {{pascalCase name}} data',
     ),
   },

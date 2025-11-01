@@ -1,3 +1,4 @@
+import type { AppRouteHandler } from '../../lib/types';
 import type {
   Create{{pascalCase name}}Route,
   Delete{{pascalCase name}}Route,
@@ -5,7 +6,6 @@ import type {
   List{{pascalCase name}}sRoute,
   Update{{pascalCase name}}Route,
 } from './{{kebabCase name}}.routes';
-import type { AppRouteHandler } from '@/lib/types';
 
 // List {{pascalCase name}}s Handler
 export const list{{pascalCase name}}sHandler: AppRouteHandler<List{{pascalCase name}}sRoute> = async (c) => {
