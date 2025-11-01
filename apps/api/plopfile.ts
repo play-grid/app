@@ -107,7 +107,7 @@ export default function (plop: NodePlopAPI) {
       {
         type: 'add',
         path: 'src/routes/{{kebabCase name}}/schemas.ts',
-        templateFile: 'plop-templates/schemas.hbs',
+        templateFile: 'plop-templates/crud-schemas.hbs',
       },
       // 2. Generate routes.ts (with all 5 CRUD routes)
       {
