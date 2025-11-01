@@ -1,5 +1,5 @@
 import { sqliteTable, text, uniqueIndex } from 'drizzle-orm/sqlite-core';
-import { timestamp } from './timestamp';
+import { timestamp } from '@/db/timestamp';
 
 // Temporary cuid() implementation
 const cuid = () => `cuid_${Math.random().toString(36).substring(2, 15)}`;

@@ -2,10 +2,25 @@ import { difficultySchema, questionSchema as fiveSecondsQuestionSchema } from '@
 import z from 'zod';
 
 export const questionSchema = fiveSecondsQuestionSchema.extend({
-  estimatedReadingTime: z.string(), // this calculated dynamically
-  exampleAnswers: z.string(),
+  estimatedReadingTime: z.string(),
+  exampleAnswers: z.string().optional(),
+  metadata: z.preprocess(
+    (val) => {
+      if (!val)
+        return {};
+      if (typeof val === 'string') {
+        try {
+          return JSON.parse(val);
+        }
+        catch {
+          return {};
+        }
+      }
+      return val;
+    },
+    z.record(z.string(), z.string()),
+  ).optional(),
   categoryId: z.string(),
-  metadata: z.record(z.string(), z.string()),
 });
 
 export const questionQuery = z.object({
