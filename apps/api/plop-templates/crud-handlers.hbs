@@ -1,0 +1,55 @@
+import type { AppRouteHandler } from '../../lib/types';
+import type {
+  Create{{pascalCase name}}Route,
+  Delete{{pascalCase name}}Route,
+  Get{{pascalCase name}}ByIdRoute,
+  List{{pascalCase name}}sRoute,
+  Update{{pascalCase name}}Route,
+} from './{{kebabCase name}}.routes';
+
+// List {{pascalCase name}}s Handler
+export const list{{pascalCase name}}sHandler: AppRouteHandler<List{{pascalCase name}}sRoute> = async (c) => {
+  // TODO: Implement list logic
+  const {{camelCase name}}s = [];
+  return c.json({{camelCase name}}s);
+};
+
+// Get {{pascalCase name}} by ID Handler
+export const get{{pascalCase name}}ByIdHandler: AppRouteHandler<Get{{pascalCase name}}ByIdRoute> = async (c) => {
+  const { id } = c.req.valid('param');
+  
+  // TODO: Implement get by ID logic
+  const {{camelCase name}} = { id };
+  
+  return c.json({{camelCase name}});
+};
+
+// Create {{pascalCase name}} Handler
+export const create{{pascalCase name}}Handler: AppRouteHandler<Create{{pascalCase name}}Route> = async (c) => {
+  const body = c.req.valid('json');
+  
+  // TODO: Implement create logic
+  const new{{pascalCase name}} = { id: 'generated-id', ...body };
+  
+  return c.json(new{{pascalCase name}}, 201);
+};
+
+// Update {{pascalCase name}} Handler
+export const update{{pascalCase name}}Handler: AppRouteHandler<Update{{pascalCase name}}Route> = async (c) => {
+  const { id } = c.req.valid('param');
+  const body = c.req.valid('json');
+  
+  // TODO: Implement update logic
+  const updated{{pascalCase name}} = { id, ...body };
+  
+  return c.json(updated{{pascalCase name}});
+};
+
+// Delete {{pascalCase name}} Handler
+export const delete{{pascalCase name}}Handler: AppRouteHandler<Delete{{pascalCase name}}Route> = async (c) => {
+  const { id } = c.req.valid('param');
+  
+  // TODO: Implement delete logic
+  
+  return c.body(null, 204);
+};
