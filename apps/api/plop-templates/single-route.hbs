@@ -1,0 +1,155 @@
+{{#if (eq action "list")}}
+// List {{pascalCase name}}s (GET /{{kebabCase name}})
+export const list{{pascalCase name}}s = createRoute({
+  path: '/{{kebabCase name}}',
+  method: 'get',
+  tags,
+  responses: {
+    [HttpStatusCodes.OK]: jsonContent(
+      list{{pascalCase name}}sOutputSchema,
+      'List of {{pascalCase name}}s',
+    ),
+  },
+});
+
+export type List{{pascalCase name}}sRoute = typeof list{{pascalCase name}}s;
+{{/if}}
+
+{{#if (eq action "getById")}}
+// Get {{pascalCase name}} by ID (GET /{{kebabCase name}}/:id)
+export const get{{pascalCase name}}ById = createRoute({
+  path: '/{{kebabCase name}}/:id',
+  method: 'get',
+  tags,
+  request: {
+    params: z.object({
+      id: z.string(),
+    }),
+  },
+  responses: {
+    [HttpStatusCodes.OK]: jsonContent(
+      {{camelCase name}}OutputSchema,
+      '{{pascalCase name}} details',
+    ),
+    [HttpStatusCodes.NOT_FOUND]: {
+      description: '{{pascalCase name}} not found',
+    },
+  },
+});
+
+export type Get{{pascalCase name}}ByIdRoute = typeof get{{pascalCase name}}ById;
+{{/if}}
+
+{{#if (eq action "create")}}
+// Create {{pascalCase name}} (POST /{{kebabCase name}})
+export const create{{pascalCase name}} = createRoute({
+  path: '/{{kebabCase name}}',
+  method: 'post',
+  tags,
+  request: {
+    body: jsonContentRequired(
+      create{{pascalCase name}}InputSchema,
+      'The {{pascalCase name}} to create',
+    ),
+  },
+  responses: {
+    [HttpStatusCodes.CREATED]: jsonContent(
+      {{camelCase name}}OutputSchema,
+      '{{pascalCase name}} created successfully',
+    ),
+    [HttpStatusCodes.BAD_REQUEST]: {
+      description: 'Invalid input',
+    },
+  },
+});
+
+export type Create{{pascalCase name}}Route = typeof create{{pascalCase name}};
+{{/if}}
+
+{{#if (eq action "update")}}
+// Update {{pascalCase name}} (PATCH /{{kebabCase name}}/:id)
+export const update{{pascalCase name}} = createRoute({
+  path: '/{{kebabCase name}}/:id',
+  method: 'patch',
+  tags,
+  request: {
+    params: z.object({
+      id: z.string(),
+    }),
+    body: jsonContentRequired(
+      update{{pascalCase name}}InputSchema,
+      'The {{pascalCase name}} updates',
+    ),
+  },
+  responses: {
+    [HttpStatusCodes.OK]: jsonContent(
+      {{camelCase name}}OutputSchema,
+      '{{pascalCase name}} updated successfully',
+    ),
+    [HttpStatusCodes.NOT_FOUND]: {
+      description: '{{pascalCase name}} not found',
+    },
+    [HttpStatusCodes.BAD_REQUEST]: {
+      description: 'Invalid input',
+    },
+  },
+});
+
+export type Update{{pascalCase name}}Route = typeof update{{pascalCase name}};
+{{/if}}
+
+{{#if (eq action "replace")}}
+// Replace {{pascalCase name}} (PUT /{{kebabCase name}}/:id)
+export const replace{{pascalCase name}} = createRoute({
+  path: '/{{kebabCase name}}/:id',
+  method: 'put',
+  tags,
+  request: {
+    params: z.object({
+      id: z.string(),
+    }),
+    body: jsonContentRequired(
+      create{{pascalCase name}}InputSchema,
+      'The complete {{pascalCase name}} data',
+    ),
+  },
+  responses: {
+    [HttpStatusCodes.OK]: jsonContent(
+      {{camelCase name}}OutputSchema,
+      '{{pascalCase name}} replaced successfully',
+    ),
+    [HttpStatusCodes.NOT_FOUND]: {
+      description: '{{pascalCase name}} not found',
+    },
+    [HttpStatusCodes.BAD_REQUEST]: {
+      description: 'Invalid input',
+    },
+  },
+});
+
+export type Replace{{pascalCase name}}Route = typeof replace{{pascalCase name}};
+{{/if}}
+
+{{#if (eq action "delete")}}
+// Delete {{pascalCase name}} (DELETE /{{kebabCase name}}/:id)
+export const delete{{pascalCase name}} = createRoute({
+  path: '/{{kebabCase name}}/:id',
+  method: 'delete',
+  tags,
+  request: {
+    params: z.object({
+      id: z.string(),
+    }),
+  },
+  responses: {
+    [HttpStatusCodes.NO_CONTENT]: {
+      description: '{{pascalCase name}} deleted successfully',
+    },
+    [HttpStatusCodes.NOT_FOUND]: {
+      description: '{{pascalCase name}} not found',
+    },
+  },
+});
+
+export type Delete{{pascalCase name}}Route = typeof delete{{pascalCase name}};
+{{/if}}
