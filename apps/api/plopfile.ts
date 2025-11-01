@@ -101,42 +101,48 @@ export default function (plop: NodePlopAPI) {
           return true;
         },
       },
+      {
+        type: 'input',
+        name: 'modulePath',
+        message: 'Module path for the resource:',
+        default: 'src/routes',
+      },
     ],
     actions: [
       // 1. Generate schemas.ts
       {
         type: 'add',
-        path: 'src/routes/{{kebabCase name}}/schemas.ts',
+        path: '{{modulePath}}/{{kebabCase name}}/schemas.ts',
         templateFile: 'plop-templates/crud-schemas.hbs',
       },
       // 2. Generate routes.ts (with all 5 CRUD routes)
       {
         type: 'add',
-        path: 'src/routes/{{kebabCase name}}/{{kebabCase name}}.routes.ts',
+        path: '{{modulePath}}/{{kebabCase name}}/{{kebabCase name}}.routes.ts',
         templateFile: 'plop-templates/crud-routes.hbs',
       },
       // 3. Generate handlers.ts (with all 5 handlers)
       {
         type: 'add',
-        path: 'src/routes/{{kebabCase name}}/{{kebabCase name}}.handlers.ts',
+        path: '{{modulePath}}/{{kebabCase name}}/{{kebabCase name}}.handlers.ts',
         templateFile: 'plop-templates/crud-handlers.hbs',
       },
       // 4. Generate index.ts (router setup)
       {
         type: 'add',
-        path: 'src/routes/{{kebabCase name}}/{{kebabCase name}}.index.ts',
+        path: '{{modulePath}}/{{kebabCase name}}/{{kebabCase name}}.index.ts',
         templateFile: 'plop-templates/crud-index.hbs',
       },
       // 5. Inject import
       {
         type: 'injectImport',
-        filePath: 'src/routes/index.ts',
+        filePath: '{{modulePath}}/index.ts',
         importStatement: 'import {{camelCase name}} from \'./{{kebabCase name}}/{{kebabCase name}}.index\';',
       },
       // 6. Inject route
       {
         type: 'injectRoute',
-        filePath: 'src/routes/index.ts',
+        filePath: '{{modulePath}}/index.ts',
         routeStatement: '.route(\'/{{kebabCase name}}\', {{camelCase name}})',
       },
     ],
@@ -170,6 +176,13 @@ export default function (plop: NodePlopAPI) {
         ],
       },
       {
+        type: 'input',
+        name: 'modulePath',
+        message: 'Module path for the resource:',
+        default: 'src/routes',
+        when: (answers) => !answers.modulePath,
+      },
+      {
         type: 'confirm',
         name: 'createFiles',
         message: 'Resource files don\'t exist. Create them?',
@@ -177,7 +190,7 @@ export default function (plop: NodePlopAPI) {
         when: (answers) => {
           const routesPath = path.join(
             process.cwd(),
-            'src/routes',
+            answers.modulePath,
             plop.getHelper('kebabCase')(answers.name),
             `${plop.getHelper('kebabCase')(answers.name)}.routes.ts`,
           );
@@ -190,7 +203,7 @@ export default function (plop: NodePlopAPI) {
 
       const routesPath = path.join(
         process.cwd(),
-        'src/routes',
+        data?.modulePath || 'src/routes',
         plop.getHelper('kebabCase')(data?.name || ''),
         `${plop.getHelper('kebabCase')(data?.name || '')}.routes.ts`,
       );
@@ -203,13 +216,13 @@ export default function (plop: NodePlopAPI) {
           // Create minimal schema based on action
           {
             type: 'add',
-            path: 'src/routes/{{kebabCase name}}/schemas.ts',
+            path: '{{modulePath}}/{{kebabCase name}}/schemas.ts',
             templateFile: 'plop-templates/minimal-schema.hbs',
           },
           // Create routes file with proper imports based on action
           {
             type: 'add',
-            path: 'src/routes/{{kebabCase name}}/{{kebabCase name}}.routes.ts',
+            path: '{{modulePath}}/{{kebabCase name}}/{{kebabCase name}}.routes.ts',
             template: `import { createRoute, z } from '@hono/zod-openapi';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import { jsonContent{{#if (or (eq action "create") (eq action "update") (eq action "replace"))}}, jsonContentRequired{{/if}} } from 'stoker/openapi/helpers';
@@ -220,15 +233,15 @@ const tags = ['{{pascalCase name}}'];
           // Create empty handlers file
           {
             type: 'add',
-            path: 'src/routes/{{kebabCase name}}/{{kebabCase name}}.handlers.ts',
-            template: `import type { AppRouteHandler } from '../../lib/types';
+            path: '{{modulePath}}/{{kebabCase name}}/{{kebabCase name}}.handlers.ts',
+            template: `import type { AppRouteHandler } from '@/lib/types';
 `,
           },
           // Create empty index file
           {
             type: 'add',
-            path: 'src/routes/{{kebabCase name}}/{{kebabCase name}}.index.ts',
-            template: `import createRouter from '../../lib/create-router';
+            path: '{{modulePath}}/{{kebabCase name}}/{{kebabCase name}}.index.ts',
+            template: `import createRouter from '@/lib/create-router';
 
 const router = createRouter();
 
@@ -238,13 +251,13 @@ export default router;
           // Inject import
           {
             type: 'injectImport',
-            filePath: 'src/routes/index.ts',
+            filePath: '{{modulePath}}/index.ts',
             importStatement: 'import {{camelCase name}} from \'./{{kebabCase name}}/{{kebabCase name}}.index\';',
           },
           // Inject route
           {
             type: 'injectRoute',
-            filePath: 'src/routes/index.ts',
+            filePath: '{{modulePath}}/index.ts',
             routeStatement: '.route(\'/{{kebabCase name}}\', {{camelCase name}})',
           },
         );
@@ -253,7 +266,7 @@ export default router;
         // Files exist, append new schema if needed
         actions.push({
           type: 'append',
-          path: 'src/routes/{{kebabCase name}}/schemas.ts',
+          path: '{{modulePath}}/{{kebabCase name}}/schemas.ts',
           template: `
 {{#if (eq action "create")}}
 // Input schema for creating
@@ -283,11 +296,11 @@ export const replace{{pascalCase name}}InputSchema = {{camelCase name}}Schema.om
 // List output schema
 export const list{{pascalCase name}}sOutputSchema = z.array({{camelCase name}}OutputSchema);
 {{/if}}`,
-          skip: (data: { name: any; action: string; }) => {
+          skip: (data: { name: any; action: string; modulePath: string; }) => {
             // Check if schema already exists
             const schemasPath = path.join(
               process.cwd(),
-              'src/routes',
+              data.modulePath,
               plop.getHelper('kebabCase')(data.name),
               'schemas.ts',
             );
@@ -315,19 +328,19 @@ export const list{{pascalCase name}}sOutputSchema = z.array({{camelCase name}}Ou
         // Append to routes.ts
         {
           type: 'append',
-          path: 'src/routes/{{kebabCase name}}/{{kebabCase name}}.routes.ts',
+          path: '{{modulePath}}/{{kebabCase name}}/{{kebabCase name}}.routes.ts',
           templateFile: 'plop-templates/single-route.hbs',
         },
         // Append to handlers.ts
         {
           type: 'append',
-          path: 'src/routes/{{kebabCase name}}/{{kebabCase name}}.handlers.ts',
+          path: '{{modulePath}}/{{kebabCase name}}/{{kebabCase name}}.handlers.ts',
           templateFile: 'plop-templates/single-handler.hbs',
         },
         // Update index.ts to add the route
         {
           type: 'modify',
-          path: 'src/routes/{{kebabCase name}}/{{kebabCase name}}.index.ts',
+          path: '{{modulePath}}/{{kebabCase name}}/{{kebabCase name}}.index.ts',
           transform: (fileContent, answers) => {
             const { name, action } = answers;
             const pascalCaseName = plop.getHelper('pascalCase')(name);
