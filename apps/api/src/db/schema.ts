@@ -1,8 +1,8 @@
+import * as fiveSecondsQuestionsSchema from '@/routes/games/five-seconds/five-seconds.tables';
 import * as authSchema from './auth.schema';
-import * as fiveSecondsQuestionsSchema from './five-seconds-questions.schema';
 
 export * from './auth.schema';
-export * from './five-seconds-questions.schema';
+export * from '@/routes/games/five-seconds/five-seconds.tables';
 
 export const schema = {
   ...authSchema,
