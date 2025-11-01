@@ -34,3 +34,14 @@ export const fiveSecondsQuestions = sqliteTable(
     uniqueIndex('question_idx').on(t.question),
   ],
 );
+
+export const fiveSecondsFeedback = sqliteTable('five_seconds_feedback', {
+  id: text('id').primaryKey().$defaultFn(cuid),
+  questionId: text('question_id')
+    .notNull()
+    .references(() => fiveSecondsQuestions.id, { onDelete: 'cascade' }),
+  type: text('type', { enum: ['annoying', 'unclear', 'too_easy', 'too_hard'] }).notNull(),
+  comment: text('comment'), // optional text feedback
+  playerId: text('player_id'),
+  ...timestamp,
+});
