@@ -2,15 +2,19 @@ import type { getCategory, listCategories } from './categories.routes';
 import type { AppRouteHandler } from '@/lib/types';
 import { languageQuery } from '@guess-logo/shared/schemas';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
-import categories from './categories.json';
+import { getDB } from '@/db';
 
 export const listCategoriesHandler: AppRouteHandler<typeof listCategories> = async (c) => {
-  const query = languageQuery.parse(c.req.query());
-  const { language } = query; // now typed as 'en' | 'ar'
+  const { language } = languageQuery.parse(c.req.query());
+
+  const db = getDB(c);
+  const categories = await db.query.fiveSecondsCategories.findMany();
 
   const localizedCategories = categories.map(cat => ({
-    ...cat,
-    name: cat.name[language],
+    id: cat.id,
+    name: language === 'ar' ? cat.nameAr : cat.nameEn,
+    createdAt: cat.createdAt,
+    updatedAt: cat.updatedAt,
   }));
 
   return c.json(localizedCategories, HttpStatusCodes.OK);
@@ -20,16 +24,19 @@ export const getCategoryHandler: AppRouteHandler<typeof getCategory> = async (c)
   const { id } = c.req.param();
   const { language } = languageQuery.parse(c.req.query());
 
-  const category = categories.find(cat => cat.id === id);
+  const db = getDB(c);
+  const category = await db.query.fiveSecondsCategories.findFirst({
+    where: (cat, { eq }) => eq(cat.id, id),
+  });
 
   if (!category) {
     return c.json({ error: 'Category not found' }, HttpStatusCodes.NOT_FOUND);
   }
 
-  const localizedCategory = {
-    ...category,
-    name: category.name[language] || category.name.en, // fallback
-  };
-
-  return c.json(localizedCategory, HttpStatusCodes.OK);
+  return c.json({
+    id: category.id,
+    name: language === 'ar' ? category.nameAr : category.nameEn,
+    createdAt: category.createdAt,
+    updatedAt: category.updatedAt,
+  }, HttpStatusCodes.OK);
 };

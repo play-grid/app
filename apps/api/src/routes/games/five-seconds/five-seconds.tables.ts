@@ -8,11 +8,14 @@ export const fiveSecondsCategories = sqliteTable(
   'five_seconds_categories',
   {
     id: text('id').primaryKey(), // e.g. cat_general_v1
-    name: text('name').notNull(), // e.g. General
+    nameEn: text('name_en').notNull().default(''),
+    nameAr: text('name_ar').notNull().default(''),
+
     ...timestamp,
   },
   t => [
-    uniqueIndex('category_name_idx').on(t.name),
+    uniqueIndex('category_name_en_idx').on(t.nameEn),
+    uniqueIndex('category_name_ar_idx').on(t.nameAr),
   ],
 );
 

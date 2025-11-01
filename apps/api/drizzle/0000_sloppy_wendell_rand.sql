@@ -67,12 +67,14 @@ CREATE TABLE `verifications` (
 --> statement-breakpoint
 CREATE TABLE `five_seconds_categories` (
 	`id` text PRIMARY KEY NOT NULL,
-	`name` text NOT NULL,
+	`name_en` text DEFAULT '' NOT NULL,
+	`name_ar` text DEFAULT '' NOT NULL,
 	`createdAt` integer NOT NULL,
 	`updatedAt` integer NOT NULL
 );
 --> statement-breakpoint
-CREATE UNIQUE INDEX `category_name_idx` ON `five_seconds_categories` (`name`);--> statement-breakpoint
+CREATE UNIQUE INDEX `category_name_en_idx` ON `five_seconds_categories` (`name_en`);--> statement-breakpoint
+CREATE UNIQUE INDEX `category_name_ar_idx` ON `five_seconds_categories` (`name_ar`);--> statement-breakpoint
 CREATE TABLE `five_seconds_questions` (
 	`id` text PRIMARY KEY NOT NULL,
 	`question` text NOT NULL,
