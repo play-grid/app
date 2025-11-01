@@ -1,0 +1,35 @@
+import { z } from 'zod';
+
+// Base schema
+export const {{camelCase name}}Schema = z.object({
+  id: z.string(),
+  createdAt: z.iso.datetime().optional(),
+  updatedAt: z.iso.datetime().optional(),
+});
+
+// Input schema for creating
+export const create{{pascalCase name}}InputSchema = {{camelCase name}}Schema.omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+// Input schema for updating
+export const update{{pascalCase name}}InputSchema = {{camelCase name}}Schema.omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+}).partial();
+
+// Input schema for replacing
+export const replace{{pascalCase name}}InputSchema = {{camelCase name}}Schema.omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+// Output schema
+export const {{camelCase name}}OutputSchema = {{camelCase name}}Schema;
+
+// List output schema
+export const list{{pascalCase name}}sOutputSchema = z.array({{camelCase name}}OutputSchema);
