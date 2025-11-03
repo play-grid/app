@@ -1,9 +1,14 @@
-import type { CreateFeedbackRoute } from './feedback.routes';
+import type { CreateFeedbackRoute, GetFeedbackTypesRoute } from './feedback.routes';
 import type { CreateFeedbackInput } from './schemas';
 import type { AppRouteHandler } from '@/lib/types';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import { getDB } from '@/db';
 import { fiveSecondsFeedback } from '@/routes/games/five-seconds/five-seconds.tables';
+import { feedbackTypes } from './types';
+
+export const getFeedbackTypesHandler: AppRouteHandler<GetFeedbackTypesRoute> = async (c) => {
+  return c.json([...feedbackTypes]);
+};
 
 export const createFeedbackHandler: AppRouteHandler<CreateFeedbackRoute> = async (c) => {
   const db = getDB(c);
