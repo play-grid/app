@@ -6,12 +6,12 @@ import { GuessLogoSkeleton } from './games/guess-logo/components/guess-logo-skel
 import { LanguageLayout } from './i18n/language-layout';
 import { LanguageRouter } from './i18n/language-router';
 import AboutPage from './pages/about-page';
+import AuthPage from './pages/auth/auth-page';
 import HomePage from './pages/home-page';
 
 // Lazy-loaded game routes
 const GuessLogoRoutes = lazy(() => import('./games/guess-logo/routes'));
 const FiveSecondsRoutes = lazy(() => import('./games/five-seconds/routes'));
-// Add more games here as needed
 
 export default function App() {
   return (
@@ -46,13 +46,13 @@ export function LanguageRoutes() {
 
       {/* About page */}
       <Route path="/about" element={<AboutPage />} />
+      <Route path="/auth/:pathname" element={<AuthPage />} />
 
       {/* Game-specific routes */}
       <Route
         path="/guess-logo/*"
         element={(
           <Suspense fallback={<GuessLogoSkeleton />}>
-            {/* <NeverResolve/> */}
             <GuessLogoRoutes />
           </Suspense>
         )}
@@ -61,12 +61,10 @@ export function LanguageRoutes() {
         path="/five-seconds/*"
         element={(
           <Suspense fallback={<FiveSecondsSkeleton />}>
-            {/* <NeverResolve/> */}
             <FiveSecondsRoutes />
           </Suspense>
         )}
       />
-      {/* Add more game routes here */}
 
       {/* Fallback: redirect to language home */}
       <Route path="*" element={<Navigate to="" replace />} />

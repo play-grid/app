@@ -2,6 +2,7 @@ import type { OpenAPIHono, RouteConfig, RouteHandler } from '@hono/zod-openapi';
 
 import type { BASE_PATH } from './constants';
 import type { GameRoomDurableObject } from './game-room.do';
+import type { auth } from '@/auth';
 import type { Env } from '@/env';
 
 export interface AppEnv extends Env {
@@ -11,7 +12,12 @@ export interface AppEnv extends Env {
     RATE_LIMIT: KVNamespace;
     QUESTIONS: KVNamespace;
     GAME_ROOM: DurableObjectNamespace<GameRoomDurableObject>;
+    GAME_HUB_DB: D1Database;
     ALLOWED_ORIGINS: string;
+  };
+  Variables: {
+    user: typeof auth.$Infer.Session.user | null;
+    session: typeof auth.$Infer.Session.session | null;
   };
 }
 

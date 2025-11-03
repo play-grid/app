@@ -1,63 +1,69 @@
-import type { Difficulty } from '@guess-logo/shared/schemas/five-seconds';
 import type { getRandomQuestionRoute } from './questions.routes';
-import type { AppRouteHandler } from '@/api/lib/types';
+import type { AppRouteHandler } from '@/lib/types';
+import { and, eq, inArray, not, sql } from 'drizzle-orm';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
-import questions from './data/questions.json';
+
+import { getDB } from '@/db';
+import { fiveSecondsCategories, fiveSecondsQuestions } from '../five-seconds.tables';
+import { questionSchema } from './questions.schemas';
 
 function calculateReadingTime(text: string) {
-  // Average reading speed is around 15-20 characters per second.
-  // Using a lower value to be safe and give more time.
   const charsPerSecond = 10;
   const seconds = Math.ceil(text.length / charsPerSecond);
-  // Ensure a minimum of 2 seconds
-  const readingTime = Math.max(2, seconds);
-  return `${readingTime}s`;
+  return `${Math.max(2, seconds)}s`;
 }
 
 export const getRandomQuestion: AppRouteHandler<getRandomQuestionRoute> = async (c) => {
-  const { difficulty, categoryIds, excludeIds } = c.req.valid('query');
-  let filteredQuestions = [...(questions as {
-    question: string;
-    estimatedReadingTime: string;
-    exampleAnswers: string;
-    categoryId: string;
-    difficulty: Difficulty;
-    metadata: Record<string, string>;
-  }[])];
+  const db = getDB(c);
+  const { difficulty, categoryIds = [], excludeIds = [] } = c.req.valid('query');
 
-  // Filter by difficulty
+  // Build WHERE clause
+  const filters: any[] = [];
+
   if (difficulty && difficulty !== 'all') {
-    filteredQuestions = filteredQuestions.filter(q => q.difficulty === difficulty);
+    filters.push(eq(fiveSecondsQuestions.difficulty, difficulty));
   }
 
-  // Filter by requested categories (multiple)
-  if (categoryIds && categoryIds.length > 0) {
-    filteredQuestions = filteredQuestions.filter(q =>
-      categoryIds.includes(q.categoryId),
-    );
+  if (categoryIds.length) {
+    filters.push(inArray(fiveSecondsQuestions.categoryId, categoryIds));
   }
 
-  // Exclude certain questions
-  if (excludeIds && excludeIds.length > 0) {
-    filteredQuestions = filteredQuestions.filter(
-      q => !excludeIds.includes(q.question.toLowerCase().replace(/\s/g, '-')),
-    );
+  if (excludeIds.length) {
+    filters.push(not(inArray(fiveSecondsQuestions.id, excludeIds)));
   }
 
-  if (!filteredQuestions.length) {
-    return c.json({ error: 'No questions found matching the criteria' }, HttpStatusCodes.NOT_FOUND);
+  const whereClause = filters.length
+    ? filters.reduce((acc, f) => and(acc, f))
+    : undefined;
+
+  // Get ONE random question directly from DB
+  const [random] = await db
+    .select()
+    .from(fiveSecondsQuestions)
+    .leftJoin(
+      fiveSecondsCategories,
+      eq(fiveSecondsQuestions.categoryId, fiveSecondsCategories.id),
+    )
+    .where(whereClause)
+    .orderBy(sql`RANDOM()`)
+    .limit(1);
+
+  if (!random) {
+    return c.json({ error: 'No questions found' }, HttpStatusCodes.NOT_FOUND);
   }
 
-  // Random selection
-  const randomIndex = Math.floor(Math.random() * filteredQuestions.length);
-  const randomQuestion = filteredQuestions[randomIndex];
+  c.header('Cache-Control', 'no-store, no-cache, must-revalidate, private');
+  c.header('Pragma', 'no-cache');
+  c.header('Expires', '0');
 
-  // Return question with single category
-  const randomQuestionWithId = {
-    ...randomQuestion,
-    id: randomQuestion.question.toLowerCase().replace(/\s/g, '-'),
-    estimatedReadingTime: calculateReadingTime(randomQuestion.question),
-  };
+  const response = questionSchema.parse({
+    ...random.five_seconds_questions,
+    categoryId: random.five_seconds_categories?.id,
+    category: random.five_seconds_categories,
+    estimatedReadingTime: calculateReadingTime(random.five_seconds_questions.question),
+    exampleAnswers: random.five_seconds_questions.exampleAnswers ?? '',
+    metadata: random.five_seconds_questions.metadata ?? {},
+  });
 
-  return c.json(randomQuestionWithId, HttpStatusCodes.OK);
+  return c.json(response, HttpStatusCodes.OK);
 };

@@ -1,0 +1,24 @@
+import createRouter from '@/lib/create-router';
+import {
+  create{{pascalCase name}}Handler,
+  delete{{pascalCase name}}Handler,
+  get{{pascalCase name}}ByIdHandler,
+  list{{pascalCase name}}sHandler,
+  update{{pascalCase name}}Handler,
+} from './{{kebabCase name}}.handlers';
+import {
+  create{{pascalCase name}},
+  delete{{pascalCase name}},
+  get{{pascalCase name}}ById,
+  list{{pascalCase name}}s,
+  update{{pascalCase name}},
+} from './{{kebabCase name}}.routes';
+
+const router = createRouter()
+  .openapi(list{{pascalCase name}}s, list{{pascalCase name}}sHandler)
+  .openapi(get{{pascalCase name}}ById, get{{pascalCase name}}ByIdHandler)
+  .openapi(create{{pascalCase name}}, create{{pascalCase name}}Handler)
+  .openapi(update{{pascalCase name}}, update{{pascalCase name}}Handler)
+  .openapi(delete{{pascalCase name}}, delete{{pascalCase name}}Handler);
+
+export default router;

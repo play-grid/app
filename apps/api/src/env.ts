@@ -17,7 +17,12 @@ const EnvSchema = z.object({
   ALL_SPORTS_API_KEY: z.string(),
   CLOUDFLARE_ACCOUNT_ID: z.string(),
   CLOUDFLARE_KV_API_TOKEN: z.string(),
+  CLOUDFLARE_D1_TOKEN: z.string(),
+  CLOUDFLARE_DATABASE_ID: z.string(),
   QUESTIONS_KV_ID: z.string(),
+  BETTER_AUTH_URL: z.string(),
+  BETTER_AUTH_SECRET: z.string(),
+  APP_NAME: z.string(),
 });
 
 export type Env = z.infer<typeof EnvSchema>;
