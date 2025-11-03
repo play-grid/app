@@ -75,6 +75,17 @@ CREATE TABLE `five_seconds_categories` (
 --> statement-breakpoint
 CREATE UNIQUE INDEX `category_name_en_idx` ON `five_seconds_categories` (`name_en`);--> statement-breakpoint
 CREATE UNIQUE INDEX `category_name_ar_idx` ON `five_seconds_categories` (`name_ar`);--> statement-breakpoint
+CREATE TABLE `five_seconds_feedback` (
+	`id` text PRIMARY KEY NOT NULL,
+	`question_id` text NOT NULL,
+	`type` text NOT NULL,
+	`comment` text,
+	`player_id` text,
+	`createdAt` integer NOT NULL,
+	`updatedAt` integer NOT NULL,
+	FOREIGN KEY (`question_id`) REFERENCES `five_seconds_questions`(`id`) ON UPDATE no action ON DELETE cascade
+);
+--> statement-breakpoint
 CREATE TABLE `five_seconds_questions` (
 	`id` text PRIMARY KEY NOT NULL,
 	`question` text NOT NULL,
