@@ -180,7 +180,7 @@ export default function (plop: NodePlopAPI) {
         name: 'modulePath',
         message: 'Module path for the resource:',
         default: 'src/routes',
-        when: (answers) => !answers.modulePath,
+        when: answers => !answers.modulePath,
       },
       {
         type: 'confirm',
@@ -296,7 +296,7 @@ export const replace{{pascalCase name}}InputSchema = {{camelCase name}}Schema.om
 // List output schema
 export const list{{pascalCase name}}sOutputSchema = z.array({{camelCase name}}OutputSchema);
 {{/if}}`,
-          skip: (data: { name: any; action: string; modulePath: string; }) => {
+          skip: (data: { name: any; action: string; modulePath: string }) => {
             // Check if schema already exists
             const schemasPath = path.join(
               process.cwd(),
@@ -357,19 +357,19 @@ export const list{{pascalCase name}}sOutputSchema = z.array({{camelCase name}}Ou
             if (!newContent.includes(routeImport)) {
               newContent = newContent.replace(
                 /(import createRouter from .*\n)/,
-                `$1${routeImport}\n`
+                `$1${routeImport}\n`,
               );
             }
             if (!newContent.includes(handlerImport)) {
               newContent = newContent.replace(
                 /(import createRouter from .*\n)/,
-                `$1${handlerImport}\n`
+                `$1${handlerImport}\n`,
               );
             }
 
             newContent = newContent.replace(
               /(const router = createRouter\(\);)/,
-              `$1\n  .openapi(${routeName}, ${routeName}Handler)`
+              `$1\n  .openapi(${routeName}, ${routeName}Handler)`,
             );
 
             return newContent;
