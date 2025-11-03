@@ -248,5 +248,22 @@
       "powerUps": "Power-Ups",
       "winCondition": "Win Condition"
     }
+  },
+  "feedback": {
+    "title": "Provide Feedback",
+    "description": "Help us improve the game by providing feedback on this question.",
+    "type": "Feedback Type",
+    "isCorrect": "Is Correct?",
+    "comment": "Comment",
+    "submit": "Submit Feedback",
+    "types": {
+      "annoying": "Annoying",
+      "unclear": "Unclear",
+      "too_easy": "Too Easy",
+      "too_hard": "Too Hard"
+    },
+    "noFeedbackTypeSelected": "Please select a feedback type.",
+    "successMessage": "Feedback submitted successfully! Thank you.",
+    "errorMessage": "An error occurred while submitting feedback. Please try again."
   }
 }
