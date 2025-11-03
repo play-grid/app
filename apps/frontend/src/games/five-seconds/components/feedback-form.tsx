@@ -1,9 +1,9 @@
-import type { InferResponseType } from 'hono/client';
-import { useEffect, useState } from 'react';
+import type { InferRequestType, InferResponseType } from 'hono/client';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import {
@@ -18,6 +18,7 @@ import { useSession } from '@/hooks/auth-hooks';
 import client from '@/lib/hono-client';
 
 const feedbackTypesEndpoint = client.api.games['five-seconds'].questions.feedback.types.$get;
+const feedbackEndpoint = client.api.games['five-seconds'].questions.feedback.$post;
 
 type FeedbackType = InferResponseType<typeof feedbackTypesEndpoint>[number];
 
@@ -28,20 +29,42 @@ interface FeedbackFormProps {
 export function FeedbackForm({ questionId }: FeedbackFormProps) {
   const { t } = useTranslation();
   const { user } = useSession();
-  const [feedbackTypes, setFeedbackTypes] = useState<FeedbackType[]>([]);
   const [feedbackType, setFeedbackType] = useState<FeedbackType>();
-  const [isCorrect, setIsCorrect] = useState(false);
   const [comment, setComment] = useState('');
 
-  useEffect(() => {
-    const fetchFeedbackTypes = async () => {
+  const { data: feedbackTypes = [] } = useQuery({
+    queryKey: ['feedbackTypes'],
+    queryFn: async () => {
       const res = await feedbackTypesEndpoint({});
-      const data = await res.json();
-      setFeedbackTypes(data);
-    };
+      if (!res.ok) {
+        throw new Error(await res.text());
+      }
+      return res.json();
+    },
+  });
 
-    fetchFeedbackTypes();
-  }, []);
+  const { mutate: submitFeedback } = useMutation({
+    mutationFn: async (
+      variables: Omit<InferRequestType<typeof feedbackEndpoint>['json'], 'playerId'>,
+    ) => {
+      const res = await feedbackEndpoint({
+        json: {
+          ...variables,
+          playerId: user?.id,
+        },
+      });
+      if (!res.ok) {
+        throw new Error(await res.text());
+      }
+    },
+    onSuccess: () => {
+      toast.success(t('feedback.successMessage'));
+    },
+    onError: (error: any) => {
+      console.error('Error submitting feedback:', error);
+      toast.error(t('feedback.errorMessage'));
+    },
+  });
 
   // TODO: This is a temporary implementation for showing toast messages.
   // In a real application, you might want to use a more sophisticated notification system
@@ -51,21 +74,11 @@ export function FeedbackForm({ questionId }: FeedbackFormProps) {
       toast.error(t('feedback.noFeedbackTypeSelected'));
       return;
     }
-    try {
-      await client.api.games['five-seconds'].questions.feedback.$post({
-        json: {
-          questionId,
-          type: feedbackType,
-          comment,
-          playerId: user?.id,
-        },
-      });
-      toast.success(t('feedback.successMessage'));
-    }
-    catch (error: any) {
-      console.error('Error submitting feedback:', error);
-      toast.error(t('feedback.errorMessage'));
-    }
+    submitFeedback({
+      questionId,
+      type: feedbackType,
+      comment,
+    });
   };
 
   const handleFeedbackTypeChange = (value: string) => {
@@ -94,14 +107,6 @@ export function FeedbackForm({ questionId }: FeedbackFormProps) {
               </SelectGroup>
             </SelectContent>
           </Select>
-        </div>
-        <div className="grid grid-cols-3 items-center gap-4">
-          <Label htmlFor="is-correct">{t('feedback.isCorrect')}</Label>
-          <Checkbox
-            id="is-correct"
-            checked={isCorrect}
-            onCheckedChange={checked => setIsCorrect(Boolean(checked))}
-          />
         </div>
         <div className="grid grid-cols-3 items-center gap-4">
           <Label htmlFor="comment">{t('feedback.comment')}</Label>
