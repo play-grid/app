@@ -24,9 +24,10 @@ type FeedbackType = InferResponseType<typeof feedbackTypesEndpoint>[number];
 
 interface FeedbackFormProps {
   questionId: string;
+  onSuccess?: () => void;
 }
 
-export function FeedbackForm({ questionId }: FeedbackFormProps) {
+export function FeedbackForm({ questionId, onSuccess }: FeedbackFormProps) {
   const { t } = useTranslation();
   const { user } = useSession();
   const [feedbackType, setFeedbackType] = useState<FeedbackType>();
@@ -59,6 +60,7 @@ export function FeedbackForm({ questionId }: FeedbackFormProps) {
     },
     onSuccess: () => {
       toast.success(t('feedback.successMessage'));
+      onSuccess?.();
     },
     onError: (error: any) => {
       console.error('Error submitting feedback:', error);

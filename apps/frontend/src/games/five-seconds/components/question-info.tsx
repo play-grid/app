@@ -2,6 +2,7 @@ import type { Question } from '@guess-logo/shared/schemas/five-seconds';
 import type { SupportedLanguage } from '@guess-logo/shared/types';
 import { useQueryClient } from '@tanstack/react-query';
 import { Clock, Info } from 'lucide-react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -17,6 +18,7 @@ export function QuestionInfo({ currentQuestion }: { currentQuestion: Question })
   const firstCategoryId = currentQuestion.categoryId;
   const { t, i18n } = useTranslation();
   const queryClient = useQueryClient();
+  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const { data: category, isLoading } = useCategory(
     firstCategoryId,
     i18n.language as SupportedLanguage,
@@ -58,14 +60,17 @@ export function QuestionInfo({ currentQuestion }: { currentQuestion: Question })
             <span>{currentQuestion.estimatedReadingTime}</span>
           </Badge>
         )}
-        <Popover>
+        <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
           <PopoverTrigger asChild>
             <Button variant="outline" size="sm" onMouseOver={prefetchFeedbackTypes}>
               <Info />
             </Button>
           </PopoverTrigger>
           <PopoverContent>
-            <FeedbackForm questionId={currentQuestion.id} />
+            <FeedbackForm
+              questionId={currentQuestion.id}
+              onSuccess={() => setIsPopoverOpen(false)}
+            />
           </PopoverContent>
         </Popover>
       </div>
