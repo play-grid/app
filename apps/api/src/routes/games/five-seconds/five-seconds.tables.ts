@@ -1,5 +1,6 @@
 import { sqliteTable, text, uniqueIndex } from 'drizzle-orm/sqlite-core';
 import { timestamp } from '@/db/timestamp';
+import { feedbackTypes } from './questions/feedback/types';
 
 // Temporary cuid() implementation
 const cuid = () => `cuid_${Math.random().toString(36).substring(2, 15)}`;
@@ -40,7 +41,7 @@ export const fiveSecondsFeedback = sqliteTable('five_seconds_feedback', {
   questionId: text('question_id')
     .notNull()
     .references(() => fiveSecondsQuestions.id, { onDelete: 'cascade' }),
-  type: text('type', { enum: ['annoying', 'unclear', 'too_easy', 'too_hard'] }).notNull(),
+  type: text('type', { enum: feedbackTypes }).notNull(),
   comment: text('comment'), // optional text feedback
   playerId: text('player_id'),
   ...timestamp,
