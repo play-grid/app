@@ -1,4 +1,4 @@
-import env from '@/env';
+import { getEnv } from '@/lib/context-manager';
 
 export interface SearchResult {
   name: string;
@@ -14,6 +14,8 @@ function isDomain(str: string): boolean {
 export async function fetchCompanyLogo(
   companyName: string,
 ): Promise<{ logo: string | null; name: string | null; domain: string | null }> {
+  const env = getEnv();
+
   try {
     const trimmedName = companyName.trim();
     const isInputDomain = isDomain(trimmedName);
