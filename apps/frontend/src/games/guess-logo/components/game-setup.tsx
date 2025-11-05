@@ -20,7 +20,6 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { gridConfigurations } from '../lib/grid-configurations';
-import { CreateRoomDialog } from './create-room-dialog';
 
 interface GameSetupProps {
   selectedSet: LogoSetKey;
@@ -239,14 +238,14 @@ export function GameSetup({
         <div className="flex flex-row gap-4 mt-8 w-full">
           <Button
             onClick={handleStartGame}
-            className="w-1/2"
+            className="w-full"
             size="lg"
             disabled={isUpdating}
           >
             {t('start-game')}
           </Button>
 
-          <CreateRoomDialog />
+          {/* <CreateRoomDialog /> */}
         </div>
         {attemptedStart && (!playerAValidation.success || !playerBValidation.success) && (
           <p className="text-sm text-red-500 mt-2">{t('enter-valid-player-names-to-continue')}</p>

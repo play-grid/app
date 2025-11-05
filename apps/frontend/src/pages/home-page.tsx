@@ -27,7 +27,6 @@ function HomePage() {
       <SiteCustomizations />
       <header className="mb-8 text-center">
         <h1 className="text-4xl font-bold mb-2">{t('home.title')}</h1>
-        <p className="text-lg text-muted-foreground">{t('home.subtitle')}</p>
       </header>
       <main className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl w-full">
         {games.map(game => (
@@ -51,14 +50,14 @@ function HomePage() {
           </Card>
         ))}
       </main>
-      <footer className="mt-8 text-center text-muted-foreground">
+      {/* <footer className="mt-8 text-center text-muted-foreground">
         <p>{t('home.footer')}</p>
-        {/* <Link to="/about">
+        <Link to="/about">
           <span className="w-full underline hover:text-foreground hover:no-underline cursor-pointer">
             {t('home.about')}
           </span>
-        </Link> */}
-      </footer>
+        </Link>
+      </footer> */}
     </div>
   );
 }
