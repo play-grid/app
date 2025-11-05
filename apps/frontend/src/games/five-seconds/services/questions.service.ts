@@ -29,7 +29,7 @@ export async function getRandomQuestion(
     return res.json();
   }
   catch (err) {
-    if (err instanceof HTTPException && err.res && err.res.status === 404) {
+    if (err instanceof HTTPException && err.res && err.res.status === 200) {
       const errorData = await err.res.json();
       if (errorData.code === 'NO_QUESTIONS_FOUND') {
         throw new NoQuestionsFoundError();
