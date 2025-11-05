@@ -1,17 +1,12 @@
 import path from 'node:path';
-import { defineWorkersConfig } from '@cloudflare/vitest-pool-workers/config';
+import { defineConfig } from 'vitest/config';
 
-export default defineWorkersConfig({
+export default defineConfig({
   test: {
+    setupFiles: ['./tests/vitest.setup.ts', './tests/setup-env.ts'],
     globals: true,
-    poolOptions: {
-      workers: {
-        wrangler: { configPath: './wrangler.toml' },
-        miniflare: {
-          compatibilityDate: '2025-09-01',
-          compatibilityFlags: ['nodejs_compat'],
-        },
-      },
+    env: {
+      VITEST: 'true',
     },
   },
   resolve: {

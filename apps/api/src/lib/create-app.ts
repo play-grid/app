@@ -21,7 +21,7 @@ export default function createApp(): AppOpenAPI {
   app.use('*', async (c, next) => {
     if (!envValidated) {
       try {
-        validateEnv(c.env);
+        validateEnv(c.env as unknown as Record<string, unknown>);
         envValidated = true;
         // eslint-disable-next-line no-console
         console.log('✅ Environment variables validated successfully');

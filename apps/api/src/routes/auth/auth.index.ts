@@ -1,4 +1,3 @@
-import type { IncomingRequestCfProperties } from '@cloudflare/workers-types';
 import type { Context } from 'hono';
 import type { AppEnv } from '@/lib/types';
 import { createAuth } from '@/auth';
