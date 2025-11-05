@@ -13,14 +13,19 @@ export const getRandomQuestion = createRoute({
   tags,
   method: 'get',
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(questionSchema, 'Successfully retrieved a random question'),
+    [HttpStatusCodes.OK]: jsonContent(
+      z.union([
+        questionSchema,
+        z.object({
+          code: z.literal('NO_QUESTIONS_FOUND'),
+          message: z.string(),
+        }),
+      ]),
+      'Successfully retrieved a random question or no questions found',
+    ),
     [HttpStatusCodes.BAD_REQUEST]: jsonContent(
       z.object({ error: z.string() }),
-      'Invalid logo set',
-    ),
-    [HttpStatusCodes.NOT_FOUND]: jsonContent(
-      z.object({ error: z.string() }),
-      'No questions found',
+      'Invalid request set',
     ),
     [HttpStatusCodes.INTERNAL_SERVER_ERROR]: jsonContent(
       z.object({ error: z.string() }),
