@@ -1,14 +1,14 @@
 import type { SupportedLanguage } from '@guess-logo/shared/types';
 import { TMDB } from 'tmdb-ts';
-import env from '@/env';
+import { getEnv } from '@/lib/context-manager';
 import { getBaseOptions } from './utils/get-base-options';
 
 export async function fetchMoviePoster(
   movieName: string,
   language: SupportedLanguage,
 ): Promise<string | null> {
+  const env = getEnv();
   const tmdb = new TMDB(env.TMDB_API_KEY);
-
   try {
     // Attempt to search for the movie in Arabic.
     const options = getBaseOptions(language);

@@ -5,7 +5,7 @@ import { createAuth } from '@/auth';
 
 export function protect(): MiddlewareHandler<AppEnv> {
   return async (c, next) => {
-    const auth = createAuth(c.env);
+    const auth = createAuth(c);
     const session = await auth.api.getSession({ headers: c.req.raw.headers });
 
     if (!session || !session.user) {

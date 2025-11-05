@@ -1,12 +1,13 @@
 import type { LogoItem, SupportedLanguage } from '@guess-logo/shared/types';
 import { TMDB } from 'tmdb-ts';
-import env from '@/env';
+import { getEnv } from '@/lib/context-manager';
 import { fetchPaginatedMovies } from './utils/fetch-paginated-movies';
 import { getBaseOptions } from './utils/get-base-options';
 
 export async function fetchTopRatedMovies(
   language: SupportedLanguage,
 ): Promise<LogoItem[]> {
+  const env = getEnv();
   const tmdb = new TMDB(env.TMDB_API_KEY);
   try {
     const options = getBaseOptions(language);

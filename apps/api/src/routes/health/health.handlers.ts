@@ -1,6 +1,5 @@
 import type { AppRouteHandler } from '../../lib/types';
 import type { health } from './health.routes';
-import env from '@/env';
 import packageJson from '../../../package.json';
 
 export const getHealthStatus: AppRouteHandler<typeof health> = async (c) => {
@@ -15,7 +14,7 @@ export const getHealthStatus: AppRouteHandler<typeof health> = async (c) => {
   // Check TMDB API
   try {
     const response = await fetch('https://api.themoviedb.org/3/configuration', {
-      headers: { Authorization: `Bearer ${env.TMDB_API_KEY}` },
+      headers: { Authorization: `Bearer ${c.env.TMDB_API_KEY}` },
     });
     if (!response.ok) {
       serviceChecks.tmdb = 'degraded';
@@ -29,7 +28,7 @@ export const getHealthStatus: AppRouteHandler<typeof health> = async (c) => {
   try {
     const response = await fetch('https://api.logo.dev/search?q=test', {
       headers: {
-        Authorization: `Bearer ${env.LOGO_DEV_API_KEY}`,
+        Authorization: `Bearer ${c.env.LOGO_DEV_API_KEY}`,
       },
     });
     if (!response.ok) {
