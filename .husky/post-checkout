@@ -1,4 +1,8 @@
 # .husky/post-checkout
+<<<<<<< HEAD
+=======
+
+>>>>>>> 8077c53 (chore(husky): replace simple-git-hooks with husky)
 bash << EOF
 # ANSI color codes
 RED='\033[0;31m'
