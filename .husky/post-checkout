@@ -1,5 +1,5 @@
-#!/bin/bash
-
+# .husky/post-checkout
+bash << EOF
 # ANSI color codes
 RED='\033[0;31m'
 YELLOW='\033[1;33m'
@@ -101,3 +101,4 @@ if [ -n "$api_changed_files" ]; then
 else
   echo -e "${GREEN}No API route changes detected. Skipping API rebuild.${RESET}"
 fi
+EOF
