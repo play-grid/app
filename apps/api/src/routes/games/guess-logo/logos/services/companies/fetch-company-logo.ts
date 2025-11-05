@@ -15,8 +15,15 @@ export async function fetchCompanyLogo(
   companyName: string,
 ): Promise<{ logo: string | null; name: string | null; domain: string | null }> {
   const env = getEnv();
+  const cacheKey = `logo-dev-url:${companyName}`;
 
   try {
+    // Check cache first
+    const cachedResult = await env.LOGO_CACHE.get(cacheKey);
+    if (cachedResult) {
+      return JSON.parse(cachedResult);
+    }
+
     const trimmedName = companyName.trim();
     const isInputDomain = isDomain(trimmedName);
 
@@ -70,6 +77,11 @@ export async function fetchCompanyLogo(
       name: targetResult.name || null,
       domain: targetResult.domain || null,
     };
+
+    // Store in cache before returning
+    await env.LOGO_CACHE.put(cacheKey, JSON.stringify(result), {
+      expirationTtl: 86400 * 30, // 30 days
+    });
 
     return result;
   }
