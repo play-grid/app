@@ -5,7 +5,7 @@ compatibility_flags = [ "nodejs_compat" ]
 workers_dev = true
 
 [vars]
-ALLOWED_ORIGINS = "http://localhost:5173,http://localhost:4173,https://guess-logo.pages.dev"
+ALLOWED_ORIGINS = "http://localhost:5173,http://localhost:4173,https://guess-logo.pages.dev,https://games.mohdalaa.com"
 
 [[durable_objects.bindings]]
 name = "GAME_ROOM"
