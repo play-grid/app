@@ -1,0 +1,182 @@
+[
+  {
+    "id": 188,
+    "name": "A-League",
+    "country": "Australia",
+    "logo": "https://media.api-sports.io/football/leagues/188.png"
+  },
+  {
+    "id": 191,
+    "name": "Brisbane Premier League",
+    "country": "Australia",
+    "logo": "https://media.api-sports.io/football/leagues/191.png"
+  },
+  {
+    "id": 193,
+    "name": "Northern Territory Premier League",
+    "country": "Australia",
+    "logo": "https://media.api-sports.io/football/leagues/193.png"
+  },
+  {
+    "id": 481,
+    "name": "Northern NSW NPL",
+    "country": "Australia",
+    "logo": "https://media.api-sports.io/football/leagues/481.png"
+  },
+  {
+    "id": 189,
+    "name": "Capital Territory NPL",
+    "country": "Australia",
+    "logo": "https://media.api-sports.io/football/leagues/189.png"
+  },
+  {
+    "id": 190,
+    "name": "A-League Women",
+    "country": "Australia",
+    "logo": "https://media.api-sports.io/football/leagues/190.png"
+  },
+  {
+    "id": 482,
+    "name": "Queensland NPL",
+    "country": "Australia",
+    "logo": "https://media.api-sports.io/football/leagues/482.png"
+  },
+  {
+    "id": 192,
+    "name": "New South Wales NPL",
+    "country": "Australia",
+    "logo": "https://media.api-sports.io/football/leagues/192.png"
+  },
+  {
+    "id": 194,
+    "name": "South Australia NPL",
+    "country": "Australia",
+    "logo": "https://media.api-sports.io/football/leagues/194.png"
+  },
+  {
+    "id": 195,
+    "name": "Victoria NPL",
+    "country": "Australia",
+    "logo": "https://media.api-sports.io/football/leagues/195.png"
+  },
+  {
+    "id": 196,
+    "name": "Western Australia NPL",
+    "country": "Australia",
+    "logo": "https://media.api-sports.io/football/leagues/196.png"
+  },
+  {
+    "id": 648,
+    "name": "Tasmania NPL",
+    "country": "Australia",
+    "logo": "https://media.api-sports.io/football/leagues/648.png"
+  },
+  {
+    "id": 874,
+    "name": "Australia Cup",
+    "country": "Australia",
+    "logo": "https://media.api-sports.io/football/leagues/874.png"
+  },
+  {
+    "id": 833,
+    "name": "Queensland Premier League",
+    "country": "Australia",
+    "logo": "https://media.api-sports.io/football/leagues/833.png"
+  },
+  {
+    "id": 834,
+    "name": "South Australia State League 1",
+    "country": "Australia",
+    "logo": "https://media.api-sports.io/football/leagues/834.png"
+  },
+  {
+    "id": 835,
+    "name": "New South Wales NPL 2",
+    "country": "Australia",
+    "logo": "https://media.api-sports.io/football/leagues/835.png"
+  },
+  {
+    "id": 836,
+    "name": "Victoria NPL 2",
+    "country": "Australia",
+    "logo": "https://media.api-sports.io/football/leagues/836.png"
+  },
+  {
+    "id": 1090,
+    "name": "NNSW League 1",
+    "country": "Australia",
+    "logo": "https://media.api-sports.io/football/leagues/1090.png"
+  },
+  {
+    "id": 1091,
+    "name": "Tasmania Northern Championship",
+    "country": "Australia",
+    "logo": "https://media.api-sports.io/football/leagues/1091.png"
+  },
+  {
+    "id": 1092,
+    "name": "Capital Territory NPL 2",
+    "country": "Australia",
+    "logo": "https://media.api-sports.io/football/leagues/1092.png"
+  },
+  {
+    "id": 1093,
+    "name": "Tasmania Southern Championship",
+    "country": "Australia",
+    "logo": "https://media.api-sports.io/football/leagues/1093.png"
+  },
+  {
+    "id": 1094,
+    "name": "Western Australia State League 1",
+    "country": "Australia",
+    "logo": "https://media.api-sports.io/football/leagues/1094.png"
+  },
+  {
+    "id": 376,
+    "name": "National Football League",
+    "country": "Fiji",
+    "logo": "https://media.api-sports.io/football/leagues/376.png"
+  },
+  {
+    "id": 280,
+    "name": "Premiership",
+    "country": "New-Zealand",
+    "logo": "https://media.api-sports.io/football/leagues/280.png"
+  },
+  {
+    "id": 954,
+    "name": "National League - Central",
+    "country": "New-Zealand",
+    "logo": "https://media.api-sports.io/football/leagues/954.png"
+  },
+  {
+    "id": 955,
+    "name": "National League - National",
+    "country": "New-Zealand",
+    "logo": "https://media.api-sports.io/football/leagues/955.png"
+  },
+  {
+    "id": 956,
+    "name": "National League - Northern",
+    "country": "New-Zealand",
+    "logo": "https://media.api-sports.io/football/leagues/956.png"
+  },
+  {
+    "id": 957,
+    "name": "National League - Southern",
+    "country": "New-Zealand",
+    "logo": "https://media.api-sports.io/football/leagues/957.png"
+  },
+  {
+    "id": 1056,
+    "name": "National League - Championship - Final",
+    "country": "New-Zealand",
+    "logo": "https://media.api-sports.io/football/leagues/1056.png"
+  },
+  {
+    "id": 1127,
+    "name": "Chatham Cup",
+    "country": "New-Zealand",
+    "logo": "https://media.api-sports.io/football/leagues/1127.png"
+  }
+]
