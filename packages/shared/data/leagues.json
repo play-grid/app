@@ -1302,12 +1302,6 @@
     "logo": "https://media.api-sports.io/football/leagues/495.png"
   },
   {
-    "id": 496,
-    "name": "Liga Alef",
-    "country": "Israel",
-    "logo": "https://media.api-sports.io/football/leagues/496.png"
-  },
-  {
     "id": 506,
     "name": "2. liga",
     "country": "Slovakia",
@@ -1367,18 +1361,8 @@
     "country": "Macedonia",
     "logo": "https://media.api-sports.io/football/leagues/371.png"
   },
-  {
-    "id": 382,
-    "name": "Liga Leumit",
-    "country": "Israel",
-    "logo": "https://media.api-sports.io/football/leagues/382.png"
-  },
-  {
-    "id": 383,
-    "name": "Ligat Ha'al",
-    "country": "Israel",
-    "logo": "https://media.api-sports.io/football/leagues/383.png"
-  },
+
+
   {
     "id": 386,
     "name": "Ligue 1",
@@ -2219,12 +2203,7 @@
     "country": "Croatia",
     "logo": "https://media.api-sports.io/football/leagues/212.png"
   },
-  {
-    "id": 384,
-    "name": "State Cup",
-    "country": "Israel",
-    "logo": "https://media.api-sports.io/football/leagues/384.png"
-  },
+
   {
     "id": 285,
     "name": "Cupa României",
@@ -2609,12 +2588,7 @@
     "country": "Ireland",
     "logo": "https://media.api-sports.io/football/leagues/360.png"
   },
-  {
-    "id": 385,
-    "name": "Toto Cup Ligat Al",
-    "country": "Israel",
-    "logo": "https://media.api-sports.io/football/leagues/385.png"
-  },
+
   {
     "id": 264,
     "name": "Copa MX",
@@ -3796,12 +3770,6 @@
     "name": "Cup",
     "country": "Latvia",
     "logo": "https://media.api-sports.io/football/leagues/658.png"
-  },
-  {
-    "id": 659,
-    "name": "Super Cup",
-    "country": "Israel",
-    "logo": "https://media.api-sports.io/football/leagues/659.png"
   },
   {
     "id": 660,

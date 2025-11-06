@@ -20,6 +20,9 @@ importers:
       lint-staged:
         specifier: ^16.1.5
         version: 16.2.3
+      tsx:
+        specifier: ^4.20.6
+        version: 4.20.6
 
   apps/api:
     dependencies:

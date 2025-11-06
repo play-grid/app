@@ -1,0 +1,2714 @@
+[
+  {
+    "id": 311,
+    "name": "1st Division",
+    "country": "Albania",
+    "logo": "https://media.api-sports.io/football/leagues/311.png"
+  },
+  {
+    "id": 310,
+    "name": "Superliga",
+    "country": "Albania",
+    "logo": "https://media.api-sports.io/football/leagues/310.png"
+  },
+  {
+    "id": 512,
+    "name": "2nd Division - Group A",
+    "country": "Albania",
+    "logo": "https://media.api-sports.io/football/leagues/512.png"
+  },
+  {
+    "id": 513,
+    "name": "2nd Division - Group B",
+    "country": "Albania",
+    "logo": "https://media.api-sports.io/football/leagues/513.png"
+  },
+  {
+    "id": 707,
+    "name": "Cup",
+    "country": "Albania",
+    "logo": "https://media.api-sports.io/football/leagues/707.png"
+  },
+  {
+    "id": 708,
+    "name": "Super Cup",
+    "country": "Albania",
+    "logo": "https://media.api-sports.io/football/leagues/708.png"
+  },
+  {
+    "id": 978,
+    "name": "2nd Division - Play-offs",
+    "country": "Albania",
+    "logo": "https://media.api-sports.io/football/leagues/978.png"
+  },
+  {
+    "id": 312,
+    "name": "1a Divisió",
+    "country": "Andorra",
+    "logo": "https://media.api-sports.io/football/leagues/312.png"
+  },
+  {
+    "id": 313,
+    "name": "2a Divisió",
+    "country": "Andorra",
+    "logo": "https://media.api-sports.io/football/leagues/313.png"
+  },
+  {
+    "id": 655,
+    "name": "Copa Constitució",
+    "country": "Andorra",
+    "logo": "https://media.api-sports.io/football/leagues/655.png"
+  },
+  {
+    "id": 809,
+    "name": "Super Cup",
+    "country": "Andorra",
+    "logo": "https://media.api-sports.io/football/leagues/809.png"
+  },
+  {
+    "id": 1048,
+    "name": "Premier Division",
+    "country": "Antigua-And-Barbuda",
+    "logo": "https://media.api-sports.io/football/leagues/1048.png"
+  },
+  {
+    "id": 343,
+    "name": "First League",
+    "country": "Armenia",
+    "logo": "https://media.api-sports.io/football/leagues/343.png"
+  },
+  {
+    "id": 342,
+    "name": "Premier League",
+    "country": "Armenia",
+    "logo": "https://media.api-sports.io/football/leagues/342.png"
+  },
+  {
+    "id": 654,
+    "name": "Super Cup",
+    "country": "Armenia",
+    "logo": "https://media.api-sports.io/football/leagues/654.png"
+  },
+  {
+    "id": 709,
+    "name": "Cup",
+    "country": "Armenia",
+    "logo": "https://media.api-sports.io/football/leagues/709.png"
+  },
+  {
+    "id": 421,
+    "name": "Division di Honor",
+    "country": "Aruba",
+    "logo": "https://media.api-sports.io/football/leagues/421.png"
+  },
+  {
+    "id": 418,
+    "name": "Birinci Dasta",
+    "country": "Azerbaijan",
+    "logo": "https://media.api-sports.io/football/leagues/418.png"
+  },
+  {
+    "id": 419,
+    "name": "Premyer Liqa",
+    "country": "Azerbaijan",
+    "logo": "https://media.api-sports.io/football/leagues/419.png"
+  },
+  {
+    "id": 420,
+    "name": "Cup",
+    "country": "Azerbaijan",
+    "logo": "https://media.api-sports.io/football/leagues/420.png"
+  },
+  {
+    "id": 417,
+    "name": "Premier League",
+    "country": "Bahrain",
+    "logo": "https://media.api-sports.io/football/leagues/417.png"
+  },
+  {
+    "id": 485,
+    "name": "Federation Cup",
+    "country": "Bahrain",
+    "logo": "https://media.api-sports.io/football/leagues/485.png"
+  },
+  {
+    "id": 1049,
+    "name": "King's Cup",
+    "country": "Bahrain",
+    "logo": "https://media.api-sports.io/football/leagues/1049.png"
+  },
+  {
+    "id": 1109,
+    "name": "Super Cup",
+    "country": "Bahrain",
+    "logo": "https://media.api-sports.io/football/leagues/1109.png"
+  },
+  {
+    "id": 398,
+    "name": "Premier League",
+    "country": "Bangladesh",
+    "logo": "https://media.api-sports.io/football/leagues/398.png"
+  },
+  {
+    "id": 811,
+    "name": "Federation Cup",
+    "country": "Bangladesh",
+    "logo": "https://media.api-sports.io/football/leagues/811.png"
+  },
+  {
+    "id": 422,
+    "name": "Premier League",
+    "country": "Barbados",
+    "logo": "https://media.api-sports.io/football/leagues/422.png"
+  },
+  {
+    "id": 116,
+    "name": "Premier League",
+    "country": "Belarus",
+    "logo": "https://media.api-sports.io/football/leagues/116.png"
+  },
+  {
+    "id": 117,
+    "name": "1. Division",
+    "country": "Belarus",
+    "logo": "https://media.api-sports.io/football/leagues/117.png"
+  },
+  {
+    "id": 118,
+    "name": "2. Division",
+    "country": "Belarus",
+    "logo": "https://media.api-sports.io/football/leagues/118.png"
+  },
+  {
+    "id": 486,
+    "name": "Coppa",
+    "country": "Belarus",
+    "logo": "https://media.api-sports.io/football/leagues/486.png"
+  },
+  {
+    "id": 562,
+    "name": "Reserve League",
+    "country": "Belarus",
+    "logo": "https://media.api-sports.io/football/leagues/562.png"
+  },
+  {
+    "id": 812,
+    "name": "Super Cup",
+    "country": "Belarus",
+    "logo": "https://media.api-sports.io/football/leagues/812.png"
+  },
+  {
+    "id": 414,
+    "name": "Premier League",
+    "country": "Bermuda",
+    "logo": "https://media.api-sports.io/football/leagues/414.png"
+  },
+  {
+    "id": 413,
+    "name": "Super League",
+    "country": "Bhutan",
+    "logo": "https://media.api-sports.io/football/leagues/413.png"
+  },
+  {
+    "id": 1031,
+    "name": "Premier League",
+    "country": "Bhutan",
+    "logo": "https://media.api-sports.io/football/leagues/1031.png"
+  },
+  {
+    "id": 317,
+    "name": "1st League - RS",
+    "country": "Bosnia",
+    "logo": "https://media.api-sports.io/football/leagues/317.png"
+  },
+  {
+    "id": 316,
+    "name": "1st League - FBiH",
+    "country": "Bosnia",
+    "logo": "https://media.api-sports.io/football/leagues/316.png"
+  },
+  {
+    "id": 314,
+    "name": "Cup",
+    "country": "Bosnia",
+    "logo": "https://media.api-sports.io/football/leagues/314.png"
+  },
+  {
+    "id": 315,
+    "name": "Premijer Liga",
+    "country": "Bosnia",
+    "logo": "https://media.api-sports.io/football/leagues/315.png"
+  },
+  {
+    "id": 173,
+    "name": "Second League",
+    "country": "Bulgaria",
+    "logo": "https://media.api-sports.io/football/leagues/173.png"
+  },
+  {
+    "id": 174,
+    "name": "Cup",
+    "country": "Bulgaria",
+    "logo": "https://media.api-sports.io/football/leagues/174.png"
+  },
+  {
+    "id": 172,
+    "name": "First League",
+    "country": "Bulgaria",
+    "logo": "https://media.api-sports.io/football/leagues/172.png"
+  },
+  {
+    "id": 175,
+    "name": "Third League - Northeast",
+    "country": "Bulgaria",
+    "logo": "https://media.api-sports.io/football/leagues/175.png"
+  },
+  {
+    "id": 176,
+    "name": "Third League - Northwest",
+    "country": "Bulgaria",
+    "logo": "https://media.api-sports.io/football/leagues/176.png"
+  },
+  {
+    "id": 177,
+    "name": "Third League - Southeast",
+    "country": "Bulgaria",
+    "logo": "https://media.api-sports.io/football/leagues/177.png"
+  },
+  {
+    "id": 178,
+    "name": "Third League - Southwest",
+    "country": "Bulgaria",
+    "logo": "https://media.api-sports.io/football/leagues/178.png"
+  },
+  {
+    "id": 656,
+    "name": "Super Cup",
+    "country": "Bulgaria",
+    "logo": "https://media.api-sports.io/football/leagues/656.png"
+  },
+  {
+    "id": 410,
+    "name": "C-League",
+    "country": "Cambodia",
+    "logo": "https://media.api-sports.io/football/leagues/410.png"
+  },
+  {
+    "id": 1174,
+    "name": "Hun Sen Cup",
+    "country": "Cambodia",
+    "logo": "https://media.api-sports.io/football/leagues/1174.png"
+  },
+  {
+    "id": 589,
+    "name": "Taiwan Football Premier League",
+    "country": "Chinese-Taipei",
+    "logo": "https://media.api-sports.io/football/leagues/589.png"
+  },
+  {
+    "id": 162,
+    "name": "Primera División",
+    "country": "Costa-Rica",
+    "logo": "https://media.api-sports.io/football/leagues/162.png"
+  },
+  {
+    "id": 163,
+    "name": "Liga de Ascenso",
+    "country": "Costa-Rica",
+    "logo": "https://media.api-sports.io/football/leagues/163.png"
+  },
+  {
+    "id": 864,
+    "name": "Supercopa",
+    "country": "Costa-Rica",
+    "logo": "https://media.api-sports.io/football/leagues/864.png"
+  },
+  {
+    "id": 958,
+    "name": "Copa Costa Rica",
+    "country": "Costa-Rica",
+    "logo": "https://media.api-sports.io/football/leagues/958.png"
+  },
+  {
+    "id": 1167,
+    "name": "Recopa",
+    "country": "Costa-Rica",
+    "logo": "https://media.api-sports.io/football/leagues/1167.png"
+  },
+  {
+    "id": 870,
+    "name": "Premier League",
+    "country": "Crimea",
+    "logo": "https://media.api-sports.io/football/leagues/870.png"
+  },
+  {
+    "id": 642,
+    "name": "Curaçao Sekshon Pagá",
+    "country": "Curacao",
+    "logo": "https://media.api-sports.io/football/leagues/642.png"
+  },
+  {
+    "id": 321,
+    "name": "Cup",
+    "country": "Cyprus",
+    "logo": "https://media.api-sports.io/football/leagues/321.png"
+  },
+  {
+    "id": 318,
+    "name": "1. Division",
+    "country": "Cyprus",
+    "logo": "https://media.api-sports.io/football/leagues/318.png"
+  },
+  {
+    "id": 319,
+    "name": "2. Division",
+    "country": "Cyprus",
+    "logo": "https://media.api-sports.io/football/leagues/319.png"
+  },
+  {
+    "id": 320,
+    "name": "3. Division",
+    "country": "Cyprus",
+    "logo": "https://media.api-sports.io/football/leagues/320.png"
+  },
+  {
+    "id": 852,
+    "name": "Super Cup",
+    "country": "Cyprus",
+    "logo": "https://media.api-sports.io/football/leagues/852.png"
+  },
+  {
+    "id": 925,
+    "name": "Super Cup",
+    "country": "Czech-Republic",
+    "logo": "https://media.api-sports.io/football/leagues/925.png"
+  },
+  {
+    "id": 345,
+    "name": "Czech Liga",
+    "country": "Czech-Republic",
+    "logo": "https://media.api-sports.io/football/leagues/345.png"
+  },
+  {
+    "id": 346,
+    "name": "FNL",
+    "country": "Czech-Republic",
+    "logo": "https://media.api-sports.io/football/leagues/346.png"
+  },
+  {
+    "id": 347,
+    "name": "Cup",
+    "country": "Czech-Republic",
+    "logo": "https://media.api-sports.io/football/leagues/347.png"
+  },
+  {
+    "id": 348,
+    "name": "3. liga - CFL A",
+    "country": "Czech-Republic",
+    "logo": "https://media.api-sports.io/football/leagues/348.png"
+  },
+  {
+    "id": 349,
+    "name": "3. liga - MSFL",
+    "country": "Czech-Republic",
+    "logo": "https://media.api-sports.io/football/leagues/349.png"
+  },
+  {
+    "id": 350,
+    "name": "4. liga - Divizie A",
+    "country": "Czech-Republic",
+    "logo": "https://media.api-sports.io/football/leagues/350.png"
+  },
+  {
+    "id": 351,
+    "name": "4. liga - Divizie B",
+    "country": "Czech-Republic",
+    "logo": "https://media.api-sports.io/football/leagues/351.png"
+  },
+  {
+    "id": 352,
+    "name": "4. liga - Divizie C",
+    "country": "Czech-Republic",
+    "logo": "https://media.api-sports.io/football/leagues/352.png"
+  },
+  {
+    "id": 353,
+    "name": "4. liga - Divizie D",
+    "country": "Czech-Republic",
+    "logo": "https://media.api-sports.io/football/leagues/353.png"
+  },
+  {
+    "id": 354,
+    "name": "4. liga - Divizie E",
+    "country": "Czech-Republic",
+    "logo": "https://media.api-sports.io/football/leagues/354.png"
+  },
+  {
+    "id": 668,
+    "name": "1. Liga U19",
+    "country": "Czech-Republic",
+    "logo": "https://media.api-sports.io/football/leagues/668.png"
+  },
+  {
+    "id": 669,
+    "name": "1. Liga Women",
+    "country": "Czech-Republic",
+    "logo": "https://media.api-sports.io/football/leagues/669.png"
+  },
+  {
+    "id": 685,
+    "name": "3. liga - CFL B",
+    "country": "Czech-Republic",
+    "logo": "https://media.api-sports.io/football/leagues/685.png"
+  },
+  {
+    "id": 686,
+    "name": "4. liga - Divizie F",
+    "country": "Czech-Republic",
+    "logo": "https://media.api-sports.io/football/leagues/686.png"
+  },
+  {
+    "id": 1010,
+    "name": "3. liga - Promotion Play-off",
+    "country": "Czech-Republic",
+    "logo": "https://media.api-sports.io/football/leagues/1010.png"
+  },
+  {
+    "id": 759,
+    "name": "Liga Mayor",
+    "country": "Dominican-Republic",
+    "logo": "https://media.api-sports.io/football/leagues/759.png"
+  },
+  {
+    "id": 1180,
+    "name": "Copa LDF",
+    "country": "Dominican-Republic",
+    "logo": "https://media.api-sports.io/football/leagues/1180.png"
+  },
+  {
+    "id": 370,
+    "name": "Primera Division",
+    "country": "El-Salvador",
+    "logo": "https://media.api-sports.io/football/leagues/370.png"
+  },
+  {
+    "id": 328,
+    "name": "Esiliiga A",
+    "country": "Estonia",
+    "logo": "https://media.api-sports.io/football/leagues/328.png"
+  },
+  {
+    "id": 329,
+    "name": "Meistriliiga",
+    "country": "Estonia",
+    "logo": "https://media.api-sports.io/football/leagues/329.png"
+  },
+  {
+    "id": 657,
+    "name": "Cup",
+    "country": "Estonia",
+    "logo": "https://media.api-sports.io/football/leagues/657.png"
+  },
+  {
+    "id": 1126,
+    "name": "Esiliiga B",
+    "country": "Estonia",
+    "logo": "https://media.api-sports.io/football/leagues/1126.png"
+  },
+  {
+    "id": 847,
+    "name": "Premier League",
+    "country": "Eswatini",
+    "logo": "https://media.api-sports.io/football/leagues/847.png"
+  },
+  {
+    "id": 366,
+    "name": "1. Deild",
+    "country": "Faroe-Islands",
+    "logo": "https://media.api-sports.io/football/leagues/366.png"
+  },
+  {
+    "id": 367,
+    "name": "Meistaradeildin",
+    "country": "Faroe-Islands",
+    "logo": "https://media.api-sports.io/football/leagues/367.png"
+  },
+  {
+    "id": 491,
+    "name": "Løgmanssteypid",
+    "country": "Faroe-Islands",
+    "logo": "https://media.api-sports.io/football/leagues/491.png"
+  },
+  {
+    "id": 1177,
+    "name": "Super Cup",
+    "country": "Faroe-Islands",
+    "logo": "https://media.api-sports.io/football/leagues/1177.png"
+  },
+  {
+    "id": 245,
+    "name": "Ykkönen",
+    "country": "Finland",
+    "logo": "https://media.api-sports.io/football/leagues/245.png"
+  },
+  {
+    "id": 244,
+    "name": "Veikkausliiga",
+    "country": "Finland",
+    "logo": "https://media.api-sports.io/football/leagues/244.png"
+  },
+  {
+    "id": 246,
+    "name": "Suomen Cup",
+    "country": "Finland",
+    "logo": "https://media.api-sports.io/football/leagues/246.png"
+  },
+  {
+    "id": 247,
+    "name": "Kakkonen - Lohko A",
+    "country": "Finland",
+    "logo": "https://media.api-sports.io/football/leagues/247.png"
+  },
+  {
+    "id": 248,
+    "name": "Kakkonen - Lohko B",
+    "country": "Finland",
+    "logo": "https://media.api-sports.io/football/leagues/248.png"
+  },
+  {
+    "id": 249,
+    "name": "Kakkonen - Lohko C",
+    "country": "Finland",
+    "logo": "https://media.api-sports.io/football/leagues/249.png"
+  },
+  {
+    "id": 640,
+    "name": "Kansallinen Liiga",
+    "country": "Finland",
+    "logo": "https://media.api-sports.io/football/leagues/640.png"
+  },
+  {
+    "id": 700,
+    "name": "Kakkosen Cup",
+    "country": "Finland",
+    "logo": "https://media.api-sports.io/football/leagues/700.png"
+  },
+  {
+    "id": 899,
+    "name": "League Cup",
+    "country": "Finland",
+    "logo": "https://media.api-sports.io/football/leagues/899.png"
+  },
+  {
+    "id": 901,
+    "name": "Ykköscup",
+    "country": "Finland",
+    "logo": "https://media.api-sports.io/football/leagues/901.png"
+  },
+  {
+    "id": 1052,
+    "name": "Kakkonen - Play-offs",
+    "country": "Finland",
+    "logo": "https://media.api-sports.io/football/leagues/1052.png"
+  },
+  {
+    "id": 1087,
+    "name": "Ykkösliiga",
+    "country": "Finland",
+    "logo": "https://media.api-sports.io/football/leagues/1087.png"
+  },
+  {
+    "id": 326,
+    "name": "Erovnuli Liga 2",
+    "country": "Georgia",
+    "logo": "https://media.api-sports.io/football/leagues/326.png"
+  },
+  {
+    "id": 327,
+    "name": "Erovnuli Liga",
+    "country": "Georgia",
+    "logo": "https://media.api-sports.io/football/leagues/327.png"
+  },
+  {
+    "id": 530,
+    "name": "Super Cup",
+    "country": "Georgia",
+    "logo": "https://media.api-sports.io/football/leagues/530.png"
+  },
+  {
+    "id": 672,
+    "name": "David Kipiani Cup",
+    "country": "Georgia",
+    "logo": "https://media.api-sports.io/football/leagues/672.png"
+  },
+  {
+    "id": 1104,
+    "name": "Liga 3",
+    "country": "Georgia",
+    "logo": "https://media.api-sports.io/football/leagues/1104.png"
+  },
+  {
+    "id": 758,
+    "name": "Premier Division",
+    "country": "Gibraltar",
+    "logo": "https://media.api-sports.io/football/leagues/758.png"
+  },
+  {
+    "id": 837,
+    "name": "Rock Cup",
+    "country": "Gibraltar",
+    "logo": "https://media.api-sports.io/football/leagues/837.png"
+  },
+  {
+    "id": 1042,
+    "name": "Super Cup",
+    "country": "Gibraltar",
+    "logo": "https://media.api-sports.io/football/leagues/1042.png"
+  },
+  {
+    "id": 1080,
+    "name": "Premier Division",
+    "country": "Grenada",
+    "logo": "https://media.api-sports.io/football/leagues/1080.png"
+  },
+  {
+    "id": 377,
+    "name": "Division d'Honneur",
+    "country": "Guadeloupe",
+    "logo": "https://media.api-sports.io/football/leagues/377.png"
+  },
+  {
+    "id": 378,
+    "name": "Ligue 1",
+    "country": "Guinea",
+    "logo": "https://media.api-sports.io/football/leagues/378.png"
+  },
+  {
+    "id": 381,
+    "name": "HKFA 1st Division",
+    "country": "Hong-Kong",
+    "logo": "https://media.api-sports.io/football/leagues/381.png"
+  },
+  {
+    "id": 380,
+    "name": "Premier League",
+    "country": "Hong-Kong",
+    "logo": "https://media.api-sports.io/football/leagues/380.png"
+  },
+  {
+    "id": 544,
+    "name": "FA Cup",
+    "country": "Hong-Kong",
+    "logo": "https://media.api-sports.io/football/leagues/544.png"
+  },
+  {
+    "id": 716,
+    "name": "Senior Shield",
+    "country": "Hong-Kong",
+    "logo": "https://media.api-sports.io/football/leagues/716.png"
+  },
+  {
+    "id": 1051,
+    "name": "HKPL Cup",
+    "country": "Hong-Kong",
+    "logo": "https://media.api-sports.io/football/leagues/1051.png"
+  },
+  {
+    "id": 1160,
+    "name": "Sapling Cup",
+    "country": "Hong-Kong",
+    "logo": "https://media.api-sports.io/football/leagues/1160.png"
+  },
+  {
+    "id": 273,
+    "name": "Magyar Kupa",
+    "country": "Hungary",
+    "logo": "https://media.api-sports.io/football/leagues/273.png"
+  },
+  {
+    "id": 271,
+    "name": "NB I",
+    "country": "Hungary",
+    "logo": "https://media.api-sports.io/football/leagues/271.png"
+  },
+  {
+    "id": 272,
+    "name": "NB II",
+    "country": "Hungary",
+    "logo": "https://media.api-sports.io/football/leagues/272.png"
+  },
+  {
+    "id": 633,
+    "name": "NB III - Northeast",
+    "country": "Hungary",
+    "logo": "https://media.api-sports.io/football/leagues/633.png"
+  },
+  {
+    "id": 634,
+    "name": "NB III - Southwest",
+    "country": "Hungary",
+    "logo": "https://media.api-sports.io/football/leagues/634.png"
+  },
+  {
+    "id": 635,
+    "name": "NB III - Northwest",
+    "country": "Hungary",
+    "logo": "https://media.api-sports.io/football/leagues/635.png"
+  },
+  {
+    "id": 1023,
+    "name": "NB III - Southeast",
+    "country": "Hungary",
+    "logo": "https://media.api-sports.io/football/leagues/1023.png"
+  },
+  {
+    "id": 1111,
+    "name": "NB III - Promotion Play-offs",
+    "country": "Hungary",
+    "logo": "https://media.api-sports.io/football/leagues/1111.png"
+  },
+  {
+    "id": 166,
+    "name": "2. Deild",
+    "country": "Iceland",
+    "logo": "https://media.api-sports.io/football/leagues/166.png"
+  },
+  {
+    "id": 164,
+    "name": "Úrvalsdeild",
+    "country": "Iceland",
+    "logo": "https://media.api-sports.io/football/leagues/164.png"
+  },
+  {
+    "id": 165,
+    "name": "1. Deild",
+    "country": "Iceland",
+    "logo": "https://media.api-sports.io/football/leagues/165.png"
+  },
+  {
+    "id": 167,
+    "name": "Cup",
+    "country": "Iceland",
+    "logo": "https://media.api-sports.io/football/leagues/167.png"
+  },
+  {
+    "id": 168,
+    "name": "League Cup",
+    "country": "Iceland",
+    "logo": "https://media.api-sports.io/football/leagues/168.png"
+  },
+  {
+    "id": 639,
+    "name": "Super Cup",
+    "country": "Iceland",
+    "logo": "https://media.api-sports.io/football/leagues/639.png"
+  },
+  {
+    "id": 671,
+    "name": "Úrvalsdeild Women",
+    "country": "Iceland",
+    "logo": "https://media.api-sports.io/football/leagues/671.png"
+  },
+  {
+    "id": 814,
+    "name": "Reykjavik Cup",
+    "country": "Iceland",
+    "logo": "https://media.api-sports.io/football/leagues/814.png"
+  },
+  {
+    "id": 815,
+    "name": "Fotbolti.net Cup A",
+    "country": "Iceland",
+    "logo": "https://media.api-sports.io/football/leagues/815.png"
+  },
+  {
+    "id": 274,
+    "name": "Liga 1",
+    "country": "Indonesia",
+    "logo": "https://media.api-sports.io/football/leagues/274.png"
+  },
+  {
+    "id": 718,
+    "name": "Piala Indonesia",
+    "country": "Indonesia",
+    "logo": "https://media.api-sports.io/football/leagues/718.png"
+  },
+  {
+    "id": 275,
+    "name": "Liga 2",
+    "country": "Indonesia",
+    "logo": "https://media.api-sports.io/football/leagues/275.png"
+  },
+  {
+    "id": 924,
+    "name": "Piala Presiden",
+    "country": "Indonesia",
+    "logo": "https://media.api-sports.io/football/leagues/924.png"
+  },
+  {
+    "id": 359,
+    "name": "FAI Cup",
+    "country": "Ireland",
+    "logo": "https://media.api-sports.io/football/leagues/359.png"
+  },
+  {
+    "id": 360,
+    "name": "League Cup",
+    "country": "Ireland",
+    "logo": "https://media.api-sports.io/football/leagues/360.png"
+  },
+  {
+    "id": 546,
+    "name": "FAI President's Cup",
+    "country": "Ireland",
+    "logo": "https://media.api-sports.io/football/leagues/546.png"
+  },
+  {
+    "id": 357,
+    "name": "Premier Division",
+    "country": "Ireland",
+    "logo": "https://media.api-sports.io/football/leagues/357.png"
+  },
+  {
+    "id": 358,
+    "name": "First Division",
+    "country": "Ireland",
+    "logo": "https://media.api-sports.io/football/leagues/358.png"
+  },
+  {
+    "id": 1175,
+    "name": "Women's President's Cup",
+    "country": "Ireland",
+    "logo": "https://media.api-sports.io/football/leagues/1175.png"
+  },
+  {
+    "id": 388,
+    "name": "1. Division",
+    "country": "Kazakhstan",
+    "logo": "https://media.api-sports.io/football/leagues/388.png"
+  },
+  {
+    "id": 389,
+    "name": "Premier League",
+    "country": "Kazakhstan",
+    "logo": "https://media.api-sports.io/football/leagues/389.png"
+  },
+  {
+    "id": 498,
+    "name": "Cup",
+    "country": "Kazakhstan",
+    "logo": "https://media.api-sports.io/football/leagues/498.png"
+  },
+  {
+    "id": 818,
+    "name": "Super Cup",
+    "country": "Kazakhstan",
+    "logo": "https://media.api-sports.io/football/leagues/818.png"
+  },
+  {
+    "id": 664,
+    "name": "Superliga",
+    "country": "Kosovo",
+    "logo": "https://media.api-sports.io/football/leagues/664.png"
+  },
+  {
+    "id": 665,
+    "name": "Cup",
+    "country": "Kosovo",
+    "logo": "https://media.api-sports.io/football/leagues/665.png"
+  },
+  {
+    "id": 819,
+    "name": "Super Cup",
+    "country": "Kosovo",
+    "logo": "https://media.api-sports.io/football/leagues/819.png"
+  },
+  {
+    "id": 569,
+    "name": "Premier League",
+    "country": "Kyrgyzstan",
+    "logo": "https://media.api-sports.io/football/leagues/569.png"
+  },
+  {
+    "id": 647,
+    "name": "Lao League",
+    "country": "Laos",
+    "logo": "https://media.api-sports.io/football/leagues/647.png"
+  },
+  {
+    "id": 364,
+    "name": "1. Liga",
+    "country": "Latvia",
+    "logo": "https://media.api-sports.io/football/leagues/364.png"
+  },
+  {
+    "id": 365,
+    "name": "Virsliga",
+    "country": "Latvia",
+    "logo": "https://media.api-sports.io/football/leagues/365.png"
+  },
+  {
+    "id": 658,
+    "name": "Cup",
+    "country": "Latvia",
+    "logo": "https://media.api-sports.io/football/leagues/658.png"
+  },
+  {
+    "id": 1176,
+    "name": "Super Cup",
+    "country": "Latvia",
+    "logo": "https://media.api-sports.io/football/leagues/1176.png"
+  },
+  {
+    "id": 760,
+    "name": "LFA First Division",
+    "country": "Liberia",
+    "logo": "https://media.api-sports.io/football/leagues/760.png"
+  },
+  {
+    "id": 761,
+    "name": "Cup",
+    "country": "Liechtenstein",
+    "logo": "https://media.api-sports.io/football/leagues/761.png"
+  },
+  {
+    "id": 361,
+    "name": "1 Lyga",
+    "country": "Lithuania",
+    "logo": "https://media.api-sports.io/football/leagues/361.png"
+  },
+  {
+    "id": 362,
+    "name": "A Lyga",
+    "country": "Lithuania",
+    "logo": "https://media.api-sports.io/football/leagues/362.png"
+  },
+  {
+    "id": 661,
+    "name": "Cup",
+    "country": "Lithuania",
+    "logo": "https://media.api-sports.io/football/leagues/661.png"
+  },
+  {
+    "id": 839,
+    "name": "Super Cup",
+    "country": "Lithuania",
+    "logo": "https://media.api-sports.io/football/leagues/839.png"
+  },
+  {
+    "id": 261,
+    "name": "National Division",
+    "country": "Luxembourg",
+    "logo": "https://media.api-sports.io/football/leagues/261.png"
+  },
+  {
+    "id": 721,
+    "name": "Cup",
+    "country": "Luxembourg",
+    "logo": "https://media.api-sports.io/football/leagues/721.png"
+  },
+  {
+    "id": 969,
+    "name": "Primeira Divisão",
+    "country": "Macao",
+    "logo": "https://media.api-sports.io/football/leagues/969.png"
+  },
+  {
+    "id": 371,
+    "name": "First League",
+    "country": "Macedonia",
+    "logo": "https://media.api-sports.io/football/leagues/371.png"
+  },
+  {
+    "id": 372,
+    "name": "Second League",
+    "country": "Macedonia",
+    "logo": "https://media.api-sports.io/football/leagues/372.png"
+  },
+  {
+    "id": 756,
+    "name": "Cup",
+    "country": "Macedonia",
+    "logo": "https://media.api-sports.io/football/leagues/756.png"
+  },
+  {
+    "id": 391,
+    "name": "Super League",
+    "country": "Malawi",
+    "logo": "https://media.api-sports.io/football/leagues/391.png"
+  },
+  {
+    "id": 855,
+    "name": "Dhivehi Premier League",
+    "country": "Maldives",
+    "logo": "https://media.api-sports.io/football/leagues/855.png"
+  },
+  {
+    "id": 598,
+    "name": "Première Division",
+    "country": "Mali",
+    "logo": "https://media.api-sports.io/football/leagues/598.png"
+  },
+  {
+    "id": 392,
+    "name": "Challenge League",
+    "country": "Malta",
+    "logo": "https://media.api-sports.io/football/leagues/392.png"
+  },
+  {
+    "id": 393,
+    "name": "Premier League",
+    "country": "Malta",
+    "logo": "https://media.api-sports.io/football/leagues/393.png"
+  },
+  {
+    "id": 821,
+    "name": "FA Trophy",
+    "country": "Malta",
+    "logo": "https://media.api-sports.io/football/leagues/821.png"
+  },
+  {
+    "id": 1050,
+    "name": "Super Cup",
+    "country": "Malta",
+    "logo": "https://media.api-sports.io/football/leagues/1050.png"
+  },
+  {
+    "id": 1173,
+    "name": "Challenge Cup",
+    "country": "Malta",
+    "logo": "https://media.api-sports.io/football/leagues/1173.png"
+  },
+  {
+    "id": 762,
+    "name": "Premier League",
+    "country": "Mauritania",
+    "logo": "https://media.api-sports.io/football/leagues/762.png"
+  },
+  {
+    "id": 763,
+    "name": "Mauritian League",
+    "country": "Mauritius",
+    "logo": "https://media.api-sports.io/football/leagues/763.png"
+  },
+  {
+    "id": 394,
+    "name": "Super Liga",
+    "country": "Moldova",
+    "logo": "https://media.api-sports.io/football/leagues/394.png"
+  },
+  {
+    "id": 395,
+    "name": "Liga 1",
+    "country": "Moldova",
+    "logo": "https://media.api-sports.io/football/leagues/395.png"
+  },
+  {
+    "id": 674,
+    "name": "Cupa",
+    "country": "Moldova",
+    "logo": "https://media.api-sports.io/football/leagues/674.png"
+  },
+  {
+    "id": 764,
+    "name": "Premier League",
+    "country": "Mongolia",
+    "logo": "https://media.api-sports.io/football/leagues/764.png"
+  },
+  {
+    "id": 1131,
+    "name": "Super Cup",
+    "country": "Mongolia",
+    "logo": "https://media.api-sports.io/football/leagues/1131.png"
+  },
+  {
+    "id": 355,
+    "name": "First League",
+    "country": "Montenegro",
+    "logo": "https://media.api-sports.io/football/leagues/355.png"
+  },
+  {
+    "id": 356,
+    "name": "Second League",
+    "country": "Montenegro",
+    "logo": "https://media.api-sports.io/football/leagues/356.png"
+  },
+  {
+    "id": 723,
+    "name": "Cup",
+    "country": "Montenegro",
+    "logo": "https://media.api-sports.io/football/leagues/723.png"
+  },
+  {
+    "id": 588,
+    "name": "National League",
+    "country": "Myanmar",
+    "logo": "https://media.api-sports.io/football/leagues/588.png"
+  },
+  {
+    "id": 409,
+    "name": "Premier League",
+    "country": "Namibia",
+    "logo": "https://media.api-sports.io/football/leagues/409.png"
+  },
+  {
+    "id": 590,
+    "name": "A Division",
+    "country": "Nepal",
+    "logo": "https://media.api-sports.io/football/leagues/590.png"
+  },
+  {
+    "id": 396,
+    "name": "Primera Division",
+    "country": "Nicaragua",
+    "logo": "https://media.api-sports.io/football/leagues/396.png"
+  },
+  {
+    "id": 565,
+    "name": "Liga Primera U20",
+    "country": "Nicaragua",
+    "logo": "https://media.api-sports.io/football/leagues/565.png"
+  },
+  {
+    "id": 1187,
+    "name": "Copa Nicaragua",
+    "country": "Nicaragua",
+    "logo": "https://media.api-sports.io/football/leagues/1187.png"
+  },
+  {
+    "id": 559,
+    "name": "League Cup",
+    "country": "Northern-Ireland",
+    "logo": "https://media.api-sports.io/football/leagues/559.png"
+  },
+  {
+    "id": 561,
+    "name": "Premier Intermediate League",
+    "country": "Northern-Ireland",
+    "logo": "https://media.api-sports.io/football/leagues/561.png"
+  },
+  {
+    "id": 407,
+    "name": "Championship",
+    "country": "Northern-Ireland",
+    "logo": "https://media.api-sports.io/football/leagues/407.png"
+  },
+  {
+    "id": 408,
+    "name": "Premiership",
+    "country": "Northern-Ireland",
+    "logo": "https://media.api-sports.io/football/leagues/408.png"
+  },
+  {
+    "id": 757,
+    "name": "Irish Cup",
+    "country": "Northern-Ireland",
+    "logo": "https://media.api-sports.io/football/leagues/757.png"
+  },
+  {
+    "id": 1019,
+    "name": "Charity Shield",
+    "country": "Northern-Ireland",
+    "logo": "https://media.api-sports.io/football/leagues/1019.png"
+  },
+  {
+    "id": 1103,
+    "name": "Premiership Women",
+    "country": "Northern-Ireland",
+    "logo": "https://media.api-sports.io/football/leagues/1103.png"
+  },
+  {
+    "id": 406,
+    "name": "Professional League",
+    "country": "Oman",
+    "logo": "https://media.api-sports.io/football/leagues/406.png"
+  },
+  {
+    "id": 726,
+    "name": "Sultan Cup",
+    "country": "Oman",
+    "logo": "https://media.api-sports.io/football/leagues/726.png"
+  },
+  {
+    "id": 944,
+    "name": "Super Cup",
+    "country": "Oman",
+    "logo": "https://media.api-sports.io/football/leagues/944.png"
+  },
+  {
+    "id": 868,
+    "name": "Premier League",
+    "country": "Pakistan",
+    "logo": "https://media.api-sports.io/football/leagues/868.png"
+  },
+  {
+    "id": 586,
+    "name": "West Bank Premier League",
+    "country": "Palestine",
+    "logo": "https://media.api-sports.io/football/leagues/586.png"
+  },
+  {
+    "id": 765,
+    "name": "PFL",
+    "country": "Philippines",
+    "logo": "https://media.api-sports.io/football/leagues/765.png"
+  },
+  {
+    "id": 867,
+    "name": "Copa Paulino Alcantara",
+    "country": "Philippines",
+    "logo": "https://media.api-sports.io/football/leagues/867.png"
+  },
+  {
+    "id": 283,
+    "name": "Liga I",
+    "country": "Romania",
+    "logo": "https://media.api-sports.io/football/leagues/283.png"
+  },
+  {
+    "id": 284,
+    "name": "Liga II",
+    "country": "Romania",
+    "logo": "https://media.api-sports.io/football/leagues/284.png"
+  },
+  {
+    "id": 555,
+    "name": "Supercupa",
+    "country": "Romania",
+    "logo": "https://media.api-sports.io/football/leagues/555.png"
+  },
+  {
+    "id": 285,
+    "name": "Cupa României",
+    "country": "Romania",
+    "logo": "https://media.api-sports.io/football/leagues/285.png"
+  },
+  {
+    "id": 728,
+    "name": "Liga 1 Feminin",
+    "country": "Romania",
+    "logo": "https://media.api-sports.io/football/leagues/728.png"
+  },
+  {
+    "id": 784,
+    "name": "Liga III - Serie 1",
+    "country": "Romania",
+    "logo": "https://media.api-sports.io/football/leagues/784.png"
+  },
+  {
+    "id": 785,
+    "name": "Liga III - Serie 2",
+    "country": "Romania",
+    "logo": "https://media.api-sports.io/football/leagues/785.png"
+  },
+  {
+    "id": 786,
+    "name": "Liga III - Serie 3",
+    "country": "Romania",
+    "logo": "https://media.api-sports.io/football/leagues/786.png"
+  },
+  {
+    "id": 787,
+    "name": "Liga III - Serie 4",
+    "country": "Romania",
+    "logo": "https://media.api-sports.io/football/leagues/787.png"
+  },
+  {
+    "id": 788,
+    "name": "Liga III - Serie 5",
+    "country": "Romania",
+    "logo": "https://media.api-sports.io/football/leagues/788.png"
+  },
+  {
+    "id": 789,
+    "name": "Liga III - Serie 6",
+    "country": "Romania",
+    "logo": "https://media.api-sports.io/football/leagues/789.png"
+  },
+  {
+    "id": 790,
+    "name": "Liga III - Serie 7",
+    "country": "Romania",
+    "logo": "https://media.api-sports.io/football/leagues/790.png"
+  },
+  {
+    "id": 791,
+    "name": "Liga III - Serie 8",
+    "country": "Romania",
+    "logo": "https://media.api-sports.io/football/leagues/791.png"
+  },
+  {
+    "id": 792,
+    "name": "Liga III - Serie 9",
+    "country": "Romania",
+    "logo": "https://media.api-sports.io/football/leagues/792.png"
+  },
+  {
+    "id": 793,
+    "name": "Liga III - Serie 10",
+    "country": "Romania",
+    "logo": "https://media.api-sports.io/football/leagues/793.png"
+  },
+  {
+    "id": 1009,
+    "name": "Liga III - Play-offs",
+    "country": "Romania",
+    "logo": "https://media.api-sports.io/football/leagues/1009.png"
+  },
+  {
+    "id": 405,
+    "name": "National Soccer League",
+    "country": "Rwanda",
+    "logo": "https://media.api-sports.io/football/leagues/405.png"
+  },
+  {
+    "id": 404,
+    "name": "Campionato",
+    "country": "San-Marino",
+    "logo": "https://media.api-sports.io/football/leagues/404.png"
+  },
+  {
+    "id": 729,
+    "name": "Coppa Titano",
+    "country": "San-Marino",
+    "logo": "https://media.api-sports.io/football/leagues/729.png"
+  },
+  {
+    "id": 884,
+    "name": "Super Cup",
+    "country": "San-Marino",
+    "logo": "https://media.api-sports.io/football/leagues/884.png"
+  },
+  {
+    "id": 307,
+    "name": "Pro League",
+    "country": "Saudi-Arabia",
+    "logo": "https://media.api-sports.io/football/leagues/307.png"
+  },
+  {
+    "id": 308,
+    "name": "Division 1",
+    "country": "Saudi-Arabia",
+    "logo": "https://media.api-sports.io/football/leagues/308.png"
+  },
+  {
+    "id": 309,
+    "name": "Division 2",
+    "country": "Saudi-Arabia",
+    "logo": "https://media.api-sports.io/football/leagues/309.png"
+  },
+  {
+    "id": 504,
+    "name": "King's Cup",
+    "country": "Saudi-Arabia",
+    "logo": "https://media.api-sports.io/football/leagues/504.png"
+  },
+  {
+    "id": 827,
+    "name": "Crown Prince Cup",
+    "country": "Saudi-Arabia",
+    "logo": "https://media.api-sports.io/football/leagues/827.png"
+  },
+  {
+    "id": 826,
+    "name": "Super Cup",
+    "country": "Saudi-Arabia",
+    "logo": "https://media.api-sports.io/football/leagues/826.png"
+  },
+  {
+    "id": 179,
+    "name": "Premiership",
+    "country": "Scotland",
+    "logo": "https://media.api-sports.io/football/leagues/179.png"
+  },
+  {
+    "id": 180,
+    "name": "Championship",
+    "country": "Scotland",
+    "logo": "https://media.api-sports.io/football/leagues/180.png"
+  },
+  {
+    "id": 183,
+    "name": "League One",
+    "country": "Scotland",
+    "logo": "https://media.api-sports.io/football/leagues/183.png"
+  },
+  {
+    "id": 184,
+    "name": "League Two",
+    "country": "Scotland",
+    "logo": "https://media.api-sports.io/football/leagues/184.png"
+  },
+  {
+    "id": 185,
+    "name": "League Cup",
+    "country": "Scotland",
+    "logo": "https://media.api-sports.io/football/leagues/185.png"
+  },
+  {
+    "id": 181,
+    "name": "FA Cup",
+    "country": "Scotland",
+    "logo": "https://media.api-sports.io/football/leagues/181.png"
+  },
+  {
+    "id": 182,
+    "name": "Challenge Cup",
+    "country": "Scotland",
+    "logo": "https://media.api-sports.io/football/leagues/182.png"
+  },
+  {
+    "id": 730,
+    "name": "Football League - Highland League",
+    "country": "Scotland",
+    "logo": "https://media.api-sports.io/football/leagues/730.png"
+  },
+  {
+    "id": 731,
+    "name": "Football League - Lowland League",
+    "country": "Scotland",
+    "logo": "https://media.api-sports.io/football/leagues/731.png"
+  },
+  {
+    "id": 992,
+    "name": "Football League - Championship",
+    "country": "Scotland",
+    "logo": "https://media.api-sports.io/football/leagues/992.png"
+  },
+  {
+    "id": 1074,
+    "name": "SWPL Cup",
+    "country": "Scotland",
+    "logo": "https://media.api-sports.io/football/leagues/1074.png"
+  },
+  {
+    "id": 1078,
+    "name": "SWF Scottish Cup",
+    "country": "Scotland",
+    "logo": "https://media.api-sports.io/football/leagues/1078.png"
+  },
+  {
+    "id": 506,
+    "name": "2. liga",
+    "country": "Slovakia",
+    "logo": "https://media.api-sports.io/football/leagues/506.png"
+  },
+  {
+    "id": 332,
+    "name": "Super Liga",
+    "country": "Slovakia",
+    "logo": "https://media.api-sports.io/football/leagues/332.png"
+  },
+  {
+    "id": 643,
+    "name": "3. liga - Bratislava",
+    "country": "Slovakia",
+    "logo": "https://media.api-sports.io/football/leagues/643.png"
+  },
+  {
+    "id": 644,
+    "name": "3. liga - West",
+    "country": "Slovakia",
+    "logo": "https://media.api-sports.io/football/leagues/644.png"
+  },
+  {
+    "id": 645,
+    "name": "3. liga - East",
+    "country": "Slovakia",
+    "logo": "https://media.api-sports.io/football/leagues/645.png"
+  },
+  {
+    "id": 646,
+    "name": "3. liga - Center",
+    "country": "Slovakia",
+    "logo": "https://media.api-sports.io/football/leagues/646.png"
+  },
+  {
+    "id": 680,
+    "name": "Cup",
+    "country": "Slovakia",
+    "logo": "https://media.api-sports.io/football/leagues/680.png"
+  },
+  {
+    "id": 733,
+    "name": "I Liga - Women",
+    "country": "Slovakia",
+    "logo": "https://media.api-sports.io/football/leagues/733.png"
+  },
+  {
+    "id": 1185,
+    "name": "3. liga - Play-offs",
+    "country": "Slovakia",
+    "logo": "https://media.api-sports.io/football/leagues/1185.png"
+  },
+  {
+    "id": 373,
+    "name": "1. SNL",
+    "country": "Slovenia",
+    "logo": "https://media.api-sports.io/football/leagues/373.png"
+  },
+  {
+    "id": 374,
+    "name": "2. SNL",
+    "country": "Slovenia",
+    "logo": "https://media.api-sports.io/football/leagues/374.png"
+  },
+  {
+    "id": 375,
+    "name": "Cup",
+    "country": "Slovenia",
+    "logo": "https://media.api-sports.io/football/leagues/375.png"
+  },
+  {
+    "id": 794,
+    "name": "3. SNL - East",
+    "country": "Slovenia",
+    "logo": "https://media.api-sports.io/football/leagues/794.png"
+  },
+  {
+    "id": 795,
+    "name": "3. SNL - West",
+    "country": "Slovenia",
+    "logo": "https://media.api-sports.io/football/leagues/795.png"
+  },
+  {
+    "id": 846,
+    "name": "Somali Premier League",
+    "country": "Somalia",
+    "logo": "https://media.api-sports.io/football/leagues/846.png"
+  },
+  {
+    "id": 568,
+    "name": "Eerste Divisie",
+    "country": "Suriname",
+    "logo": "https://media.api-sports.io/football/leagues/568.png"
+  },
+  {
+    "id": 571,
+    "name": "Vysshaya Liga",
+    "country": "Tajikistan",
+    "logo": "https://media.api-sports.io/football/leagues/571.png"
+  },
+  {
+    "id": 1084,
+    "name": "Championnat National",
+    "country": "Togo",
+    "logo": "https://media.api-sports.io/football/leagues/1084.png"
+  },
+  {
+    "id": 829,
+    "name": "Youth League",
+    "country": "Turkmenistan",
+    "logo": "https://media.api-sports.io/football/leagues/829.png"
+  },
+  {
+    "id": 636,
+    "name": "Ýokary Liga",
+    "country": "Turkmenistan",
+    "logo": "https://media.api-sports.io/football/leagues/636.png"
+  },
+  {
+    "id": 301,
+    "name": "Pro League",
+    "country": "United-Arab-Emirates",
+    "logo": "https://media.api-sports.io/football/leagues/301.png"
+  },
+  {
+    "id": 303,
+    "name": "Division 1",
+    "country": "United-Arab-Emirates",
+    "logo": "https://media.api-sports.io/football/leagues/303.png"
+  },
+  {
+    "id": 302,
+    "name": "League Cup",
+    "country": "United-Arab-Emirates",
+    "logo": "https://media.api-sports.io/football/leagues/302.png"
+  },
+  {
+    "id": 560,
+    "name": "Presidents Cup",
+    "country": "United-Arab-Emirates",
+    "logo": "https://media.api-sports.io/football/leagues/560.png"
+  },
+  {
+    "id": 896,
+    "name": "Super Cup",
+    "country": "United-Arab-Emirates",
+    "logo": "https://media.api-sports.io/football/leagues/896.png"
+  },
+  {
+    "id": 369,
+    "name": "Super League",
+    "country": "Uzbekistan",
+    "logo": "https://media.api-sports.io/football/leagues/369.png"
+  },
+  {
+    "id": 802,
+    "name": "Cup",
+    "country": "Uzbekistan",
+    "logo": "https://media.api-sports.io/football/leagues/802.png"
+  },
+  {
+    "id": 830,
+    "name": "Super Cup",
+    "country": "Uzbekistan",
+    "logo": "https://media.api-sports.io/football/leagues/830.png"
+  },
+  {
+    "id": 1075,
+    "name": "Pro League A",
+    "country": "Uzbekistan",
+    "logo": "https://media.api-sports.io/football/leagues/1075.png"
+  },
+  {
+    "id": 340,
+    "name": "V.League 1",
+    "country": "Vietnam",
+    "logo": "https://media.api-sports.io/football/leagues/340.png"
+  },
+  {
+    "id": 341,
+    "name": "Cup",
+    "country": "Vietnam",
+    "logo": "https://media.api-sports.io/football/leagues/341.png"
+  },
+  {
+    "id": 637,
+    "name": "V.League 2",
+    "country": "Vietnam",
+    "logo": "https://media.api-sports.io/football/leagues/637.png"
+  },
+  {
+    "id": 831,
+    "name": "Super Cup",
+    "country": "Vietnam",
+    "logo": "https://media.api-sports.io/football/leagues/831.png"
+  },
+  {
+    "id": 110,
+    "name": "Premier League",
+    "country": "Wales",
+    "logo": "https://media.api-sports.io/football/leagues/110.png"
+  },
+  {
+    "id": 112,
+    "name": "Welsh Cup",
+    "country": "Wales",
+    "logo": "https://media.api-sports.io/football/leagues/112.png"
+  },
+  {
+    "id": 111,
+    "name": "FAW Championship",
+    "country": "Wales",
+    "logo": "https://media.api-sports.io/football/leagues/111.png"
+  },
+  {
+    "id": 738,
+    "name": "League Cup",
+    "country": "Wales",
+    "logo": "https://media.api-sports.io/football/leagues/738.png"
+  },
+  {
+    "id": 4,
+    "name": "Euro Championship",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/4.png"
+  },
+  {
+    "id": 21,
+    "name": "Confederations Cup",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/21.png"
+  },
+  {
+    "id": 1,
+    "name": "World Cup",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/1.png"
+  },
+  {
+    "id": 803,
+    "name": "Asian Games",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/803.png"
+  },
+  {
+    "id": 804,
+    "name": "Caribbean Cup",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/804.png"
+  },
+  {
+    "id": 2,
+    "name": "UEFA Champions League",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/2.png"
+  },
+  {
+    "id": 7,
+    "name": "Asian Cup",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/7.png"
+  },
+  {
+    "id": 8,
+    "name": "World Cup - Women",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/8.png"
+  },
+  {
+    "id": 15,
+    "name": "FIFA Club World Cup",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/15.png"
+  },
+  {
+    "id": 480,
+    "name": "Olympics Men",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/480.png"
+  },
+  {
+    "id": 535,
+    "name": "CECAFA Senior Challenge Cup",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/535.png"
+  },
+  {
+    "id": 28,
+    "name": "SAFF Championship",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/28.png"
+  },
+  {
+    "id": 37,
+    "name": "World Cup - Qualification Intercontinental Play-offs",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/37.png"
+  },
+  {
+    "id": 3,
+    "name": "UEFA Europa League",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/3.png"
+  },
+  {
+    "id": 807,
+    "name": "AFC Challenge Cup",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/807.png"
+  },
+  {
+    "id": 19,
+    "name": "African Nations Championship",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/19.png"
+  },
+  {
+    "id": 24,
+    "name": "AFF Championship",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/24.png"
+  },
+  {
+    "id": 22,
+    "name": "CONCACAF Gold Cup",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/22.png"
+  },
+  {
+    "id": 23,
+    "name": "EAFF E-1 Football Championship",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/23.png"
+  },
+  {
+    "id": 27,
+    "name": "OFC Champions League",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/27.png"
+  },
+  {
+    "id": 6,
+    "name": "Africa Cup of Nations",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/6.png"
+  },
+  {
+    "id": 9,
+    "name": "Copa America",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/9.png"
+  },
+  {
+    "id": 26,
+    "name": "International Champions Cup",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/26.png"
+  },
+  {
+    "id": 524,
+    "name": "Olympics Women",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/524.png"
+  },
+  {
+    "id": 16,
+    "name": "CONCACAF Champions League",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/16.png"
+  },
+  {
+    "id": 17,
+    "name": "AFC Champions League",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/17.png"
+  },
+  {
+    "id": 25,
+    "name": "Gulf Cup of Nations",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/25.png"
+  },
+  {
+    "id": 531,
+    "name": "UEFA Super Cup",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/531.png"
+  },
+  {
+    "id": 805,
+    "name": "Copa Centroamericana",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/805.png"
+  },
+  {
+    "id": 806,
+    "name": "OFC Nations Cup",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/806.png"
+  },
+  {
+    "id": 10,
+    "name": "Friendlies",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/10.png"
+  },
+  {
+    "id": 14,
+    "name": "UEFA Youth League",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/14.png"
+  },
+  {
+    "id": 18,
+    "name": "AFC Cup",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/18.png"
+  },
+  {
+    "id": 20,
+    "name": "CAF Confederation Cup",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/20.png"
+  },
+  {
+    "id": 38,
+    "name": "UEFA U21 Championship",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/38.png"
+  },
+  {
+    "id": 490,
+    "name": "World Cup - U20",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/490.png"
+  },
+  {
+    "id": 766,
+    "name": "China Cup",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/766.png"
+  },
+  {
+    "id": 537,
+    "name": "CONCACAF U20",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/537.png"
+  },
+  {
+    "id": 5,
+    "name": "UEFA Nations League",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/5.png"
+  },
+  {
+    "id": 31,
+    "name": "World Cup - Qualification CONCACAF",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/31.png"
+  },
+  {
+    "id": 32,
+    "name": "World Cup - Qualification Europe",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/32.png"
+  },
+  {
+    "id": 33,
+    "name": "World Cup - Qualification Oceania",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/33.png"
+  },
+  {
+    "id": 34,
+    "name": "World Cup - Qualification South America",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/34.png"
+  },
+  {
+    "id": 29,
+    "name": "World Cup - Qualification Africa",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/29.png"
+  },
+  {
+    "id": 30,
+    "name": "World Cup - Qualification Asia",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/30.png"
+  },
+  {
+    "id": 493,
+    "name": "UEFA U19 Championship",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/493.png"
+  },
+  {
+    "id": 808,
+    "name": "CONCACAF Nations League - Qualification",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/808.png"
+  },
+  {
+    "id": 768,
+    "name": "Arab Club Champions Cup",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/768.png"
+  },
+  {
+    "id": 769,
+    "name": "Premier League Asia Trophy",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/769.png"
+  },
+  {
+    "id": 770,
+    "name": "Pacific Games",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/770.png"
+  },
+  {
+    "id": 772,
+    "name": "Leagues Cup",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/772.png"
+  },
+  {
+    "id": 773,
+    "name": "Sudamericano U20",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/773.png"
+  },
+  {
+    "id": 11,
+    "name": "CONMEBOL Sudamericana",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/11.png"
+  },
+  {
+    "id": 12,
+    "name": "CAF Champions League",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/12.png"
+  },
+  {
+    "id": 13,
+    "name": "CONMEBOL Libertadores",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/13.png"
+  },
+  {
+    "id": 533,
+    "name": "CAF Super Cup",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/533.png"
+  },
+  {
+    "id": 534,
+    "name": "CONCACAF Caribbean Club Shield",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/534.png"
+  },
+  {
+    "id": 587,
+    "name": "World Cup - U17",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/587.png"
+  },
+  {
+    "id": 35,
+    "name": "Asian Cup - Qualification",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/35.png"
+  },
+  {
+    "id": 525,
+    "name": "UEFA Champions League Women",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/525.png"
+  },
+  {
+    "id": 666,
+    "name": "Friendlies Women",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/666.png"
+  },
+  {
+    "id": 667,
+    "name": "Friendlies Clubs",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/667.png"
+  },
+  {
+    "id": 767,
+    "name": "CONCACAF League",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/767.png"
+  },
+  {
+    "id": 771,
+    "name": "COSAFA U20 Championship",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/771.png"
+  },
+  {
+    "id": 849,
+    "name": "Baltic Cup",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/849.png"
+  },
+  {
+    "id": 881,
+    "name": "Olympics Men - Qualification Concacaf",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/881.png"
+  },
+  {
+    "id": 882,
+    "name": "Olympics Women - Qualification Asia",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/882.png"
+  },
+  {
+    "id": 885,
+    "name": "Campeones Cup",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/885.png"
+  },
+  {
+    "id": 532,
+    "name": "AFC U23 Asian Cup",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/532.png"
+  },
+  {
+    "id": 536,
+    "name": "CONCACAF Nations League",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/536.png"
+  },
+  {
+    "id": 538,
+    "name": "Africa Cup of Nations U20",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/538.png"
+  },
+  {
+    "id": 540,
+    "name": "CONMEBOL Libertadores U20",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/540.png"
+  },
+  {
+    "id": 541,
+    "name": "CONMEBOL Recopa",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/541.png"
+  },
+  {
+    "id": 36,
+    "name": "Africa Cup of Nations - Qualification",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/36.png"
+  },
+  {
+    "id": 902,
+    "name": "Algarve Cup",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/902.png"
+  },
+  {
+    "id": 903,
+    "name": "The Atlantic Cup",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/903.png"
+  },
+  {
+    "id": 910,
+    "name": "Youth Viareggio Cup",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/910.png"
+  },
+  {
+    "id": 856,
+    "name": "CONCACAF Caribbean Club Championship",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/856.png"
+  },
+  {
+    "id": 858,
+    "name": "CONCACAF Gold Cup - Qualification",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/858.png"
+  },
+  {
+    "id": 859,
+    "name": "COSAFA Cup",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/859.png"
+  },
+  {
+    "id": 860,
+    "name": "Arab Cup",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/860.png"
+  },
+  {
+    "id": 869,
+    "name": "CECAFA Club Cup",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/869.png"
+  },
+  {
+    "id": 880,
+    "name": "World Cup - Women - Qualification Europe",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/880.png"
+  },
+  {
+    "id": 890,
+    "name": "U20 Elite League",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/890.png"
+  },
+  {
+    "id": 743,
+    "name": "UEFA Championship - Women",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/743.png"
+  },
+  {
+    "id": 848,
+    "name": "UEFA Europa Conference League",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/848.png"
+  },
+  {
+    "id": 940,
+    "name": "COTIF Tournament",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/940.png"
+  },
+  {
+    "id": 941,
+    "name": "Islamic Solidarity Games",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/941.png"
+  },
+  {
+    "id": 945,
+    "name": "International Champions Cup - Women",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/945.png"
+  },
+  {
+    "id": 949,
+    "name": "CONMEBOL Libertadores Femenina",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/949.png"
+  },
+  {
+    "id": 950,
+    "name": "World Cup - U17 - Women",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/950.png"
+  },
+  {
+    "id": 951,
+    "name": "South American Youth Games",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/951.png"
+  },
+  {
+    "id": 952,
+    "name": "AFC U23 Asian Cup - Qualification",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/952.png"
+  },
+  {
+    "id": 953,
+    "name": "Africa U23 Cup of Nations - Qualification",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/953.png"
+  },
+  {
+    "id": 886,
+    "name": "UEFA U17 Championship - Qualification",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/886.png"
+  },
+  {
+    "id": 893,
+    "name": "UEFA U19 Championship - Qualification",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/893.png"
+  },
+  {
+    "id": 894,
+    "name": "Asian Cup Women - Qualification",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/894.png"
+  },
+  {
+    "id": 897,
+    "name": "Asian Cup Women",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/897.png"
+  },
+  {
+    "id": 1016,
+    "name": "CAC Games",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/1016.png"
+  },
+  {
+    "id": 900,
+    "name": "Tipsport Malta Cup",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/900.png"
+  },
+  {
+    "id": 904,
+    "name": "SheBelieves Cup",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/904.png"
+  },
+  {
+    "id": 908,
+    "name": "AFF U23 Championship",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/908.png"
+  },
+  {
+    "id": 911,
+    "name": "Southeast Asian Games",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/911.png"
+  },
+  {
+    "id": 912,
+    "name": "CONCACAF Women U17",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/912.png"
+  },
+  {
+    "id": 913,
+    "name": "CONMEBOL - UEFA Finalissima",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/913.png"
+  },
+  {
+    "id": 914,
+    "name": "Tournoi Maurice Revello",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/914.png"
+  },
+  {
+    "id": 916,
+    "name": "Kirin Cup",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/916.png"
+  },
+  {
+    "id": 918,
+    "name": "UEFA U19 Championship - Women",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/918.png"
+  },
+  {
+    "id": 919,
+    "name": "Mediterranean Games",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/919.png"
+  },
+  {
+    "id": 920,
+    "name": "World Cup - U20 - Women",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/920.png"
+  },
+  {
+    "id": 921,
+    "name": "UEFA U17 Championship",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/921.png"
+  },
+  {
+    "id": 922,
+    "name": "Africa Cup of Nations - Women",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/922.png"
+  },
+  {
+    "id": 926,
+    "name": "Copa America Femenina",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/926.png"
+  },
+  {
+    "id": 927,
+    "name": "World Cup - Women - Qualification Concacaf",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/927.png"
+  },
+  {
+    "id": 928,
+    "name": "AFF U19 Championship",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/928.png"
+  },
+  {
+    "id": 934,
+    "name": "Arab Championship - U20",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/934.png"
+  },
+  {
+    "id": 937,
+    "name": "Emirates Cup",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/937.png"
+  },
+  {
+    "id": 1038,
+    "name": "King's Cup",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/1038.png"
+  },
+  {
+    "id": 1039,
+    "name": "Premier League International Cup",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/1039.png"
+  },
+  {
+    "id": 1040,
+    "name": "UEFA Nations League - Women",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/1040.png"
+  },
+  {
+    "id": 1043,
+    "name": "African Football League",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/1043.png"
+  },
+  {
+    "id": 1045,
+    "name": "Pan American Games",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/1045.png"
+  },
+  {
+    "id": 1072,
+    "name": "All Africa Games",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/1072.png"
+  },
+  {
+    "id": 960,
+    "name": "Euro Championship - Qualification",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/960.png"
+  },
+  {
+    "id": 963,
+    "name": "CONCACAF U17",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/963.png"
+  },
+  {
+    "id": 965,
+    "name": "AFC U20 Asian Cup",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/965.png"
+  },
+  {
+    "id": 970,
+    "name": "CONMEBOL - U17",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/970.png"
+  },
+  {
+    "id": 973,
+    "name": "CAF Cup of Nations - U17",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/973.png"
+  },
+  {
+    "id": 1008,
+    "name": "CAFA Nations Cup",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/1008.png"
+  },
+  {
+    "id": 1012,
+    "name": "AFC U17 Asian Cup",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/1012.png"
+  },
+  {
+    "id": 1013,
+    "name": "All-Island Cup - Women",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/1013.png"
+  },
+  {
+    "id": 1015,
+    "name": "CAF U23 Cup of Nations",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/1015.png"
+  },
+  {
+    "id": 1024,
+    "name": "UEFA - CONMEBOL - Club Challenge",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/1024.png"
+  },
+  {
+    "id": 1028,
+    "name": "Concacaf Central American Cup",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/1028.png"
+  },
+  {
+    "id": 850,
+    "name": "UEFA U21 Championship - Qualification",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/850.png"
+  },
+  {
+    "id": 1101,
+    "name": "AFC U17 Asian Cup - Women",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/1101.png"
+  },
+  {
+    "id": 1102,
+    "name": "UEFA U17 Championship - Women",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/1102.png"
+  },
+  {
+    "id": 1105,
+    "name": "Olympics - Intercontinental Play-offs",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/1105.png"
+  },
+  {
+    "id": 1122,
+    "name": "OFC U19 Championship",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/1122.png"
+  },
+  {
+    "id": 1123,
+    "name": "Qatar-UAE Super Cup",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/1123.png"
+  },
+  {
+    "id": 1129,
+    "name": "ASEAN Club Championship",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/1129.png"
+  },
+  {
+    "id": 1132,
+    "name": "AFC Challenge League",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/1132.png"
+  },
+  {
+    "id": 1046,
+    "name": "CONCACAF Gold Cup - Qualification - Women",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/1046.png"
+  },
+  {
+    "id": 1047,
+    "name": "Olympics Women - Qualification CAF",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/1047.png"
+  },
+  {
+    "id": 1057,
+    "name": "CONCACAF Gold Cup - Women",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/1057.png"
+  },
+  {
+    "id": 1060,
+    "name": "CONMEBOL - Pre-Olympic Tournament",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/1060.png"
+  },
+  {
+    "id": 1066,
+    "name": "CONCACAF U20 - Qualification",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/1066.png"
+  },
+  {
+    "id": 1070,
+    "name": "AFC U20 Asian Cup - Women",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/1070.png"
+  },
+  {
+    "id": 1077,
+    "name": "WAFF Championship U23",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/1077.png"
+  },
+  {
+    "id": 1081,
+    "name": "CONMEBOL - U17 Femenino",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/1081.png"
+  },
+  {
+    "id": 1085,
+    "name": "CONMEBOL U20 Femenino",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/1085.png"
+  },
+  {
+    "id": 1089,
+    "name": "UAE-Qatar - Super Shield",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/1089.png"
+  },
+  {
+    "id": 1001,
+    "name": "CONCACAF Women U20",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/1001.png"
+  },
+  {
+    "id": 1136,
+    "name": "CONCACAF W Champions Cup",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/1136.png"
+  },
+  {
+    "id": 1140,
+    "name": "AFC Women's Champions League",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/1140.png"
+  },
+  {
+    "id": 1168,
+    "name": "FIFA Intercontinental Cup",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/1168.png"
+  },
+  {
+    "id": 1153,
+    "name": "AFC U20 Asian Cup - Qualification",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/1153.png"
+  },
+  {
+    "id": 1159,
+    "name": "CECAFA U20 Championship",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/1159.png"
+  },
+  {
+    "id": 1161,
+    "name": "AFC U17 Asian Cup - Qualification",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/1161.png"
+  },
+  {
+    "id": 1162,
+    "name": "AGCFF Gulf Champions League",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/1162.png"
+  },
+  {
+    "id": 1163,
+    "name": "African Nations Championship - Qualification",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/1163.png"
+  },
+  {
+    "id": 1164,
+    "name": "CAF Women's Champions League",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/1164.png"
+  },
+  {
+    "id": 1169,
+    "name": "EAFF E-1 Football Championship - Qualification",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/1169.png"
+  },
+  {
+    "id": 1083,
+    "name": "UEFA Championship - Women - Qualification",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/1083.png"
+  },
+  {
+    "id": 1186,
+    "name": "FIFA Club World Cup - Play-In",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/1186.png"
+  },
+  {
+    "id": 1188,
+    "name": "EAFF E-1 Football Championship - Women",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/1188.png"
+  },
+  {
+    "id": 1189,
+    "name": "Asean Championship Women",
+    "country": "World",
+    "logo": "https://media.api-sports.io/football/leagues/1189.png"
+  }
+]
