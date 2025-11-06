@@ -7,7 +7,7 @@ import { Card } from '@/components/ui/card';
 import { useGameNavigation } from '@/hooks/use-game-navigation';
 import { GameSetup } from '../components/game-setup';
 import { useGameStore } from '../stores/game-state-store';
-import { usePersistenceStore } from '../stores/persistence-store';
+import { usePersistenceStore } from '../stores/legacy-persistence-store';
 import { useUIStore } from '../stores/ui-state-store';
 
 export default function GameSetupPage() {
