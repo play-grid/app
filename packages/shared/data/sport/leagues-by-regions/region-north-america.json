@@ -1,0 +1,416 @@
+[
+  {
+    "id": 416,
+    "name": "Premier League",
+    "country": "Belize",
+    "logo": "https://media.api-sports.io/football/leagues/416.png",
+    "teams": []
+  },
+  {
+    "id": 259,
+    "name": "Canadian Championship",
+    "country": "Canada",
+    "logo": "https://media.api-sports.io/football/leagues/259.png",
+    "teams": []
+  },
+  {
+    "id": 258,
+    "name": "Canadian Soccer League",
+    "country": "Canada",
+    "logo": "https://media.api-sports.io/football/leagues/258.png",
+    "teams": []
+  },
+  {
+    "id": 260,
+    "name": "Pacific Coast Soccer League",
+    "country": "Canada",
+    "logo": "https://media.api-sports.io/football/leagues/260.png",
+    "teams": []
+  },
+  {
+    "id": 479,
+    "name": "Canadian Premier League",
+    "country": "Canada",
+    "logo": "https://media.api-sports.io/football/leagues/479.png",
+    "teams": []
+  },
+  {
+    "id": 923,
+    "name": "League 1 Ontario",
+    "country": "Canada",
+    "logo": "https://media.api-sports.io/football/leagues/923.png",
+    "teams": []
+  },
+  {
+    "id": 1182,
+    "name": "Northern Super League",
+    "country": "Canada",
+    "logo": "https://media.api-sports.io/football/leagues/1182.png",
+    "teams": []
+  },
+  {
+    "id": 907,
+    "name": "Primera Division",
+    "country": "Cuba",
+    "logo": "https://media.api-sports.io/football/leagues/907.png",
+    "teams": []
+  },
+  {
+    "id": 339,
+    "name": "Liga Nacional",
+    "country": "Guatemala",
+    "logo": "https://media.api-sports.io/football/leagues/339.png",
+    "teams": []
+  },
+  {
+    "id": 338,
+    "name": "Primera Division",
+    "country": "Guatemala",
+    "logo": "https://media.api-sports.io/football/leagues/338.png",
+    "teams": []
+  },
+  {
+    "id": 379,
+    "name": "Ligue Haïtienne",
+    "country": "Haiti",
+    "logo": "https://media.api-sports.io/football/leagues/379.png",
+    "teams": []
+  },
+  {
+    "id": 234,
+    "name": "Liga Nacional",
+    "country": "Honduras",
+    "logo": "https://media.api-sports.io/football/leagues/234.png",
+    "teams": []
+  },
+  {
+    "id": 322,
+    "name": "Premier League",
+    "country": "Jamaica",
+    "logo": "https://media.api-sports.io/football/leagues/322.png",
+    "teams": [
+      {
+        "id": 3436,
+        "code": null,
+        "name": "Arnett Gardens",
+        "country": "Jamaica",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/3436.png",
+        "leagueId": 322
+      },
+      {
+        "id": 3437,
+        "code": null,
+        "name": "Cavalier",
+        "country": "Jamaica",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/3437.png",
+        "leagueId": 322
+      },
+      {
+        "id": 3438,
+        "code": null,
+        "name": "Dunbeholden",
+        "country": "Jamaica",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/3438.png",
+        "leagueId": 322
+      },
+      {
+        "id": 3439,
+        "code": null,
+        "name": "Harbour View",
+        "country": "Jamaica",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/3439.png",
+        "leagueId": 322
+      },
+      {
+        "id": 3440,
+        "code": null,
+        "name": "Humble Lions",
+        "country": "Jamaica",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/3440.png",
+        "leagueId": 322
+      },
+      {
+        "id": 3441,
+        "code": null,
+        "name": "Montego Bay United",
+        "country": "Jamaica",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/3441.png",
+        "leagueId": 322
+      },
+      {
+        "id": 3442,
+        "code": null,
+        "name": "Mount Pleasant Academy",
+        "country": "Jamaica",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/3442.png",
+        "leagueId": 322
+      },
+      {
+        "id": 3443,
+        "code": null,
+        "name": "Portmore United",
+        "country": "Jamaica",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/3443.png",
+        "leagueId": 322
+      },
+      {
+        "id": 3445,
+        "code": null,
+        "name": "Tivoli Gardens",
+        "country": "Jamaica",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/3445.png",
+        "leagueId": 322
+      },
+      {
+        "id": 3447,
+        "code": null,
+        "name": "Waterhouse",
+        "country": "Jamaica",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/3447.png",
+        "leagueId": 322
+      },
+      {
+        "id": 6407,
+        "code": null,
+        "name": "Molynes United",
+        "country": "Jamaica",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/6407.png",
+        "leagueId": 322
+      },
+      {
+        "id": 6408,
+        "code": null,
+        "name": "Vere United",
+        "country": "Jamaica",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/6408.png",
+        "leagueId": 322
+      },
+      {
+        "id": 22605,
+        "code": null,
+        "name": "Lime Hall Academy",
+        "country": "Jamaica",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/22605.png",
+        "leagueId": 322
+      },
+      {
+        "id": 22606,
+        "code": null,
+        "name": "Treasure Beach",
+        "country": "Jamaica",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/22606.png",
+        "leagueId": 322
+      }
+    ]
+  },
+  {
+    "id": 262,
+    "name": "Liga MX",
+    "country": "Mexico",
+    "logo": "https://media.api-sports.io/football/leagues/262.png",
+    "teams": []
+  },
+  {
+    "id": 263,
+    "name": "Liga de Expansión MX",
+    "country": "Mexico",
+    "logo": "https://media.api-sports.io/football/leagues/263.png",
+    "teams": []
+  },
+  {
+    "id": 264,
+    "name": "Copa MX",
+    "country": "Mexico",
+    "logo": "https://media.api-sports.io/football/leagues/264.png",
+    "teams": []
+  },
+  {
+    "id": 662,
+    "name": "Copa por México",
+    "country": "Mexico",
+    "logo": "https://media.api-sports.io/football/leagues/662.png",
+    "teams": []
+  },
+  {
+    "id": 673,
+    "name": "Liga MX Femenil",
+    "country": "Mexico",
+    "logo": "https://media.api-sports.io/football/leagues/673.png",
+    "teams": []
+  },
+  {
+    "id": 722,
+    "name": "Liga Premier Serie A",
+    "country": "Mexico",
+    "logo": "https://media.api-sports.io/football/leagues/722.png",
+    "teams": []
+  },
+  {
+    "id": 857,
+    "name": "Campeón de Campeones",
+    "country": "Mexico",
+    "logo": "https://media.api-sports.io/football/leagues/857.png",
+    "teams": []
+  },
+  {
+    "id": 861,
+    "name": "U20 League",
+    "country": "Mexico",
+    "logo": "https://media.api-sports.io/football/leagues/861.png",
+    "teams": []
+  },
+  {
+    "id": 872,
+    "name": "Liga Premier Serie B",
+    "country": "Mexico",
+    "logo": "https://media.api-sports.io/football/leagues/872.png",
+    "teams": []
+  },
+  {
+    "id": 1017,
+    "name": "U23 League",
+    "country": "Mexico",
+    "logo": "https://media.api-sports.io/football/leagues/1017.png",
+    "teams": []
+  },
+  {
+    "id": 304,
+    "name": "Liga Panameña de Fútbol",
+    "country": "Panama",
+    "logo": "https://media.api-sports.io/football/leagues/304.png",
+    "teams": []
+  },
+  {
+    "id": 591,
+    "name": "Pro League",
+    "country": "Trinidad-And-Tobago",
+    "logo": "https://media.api-sports.io/football/leagues/591.png",
+    "teams": []
+  },
+  {
+    "id": 253,
+    "name": "Major League Soccer",
+    "country": "USA",
+    "logo": "https://media.api-sports.io/football/leagues/253.png",
+    "teams": []
+  },
+  {
+    "id": 257,
+    "name": "US Open Cup",
+    "country": "USA",
+    "logo": "https://media.api-sports.io/football/leagues/257.png",
+    "teams": []
+  },
+  {
+    "id": 255,
+    "name": "USL Championship",
+    "country": "USA",
+    "logo": "https://media.api-sports.io/football/leagues/255.png",
+    "teams": []
+  },
+  {
+    "id": 256,
+    "name": "USL League Two",
+    "country": "USA",
+    "logo": "https://media.api-sports.io/football/leagues/256.png",
+    "teams": []
+  },
+  {
+    "id": 489,
+    "name": "USL League One",
+    "country": "USA",
+    "logo": "https://media.api-sports.io/football/leagues/489.png",
+    "teams": []
+  },
+  {
+    "id": 523,
+    "name": "NISA",
+    "country": "USA",
+    "logo": "https://media.api-sports.io/football/leagues/523.png",
+    "teams": []
+  },
+  {
+    "id": 254,
+    "name": "NWSL Women",
+    "country": "USA",
+    "logo": "https://media.api-sports.io/football/leagues/254.png",
+    "teams": []
+  },
+  {
+    "id": 641,
+    "name": "NWSL Women - Challenge Cup",
+    "country": "USA",
+    "logo": "https://media.api-sports.io/football/leagues/641.png",
+    "teams": []
+  },
+  {
+    "id": 866,
+    "name": "MLS All-Star",
+    "country": "USA",
+    "logo": "https://media.api-sports.io/football/leagues/866.png",
+    "teams": []
+  },
+  {
+    "id": 909,
+    "name": "MLS Next Pro",
+    "country": "USA",
+    "logo": "https://media.api-sports.io/football/leagues/909.png",
+    "teams": []
+  },
+  {
+    "id": 1116,
+    "name": "WPSL",
+    "country": "USA",
+    "logo": "https://media.api-sports.io/football/leagues/1116.png",
+    "teams": []
+  },
+  {
+    "id": 1117,
+    "name": "USL W League",
+    "country": "USA",
+    "logo": "https://media.api-sports.io/football/leagues/1117.png",
+    "teams": []
+  },
+  {
+    "id": 1118,
+    "name": "NPSL",
+    "country": "USA",
+    "logo": "https://media.api-sports.io/football/leagues/1118.png",
+    "teams": []
+  },
+  {
+    "id": 1119,
+    "name": "NWSL - Liga MXF Summer Cup",
+    "country": "USA",
+    "logo": "https://media.api-sports.io/football/leagues/1119.png",
+    "teams": []
+  },
+  {
+    "id": 1130,
+    "name": "USL Super League",
+    "country": "USA",
+    "logo": "https://media.api-sports.io/football/leagues/1130.png",
+    "teams": []
+  },
+  {
+    "id": 1095,
+    "name": "USL League One Cup",
+    "country": "USA",
+    "logo": "https://media.api-sports.io/football/leagues/1095.png",
+    "teams": []
+  }
+]
