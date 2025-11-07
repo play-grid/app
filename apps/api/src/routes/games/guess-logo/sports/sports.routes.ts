@@ -109,7 +109,36 @@ export const getAllSportTeamsInRegion = createRoute({
     ),
   },
 });
+
+// Get all teams in a country
+export const getAllSportTeamsInCountry = createRoute({
+  path: '/country/{countryId}',
+  method: 'get',
+  tags,
+  request: {
+    params: z.object({
+      countryId: z.string(),
+    }),
+    query: logoQuerySchema,
+  },
+  responses: {
+    [HttpStatusCodes.OK]: jsonContent(
+      z.array(logoItemSchema),
+      'Successfully retrieved all teams in country',
+    ),
+    [HttpStatusCodes.BAD_REQUEST]: jsonContent(
+      z.object({ error: z.string() }),
+      'Invalid country',
+    ),
+    [HttpStatusCodes.INTERNAL_SERVER_ERROR]: jsonContent(
+      z.object({ error: z.string() }),
+      'Internal server error',
+    ),
+  },
+});
+
 export type GetSportRegionsRoute = typeof getSportRegions;
 export type GetSportLeaguesRoute = typeof getSportLeagues;
 export type GetSportTeamsRoute = typeof getSportTeams;
 export type GetAllSportTeamsInRegionRoute = typeof getAllSportTeamsInRegion;
+export type GetAllSportTeamsInCountryRoute = typeof getAllSportTeamsInCountry;

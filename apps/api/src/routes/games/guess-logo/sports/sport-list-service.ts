@@ -7,7 +7,7 @@ function createLeagueFetcher(leagueId: number, teams: readonly RawTeam[]) {
     return teams
       .filter(team => team.leagueId === leagueId)
       .map<LogoItem>(team => ({
-        id: String(team.id),
+        id: team.id,
         name: team.name,
         imageUrl: team.logo,
         eliminated: false,
@@ -87,6 +87,25 @@ export async function getAllSportTeams(): Promise<LogoItem[]> {
   );
 
   return allTeamsArrays.flat().map<LogoItem>(team => ({
+    id: team.id,
+    name: team.name,
+    imageUrl: team.logo,
+    eliminated: false,
+  }));
+}
+
+/** Get all teams in a given country. */
+export async function getAllSportTeamsInCountry(countryId: string): Promise<LogoItem[]> {
+  const allLeaguesPromises = SPORT_REGION_IDS.map(regionId => loadRegion(regionId));
+  const leaguesByRegion = await Promise.all(allLeaguesPromises);
+  const allRawLeagues = leaguesByRegion.flat() as RawLeague[];
+
+  // Assumes RawLeague has a 'country' property.
+  const countryLeagues = allRawLeagues.filter(league => league.country === countryId);
+
+  const allTeams = countryLeagues.flatMap(l => l.teams ?? []);
+
+  return allTeams.map<LogoItem>(team => ({
     id: team.id,
     name: team.name,
     imageUrl: team.logo,

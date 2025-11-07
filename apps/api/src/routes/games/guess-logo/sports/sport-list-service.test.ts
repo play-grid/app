@@ -1,10 +1,11 @@
 import type { RawLeague, RawTeam, SportRegionId } from '@guess-logo/shared/types';
 import { loadRegion } from '@guess-logo/shared/data/load-region';
-import { SPORT_REGIONS } from '@guess-logo/shared/types';
+import { SPORT_REGION_IDS, SPORT_REGIONS } from '@guess-logo/shared/types';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import {
   getAllSportLists,
   getAllSportTeams,
+  getAllSportTeamsInCountry,
   getAllTeamsInRegion,
   getLeaguesInRegion,
   getSportLists,
@@ -36,7 +37,7 @@ const mockTeamsAsia: RawTeam[] = [
 ];
 
 const mockLeaguesAsia: RawLeague[] = [
-  { id: 101, name: 'Saudi Pro League', teams: mockTeamsAsia },
+  { id: 101, name: 'Saudi Pro League', country: 'saudi-arabia', teams: mockTeamsAsia },
 ];
 
 const mockTeamsEurope: RawTeam[] = [
@@ -45,7 +46,7 @@ const mockTeamsEurope: RawTeam[] = [
 ];
 
 const mockLeaguesEurope: RawLeague[] = [
-  { id: 201, name: 'La Liga', teams: mockTeamsEurope },
+  { id: 201, name: 'La Liga', teams: mockTeamsEurope, country: 'spain' },
 ];
 
 describe('sport List Service', () => {
@@ -92,7 +93,7 @@ describe('sport List Service', () => {
       const teams = await getTeamsInLeague('asia', '101');
       expect(loadRegion).toHaveBeenCalledWith('asia');
       expect(teams).toHaveLength(2);
-      expect(teams[0].id).toBe('1');
+      expect(teams[0].id).toBe(1);
     });
 
     it('should throw an error for a non-existent league', async () => {
@@ -118,6 +119,15 @@ describe('sport List Service', () => {
       expect(loadRegion).toHaveBeenCalledWith('europe');
       expect(teams).toHaveLength(4);
       expect(teams.map(t => t.name)).toEqual(['Al-Hilal', 'Al-Nassr', 'Real Madrid', 'Barcelona']);
+    });
+  });
+
+  describe('getAllSportTeamsInCountry', () => {
+    it('should return all teams for a specific country', async () => {
+      const teams = await getAllSportTeamsInCountry('saudi-arabia');
+      expect(loadRegion).toHaveBeenCalledTimes(SPORT_REGION_IDS.length);
+      expect(teams).toHaveLength(2);
+      expect(teams.map(t => t.name)).toEqual(['Al-Hilal', 'Al-Nassr']);
     });
   });
 
