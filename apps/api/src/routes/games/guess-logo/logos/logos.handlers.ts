@@ -4,7 +4,10 @@ import type {
   LogoSetKey,
   LogoSetKey as TLogoSet,
 } from '@guess-logo/shared/types';
-import type { GetLogoListsRoute, GetLogosBySetAndListRoute } from './logos.routes';
+import type {
+  GetLogoListsRoute,
+  GetLogosBySetAndListRoute,
+} from './logos.routes';
 import type { AppRouteHandler } from '@/lib/types';
 import { logoOverrides as rawOverrides } from '@guess-logo/shared/data';
 import { shuffleArray } from '@guess-logo/shared/utils';
@@ -40,6 +43,14 @@ export const getLogosBySetAndList: AppRouteHandler<GetLogosBySetAndListRoute> = 
   c,
 ) => {
   const { set, list } = c.req.valid('param');
+
+  if (set === 'sports') {
+    return c.json(
+      { error: `'sports' is not a valid logo set. Please use the /sports endpoint.` },
+      HttpStatusCodes.BAD_REQUEST,
+    );
+  }
+
   const { count, language, shuffle } = c.req.valid('query');
   const countNum = Math.min(Number.parseInt(count, 10), 100);
   const logoOverrides = rawOverrides as LogoOverrides;
