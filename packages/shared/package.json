@@ -5,6 +5,7 @@
   "exports": {
     "./types": "./types/index.ts",
     "./data": "./data/index.ts",
+    "./data/load-region": "./data/sport/load-region.ts",
     "./types/logos": "./types/logo-types.ts",
     "./schemas": "./schemas/logo-schemas.ts",
     "./schemas/five-seconds": "./schemas/five-seconds-schemas.ts",
