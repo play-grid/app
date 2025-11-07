@@ -52,6 +52,7 @@ const mockLeaguesEurope: RawLeague[] = [
 describe('sport List Service', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    // @ts-expect-error-error
     (loadRegion as vi.Mock).mockImplementation((regionId: SportRegionId) => {
       if (regionId === 'asia') {
         return Promise.resolve(mockLeaguesAsia);

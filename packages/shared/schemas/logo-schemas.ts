@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 // Logo set enum
-export const logoSetSchema = z.enum(['companies', 'countries', 'movies']);
+export const logoSetSchema = z.enum(['companies', 'countries', 'movies', 'sports']);
 
 // Logo response schema
 export const logoItemSchema = z.object({

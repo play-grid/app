@@ -53,6 +53,8 @@ beforeAll(async () => {
   ]);
 
   // mock getDB to return this local db
+  // eslint-disable-next-line ts/ban-ts-comment
+  // @ts-expect-error
   vi.spyOn(await import('@/db'), 'getDB').mockReturnValue(db);
 });
 

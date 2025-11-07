@@ -11,14 +11,34 @@ export interface LogoItem {
   eliminated: boolean;
   countryData?: Country;
 }
+
 export type LocaleRecord = {
   [key in SupportedLanguage]: string;
 };
 
-export interface LogoList {
+// Base interface for list metadata (API response)
+export interface LogoListMetadata {
   id: string;
   name: LocaleRecord;
+}
+
+// Extended interface with fetchItems (internal use)
+export interface LogoList extends LogoListMetadata {
   fetchItems: (language: SupportedLanguage, listId?: string) => Promise<LogoItem[]>;
 }
+
+// Sports-specific types
+export interface SportRegion {
+  id: string;
+  name: LocaleRecord;
+}
+
+export interface SportLeague {
+  id: string;
+  name: LocaleRecord;
+}
+
+// Union type for all possible list metadata
+export type ListMetadata = LogoListMetadata | SportRegion | SportLeague;
 
 export type LogoSetKey = z.infer<typeof logoSetSchema>;
