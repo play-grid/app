@@ -7,7 +7,7 @@ function createLeagueFetcher(leagueId: number, teams: readonly RawTeam[]) {
     return teams
       .filter(team => team.leagueId === leagueId)
       .map<LogoItem>(team => ({
-        id: team.id,
+        id: String(team.id),
         name: team.name,
         imageUrl: team.logo,
         eliminated: false,

@@ -1,7 +1,6 @@
 import { spawn } from 'node:child_process';
 import process from 'node:process';
 
-
 async function runCommand(command: string, args: string[]): Promise<void> {
   return new Promise((resolve, reject) => {
     const child = spawn(command, args, { stdio: 'inherit' });
