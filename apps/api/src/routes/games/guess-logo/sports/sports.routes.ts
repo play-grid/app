@@ -137,8 +137,36 @@ export const getAllSportTeamsInCountry = createRoute({
   },
 });
 
+// Get all teams in a custom list
+export const getSportTeamsInCustomList = createRoute({
+  path: '/custom/{listId}',
+  method: 'get',
+  tags,
+  request: {
+    params: z.object({
+      listId: z.string(),
+    }),
+    query: logoQuerySchema,
+  },
+  responses: {
+    [HttpStatusCodes.OK]: jsonContent(
+      z.array(logoItemSchema),
+      'Successfully retrieved all teams in custom list',
+    ),
+    [HttpStatusCodes.BAD_REQUEST]: jsonContent(
+      z.object({ error: z.string() }),
+      'Invalid list',
+    ),
+    [HttpStatusCodes.INTERNAL_SERVER_ERROR]: jsonContent(
+      z.object({ error: z.string() }),
+      'Internal server error',
+    ),
+  },
+});
+
 export type GetSportRegionsRoute = typeof getSportRegions;
 export type GetSportLeaguesRoute = typeof getSportLeagues;
 export type GetSportTeamsRoute = typeof getSportTeams;
 export type GetAllSportTeamsInRegionRoute = typeof getAllSportTeamsInRegion;
 export type GetAllSportTeamsInCountryRoute = typeof getAllSportTeamsInCountry;
+export type GetSportTeamsInCustomListRoute = typeof getSportTeamsInCustomList;

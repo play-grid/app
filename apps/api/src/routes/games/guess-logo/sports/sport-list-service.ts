@@ -1,4 +1,5 @@
 import type { LocaleRecord, LogoItem, LogoList, RawLeague, RawTeam, SportRegionId, SupportedLanguage } from '@guess-logo/shared/types';
+import { loadCustomList } from '@guess-logo/shared/data/load-custom-list';
 import { loadRegion } from '@guess-logo/shared/data/load-region';
 import { SPORT_REGION_IDS, SPORT_REGIONS } from '@guess-logo/shared/types';
 
@@ -104,6 +105,19 @@ export async function getAllSportTeamsInCountry(countryId: string): Promise<Logo
   const countryLeagues = allRawLeagues.filter(league => league.country === countryId);
 
   const allTeams = countryLeagues.flatMap(l => l.teams ?? []);
+
+  return allTeams.map<LogoItem>(team => ({
+    id: team.id,
+    name: team.name,
+    imageUrl: team.logo,
+    eliminated: false,
+  }));
+}
+
+/** Get all teams in a given custom list. */
+export async function getAllTeamsInCustomList(listId: string): Promise<LogoItem[]> {
+  const leagues = (await loadCustomList(listId)) as RawLeague[];
+  const allTeams = leagues.flatMap(l => l.teams ?? []);
 
   return allTeams.map<LogoItem>(team => ({
     id: team.id,

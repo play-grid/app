@@ -6,6 +6,7 @@
     "./types": "./types/index.ts",
     "./data": "./data/index.ts",
     "./data/load-region": "./data/sport/load-region.ts",
+    "./data/load-custom-list": "./data/sport/load-custom-list.ts",
     "./types/logos": "./types/logo-types.ts",
     "./schemas": "./schemas/logo-schemas.ts",
     "./schemas/five-seconds": "./schemas/five-seconds-schemas.ts",
