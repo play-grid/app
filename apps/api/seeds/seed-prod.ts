@@ -4,12 +4,12 @@ import { getPlatformProxy } from 'wrangler';
 import { seedD1Questions } from './shared/questions';
 
 async function main() {
-  console.log('Seeding production database...');
+  console.warn('Seeding production database...');
   try {
     const { env } = await getPlatformProxy();
     const db = drizzle(env.GAME_HUB_DB);
     await seedD1Questions(db as any);
-    console.log('Seeding completed successfully.');
+    console.warn('Seeding completed successfully.');
   }
   catch (error) {
     console.error('Error seeding production database:', error);
