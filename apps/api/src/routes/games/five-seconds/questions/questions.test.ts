@@ -75,7 +75,7 @@ describe('get /random', () => {
       expect(res.status).toBe(HttpStatusCodes.OK);
 
       const data = await res.json();
-      
+
       // Type guard to ensure we have a question response
       expect('id' in data).toBe(true);
       if ('id' in data) {
@@ -98,7 +98,7 @@ describe('get /random', () => {
 
     expect(res.status).toBe(HttpStatusCodes.OK);
     const data = await res.json();
-    
+
     // Type guard for NO_QUESTIONS_FOUND response
     expect('code' in data).toBe(true);
     if ('code' in data) {
@@ -118,7 +118,7 @@ describe('get /random', () => {
 
     expect(res.status).toBe(HttpStatusCodes.OK);
     const data = await res.json();
-    
+
     // Type guard to ensure we have a question response
     expect('difficulty' in data).toBe(true);
     if ('difficulty' in data) {
@@ -137,7 +137,7 @@ describe('get /random', () => {
 
     expect(res.status).toBe(HttpStatusCodes.OK);
     const data = await res.json();
-    
+
     // Type guard to ensure we have a question response
     expect('categoryId' in data).toBe(true);
     if ('categoryId' in data) {
@@ -156,7 +156,7 @@ describe('get /random', () => {
 
     expect(res.status).toBe(HttpStatusCodes.OK);
     const data = await res.json();
-    
+
     // Type guard to ensure we have a question response
     expect('id' in data).toBe(true);
     if ('id' in data) {
@@ -174,7 +174,7 @@ describe('get /random', () => {
     });
 
     expect(res.headers.get('Cache-Control')).toBe(
-      'no-store, no-cache, must-revalidate, private'
+      'no-store, no-cache, must-revalidate, private',
     );
     expect(res.headers.get('Pragma')).toBe('no-cache');
     expect(res.headers.get('Expires')).toBe('0');
@@ -192,7 +192,7 @@ describe('get /random', () => {
     // Handler returns 200 OK with NO_QUESTIONS_FOUND code
     expect(res.status).toBe(HttpStatusCodes.OK);
     const data = await res.json();
-    
+
     // Type guard for NO_QUESTIONS_FOUND response
     expect('code' in data).toBe(true);
     if ('code' in data) {
