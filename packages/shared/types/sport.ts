@@ -60,5 +60,6 @@ export interface RawTeam {
 export interface RawLeague {
   id: number | string;
   name: string;
+  country:string;
   teams?: RawTeam[];
 }
