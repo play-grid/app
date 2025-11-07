@@ -16,5 +16,5 @@
     "./**/*.ts",
     "./worker-configuration.d.ts",
     "./vitest.config.ts"
-  ]
+, "../../packages/shared/data/sport/load-region.ts"  ]
 }
