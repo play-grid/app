@@ -13,8 +13,8 @@ export { default as topGdpCountryNames } from './countries/top-gdp-country-names
 export { default as logoOverrides } from './logo-overrides.json';
 
 // --- Sports (core data) ---
-export { default as leagues } from './sport/leagues.json';
-export { default as allTeams } from './sport/teams.json';
+// export { default as leagues } from './sport/leagues.json';
+// export { default as allTeams } from './sport/teams.json';
 
 // --- Sports by region ---
 import africa from './sport/leagues-by-regions/region-africa.json';

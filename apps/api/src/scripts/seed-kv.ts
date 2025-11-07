@@ -4,7 +4,6 @@ import process from 'node:process';
 import Cloudflare from 'cloudflare';
 import { getNodeEnv } from '@/env';
 
-
 const env = getNodeEnv();
 interface SeedOptions {
   kvNamespaceId: string;

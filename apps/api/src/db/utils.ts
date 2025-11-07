@@ -8,7 +8,7 @@ export function getLocalD1DB() {
     if (!fs.existsSync(basePath)) {
       throw new Error(
         `Local D1 database not found at ${basePath}.\n`
-        + `Please run 'wrangler dev' first to initialize the local database.`, 
+        + `Please run 'wrangler dev' first to initialize the local database.`,
       );
     }
 

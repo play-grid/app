@@ -13,10 +13,10 @@ vi.mock('cloudflare:workers', () => ({}));
 vi.mock('cloudflare:test', () => ({}));
 
 (globalThis as any).caches = {
-  default: { async match() { return null }, async put() {} },
+  default: { async match() { return null; }, async put() {} },
 };
 (globalThis as any).env = {
-  SESSION_KV: { async get() { return null }, async put() {}, async delete() {} },
+  SESSION_KV: { async get() { return null; }, async put() {}, async delete() {} },
 };
 
 process.on('uncaughtException', e => console.error('❌ Uncaught exception:', e));
