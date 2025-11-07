@@ -16,19 +16,6 @@ function createLeagueFetcher(leagueId: number, teams: readonly RawTeam[]) {
   };
 }
 
-/** Returns a `fetchItems` callback for all leagues combined. */
-// eslint-disable-next-line unused-imports/no-unused-vars
-function createAllLeaguesFetcher(teams: readonly RawTeam[]) {
-  return async (_language: SupportedLanguage): Promise<LogoItem[]> => {
-    return teams.map<LogoItem>(team => ({
-      id: team.id,
-      name: team.name,
-      imageUrl: team.logo,
-      eliminated: false,
-    }));
-  };
-}
-
 /* ---------------------------------- */
 /* 🌍 Public API */
 /* ---------------------------------- */
