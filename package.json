@@ -13,7 +13,7 @@
     "prepare": "husky"
   },
   "devDependencies": {
-    "eslint": "^9.34.0",
+    "eslint": "catalog:",
     "husky": "^9.1.7",
     "lint-staged": "^16.1.5",
     "tsx": "^4.20.6"

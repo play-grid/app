@@ -10,14 +10,7 @@
     "./stores/persistence": "./src/stores/create-persistence-store.ts"
   },
   "dependencies": {
-    "@guess-logo/eslint-config": "workspace:*",
-    "@orpc/client": "^1.10.1",
-    "@orpc/contract": "^1.10.1",
-    "@orpc/experimental-durable-iterator": "^1.10.1",
-    "immer": "^5.0.8",
-    "partysocket": "^1.1.6",
-    "xstate": "^5.23.0",
-    "zod": "^4.1.12",
+    "immer": "catalog:",
     "zustand": "^5.0.8"
   }
 }
