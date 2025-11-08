@@ -10,7 +10,7 @@
     "./stores/persistence": "./src/stores/create-persistence-store.ts"
   },
   "dependencies": {
-     "zustand": "^5.0.8",
-     "immer": "^5.0.8"
+    "immer": "catalog:",
+    "zustand": "^5.0.8"
   }
 }
