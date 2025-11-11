@@ -30,13 +30,6 @@ export default function LocalGamePlayPage() {
     enabled: true,
   });
 
-  const gameError = useGameError({
-    fetchError: null,
-    isValidRoute: routeParams.isValidRoute,
-  });
-
-  const { data: availableLists } = useLogoListsQuery(routeParams.logoSet, true);
-
   const {
     playerA,
     playerB,
@@ -50,7 +43,17 @@ export default function LocalGamePlayPage() {
     updateLogosForList,
     isUpdatingLogos,
     shuffleLogos,
+    error: storeError,
+    clearError,
+    listIsEmpty,
   } = useGameStore();
+
+  const gameError = useGameError({
+    fetchError: storeError ? new Error(storeError) : null,
+    isValidRoute: routeParams.isValidRoute,
+  });
+
+  const { data: availableLists } = useLogoListsQuery(routeParams.logoSet, true);
 
   const gridConfig = getGridConfiguration(routeParams.gridSize);
 
@@ -82,6 +85,7 @@ export default function LocalGamePlayPage() {
   const handleResetGame = () => {
     clearGameState();
     resetGame();
+    clearError();
     navigate('/');
   };
 
@@ -164,16 +168,24 @@ export default function LocalGamePlayPage() {
           <GridSizeSlider />
         </div>
 
-        {/* Game Board */}
-        <div className="grid lg:grid-cols-2 gap-6">
-          <div className="bg-card rounded-2xl shadow-lg border border-border p-6 hover:shadow-xl transition-shadow duration-300">
-            <PlayerGrid player={playerA} onToggleLogo={togglePlayerALogo} />
-          </div>
+        {listIsEmpty
+          ? (
+              <div className="text-center p-8 bg-card rounded-2xl shadow-lg border border-border">
+                <h3 className="text-2xl font-semibold text-card-foreground mb-2">{t('list-is-empty')}</h3>
+                <p className="text-muted-foreground">{t('please-select-another-list')}</p>
+              </div>
+            )
+          : (
+              <div className="grid lg:grid-cols-2 gap-6">
+                <div className="bg-card rounded-2xl shadow-lg border border-border p-6 hover:shadow-xl transition-shadow duration-300">
+                  <PlayerGrid player={playerA} onToggleLogo={togglePlayerALogo} />
+                </div>
 
-          <div className="bg-card rounded-2xl shadow-lg border border-border p-6 hover:shadow-xl transition-shadow duration-300">
-            <PlayerGrid player={playerB} onToggleLogo={togglePlayerBLogo} />
-          </div>
-        </div>
+                <div className="bg-card rounded-2xl shadow-lg border border-border p-6 hover:shadow-xl transition-shadow duration-300">
+                  <PlayerGrid player={playerB} onToggleLogo={togglePlayerBLogo} />
+                </div>
+              </div>
+            )}
 
         {footerData && (
           <div className="text-center">
