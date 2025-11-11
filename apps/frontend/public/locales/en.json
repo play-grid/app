@@ -7,8 +7,17 @@
   },
   "games": {
     "guessLogo": {
-      "title": "Guess the Logo",
-      "description": "Test your logo knowledge in a fun and challenging game!"
+    "title": "Guess the Logo",
+    "region": "Region",
+    "select-region": "Select a region",
+    "league-optional": "League (Optional - leave empty for all teams)",
+    "all-teams-in-region": "All teams in region",
+    "all-teams": "All teams",
+    "loading": "Loading",
+    "error-loading-leagues": "Error loading leagues",
+      "description": "Test your logo knowledge in a fun and challenging game!",
+      "list-is-empty": "This list is empty.",
+      "please-select-another-list": "Please select another list from the dropdown above."
     },
     "fiveSeconds": {
       "title": "Five Seconds Game",

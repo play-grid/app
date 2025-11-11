@@ -9,6 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { Spinner } from '@/components/ui/spinner';
 import { useNestedListsQuery } from '../hooks/use-nested-lists-query';
 
 interface InlineSportsListSelectorProps {
@@ -81,7 +82,7 @@ export function InlineSportsListSelector({
       onValueChange={handleChange}
     >
       <SelectTrigger className={className}>
-        <SelectValue placeholder={i18n.t('select-region')}>
+        <SelectValue placeholder={i18n.t('games.guessLogo.select-region')}>
           {getDisplayValue()}
         </SelectValue>
       </SelectTrigger>
@@ -94,7 +95,7 @@ export function InlineSportsListSelector({
 
             {/* Option for all teams in region */}
             <SelectItem value={region.id} className="pl-6">
-              {i18n.t('all-teams')}
+              {i18n.t('games.guessLogo.all-teams')}
             </SelectItem>
 
             {/* Show leagues if this region is selected */}
@@ -103,8 +104,7 @@ export function InlineSportsListSelector({
                 {isLoadingLeagues
                   ? (
                       <SelectItem value={`${region.id}-loading`} disabled className="pl-6 text-xs">
-                        {i18n.t('loading')}
-                        ...
+                        <Spinner />
                       </SelectItem>
                     )
                   : (

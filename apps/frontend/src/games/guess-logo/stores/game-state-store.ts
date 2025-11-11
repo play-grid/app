@@ -15,6 +15,8 @@ export interface GameState extends SharedGameState {
   // Game Status
   isUpdatingList: boolean;
   isUpdatingLogos: boolean;
+  error: string | null;
+  listIsEmpty: boolean;
 
   // Actions
   updateSelectedSet: (set: LogoSetKey) => Promise<void>;
@@ -32,6 +34,7 @@ export interface GameState extends SharedGameState {
   setCurrentPlayer: (player: 'A' | 'B') => void;
   switchTurn: () => void;
   shuffleLogos: (language: SupportedLanguage) => Promise<void>;
+  clearError: () => void;
 
   // Game Initialization
   initializeGame: (logos: LogoItem[]) => void;
@@ -84,7 +87,11 @@ export const useGameStore = create<GameState>()(
         gameInitialized: false,
         isUpdatingList: false,
         isUpdatingLogos: false,
+        error: null,
+        listIsEmpty: false,
         gridCols: 4,
+
+        clearError: () => set({ error: null }),
 
         setGridCols: (cols) => {
           set({ gridCols: cols });
@@ -95,9 +102,25 @@ export const useGameStore = create<GameState>()(
           if (gameInitialized && selectedList === listId && currentSet === logoSet) {
             return;
           }
-          set({ isUpdatingLogos: true });
+          set({ isUpdatingLogos: true, error: null, listIsEmpty: false });
           try {
+            if (!listId) {
+              // If there's no list ID, it's not an error, just nothing to display.
+              set({ gameInitialized: false, playerA: { ...get().playerA, logos: [] }, playerB: { ...get().playerB, logos: [] } });
+              return;
+            }
+
             const fetchedLogos = await fetchLogos(logoSet, listId, language, count);
+
+            if (fetchedLogos.length === 0) {
+              set({
+                listIsEmpty: true,
+                gameInitialized: false,
+                playerA: { ...get().playerA, logos: [] },
+                playerB: { ...get().playerB, logos: [] },
+              });
+              return;
+            }
 
             const logos: LogoItem[] = fetchedLogos.map(logo => ({
               id: logo.id,
@@ -137,6 +160,7 @@ export const useGameStore = create<GameState>()(
           }
           catch (error) {
             console.error('Failed to update logos for list', error);
+            set({ error: (error as Error).message || 'Failed to fetch logos.' });
           }
           finally {
             set({ isUpdatingLogos: false });
