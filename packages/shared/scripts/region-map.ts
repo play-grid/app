@@ -1,35 +1,5 @@
 // packages/shared/scripts/region-map.ts
 export const REGION_MAP: Record<string, string> = {
-  // 🌍 Africa
-  'algeria': 'africa',
-  'angola': 'africa',
-  'benin': 'africa',
-  'botswana': 'africa',
-  'burkina-faso': 'africa',
-  'burundi': 'africa',
-  'cameroon': 'africa',
-  'congo': 'africa',
-  'congo-dr': 'africa',
-  'egypt': 'africa',
-  'ethiopia': 'africa',
-  'gabon': 'africa',
-  'gambia': 'africa',
-  'ghana': 'africa',
-  'ivory-coast': 'africa',
-  'kenya': 'africa',
-  'lesotho': 'africa',
-  'libya': 'africa',
-  'morocco': 'africa',
-  'nigeria': 'africa',
-  'senegal': 'africa',
-  'south-africa': 'africa',
-  'sudan': 'africa',
-  'tanzania': 'africa',
-  'tunisia': 'africa',
-  'uganda': 'africa',
-  'zambia': 'africa',
-  'zimbabwe': 'africa',
-
   // 🇪🇺 Europe
   'england': 'europe',
   'france': 'europe',
@@ -95,9 +65,4 @@ export const REGION_MAP: Record<string, string> = {
   'peru': 'south-america',
   'uruguay': 'south-america',
   'venezuela': 'south-america',
-
-  // 🌊 Oceania
-  'australia': 'oceania',
-  'new-zealand': 'oceania',
-  'fiji': 'oceania',
 };

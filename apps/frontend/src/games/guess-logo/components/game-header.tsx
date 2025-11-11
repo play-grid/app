@@ -28,30 +28,25 @@ interface GameHeaderProps {
   onShuffle?: () => void;
 }
 /**
- * Parse sports list ID to extract region and league
- * Format: "region:asia" or "region:asia:league:101"
+ * Parse sports list ID to extract region/country and league
+ * Format: "country:saudi-arabia", "region:asia", or "region:asia:league:101"
  */
 function parseSportsListId(listId: string) {
   const parts = listId.split(':');
 
+  if (parts[0] === 'country') {
+    // It's a country ID, like "country:saudi-arabia"
+    return { regionId: listId, leagueId: '' };
+  }
+
   if (parts[0] === 'region') {
-    const regionId = parts[1] || '';
-    const leagueId = (parts[2] === 'league' && parts[3]) ? parts.slice(2).join(':') : '';
+    // It's a region or league ID
+    const regionId = parts.slice(0, 2).join(':'); // "region:asia"
+    const leagueId = parts.length > 2 ? listId : ''; // "region:asia:league:101" or ""
     return { regionId, leagueId };
   }
 
   return { regionId: '', leagueId: '' };
-}
-
-/**
- * Build sports list ID from region and league
- */
-function buildSportsListId(regionId: string, leagueId: string) {
-  if (!regionId)
-    return '';
-  if (!leagueId)
-    return `region:${regionId}`;
-  return leagueId; // leagueId already includes the full path
 }
 
 export function GameHeader({
@@ -79,15 +74,14 @@ export function GameHeader({
     : { regionId: '', leagueId: '' };
 
   // Handlers for sports selector
-  const handleRegionChange = (newRegionId: string) => {
-    const newListId = buildSportsListId(newRegionId, '');
-    onListChange(newListId);
+  const handleRegionChange = (newRegionOrCountryId: string) => {
+    onListChange(newRegionOrCountryId);
   };
 
   const handleLeagueChange = (newLeagueId: string) => {
-    const newListId = buildSportsListId(regionId, newLeagueId);
-    onListChange(newListId);
+    onListChange(newLeagueId);
   };
+
   return (
     <div className="mb-6 space-y-4">
       {/* Winner Banner - Only shows when there's a winner */}
@@ -183,7 +177,6 @@ export function GameHeader({
                     selectedLeague={leagueId}
                     onRegionChange={handleRegionChange}
                     onLeagueChange={handleLeagueChange}
-                    // showLeagueSelector={true}
                   />
                 )
               : (

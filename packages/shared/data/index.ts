@@ -17,22 +17,18 @@ export { default as logoOverrides } from './logo-overrides.json';
 // export { default as allTeams } from './sport/teams.json';
 
 // --- Sports by region ---
-import africa from './sport/leagues-by-regions/region-africa.json';
 import asia from './sport/leagues-by-regions/region-asia.json';
 import europe from './sport/leagues-by-regions/region-europe.json';
 import northAmerica from './sport/leagues-by-regions/region-north-america.json';
-import oceania from './sport/leagues-by-regions/region-oceania.json';
 import other from './sport/leagues-by-regions/region-other.json';
 import southAmerica from './sport/leagues-by-regions/region-south-america.json';
 import summary from './sport/leagues-by-regions/summary.json';
 
 const regionLeagues = {
-  africa,
   asia,
   europe,
   northAmerica,
   southAmerica,
-  oceania,
   other,
   summary,
 };

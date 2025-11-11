@@ -92,7 +92,7 @@ export default function LocalGamePlayPage() {
   const handleStartNewGame = () => {
     clearGameState();
     navigate(
-      `/game/${routeParams.logoSet}/${routeParams.gridSize}/${encodeURIComponent(routeParams.playerAName)}/${encodeURIComponent(routeParams.playerBName)}`,
+      `/game/${routeParams.logoSet}/${routeParams.listId}/${routeParams.gridSize}/${encodeURIComponent(routeParams.playerAName)}/${encodeURIComponent(routeParams.playerBName)}`,
       { replace: true },
     );
     startNewGame();
@@ -148,15 +148,7 @@ export default function LocalGamePlayPage() {
           gridConfig={gridConfig}
           availableLists={availableLists || []}
           selectedList={selectedList}
-          onListChange={(listId) => {
-            changeLogoList(listId);
-            navigate(
-              `/game/${routeParams.logoSet}/${listId}/${routeParams.gridSize}/${encodeURIComponent(
-                routeParams.playerAName,
-              )}/${encodeURIComponent(routeParams.playerBName)}`,
-              { replace: true },
-            );
-          }}
+          onListChange={changeLogoList}
           onSwitchTurn={switchTurn}
           onResetGame={handleResetGame}
           onStartNewGame={handleStartNewGame}
