@@ -35,7 +35,7 @@ export function useGameRouteParams({ enabled }: { enabled: boolean }): GameRoute
 
   // Extract params with defaults and decode player names
   const logoSet = (params.logoSet as LogoSetKey) || 'companies';
-  const listId = params.listId || 'companies';
+  const listId = decodeURIComponent(params.listId || 'companies');
   const gridSize = params.gridSize || '8x6';
   const playerAName = decodeURIComponent(params.playerA || 'Player A');
   const playerBName = decodeURIComponent(params.playerB || 'Player B');
