@@ -4,6 +4,12 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+catalogs:
+  default:
+    hono:
+      specifier: ^4.9.5
+      version: 4.9.9
+
 overrides:
   esbuild: 0.25.9
 
@@ -51,7 +57,7 @@ importers:
         specifier: ^0.8.3
         version: 0.8.3(drizzle-orm@0.44.7(@cloudflare/workers-types@4.20250927.0)(@types/better-sqlite3@7.6.13)(better-sqlite3@12.4.1)(kysely@0.28.8))(zod@4.1.8)
       hono:
-        specifier: ^4.9.5
+        specifier: 'catalog:'
         version: 4.9.9
       hono-rate-limiter:
         specifier: ^0.4.2
@@ -187,7 +193,7 @@ importers:
         specifier: ^2.1.1
         version: 2.1.1
       hono:
-        specifier: ^4.9.5
+        specifier: 'catalog:'
         version: 4.9.9
       immer:
         specifier: ^10.1.1

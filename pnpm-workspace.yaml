@@ -10,3 +10,7 @@ onlyBuiltDependencies:
   - sharp
   - simple-git-hooks
   - workerd
+
+
+catalog:
+  hono: ^4.9.5
