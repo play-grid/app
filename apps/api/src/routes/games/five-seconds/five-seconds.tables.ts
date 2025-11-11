@@ -1,5 +1,5 @@
 import { sqliteTable, text, uniqueIndex } from 'drizzle-orm/sqlite-core';
-import { timestamp } from '@/db/timestamp';
+import { timestamp } from '@/db/utils/timestamp';
 import { feedbackTypes } from './questions/feedback/types';
 
 // Temporary cuid() implementation
