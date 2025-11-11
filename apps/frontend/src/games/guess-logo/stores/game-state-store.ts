@@ -8,8 +8,8 @@ import type {
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
-import { fetchLogoLists } from '../services/logo-lists-service';
 import { fetchLogos } from '../services/logo-query-service';
+import { fetchLogoLists } from '../services/unified-logo-service';
 
 export interface GameState extends SharedGameState {
   // Game Status
@@ -150,23 +150,35 @@ export const useGameStore = create<GameState>()(
         },
 
         updateSelectedSet: async (selectedSet) => {
-          set({ isUpdatingList: true });
+          set({ isUpdatingList: true, error: null });
           try {
             const lists = await fetchLogoLists(selectedSet);
-            const defaultList = lists[0]?.id || '';
-            set((state) => {
-              state.selectedSet = selectedSet;
-              state.selectedList = defaultList;
-            });
+            if (lists.length > 0) {
+              const defaultList = lists[0].id;
+              set((state) => {
+                state.selectedSet = selectedSet;
+                state.selectedList = defaultList;
+              });
+            }
+            else {
+              // Handle case with no lists
+              set((state) => {
+                state.selectedSet = selectedSet;
+                state.selectedList = ''; // or some indicator of no list
+                state.playerA.logos = [];
+                state.playerB.logos = [];
+                state.gameInitialized = false;
+              });
+            }
           }
           catch (error) {
             console.error('Failed to update selected set', error);
+            set({ error: (error as Error).message || 'Failed to fetch logo lists.' });
           }
           finally {
             set({ isUpdatingList: false });
           }
         },
-
         setSelectedList: selectedList =>
           set((state) => {
             state.selectedList = selectedList;

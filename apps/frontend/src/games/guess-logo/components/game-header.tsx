@@ -11,6 +11,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { GridIcon, PlusIcon, RefreshIcon, RestartIcon, TrophyIcon } from '../../../components/ui/icons';
+import { InlineSportsListSelector } from './inline-sports-list-selector';
 
 interface GameHeaderProps {
   selectedSet: LogoSetKey;
@@ -25,6 +26,32 @@ interface GameHeaderProps {
   onListChange: (value: string) => void;
   selectedList: string;
   onShuffle?: () => void;
+}
+/**
+ * Parse sports list ID to extract region and league
+ * Format: "region:asia" or "region:asia:league:101"
+ */
+function parseSportsListId(listId: string) {
+  const parts = listId.split(':');
+
+  if (parts[0] === 'region') {
+    const regionId = parts[1] || '';
+    const leagueId = (parts[2] === 'league' && parts[3]) ? parts.slice(2).join(':') : '';
+    return { regionId, leagueId };
+  }
+
+  return { regionId: '', leagueId: '' };
+}
+
+/**
+ * Build sports list ID from region and league
+ */
+function buildSportsListId(regionId: string, leagueId: string) {
+  if (!regionId)
+    return '';
+  if (!leagueId)
+    return `region:${regionId}`;
+  return leagueId; // leagueId already includes the full path
 }
 
 export function GameHeader({
@@ -46,6 +73,21 @@ export function GameHeader({
   const winner = playerA.winner || playerB.winner;
   const winningPlayer = playerA.winner ? playerA : playerB.winner ? playerB : null;
 
+  // Parse sports list ID if it's a sports set
+  const { regionId, leagueId } = selectedSet === 'sports'
+    ? parseSportsListId(selectedList)
+    : { regionId: '', leagueId: '' };
+
+  // Handlers for sports selector
+  const handleRegionChange = (newRegionId: string) => {
+    const newListId = buildSportsListId(newRegionId, '');
+    onListChange(newListId);
+  };
+
+  const handleLeagueChange = (newLeagueId: string) => {
+    const newListId = buildSportsListId(regionId, newLeagueId);
+    onListChange(newListId);
+  };
   return (
     <div className="mb-6 space-y-4">
       {/* Winner Banner - Only shows when there's a winner */}
@@ -132,18 +174,33 @@ export function GameHeader({
           </div>
 
           {/* Center: List Selector */}
-          <Select value={selectedList} onValueChange={onListChange}>
-            <SelectTrigger className="w-[200px]">
-              <SelectValue placeholder={t('choose-list')} />
-            </SelectTrigger>
-            <SelectContent>
-              {availableLists.map(list => (
-                <SelectItem key={list.id} value={list.id}>
-                  {list.name[i18n.language as keyof typeof list.name]}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          <div className="min-w-[200px]">
+            {selectedSet === 'sports'
+              ? (
+                  <InlineSportsListSelector
+                    regions={availableLists}
+                    selectedRegion={regionId}
+                    selectedLeague={leagueId}
+                    onRegionChange={handleRegionChange}
+                    onLeagueChange={handleLeagueChange}
+                    // showLeagueSelector={true}
+                  />
+                )
+              : (
+                  <Select value={selectedList} onValueChange={onListChange}>
+                    <SelectTrigger className="w-[200px]">
+                      <SelectValue placeholder={t('choose-list')} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {availableLists.map(list => (
+                        <SelectItem key={list.id} value={list.id}>
+                          {list.name[i18n.language as keyof typeof list.name]}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                )}
+          </div>
 
           {/* Right: Action Buttons */}
           <div className="flex items-center gap-2">
