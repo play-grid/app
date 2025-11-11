@@ -5,12 +5,10 @@ import { z } from 'zod';
 /* ---------------------------------- */
 
 export const sportRegionIdSchema = z.enum([
-  'africa',
   'asia',
   'europe',
   'north-america',
   'south-america',
-  'oceania',
   'other',
 ] as const);
 
@@ -27,12 +25,10 @@ export const sportRegionSchema = z.object({
 export const sportRegionsSchema = z.array(sportRegionSchema);
 
 export const SPORT_REGIONS = sportRegionsSchema.parse([
-  { id: 'africa', name: { en: 'Africa', ar: 'أفريقيا' } },
   { id: 'asia', name: { en: 'Asia', ar: 'آسيا' } },
   { id: 'europe', name: { en: 'Europe', ar: 'أوروبا' } },
   { id: 'north-america', name: { en: 'North America', ar: 'أمريكا الشمالية' } },
   { id: 'south-america', name: { en: 'South America', ar: 'أمريكا الجنوبية' } },
-  { id: 'oceania', name: { en: 'Oceania', ar: 'أوقيانوسيا' } },
   { id: 'other', name: { en: 'Other', ar: 'أخرى' } },
 ]);
 

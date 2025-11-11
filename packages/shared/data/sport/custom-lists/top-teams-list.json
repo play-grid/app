@@ -1,0 +1,616 @@
+[
+  {
+    "id": 9001,
+    "name": "Top Teams",
+    "country": "World",
+    "logo": "https://img.icons8.com/fluency/96/trophy.png",
+    "teams": [
+      {
+        "id": 33,
+        "name": "Manchester United",
+        "logo": "https://media.api-sports.io/football/teams/33.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 36,
+        "name": "Fulham",
+        "logo": "https://media.api-sports.io/football/teams/36.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 40,
+        "name": "Liverpool",
+        "logo": "https://media.api-sports.io/football/teams/40.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 42,
+        "name": "Arsenal",
+        "logo": "https://media.api-sports.io/football/teams/42.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 45,
+        "name": "Everton",
+        "logo": "https://media.api-sports.io/football/teams/45.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 49,
+        "name": "Chelsea",
+        "logo": "https://media.api-sports.io/football/teams/49.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 50,
+        "name": "Manchester City",
+        "logo": "https://media.api-sports.io/football/teams/50.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 55,
+        "name": "Brentford",
+        "logo": "https://media.api-sports.io/football/teams/55.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 65,
+        "name": "Nottingham Forest",
+        "logo": "https://media.api-sports.io/football/teams/65.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 66,
+        "name": "Aston Villa",
+        "logo": "https://media.api-sports.io/football/teams/66.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 15378,
+        "name": "Everton U18",
+        "logo": "https://media.api-sports.io/football/teams/15378.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 15380,
+        "name": "Liverpool U18",
+        "logo": "https://media.api-sports.io/football/teams/15380.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 15381,
+        "name": "Manchester City U18",
+        "logo": "https://media.api-sports.io/football/teams/15381.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 15382,
+        "name": "Manchester United U18",
+        "logo": "https://media.api-sports.io/football/teams/15382.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 15384,
+        "name": "Newcastle United U18",
+        "logo": "https://media.api-sports.io/football/teams/15384.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 17426,
+        "name": "Nottingham Forest U18",
+        "logo": "https://media.api-sports.io/football/teams/17426.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 15388,
+        "name": "Arsenal U18",
+        "logo": "https://media.api-sports.io/football/teams/15388.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 15389,
+        "name": "Aston Villa U18",
+        "logo": "https://media.api-sports.io/football/teams/15389.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 15391,
+        "name": "Chelsea U18",
+        "logo": "https://media.api-sports.io/football/teams/15391.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 15393,
+        "name": "Fulham U18",
+        "logo": "https://media.api-sports.io/football/teams/15393.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 15394,
+        "name": "Leicester City U18",
+        "logo": "https://media.api-sports.io/football/teams/15394.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 15398,
+        "name": "Tottenham Hotspur U18",
+        "logo": "https://media.api-sports.io/football/teams/15398.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 15400,
+        "name": "West Ham United U18",
+        "logo": "https://media.api-sports.io/football/teams/15400.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 1847,
+        "name": "Liverpool W",
+        "logo": "https://media.api-sports.io/football/teams/1847.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 1850,
+        "name": "Arsenal W",
+        "logo": "https://media.api-sports.io/football/teams/1850.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 1853,
+        "name": "Chelsea W",
+        "logo": "https://media.api-sports.io/football/teams/1853.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 1854,
+        "name": "Manchester City W",
+        "logo": "https://media.api-sports.io/football/teams/1854.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 1855,
+        "name": "Everton W",
+        "logo": "https://media.api-sports.io/football/teams/1855.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 4898,
+        "name": "Manchester United W",
+        "logo": "https://media.api-sports.io/football/teams/4898.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 4899,
+        "name": "Tottenham Hotspur W",
+        "logo": "https://media.api-sports.io/football/teams/4899.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 14219,
+        "name": "Aston Villa W",
+        "logo": "https://media.api-sports.io/football/teams/14219.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 15404,
+        "name": "Leicester City WFC",
+        "logo": "https://media.api-sports.io/football/teams/15404.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 7189,
+        "name": "Arsenal U21",
+        "logo": "https://media.api-sports.io/football/teams/7189.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 7190,
+        "name": "Aston Villa U21",
+        "logo": "https://media.api-sports.io/football/teams/7190.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 7192,
+        "name": "Chelsea U21",
+        "logo": "https://media.api-sports.io/football/teams/7192.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 7193,
+        "name": "Everton U21",
+        "logo": "https://media.api-sports.io/football/teams/7193.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 7194,
+        "name": "Fulham U21",
+        "logo": "https://media.api-sports.io/football/teams/7194.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 7195,
+        "name": "Leicester City U21",
+        "logo": "https://media.api-sports.io/football/teams/7195.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 7196,
+        "name": "Liverpool U21",
+        "logo": "https://media.api-sports.io/football/teams/7196.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 7197,
+        "name": "Manchester City U21",
+        "logo": "https://media.api-sports.io/football/teams/7197.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 7198,
+        "name": "Manchester United U21",
+        "logo": "https://media.api-sports.io/football/teams/7198.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 7199,
+        "name": "Newcastle United U21",
+        "logo": "https://media.api-sports.io/football/teams/7199.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 7202,
+        "name": "Tottenham Hotspur U21",
+        "logo": "https://media.api-sports.io/football/teams/7202.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 7203,
+        "name": "West Ham United U21",
+        "logo": "https://media.api-sports.io/football/teams/7203.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 19746,
+        "name": "Nottingham Forest U21",
+        "logo": "https://media.api-sports.io/football/teams/19746.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 20000,
+        "name": "AFC Bournemouth U21",
+        "logo": "https://media.api-sports.io/football/teams/20000.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 20085,
+        "name": "Queens Park Rangers U21",
+        "logo": "https://media.api-sports.io/football/teams/20085.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 79,
+        "name": "Lille",
+        "logo": "https://media.api-sports.io/football/teams/79.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 84,
+        "name": "Nice",
+        "logo": "https://media.api-sports.io/football/teams/84.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 85,
+        "name": "Paris Saint Germain",
+        "logo": "https://media.api-sports.io/football/teams/85.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 157,
+        "name": "Bayern München",
+        "logo": "https://media.api-sports.io/football/teams/157.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 165,
+        "name": "Borussia Dortmund",
+        "logo": "https://media.api-sports.io/football/teams/165.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 167,
+        "name": "1899 Hoffenheim",
+        "logo": "https://media.api-sports.io/football/teams/167.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 168,
+        "name": "Bayer Leverkusen",
+        "logo": "https://media.api-sports.io/football/teams/168.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 169,
+        "name": "Eintracht Frankfurt",
+        "logo": "https://media.api-sports.io/football/teams/169.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 173,
+        "name": "RB Leipzig",
+        "logo": "https://media.api-sports.io/football/teams/173.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 487,
+        "name": "Lazio",
+        "logo": "https://media.api-sports.io/football/teams/487.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 489,
+        "name": "AC Milan",
+        "logo": "https://media.api-sports.io/football/teams/489.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 492,
+        "name": "Napoli",
+        "logo": "https://media.api-sports.io/football/teams/492.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 495,
+        "name": "Genoa",
+        "logo": "https://media.api-sports.io/football/teams/495.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 496,
+        "name": "Juventus",
+        "logo": "https://media.api-sports.io/football/teams/496.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 497,
+        "name": "AS Roma",
+        "logo": "https://media.api-sports.io/football/teams/497.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 502,
+        "name": "Fiorentina",
+        "logo": "https://media.api-sports.io/football/teams/502.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 7904,
+        "name": "Juventus U19",
+        "logo": "https://media.api-sports.io/football/teams/7904.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 7966,
+        "name": "Roma U19",
+        "logo": "https://media.api-sports.io/football/teams/7966.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 15665,
+        "name": "Fiorentina U19",
+        "logo": "https://media.api-sports.io/football/teams/15665.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 15667,
+        "name": "Genoa U19",
+        "logo": "https://media.api-sports.io/football/teams/15667.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 15668,
+        "name": "Lazio U19",
+        "logo": "https://media.api-sports.io/football/teams/15668.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 15670,
+        "name": "Milan U19",
+        "logo": "https://media.api-sports.io/football/teams/15670.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 7917,
+        "name": "Napoli U19",
+        "logo": "https://media.api-sports.io/football/teams/7917.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 194,
+        "name": "Ajax",
+        "logo": "https://media.api-sports.io/football/teams/194.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 197,
+        "name": "PSV Eindhoven",
+        "logo": "https://media.api-sports.io/football/teams/197.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 211,
+        "name": "Benfica",
+        "logo": "https://media.api-sports.io/football/teams/211.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 212,
+        "name": "FC Porto",
+        "logo": "https://media.api-sports.io/football/teams/212.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 228,
+        "name": "Sporting CP",
+        "logo": "https://media.api-sports.io/football/teams/228.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 15460,
+        "name": "Benfica U23",
+        "logo": "https://media.api-sports.io/football/teams/15460.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 15470,
+        "name": "Sporting CP U23",
+        "logo": "https://media.api-sports.io/football/teams/15470.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 529,
+        "name": "Barcelona",
+        "logo": "https://media.api-sports.io/football/teams/529.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 530,
+        "name": "Atletico Madrid",
+        "logo": "https://media.api-sports.io/football/teams/530.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 532,
+        "name": "Valencia",
+        "logo": "https://media.api-sports.io/football/teams/532.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 533,
+        "name": "Villarreal",
+        "logo": "https://media.api-sports.io/football/teams/533.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 536,
+        "name": "Sevilla",
+        "logo": "https://media.api-sports.io/football/teams/536.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 541,
+        "name": "Real Madrid",
+        "logo": "https://media.api-sports.io/football/teams/541.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 2932,
+        "name": "Al-Hilal Saudi FC",
+        "logo": "https://media.api-sports.io/football/teams/2932.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 247,
+        "name": "Celtic",
+        "logo": "https://media.api-sports.io/football/teams/247.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 257,
+        "name": "Rangers",
+        "logo": "https://media.api-sports.io/football/teams/257.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 2190,
+        "name": "Cwmbran Celtic",
+        "logo": "https://media.api-sports.io/football/teams/2190.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 6443,
+        "name": "Brickfield Rangers",
+        "logo": "https://media.api-sports.io/football/teams/6443.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 7585,
+        "name": "Cardiff Corinthians",
+        "logo": "https://media.api-sports.io/football/teams/7585.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 11345,
+        "name": "Ely Rangers",
+        "logo": "https://media.api-sports.io/football/teams/11345.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 17351,
+        "name": "Penrhiwceiber Rangers",
+        "logo": "https://media.api-sports.io/football/teams/17351.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 22288,
+        "name": "Mumbles Rangers",
+        "logo": "https://media.api-sports.io/football/teams/22288.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 120,
+        "name": "Botafogo",
+        "logo": "https://media.api-sports.io/football/teams/120.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 121,
+        "name": "Palmeiras",
+        "logo": "https://media.api-sports.io/football/teams/121.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 124,
+        "name": "Fluminense",
+        "logo": "https://media.api-sports.io/football/teams/124.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 126,
+        "name": "Sao Paulo",
+        "logo": "https://media.api-sports.io/football/teams/126.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 127,
+        "name": "Flamengo",
+        "logo": "https://media.api-sports.io/football/teams/127.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 128,
+        "name": "Santos",
+        "logo": "https://media.api-sports.io/football/teams/128.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 131,
+        "name": "Corinthians",
+        "logo": "https://media.api-sports.io/football/teams/131.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 133,
+        "name": "Vasco DA Gama",
+        "logo": "https://media.api-sports.io/football/teams/133.png",
+        "leagueId": 9001
+      },
+      {
+        "id": 135,
+        "name": "Cruzeiro",
+        "logo": "https://media.api-sports.io/football/teams/135.png",
+        "leagueId": 9001
+      }
+    ]
+  }
+]
