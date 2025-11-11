@@ -21,8 +21,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { gridConfigurations } from '../lib/grid-configurations';
-import { fetchLogoItems } from '../services/logo-items-service';
-import { fetchLogoLists } from '../services/logo-lists-service';
+import { fetchLogoLists, fetchLogos } from '../services/unified-logo-service';
 
 interface GameSetupProps {
   selectedSet: LogoSetKey;
@@ -123,7 +122,7 @@ export function GameSetup({
       // 3. Prefetch that list's logos
       await queryClient.ensureQueryData({
         queryKey: ['logo-items', setId, firstListId, 'en'],
-        queryFn: () => fetchLogoItems(setId, firstListId, 'en'),
+        queryFn: () => fetchLogos(setId, firstListId, 'en', 80, true),
         staleTime: 10 * 60 * 1000,
       });
     }
