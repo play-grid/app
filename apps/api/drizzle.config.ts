@@ -1,4 +1,4 @@
-import process from 'node:process';
+// import process from 'node:process';
 import { defineConfig } from 'drizzle-kit';
 import { getLocalD1DB } from '@/db/utils';
 import { getNodeEnv } from '@/env';
@@ -6,13 +6,13 @@ import { getNodeEnv } from '@/env';
 const env = getNodeEnv();
 
 const isProd = env.NODE_ENV === 'production';
-const isTest = process.env.VITEST === 'true';
+// const isTest = process.env.VITEST === 'true';
 
 export default defineConfig({
   schema: './src/db/schema.ts',
-  // Still distinguish output folders
-  out: isProd || isTest ? './drizzle' : './drizzle-local',
-  // drizzle-kit uses 'sqlite' even for D1
+  out: './drizzle',
+  // out: isProd || isTest ? './drizzle' : './drizzle-local',
+
   dialect: 'sqlite',
   ...(isProd
     ? {
