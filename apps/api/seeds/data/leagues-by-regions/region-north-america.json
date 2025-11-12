@@ -1,0 +1,136 @@
+[
+  {
+    "id": 322,
+    "name": "Premier League",
+    "country": "Jamaica",
+    "logo": "https://media.api-sports.io/football/leagues/322.png",
+    "teams": [
+      {
+        "id": 3436,
+        "code": null,
+        "name": "Arnett Gardens",
+        "country": "Jamaica",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/3436.png",
+        "leagueId": 322
+      },
+      {
+        "id": 3437,
+        "code": null,
+        "name": "Cavalier",
+        "country": "Jamaica",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/3437.png",
+        "leagueId": 322
+      },
+      {
+        "id": 3438,
+        "code": null,
+        "name": "Dunbeholden",
+        "country": "Jamaica",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/3438.png",
+        "leagueId": 322
+      },
+      {
+        "id": 3439,
+        "code": null,
+        "name": "Harbour View",
+        "country": "Jamaica",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/3439.png",
+        "leagueId": 322
+      },
+      {
+        "id": 3440,
+        "code": null,
+        "name": "Humble Lions",
+        "country": "Jamaica",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/3440.png",
+        "leagueId": 322
+      },
+      {
+        "id": 3441,
+        "code": null,
+        "name": "Montego Bay United",
+        "country": "Jamaica",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/3441.png",
+        "leagueId": 322
+      },
+      {
+        "id": 3442,
+        "code": null,
+        "name": "Mount Pleasant Academy",
+        "country": "Jamaica",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/3442.png",
+        "leagueId": 322
+      },
+      {
+        "id": 3443,
+        "code": null,
+        "name": "Portmore United",
+        "country": "Jamaica",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/3443.png",
+        "leagueId": 322
+      },
+      {
+        "id": 3445,
+        "code": null,
+        "name": "Tivoli Gardens",
+        "country": "Jamaica",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/3445.png",
+        "leagueId": 322
+      },
+      {
+        "id": 3447,
+        "code": null,
+        "name": "Waterhouse",
+        "country": "Jamaica",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/3447.png",
+        "leagueId": 322
+      },
+      {
+        "id": 6407,
+        "code": null,
+        "name": "Molynes United",
+        "country": "Jamaica",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/6407.png",
+        "leagueId": 322
+      },
+      {
+        "id": 6408,
+        "code": null,
+        "name": "Vere United",
+        "country": "Jamaica",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/6408.png",
+        "leagueId": 322
+      },
+      {
+        "id": 22605,
+        "code": null,
+        "name": "Lime Hall Academy",
+        "country": "Jamaica",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/22605.png",
+        "leagueId": 322
+      },
+      {
+        "id": 22606,
+        "code": null,
+        "name": "Treasure Beach",
+        "country": "Jamaica",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/22606.png",
+        "leagueId": 322
+      }
+    ]
+  }
+]

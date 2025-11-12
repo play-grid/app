@@ -1,7 +1,7 @@
 import process from 'node:process';
 import { drizzle } from 'drizzle-orm/d1';
 import { getPlatformProxy } from 'wrangler';
-import { seedD1Questions } from './shared/questions';
+import { seedD1Questions } from './shared/seed-questions';
 
 async function main() {
   console.warn('Seeding production database...');

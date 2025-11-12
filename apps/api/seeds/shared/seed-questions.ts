@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import type { BetterSQLite3Database } from 'drizzle-orm/better-sqlite3';
 import type { LibSQLDatabase } from 'drizzle-orm/libsql';
 
