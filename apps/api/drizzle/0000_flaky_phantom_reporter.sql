@@ -98,4 +98,48 @@ CREATE TABLE `five_seconds_questions` (
 	FOREIGN KEY (`category_id`) REFERENCES `five_seconds_categories`(`id`) ON UPDATE no action ON DELETE no action
 );
 --> statement-breakpoint
-CREATE UNIQUE INDEX `question_idx` ON `five_seconds_questions` (`question`);
+CREATE UNIQUE INDEX `question_idx` ON `five_seconds_questions` (`question`);--> statement-breakpoint
+CREATE TABLE `custom_list_items` (
+	`id` text(24) PRIMARY KEY NOT NULL,
+	`list_id` text NOT NULL,
+	`team_id` text NOT NULL,
+	`createdAt` integer NOT NULL,
+	`updatedAt` integer NOT NULL,
+	FOREIGN KEY (`list_id`) REFERENCES `custom_lists`(`id`) ON UPDATE no action ON DELETE no action,
+	FOREIGN KEY (`team_id`) REFERENCES `teams`(`id`) ON UPDATE no action ON DELETE no action
+);
+--> statement-breakpoint
+CREATE TABLE `custom_lists` (
+	`id` text(24) PRIMARY KEY NOT NULL,
+	`name` text NOT NULL,
+	`createdAt` integer NOT NULL,
+	`updatedAt` integer NOT NULL
+);
+--> statement-breakpoint
+CREATE TABLE `leagues` (
+	`id` text(24) PRIMARY KEY NOT NULL,
+	`name` text NOT NULL,
+	`country` text NOT NULL,
+	`region_id` text NOT NULL,
+	`createdAt` integer NOT NULL,
+	`updatedAt` integer NOT NULL,
+	FOREIGN KEY (`region_id`) REFERENCES `sport_regions`(`id`) ON UPDATE no action ON DELETE no action
+);
+--> statement-breakpoint
+CREATE TABLE `sport_regions` (
+	`id` text(24) PRIMARY KEY NOT NULL,
+	`name_en` text NOT NULL,
+	`name_ar` text NOT NULL,
+	`createdAt` integer NOT NULL,
+	`updatedAt` integer NOT NULL
+);
+--> statement-breakpoint
+CREATE TABLE `teams` (
+	`id` text(24) PRIMARY KEY NOT NULL,
+	`name` text NOT NULL,
+	`logo` text NOT NULL,
+	`league_id` text NOT NULL,
+	`createdAt` integer NOT NULL,
+	`updatedAt` integer NOT NULL,
+	FOREIGN KEY (`league_id`) REFERENCES `leagues`(`id`) ON UPDATE no action ON DELETE no action
+);
