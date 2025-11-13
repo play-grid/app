@@ -6,6 +6,14 @@ export interface CustomSportList {
   name: string;
   slug: string;
 }
+export interface SportCountry {
+  id: string;
+  name: {
+    en: string;
+    ar?: string;
+  };
+  flag: string;
+}
 
 /**
  * Fetch all sport regions (top-level hierarchy)
@@ -175,6 +183,16 @@ export async function fetchCustomSportLists(): Promise<CustomSportList[]> {
 
   if (!res.ok) {
     throw new Error('Failed to fetch custom sport lists');
+  }
+
+  return res.json();
+}
+
+export async function fetchAvailableCountries(): Promise<SportCountry[]> {
+  const res = await client.api.games['guess-logo'].sports.countries.$get();
+
+  if (!res.ok) {
+    throw new Error('Failed to fetch available countries');
   }
 
   return res.json();

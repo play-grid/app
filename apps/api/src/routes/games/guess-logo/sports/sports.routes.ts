@@ -201,6 +201,31 @@ export const getSportTeamsInCustomList = createRoute({
   },
 });
 
+
+export const getAvailableCountries = createRoute({
+  path: '/countries',
+  method: 'get',
+  tags,
+  responses: {
+    [HttpStatusCodes.OK]: jsonContent(
+      z.array(z.object({
+        id: z.string(),
+        name: z.object({
+          en: z.string(),
+          ar: z.string().optional(),
+        }),
+        flag: z.string(),
+      })),
+      'Successfully retrieved available countries',
+    ),
+    [HttpStatusCodes.INTERNAL_SERVER_ERROR]: jsonContent(
+      z.object({ error: z.string() }),
+      'Internal server error',
+    ),
+  },
+});
+
+export type GetAvailableCountriesRoute = typeof getAvailableCountries;
 export type GetSportRegionsRoute = typeof getSportRegions;
 export type GetSportLeaguesRoute = typeof getSportLeagues;
 export type GetSportTeamsRoute = typeof getSportTeams;

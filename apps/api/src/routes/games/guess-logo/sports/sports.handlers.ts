@@ -2,6 +2,7 @@ import type { Context } from 'hono';
 import type {
   GetAllSportTeamsInCountryRoute,
   GetAllSportTeamsInRegionRoute,
+  GetAvailableCountriesRoute,
   GetCustomSportListsRoute,
   GetSportLeaguesRoute,
   GetSportRegionsRoute,
@@ -16,6 +17,7 @@ import {
   getAllSportTeamsInCountry as getAllSportTeamsInCountrySer,
   getAllTeamsInCustomList,
   getAllTeamsInRegion,
+  getAvailableCountries as getAvailableCountriesSer,
   getCustomListBySlug,
   getCustomLists,
   getLeaguesInRegion,
@@ -229,5 +231,43 @@ export const getSportTeamsInCustomList: AppRouteHandler<GetSportTeamsInCustomLis
     const errMessage = error instanceof Error ? error.message : 'An unknown error occurred';
     console.error(`Failed to fetch all teams in custom list ${listSlug}:`, errMessage);
     return c.json({ error: `Failed to fetch teams for custom list: ${errMessage}` }, HttpStatusCodes.INTERNAL_SERVER_ERROR);
+  }
+};
+
+export const getAvailableCountries: AppRouteHandler<GetAvailableCountriesRoute> = async (c) => {
+  const db = getDB(c);
+  try {
+    const countries = await getAvailableCountriesSer(db);
+    const countryNameMap: Record<string, { en: string; ar?: string; flag: string }> = {
+      'saudi-arabia': { en: 'Saudi Arabia', ar: 'السعودية', flag: '🇸🇦' },
+      'uae': { en: 'UAE', ar: 'الإمارات', flag: '🇦🇪' },
+      'qatar': { en: 'Qatar', ar: 'قطر', flag: '🇶🇦' },
+      'egypt': { en: 'Egypt', ar: 'مصر', flag: '🇪🇬' },
+      'argentina': { en: 'Argentina', ar: 'الأرجنتين', flag: '🇦🇷' },
+      'spain': { en: 'Spain', ar: 'إسبانيا', flag: '🇪🇸' },
+      'england': { en: 'England', ar: 'إنجلترا', flag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿' },
+      'italy': { en: 'Italy', ar: 'إيطاليا', flag: '🇮🇹' },
+      'germany': { en: 'Germany', ar: 'ألمانيا', flag: '🇩🇪' },
+      'france': { en: 'France', ar: 'فرنسا', flag: '🇫🇷' },
+      'portugal': { en: 'Portugal', ar: 'البرتغال', flag: '🇵🇹' },
+      'netherlands': { en: 'Netherlands', ar: 'هولندا', flag: '🇳🇱' },
+      'turkey': { en: 'Turkey', ar: 'تركيا', flag: '🇹🇷' },
+      'brazil': { en: 'Brazil', ar: 'البرازيل', flag: '🇧🇷' },
+    };
+
+    const enrichedCountries = countries.map(country => ({
+      id: country.id,
+      name: {
+        en: countryNameMap[country.id]?.en || country.id,
+        ar: countryNameMap[country.id]?.ar,
+      },
+      flag: countryNameMap[country.id]?.flag || '🌍',
+    }));
+
+    return c.json(enrichedCountries, HttpStatusCodes.OK);
+  }
+  catch (error) {
+    console.error('Failed to fetch available countries:', error);
+    return c.json({ error: 'Failed to fetch available countries' }, HttpStatusCodes.INTERNAL_SERVER_ERROR);
   }
 };
