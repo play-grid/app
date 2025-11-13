@@ -11,7 +11,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { GridIcon, PlusIcon, RefreshIcon, RestartIcon, TrophyIcon } from '../../../components/ui/icons';
-import { InlineSportsListSelector } from './inline-sports-list-selector';
+import { SportsListSelector } from './sports-list-selector';
 
 interface GameHeaderProps {
   selectedSet: LogoSetKey;
@@ -26,26 +26,6 @@ interface GameHeaderProps {
   onListChange: (value: string) => void;
   selectedList: string;
   onShuffle?: () => void;
-}
-/**
- * Parse sports list ID to extract region/country and league
- * Format: "country:saudi-arabia", "region:asia", or "region:asia:league:101"
- */
-function parseSportsListId(listId: string) {
-  const parts = listId.split(':');
-
-  if (parts[0] === 'country' || parts[0] === 'custom') {
-    // It's a country or custom ID, like "country:saudi-arabia" or "custom:top-teams"
-    return { regionId: listId, leagueId: '' };
-  }
-
-  if (parts[0] === 'region') {
-    const regionId = parts.slice(0, 2).join(':'); // "region:asia"
-    const leagueId = parts.length > 2 ? listId : ''; // "region:asia:league:101" or ""
-    return { regionId, leagueId };
-  }
-
-  return { regionId: '', leagueId: '' };
 }
 
 export function GameHeader({
@@ -66,20 +46,6 @@ export function GameHeader({
 
   const winner = playerA.winner || playerB.winner;
   const winningPlayer = playerA.winner ? playerA : playerB.winner ? playerB : null;
-
-  // Parse sports list ID if it's a sports set
-  const { regionId, leagueId } = selectedSet === 'sports'
-    ? parseSportsListId(selectedList)
-    : { regionId: '', leagueId: '' };
-
-  // Handlers for sports selector
-  const handleRegionChange = (newRegionOrCountryId: string) => {
-    onListChange(newRegionOrCountryId);
-  };
-
-  const handleLeagueChange = (newLeagueId: string) => {
-    onListChange(newLeagueId);
-  };
 
   return (
     <div className="mb-6 space-y-4">
@@ -148,7 +114,7 @@ export function GameHeader({
         </div>
 
         {/* Bottom Section: Game Info & Controls */}
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between gap-4">
           {/* Left: Game Info */}
           <div className="flex items-center gap-3">
             <Badge variant="secondary" className="capitalize font-medium">
@@ -167,15 +133,13 @@ export function GameHeader({
           </div>
 
           {/* Center: List Selector */}
-          <div className="min-w-[200px]">
+          <div className="flex-1 flex justify-center">
             {selectedSet === 'sports'
               ? (
-                  <InlineSportsListSelector
+                  <SportsListSelector
                     regions={availableLists}
-                    selectedRegion={regionId}
-                    selectedLeague={leagueId}
-                    onRegionChange={handleRegionChange}
-                    onLeagueChange={handleLeagueChange}
+                    selectedListId={selectedList}
+                    onListChange={onListChange}
                   />
                 )
               : (
@@ -209,7 +173,7 @@ export function GameHeader({
               </Button>
             )}
             <Button variant="outline" size="sm" onClick={onResetGame}>
-              <RestartIcon className="w-4 h-4" />
+              <RestartIcon className="w-4 h-3" />
             </Button>
           </div>
         </div>

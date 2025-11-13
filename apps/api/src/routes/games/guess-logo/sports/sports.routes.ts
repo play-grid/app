@@ -201,7 +201,6 @@ export const getSportTeamsInCustomList = createRoute({
   },
 });
 
-
 export const getAvailableCountries = createRoute({
   path: '/countries',
   method: 'get',
