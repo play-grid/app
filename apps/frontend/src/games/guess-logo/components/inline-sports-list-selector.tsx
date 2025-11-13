@@ -1,5 +1,6 @@
 import type { LogoListMetadata } from '@guess-logo/shared/types';
 
+import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import {
   Select,
@@ -13,6 +14,7 @@ import {
 } from '@/components/ui/select';
 import { Spinner } from '@/components/ui/spinner';
 import { useNestedListsQuery } from '../hooks/use-nested-lists-query';
+import { fetchCustomSportLists } from '../services/sports-service';
 
 interface InlineSportsListSelectorProps {
   regions: LogoListMetadata[];
@@ -49,8 +51,14 @@ export function InlineSportsListSelector({
   } = useNestedListsQuery(
     'sports',
     selectedRegion,
-    !!selectedRegion && !selectedRegion.startsWith('country:'),
+    !!selectedRegion && !selectedRegion.startsWith('country:') && !selectedRegion.startsWith('custom:'),
   );
+
+  const { data: customLists = [] } = useQuery({
+    queryKey: ['custom-sport-lists'],
+    queryFn: fetchCustomSportLists,
+    staleTime: 10 * 60 * 1000, // 10 minutes
+  });
 
   const getCurrentValue = () => {
     if (selectedLeague)
@@ -67,6 +75,15 @@ export function InlineSportsListSelector({
       const country = POPULAR_COUNTRIES.find(c => c.id === countryId);
       if (country) {
         return `${country.flag} ${country.name[i18n.language as keyof typeof country.name]}`;
+      }
+    }
+
+    // Check if it's a custom list selection
+    if (selectedRegion?.startsWith('custom:')) {
+      const listSlug = selectedRegion.replace('custom:', '');
+      const list = customLists.find(l => l.slug === listSlug);
+      if (list) {
+        return list.name;
       }
     }
 
@@ -88,8 +105,8 @@ export function InlineSportsListSelector({
   };
 
   const handleChange = (value: string) => {
-    if (value.startsWith('country:')) {
-      // Country selection
+    if (value.startsWith('country:') || value.startsWith('custom:')) {
+      // Country or Custom List selection
       onRegionChange(value);
       onLeagueChange('');
     }
@@ -106,6 +123,7 @@ export function InlineSportsListSelector({
 
   const currentValue = getCurrentValue();
   const isCountrySelected = selectedRegion?.startsWith('country:');
+  const isCustomListSelected = selectedRegion?.startsWith('custom:');
 
   return (
     <Select value={currentValue} onValueChange={handleChange}>
@@ -113,6 +131,27 @@ export function InlineSportsListSelector({
         <SelectValue>{getDisplayText()}</SelectValue>
       </SelectTrigger>
       <SelectContent className="max-h-[400px]">
+        {/* Custom Lists Section */}
+        {customLists.length > 0 && (
+          <>
+            <SelectGroup>
+              <SelectLabel className="text-xs font-semibold text-primary">
+                ⭐
+                {' '}
+                {t('games.guessLogo.custom-lists', 'Custom Lists')}
+              </SelectLabel>
+              {customLists.map(list => (
+                <SelectItem key={list.id} value={`custom:${list.slug}`} className="pl-6">
+                  <div className="flex items-center gap-2">
+                    <span>{list.name}</span>
+                  </div>
+                </SelectItem>
+              ))}
+            </SelectGroup>
+            <SelectSeparator />
+          </>
+        )}
+
         {/* Countries Section (Optional) */}
 
         <SelectGroup>
@@ -141,7 +180,7 @@ export function InlineSportsListSelector({
         </SelectGroup>
 
         {regions.map((region) => {
-          const isSelectedRegion = selectedRegion === region.id && !isCountrySelected;
+          const isSelectedRegion = selectedRegion === region.id && !isCountrySelected && !isCustomListSelected;
           const regionName = region.name[i18n.language as keyof typeof region.name];
 
           return (
