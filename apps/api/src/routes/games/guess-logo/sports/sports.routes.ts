@@ -1,5 +1,5 @@
+// TODO: split this this is a game-specific routes file
 import { logoItemSchema, logoListSchema, logoQuerySchema } from '@guess-logo/shared/schemas';
-import { sportRegionIdSchema } from '@guess-logo/shared/types';
 import { createRoute, z } from '@hono/zod-openapi';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import { jsonContent } from 'stoker/openapi/helpers';
@@ -36,13 +36,17 @@ export const getSportLeagues = createRoute({
   tags,
   request: {
     params: z.object({
-      region: sportRegionIdSchema,
+      region: z.string(),
     }),
   },
   responses: {
     [HttpStatusCodes.OK]: jsonContent(
       z.array(logoListSchema),
       'Successfully retrieved leagues in region',
+    ),
+    [HttpStatusCodes.NOT_FOUND]: jsonContent( // <-- ADDED 404 response
+      z.object({ error: z.string() }),
+      'Region not found',
     ),
     [HttpStatusCodes.BAD_REQUEST]: jsonContent(
       z.object({ error: z.string() }),
@@ -62,7 +66,7 @@ export const getSportTeams = createRoute({
   tags,
   request: {
     params: z.object({
-      region: sportRegionIdSchema,
+      region: z.string(),
       leagueId: z.string(),
     }),
     query: logoQuerySchema,
@@ -71,6 +75,10 @@ export const getSportTeams = createRoute({
     [HttpStatusCodes.OK]: jsonContent(
       z.array(logoItemSchema),
       'Successfully retrieved teams in league',
+    ),
+    [HttpStatusCodes.NOT_FOUND]: jsonContent(
+      z.object({ error: z.string() }),
+      'teams not found',
     ),
     [HttpStatusCodes.BAD_REQUEST]: jsonContent(
       z.object({ error: z.string() }),
@@ -90,7 +98,7 @@ export const getAllSportTeamsInRegion = createRoute({
   tags,
   request: {
     params: z.object({
-      region: sportRegionIdSchema,
+      region: z.string(),
     }),
     query: logoQuerySchema,
   },
@@ -102,6 +110,10 @@ export const getAllSportTeamsInRegion = createRoute({
     [HttpStatusCodes.BAD_REQUEST]: jsonContent(
       z.object({ error: z.string() }),
       'Invalid region',
+    ),
+    [HttpStatusCodes.NOT_FOUND]: jsonContent(
+      z.object({ error: z.string() }),
+      'teams found',
     ),
     [HttpStatusCodes.INTERNAL_SERVER_ERROR]: jsonContent(
       z.object({ error: z.string() }),
