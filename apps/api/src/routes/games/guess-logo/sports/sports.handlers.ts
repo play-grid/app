@@ -15,6 +15,8 @@ import {
   getAllSportTeamsInCountry as getAllSportTeamsInCountrySer,
   getAllTeamsInCustomList,
   getAllTeamsInRegion,
+  getCustomListBySlug,
+  getCustomLists,
   getLeaguesInRegion,
   getRegionIdByName,
   getSportRegionsService,
@@ -173,22 +175,32 @@ export const getAllSportTeamsInCountry: AppRouteHandler<GetAllSportTeamsInCountr
 };
 
 export const getSportTeamsInCustomList: AppRouteHandler<GetSportTeamsInCustomListRoute> = async (c) => {
-  const { listId } = c.req.valid('param');
+  const { listSlug } = c.req.valid('param');
   const { count, shuffle } = c.req.valid('query');
   const countNum = Math.min(Number.parseInt(count, 10), 100);
 
-  const cacheKey = `sport:teams:custom:${listId}`;
   const db = getDB(c);
 
-  try {
-    let allTeams = await getAllTeamsInCustomList(db, listId);
+  // Check if list exists
+  const list = await getCustomListBySlug(db, listSlug);
+  if (!list) {
+    const availableLists = await getCustomLists(db);
+    const availableListSlugs = availableLists.map(l => l.slug).join(', ');
 
+    return c.json({ error: `Custom list with slug "${listSlug}" not found. Available lists: ${availableListSlugs}` }, HttpStatusCodes.NOT_FOUND);
+  }
+
+  const cacheKey = `sport:teams:custom:${listSlug}`;
+
+  try {
     const cached = await c.env.LOGO_CACHE.get(cacheKey);
-    if (!cached) {
-      await c.env.LOGO_CACHE.put(cacheKey, JSON.stringify(allTeams), { expirationTtl: 86400 });
+    let allTeams;
+    if (cached) {
+      allTeams = JSON.parse(cached);
     }
     else {
-      allTeams = JSON.parse(cached);
+      allTeams = await getAllTeamsInCustomList(db, list.id);
+      await c.env.LOGO_CACHE.put(cacheKey, JSON.stringify(allTeams), { expirationTtl: 86400 });
     }
 
     const teamsArray = Array.isArray(allTeams) ? allTeams : [];
@@ -196,7 +208,8 @@ export const getSportTeamsInCustomList: AppRouteHandler<GetSportTeamsInCustomLis
     return c.json(processedTeams, HttpStatusCodes.OK);
   }
   catch (error) {
-    console.error(`Failed to fetch all teams in custom list ${listId}:`, error);
-    return c.json({ error: 'Failed to fetch teams' }, HttpStatusCodes.BAD_REQUEST);
+    const errMessage = error instanceof Error ? error.message : 'An unknown error occurred';
+    console.error(`Failed to fetch all teams in custom list ${listSlug}:`, errMessage);
+    return c.json({ error: `Failed to fetch teams for custom list: ${errMessage}` }, HttpStatusCodes.INTERNAL_SERVER_ERROR);
   }
 };

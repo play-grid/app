@@ -13,6 +13,17 @@ function getBaseDir() {
   return path.resolve(__dirname, '../data');
 }
 
+function slugify(text: string) {
+  return text
+    .toString()
+    .toLowerCase()
+    .replace(/\s+/g, '-') // Replace spaces with -
+    .replace(/[^\w-]+/g, '') // Remove all non-word chars
+    .replace(/-{2,}/g, '-') // Replace multiple - with single -
+    .replace(/^-+/, '') // Trim - from start of text
+    .replace(/-+$/, ''); // Trim - from end of text
+}
+
 export async function seedD1Sports(db: BetterSQLite3Database<any> | LibSQLDatabase<any>) {
   const baseDir = getBaseDir();
   const regionsDir = path.join(baseDir, 'leagues-by-regions');
@@ -142,10 +153,11 @@ export async function seedD1Sports(db: BetterSQLite3Database<any> | LibSQLDataba
         continue;
       }
 
+      const slug = slugify(listData.name);
       const existingList = await db
         .select({ id: schema.customLists.id })
         .from(schema.customLists)
-        .where(eq(schema.customLists.name, listData.name))
+        .where(eq(schema.customLists.slug, slug))
         .limit(1)
         .then(r => r[0]);
 
@@ -161,7 +173,7 @@ export async function seedD1Sports(db: BetterSQLite3Database<any> | LibSQLDataba
       else {
         const result = await db
           .insert(schema.customLists)
-          .values({ name: listData.name })
+          .values({ name: listData.name, slug })
           .returning({ id: schema.customLists.id });
 
         if (result.length === 0) {

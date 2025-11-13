@@ -5,8 +5,6 @@ import process from 'node:process';
 import Database from 'better-sqlite3';
 
 import { drizzle } from 'drizzle-orm/better-sqlite3';
-import { seedD1Categories } from './shared/seed-categories';
-import { seedD1Questions } from './shared/seed-questions';
 import { seedD1Sports } from './shared/seed-sports';
 
 async function main() {

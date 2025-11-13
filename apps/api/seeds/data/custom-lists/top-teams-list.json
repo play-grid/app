@@ -1,5 +1,4 @@
-[
-  {
+{
     "id": 9001,
     "name": "Top Teams",
     "country": "World",
@@ -612,5 +611,4 @@
         "leagueId": 9001
       }
     ]
-  }
-]
+}
