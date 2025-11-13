@@ -8,7 +8,7 @@ export function useLogoListChanger() {
   const { selectedList, setSelectedList } = useGameStore();
 
   const changeLogoList = (listId: string) => {
-    if (listId === selectedList) {
+    if (listId === selectedList || !listId) {
       return;
     }
     // 1. Update the state
