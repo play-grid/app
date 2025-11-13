@@ -1,6 +1,3 @@
-// cascading-sports-list-selector.tsx
-// Clean implementation using custom hook for state management
-
 import type { LogoListMetadata } from '@guess-logo/shared/types';
 import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
@@ -93,9 +90,11 @@ export function SportsListSelector({
     onListChange(serializeSportsListId({ type: 'region', regionName }));
 
   const handleLeagueChange = (leagueId: string) => {
-    const listId = leagueId
-      ? serializeSportsListId({ type: 'league', regionName: state.regionName, leagueId })
-      : serializeSportsListId({ type: 'region', regionName: state.regionName });
+    const listId
+      = leagueId === '__all__'
+        ? serializeSportsListId({ type: 'region', regionName: state.regionName })
+        : serializeSportsListId({ type: 'league', regionName: state.regionName, leagueId });
+
     onListChange(listId);
   };
 
@@ -107,9 +106,9 @@ export function SportsListSelector({
 
   return (
     <div className={`flex items-center gap-2 ${className}`}>
-      {/* Step 1: Selection Type */}
+
       <Select value={state.type} onValueChange={handleTypeChange}>
-        <SelectTrigger className="w-[140px]">
+        <SelectTrigger className="w-[160px]">
           <SelectValue />
         </SelectTrigger>
         <SelectContent>
@@ -130,11 +129,10 @@ export function SportsListSelector({
         </SelectContent>
       </Select>
 
-      {/* Step 2: Region Selection */}
       {state.type === 'region' && (
         <>
           <Select value={state.regionName || '__none__'} onValueChange={handleRegionChange}>
-            <SelectTrigger className="w-[140px]">
+            <SelectTrigger className="w-[160px]">
               <SelectValue placeholder={t('games.guessLogo.select-region', 'Select region')} />
             </SelectTrigger>
             <SelectContent>
@@ -150,10 +148,9 @@ export function SportsListSelector({
             </SelectContent>
           </Select>
 
-          {/* Step 3: League Selection */}
           {state.regionName && (
             <Select
-              value={state.leagueId || `all-${state.regionName}`}
+              value={state.leagueId || `__all__`}
               onValueChange={handleLeagueChange}
             >
               <SelectTrigger className="w-[160px]">
@@ -161,11 +158,12 @@ export function SportsListSelector({
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
-                  <SelectLabel>{t('games.guessLogo.leagues', 'Leagues')}</SelectLabel>
-                  <SelectItem value={`all-${state.regionName}`}>
+                  <SelectItem value="__all__">
                     🌐
-                    {t('games.guessLogo.all-teams', 'All teams')}
+                    {' '}
+                    {t('games.guessLogo.all-teams')}
                   </SelectItem>
+                  <SelectLabel className="text-primary/60">{t('games.guessLogo.leagues', 'Leagues')}</SelectLabel>
                   {isLoadingLeagues
                     ? (
                         <div className="px-2 py-2 flex items-center gap-2 text-xs text-muted-foreground">
@@ -183,8 +181,9 @@ export function SportsListSelector({
                           ? parsed.data.leagueId
                           : `unknown-${league.id}`;
                         return (
-                          <SelectItem key={league.id} value={leagueKey}>
+                          <SelectItem className="break-normal text-md" key={league.id} value={leagueKey}>
                             🏆
+                            {' '}
                             {leagueName}
                           </SelectItem>
                         );
@@ -196,11 +195,10 @@ export function SportsListSelector({
         </>
       )}
 
-      {/* Step 2: Country Selection */}
       {state.type === 'country' && (
         <Select value={state.countryId || '__none__'} onValueChange={handleCountryChange}>
           <SelectTrigger className="w-[160px]">
-            <SelectValue placeholder={t('games.guessLogo.select-country', 'Select country')} />
+            <SelectValue placeholder={t('games.guessLogo.select-country')} />
           </SelectTrigger>
           <SelectContent>
             {isLoadingCountries
@@ -227,11 +225,10 @@ export function SportsListSelector({
         </Select>
       )}
 
-      {/* Step 2: Custom List Selection */}
       {state.type === 'custom' && (
         <Select value={state.customSlug || '__none__'} onValueChange={handleCustomChange}>
           <SelectTrigger className="w-[160px]">
-            <SelectValue placeholder={t('games.guessLogo.select-list', 'Select list')} />
+            <SelectValue placeholder={t('games.guessLogo.select-list')} />
           </SelectTrigger>
           <SelectContent>
             {customLists.map(list => (
