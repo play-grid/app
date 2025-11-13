@@ -1,5 +1,11 @@
-import type { LogoItem, SportLeague, SportRegion, SportRegionId, SupportedLanguage } from '@guess-logo/shared/types';
+import type { LogoItem, SportLeague, SportRegion, SupportedLanguage } from '@guess-logo/shared/types';
 import client from '@/lib/hono-client';
+
+export interface CustomSportList {
+  id: string;
+  name: string;
+  slug: string;
+}
 
 /**
  * Fetch all sport regions (top-level hierarchy)
@@ -16,14 +22,16 @@ export async function fetchSportRegions(): Promise<SportRegion[]> {
 
 /**
  * Fetch leagues within a specific region
+ * @param regionName The English name of the region (e.g., 'europe')
  */
-export async function fetchSportLeagues(regionId: SportRegionId): Promise<SportLeague[]> {
+export async function fetchSportLeagues(regionName: string): Promise<SportLeague[]> {
   const res = await client.api.games['guess-logo'].sports[':region'].$get({
-    param: { region: regionId },
+    // Use the region NAME in the URL param
+    param: { region: regionName },
   });
 
   if (!res.ok) {
-    throw new Error(`Failed to fetch leagues for region: ${regionId}`);
+    throw new Error(`Failed to fetch leagues for region: ${regionName}`);
   }
 
   return res.json();
@@ -31,9 +39,10 @@ export async function fetchSportLeagues(regionId: SportRegionId): Promise<SportL
 
 /**
  * Fetch teams in a specific league
+ * @param regionName The English name of the region (e.g., 'europe')
  */
 export async function fetchSportTeams(
-  regionId: SportRegionId,
+  regionName: string,
   leagueId: string,
   language: SupportedLanguage,
   count = 80,
@@ -51,14 +60,14 @@ export async function fetchSportTeams(
 
   const res = await client.api.games['guess-logo'].sports[':region'][':leagueId'].$get({
     param: {
-      region: regionId,
+      region: regionName, // Use the region NAME here
       leagueId,
     },
     query,
   });
 
   if (!res.ok) {
-    throw new Error(`Failed to fetch teams for league: ${leagueId} in region: ${regionId}`);
+    throw new Error(`Failed to fetch teams for league: ${leagueId} in region: ${regionName}`);
   }
 
   return (await res.json()) as LogoItem[];
@@ -66,9 +75,10 @@ export async function fetchSportTeams(
 
 /**
  * Fetch all teams in a region (combined from all leagues)
+ * @param regionName The English name of the region (e.g., 'europe')
  */
 export async function fetchAllSportTeamsInRegion(
-  regionId: SportRegionId,
+  regionName: string,
   language: SupportedLanguage,
   count = 80,
   shuffle = false,
@@ -84,12 +94,12 @@ export async function fetchAllSportTeamsInRegion(
   }
 
   const res = await client.api.games['guess-logo'].sports[':region'].all.$get({
-    param: { region: regionId },
+    param: { region: regionName }, // Use the region NAME here
     query,
   });
 
   if (!res.ok) {
-    throw new Error(`Failed to fetch all teams in region: ${regionId}`);
+    throw new Error(`Failed to fetch all teams in region: ${regionName}`);
   }
 
   return (await res.json()) as LogoItem[];
@@ -130,7 +140,7 @@ export async function fetchAllSportTeamsInCountry(
  * Fetch teams from a custom list (e.g., "middle-east")
  */
 export async function fetchSportTeamsInCustomList(
-  listId: string,
+  listSlug: string,
   language: SupportedLanguage,
   count = 80,
   shuffle = false,
@@ -145,14 +155,27 @@ export async function fetchSportTeamsInCustomList(
     query._cb = new Date().getTime().toString(); // Cache buster
   }
 
-  const res = await client.api.games['guess-logo'].sports.custom[':listId'].$get({
-    param: { listId },
+  const res = await client.api.games['guess-logo'].sports.custom[':listSlug'].$get({
+    param: { listSlug },
     query,
   });
 
   if (!res.ok) {
-    throw new Error(`Failed to fetch teams in custom list: ${listId}`);
+    throw new Error(`Failed to fetch teams in custom list: ${listSlug}`);
   }
 
   return (await res.json()) as LogoItem[];
+}
+
+/**
+ * Fetch all custom sport lists
+ */
+export async function fetchCustomSportLists(): Promise<CustomSportList[]> {
+  const res = await client.api.games['guess-logo'].sports['custom-lists'].$get();
+
+  if (!res.ok) {
+    throw new Error('Failed to fetch custom sport lists');
+  }
+
+  return res.json();
 }

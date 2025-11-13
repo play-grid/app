@@ -29,6 +29,27 @@ export const getSportRegions = createRoute({
   },
 });
 
+// Get all custom sport lists
+export const getCustomSportLists = createRoute({
+  path: '/custom-lists',
+  method: 'get',
+  tags,
+  responses: {
+    [HttpStatusCodes.OK]: jsonContent(
+      z.array(z.object({
+        id: z.string(),
+        name: z.string(),
+        slug: z.string(),
+      })),
+      'Successfully retrieved custom sport lists',
+    ),
+    [HttpStatusCodes.INTERNAL_SERVER_ERROR]: jsonContent(
+      z.object({ error: z.string() }),
+      'Internal server error',
+    ),
+  },
+});
+
 // Get leagues in a region
 export const getSportLeagues = createRoute({
   path: '/{region}',
@@ -186,3 +207,4 @@ export type GetSportTeamsRoute = typeof getSportTeams;
 export type GetAllSportTeamsInRegionRoute = typeof getAllSportTeamsInRegion;
 export type GetAllSportTeamsInCountryRoute = typeof getAllSportTeamsInCountry;
 export type GetSportTeamsInCustomListRoute = typeof getSportTeamsInCustomList;
+export type GetCustomSportListsRoute = typeof getCustomSportLists;

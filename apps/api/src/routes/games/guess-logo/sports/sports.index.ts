@@ -4,6 +4,7 @@ import * as routes from './sports.routes';
 
 const router = createRouter()
   .openapi(routes.getSportRegions, handlers.getSportRegions)
+  .openapi(routes.getCustomSportLists, handlers.getCustomSportLists)
   .openapi(routes.getAllSportTeamsInCountry, handlers.getAllSportTeamsInCountry)
   .openapi(routes.getSportTeamsInCustomList, handlers.getSportTeamsInCustomList)
   .openapi(routes.getSportLeagues, handlers.getSportLeagues)
