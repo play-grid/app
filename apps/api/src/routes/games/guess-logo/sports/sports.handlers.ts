@@ -2,6 +2,7 @@ import type { Context } from 'hono';
 import type {
   GetAllSportTeamsInCountryRoute,
   GetAllSportTeamsInRegionRoute,
+  GetCustomSportListsRoute,
   GetSportLeaguesRoute,
   GetSportRegionsRoute,
   GetSportTeamsInCustomListRoute,
@@ -142,6 +143,23 @@ export const getAllSportTeamsInRegion: AppRouteHandler<GetAllSportTeamsInRegionR
   catch (error) {
     console.error(`Failed to fetch all teams in region ${regionName}:`, error);
     return c.json({ error: 'Failed to fetch teams' }, HttpStatusCodes.BAD_REQUEST);
+  }
+};
+
+export const getCustomSportLists: AppRouteHandler<GetCustomSportListsRoute> = async (c) => {
+  const db = getDB(c);
+  try {
+    const lists = await getCustomLists(db);
+    const simplifiedLists = lists.map(l => ({
+      id: l.id,
+      name: l.name,
+      slug: l.slug,
+    }));
+    return c.json(simplifiedLists, HttpStatusCodes.OK);
+  }
+  catch (error) {
+    console.error('Failed to fetch custom sport lists:', error);
+    return c.json({ error: 'Failed to fetch custom sport lists' }, HttpStatusCodes.INTERNAL_SERVER_ERROR);
   }
 };
 
