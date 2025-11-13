@@ -5,7 +5,6 @@ import { timestamp } from '@/db/utils';
 
 export const sportRegions = sqliteTable('sport_regions', {
   id: cuid2('id').defaultRandom().primaryKey(),
-
   name_en: text('name_en').notNull(),
   name_ar: text('name_ar').notNull(),
   ...timestamp,

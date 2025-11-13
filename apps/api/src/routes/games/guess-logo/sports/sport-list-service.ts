@@ -1,126 +1,137 @@
-import type { LocaleRecord, LogoItem, LogoList, RawLeague, RawTeam, SportRegionId, SupportedLanguage } from '@guess-logo/shared/types';
-import { loadCustomList } from '@guess-logo/shared/data/load-custom-list';
-import { loadRegion } from '@guess-logo/shared/data/load-region';
-import { SPORT_REGION_IDS, SPORT_REGIONS } from '@guess-logo/shared/types';
+import type { DrizzleD1Database } from 'drizzle-orm/d1';
+import { and, eq } from 'drizzle-orm';
+import * as schema from './sports.tables';
 
-function createLeagueFetcher(leagueId: number, teams: readonly RawTeam[]) {
-  return async (_language: SupportedLanguage): Promise<LogoItem[]> => {
-    return teams
-      .filter(team => team.leagueId === leagueId)
-      .map<LogoItem>(team => ({
-        id: team.id,
-        name: team.name,
-        imageUrl: team.logo,
-        eliminated: false,
-      }));
-  };
+type DB = DrizzleD1Database<typeof schema>;
+
+export async function getRegionIdByName(db: DB, regionName: string) {
+  const region = await db.select({
+    id: schema.sportRegions.id,
+  })
+    .from(schema.sportRegions)
+    .where(eq(schema.sportRegions.name_en, regionName))
+    .limit(1);
+
+  return region[0]?.id;
 }
 
-/* ---------------------------------- */
-/* 🌍 Public API */
-/* ---------------------------------- */
+export async function getSportRegionsService(db: DB) {
+  const regions = await db.query.sportRegions.findMany();
 
-/** List of all supported regions (localized). */
-export function getSportRegions(): Array<{ id: SportRegionId; name: LocaleRecord }> {
-  return SPORT_REGIONS;
-}
-
-/** Get leagues in a specific region, including fetchers for each. */
-export async function getLeaguesInRegion(regionId: SportRegionId): Promise<LogoList[]> {
-  const leagues = (await loadRegion(regionId)) as RawLeague[];
-  const allTeams = leagues.flatMap(l => l.teams ?? []);
-
-  return leagues.map<LogoList>(league => ({
-    id: String(league.id),
-    name: { en: league.name, ar: league.name },
-    fetchItems: createLeagueFetcher(Number(league.id), allTeams),
+  return regions.map(region => ({
+    id: region.id,
+    name: {
+      en: region.name_en,
+      ar: region.name_ar,
+    },
   }));
 }
 
-/** Get teams for a specific league in a region. */
-export async function getTeamsInLeague(
-  regionId: SportRegionId,
-  leagueId: string,
-): Promise<LogoItem[]> {
-  const leagues = await getLeaguesInRegion(regionId);
-  const league = leagues.find(l => l.id === leagueId);
+export async function getLeaguesInRegion(db: DB, regionId: string) {
+  const leagues = await db.query.leagues.findMany({
+    where: eq(schema.leagues.regionId, regionId),
+    with: {
+      teams: true,
+    },
+  });
+
+  return leagues.map(league => ({
+    id: league.id,
+    name: {
+      en: league.name,
+      ar: league.name,
+    },
+    fetchItems: async () => {
+      return league.teams.map(team => ({
+        id: team.id,
+        name: team.name,
+        imageUrl: team.logo,
+      }));
+    },
+  }));
+}
+
+export async function getTeamsInLeague(db: DB, regionId: string, leagueId: string) {
+  const league = await db.query.leagues.findFirst({
+    where: and(
+      eq(schema.leagues.id, leagueId),
+      eq(schema.leagues.regionId, regionId),
+    ),
+    with: {
+      teams: true,
+    },
+  });
 
   if (!league) {
     throw new Error(`League ${leagueId} not found in region ${regionId}`);
   }
 
-  return league.fetchItems('en');
-}
-
-/** Get all teams in a given region (combined). */
-export async function getAllTeamsInRegion(regionId: SportRegionId): Promise<LogoItem[]> {
-  const leagues = (await loadRegion(regionId)) as RawLeague[];
-  const allTeams = leagues.flatMap(l => l.teams ?? []);
-
-  return allTeams.map<LogoItem>(team => ({
+  return league.teams.map(team => ({
     id: team.id,
     name: team.name,
     imageUrl: team.logo,
-    eliminated: false,
   }));
 }
 
-/** Get all teams across all regions. */
-export async function getAllSportTeams(): Promise<LogoItem[]> {
-  const allTeamsArrays = await Promise.all(
-    SPORT_REGION_IDS.map(async (regionId: SportRegionId) => {
-      const leagues = (await loadRegion(regionId)) as RawLeague[];
-      return leagues.flatMap(l => l.teams ?? []);
-    }),
-  );
+export async function getAllTeamsInRegion(db: DB, regionId: string) {
+  const leaguesWithTeams = await db.query.leagues.findMany({
+    where: eq(schema.leagues.regionId, regionId),
+    with: {
+      teams: true,
+    },
+  });
 
-  return allTeamsArrays.flat().map<LogoItem>(team => ({
+  const allTeams = leaguesWithTeams.flatMap(league => league.teams);
+
+  return allTeams.map(team => ({
     id: team.id,
     name: team.name,
     imageUrl: team.logo,
-    eliminated: false,
   }));
 }
 
-/** Get all teams in a given country. */
-export async function getAllSportTeamsInCountry(countryId: string): Promise<LogoItem[]> {
-  const allLeaguesPromises = SPORT_REGION_IDS.map(regionId => loadRegion(regionId));
-  const leaguesByRegion = await Promise.all(allLeaguesPromises);
-  const allRawLeagues = leaguesByRegion.flat() as RawLeague[];
+export async function getAllSportTeamsInCountry(db: DB, countryId: string) {
+  const leagues = await db.query.leagues.findMany({
+    where: eq(schema.leagues.country, countryId),
+    with: {
+      teams: true,
+    },
+  });
 
-  // Assumes RawLeague has a 'country' property.
-  const countryLeagues = allRawLeagues.filter(league => league.country === countryId);
+  const allTeams = leagues.flatMap(league => league.teams);
 
-  const allTeams = countryLeagues.flatMap(l => l.teams ?? []);
-
-  return allTeams.map<LogoItem>(team => ({
+  return allTeams.map(team => ({
     id: team.id,
     name: team.name,
     imageUrl: team.logo,
-    eliminated: false,
   }));
 }
 
-/** Get all teams in a given custom list. */
-export async function getAllTeamsInCustomList(listId: string): Promise<LogoItem[]> {
-  const leagues = (await loadCustomList(listId)) as RawLeague[];
-  const allTeams = leagues.flatMap(l => l.teams ?? []);
+export async function getAllTeamsInCustomList(db: DB, listId: string) {
+  const listItems = await db.query.customListItems.findMany({
+    where: eq(schema.customListItems.listId, listId),
+    with: {
+      team: true,
+    },
+  });
 
-  return allTeams.map<LogoItem>(team => ({
-    id: team.id,
-    name: team.name,
-    imageUrl: team.logo,
-    eliminated: false,
+  return listItems.map(item => ({
+    id: item.team.id,
+    name: item.team.name,
+    imageUrl: item.team.logo,
   }));
 }
 
-/** Legacy alias (still validated). */
-export async function getSportLists(region: SportRegionId): Promise<LogoList[]> {
-  return getLeaguesInRegion(region);
-}
+export const getSportLists = getLeaguesInRegion;
 
-/** Get all leagues from all regions. */
-export async function getAllSportLists(): Promise<LogoList[]> {
-  const allLists = await Promise.all(SPORT_REGION_IDS.map(regionId => getLeaguesInRegion(regionId)));
-  return allLists.flat();
+export async function getAllSportLists(db: DB) {
+  const regions = await getSportRegionsService(db);
+  const allLeagues = [];
+
+  for (const region of regions) {
+    const leagues = await getLeaguesInRegion(db, region.id);
+    allLeagues.push(...leagues);
+  }
+
+  return allLeagues;
 }
