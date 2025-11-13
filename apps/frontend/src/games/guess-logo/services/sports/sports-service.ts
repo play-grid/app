@@ -1,11 +1,14 @@
 import type { LogoItem, SportLeague, SportRegion, SupportedLanguage } from '@guess-logo/shared/types';
 import client from '@/lib/hono-client';
 
+export type { SportLeague, SportRegion } from '@guess-logo/shared/types';
+
 export interface CustomSportList {
   id: string;
   name: string;
   slug: string;
 }
+
 export interface SportCountry {
   id: string;
   name: {
