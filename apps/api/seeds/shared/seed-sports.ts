@@ -55,6 +55,10 @@ export async function seedD1Sports(db: BetterSQLite3Database<any> | LibSQLDataba
           })
           .returning({ id: schema.sportRegions.id });
 
+        if (result.length === 0) {
+          console.error(`Failed to insert region: ${regionNameEn}. Insert operation returned no data.`);
+          continue;
+        }
         regionId = result[0].id;
       }
 
@@ -86,6 +90,10 @@ export async function seedD1Sports(db: BetterSQLite3Database<any> | LibSQLDataba
             })
             .returning({ id: schema.leagues.id });
 
+          if (result.length === 0) {
+            console.error(`Failed to insert league: ${league.name}. Insert operation returned no data.`);
+            continue;
+          }
           leagueId = result[0].id;
         }
 
@@ -156,6 +164,10 @@ export async function seedD1Sports(db: BetterSQLite3Database<any> | LibSQLDataba
           .values({ name: listData.name })
           .returning({ id: schema.customLists.id });
 
+        if (result.length === 0) {
+          console.error(`Failed to insert custom list: ${listData.name}. Insert operation returned no data.`);
+          continue;
+        }
         listId = result[0].id;
       }
 
@@ -181,6 +193,10 @@ export async function seedD1Sports(db: BetterSQLite3Database<any> | LibSQLDataba
             })
             .returning({ id: schema.teams.id });
 
+          if (result.length === 0) {
+            console.error(`Failed to insert team: ${team.name}. Insert operation returned no data.`);
+            continue;
+          }
           teamRecord = result[0];
         }
 
