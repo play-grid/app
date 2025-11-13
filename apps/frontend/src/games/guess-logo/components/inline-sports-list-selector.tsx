@@ -14,7 +14,7 @@ import {
 } from '@/components/ui/select';
 import { Spinner } from '@/components/ui/spinner';
 import { useNestedListsQuery } from '../hooks/use-nested-lists-query';
-import { fetchCustomSportLists } from '../services/sports-service';
+import { fetchAvailableCountries, fetchCustomSportLists } from '../services/sports-service';
 
 interface InlineSportsListSelectorProps {
   regions: LogoListMetadata[];
@@ -24,16 +24,6 @@ interface InlineSportsListSelectorProps {
   onLeagueChange: (leagueId: string) => void;
   className?: string;
 }
-
-// Common countries in sports (you can expand this list)
-const POPULAR_COUNTRIES = [
-  { id: 'saudi-arabia', name: { en: 'Saudi Arabia', ar: 'السعودية' }, flag: '🇸🇦' },
-  { id: 'spain', name: { en: 'Spain', ar: 'إسبانيا' }, flag: '🇪🇸' },
-  { id: 'england', name: { en: 'England', ar: 'إنجلترا' }, flag: '🏴' },
-  { id: 'italy', name: { en: 'Italy', ar: 'إيطاليا' }, flag: '🇮🇹' },
-  { id: 'germany', name: { en: 'Germany', ar: 'ألمانيا' }, flag: '🇩🇪' },
-  { id: 'france', name: { en: 'France', ar: 'فرنسا' }, flag: '🇫🇷' },
-];
 
 export function InlineSportsListSelector({
   regions,
@@ -60,6 +50,12 @@ export function InlineSportsListSelector({
     staleTime: 10 * 60 * 1000, // 10 minutes
   });
 
+  const { data: availableCountries = [], isLoading: isLoadingCountries } = useQuery({
+    queryKey: ['available-countries'],
+    queryFn: fetchAvailableCountries,
+    staleTime: 10 * 60 * 1000, // 10 minutes
+  });
+
   const getCurrentValue = () => {
     if (selectedLeague)
       return selectedLeague;
@@ -72,9 +68,9 @@ export function InlineSportsListSelector({
     // Check if it's a country selection
     if (selectedRegion?.startsWith('country:')) {
       const countryId = selectedRegion.replace('country:', '');
-      const country = POPULAR_COUNTRIES.find(c => c.id === countryId);
+      const country = availableCountries.find(c => c.id === countryId);
       if (country) {
-        return `${country.flag} ${country.name[i18n.language as keyof typeof country.name]}`;
+        return `${country.flag} ${country.name[i18n.language as keyof typeof country.name] || country.name.en}`;
       }
     }
 
@@ -152,24 +148,41 @@ export function InlineSportsListSelector({
           </>
         )}
 
-        {/* Countries Section (Optional) */}
-
-        <SelectGroup>
-          <SelectLabel className="text-xs font-semibold text-primary">
-            🌍
-            {' '}
-            {t('games.guessLogo.by-country')}
-          </SelectLabel>
-          {POPULAR_COUNTRIES.map(country => (
-            <SelectItem key={country.id} value={`country:${country.id}`} className="pl-6">
-              <div className="flex items-center gap-2">
-                <span>{country.flag}</span>
-                <span>{country.name[i18n.language as keyof typeof country.name]}</span>
-              </div>
-            </SelectItem>
-          ))}
-        </SelectGroup>
-        <SelectSeparator />
+        {/* Dynamic Countries Section */}
+        {isLoadingCountries
+          ? (
+              <SelectGroup>
+                <div className="pl-6 py-2 flex items-center gap-2 text-xs text-muted-foreground">
+                  <Spinner className="w-3 h-3" />
+                  <span>
+                    {t('games.guessLogo.loading')}
+                    ...
+                  </span>
+                </div>
+              </SelectGroup>
+            )
+          : availableCountries.length > 0
+            ? (
+                <>
+                  <SelectGroup>
+                    <SelectLabel className="text-xs font-semibold text-primary">
+                      🌍
+                      {' '}
+                      {t('games.guessLogo.by-country')}
+                    </SelectLabel>
+                    {availableCountries.map(country => (
+                      <SelectItem key={country.id} value={`country:${country.id}`} className="pl-6">
+                        <div className="flex items-center gap-2">
+                          <span>{country.flag}</span>
+                          <span>{country.name[i18n.language as keyof typeof country.name] || country.name.en}</span>
+                        </div>
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
+                  <SelectSeparator />
+                </>
+              )
+            : null}
 
         <SelectGroup>
           <SelectLabel className="text-xs font-semibold text-primary">
@@ -192,7 +205,7 @@ export function InlineSportsListSelector({
               {/* "All teams in region" option */}
               <SelectItem value={region.id} className="pl-6">
                 <div className="flex items-center gap-2">
-                  <span>🌍</span>
+                  <span>🌐</span>
                   <span>{t('games.guessLogo.all-teams')}</span>
                 </div>
               </SelectItem>

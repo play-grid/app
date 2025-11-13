@@ -108,7 +108,6 @@ export async function getAllSportTeamsInCountry(db: DB, countryId: string) {
 }
 
 export async function getAllTeamsInCustomList(db: DB, listId: string) {
-  
   try {
     const listItems = await db.query.customListItems.findMany({
       where: eq(schema.customListItems.listId, listId),
@@ -116,8 +115,6 @@ export async function getAllTeamsInCustomList(db: DB, listId: string) {
         team: true,
       },
     });
-
-    
 
     if (listItems.some(item => !item.team)) {
       console.warn(`[getAllTeamsInCustomList] Some list items for listId "${listId}" are missing the 'team' relation.`);
@@ -137,6 +134,20 @@ export async function getAllTeamsInCustomList(db: DB, listId: string) {
     console.error(`[getAllTeamsInCustomList] Error fetching teams for listId: "${listId}"`, error);
     throw new Error(`Failed to fetch teams for custom list ${listId}`);
   }
+}
+
+export async function getAvailableCountries(db: DB) {
+  // Get unique countries from leagues table
+  const leagues = await db.query.leagues.findMany({
+    columns: {
+      country: true,
+    },
+  });
+
+  const uniqueCountries = [...new Set(leagues.map(l => l.country))];
+  return uniqueCountries.map(countryId => ({
+    id: countryId,
+  }));
 }
 
 export async function getCustomListById(db: DB, listId: string) {
