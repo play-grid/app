@@ -151,12 +151,12 @@ export const getAllSportTeamsInCountry = createRoute({
 
 // Get all teams in a custom list
 export const getSportTeamsInCustomList = createRoute({
-  path: '/custom/{listId}',
+  path: '/custom/{listSlug}',
   method: 'get',
   tags,
   request: {
     params: z.object({
-      listId: z.string(),
+      listSlug: z.string(),
     }),
     query: logoQuerySchema,
   },
@@ -164,6 +164,10 @@ export const getSportTeamsInCustomList = createRoute({
     [HttpStatusCodes.OK]: jsonContent(
       z.array(logoItemSchema),
       'Successfully retrieved all teams in custom list',
+    ),
+    [HttpStatusCodes.NOT_FOUND]: jsonContent(
+      z.object({ error: z.string() }),
+      'Custom list not found',
     ),
     [HttpStatusCodes.BAD_REQUEST]: jsonContent(
       z.object({ error: z.string() }),

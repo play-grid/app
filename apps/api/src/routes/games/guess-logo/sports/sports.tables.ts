@@ -32,6 +32,7 @@ export const teams = sqliteTable('teams', {
 export const customLists = sqliteTable('custom_lists', {
   id: cuid2('id').defaultRandom().primaryKey(),
   name: text('name').notNull(),
+  slug: text('slug').notNull().unique(),
   ...timestamp,
 });
 

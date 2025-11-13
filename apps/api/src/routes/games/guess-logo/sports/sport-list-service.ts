@@ -108,18 +108,54 @@ export async function getAllSportTeamsInCountry(db: DB, countryId: string) {
 }
 
 export async function getAllTeamsInCustomList(db: DB, listId: string) {
-  const listItems = await db.query.customListItems.findMany({
-    where: eq(schema.customListItems.listId, listId),
-    with: {
-      team: true,
-    },
-  });
+  
+  try {
+    const listItems = await db.query.customListItems.findMany({
+      where: eq(schema.customListItems.listId, listId),
+      with: {
+        team: true,
+      },
+    });
 
-  return listItems.map(item => ({
-    id: item.team.id,
-    name: item.team.name,
-    imageUrl: item.team.logo,
-  }));
+    
+
+    if (listItems.some(item => !item.team)) {
+      console.warn(`[getAllTeamsInCustomList] Some list items for listId "${listId}" are missing the 'team' relation.`);
+      const itemsWithoutTeam = listItems.filter(item => !item.team).map(item => item.id);
+      console.warn(`[getAllTeamsInCustomList] Items without a team: ${itemsWithoutTeam.join(', ')}`);
+    }
+
+    return listItems
+      .filter(item => !!item.team)
+      .map(item => ({
+        id: item.team.id,
+        name: item.team.name,
+        imageUrl: item.team.logo,
+      }));
+  }
+  catch (error) {
+    console.error(`[getAllTeamsInCustomList] Error fetching teams for listId: "${listId}"`, error);
+    throw new Error(`Failed to fetch teams for custom list ${listId}`);
+  }
+}
+
+export async function getCustomListById(db: DB, listId: string) {
+  const list = await db.query.customLists.findFirst({
+    where: eq(schema.customLists.id, listId),
+  });
+  return list;
+}
+
+export async function getCustomListBySlug(db: DB, listSlug: string) {
+  const list = await db.query.customLists.findFirst({
+    where: eq(schema.customLists.slug, listSlug),
+  });
+  return list;
+}
+
+export async function getCustomLists(db: DB) {
+  const lists = await db.query.customLists.findMany();
+  return lists;
 }
 
 export const getSportLists = getLeaguesInRegion;
