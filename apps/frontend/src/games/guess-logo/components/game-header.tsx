@@ -34,13 +34,12 @@ interface GameHeaderProps {
 function parseSportsListId(listId: string) {
   const parts = listId.split(':');
 
-  if (parts[0] === 'country') {
-    // It's a country ID, like "country:saudi-arabia"
+  if (parts[0] === 'country' || parts[0] === 'custom') {
+    // It's a country or custom ID, like "country:saudi-arabia" or "custom:top-teams"
     return { regionId: listId, leagueId: '' };
   }
 
   if (parts[0] === 'region') {
-    // It's a region or league ID
     const regionId = parts.slice(0, 2).join(':'); // "region:asia"
     const leagueId = parts.length > 2 ? listId : ''; // "region:asia:league:101" or ""
     return { regionId, leagueId };
