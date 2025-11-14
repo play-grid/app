@@ -1,4 +1,4 @@
-import type { LogoList, LogoSetKey, Player } from '@guess-logo/shared/types';
+import type { LogoListMetadata, LogoSetKey, Player } from '@guess-logo/shared/types';
 import type { GridConfiguration } from '../lib/grid-configurations';
 import { useTranslation } from 'react-i18next';
 import { Badge } from '@/components/ui/badge';
@@ -11,6 +11,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { GridIcon, PlusIcon, RefreshIcon, RestartIcon, TrophyIcon } from '../../../components/ui/icons';
+import { SportsListSelector } from './sports-list-selector';
 
 interface GameHeaderProps {
   selectedSet: LogoSetKey;
@@ -18,7 +19,7 @@ interface GameHeaderProps {
   playerA: Player;
   playerB: Player;
   gridConfig: GridConfiguration;
-  availableLists: Pick<LogoList, 'id' | 'name'>[];
+  availableLists: LogoListMetadata[];
   onSwitchTurn: () => void;
   onResetGame: () => void;
   onStartNewGame?: () => void;
@@ -52,7 +53,6 @@ export function GameHeader({
       {winner && winningPlayer && (
         <div className="bg-gradient-to-r from-green-500/20 via-green-400/20 to-green-500/20 border-2 border-green-500/50 rounded-lg p-4 animate-pulse">
           <div className="flex items-center justify-center gap-3">
-            {/* <Trophy className="w-6 h-6 text-green-600" /> */}
             <span className="text-lg font-bold text-green-700 dark:text-green-400">
               🎉
               {' '}
@@ -114,7 +114,7 @@ export function GameHeader({
         </div>
 
         {/* Bottom Section: Game Info & Controls */}
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between gap-4">
           {/* Left: Game Info */}
           <div className="flex items-center gap-3">
             <Badge variant="secondary" className="capitalize font-medium">
@@ -133,18 +133,30 @@ export function GameHeader({
           </div>
 
           {/* Center: List Selector */}
-          <Select value={selectedList} onValueChange={onListChange}>
-            <SelectTrigger className="w-[200px]">
-              <SelectValue placeholder={t('choose-list')} />
-            </SelectTrigger>
-            <SelectContent>
-              {availableLists.map(list => (
-                <SelectItem key={list.id} value={list.id}>
-                  {list.name[i18n.language as keyof typeof list.name]}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          <div className="flex-1 flex justify-center">
+            {selectedSet === 'sports'
+              ? (
+                  <SportsListSelector
+                    regions={availableLists}
+                    selectedListId={selectedList}
+                    onListChange={onListChange}
+                  />
+                )
+              : (
+                  <Select value={selectedList} onValueChange={onListChange}>
+                    <SelectTrigger className="w-[200px]">
+                      <SelectValue placeholder={t('choose-list')} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {availableLists.map(list => (
+                        <SelectItem key={list.id} value={list.id}>
+                          {list.name[i18n.language as keyof typeof list.name]}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                )}
+          </div>
 
           {/* Right: Action Buttons */}
           <div className="flex items-center gap-2">
@@ -161,7 +173,7 @@ export function GameHeader({
               </Button>
             )}
             <Button variant="outline" size="sm" onClick={onResetGame}>
-              <RestartIcon className="w-4 h-4" />
+              <RestartIcon className="w-4 h-3" />
             </Button>
           </div>
         </div>

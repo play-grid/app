@@ -5,15 +5,40 @@ import { cors } from 'hono/cors';
 import { etag } from 'hono/etag';
 import { notFound, onError } from 'stoker/middlewares';
 
-import rateLimiterMiddleware from '@/middlewares/rate-limter';
+import { validateEnv } from '@/env';
 
+import rateLimiterMiddleware from '@/middlewares/rate-limter';
 import { isAllowedOrigin } from '@/utils/origin';
 import { createAuth } from '../auth';
 import { BASE_PATH } from './constants';
+import { clearRequestContext, setRequestContext } from './context-manager';
 import createRouter from './create-router';
 
 export default function createApp(): AppOpenAPI {
   const app = createRouter();
+
+  let envValidated = false;
+  app.use('*', async (c, next) => {
+    if (!envValidated) {
+      try {
+        validateEnv(c.env as unknown as Record<string, unknown>);
+        envValidated = true;
+        // eslint-disable-next-line no-console
+        console.log('✅ Environment variables validated successfully');
+      }
+      catch (error) {
+        console.error('Environment validation failed:', error);
+        return c.json({ error: 'Server configuration error' }, 500);
+      }
+    }
+    await next();
+  });
+
+  app.use('*', async (c, next) => {
+    setRequestContext(c);
+    await next();
+    clearRequestContext();
+  });
 
   app.use('*', async (c, next) => {
     const origin = c.req.header('Origin') || '';
@@ -39,7 +64,7 @@ export default function createApp(): AppOpenAPI {
   app.use('*', (c, next) => rateLimiterMiddleware(c)(c, next));
 
   app.use('*', async (c, next) => {
-    const auth = createAuth(c.env, c.req.raw.cf as IncomingRequestCfProperties | undefined);
+    const auth = createAuth(c);
     const session = await auth.api.getSession({ headers: c.req.raw.headers });
 
     if (!session) {

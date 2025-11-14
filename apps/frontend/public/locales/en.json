@@ -1,7 +1,6 @@
 {
   "home": {
-    "title": "Welcome to Our Fun Games",
-    "subtitle": "Enjoy a variety of interactive games in Arabic and English",
+    "title": "interactive games in Arabic and English",
     "playNow": "Play Now",
     "footer": "© 2025 All Rights Reserved",
     "about": "About"
@@ -9,7 +8,22 @@
   "games": {
     "guessLogo": {
       "title": "Guess the Logo",
-      "description": "Test your logo knowledge in a fun and challenging game!"
+      "region": "Region",
+      "select-region": "Select a region",
+      "league-optional": "League (Optional - leave empty for all teams)",
+      "all-teams-in-region": "All teams in region",
+      "all-teams": "All teams",
+      "loading": "Loading",
+      "error-loading-leagues": "Error loading leagues",
+      "description": "Test your logo knowledge in a fun and challenging game!",
+      "list-is-empty": "This list is empty.",
+      "please-select-another-list": "Please select another list from the dropdown above.",
+      "custom-lists": "Custom",
+      "by-country": "By Region",
+      "by-region": "By Region",
+      "select-country": "Select country",
+      "select-list": "Select list",
+      "leagues": "Leagues"
     },
     "fiveSeconds": {
       "title": "Five Seconds Game",
@@ -234,13 +248,13 @@
       "playAgain": "Play Again"
     },
     "howToPlay": "How to Play",
-      "instructions": {
-        "rule1": "When it's your turn, you have exactly 5 seconds to say 3 things that match the category shown on screen.",
-        "rule2": "Speak your answers out loud - don't type them! Think fast and say the first things that come to mind.",
-        "rule3": "After time's up, other players vote whether your answers were valid. Get majority votes to earn 1 point and build your streak.",
-        "rule4": "Build a streak of 3 correct answers to earn a random Power-Up! Use them strategically to help yourself or sabotage others.",
-        "rule5": "The player with the most points at the end wins. Remember: it's about quick thinking, laughter, and friendly chaos!"
-      },
+    "instructions": {
+      "rule1": "When it's your turn, you have exactly 5 seconds to say 3 things that match the category shown on screen.",
+      "rule2": "Speak your answers out loud - don't type them! Think fast and say the first things that come to mind.",
+      "rule3": "After time's up, other players vote whether your answers were valid. Get majority votes to earn 1 point and build your streak.",
+      "rule4": "Build a streak of 3 correct answers to earn a random Power-Up! Use them strategically to help yourself or sabotage others.",
+      "rule5": "The player with the most points at the end wins. Remember: it's about quick thinking, laughter, and friendly chaos!"
+    },
     "gameRules": {
       "yourTurn": "Your Turn",
       "speakAloud": "Speak Aloud",

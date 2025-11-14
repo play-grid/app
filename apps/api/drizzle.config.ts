@@ -1,45 +1,26 @@
-import fs from 'node:fs';
-import path from 'node:path';
+// import process from 'node:process';
 import { defineConfig } from 'drizzle-kit';
-import env from '@/env';
+import { getLocalD1DB } from '@/db/utils';
+import { getNodeEnv } from '@/env';
 
-function getLocalD1DB() {
-  try {
-    const basePath = path.resolve('.wrangler/state/v3/d1/miniflare-D1DatabaseObject');
+const env = getNodeEnv();
 
-    if (!fs.existsSync(basePath)) {
-      throw new Error(
-        `Local D1 database not found at ${basePath}.\n`
-        + `Please run 'wrangler dev' first to initialize the local database.`,
-      );
-    }
-
-    const files = fs.readdirSync(basePath, { encoding: 'utf-8' });
-    const dbFile = files.find(f => f.endsWith('.sqlite'));
-
-    if (!dbFile) {
-      throw new Error(`.sqlite file not found in ${basePath}`);
-    }
-
-    return path.resolve(basePath, dbFile);
-  }
-  catch (err) {
-    console.error(`Error finding local D1 database: ${err}`);
-    throw err;
-  }
-}
+const isProd = env.NODE_ENV === 'production';
+// const isTest = process.env.VITEST === 'true';
 
 export default defineConfig({
   schema: './src/db/schema.ts',
   out: './drizzle',
+  // out: isProd || isTest ? './drizzle' : './drizzle-local',
+
   dialect: 'sqlite',
-  ...(env.NODE_ENV === 'production'
+  ...(isProd
     ? {
         driver: 'd1-http',
         dbCredentials: {
-          accountId: env.CLOUDFLARE_ACCOUNT_ID!,
-          databaseId: env.CLOUDFLARE_DATABASE_ID!,
-          token: env.CLOUDFLARE_D1_TOKEN!,
+          accountId: env.CLOUDFLARE_ACCOUNT_ID,
+          databaseId: env.CLOUDFLARE_DATABASE_ID,
+          token: env.CLOUDFLARE_D1_TOKEN,
         },
       }
     : {

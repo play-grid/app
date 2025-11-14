@@ -1,5 +1,6 @@
 import type { Player } from '@guess-logo/shared/types';
 import type { LogoSetKey } from '../lib/logo-data';
+import { useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { z } from 'zod';
@@ -20,7 +21,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { gridConfigurations } from '../lib/grid-configurations';
-import { CreateRoomDialog } from './create-room-dialog';
+import { fetchLogoLists, fetchLogos } from '../services/unified-logo-service';
 
 interface GameSetupProps {
   selectedSet: LogoSetKey;
@@ -102,6 +103,33 @@ export function GameSetup({
       onStartGame();
     }
   }
+  const queryClient = useQueryClient();
+  async function handleIconsSetChange(setId: LogoSetKey) {
+    onSetChange(setId);
+    // TODO: use tanstack query
+
+    try {
+    // 1. Fetch available lists
+      const lists = await fetchLogoLists(setId);
+      if (!Array.isArray(lists) || lists.length === 0) {
+        console.warn(`No lists found for set: ${setId}`);
+        return;
+      }
+
+      // 2. Pick first available list ID
+      const firstListId = lists[0].id;
+
+      // 3. Prefetch that list's logos
+      await queryClient.ensureQueryData({
+        queryKey: ['logo-items', setId, firstListId, 'en'],
+        queryFn: () => fetchLogos(setId, firstListId, 'en', 80, true),
+        staleTime: 10 * 60 * 1000,
+      });
+    }
+    catch (err) {
+      console.error(`Failed to prefetch logos for set ${setId}:`, err);
+    }
+  }
 
   const { t } = useTranslation();
 
@@ -177,7 +205,7 @@ export function GameSetup({
                     className={`p-6 cursor-pointer transition-all hover:scale-105 border-2 ${
                       isSelected ? 'border-primary bg-primary/5 shadow-lg' : 'border-border hover:border-primary/50'
                     }`}
-                    onClick={() => onSetChange(set.id)}
+                    onClick={() => handleIconsSetChange(set.id)}
                   >
                     <div
                       className={`w-12 h-12 rounded-full ${set.color} flex items-center justify-center mx-auto mb-3`}
@@ -239,14 +267,14 @@ export function GameSetup({
         <div className="flex flex-row gap-4 mt-8 w-full">
           <Button
             onClick={handleStartGame}
-            className="w-1/2"
+            className="w-full"
             size="lg"
             disabled={isUpdating}
           >
             {t('start-game')}
           </Button>
 
-          <CreateRoomDialog />
+          {/* <CreateRoomDialog /> */}
         </div>
         {attemptedStart && (!playerAValidation.success || !playerBValidation.success) && (
           <p className="text-sm text-red-500 mt-2">{t('enter-valid-player-names-to-continue')}</p>

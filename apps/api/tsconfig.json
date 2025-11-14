@@ -8,7 +8,7 @@
       "@/*": ["./src/*"],
       "@/env": ["./src/env"]
     },
-    "types": ["@cloudflare/workers-types", "@cloudflare/vitest-pool-workers"],
+    "types": ["@cloudflare/workers-types", "vitest/globals"],
     "noEmit": false,
     "resolveJsonModule": true
   },
@@ -16,5 +16,5 @@
     "./**/*.ts",
     "./worker-configuration.d.ts",
     "./vitest.config.ts"
-  ]
+, "../../packages/shared/data/sport/load-region.ts"  ]
 }

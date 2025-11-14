@@ -49,7 +49,13 @@ export const getRandomQuestion: AppRouteHandler<getRandomQuestionRoute> = async 
     .limit(1);
 
   if (!random) {
-    return c.json({ error: 'No questions found' }, HttpStatusCodes.NOT_FOUND);
+    return c.json(
+      {
+        code: 'NO_QUESTIONS_FOUND',
+        message: 'No questions match the given filters.',
+      } as const,
+      HttpStatusCodes.OK,
+    );
   }
 
   c.header('Cache-Control', 'no-store, no-cache, must-revalidate, private');

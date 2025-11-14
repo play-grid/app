@@ -2,8 +2,9 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import process from 'node:process';
 import Cloudflare from 'cloudflare';
-import env from '@/env';
+import { getNodeEnv } from '@/env';
 
+const env = getNodeEnv();
 interface SeedOptions {
   kvNamespaceId: string;
   dataPath: string;

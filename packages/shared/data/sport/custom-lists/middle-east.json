@@ -1,0 +1,234 @@
+[
+  {
+    "id": 387,
+    "name": "League",
+    "country": "Jordan",
+    "logo": "https://media.api-sports.io/football/leagues/387.png",
+    "teams": [
+      {
+        "id": 4529,
+        "code": null,
+        "name": "Al Ahli",
+        "country": "Jordan",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/4529.png",
+        "leagueId": 387
+      },
+      {
+        "id": 4531,
+        "code": "FAI",
+        "name": "Al Faisaly",
+        "country": "Jordan",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/4531.png",
+        "leagueId": 387
+      },
+      {
+        "id": 4532,
+        "code": "HUS",
+        "name": "Al Hussein",
+        "country": "Jordan",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/4532.png",
+        "leagueId": 387
+      },
+      {
+        "id": 4534,
+        "code": "RAM",
+        "name": "Al Ramtha",
+        "country": "Jordan",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/4534.png",
+        "leagueId": 387
+      },
+      {
+        "id": 4535,
+        "code": null,
+        "name": "Al Salt",
+        "country": "Jordan",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/4535.png",
+        "leagueId": 387
+      },
+      {
+        "id": 4537,
+        "code": "WEH",
+        "name": "Al Wihdat",
+        "country": "Jordan",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/4537.png",
+        "leagueId": 387
+      },
+      {
+        "id": 4538,
+        "code": null,
+        "name": "Aqaba",
+        "country": "Jordan",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/4538.png",
+        "leagueId": 387
+      },
+      {
+        "id": 4539,
+        "code": "SHA",
+        "name": "Shabab Al Ordon",
+        "country": "Jordan",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/4539.png",
+        "leagueId": 387
+      },
+      {
+        "id": 4543,
+        "code": null,
+        "name": "Sahab",
+        "country": "Jordan",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/4543.png",
+        "leagueId": 387
+      },
+      {
+        "id": 10121,
+        "code": null,
+        "name": "Ma'an",
+        "country": "Jordan",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/10121.png",
+        "leagueId": 387
+      },
+      {
+        "id": 11474,
+        "code": "JAL",
+        "name": "Al Jalil",
+        "country": "Jordan",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/11474.png",
+        "leagueId": 387
+      },
+      {
+        "id": 17467,
+        "code": null,
+        "name": "Moghayer Al Sarhan",
+        "country": "Jordan",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/17467.png",
+        "leagueId": 387
+      }
+    ]
+  },
+  {
+    "id": 406,
+    "name": "Professional League",
+    "country": "Oman",
+    "logo": "https://media.api-sports.io/football/leagues/406.png",
+    "teams": [
+      {
+        "id": 2878,
+        "code": "NAS",
+        "name": "Al Nasr",
+        "country": "Oman",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/2878.png",
+        "leagueId": 406
+      },
+      {
+        "id": 5327,
+        "code": "NAH",
+        "name": "Al-Nahda",
+        "country": "Oman",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/5327.png",
+        "leagueId": 406
+      },
+      {
+        "id": 5328,
+        "code": null,
+        "name": "Al-Rustaq",
+        "country": "Oman",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/5328.png",
+        "leagueId": 406
+      },
+      {
+        "id": 5329,
+        "code": null,
+        "name": "Al-Shabab",
+        "country": "Oman",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/5329.png",
+        "leagueId": 406
+      },
+      {
+        "id": 5330,
+        "code": null,
+        "name": "Dhofar",
+        "country": "Oman",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/5330.png",
+        "leagueId": 406
+      },
+      {
+        "id": 5334,
+        "code": null,
+        "name": "Oman Club",
+        "country": "Oman",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/5334.png",
+        "leagueId": 406
+      },
+      {
+        "id": 5336,
+        "code": null,
+        "name": "Sohar",
+        "country": "Oman",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/5336.png",
+        "leagueId": 406
+      },
+      {
+        "id": 5337,
+        "code": null,
+        "name": "Sur",
+        "country": "Oman",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/5337.png",
+        "leagueId": 406
+      },
+      {
+        "id": 7504,
+        "code": null,
+        "name": "Al Seeb",
+        "country": "Oman",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/7504.png",
+        "leagueId": 406
+      },
+      {
+        "id": 7505,
+        "code": null,
+        "name": "Bahla",
+        "country": "Oman",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/7505.png",
+        "leagueId": 406
+      },
+      {
+        "id": 15960,
+        "code": null,
+        "name": "Ibri",
+        "country": "Oman",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15960.png",
+        "leagueId": 406
+      },
+      {
+        "id": 17461,
+        "code": "WEH",
+        "name": "Al Wehda",
+        "country": "Oman",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/17461.png",
+        "leagueId": 406
+      }
+    ]
+  }
+]

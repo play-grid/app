@@ -1,0 +1,4251 @@
+[
+  {
+    "id": 222,
+    "name": "Regionalliga - Mitte",
+    "country": "Austria",
+    "logo": "https://media.api-sports.io/football/leagues/222.png",
+    "teams": [
+      {
+        "id": 1406,
+        "code": "VOR",
+        "name": "SK Vorwarts Steyr",
+        "country": "Austria",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/1406.png",
+        "leagueId": 222
+      },
+      {
+        "id": 4934,
+        "code": "ALL",
+        "name": "Allerheiligen",
+        "country": "Austria",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/4934.png",
+        "leagueId": 222
+      },
+      {
+        "id": 4935,
+        "code": null,
+        "name": "Bad Gleichenberg",
+        "country": "Austria",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/4935.png",
+        "leagueId": 222
+      },
+      {
+        "id": 4940,
+        "code": null,
+        "name": "Gleisdorf 09",
+        "country": "Austria",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/4940.png",
+        "leagueId": 222
+      },
+      {
+        "id": 4942,
+        "code": null,
+        "name": "Gurten",
+        "country": "Austria",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/4942.png",
+        "leagueId": 222
+      },
+      {
+        "id": 4959,
+        "code": null,
+        "name": "St. Anna",
+        "country": "Austria",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/4959.png",
+        "leagueId": 222
+      },
+      {
+        "id": 4964,
+        "code": "VOC",
+        "name": "Union Vöcklamarkt",
+        "country": "Austria",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/4964.png",
+        "leagueId": 222
+      },
+      {
+        "id": 4972,
+        "code": null,
+        "name": "Deutschlandsberger SC",
+        "country": "Austria",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/4972.png",
+        "leagueId": 222
+      },
+      {
+        "id": 4996,
+        "code": null,
+        "name": "Weiz",
+        "country": "Austria",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/4996.png",
+        "leagueId": 222
+      },
+      {
+        "id": 8250,
+        "code": null,
+        "name": "Ried II",
+        "country": "Austria",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/8250.png",
+        "leagueId": 222
+      },
+      {
+        "id": 8253,
+        "code": null,
+        "name": "Wolfsberger AC II",
+        "country": "Austria",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/8253.png",
+        "leagueId": 222
+      },
+      {
+        "id": 8332,
+        "code": null,
+        "name": "Voitsberg",
+        "country": "Austria",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/8332.png",
+        "leagueId": 222
+      },
+      {
+        "id": 11225,
+        "code": null,
+        "name": "LASK Juniors",
+        "country": "Austria",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/11225.png",
+        "leagueId": 222
+      },
+      {
+        "id": 17197,
+        "code": null,
+        "name": "ASK Klagenfurt",
+        "country": "Austria",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/17197.png",
+        "leagueId": 222
+      },
+      {
+        "id": 21534,
+        "code": null,
+        "name": "Wallern / Marienkirchen",
+        "country": "Austria",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/21534.png",
+        "leagueId": 222
+      },
+      {
+        "id": 22213,
+        "code": null,
+        "name": "WSPG Wels",
+        "country": "Austria",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/22213.png",
+        "leagueId": 222
+      }
+    ]
+  },
+  {
+    "id": 221,
+    "name": "Regionalliga - Ost",
+    "country": "Austria",
+    "logo": "https://media.api-sports.io/football/leagues/221.png",
+    "teams": [
+      {
+        "id": 2860,
+        "code": "AUS",
+        "name": "Austria Vienna (Am)",
+        "country": "Austria",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/2860.png",
+        "leagueId": 221
+      },
+      {
+        "id": 4937,
+        "code": null,
+        "name": "Draßburg",
+        "country": "Austria",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/4937.png",
+        "leagueId": 221
+      },
+      {
+        "id": 4951,
+        "code": null,
+        "name": "Leobendorf",
+        "country": "Austria",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/4951.png",
+        "leagueId": 221
+      },
+      {
+        "id": 4952,
+        "code": "MAN",
+        "name": "Mannsdorf-Großenzersdorf",
+        "country": "Austria",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/4952.png",
+        "leagueId": 221
+      },
+      {
+        "id": 4953,
+        "code": null,
+        "name": "Mauerwerk",
+        "country": "Austria",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/4953.png",
+        "leagueId": 221
+      },
+      {
+        "id": 4954,
+        "code": null,
+        "name": "Neusiedl",
+        "country": "Austria",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/4954.png",
+        "leagueId": 221
+      },
+      {
+        "id": 4961,
+        "code": null,
+        "name": "Traiskirchen",
+        "country": "Austria",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/4961.png",
+        "leagueId": 221
+      },
+      {
+        "id": 4965,
+        "code": null,
+        "name": "Wiener SC",
+        "country": "Austria",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/4965.png",
+        "leagueId": 221
+      },
+      {
+        "id": 4966,
+        "code": "WIE",
+        "name": "Wiener Viktoria",
+        "country": "Austria",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/4966.png",
+        "leagueId": 221
+      },
+      {
+        "id": 5004,
+        "code": null,
+        "name": "Krems",
+        "country": "Austria",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/5004.png",
+        "leagueId": 221
+      },
+      {
+        "id": 8247,
+        "code": "RAP",
+        "name": "Rapid Wien II",
+        "country": "Austria",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/8247.png",
+        "leagueId": 221
+      },
+      {
+        "id": 8271,
+        "code": null,
+        "name": "Oberwart / Rotenturm",
+        "country": "Austria",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/8271.png",
+        "leagueId": 221
+      },
+      {
+        "id": 8281,
+        "code": null,
+        "name": "Ardagger",
+        "country": "Austria",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/8281.png",
+        "leagueId": 221
+      },
+      {
+        "id": 8366,
+        "code": null,
+        "name": "Fach-Donaufeld",
+        "country": "Austria",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/8366.png",
+        "leagueId": 221
+      },
+      {
+        "id": 8367,
+        "code": null,
+        "name": "Favoritner AC",
+        "country": "Austria",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/8367.png",
+        "leagueId": 221
+      },
+      {
+        "id": 16999,
+        "code": null,
+        "name": "TWL Elektra",
+        "country": "Austria",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/16999.png",
+        "leagueId": 221
+      }
+    ]
+  },
+  {
+    "id": 223,
+    "name": "Regionalliga - West",
+    "country": "Austria",
+    "logo": "https://media.api-sports.io/football/leagues/223.png",
+    "teams": [
+      {
+        "id": 4945,
+        "code": null,
+        "name": "Hohenems",
+        "country": "Austria",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/4945.png",
+        "leagueId": 223
+      },
+      {
+        "id": 4948,
+        "code": "KUF",
+        "name": "Kufstein",
+        "country": "Austria",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/4948.png",
+        "leagueId": 223
+      },
+      {
+        "id": 4957,
+        "code": "SCH",
+        "name": "Schwaz",
+        "country": "Austria",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/4957.png",
+        "leagueId": 223
+      },
+      {
+        "id": 4968,
+        "code": null,
+        "name": "Wolfurt",
+        "country": "Austria",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/4968.png",
+        "leagueId": 223
+      },
+      {
+        "id": 4973,
+        "code": null,
+        "name": "Dornbirner SV",
+        "country": "Austria",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/4973.png",
+        "leagueId": 223
+      },
+      {
+        "id": 4980,
+        "code": null,
+        "name": "Pinzgau Saalfelden",
+        "country": "Austria",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/4980.png",
+        "leagueId": 223
+      },
+      {
+        "id": 4981,
+        "code": null,
+        "name": "SVG Reichenau",
+        "country": "Austria",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/4981.png",
+        "leagueId": 223
+      },
+      {
+        "id": 4994,
+        "code": "JOH",
+        "name": "TSV St. Johann",
+        "country": "Austria",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/4994.png",
+        "leagueId": 223
+      },
+      {
+        "id": 5000,
+        "code": "AUS",
+        "name": "Austria Salzburg",
+        "country": "Austria",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/5000.png",
+        "leagueId": 223
+      },
+      {
+        "id": 8256,
+        "code": "ALT",
+        "name": "Rheindorf Altach II",
+        "country": "Austria",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/8256.png",
+        "leagueId": 223
+      },
+      {
+        "id": 8257,
+        "code": null,
+        "name": "Rot-Weiß Rankweil",
+        "country": "Austria",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/8257.png",
+        "leagueId": 223
+      },
+      {
+        "id": 8258,
+        "code": null,
+        "name": "Röthis",
+        "country": "Austria",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/8258.png",
+        "leagueId": 223
+      },
+      {
+        "id": 8260,
+        "code": null,
+        "name": "Bischofshofen",
+        "country": "Austria",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/8260.png",
+        "leagueId": 223
+      },
+      {
+        "id": 8261,
+        "code": "WAL",
+        "name": "Wals-Grünau",
+        "country": "Austria",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/8261.png",
+        "leagueId": 223
+      },
+      {
+        "id": 8342,
+        "code": null,
+        "name": "Silz / Mötz",
+        "country": "Austria",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/8342.png",
+        "leagueId": 223
+      },
+      {
+        "id": 14709,
+        "code": null,
+        "name": "Imst",
+        "country": "Austria",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/14709.png",
+        "leagueId": 223
+      }
+    ]
+  },
+  {
+    "id": 144,
+    "name": "Jupiler Pro League",
+    "country": "Belgium",
+    "logo": "https://media.api-sports.io/football/leagues/144.png",
+    "teams": [
+      {
+        "id": 259,
+        "code": "KVS",
+        "name": "Lommel United",
+        "country": "Belgium",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/259.png",
+        "leagueId": 144
+      },
+      {
+        "id": 260,
+        "code": "LEU",
+        "name": "OH Leuven",
+        "country": "Belgium",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/260.png",
+        "leagueId": 144
+      },
+      {
+        "id": 261,
+        "code": "WES",
+        "name": "KVC Westerlo",
+        "country": "Belgium",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/261.png",
+        "leagueId": 144
+      },
+      {
+        "id": 266,
+        "code": "MEC",
+        "name": "KV Mechelen",
+        "country": "Belgium",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/266.png",
+        "leagueId": 144
+      },
+      {
+        "id": 554,
+        "code": "AND",
+        "name": "Anderlecht",
+        "country": "Belgium",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/554.png",
+        "leagueId": 144
+      },
+      {
+        "id": 569,
+        "code": "CLU",
+        "name": "Club Brugge KV",
+        "country": "Belgium",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/569.png",
+        "leagueId": 144
+      },
+      {
+        "id": 631,
+        "code": "GEN",
+        "name": "Gent",
+        "country": "Belgium",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/631.png",
+        "leagueId": 144
+      },
+      {
+        "id": 733,
+        "code": "STA",
+        "name": "Standard Liege",
+        "country": "Belgium",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/733.png",
+        "leagueId": 144
+      },
+      {
+        "id": 734,
+        "code": "KOR",
+        "name": "Kortrijk",
+        "country": "Belgium",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/734.png",
+        "leagueId": 144
+      },
+      {
+        "id": 735,
+        "code": "TRU",
+        "name": "St. Truiden",
+        "country": "Belgium",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/735.png",
+        "leagueId": 144
+      },
+      {
+        "id": 736,
+        "code": "CHA",
+        "name": "Charleroi",
+        "country": "Belgium",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/736.png",
+        "leagueId": 144
+      },
+      {
+        "id": 739,
+        "code": "EUP",
+        "name": "AS Eupen",
+        "country": "Belgium",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/739.png",
+        "leagueId": 144
+      },
+      {
+        "id": 740,
+        "code": "ANT",
+        "name": "Antwerp",
+        "country": "Belgium",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/740.png",
+        "leagueId": 144
+      },
+      {
+        "id": 741,
+        "code": "CER",
+        "name": "Cercle Brugge",
+        "country": "Belgium",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/741.png",
+        "leagueId": 144
+      },
+      {
+        "id": 742,
+        "code": "GEN",
+        "name": "Genk",
+        "country": "Belgium",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/742.png",
+        "leagueId": 144
+      },
+      {
+        "id": 1393,
+        "code": "GIL",
+        "name": "Union St. Gilloise",
+        "country": "Belgium",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/1393.png",
+        "leagueId": 144
+      },
+      {
+        "id": 6224,
+        "code": null,
+        "name": "RWDM",
+        "country": "Belgium",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/6224.png",
+        "leagueId": 144
+      }
+    ]
+  },
+  {
+    "id": 689,
+    "name": "Third Amateur Division - ACFF A",
+    "country": "Belgium",
+    "logo": "https://media.api-sports.io/football/leagues/689.png",
+    "teams": [
+      {
+        "id": 5739,
+        "code": null,
+        "name": "Aische",
+        "country": "Belgium",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/5739.png",
+        "leagueId": 689
+      },
+      {
+        "id": 5750,
+        "code": null,
+        "name": "Belœil",
+        "country": "Belgium",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/5750.png",
+        "leagueId": 689
+      },
+      {
+        "id": 5764,
+        "code": null,
+        "name": "Braine",
+        "country": "Belgium",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/5764.png",
+        "leagueId": 689
+      },
+      {
+        "id": 5769,
+        "code": null,
+        "name": "Couvin-Mariembourg",
+        "country": "Belgium",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/5769.png",
+        "leagueId": 689
+      },
+      {
+        "id": 5770,
+        "code": null,
+        "name": "Crossing Schaerbeek",
+        "country": "Belgium",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/5770.png",
+        "leagueId": 689
+      },
+      {
+        "id": 5793,
+        "code": null,
+        "name": "Entité Manageoise",
+        "country": "Belgium",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/5793.png",
+        "leagueId": 689
+      },
+      {
+        "id": 5838,
+        "code": null,
+        "name": "Jodoigne",
+        "country": "Belgium",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/5838.png",
+        "leagueId": 689
+      },
+      {
+        "id": 5888,
+        "code": null,
+        "name": "Onhaye",
+        "country": "Belgium",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/5888.png",
+        "leagueId": 689
+      },
+      {
+        "id": 5893,
+        "code": null,
+        "name": "Ostiches",
+        "country": "Belgium",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/5893.png",
+        "leagueId": 689
+      },
+      {
+        "id": 5909,
+        "code": null,
+        "name": "Rapid Symphorinois",
+        "country": "Belgium",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/5909.png",
+        "leagueId": 689
+      },
+      {
+        "id": 5982,
+        "code": "WAL",
+        "name": "Wallonne Ciney",
+        "country": "Belgium",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/5982.png",
+        "leagueId": 689
+      },
+      {
+        "id": 8452,
+        "code": null,
+        "name": "RAS Monceau",
+        "country": "Belgium",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/8452.png",
+        "leagueId": 689
+      },
+      {
+        "id": 8488,
+        "code": null,
+        "name": "Jeunesse Tamines",
+        "country": "Belgium",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/8488.png",
+        "leagueId": 689
+      },
+      {
+        "id": 14150,
+        "code": null,
+        "name": "Arquet",
+        "country": "Belgium",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/14150.png",
+        "leagueId": 689
+      },
+      {
+        "id": 19521,
+        "code": null,
+        "name": "Perwez",
+        "country": "Belgium",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/19521.png",
+        "leagueId": 689
+      },
+      {
+        "id": 19779,
+        "code": null,
+        "name": "Flénu",
+        "country": "Belgium",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/19779.png",
+        "leagueId": 689
+      }
+    ]
+  },
+  {
+    "id": 690,
+    "name": "Third Amateur Division - ACFF B",
+    "country": "Belgium",
+    "logo": "https://media.api-sports.io/football/leagues/690.png",
+    "teams": [
+      {
+        "id": 5747,
+        "code": null,
+        "name": "Aywaille",
+        "country": "Belgium",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/5747.png",
+        "leagueId": 690
+      },
+      {
+        "id": 5791,
+        "code": null,
+        "name": "Elsautoise",
+        "country": "Belgium",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/5791.png",
+        "leagueId": 690
+      },
+      {
+        "id": 5814,
+        "code": null,
+        "name": "Habay-la-Neuve",
+        "country": "Belgium",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/5814.png",
+        "leagueId": 690
+      },
+      {
+        "id": 5821,
+        "code": null,
+        "name": "Herstal",
+        "country": "Belgium",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/5821.png",
+        "leagueId": 690
+      },
+      {
+        "id": 5832,
+        "code": "HUY",
+        "name": "Huy",
+        "country": "Belgium",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/5832.png",
+        "leagueId": 690
+      },
+      {
+        "id": 5870,
+        "code": null,
+        "name": "Meix-Devant-Virton",
+        "country": "Belgium",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/5870.png",
+        "leagueId": 690
+      },
+      {
+        "id": 5876,
+        "code": null,
+        "name": "Mormont",
+        "country": "Belgium",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/5876.png",
+        "leagueId": 690
+      },
+      {
+        "id": 5908,
+        "code": null,
+        "name": "Raeren-Eynatten",
+        "country": "Belgium",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/5908.png",
+        "leagueId": 690
+      },
+      {
+        "id": 5913,
+        "code": null,
+        "name": "Richelle United",
+        "country": "Belgium",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/5913.png",
+        "leagueId": 690
+      },
+      {
+        "id": 5935,
+        "code": "SPC",
+        "name": "Sprimont",
+        "country": "Belgium",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/5935.png",
+        "leagueId": 690
+      },
+      {
+        "id": 5983,
+        "code": null,
+        "name": "Wanze / Bas-Oha",
+        "country": "Belgium",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/5983.png",
+        "leagueId": 690
+      },
+      {
+        "id": 5984,
+        "code": null,
+        "name": "Waremme",
+        "country": "Belgium",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/5984.png",
+        "leagueId": 690
+      },
+      {
+        "id": 8478,
+        "code": null,
+        "name": "Gouvy",
+        "country": "Belgium",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/8478.png",
+        "leagueId": 690
+      },
+      {
+        "id": 8481,
+        "code": null,
+        "name": "Marloie Sport",
+        "country": "Belgium",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/8481.png",
+        "leagueId": 690
+      },
+      {
+        "id": 15164,
+        "code": null,
+        "name": "Longlier",
+        "country": "Belgium",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15164.png",
+        "leagueId": 690
+      },
+      {
+        "id": 19901,
+        "code": null,
+        "name": "Seraing II",
+        "country": "Belgium",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/19901.png",
+        "leagueId": 690
+      }
+    ]
+  },
+  {
+    "id": 691,
+    "name": "Provincial - Brabant ACFF",
+    "country": "Belgium",
+    "logo": "https://media.api-sports.io/football/leagues/691.png",
+    "teams": [
+      {
+        "id": 5833,
+        "code": null,
+        "name": "Ixelles",
+        "country": "Belgium",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/5833.png",
+        "leagueId": 691
+      },
+      {
+        "id": 5850,
+        "code": null,
+        "name": "Kosova Schaerbeek",
+        "country": "Belgium",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/5850.png",
+        "leagueId": 691
+      },
+      {
+        "id": 5865,
+        "code": null,
+        "name": "Léopold",
+        "country": "Belgium",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/5865.png",
+        "leagueId": 691
+      },
+      {
+        "id": 5919,
+        "code": null,
+        "name": "Saint-Josse",
+        "country": "Belgium",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/5919.png",
+        "leagueId": 691
+      },
+      {
+        "id": 5939,
+        "code": null,
+        "name": "Stade Everois",
+        "country": "Belgium",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/5939.png",
+        "leagueId": 691
+      },
+      {
+        "id": 5963,
+        "code": null,
+        "name": "Union Lasne-Ohain",
+        "country": "Belgium",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/5963.png",
+        "leagueId": 691
+      },
+      {
+        "id": 8431,
+        "code": null,
+        "name": "BX Brussels",
+        "country": "Belgium",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/8431.png",
+        "leagueId": 691
+      },
+      {
+        "id": 8435,
+        "code": null,
+        "name": "Genappe",
+        "country": "Belgium",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/8435.png",
+        "leagueId": 691
+      },
+      {
+        "id": 8444,
+        "code": null,
+        "name": "Sporting Bruxelles",
+        "country": "Belgium",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/8444.png",
+        "leagueId": 691
+      },
+      {
+        "id": 8446,
+        "code": null,
+        "name": "Waterloo",
+        "country": "Belgium",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/8446.png",
+        "leagueId": 691
+      },
+      {
+        "id": 15172,
+        "code": null,
+        "name": "Grez-Doiceau",
+        "country": "Belgium",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15172.png",
+        "leagueId": 691
+      },
+      {
+        "id": 15173,
+        "code": null,
+        "name": "NSeth Berchem",
+        "country": "Belgium",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15173.png",
+        "leagueId": 691
+      },
+      {
+        "id": 17495,
+        "code": null,
+        "name": "Tubize II",
+        "country": "Belgium",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/17495.png",
+        "leagueId": 691
+      },
+      {
+        "id": 19778,
+        "code": null,
+        "name": "Saint-Michel",
+        "country": "Belgium",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/19778.png",
+        "leagueId": 691
+      },
+      {
+        "id": 21777,
+        "code": null,
+        "name": "Auderghem",
+        "country": "Belgium",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/21777.png",
+        "leagueId": 691
+      },
+      {
+        "id": 21852,
+        "code": null,
+        "name": "Amicii Bruxelles",
+        "country": "Belgium",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/21852.png",
+        "leagueId": 691
+      }
+    ]
+  },
+  {
+    "id": 120,
+    "name": "1. Division",
+    "country": "Denmark",
+    "logo": "https://media.api-sports.io/football/leagues/120.png",
+    "teams": [
+      {
+        "id": 396,
+        "code": "SON",
+        "name": "Sonderjyske",
+        "country": "Denmark",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/396.png",
+        "leagueId": 120
+      },
+      {
+        "id": 399,
+        "code": "VEN",
+        "name": "Vendsyssel FF",
+        "country": "Denmark",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/399.png",
+        "leagueId": 120
+      },
+      {
+        "id": 402,
+        "code": "AAL",
+        "name": "Aalborg",
+        "country": "Denmark",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/402.png",
+        "leagueId": 120
+      },
+      {
+        "id": 404,
+        "code": "HOR",
+        "name": "AC Horsens",
+        "country": "Denmark",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/404.png",
+        "leagueId": 120
+      },
+      {
+        "id": 408,
+        "code": "HOB",
+        "name": "Hobro",
+        "country": "Denmark",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/408.png",
+        "leagueId": 120
+      },
+      {
+        "id": 2061,
+        "code": "FRE",
+        "name": "FC Fredericia",
+        "country": "Denmark",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/2061.png",
+        "leagueId": 120
+      },
+      {
+        "id": 2062,
+        "code": "HEL",
+        "name": "FC Helsingor",
+        "country": "Denmark",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/2062.png",
+        "leagueId": 120
+      },
+      {
+        "id": 2063,
+        "code": null,
+        "name": "HB Koge",
+        "country": "Denmark",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/2063.png",
+        "leagueId": 120
+      },
+      {
+        "id": 2066,
+        "code": "NAE",
+        "name": "Naestved",
+        "country": "Denmark",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/2066.png",
+        "leagueId": 120
+      },
+      {
+        "id": 4676,
+        "code": null,
+        "name": "Kolding IF",
+        "country": "Denmark",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/4676.png",
+        "leagueId": 120
+      },
+      {
+        "id": 6009,
+        "code": "B",
+        "name": "B 93",
+        "country": "Denmark",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/6009.png",
+        "leagueId": 120
+      },
+      {
+        "id": 6026,
+        "code": null,
+        "name": "Hillerød",
+        "country": "Denmark",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/6026.png",
+        "leagueId": 120
+      }
+    ]
+  },
+  {
+    "id": 124,
+    "name": "Denmark Series - Group 1",
+    "country": "Denmark",
+    "logo": "https://media.api-sports.io/football/leagues/124.png",
+    "teams": [
+      {
+        "id": 6012,
+        "code": "BRO",
+        "name": "Brønshøj",
+        "country": "Denmark",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/6012.png",
+        "leagueId": 124
+      },
+      {
+        "id": 6024,
+        "code": null,
+        "name": "Herlev",
+        "country": "Denmark",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/6024.png",
+        "leagueId": 124
+      },
+      {
+        "id": 6384,
+        "code": null,
+        "name": "KFUM Roskilde",
+        "country": "Denmark",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/6384.png",
+        "leagueId": 124
+      },
+      {
+        "id": 8636,
+        "code": null,
+        "name": "Allerød",
+        "country": "Denmark",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/8636.png",
+        "leagueId": 124
+      },
+      {
+        "id": 8640,
+        "code": null,
+        "name": "Tårnby FF",
+        "country": "Denmark",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/8640.png",
+        "leagueId": 124
+      },
+      {
+        "id": 8641,
+        "code": null,
+        "name": "AB Tårnby",
+        "country": "Denmark",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/8641.png",
+        "leagueId": 124
+      },
+      {
+        "id": 8644,
+        "code": null,
+        "name": "Greve",
+        "country": "Denmark",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/8644.png",
+        "leagueId": 124
+      },
+      {
+        "id": 11566,
+        "code": null,
+        "name": "Sundby",
+        "country": "Denmark",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/11566.png",
+        "leagueId": 124
+      },
+      {
+        "id": 11627,
+        "code": null,
+        "name": "Næstved II",
+        "country": "Denmark",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/11627.png",
+        "leagueId": 124
+      },
+      {
+        "id": 19305,
+        "code": null,
+        "name": "Gørslev",
+        "country": "Denmark",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/19305.png",
+        "leagueId": 124
+      }
+    ]
+  },
+  {
+    "id": 125,
+    "name": "Denmark Series - Group 2",
+    "country": "Denmark",
+    "logo": "https://media.api-sports.io/football/leagues/125.png",
+    "teams": [
+      {
+        "id": 6008,
+        "code": null,
+        "name": "B 1908",
+        "country": "Denmark",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/6008.png",
+        "leagueId": 125
+      },
+      {
+        "id": 6033,
+        "code": null,
+        "name": "Karlslunde",
+        "country": "Denmark",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/6033.png",
+        "leagueId": 125
+      },
+      {
+        "id": 6037,
+        "code": null,
+        "name": "LSF",
+        "country": "Denmark",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/6037.png",
+        "leagueId": 125
+      },
+      {
+        "id": 6055,
+        "code": null,
+        "name": "Skjold Sæby",
+        "country": "Denmark",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/6055.png",
+        "leagueId": 125
+      },
+      {
+        "id": 6057,
+        "code": null,
+        "name": "Slagelse B&I",
+        "country": "Denmark",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/6057.png",
+        "leagueId": 125
+      },
+      {
+        "id": 8642,
+        "code": null,
+        "name": "Frederikssund",
+        "country": "Denmark",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/8642.png",
+        "leagueId": 125
+      },
+      {
+        "id": 11507,
+        "code": null,
+        "name": "Hørsholm-Usserød",
+        "country": "Denmark",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/11507.png",
+        "leagueId": 125
+      },
+      {
+        "id": 11532,
+        "code": null,
+        "name": "Ringsted",
+        "country": "Denmark",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/11532.png",
+        "leagueId": 125
+      },
+      {
+        "id": 11536,
+        "code": null,
+        "name": "VB 1968",
+        "country": "Denmark",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/11536.png",
+        "leagueId": 125
+      },
+      {
+        "id": 14445,
+        "code": null,
+        "name": "Glostrup",
+        "country": "Denmark",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/14445.png",
+        "leagueId": 125
+      }
+    ]
+  },
+  {
+    "id": 39,
+    "name": "Premier League",
+    "country": "England",
+    "logo": "https://media.api-sports.io/football/leagues/39.png",
+    "teams": [
+      {
+        "id": 33,
+        "code": "MUN",
+        "name": "Manchester United",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/33.png",
+        "leagueId": 39
+      },
+      {
+        "id": 34,
+        "code": "NEW",
+        "name": "Newcastle",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/34.png",
+        "leagueId": 39
+      },
+      {
+        "id": 35,
+        "code": "BOU",
+        "name": "Bournemouth",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/35.png",
+        "leagueId": 39
+      },
+      {
+        "id": 36,
+        "code": "FUL",
+        "name": "Fulham",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/36.png",
+        "leagueId": 39
+      },
+      {
+        "id": 39,
+        "code": "WOL",
+        "name": "Wolves",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/39.png",
+        "leagueId": 39
+      },
+      {
+        "id": 40,
+        "code": "LIV",
+        "name": "Liverpool",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/40.png",
+        "leagueId": 39
+      },
+      {
+        "id": 42,
+        "code": "ARS",
+        "name": "Arsenal",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/42.png",
+        "leagueId": 39
+      },
+      {
+        "id": 44,
+        "code": "BUR",
+        "name": "Burnley",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/44.png",
+        "leagueId": 39
+      },
+      {
+        "id": 45,
+        "code": "EVE",
+        "name": "Everton",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/45.png",
+        "leagueId": 39
+      },
+      {
+        "id": 47,
+        "code": "TOT",
+        "name": "Tottenham",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/47.png",
+        "leagueId": 39
+      },
+      {
+        "id": 48,
+        "code": "WES",
+        "name": "West Ham",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/48.png",
+        "leagueId": 39
+      },
+      {
+        "id": 49,
+        "code": "CHE",
+        "name": "Chelsea",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/49.png",
+        "leagueId": 39
+      },
+      {
+        "id": 50,
+        "code": "MAC",
+        "name": "Manchester City",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/50.png",
+        "leagueId": 39
+      },
+      {
+        "id": 51,
+        "code": "BRI",
+        "name": "Brighton",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/51.png",
+        "leagueId": 39
+      },
+      {
+        "id": 52,
+        "code": "CRY",
+        "name": "Crystal Palace",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/52.png",
+        "leagueId": 39
+      },
+      {
+        "id": 55,
+        "code": "BRE",
+        "name": "Brentford",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/55.png",
+        "leagueId": 39
+      },
+      {
+        "id": 62,
+        "code": "SHE",
+        "name": "Sheffield Utd",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/62.png",
+        "leagueId": 39
+      },
+      {
+        "id": 65,
+        "code": "NOT",
+        "name": "Nottingham Forest",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/65.png",
+        "leagueId": 39
+      },
+      {
+        "id": 66,
+        "code": "AST",
+        "name": "Aston Villa",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/66.png",
+        "leagueId": 39
+      },
+      {
+        "id": 1359,
+        "code": "LUT",
+        "name": "Luton",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/1359.png",
+        "leagueId": 39
+      }
+    ]
+  },
+  {
+    "id": 695,
+    "name": "U18 Premier League - North",
+    "country": "England",
+    "logo": "https://media.api-sports.io/football/leagues/695.png",
+    "teams": [
+      {
+        "id": 15375,
+        "code": null,
+        "name": "Blackburn Rovers U18",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15375.png",
+        "leagueId": 695
+      },
+      {
+        "id": 15377,
+        "code": null,
+        "name": "Derby County U18",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15377.png",
+        "leagueId": 695
+      },
+      {
+        "id": 15378,
+        "code": null,
+        "name": "Everton U18",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15378.png",
+        "leagueId": 695
+      },
+      {
+        "id": 15379,
+        "code": null,
+        "name": "Leeds United U18",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15379.png",
+        "leagueId": 695
+      },
+      {
+        "id": 15380,
+        "code": null,
+        "name": "Liverpool U18",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15380.png",
+        "leagueId": 695
+      },
+      {
+        "id": 15381,
+        "code": null,
+        "name": "Manchester City U18",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15381.png",
+        "leagueId": 695
+      },
+      {
+        "id": 15382,
+        "code": null,
+        "name": "Manchester United U18",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15382.png",
+        "leagueId": 695
+      },
+      {
+        "id": 15383,
+        "code": null,
+        "name": "Middlesbrough U18",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15383.png",
+        "leagueId": 695
+      },
+      {
+        "id": 15384,
+        "code": null,
+        "name": "Newcastle United U18",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15384.png",
+        "leagueId": 695
+      },
+      {
+        "id": 15385,
+        "code": null,
+        "name": "Stoke City U18",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15385.png",
+        "leagueId": 695
+      },
+      {
+        "id": 15386,
+        "code": null,
+        "name": "Sunderland U18",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15386.png",
+        "leagueId": 695
+      },
+      {
+        "id": 15387,
+        "code": null,
+        "name": "Wolves U18",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15387.png",
+        "leagueId": 695
+      },
+      {
+        "id": 17426,
+        "code": null,
+        "name": "Nottingham Forest U18",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/17426.png",
+        "leagueId": 695
+      }
+    ]
+  },
+  {
+    "id": 696,
+    "name": "U18 Premier League - South",
+    "country": "England",
+    "logo": "https://media.api-sports.io/football/leagues/696.png",
+    "teams": [
+      {
+        "id": 15388,
+        "code": null,
+        "name": "Arsenal U18",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15388.png",
+        "leagueId": 696
+      },
+      {
+        "id": 15389,
+        "code": null,
+        "name": "Aston Villa U18",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15389.png",
+        "leagueId": 696
+      },
+      {
+        "id": 15390,
+        "code": null,
+        "name": "Brighton U18",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15390.png",
+        "leagueId": 696
+      },
+      {
+        "id": 15391,
+        "code": null,
+        "name": "Chelsea U18",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15391.png",
+        "leagueId": 696
+      },
+      {
+        "id": 15392,
+        "code": null,
+        "name": "Crystal Palace U18",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15392.png",
+        "leagueId": 696
+      },
+      {
+        "id": 15393,
+        "code": null,
+        "name": "Fulham U18",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15393.png",
+        "leagueId": 696
+      },
+      {
+        "id": 15394,
+        "code": null,
+        "name": "Leicester City U18",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15394.png",
+        "leagueId": 696
+      },
+      {
+        "id": 15395,
+        "code": null,
+        "name": "Norwich City U18",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15395.png",
+        "leagueId": 696
+      },
+      {
+        "id": 15396,
+        "code": null,
+        "name": "Reading U18",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15396.png",
+        "leagueId": 696
+      },
+      {
+        "id": 15397,
+        "code": null,
+        "name": "Southampton U18",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15397.png",
+        "leagueId": 696
+      },
+      {
+        "id": 15398,
+        "code": null,
+        "name": "Tottenham Hotspur U18",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15398.png",
+        "leagueId": 696
+      },
+      {
+        "id": 15399,
+        "code": null,
+        "name": "West Bromwich Albion U18",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15399.png",
+        "leagueId": 696
+      },
+      {
+        "id": 15400,
+        "code": null,
+        "name": "West Ham United U18",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15400.png",
+        "leagueId": 696
+      }
+    ]
+  },
+  {
+    "id": 697,
+    "name": "WSL Cup",
+    "country": "England",
+    "logo": "https://media.api-sports.io/football/leagues/697.png",
+    "teams": [
+      {
+        "id": 1846,
+        "code": null,
+        "name": "Bristol City W",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/1846.png",
+        "leagueId": 697
+      },
+      {
+        "id": 1847,
+        "code": null,
+        "name": "Liverpool W",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/1847.png",
+        "leagueId": 697
+      },
+      {
+        "id": 1850,
+        "code": null,
+        "name": "Arsenal W",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/1850.png",
+        "leagueId": 697
+      },
+      {
+        "id": 1853,
+        "code": null,
+        "name": "Chelsea W",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/1853.png",
+        "leagueId": 697
+      },
+      {
+        "id": 1854,
+        "code": null,
+        "name": "Manchester City W",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/1854.png",
+        "leagueId": 697
+      },
+      {
+        "id": 1855,
+        "code": null,
+        "name": "Everton W",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/1855.png",
+        "leagueId": 697
+      },
+      {
+        "id": 1856,
+        "code": null,
+        "name": "West Ham W",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/1856.png",
+        "leagueId": 697
+      },
+      {
+        "id": 1857,
+        "code": null,
+        "name": "Brighton W",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/1857.png",
+        "leagueId": 697
+      },
+      {
+        "id": 4898,
+        "code": null,
+        "name": "Manchester United W",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/4898.png",
+        "leagueId": 697
+      },
+      {
+        "id": 4899,
+        "code": null,
+        "name": "Tottenham Hotspur W",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/4899.png",
+        "leagueId": 697
+      },
+      {
+        "id": 14219,
+        "code": null,
+        "name": "Aston Villa W",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/14219.png",
+        "leagueId": 697
+      },
+      {
+        "id": 15404,
+        "code": null,
+        "name": "Leicester City WFC",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15404.png",
+        "leagueId": 697
+      }
+    ]
+  },
+  {
+    "id": 699,
+    "name": "Women's Championship",
+    "country": "England",
+    "logo": "https://media.api-sports.io/football/leagues/699.png",
+    "teams": [
+      {
+        "id": 1845,
+        "code": null,
+        "name": "Birmingham City W",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/1845.png",
+        "leagueId": 699
+      },
+      {
+        "id": 1848,
+        "code": null,
+        "name": "Sunderland W",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/1848.png",
+        "leagueId": 699
+      },
+      {
+        "id": 1852,
+        "code": null,
+        "name": "Reading W",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/1852.png",
+        "leagueId": 699
+      },
+      {
+        "id": 15401,
+        "code": null,
+        "name": "Blackburn Rovers W",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15401.png",
+        "leagueId": 699
+      },
+      {
+        "id": 15402,
+        "code": null,
+        "name": "Charlton Athletic W",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15402.png",
+        "leagueId": 699
+      },
+      {
+        "id": 15403,
+        "code": null,
+        "name": "Durham W",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15403.png",
+        "leagueId": 699
+      },
+      {
+        "id": 15406,
+        "code": null,
+        "name": "London City Lionesses",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15406.png",
+        "leagueId": 699
+      },
+      {
+        "id": 15407,
+        "code": null,
+        "name": "Sheffield United W",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15407.png",
+        "leagueId": 699
+      },
+      {
+        "id": 15409,
+        "code": null,
+        "name": "Crystal Palace W",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15409.png",
+        "leagueId": 699
+      },
+      {
+        "id": 15410,
+        "code": null,
+        "name": "Lewes W",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15410.png",
+        "leagueId": 699
+      },
+      {
+        "id": 15454,
+        "code": null,
+        "name": "Southampton W",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15454.png",
+        "leagueId": 699
+      },
+      {
+        "id": 15457,
+        "code": null,
+        "name": "Watford W",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15457.png",
+        "leagueId": 699
+      }
+    ]
+  },
+  {
+    "id": 702,
+    "name": "Premier League 2 Division One",
+    "country": "England",
+    "logo": "https://media.api-sports.io/football/leagues/702.png",
+    "teams": [
+      {
+        "id": 7189,
+        "code": "ARS",
+        "name": "Arsenal U21",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/7189.png",
+        "leagueId": 702
+      },
+      {
+        "id": 7190,
+        "code": "AST",
+        "name": "Aston Villa U21",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/7190.png",
+        "leagueId": 702
+      },
+      {
+        "id": 7191,
+        "code": null,
+        "name": "Brighton U21",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/7191.png",
+        "leagueId": 702
+      },
+      {
+        "id": 7192,
+        "code": "CHE",
+        "name": "Chelsea U21",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/7192.png",
+        "leagueId": 702
+      },
+      {
+        "id": 7193,
+        "code": "EVE",
+        "name": "Everton U21",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/7193.png",
+        "leagueId": 702
+      },
+      {
+        "id": 7194,
+        "code": "FUL",
+        "name": "Fulham U21",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/7194.png",
+        "leagueId": 702
+      },
+      {
+        "id": 7195,
+        "code": "LEI",
+        "name": "Leicester City U21",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/7195.png",
+        "leagueId": 702
+      },
+      {
+        "id": 7196,
+        "code": "LIV",
+        "name": "Liverpool U21",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/7196.png",
+        "leagueId": 702
+      },
+      {
+        "id": 7197,
+        "code": "MAC",
+        "name": "Manchester City U21",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/7197.png",
+        "leagueId": 702
+      },
+      {
+        "id": 7198,
+        "code": "MUN",
+        "name": "Manchester United U21",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/7198.png",
+        "leagueId": 702
+      },
+      {
+        "id": 7199,
+        "code": null,
+        "name": "Newcastle United U21",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/7199.png",
+        "leagueId": 702
+      },
+      {
+        "id": 7200,
+        "code": "NOR",
+        "name": "Norwich City U21",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/7200.png",
+        "leagueId": 702
+      },
+      {
+        "id": 7201,
+        "code": "SOU",
+        "name": "Southampton U21",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/7201.png",
+        "leagueId": 702
+      },
+      {
+        "id": 7202,
+        "code": "TOT",
+        "name": "Tottenham Hotspur U21",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/7202.png",
+        "leagueId": 702
+      },
+      {
+        "id": 7203,
+        "code": "WES",
+        "name": "West Ham United U21",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/7203.png",
+        "leagueId": 702
+      },
+      {
+        "id": 7204,
+        "code": "WOL",
+        "name": "Wolves U21",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/7204.png",
+        "leagueId": 702
+      },
+      {
+        "id": 11910,
+        "code": "MID",
+        "name": "Middlesbrough U21",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/11910.png",
+        "leagueId": 702
+      },
+      {
+        "id": 11911,
+        "code": "STO",
+        "name": "Stoke City U21",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/11911.png",
+        "leagueId": 702
+      },
+      {
+        "id": 11913,
+        "code": "WES",
+        "name": "West Bromwich Albion U21",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/11913.png",
+        "leagueId": 702
+      },
+      {
+        "id": 11914,
+        "code": "REA",
+        "name": "Reading U21",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/11914.png",
+        "leagueId": 702
+      },
+      {
+        "id": 11915,
+        "code": "SUN",
+        "name": "Sunderland U21",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/11915.png",
+        "leagueId": 702
+      },
+      {
+        "id": 14430,
+        "code": null,
+        "name": "Leeds United U21",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/14430.png",
+        "leagueId": 702
+      },
+      {
+        "id": 17000,
+        "code": "CRY",
+        "name": "Crystal Palace U21",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/17000.png",
+        "leagueId": 702
+      },
+      {
+        "id": 19744,
+        "code": null,
+        "name": "Blackburn Rovers U21",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/19744.png",
+        "leagueId": 702
+      },
+      {
+        "id": 19745,
+        "code": null,
+        "name": "Derby County U21",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/19745.png",
+        "leagueId": 702
+      },
+      {
+        "id": 19746,
+        "code": null,
+        "name": "Nottingham Forest U21",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/19746.png",
+        "leagueId": 702
+      }
+    ]
+  },
+  {
+    "id": 703,
+    "name": "Professional Development League",
+    "country": "England",
+    "logo": "https://media.api-sports.io/football/leagues/703.png",
+    "teams": [
+      {
+        "id": 11912,
+        "code": null,
+        "name": "Swansea City U21",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/11912.png",
+        "leagueId": 703
+      },
+      {
+        "id": 20000,
+        "code": null,
+        "name": "AFC Bournemouth U21",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/20000.png",
+        "leagueId": 703
+      },
+      {
+        "id": 20016,
+        "code": null,
+        "name": "Cardiff City U21",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/20016.png",
+        "leagueId": 703
+      },
+      {
+        "id": 20018,
+        "code": null,
+        "name": "Peterborough United U21",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/20018.png",
+        "leagueId": 703
+      },
+      {
+        "id": 20019,
+        "code": null,
+        "name": "Watford U21",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/20019.png",
+        "leagueId": 703
+      },
+      {
+        "id": 20078,
+        "code": null,
+        "name": "Birmingham City U21",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/20078.png",
+        "leagueId": 703
+      },
+      {
+        "id": 20080,
+        "code": null,
+        "name": "Bristol City U21",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/20080.png",
+        "leagueId": 703
+      },
+      {
+        "id": 20081,
+        "code": null,
+        "name": "Burnley U21",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/20081.png",
+        "leagueId": 703
+      },
+      {
+        "id": 20082,
+        "code": null,
+        "name": "Charlton Athletic U21",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/20082.png",
+        "leagueId": 703
+      },
+      {
+        "id": 20083,
+        "code": null,
+        "name": "Colchester United U21",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/20083.png",
+        "leagueId": 703
+      },
+      {
+        "id": 20084,
+        "code": null,
+        "name": "Hull City U21",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/20084.png",
+        "leagueId": 703
+      },
+      {
+        "id": 20085,
+        "code": null,
+        "name": "Queens Park Rangers U21",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/20085.png",
+        "leagueId": 703
+      },
+      {
+        "id": 20086,
+        "code": null,
+        "name": "Sheffield United U21",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/20086.png",
+        "leagueId": 703
+      },
+      {
+        "id": 20091,
+        "code": null,
+        "name": "Barnsley U21",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/20091.png",
+        "leagueId": 703
+      },
+      {
+        "id": 20092,
+        "code": null,
+        "name": "Coventry City U21",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/20092.png",
+        "leagueId": 703
+      },
+      {
+        "id": 20093,
+        "code": null,
+        "name": "Crewe Alexandra U21",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/20093.png",
+        "leagueId": 703
+      },
+      {
+        "id": 20094,
+        "code": null,
+        "name": "Ipswich Town U21",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/20094.png",
+        "leagueId": 703
+      },
+      {
+        "id": 20095,
+        "code": null,
+        "name": "Millwall U21",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/20095.png",
+        "leagueId": 703
+      },
+      {
+        "id": 20096,
+        "code": null,
+        "name": "Sheffield Wednesday U21",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/20096.png",
+        "leagueId": 703
+      },
+      {
+        "id": 20097,
+        "code": null,
+        "name": "Wigan Athletic U21",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/20097.png",
+        "leagueId": 703
+      },
+      {
+        "id": 22173,
+        "code": null,
+        "name": "Fleetwood Town U21",
+        "country": "England",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/22173.png",
+        "leagueId": 703
+      }
+    ]
+  },
+  {
+    "id": 61,
+    "name": "Ligue 1",
+    "country": "France",
+    "logo": "https://media.api-sports.io/football/leagues/61.png",
+    "teams": [
+      {
+        "id": 79,
+        "code": "LIL",
+        "name": "Lille",
+        "country": "France",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/79.png",
+        "leagueId": 61
+      },
+      {
+        "id": 80,
+        "code": "LYO",
+        "name": "Lyon",
+        "country": "France",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/80.png",
+        "leagueId": 61
+      },
+      {
+        "id": 81,
+        "code": "MAR",
+        "name": "Marseille",
+        "country": "France",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/81.png",
+        "leagueId": 61
+      },
+      {
+        "id": 82,
+        "code": "MON",
+        "name": "Montpellier",
+        "country": "France",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/82.png",
+        "leagueId": 61
+      },
+      {
+        "id": 83,
+        "code": "NAN",
+        "name": "Nantes",
+        "country": "France",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/83.png",
+        "leagueId": 61
+      },
+      {
+        "id": 84,
+        "code": "NIC",
+        "name": "Nice",
+        "country": "France",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/84.png",
+        "leagueId": 61
+      },
+      {
+        "id": 85,
+        "code": "PAR",
+        "name": "Paris Saint Germain",
+        "country": "France",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/85.png",
+        "leagueId": 61
+      },
+      {
+        "id": 91,
+        "code": "MON",
+        "name": "Monaco",
+        "country": "France",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/91.png",
+        "leagueId": 61
+      },
+      {
+        "id": 93,
+        "code": "REI",
+        "name": "Reims",
+        "country": "France",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/93.png",
+        "leagueId": 61
+      },
+      {
+        "id": 94,
+        "code": "REN",
+        "name": "Rennes",
+        "country": "France",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/94.png",
+        "leagueId": 61
+      },
+      {
+        "id": 95,
+        "code": "STR",
+        "name": "Strasbourg",
+        "country": "France",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/95.png",
+        "leagueId": 61
+      },
+      {
+        "id": 96,
+        "code": "TOU",
+        "name": "Toulouse",
+        "country": "France",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/96.png",
+        "leagueId": 61
+      },
+      {
+        "id": 97,
+        "code": "LOR",
+        "name": "Lorient",
+        "country": "France",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/97.png",
+        "leagueId": 61
+      },
+      {
+        "id": 99,
+        "code": "CLE",
+        "name": "Clermont Foot",
+        "country": "France",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/99.png",
+        "leagueId": 61
+      },
+      {
+        "id": 106,
+        "code": "BRE",
+        "name": "Stade Brestois 29",
+        "country": "France",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/106.png",
+        "leagueId": 61
+      },
+      {
+        "id": 111,
+        "code": "HAV",
+        "name": "Le Havre",
+        "country": "France",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/111.png",
+        "leagueId": 61
+      },
+      {
+        "id": 112,
+        "code": "MET",
+        "name": "Metz",
+        "country": "France",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/112.png",
+        "leagueId": 61
+      },
+      {
+        "id": 116,
+        "code": "LEN",
+        "name": "Lens",
+        "country": "France",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/116.png",
+        "leagueId": 61
+      },
+      {
+        "id": 1063,
+        "code": "ETI",
+        "name": "Saint Etienne",
+        "country": "France",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/1063.png",
+        "leagueId": 61
+      }
+    ]
+  },
+  {
+    "id": 78,
+    "name": "Bundesliga",
+    "country": "Germany",
+    "logo": "https://media.api-sports.io/football/leagues/78.png",
+    "teams": [
+      {
+        "id": 157,
+        "code": "BAY",
+        "name": "Bayern München",
+        "country": "Germany",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/157.png",
+        "leagueId": 78
+      },
+      {
+        "id": 158,
+        "code": "DUS",
+        "name": "Fortuna Düsseldorf",
+        "country": "Germany",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/158.png",
+        "leagueId": 78
+      },
+      {
+        "id": 160,
+        "code": "FRE",
+        "name": "SC Freiburg",
+        "country": "Germany",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/160.png",
+        "leagueId": 78
+      },
+      {
+        "id": 161,
+        "code": "WOL",
+        "name": "VfL Wolfsburg",
+        "country": "Germany",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/161.png",
+        "leagueId": 78
+      },
+      {
+        "id": 162,
+        "code": "WER",
+        "name": "Werder Bremen",
+        "country": "Germany",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/162.png",
+        "leagueId": 78
+      },
+      {
+        "id": 163,
+        "code": "MOE",
+        "name": "Borussia Mönchengladbach",
+        "country": "Germany",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/163.png",
+        "leagueId": 78
+      },
+      {
+        "id": 164,
+        "code": "MAI",
+        "name": "FSV Mainz 05",
+        "country": "Germany",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/164.png",
+        "leagueId": 78
+      },
+      {
+        "id": 165,
+        "code": "DOR",
+        "name": "Borussia Dortmund",
+        "country": "Germany",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/165.png",
+        "leagueId": 78
+      },
+      {
+        "id": 167,
+        "code": "HOF",
+        "name": "1899 Hoffenheim",
+        "country": "Germany",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/167.png",
+        "leagueId": 78
+      },
+      {
+        "id": 168,
+        "code": "BAY",
+        "name": "Bayer Leverkusen",
+        "country": "Germany",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/168.png",
+        "leagueId": 78
+      },
+      {
+        "id": 169,
+        "code": "EIN",
+        "name": "Eintracht Frankfurt",
+        "country": "Germany",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/169.png",
+        "leagueId": 78
+      },
+      {
+        "id": 170,
+        "code": "AUG",
+        "name": "FC Augsburg",
+        "country": "Germany",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/170.png",
+        "leagueId": 78
+      },
+      {
+        "id": 172,
+        "code": "STU",
+        "name": "VfB Stuttgart",
+        "country": "Germany",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/172.png",
+        "leagueId": 78
+      },
+      {
+        "id": 173,
+        "code": "LEI",
+        "name": "RB Leipzig",
+        "country": "Germany",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/173.png",
+        "leagueId": 78
+      },
+      {
+        "id": 176,
+        "code": "BOC",
+        "name": "VfL Bochum",
+        "country": "Germany",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/176.png",
+        "leagueId": 78
+      },
+      {
+        "id": 180,
+        "code": "HEI",
+        "name": "1. FC Heidenheim",
+        "country": "Germany",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/180.png",
+        "leagueId": 78
+      },
+      {
+        "id": 181,
+        "code": "DAR",
+        "name": "SV Darmstadt 98",
+        "country": "Germany",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/181.png",
+        "leagueId": 78
+      },
+      {
+        "id": 182,
+        "code": "UNI",
+        "name": "Union Berlin",
+        "country": "Germany",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/182.png",
+        "leagueId": 78
+      },
+      {
+        "id": 192,
+        "code": "KOL",
+        "name": "1.FC Köln",
+        "country": "Germany",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/192.png",
+        "leagueId": 78
+      }
+    ]
+  },
+  {
+    "id": 135,
+    "name": "Serie A",
+    "country": "Italy",
+    "logo": "https://media.api-sports.io/football/leagues/135.png",
+    "teams": [
+      {
+        "id": 487,
+        "code": "LAZ",
+        "name": "Lazio",
+        "country": "Italy",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/487.png",
+        "leagueId": 135
+      },
+      {
+        "id": 488,
+        "code": "SAS",
+        "name": "Sassuolo",
+        "country": "Italy",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/488.png",
+        "leagueId": 135
+      },
+      {
+        "id": 489,
+        "code": "MIL",
+        "name": "AC Milan",
+        "country": "Italy",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/489.png",
+        "leagueId": 135
+      },
+      {
+        "id": 490,
+        "code": "CAG",
+        "name": "Cagliari",
+        "country": "Italy",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/490.png",
+        "leagueId": 135
+      },
+      {
+        "id": 492,
+        "code": "NAP",
+        "name": "Napoli",
+        "country": "Italy",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/492.png",
+        "leagueId": 135
+      },
+      {
+        "id": 494,
+        "code": "UDI",
+        "name": "Udinese",
+        "country": "Italy",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/494.png",
+        "leagueId": 135
+      },
+      {
+        "id": 495,
+        "code": "GEN",
+        "name": "Genoa",
+        "country": "Italy",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/495.png",
+        "leagueId": 135
+      },
+      {
+        "id": 496,
+        "code": "JUV",
+        "name": "Juventus",
+        "country": "Italy",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/496.png",
+        "leagueId": 135
+      },
+      {
+        "id": 497,
+        "code": "ROM",
+        "name": "AS Roma",
+        "country": "Italy",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/497.png",
+        "leagueId": 135
+      },
+      {
+        "id": 499,
+        "code": "ATA",
+        "name": "Atalanta",
+        "country": "Italy",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/499.png",
+        "leagueId": 135
+      },
+      {
+        "id": 500,
+        "code": "BOL",
+        "name": "Bologna",
+        "country": "Italy",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/500.png",
+        "leagueId": 135
+      },
+      {
+        "id": 502,
+        "code": "FIO",
+        "name": "Fiorentina",
+        "country": "Italy",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/502.png",
+        "leagueId": 135
+      },
+      {
+        "id": 503,
+        "code": "TOR",
+        "name": "Torino",
+        "country": "Italy",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/503.png",
+        "leagueId": 135
+      },
+      {
+        "id": 504,
+        "code": "VER",
+        "name": "Verona",
+        "country": "Italy",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/504.png",
+        "leagueId": 135
+      },
+      {
+        "id": 505,
+        "code": "INT",
+        "name": "Inter",
+        "country": "Italy",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/505.png",
+        "leagueId": 135
+      },
+      {
+        "id": 511,
+        "code": "EMP",
+        "name": "Empoli",
+        "country": "Italy",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/511.png",
+        "leagueId": 135
+      },
+      {
+        "id": 512,
+        "code": "FRO",
+        "name": "Frosinone",
+        "country": "Italy",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/512.png",
+        "leagueId": 135
+      },
+      {
+        "id": 514,
+        "code": "SAL",
+        "name": "Salernitana",
+        "country": "Italy",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/514.png",
+        "leagueId": 135
+      },
+      {
+        "id": 867,
+        "code": "LEC",
+        "name": "Lecce",
+        "country": "Italy",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/867.png",
+        "leagueId": 135
+      },
+      {
+        "id": 1579,
+        "code": "MON",
+        "name": "Monza",
+        "country": "Italy",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/1579.png",
+        "leagueId": 135
+      }
+    ]
+  },
+  {
+    "id": 705,
+    "name": "Campionato Primavera - 1",
+    "country": "Italy",
+    "logo": "https://media.api-sports.io/football/leagues/705.png",
+    "teams": [
+      {
+        "id": 7883,
+        "code": null,
+        "name": "Atalanta U19",
+        "country": "Italy",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/7883.png",
+        "leagueId": 705
+      },
+      {
+        "id": 7903,
+        "code": null,
+        "name": "Internazionale U19",
+        "country": "Italy",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/7903.png",
+        "leagueId": 705
+      },
+      {
+        "id": 7904,
+        "code": "JUV",
+        "name": "Juventus U19",
+        "country": "Italy",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/7904.png",
+        "leagueId": 705
+      },
+      {
+        "id": 7966,
+        "code": "ROM",
+        "name": "Roma U19",
+        "country": "Italy",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/7966.png",
+        "leagueId": 705
+      },
+      {
+        "id": 15656,
+        "code": null,
+        "name": "Bologna U19",
+        "country": "Italy",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15656.png",
+        "leagueId": 705
+      },
+      {
+        "id": 15658,
+        "code": null,
+        "name": "Cagliari U19",
+        "country": "Italy",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15658.png",
+        "leagueId": 705
+      },
+      {
+        "id": 15664,
+        "code": null,
+        "name": "Empoli U19",
+        "country": "Italy",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15664.png",
+        "leagueId": 705
+      },
+      {
+        "id": 15665,
+        "code": null,
+        "name": "Fiorentina U19",
+        "country": "Italy",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15665.png",
+        "leagueId": 705
+      },
+      {
+        "id": 15666,
+        "code": null,
+        "name": "Frosinone U19",
+        "country": "Italy",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15666.png",
+        "leagueId": 705
+      },
+      {
+        "id": 15667,
+        "code": null,
+        "name": "Genoa U19",
+        "country": "Italy",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15667.png",
+        "leagueId": 705
+      },
+      {
+        "id": 15668,
+        "code": null,
+        "name": "Lazio U19",
+        "country": "Italy",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15668.png",
+        "leagueId": 705
+      },
+      {
+        "id": 15669,
+        "code": null,
+        "name": "Lecce U19",
+        "country": "Italy",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15669.png",
+        "leagueId": 705
+      },
+      {
+        "id": 15670,
+        "code": "ACM",
+        "name": "Milan U19",
+        "country": "Italy",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15670.png",
+        "leagueId": 705
+      },
+      {
+        "id": 15671,
+        "code": null,
+        "name": "Monza U19",
+        "country": "Italy",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15671.png",
+        "leagueId": 705
+      },
+      {
+        "id": 15680,
+        "code": null,
+        "name": "Sampdoria U19",
+        "country": "Italy",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15680.png",
+        "leagueId": 705
+      },
+      {
+        "id": 15681,
+        "code": null,
+        "name": "Sassuolo U19",
+        "country": "Italy",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15681.png",
+        "leagueId": 705
+      },
+      {
+        "id": 15683,
+        "code": null,
+        "name": "Torino U19",
+        "country": "Italy",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15683.png",
+        "leagueId": 705
+      },
+      {
+        "id": 15686,
+        "code": null,
+        "name": "Verona U19",
+        "country": "Italy",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15686.png",
+        "leagueId": 705
+      }
+    ]
+  },
+  {
+    "id": 706,
+    "name": "Campionato Primavera - 2",
+    "country": "Italy",
+    "logo": "https://media.api-sports.io/football/leagues/706.png",
+    "teams": [
+      {
+        "id": 7917,
+        "code": "NAP",
+        "name": "Napoli U19",
+        "country": "Italy",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/7917.png",
+        "leagueId": 706
+      },
+      {
+        "id": 15654,
+        "code": null,
+        "name": "Ascoli U19",
+        "country": "Italy",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15654.png",
+        "leagueId": 706
+      },
+      {
+        "id": 15655,
+        "code": null,
+        "name": "Benevento U19",
+        "country": "Italy",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15655.png",
+        "leagueId": 706
+      },
+      {
+        "id": 15657,
+        "code": null,
+        "name": "Brescia U19",
+        "country": "Italy",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15657.png",
+        "leagueId": 706
+      },
+      {
+        "id": 15660,
+        "code": null,
+        "name": "Cittadella U19",
+        "country": "Italy",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15660.png",
+        "leagueId": 706
+      },
+      {
+        "id": 15661,
+        "code": null,
+        "name": "Cosenza U19",
+        "country": "Italy",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15661.png",
+        "leagueId": 706
+      },
+      {
+        "id": 15662,
+        "code": null,
+        "name": "Cremonese U19",
+        "country": "Italy",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15662.png",
+        "leagueId": 706
+      },
+      {
+        "id": 15663,
+        "code": null,
+        "name": "Crotone U19",
+        "country": "Italy",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15663.png",
+        "leagueId": 706
+      },
+      {
+        "id": 15672,
+        "code": null,
+        "name": "Parma U19",
+        "country": "Italy",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15672.png",
+        "leagueId": 706
+      },
+      {
+        "id": 15673,
+        "code": null,
+        "name": "Pescara U19",
+        "country": "Italy",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15673.png",
+        "leagueId": 706
+      },
+      {
+        "id": 15674,
+        "code": null,
+        "name": "Pisa U19",
+        "country": "Italy",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15674.png",
+        "leagueId": 706
+      },
+      {
+        "id": 15676,
+        "code": null,
+        "name": "Reggiana U19",
+        "country": "Italy",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15676.png",
+        "leagueId": 706
+      },
+      {
+        "id": 15678,
+        "code": null,
+        "name": "SPAL U19",
+        "country": "Italy",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15678.png",
+        "leagueId": 706
+      },
+      {
+        "id": 15679,
+        "code": null,
+        "name": "Salernitana U19",
+        "country": "Italy",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15679.png",
+        "leagueId": 706
+      },
+      {
+        "id": 15682,
+        "code": null,
+        "name": "Spezia U19",
+        "country": "Italy",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15682.png",
+        "leagueId": 706
+      },
+      {
+        "id": 15684,
+        "code": null,
+        "name": "Udinese U19",
+        "country": "Italy",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15684.png",
+        "leagueId": 706
+      },
+      {
+        "id": 15685,
+        "code": null,
+        "name": "Venezia U19",
+        "country": "Italy",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15685.png",
+        "leagueId": 706
+      },
+      {
+        "id": 15687,
+        "code": null,
+        "name": "Vicenza U19",
+        "country": "Italy",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15687.png",
+        "leagueId": 706
+      },
+      {
+        "id": 15688,
+        "code": null,
+        "name": "Virtus Entella U19",
+        "country": "Italy",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15688.png",
+        "leagueId": 706
+      },
+      {
+        "id": 17726,
+        "code": null,
+        "name": "Alessandria U19",
+        "country": "Italy",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/17726.png",
+        "leagueId": 706
+      },
+      {
+        "id": 17727,
+        "code": null,
+        "name": "Cesena U19",
+        "country": "Italy",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/17727.png",
+        "leagueId": 706
+      },
+      {
+        "id": 17728,
+        "code": null,
+        "name": "Como U19",
+        "country": "Italy",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/17728.png",
+        "leagueId": 706
+      },
+      {
+        "id": 17729,
+        "code": null,
+        "name": "Perugia U19",
+        "country": "Italy",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/17729.png",
+        "leagueId": 706
+      },
+      {
+        "id": 17730,
+        "code": null,
+        "name": "Ternana U19",
+        "country": "Italy",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/17730.png",
+        "leagueId": 706
+      },
+      {
+        "id": 19852,
+        "code": null,
+        "name": "AlbinoLeffe U19",
+        "country": "Italy",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/19852.png",
+        "leagueId": 706
+      },
+      {
+        "id": 19853,
+        "code": null,
+        "name": "FeralpiSalò U19",
+        "country": "Italy",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/19853.png",
+        "leagueId": 706
+      },
+      {
+        "id": 19855,
+        "code": null,
+        "name": "Monopoli U19",
+        "country": "Italy",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/19855.png",
+        "leagueId": 706
+      },
+      {
+        "id": 19856,
+        "code": null,
+        "name": "Padova U19",
+        "country": "Italy",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/19856.png",
+        "leagueId": 706
+      },
+      {
+        "id": 22403,
+        "code": null,
+        "name": "Bari U19",
+        "country": "Italy",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/22403.png",
+        "leagueId": 706
+      },
+      {
+        "id": 22404,
+        "code": null,
+        "name": "Palermo U19",
+        "country": "Italy",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/22404.png",
+        "leagueId": 706
+      },
+      {
+        "id": 22405,
+        "code": null,
+        "name": "Renate U19",
+        "country": "Italy",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/22405.png",
+        "leagueId": 706
+      },
+      {
+        "id": 22406,
+        "code": null,
+        "name": "Sudtirol U19",
+        "country": "Italy",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/22406.png",
+        "leagueId": 706
+      }
+    ]
+  },
+  {
+    "id": 88,
+    "name": "Eredivisie",
+    "country": "Netherlands",
+    "logo": "https://media.api-sports.io/football/leagues/88.png",
+    "teams": [
+      {
+        "id": 193,
+        "code": "ZWO",
+        "name": "PEC Zwolle",
+        "country": "Netherlands",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/193.png",
+        "leagueId": 88
+      },
+      {
+        "id": 194,
+        "code": "AJA",
+        "name": "Ajax",
+        "country": "Netherlands",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/194.png",
+        "leagueId": 88
+      },
+      {
+        "id": 196,
+        "code": "EXC",
+        "name": "Excelsior",
+        "country": "Netherlands",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/196.png",
+        "leagueId": 88
+      },
+      {
+        "id": 197,
+        "code": "PSV",
+        "name": "PSV Eindhoven",
+        "country": "Netherlands",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/197.png",
+        "leagueId": 88
+      },
+      {
+        "id": 198,
+        "code": "HAA",
+        "name": "ADO Den Haag",
+        "country": "Netherlands",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/198.png",
+        "leagueId": 88
+      },
+      {
+        "id": 199,
+        "code": "GRA",
+        "name": "De Graafschap",
+        "country": "Netherlands",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/199.png",
+        "leagueId": 88
+      },
+      {
+        "id": 200,
+        "code": "VIT",
+        "name": "Vitesse",
+        "country": "Netherlands",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/200.png",
+        "leagueId": 88
+      },
+      {
+        "id": 201,
+        "code": "ALK",
+        "name": "AZ Alkmaar",
+        "country": "Netherlands",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/201.png",
+        "leagueId": 88
+      },
+      {
+        "id": 203,
+        "code": "BRE",
+        "name": "NAC Breda",
+        "country": "Netherlands",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/203.png",
+        "leagueId": 88
+      },
+      {
+        "id": 205,
+        "code": "SIT",
+        "name": "Fortuna Sittard",
+        "country": "Netherlands",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/205.png",
+        "leagueId": 88
+      },
+      {
+        "id": 206,
+        "code": "HER",
+        "name": "Heracles",
+        "country": "Netherlands",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/206.png",
+        "leagueId": 88
+      },
+      {
+        "id": 207,
+        "code": "UTR",
+        "name": "Utrecht",
+        "country": "Netherlands",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/207.png",
+        "leagueId": 88
+      },
+      {
+        "id": 208,
+        "code": "EMM",
+        "name": "Emmen",
+        "country": "Netherlands",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/208.png",
+        "leagueId": 88
+      },
+      {
+        "id": 209,
+        "code": "FEY",
+        "name": "Feyenoord",
+        "country": "Netherlands",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/209.png",
+        "leagueId": 88
+      },
+      {
+        "id": 210,
+        "code": "HEE",
+        "name": "Heerenveen",
+        "country": "Netherlands",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/210.png",
+        "leagueId": 88
+      },
+      {
+        "id": 409,
+        "code": "DOR",
+        "name": "Dordrecht",
+        "country": "Netherlands",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/409.png",
+        "leagueId": 88
+      },
+      {
+        "id": 410,
+        "code": "EAG",
+        "name": "GO Ahead Eagles",
+        "country": "Netherlands",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/410.png",
+        "leagueId": 88
+      },
+      {
+        "id": 413,
+        "code": "NIJ",
+        "name": "NEC Nijmegen",
+        "country": "Netherlands",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/413.png",
+        "leagueId": 88
+      },
+      {
+        "id": 414,
+        "code": "ROD",
+        "name": "Roda",
+        "country": "Netherlands",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/414.png",
+        "leagueId": 88
+      },
+      {
+        "id": 415,
+        "code": "TWE",
+        "name": "Twente",
+        "country": "Netherlands",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/415.png",
+        "leagueId": 88
+      },
+      {
+        "id": 416,
+        "code": "VOL",
+        "name": "FC Volendam",
+        "country": "Netherlands",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/416.png",
+        "leagueId": 88
+      },
+      {
+        "id": 417,
+        "code": "WAA",
+        "name": "Waalwijk",
+        "country": "Netherlands",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/417.png",
+        "leagueId": 88
+      },
+      {
+        "id": 419,
+        "code": "ALM",
+        "name": "Almere City FC",
+        "country": "Netherlands",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/419.png",
+        "leagueId": 88
+      },
+      {
+        "id": 426,
+        "code": "SPA",
+        "name": "Sparta Rotterdam",
+        "country": "Netherlands",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/426.png",
+        "leagueId": 88
+      }
+    ]
+  },
+  {
+    "id": 94,
+    "name": "Primeira Liga",
+    "country": "Portugal",
+    "logo": "https://media.api-sports.io/football/leagues/94.png",
+    "teams": [
+      {
+        "id": 211,
+        "code": "BEN",
+        "name": "Benfica",
+        "country": "Portugal",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/211.png",
+        "leagueId": 94
+      },
+      {
+        "id": 212,
+        "code": "POR",
+        "name": "FC Porto",
+        "country": "Portugal",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/212.png",
+        "leagueId": 94
+      },
+      {
+        "id": 215,
+        "code": "MOR",
+        "name": "Moreirense",
+        "country": "Portugal",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/215.png",
+        "leagueId": 94
+      },
+      {
+        "id": 216,
+        "code": "POR",
+        "name": "Portimonense",
+        "country": "Portugal",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/216.png",
+        "leagueId": 94
+      },
+      {
+        "id": 217,
+        "code": "BRA",
+        "name": "SC Braga",
+        "country": "Portugal",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/217.png",
+        "leagueId": 94
+      },
+      {
+        "id": 222,
+        "code": null,
+        "name": "Boavista",
+        "country": "Portugal",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/222.png",
+        "leagueId": 94
+      },
+      {
+        "id": 223,
+        "code": "CHA",
+        "name": "Chaves",
+        "country": "Portugal",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/223.png",
+        "leagueId": 94
+      },
+      {
+        "id": 224,
+        "code": "GUI",
+        "name": "Guimaraes",
+        "country": "Portugal",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/224.png",
+        "leagueId": 94
+      },
+      {
+        "id": 226,
+        "code": "RIO",
+        "name": "Rio Ave",
+        "country": "Portugal",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/226.png",
+        "leagueId": 94
+      },
+      {
+        "id": 228,
+        "code": "SPO",
+        "name": "Sporting CP",
+        "country": "Portugal",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/228.png",
+        "leagueId": 94
+      },
+      {
+        "id": 230,
+        "code": "EST",
+        "name": "Estoril",
+        "country": "Portugal",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/230.png",
+        "leagueId": 94
+      },
+      {
+        "id": 231,
+        "code": "FAR",
+        "name": "Farense",
+        "country": "Portugal",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/231.png",
+        "leagueId": 94
+      },
+      {
+        "id": 240,
+        "code": "ARO",
+        "name": "Arouca",
+        "country": "Portugal",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/240.png",
+        "leagueId": 94
+      },
+      {
+        "id": 242,
+        "code": "FAM",
+        "name": "Famalicao",
+        "country": "Portugal",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/242.png",
+        "leagueId": 94
+      },
+      {
+        "id": 762,
+        "code": "VIC",
+        "name": "GIL Vicente",
+        "country": "Portugal",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/762.png",
+        "leagueId": 94
+      },
+      {
+        "id": 810,
+        "code": "VIZ",
+        "name": "Vizela",
+        "country": "Portugal",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/810.png",
+        "leagueId": 94
+      },
+      {
+        "id": 4716,
+        "code": "CAS",
+        "name": "Casa Pia",
+        "country": "Portugal",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/4716.png",
+        "leagueId": 94
+      },
+      {
+        "id": 15130,
+        "code": null,
+        "name": "Estrela",
+        "country": "Portugal",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15130.png",
+        "leagueId": 94
+      },
+      {
+        "id": 21595,
+        "code": null,
+        "name": "AVS",
+        "country": "Portugal",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/21595.png",
+        "leagueId": 94
+      }
+    ]
+  },
+  {
+    "id": 701,
+    "name": "Liga Revelação U23",
+    "country": "Portugal",
+    "logo": "https://media.api-sports.io/football/leagues/701.png",
+    "teams": [
+      {
+        "id": 15460,
+        "code": null,
+        "name": "Benfica U23",
+        "country": "Portugal",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15460.png",
+        "leagueId": 701
+      },
+      {
+        "id": 15463,
+        "code": null,
+        "name": "Estoril U23",
+        "country": "Portugal",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15463.png",
+        "leagueId": 701
+      },
+      {
+        "id": 15464,
+        "code": null,
+        "name": "Famalicão U23",
+        "country": "Portugal",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15464.png",
+        "leagueId": 701
+      },
+      {
+        "id": 15465,
+        "code": null,
+        "name": "Leixões U23",
+        "country": "Portugal",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15465.png",
+        "leagueId": 701
+      },
+      {
+        "id": 15467,
+        "code": null,
+        "name": "Portimonense U23",
+        "country": "Portugal",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15467.png",
+        "leagueId": 701
+      },
+      {
+        "id": 15468,
+        "code": null,
+        "name": "Rio Ave U23",
+        "country": "Portugal",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15468.png",
+        "leagueId": 701
+      },
+      {
+        "id": 15469,
+        "code": null,
+        "name": "Sporting Braga U23",
+        "country": "Portugal",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15469.png",
+        "leagueId": 701
+      },
+      {
+        "id": 15470,
+        "code": null,
+        "name": "Sporting CP U23",
+        "country": "Portugal",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/15470.png",
+        "leagueId": 701
+      },
+      {
+        "id": 17474,
+        "code": null,
+        "name": "Farense U23",
+        "country": "Portugal",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/17474.png",
+        "leagueId": 701
+      },
+      {
+        "id": 17475,
+        "code": null,
+        "name": "Vizela U23",
+        "country": "Portugal",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/17475.png",
+        "leagueId": 701
+      },
+      {
+        "id": 19824,
+        "code": null,
+        "name": "Estrela U23",
+        "country": "Portugal",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/19824.png",
+        "leagueId": 701
+      },
+      {
+        "id": 19825,
+        "code": null,
+        "name": "Gil Vicente U23",
+        "country": "Portugal",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/19825.png",
+        "leagueId": 701
+      },
+      {
+        "id": 19826,
+        "code": null,
+        "name": "Mafra U23",
+        "country": "Portugal",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/19826.png",
+        "leagueId": 701
+      },
+      {
+        "id": 21718,
+        "code": null,
+        "name": "Academico Viseu U23",
+        "country": "Portugal",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/21718.png",
+        "leagueId": 701
+      },
+      {
+        "id": 21719,
+        "code": null,
+        "name": "Santa Clara U23",
+        "country": "Portugal",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/21719.png",
+        "leagueId": 701
+      },
+      {
+        "id": 21720,
+        "code": null,
+        "name": "Torreense U23",
+        "country": "Portugal",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/21720.png",
+        "leagueId": 701
+      }
+    ]
+  },
+  {
+    "id": 140,
+    "name": "La Liga",
+    "country": "Spain",
+    "logo": "https://media.api-sports.io/football/leagues/140.png",
+    "teams": [
+      {
+        "id": 529,
+        "code": "BAR",
+        "name": "Barcelona",
+        "country": "Spain",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/529.png",
+        "leagueId": 140
+      },
+      {
+        "id": 530,
+        "code": "MAD",
+        "name": "Atletico Madrid",
+        "country": "Spain",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/530.png",
+        "leagueId": 140
+      },
+      {
+        "id": 531,
+        "code": "BIL",
+        "name": "Athletic Club",
+        "country": "Spain",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/531.png",
+        "leagueId": 140
+      },
+      {
+        "id": 532,
+        "code": "VAL",
+        "name": "Valencia",
+        "country": "Spain",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/532.png",
+        "leagueId": 140
+      },
+      {
+        "id": 533,
+        "code": "VIL",
+        "name": "Villarreal",
+        "country": "Spain",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/533.png",
+        "leagueId": 140
+      },
+      {
+        "id": 534,
+        "code": "PAL",
+        "name": "Las Palmas",
+        "country": "Spain",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/534.png",
+        "leagueId": 140
+      },
+      {
+        "id": 536,
+        "code": "SEV",
+        "name": "Sevilla",
+        "country": "Spain",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/536.png",
+        "leagueId": 140
+      },
+      {
+        "id": 538,
+        "code": "CEL",
+        "name": "Celta Vigo",
+        "country": "Spain",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/538.png",
+        "leagueId": 140
+      },
+      {
+        "id": 541,
+        "code": "REA",
+        "name": "Real Madrid",
+        "country": "Spain",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/541.png",
+        "leagueId": 140
+      },
+      {
+        "id": 542,
+        "code": "ALA",
+        "name": "Alaves",
+        "country": "Spain",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/542.png",
+        "leagueId": 140
+      },
+      {
+        "id": 543,
+        "code": "BET",
+        "name": "Real Betis",
+        "country": "Spain",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/543.png",
+        "leagueId": 140
+      },
+      {
+        "id": 546,
+        "code": "GET",
+        "name": "Getafe",
+        "country": "Spain",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/546.png",
+        "leagueId": 140
+      },
+      {
+        "id": 547,
+        "code": "GIR",
+        "name": "Girona",
+        "country": "Spain",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/547.png",
+        "leagueId": 140
+      },
+      {
+        "id": 548,
+        "code": "RSO",
+        "name": "Real Sociedad",
+        "country": "Spain",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/548.png",
+        "leagueId": 140
+      },
+      {
+        "id": 715,
+        "code": "GRA",
+        "name": "Granada CF",
+        "country": "Spain",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/715.png",
+        "leagueId": 140
+      },
+      {
+        "id": 723,
+        "code": "ALM",
+        "name": "Almeria",
+        "country": "Spain",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/723.png",
+        "leagueId": 140
+      },
+      {
+        "id": 724,
+        "code": "CAD",
+        "name": "Cadiz",
+        "country": "Spain",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/724.png",
+        "leagueId": 140
+      },
+      {
+        "id": 727,
+        "code": "OSA",
+        "name": "Osasuna",
+        "country": "Spain",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/727.png",
+        "leagueId": 140
+      },
+      {
+        "id": 728,
+        "code": "RAY",
+        "name": "Rayo Vallecano",
+        "country": "Spain",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/728.png",
+        "leagueId": 140
+      },
+      {
+        "id": 798,
+        "code": "MAL",
+        "name": "Mallorca",
+        "country": "Spain",
+        "national": false,
+        "logo": "https://media.api-sports.io/football/teams/798.png",
+        "leagueId": 140
+      }
+    ]
+  }
+]

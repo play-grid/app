@@ -1,5 +1,6 @@
+import type { InferSelectModel } from 'drizzle-orm';
 import { sqliteTable, text, uniqueIndex } from 'drizzle-orm/sqlite-core';
-import { timestamp } from '@/db/timestamp';
+import { timestamp } from '@/db/utils/timestamp';
 import { feedbackTypes } from './questions/feedback/types';
 
 // Temporary cuid() implementation
@@ -19,6 +20,8 @@ export const fiveSecondsCategories = sqliteTable(
     uniqueIndex('category_name_ar_idx').on(t.nameAr),
   ],
 );
+
+export type FiveSecondsCategory = InferSelectModel<typeof fiveSecondsCategories>;
 
 export const fiveSecondsQuestions = sqliteTable(
   'five_seconds_questions',

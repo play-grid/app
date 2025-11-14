@@ -4,16 +4,19 @@
   "scripts": {
     "dev": "pnpm run -r --parallel --aggregate-output dev",
     "lint": "pnpm run -r --parallel --aggregate-output lint",
+    "lint:fix": "pnpm run -r --parallel --aggregate-output lint:fix",
     "build": "pnpm run -r build",
     "test:e2e": "pnpm --filter @guess-logo/frontend test:e2e",
     "deploy": "pnpm deploy:frontend && pnpm deploy:api",
     "deploy:frontend": "pnpm --filter frontend build && cd apps/frontend && pnpm wrangler pages deploy",
-    "deploy:api": "pnpm --filter api deploy"
+    "deploy:api": "pnpm --filter api deploy",
+    "prepare": "husky"
   },
   "devDependencies": {
-    "eslint": "^9.34.0",
+    "eslint": "catalog:",
+    "husky": "^9.1.7",
     "lint-staged": "^16.1.5",
-    "simple-git-hooks": "^2.13.1"
+    "tsx": "^4.20.6"
   },
   "pnpm": {
     "overrides": {
@@ -26,16 +29,15 @@
       "cypress",
       "esbuild",
       "sharp",
-      "simple-git-hooks",
       "workerd"
     ]
   },
   "lint-staged": {
-    "apps/frontend/**/*.{js,ts,tsx}": "eslint --fix --config apps/frontend/eslint.config.js"
-  },
-  "simple-git-hooks": {
-    "pre-commit": "pnpm lint-staged",
-    "post-checkout": "sh scripts/post-checkout.sh"
+    "apps/frontend/**/*.{js,ts,tsx}": "eslint --fix --config apps/frontend/eslint.config.js",
+    "apps/api/**/*.{js,ts}": [
+      "eslint --fix --config apps/api/eslint.config.js",
+      "pnpm --filter @guess-logo/api test --"
+    ]
   },
   "packageManager": "pnpm@10.19.0+sha512.c9fc7236e92adf5c8af42fd5bf1612df99c2ceb62f27047032f4720b33f8eacdde311865e91c411f2774f618d82f320808ecb51718bfa82c060c4ba7c76a32b8"
 }

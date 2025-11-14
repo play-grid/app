@@ -1,16 +1,7 @@
-/* eslint-disable node/prefer-global/process */
-import path from 'node:path';
-import { config } from 'dotenv';
-import { expand } from 'dotenv-expand';
+import process from 'node:process';
 import { z } from 'zod';
-
-expand(config({
-  path: path.resolve(
-    process.cwd(),
-    process.env.NODE_ENV === 'test' ? '.env.test' : '.env',
-  ),
-}));
-const EnvSchema = z.object({
+// Define the schema once
+export const EnvSchema = z.object({
   NODE_ENV: z.string().default('development'),
   TMDB_API_KEY: z.string(),
   LOGO_DEV_API_KEY: z.string(),
@@ -19,20 +10,41 @@ const EnvSchema = z.object({
   CLOUDFLARE_KV_API_TOKEN: z.string(),
   CLOUDFLARE_D1_TOKEN: z.string(),
   CLOUDFLARE_DATABASE_ID: z.string(),
-  QUESTIONS_KV_ID: z.string(),
-  BETTER_AUTH_URL: z.string(),
+  // BETTER_AUTH_URL: z.string(),
   BETTER_AUTH_SECRET: z.string(),
   APP_NAME: z.string(),
 });
 
 export type Env = z.infer<typeof EnvSchema>;
 
-const { data: env, error } = EnvSchema.safeParse(process.env);
+// Validate environment variables (works in all environments)
+export function validateEnv(envVars: Record<string, unknown>): Env {
+  if (process.env.VITEST) {
+    return {
+      NODE_ENV: 'test',
+      TMDB_API_KEY: 'mock_tmdb_api_key',
+      LOGO_DEV_API_KEY: 'mock_logo_dev_api_key',
+      ALL_SPORTS_API_KEY: 'mock_all_sports_api_key',
+      CLOUDFLARE_ACCOUNT_ID: 'mock_cloudflare_account_id',
+      CLOUDFLARE_KV_API_TOKEN: 'mock_cloudflare_kv_api_token',
+      CLOUDFLARE_D1_TOKEN: 'mock_cloudflare_d1_token',
+      CLOUDFLARE_DATABASE_ID: 'mock_cloudflare_database_id',
+      BETTER_AUTH_SECRET: 'mock_better_auth_secret',
+      APP_NAME: 'mock_app_name',
+    };
+  }
 
-if (error) {
-  console.error('❌ Invalid env:');
-  console.error(JSON.stringify(error.flatten().fieldErrors, null, 2));
-  process.exit(1);
+  const result = EnvSchema.safeParse(envVars);
+
+  if (!result.success) {
+    console.error('❌ Invalid environment variables:');
+    console.error(JSON.stringify(result.error.flatten().fieldErrors, null, 2));
+    throw new Error('Invalid environment configuration');
+  }
+
+  return result.data;
 }
 
-export default env!;
+export function getNodeEnv(): Env {
+  return validateEnv(process.env);
+}
