@@ -69,7 +69,7 @@ export function GameHeader({
               {winner.name}
               !
             </span>
-            <TrophyIcon className="w-5 h-5 md:w-6 md:h-6 text-green-600 flex-shrink-0" />
+            <TrophyIcon className="w-5 h-5 md:w-6 md:h-6 text-green-600 shrink-0" />
           </div>
         </div>
       )}
@@ -82,7 +82,7 @@ export function GameHeader({
           <div className="flex items-center justify-between sm:justify-start sm:flex-1 gap-3">
             {/* Player A */}
             <div className="flex items-center gap-2 md:gap-3 flex-1 sm:flex-initial">
-              <div className={`w-2.5 h-2.5 md:w-3 md:h-3 rounded-full flex-shrink-0 ${currentPlayer === 'A' ? 'bg-primary animate-pulse' : 'bg-muted'}`} />
+              <div className={`w-2.5 h-2.5 md:w-3 md:h-3 rounded-full shrink-0 ${currentPlayer === 'A' ? 'bg-primary animate-pulse' : 'bg-muted'}`} />
               <div className="min-w-0">
                 <p className="font-semibold text-xs md:text-sm truncate">{playerA.name}</p>
                 <p className="text-[10px] md:text-xs text-muted-foreground whitespace-nowrap">
@@ -115,7 +115,7 @@ export function GameHeader({
                   {t('remaining')}
                 </p>
               </div>
-              <div className={`w-2.5 h-2.5 md:w-3 md:h-3 rounded-full flex-shrink-0 sm:order-1 ${currentPlayer === 'B' ? 'bg-primary animate-pulse' : 'bg-muted'}`} />
+              <div className={`w-2.5 h-2.5 md:w-3 md:h-3 rounded-full shrink-0 sm:order-1 ${currentPlayer === 'B' ? 'bg-primary animate-pulse' : 'bg-muted'}`} />
             </div>
           </div>
 
@@ -233,7 +233,7 @@ export function GameHeader({
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p>{t('reset-game')}</p>
+                  <p>{t('games.guessLogo.reset-game')}</p>
                 </TooltipContent>
               </Tooltip>
             </div>
