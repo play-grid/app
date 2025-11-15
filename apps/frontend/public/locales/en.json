@@ -271,6 +271,23 @@
       "winCondition": "Win Condition"
     }
   },
+  "notFound": {
+    "global": {
+      "title": "404 - Page Not Found",
+      "message": "Sorry, the page you are looking for doesn't exist.",
+      "backTo": "Go to Homepage"
+    },
+    "guessLogo": {
+      "title": "Game Not Found",
+      "message": "The game session you are looking for does not exist or has expired.",
+      "backTo": "Back to Game Setup"
+    },
+    "fiveSeconds": {
+      "title": "Page Not Found",
+      "message": "This page within the '5 Seconds' game doesn't exist.",
+      "backTo": "Back to 5 Seconds Home"
+    }
+  },
   "feedback": {
     "title": "Provide Feedback",
     "description": "Help us improve the game by providing feedback on this question.",
