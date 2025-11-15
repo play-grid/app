@@ -22,7 +22,7 @@ const games = [
 function HomePage() {
   const { t } = useTranslation();
   return (
-    <div className="min-h-screen bg-background text-foreground flex flex-col items-center p-4">
+    <div className="min-h-208 bg-background text-foreground flex flex-col items-center p-4">
       <SiteCustomizations />
       <main className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl w-full">
         {games.map(game => (
@@ -46,14 +46,6 @@ function HomePage() {
           </Card>
         ))}
       </main>
-      <footer className="mt-8 text-center text-muted-foreground">
-        <p>{t('home.footer')}</p>
-        <Link to="/about">
-          <span className="w-full underline hover:text-foreground hover:no-underline cursor-pointer">
-            {t('home.about')}
-          </span>
-        </Link>
-      </footer>
     </div>
   );
 }
