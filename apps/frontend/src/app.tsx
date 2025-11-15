@@ -9,6 +9,7 @@ import { LanguageRouter } from './i18n/language-router';
 import AboutPage from './pages/about-page';
 import AuthPage from './pages/auth/auth-page';
 import HomePage from './pages/home-page';
+import NotFoundPage from './pages/not-found-page';
 
 // Lazy-loaded game routes
 const GuessLogoRoutes = lazy(() => import('./games/guess-logo/routes'));
@@ -26,7 +27,6 @@ export default function App() {
           {SUPPORTED_LANGUAGES.map(lang => (
             <Route key={lang} path={`/${lang}/*`} element={<LanguageRoutes />} />
           ))}
-
         </Routes>
       </LanguageRouter>
     </LanguageLayout>
@@ -40,8 +40,8 @@ export default function App() {
 export function LanguageRoutes() {
   const location = useLocation();
 
-  const showNavbar = !location.pathname.includes('/guess-logo')
-    && !location.pathname.includes('/five-seconds');
+  const showNavbar
+    = !location.pathname.includes('/guess-logo') && !location.pathname.includes('/five-seconds');
   return (
     <>
       {showNavbar && <Navbar className="mb-3" />}
@@ -72,8 +72,8 @@ export function LanguageRoutes() {
           )}
         />
 
-        {/* Fallback: redirect to language home */}
-        <Route path="*" element={<Navigate to="" replace />} />
+        {/* Fallback: Not Found */}
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </>
   );
