@@ -271,6 +271,45 @@
       "winCondition": "Win Condition"
     }
   },
+  "legal": {
+    "title": "Legal Notice",
+    "p1": "This is a placeholder for the legal notice. Please replace this text with your actual legal notice.",
+    "p2": "By using this application, you agree to the terms and conditions outlined here, which are subject to change without notice.",
+    "subtitle1": "Disclaimer",
+    "p3": "The content and games provided are for entertainment purposes only. We make no warranties regarding the accuracy or completeness of any information provided.",
+    "p4": "We are not liable for any losses or damages in connection with the use of our website."
+  },
+  "privacy": {
+    "title": "Privacy Policy",
+    "p1": "Game Hub respects your privacy and is committed to protecting your personal data in accordance with the Personal Data Protection Law (PDPL) of the Kingdom of Saudi Arabia and all other applicable laws. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our platform. At present, there is no user authentication; accordingly, we do not collect account-related data such as email addresses or passwords.",
+    
+    "subtitle1": "1. Information We Collect",
+    "p2": "We automatically collect the following categories of information through analytics tools when you interact with the platform:\n\n• **Usage Data**: URL paths, entry/exit points, page titles, queries, sources, referrers, channels, domains, hostnames, tags, and events (e.g., starting or completing game sessions).\n\n• **Device and Browser Data**: Browser type, operating system (OS), device type, language, screen resolution, and environment.\n\n• **Location Data**: Approximate location derived from your IP address, including country, region, and city.\n\n• **Other Data**: Any names or identifiers included in URLs (e.g., player names in game links such as /en/guess-logo/game/.../Haider/Yousef), which may reveal personal names if voluntarily provided by users.\n\nWe do not collect sensitive personal data unless it is voluntarily submitted within game content. If payments are made, third-party payment service providers process financial details; we do not store payment information.",
+    
+    "subtitle2": "2. How We Use Your Information",
+    "p3": "• To operate and improve the platform (e.g., analytics to understand user behavior and enhance games).\n• To deliver features such as online multiplayer and session tracking.\n• For marketing and advertising (e.g., targeted ads based on location or usage).\n• To comply with legal obligations and prevent fraud.",
+    
+    "subtitle3": "3. Sharing Your Information",
+    "p4": "We do not sell your personal data. We may share data with:\n\n• Service providers (e.g., analytics tools, hosting services) under strict confidentiality obligations.\n• Law enforcement or regulatory authorities when required by Saudi law.\n• In the event of a business transfer (e.g., merger or acquisition).",
+    
+    "subtitle4": "4. Data Security",
+    "p5": "We implement reasonable security measures to protect your data, including encryption where appropriate. However, no system is completely secure, and we cannot guarantee absolute security.",
+    
+    "subtitle5": "5. Your Rights",
+    "p6": "Under the PDPL, you have the right to access, rectify, erase, or restrict the processing of your personal data. Since there is no authentication, please contact us with details of your interaction (e.g., IP address or URL) to exercise these rights. You may opt out of analytics by disabling cookies or adjusting browser settings.",
+    
+    "subtitle6": "6. Cookies and Tracking",
+    "p7": "We use cookies and similar technologies for analytics purposes. You may manage these through your browser settings.",
+    
+    "subtitle7": "7. Children's Privacy",
+    "p8": "The platform is not intended for children under 13 years of age. We do not knowingly collect data from children.",
+    
+    "subtitle8": "8. Changes to This Policy",
+    "p9": "We may update this policy from time to time. Changes will be posted here with the updated date.",
+    
+    "contact": "For privacy-related inquiries, please contact us at:",
+    "lastUpdate": "Last updated: November 15, 2025"
+  },
   "notFound": {
     "global": {
       "title": "404 - Page Not Found",

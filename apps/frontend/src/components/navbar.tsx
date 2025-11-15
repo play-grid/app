@@ -130,7 +130,7 @@ export function Navbar({
     <header
       ref={combinedRef}
       className={cn(
-        'sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60',
+        'sticky top-0 z-50 w-full border-b border-primary/10 bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60',
         className,
       )}
       {...props}
@@ -159,7 +159,7 @@ export function Navbar({
                 end
                 className="flex flex-col items-start"
               >
-                <span className="font-bold text-xl sm:text-2xl">{t('home.logo')}</span>
+                <span className="font-bold text-xl sm:text-2xl">PlayGrid</span>
                 <Badge variant="secondary" className="text-xs">
                   {t('home.early-beta')}
                 </Badge>
