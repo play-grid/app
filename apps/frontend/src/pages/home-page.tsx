@@ -24,7 +24,7 @@ function HomePage() {
   return (
     <div className="min-h-208 bg-background text-foreground flex flex-col items-center p-4">
       <SiteCustomizations />
-      <main className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl w-full">
+      <main className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl w-full mt-5">
         {games.map(game => (
           <Card
             key={game.id}
