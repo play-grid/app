@@ -31,7 +31,8 @@
       "by-region": "حسب المنطقة",
       "select-country": "اختر البلد",
       "select-list": "أختر القائمة",
-      "leagues": "الدوريات"
+      "leagues": "الدوريات",
+      "reset-game": "إعادة ضبط اللعبة"
     },
     "fiveSeconds": {
       "title": "لعبة خمس ثواني",
@@ -138,7 +139,7 @@
       "playerRemoveUndo": "رجعه"
     },
     "network": {
-      "offline": "تأكد من الوايفاي أو الشبكة وجرب مرة ثانية"
+      "offline": "تأكد من الشبكة وجرب مرة ثانية"
     }
   },
   "customizations": {

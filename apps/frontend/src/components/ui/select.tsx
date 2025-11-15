@@ -124,15 +124,14 @@ function SelectItem({ ref, className, children, ...props }: React.ComponentProps
     <SelectPrimitive.Item
       ref={ref}
       className={cn(
-        'relative flex w-full cursor-pointer select-none items-center rounded-md py-3 px-3 text-sm font-medium outline-none transition-all duration-200 hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 mx-1 hover-lift',
-        isRTL ? 'text-right pr-10 pl-3' : 'text-left pl-10 pr-3',
+        'relative flex flex-row-reverse w-full cursor-pointer select-none  items-center rounded-md py-3 px-3 text-sm font-medium outline-none transition-all duration-200 hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground data-disabled:pointer-events-none data-disabled:opacity-50 mx-1 hover-lift',
         className,
       )}
       {...props}
     >
       <span className={cn(
         'absolute flex h-4 w-4 items-center justify-center',
-        isRTL ? 'right-3' : 'left-3',
+        isRTL ? 'left-3' : 'right-3',
       )}
       >
         <SelectPrimitive.ItemIndicator>
