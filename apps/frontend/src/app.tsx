@@ -1,6 +1,7 @@
 import { SUPPORTED_LANGUAGES } from '@guess-logo/shared/types';
 import { lazy, Suspense } from 'react';
-import { Navigate, Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
+import { Navbar } from './components/navbar';
 import { FiveSecondsSkeleton } from './games/five-seconds/components/five-seconds-skeleton';
 import { GuessLogoSkeleton } from './games/guess-logo/components/guess-logo-skeleton';
 import { LanguageLayout } from './i18n/language-layout';
@@ -26,8 +27,6 @@ export default function App() {
             <Route key={lang} path={`/${lang}/*`} element={<LanguageRoutes />} />
           ))}
 
-          {/* Fallback: redirect to default language */}
-          <Route path="/*" element={<Navigate to="/en" replace />} />
         </Routes>
       </LanguageRouter>
     </LanguageLayout>
@@ -39,35 +38,43 @@ export default function App() {
 // }
 
 export function LanguageRoutes() {
+  const location = useLocation();
+
+  const showNavbar = !location.pathname.includes('/guess-logo')
+    && !location.pathname.includes('/five-seconds');
   return (
-    <Routes>
-      {/* Home page for language prefix */}
-      <Route path="/" element={<HomePage />} />
+    <>
+      {showNavbar && <Navbar className="mb-3" />}
+      <Routes>
+        {/* Home page for language prefix */}
 
-      {/* About page */}
-      <Route path="/about" element={<AboutPage />} />
-      <Route path="/auth/:pathname" element={<AuthPage />} />
+        <Route path="/" element={<HomePage />} />
 
-      {/* Game-specific routes */}
-      <Route
-        path="/guess-logo/*"
-        element={(
-          <Suspense fallback={<GuessLogoSkeleton />}>
-            <GuessLogoRoutes />
-          </Suspense>
-        )}
-      />
-      <Route
-        path="/five-seconds/*"
-        element={(
-          <Suspense fallback={<FiveSecondsSkeleton />}>
-            <FiveSecondsRoutes />
-          </Suspense>
-        )}
-      />
+        {/* About page */}
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/auth/:pathname" element={<AuthPage />} />
 
-      {/* Fallback: redirect to language home */}
-      <Route path="*" element={<Navigate to="" replace />} />
-    </Routes>
+        {/* Game-specific routes */}
+        <Route
+          path="/guess-logo/*"
+          element={(
+            <Suspense fallback={<GuessLogoSkeleton />}>
+              <GuessLogoRoutes />
+            </Suspense>
+          )}
+        />
+        <Route
+          path="/five-seconds/*"
+          element={(
+            <Suspense fallback={<FiveSecondsSkeleton />}>
+              <FiveSecondsRoutes />
+            </Suspense>
+          )}
+        />
+
+        {/* Fallback: redirect to language home */}
+        <Route path="*" element={<Navigate to="" replace />} />
+      </Routes>
+    </>
   );
 }

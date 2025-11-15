@@ -1,9 +1,17 @@
 {
   "home": {
     "title": "العاب تفاعلية باللغتين العربية والإنجليزية",
+    "logo": "Project Play",
     "playNow": "العب الآن",
     "footer": "© 2025 جميع الحقوق محفوظة",
-    "about": "عنا"
+    "about": "عنا",
+    "beta-logo-popover": " اسم تجريبي جدا لين نلقّى واحد أحسن…   ChatGPT مخترعه",
+    "early-beta": "نسخة تجريبية مبكرة",
+    "navLinks": {
+      "home": "الرئيسية",
+      "games": "الألعاب",
+      "about": "عنا"
+    }
   },
   "games": {
     "guessLogo": {

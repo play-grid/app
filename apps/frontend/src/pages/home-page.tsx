@@ -4,7 +4,6 @@ import SiteCustomizations from '@/components/site-about';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 
-// Define available games with metadata for extensibility
 const games = [
   {
     id: 'guess-logo',
@@ -25,9 +24,6 @@ function HomePage() {
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col items-center p-4">
       <SiteCustomizations />
-      <header className="mb-8 text-center">
-        <h1 className="text-4xl font-bold mb-2">{t('home.title')}</h1>
-      </header>
       <main className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl w-full">
         {games.map(game => (
           <Card
@@ -50,14 +46,14 @@ function HomePage() {
           </Card>
         ))}
       </main>
-      {/* <footer className="mt-8 text-center text-muted-foreground">
+      <footer className="mt-8 text-center text-muted-foreground">
         <p>{t('home.footer')}</p>
         <Link to="/about">
           <span className="w-full underline hover:text-foreground hover:no-underline cursor-pointer">
             {t('home.about')}
           </span>
         </Link>
-      </footer> */}
+      </footer>
     </div>
   );
 }
