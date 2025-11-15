@@ -31,14 +31,15 @@
       "by-region": "By Region",
       "select-country": "Select country",
       "select-list": "Select list",
-      "leagues": "Leagues"
+      "leagues": "Leagues",
+      "reset-game": "Reset Game"
     },
     "fiveSeconds": {
       "title": "Five Seconds Game",
       "description": "A fast-paced game where you have 5 seconds to name 3 things in a category."
     }
   },
- "about": {
+  "about": {
     "author_name": "Mohammed Alaa",
     "app_info_title": "About the Game",
     "developer_label": "Built with love and care from",

@@ -35,7 +35,7 @@ export default function LocalGamePlayPage() {
     playerB,
     currentPlayer,
     resetGame,
-    startNewGame,
+    // startNewGame,
     togglePlayerALogo,
     togglePlayerBLogo,
     switchTurn,
@@ -89,14 +89,14 @@ export default function LocalGamePlayPage() {
     navigate('/');
   };
 
-  const handleStartNewGame = () => {
-    clearGameState();
-    navigate(
-      `/game/${routeParams.logoSet}/${routeParams.listId}/${routeParams.gridSize}/${encodeURIComponent(routeParams.playerAName)}/${encodeURIComponent(routeParams.playerBName)}`,
-      { replace: true },
-    );
-    startNewGame();
-  };
+  // const handleStartNewGame = () => {
+  //   clearGameState();
+  //   navigate(
+  //     `/game/${routeParams.logoSet}/${routeParams.listId}/${routeParams.gridSize}/${encodeURIComponent(routeParams.playerAName)}/${encodeURIComponent(routeParams.playerBName)}`,
+  //     { replace: true },
+  //   );
+  //   startNewGame();
+  // };
 
   if (showLoading) {
     return (
@@ -151,7 +151,7 @@ export default function LocalGamePlayPage() {
           onListChange={changeLogoList}
           onSwitchTurn={switchTurn}
           onResetGame={handleResetGame}
-          onStartNewGame={handleStartNewGame}
+          // onStartNewGame={handleStartNewGame}
           onShuffle={() => { shuffleLogos(i18n.language as SupportedLanguage); }}
         />
 
