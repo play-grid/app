@@ -32,6 +32,7 @@ export async function fetchLogoLists(logoSet: LogoSetKey): Promise<LogoListMetad
         regionName: region.name.en.toLowerCase(),
       }),
       name: region.name,
+      teamsCount: region.teamsCount,
     }));
   }
 
@@ -70,6 +71,7 @@ export async function fetchNestedLists(
         leagueId: league.id,
       }),
       name: league.name,
+      teamsCount: league.teamsCount,
     }));
   }
 

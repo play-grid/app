@@ -1,5 +1,5 @@
 import type { z } from 'zod';
-import type { logoSetSchema } from '../schemas/logo-schemas';
+import type { logoSetSchema, sportLeagueSchema, sportRegionSchema } from '../schemas/logo-schemas';
 import type { Country } from './country';
 import type { SupportedLanguage } from './i18n';
 
@@ -28,15 +28,8 @@ export interface LogoList extends LogoListMetadata {
 }
 
 // Sports-specific types
-export interface SportRegion {
-  id: string;
-  name: LocaleRecord;
-}
-
-export interface SportLeague {
-  id: string;
-  name: LocaleRecord;
-}
+export type SportRegion = z.infer<typeof sportRegionSchema>;
+export type SportLeague = z.infer<typeof sportLeagueSchema>;
 
 // Union type for all possible list metadata
 export type ListMetadata = LogoListMetadata | SportRegion | SportLeague;

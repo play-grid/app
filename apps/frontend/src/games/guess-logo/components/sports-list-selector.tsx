@@ -137,14 +137,20 @@ export function SportsListSelector({
             </SelectTrigger>
             <SelectContent>
               {regions.map((region) => {
-                const regionName = region.name[i18n.language as keyof typeof region.name];
-                const parsed = parseSportsListId(region.id);
-                const regionKey
-                  = parsed.success && parsed.data.type === 'region'
-                    ? parsed.data.regionName
-                    : `unknown-${region.id}`;
-                return <SelectItem key={region.id} value={regionKey}>{regionName}</SelectItem>;
-              })}
+                  const regionName = region.name[i18n.language as keyof typeof region.name];
+                  const parsed = parseSportsListId(region.id);
+                  const regionKey
+                    = parsed.success && parsed.data.type === 'region'
+                      ? parsed.data.regionName
+                      : `unknown-${region.id}`;
+                  return (
+                    <SelectItem key={region.id} value={regionKey}>
+                      {regionName}
+                      {' '}
+                      ({region.teamsCount})
+                    </SelectItem>
+                  );
+                })}
             </SelectContent>
           </Select>
 
@@ -177,14 +183,17 @@ export function SportsListSelector({
                     : leagues.map((league) => {
                         const leagueName = league.name[i18n.language as keyof typeof league.name];
                         const parsed = parseSportsListId(league.id);
-                        const leagueKey = parsed.success && parsed.data.type === 'league'
-                          ? parsed.data.leagueId
-                          : `unknown-${league.id}`;
+                        const leagueKey
+                          = parsed.success && parsed.data.type === 'league'
+                            ? parsed.data.leagueId
+                            : `unknown-${league.id}`;
                         return (
                           <SelectItem className="break-normal text-md" key={league.id} value={leagueKey}>
                             🏆
                             {' '}
                             {leagueName}
+                            {' '}
+                            ({league.teamsCount})
                           </SelectItem>
                         );
                       })}
@@ -212,12 +221,15 @@ export function SportsListSelector({
                   </div>
                 )
               : countries.map((country) => {
-                  const countryName = country.name[i18n.language as keyof typeof country.name] || country.name.en;
+                  const countryName
+                    = country.name[i18n.language as keyof typeof country.name] || country.name.en;
                   return (
                     <SelectItem key={country.id} value={country.id}>
                       {country.flag}
                       {' '}
                       {countryName}
+                      {' '}
+                      ({country.teamsCount})
                     </SelectItem>
                   );
                 })}
@@ -232,8 +244,12 @@ export function SportsListSelector({
           </SelectTrigger>
           <SelectContent>
             {customLists.map(list => (
-              <SelectItem key={list.id} value={list.slug}>{list.name}</SelectItem>
-            ))}
+                <SelectItem key={list.id} value={list.slug}>
+                  {list.name}
+                  {' '}
+                  ({list.teamsCount})
+                </SelectItem>
+              ))}
           </SelectContent>
         </Select>
       )}

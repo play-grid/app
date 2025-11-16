@@ -1,5 +1,5 @@
 import type { DrizzleD1Database } from 'drizzle-orm/d1';
-import { and, eq } from 'drizzle-orm';
+import { and, eq, desc, sql, innerJoin } from 'drizzle-orm';
 import * as schema from './sports.tables';
 
 type DB = DrizzleD1Database<typeof schema>;
@@ -16,7 +16,17 @@ export async function getRegionIdByName(db: DB, regionName: string) {
 }
 
 export async function getSportRegionsService(db: DB) {
-  const regions = await db.query.sportRegions.findMany();
+  const regions = await db.select({
+    id: schema.sportRegions.id,
+    name_en: schema.sportRegions.name_en,
+    name_ar: schema.sportRegions.name_ar,
+    teamsCount: sql<number>`count(${schema.teams.id})`.mapWith(Number),
+  })
+    .from(schema.sportRegions)
+    .leftJoin(schema.leagues, eq(schema.sportRegions.id, schema.leagues.regionId))
+    .leftJoin(schema.teams, eq(schema.leagues.id, schema.teams.leagueId))
+    .groupBy(schema.sportRegions.id)
+    .orderBy(desc(sql`count(${schema.teams.id})`));
 
   return regions.map(region => ({
     id: region.id,
@@ -24,6 +34,7 @@ export async function getSportRegionsService(db: DB) {
       en: region.name_en,
       ar: region.name_ar,
     },
+    teamsCount: region.teamsCount,
   }));
 }
 
@@ -35,12 +46,20 @@ export async function getLeaguesInRegion(db: DB, regionId: string) {
     },
   });
 
-  return leagues.map(league => ({
+  const leaguesWithCount = leagues.map(league => ({
+    ...league,
+    teamsCount: league.teams.length,
+  }));
+
+  leaguesWithCount.sort((a, b) => b.teamsCount - a.teamsCount);
+
+  return leaguesWithCount.map(league => ({
     id: league.id,
     name: {
       en: league.name,
       ar: league.name,
     },
+    teamsCount: league.teamsCount,
     fetchItems: async () => {
       return league.teams.map(team => ({
         id: team.id,
@@ -74,37 +93,29 @@ export async function getTeamsInLeague(db: DB, regionId: string, leagueId: strin
 }
 
 export async function getAllTeamsInRegion(db: DB, regionId: string) {
-  const leaguesWithTeams = await db.query.leagues.findMany({
-    where: eq(schema.leagues.regionId, regionId),
-    with: {
-      teams: true,
-    },
-  });
+  const allTeams = await db.select({
+    id: schema.teams.id,
+    name: schema.teams.name,
+    imageUrl: schema.teams.logo,
+  })
+    .from(schema.teams)
+    .innerJoin(schema.leagues, eq(schema.teams.leagueId, schema.leagues.id))
+    .where(eq(schema.leagues.regionId, regionId));
 
-  const allTeams = leaguesWithTeams.flatMap(league => league.teams);
-
-  return allTeams.map(team => ({
-    id: team.id,
-    name: team.name,
-    imageUrl: team.logo,
-  }));
+  return allTeams;
 }
 
 export async function getAllSportTeamsInCountry(db: DB, countryId: string) {
-  const leagues = await db.query.leagues.findMany({
-    where: eq(schema.leagues.country, countryId),
-    with: {
-      teams: true,
-    },
-  });
+  const allTeams = await db.select({
+    id: schema.teams.id,
+    name: schema.teams.name,
+    imageUrl: schema.teams.logo,
+  })
+    .from(schema.teams)
+    .innerJoin(schema.leagues, eq(schema.teams.leagueId, schema.leagues.id))
+    .where(eq(schema.leagues.country, countryId));
 
-  const allTeams = leagues.flatMap(league => league.teams);
-
-  return allTeams.map(team => ({
-    id: team.id,
-    name: team.name,
-    imageUrl: team.logo,
-  }));
+  return allTeams;
 }
 
 export async function getAllTeamsInCustomList(db: DB, listId: string) {
@@ -136,18 +147,26 @@ export async function getAllTeamsInCustomList(db: DB, listId: string) {
   }
 }
 
-export async function getAvailableCountries(db: DB) {
-  // Get unique countries from leagues table
-  const leagues = await db.query.leagues.findMany({
-    columns: {
-      country: true,
-    },
-  });
-
-  const uniqueCountries = [...new Set(leagues.map(l => l.country))];
-  return uniqueCountries.map(countryId => ({
-    id: countryId,
+export async function getAllSportTeams(db: DB) {
+  const allTeams = await db.query.teams.findMany();
+  return allTeams.map(team => ({
+    id: team.id,
+    name: team.name,
+    imageUrl: team.logo,
   }));
+}
+
+export async function getAvailableCountries(db: DB) {
+  const countriesWithCount = await db.select({
+    id: schema.leagues.country,
+    teamsCount: sql<number>`count(${schema.teams.id})`.mapWith(Number),
+  })
+    .from(schema.leagues)
+    .leftJoin(schema.teams, eq(schema.leagues.id, schema.teams.leagueId))
+    .groupBy(schema.leagues.country)
+    .orderBy(desc(sql`count(${schema.teams.id})`));
+
+  return countriesWithCount;
 }
 
 export async function getCustomListById(db: DB, listId: string) {
@@ -165,20 +184,41 @@ export async function getCustomListBySlug(db: DB, listSlug: string) {
 }
 
 export async function getCustomLists(db: DB) {
-  const lists = await db.query.customLists.findMany();
+  const lists = await db.select({
+    id: schema.customLists.id,
+    name: schema.customLists.name,
+    slug: schema.customLists.slug,
+    teamsCount: sql<number>`count(${schema.customListItems.id})`.mapWith(Number),
+  })
+    .from(schema.customLists)
+    .leftJoin(schema.customListItems, eq(schema.customLists.id, schema.customListItems.listId))
+    .groupBy(schema.customLists.id)
+    .orderBy(desc(sql`count(${schema.customListItems.id})`));
+
   return lists;
 }
 
 export const getSportLists = getLeaguesInRegion;
 
 export async function getAllSportLists(db: DB) {
-  const regions = await getSportRegionsService(db);
-  const allLeagues = [];
+  const allLeagues = await db.query.leagues.findMany({
+    with: {
+      teams: true,
+    },
+  });
 
-  for (const region of regions) {
-    const leagues = await getLeaguesInRegion(db, region.id);
-    allLeagues.push(...leagues);
-  }
-
-  return allLeagues;
+  return allLeagues.map(league => ({
+    id: league.id,
+    name: {
+      en: league.name,
+      ar: league.name,
+    },
+    fetchItems: async () => {
+      return league.teams.map(team => ({
+        id: team.id,
+        name: team.name,
+        imageUrl: team.logo,
+      }));
+    },
+  }));
 }

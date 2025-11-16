@@ -66,12 +66,7 @@ export const getSportLeagues: AppRouteHandler<GetSportLeaguesRoute> = async (c) 
 
     const leagues = await getLeaguesInRegion(db, regionId);
 
-    const simplifiedLeagues = leagues.map((l: any) => ({
-      id: l.id,
-      name: l.name,
-    }));
-
-    return c.json(simplifiedLeagues, HttpStatusCodes.OK);
+    return c.json(leagues, HttpStatusCodes.OK);
   }
   catch (error) {
     console.error(`Failed to fetch leagues for region ${regionName}:`, error);
@@ -152,12 +147,7 @@ export const getCustomSportLists: AppRouteHandler<GetCustomSportListsRoute> = as
   const db = getDB(c);
   try {
     const lists = await getCustomLists(db);
-    const simplifiedLists = lists.map(l => ({
-      id: l.id,
-      name: l.name,
-      slug: l.slug,
-    }));
-    return c.json(simplifiedLists, HttpStatusCodes.OK);
+    return c.json(lists, HttpStatusCodes.OK);
   }
   catch (error) {
     console.error('Failed to fetch custom sport lists:', error);
@@ -262,6 +252,7 @@ export const getAvailableCountries: AppRouteHandler<GetAvailableCountriesRoute> 
         ar: countryNameMap[country.id]?.ar,
       },
       flag: countryNameMap[country.id]?.flag || '🌍',
+      teamsCount: country.teamsCount,
     }));
 
     return c.json(enrichedCountries, HttpStatusCodes.OK);

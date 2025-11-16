@@ -1,5 +1,5 @@
 // TODO: split this this is a game-specific routes file
-import { logoItemSchema, logoListSchema, logoQuerySchema } from '@guess-logo/shared/schemas';
+import { logoItemSchema, logoListSchema, logoQuerySchema, sportRegionSchema } from '@guess-logo/shared/schemas';
 import { createRoute, z } from '@hono/zod-openapi';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import { jsonContent } from 'stoker/openapi/helpers';
@@ -13,13 +13,7 @@ export const getSportRegions = createRoute({
   tags,
   responses: {
     [HttpStatusCodes.OK]: jsonContent(
-      z.array(z.object({
-        id: z.string(),
-        name: z.object({
-          en: z.string(),
-          ar: z.string(),
-        }),
-      })),
+      z.array(sportRegionSchema),
       'Successfully retrieved sport regions',
     ),
     [HttpStatusCodes.INTERNAL_SERVER_ERROR]: jsonContent(
@@ -40,6 +34,7 @@ export const getCustomSportLists = createRoute({
         id: z.string(),
         name: z.string(),
         slug: z.string(),
+        teamsCount: z.number(),
       })),
       'Successfully retrieved custom sport lists',
     ),
@@ -214,6 +209,7 @@ export const getAvailableCountries = createRoute({
           ar: z.string().optional(),
         }),
         flag: z.string(),
+        teamsCount: z.number(),
       })),
       'Successfully retrieved available countries',
     ),

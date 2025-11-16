@@ -19,6 +19,19 @@ export const languageQuery = z.object({ language: z.enum(['en', 'ar'], { error: 
 export const logoListSchema = z.object({
   id: z.string(),
   name: localeRecordSchema,
+  teamsCount: z.number(),
+});
+
+export const sportRegionSchema = z.object({
+  id: z.string(),
+  name: localeRecordSchema,
+  teamsCount: z.number(),
+});
+
+export const sportLeagueSchema = z.object({
+  id: z.string(),
+  name: localeRecordSchema,
+  teamsCount: z.number(),
 });
 
 // Query parameters schema
