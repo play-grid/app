@@ -1,9 +1,11 @@
-import type { BaseGameStateWire } from '../types/core';
+import type { GameEventType } from '../game-logic/schema/actions';
+import type { BaseGameStateWire } from '../game-logic/schema/state';
 import { oc } from '@orpc/contract';
 import { z } from 'zod';
-import { BaseGameStateSchema, GamePhaseSchema, PlayerSchema, TurnStateSchema } from '../types/core';
+import { GameEventSchema } from '../game-logic/schema/actions';
+import { BaseGameStateSchema, GamePhaseSchema, PlayerSchema } from '../game-logic/schema/state';
 
-export { PlayerSchema } from '../types/core';
+export { PlayerSchema } from '../game-logic/schema/state';
 
 // ============ Input Schemas ============
 
@@ -28,7 +30,7 @@ export const UpdatePlayerInputSchema = z.object({
 });
 
 export const SetPlayersInputSchema = z.object({
-  players: z.array(PlayerSchema),
+  players: z.record(z.string(), PlayerSchema),
 });
 
 export const TogglePlayerReadyInputSchema = z.object({
@@ -53,38 +55,6 @@ export const SuccessOutputSchema = z.object({
 });
 
 export const CanStartGameOutputSchema = z.boolean();
-
-// ============ Event Schema ============
-
-export const GameEventSchema = z.discriminatedUnion('type', [
-  z.object({
-    type: z.literal('state_update'),
-    state: GameStateOutputSchema,
-    timestamp: z.number(),
-  }),
-  z.object({
-    type: z.literal('player_joined'),
-    player: PlayerSchema,
-    timestamp: z.number(),
-  }),
-  z.object({
-    type: z.literal('player_left'),
-    playerId: z.string(),
-    timestamp: z.number(),
-  }),
-  z.object({
-    type: z.literal('phase_changed'),
-    phase: GamePhaseSchema,
-    timestamp: z.number(),
-  }),
-  z.object({
-    type: z.literal('turn_changed'),
-    turnState: TurnStateSchema,
-    timestamp: z.number(),
-  }),
-]);
-
-export type GameEventType = z.infer<typeof GameEventSchema>;
 
 // ============ Procedure Contracts ============
 

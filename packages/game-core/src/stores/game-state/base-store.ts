@@ -1,4 +1,5 @@
-import type { BaseGameActions, BaseGameState, GameStoreOptions, Player } from '../../types/core';
+import type { GamePhase, Player, TurnState } from '../../game-logic/schema/state';
+import type { GameStoreOptions } from '../../types/core';
 import {
   areAllPlayersReady,
   getCurrentPlayer,
@@ -6,6 +7,37 @@ import {
   reassignHost,
   rotateTurn,
 } from './helpers';
+
+// TODO: Refactor to use pure reducer and Zod schemas instead of imperative actions.
+// These interfaces are temporary to keep the store working until the refactor.
+interface BaseGameState<TSettings, TPlayer extends Player = Player> {
+  phase: GamePhase;
+  players: TPlayer[];
+  hostId: string;
+  settings: TSettings;
+  turnState?: TurnState;
+  createdAt: number;
+  startedAt?: number;
+  endedAt?: number;
+}
+
+interface BaseGameActions<TSettings, TPlayer extends Player = Player> {
+  setPhase: (phase: GamePhase) => void;
+  addPlayer: (player: Omit<TPlayer, 'isHost' | 'isReady'>) => void;
+  removePlayer: (playerId: string) => void;
+  updatePlayer: (playerId: string, updates: Partial<TPlayer>) => void;
+  setPlayers: (players: TPlayer[]) => void;
+  togglePlayerReady: (playerId: string) => void;
+  updateSettings: (updates: Partial<TSettings>) => void;
+  nextTurn?: () => void;
+  previousTurn?: () => void;
+  setCurrentPlayer?: (playerId: string) => void;
+  nextRound?: () => void;
+  canStartGame: () => boolean;
+  startGame: () => void;
+  endGame: () => void;
+  resetGame: () => void;
+}
 
 export function createBaseStore<
   TSettings,
