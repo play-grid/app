@@ -1,4 +1,4 @@
-import type { BaseGameActions, BaseGameState, GameStoreOptions, Player } from '../../types/core';
+import type { GamePhase, GameStoreOptions, Player, TurnState } from '../../types/core';
 import {
   areAllPlayersReady,
   getCurrentPlayer,
@@ -7,8 +7,9 @@ import {
   rotateTurn,
 } from './helpers';
 
-// TODO: Refactor to use pure reducer and Zod schemas instead of imperative actions.
-// These interfaces are temporary to keep the store working until the refactor.
+/**
+ * @deprecated
+ */
 interface BaseGameState<TSettings, TPlayer extends Player = Player> {
   phase: GamePhase;
   players: TPlayer[];
@@ -38,6 +39,11 @@ interface BaseGameActions<TSettings, TPlayer extends Player = Player> {
   resetGame: () => void;
 }
 
+/**
+ * @deprecated This store is deprecated. Use the new reducer-based `createGameStore` in `adapter/local/zustand-store.ts` instead.
+ * The new architecture uses a pure reducer and Zod schemas for state and actions,
+ * providing a more predictable and robust state management solution.
+ */
 export function createBaseStore<
   TSettings,
   TPlayer extends Player = Player,

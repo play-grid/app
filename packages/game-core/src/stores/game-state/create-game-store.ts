@@ -17,6 +17,9 @@ export interface CreateGameStoreConfig<
   customActions?: (set: any, get: any) => Record<string, any>;
 }
 
+/**
+ * @deprecated
+ */
 export function createGameStore<
   TSettings,
   TPlayer extends Player = Player,
