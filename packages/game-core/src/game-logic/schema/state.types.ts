@@ -8,6 +8,7 @@ export const PlayerSchema = z.object({
   avatar: z.string().optional(),
   isHost: z.boolean(),
   isReady: z.boolean(),
+  score: z.number(),
   metadata: z.record(z.string(), z.any()).optional(),
 });
 

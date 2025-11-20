@@ -5,7 +5,7 @@ import {
   GamePhaseSchema,
   PlayerSchema,
   TurnStateSchema,
-} from './state';
+} from './state.types';
 
 export const GameEventSchema = z.discriminatedUnion('type', [
   z.object({
@@ -46,7 +46,7 @@ export const SetPhaseActionSchema = z.object({
 
 export const AddPlayerActionSchema = z.object({
   type: z.literal('ADD_PLAYER'),
-  payload: PlayerSchema.omit({ isHost: true, isReady: true }),
+  payload: PlayerSchema.omit({ isHost: true, isReady: true, score: true }),
 });
 
 export const RemovePlayerActionSchema = z.object({
@@ -74,7 +74,8 @@ export const TogglePlayerReadyActionSchema = z.object({
 
 export const UpdateSettingsActionSchema = z.object({
   type: z.literal('UPDATE_SETTINGS'),
-      payload: z.record(z.string(), z.any()),});
+  payload: z.record(z.string(), z.any()),
+});
 
 export const NextTurnActionSchema = z.object({
   type: z.literal('NEXT_TURN'),

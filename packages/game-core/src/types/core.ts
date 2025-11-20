@@ -1,5 +1,5 @@
 import type { z } from 'zod';
-import { BaseGameStateSchema, PlayerSchema } from '../game-logic/schema/state';
+import { BaseGameStateSchema, PlayerSchema } from '../game-logic/schema/state.types';
 
 export interface GameStoreOptions {
   maxPlayers?: number;

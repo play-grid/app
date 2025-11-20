@@ -1,4 +1,4 @@
-import type { GamePhase, Player, TurnState } from '../../game-logic/schema/state';
+import type { GamePhase, Player, TurnState } from '../../game-logic/schema/state.types';
 import type { GameStoreOptions } from '../../types/core';
 import {
   areAllPlayersReady,
