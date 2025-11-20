@@ -37,6 +37,7 @@
     "./app": "./src/app.ts"
   },
   "dependencies": {
+    "@guess-logo/five-seconds": "workspace:*",
     "@guess-logo/shared": "workspace:*",
     "@hono-rate-limiter/cloudflare": "^0.2.2",
     "@hono/zod-openapi": "^1.1.0",

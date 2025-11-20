@@ -1,6 +1,7 @@
 packages:
   - apps/*
   - packages/*
+  - packages/games/*
 
 catalog:
   '@better-auth/cli': 1.4.0-beta.9

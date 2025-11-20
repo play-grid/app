@@ -1,0 +1,15 @@
+{
+  "name": "@guess-logo/five-seconds",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@guess-logo/game-core": "workspace:*",
+    "@guess-logo/shared": "workspace:*",
+    "immer": "catalog:",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "typescript": "catalog:"
+  }
+}
