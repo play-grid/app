@@ -1,5 +1,5 @@
 import type { SupportedLanguage } from '@guess-logo/shared/types';
-import { difficultySchema } from '@guess-logo/shared/schemas/five-seconds';
+import { difficultySchema } from '@guess-logo/five-seconds/schema';
 import { useQueryClient } from '@tanstack/react-query';
 import { Timer, Trophy } from 'lucide-react';
 import { useEffect } from 'react';

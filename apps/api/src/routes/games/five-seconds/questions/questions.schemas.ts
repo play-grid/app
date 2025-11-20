@@ -1,4 +1,4 @@
-import { difficultySchema, questionSchema as fiveSecondsQuestionSchema } from '@guess-logo/shared/schemas/five-seconds';
+import { difficultySchema, questionSchema as fiveSecondsQuestionSchema } from '@guess-logo/five-seconds/schema';
 import z from 'zod';
 
 export const questionSchema = fiveSecondsQuestionSchema.extend({

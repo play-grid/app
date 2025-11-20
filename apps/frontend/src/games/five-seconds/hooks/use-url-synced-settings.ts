@@ -1,4 +1,4 @@
-import { difficultySchema } from '@guess-logo/shared/schemas/five-seconds';
+import { difficultySchema } from '@guess-logo/five-seconds/schema';
 import { useEffect, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useFiveSecondsStore } from '../stores/game-store';

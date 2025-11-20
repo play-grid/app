@@ -3,6 +3,21 @@
   "version": "0.0.1",
   "private": true,
   "type": "module",
+    "exports": {
+    "./schema":"./src/schema.ts",
+    ".": {
+      "types": "./src/logic/index.ts",
+      "default": "./src/logic/index.ts"
+    },
+    "./logic": {
+      "types": "./src/logic/index.ts",
+      "default": "./src/logic/index.ts"
+    },
+    "./logic/*": {
+      "types": "./src/logic/*.ts",
+      "default": "./src/logic/*.ts"
+    }
+  },
   "dependencies": {
     "@guess-logo/game-core": "workspace:*",
     "@guess-logo/shared": "workspace:*",

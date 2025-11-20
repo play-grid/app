@@ -1,4 +1,4 @@
-import type { Question } from '@guess-logo/shared/schemas/five-seconds';
+import type { Question } from '@guess-logo/five-seconds/schema';
 import type { FiveSecondsPlayer, VotingState } from '../types';
 import { ThumbsDown, ThumbsUp, Users } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
