@@ -11,7 +11,8 @@
     "./multiplayer": "./src/multiplayer/index.ts",
     "./game-logic/schema/state": "./src/game-logic/schema/state.types.ts",
     "./game-logic/schema/actions": "./src/game-logic/schema/actions.types.ts",
-    "./game-logic/reducer": "./src/game-logic/reducer.ts"
+    "./game-logic/reducer": "./src/game-logic/reducer.ts",
+    "./contracts/game-definition": "./src/contracts/game-definition.ts"
   },
   "dependencies": {
     "@guess-logo/eslint-config": "workspace:*",

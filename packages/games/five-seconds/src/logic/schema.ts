@@ -1,4 +1,3 @@
-import type { Player } from '@guess-logo/game-core/types';
 import { GameActionSchema } from '@guess-logo/game-core/game-logic/schema/actions';
 import { BaseGameStateSchema, PlayerSchema } from '@guess-logo/game-core/game-logic/schema/state';
 
@@ -21,7 +20,7 @@ export const VotingStateSchema = z.object({
 
 export const FiveSecondsGameStateSchema = BaseGameStateSchema.extend({
   settings: FiveSecondsGameSettingsSchema,
-  players: z.record(z.string(), PlayerSchema as z.ZodType<Player>),
+  players: z.record(z.string(), PlayerSchema),
 
   votingState: VotingStateSchema.nullable(),
   seenQuestionIds: z.array(z.string()),
