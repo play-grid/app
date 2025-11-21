@@ -30,6 +30,7 @@ export const AddSeenQuestionIdActionSchema = z.object({
   type: z.literal('ADD_SEEN_QUESTION_ID'),
   payload: z.object({ id: z.string() }),
 });
+export type AddSeenQuestionIdAction = z.infer<typeof AddSeenQuestionIdActionSchema>;
 
 export const StartVotingActionSchema = z.object({
   type: z.literal('START_VOTING'),
@@ -37,11 +38,13 @@ export const StartVotingActionSchema = z.object({
     voters: z.array(z.string()),
   }),
 });
+export type StartVotingAction = z.infer<typeof StartVotingActionSchema>;
 
 export const SubmitVoteActionSchema = z.object({
   type: z.literal('SUBMIT_VOTE'),
   payload: z.object({ isValid: z.boolean() }),
 });
+export type SubmitVoteAction = z.infer<typeof SubmitVoteActionSchema>;
 
 export const TallyVotesActionSchema = z.object({
   type: z.literal('TALLY_VOTES'),
