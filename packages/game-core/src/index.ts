@@ -1,5 +1,4 @@
-export { createGameStore } from './adapter/local/zustand-store';
-export type { GameStore } from './adapter/local/zustand-store';
+export { createLocalAdapter } from './adapters/local/zustand-store';
 
 export type { GameDefinition, GameMeta } from './contracts/game-definition';
 
