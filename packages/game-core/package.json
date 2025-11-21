@@ -4,15 +4,11 @@
   "version": "0.2.0",
   "private": true,
   "exports": {
-    "./stores": "./src/stores/index.ts",
-    "./stores/ui": "./src/stores/ui/index.ts",
-    "./types": "./src/types/core.ts",
-    "./stores/persistence": "./src/stores/create-persistence-store.ts",
-    "./multiplayer": "./src/multiplayer/index.ts",
-    "./game-logic/schema/state": "./src/game-logic/schema/state.types.ts",
-    "./game-logic/schema/actions": "./src/game-logic/schema/actions.types.ts",
-    "./game-logic/reducer": "./src/game-logic/reducer.ts",
-    "./contracts/game-definition": "./src/contracts/game-definition.ts"
+    ".": "./src/index.ts",
+    "./contracts": "./src/contracts/game-definition.ts",
+    "./adapter/local": "./src/adapter/local/zustand-store.ts",
+    "./utils": "./src/utils/reducer-utils.ts",
+    "./game-logic/reducer": "./src/game-logic/reducer.ts"
   },
   "dependencies": {
     "@guess-logo/eslint-config": "workspace:*",

@@ -1,5 +1,5 @@
+import type { Draft } from 'immer';
 import type { FiveSecondsAction, FiveSecondsGameState } from './schema';
-import { gameReducer as coreGameReducer } from '@guess-logo/game-core/game-logic/reducer';
 import { produce } from 'immer';
 import {
   addSeenQuestionId,
@@ -9,11 +9,16 @@ import {
   tallyVotes,
 } from './actions';
 
-export function fiveSecondsReducer(
+/**
+ * The game-specific reducer for "Five Seconds".
+ * This only handles actions that are unique to this game.
+ * For core actions, it will do nothing and return the original state.
+ */
+export function fiveSecondsGameReducer(
   state: FiveSecondsGameState,
   action: FiveSecondsAction,
 ): FiveSecondsGameState {
-  return produce(state, (draft) => {
+  return produce(state, (draft: Draft<FiveSecondsGameState>) => {
     switch (action.type) {
       case 'ADD_SEEN_QUESTION_ID':
         addSeenQuestionId(draft, action.payload);
@@ -30,14 +35,6 @@ export function fiveSecondsReducer(
       case 'TALLY_VOTES':
         tallyVotes(draft);
         break;
-      default: {
-        const nextCoreState = coreGameReducer(
-          draft as Parameters<typeof coreGameReducer>[0],
-          action as Parameters<typeof coreGameReducer>[1],
-        );
-        Object.assign(draft, nextCoreState);
-        break;
-      }
     }
   });
 }

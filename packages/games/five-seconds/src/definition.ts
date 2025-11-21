@@ -1,5 +1,5 @@
-import type { GameDefinition } from '@guess-logo/game-core/contracts/game-definition';
-import { FiveSecondsActionSchema, FiveSecondsGameStateSchema, fiveSecondsReducer } from './logic';
+import type { GameDefinition } from '@guess-logo/game-core/contracts';
+import { FiveSecondsActionSchema, fiveSecondsGameReducer, FiveSecondsGameStateSchema } from './logic';
 
 export const fiveSecondsGame: GameDefinition<typeof FiveSecondsGameStateSchema, typeof FiveSecondsActionSchema> = {
   meta: {
@@ -19,7 +19,9 @@ export const fiveSecondsGame: GameDefinition<typeof FiveSecondsGameStateSchema, 
       timePerTurn: 5,
       roundsToWin: 5,
     },
+    votingState: null,
+    seenQuestionIds: [],
   },
 
-  reducer: fiveSecondsReducer,
+  reducer: fiveSecondsGameReducer,
 };

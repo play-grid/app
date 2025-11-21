@@ -1,6 +1,4 @@
-import { GameActionSchema } from '@guess-logo/game-core/game-logic/schema/actions';
-import { BaseGameStateSchema, PlayerSchema } from '@guess-logo/game-core/game-logic/schema/state';
-
+import { BaseGameStateSchema, GameActionSchema, PlayerSchema } from '@guess-logo/game-core';
 import { z } from 'zod';
 import { difficultySchema } from '../schema';
 
