@@ -13,4 +13,23 @@ export type { GameAction, GameEventType } from './game-logic/schema/actions.type
 export { BaseGameStateSchema, PlayerSchema } from './game-logic/schema/state.types';
 
 export type { BaseGameStateWire, GamePhase, Player, TurnState } from './game-logic/schema/state.types';
-export { createComposedReducer } from './utils/reducer-utils';
+export { AdapterProvider, useAdapter } from './react/adapter-context';
+export { useDispatch } from './react/hooks/use-dispatch';
+export { useGameActions } from './react/hooks/use-game-actions';
+export {
+  useAllPlayersReady,
+  useCurrentPlayer,
+  useCurrentRound,
+  useGamePhase,
+  useGamePlayer,
+  useGamePlayers,
+  useGameSetting,
+  useGameSettings,
+  useGameState,
+  useHostPlayer,
+  useIsPlayerTurn,
+  usePlayerCount,
+  useTurnState,
+} from './react/hooks/use-game-state';
+
+export { composeReducers } from './utils/reducer-utils';

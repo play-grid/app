@@ -1,5 +1,6 @@
-import type { GameDefinition } from '@guess-logo/game-core/contracts';
-import { FiveSecondsActionSchema, fiveSecondsGameReducer, FiveSecondsGameStateSchema } from './logic';
+import type { GameDefinition } from '@guess-logo/game-core';
+import { fiveSecondsGameReducer } from './logic/reducer';
+import { FiveSecondsActionSchema, FiveSecondsGameStateSchema } from './logic/schema';
 
 export const fiveSecondsGame: GameDefinition<typeof FiveSecondsGameStateSchema, typeof FiveSecondsActionSchema> = {
   meta: {
@@ -13,6 +14,10 @@ export const fiveSecondsGame: GameDefinition<typeof FiveSecondsGameStateSchema, 
   actionSchema: FiveSecondsActionSchema,
 
   initialState: {
+    phase: 'lobby',
+    players: {},
+    hostId: '',
+    createdAt: Date.now(),
     settings: {
       categoryIds: ['cat_general_v1'],
       difficulty: 'all',

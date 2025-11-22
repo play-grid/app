@@ -1,8 +1,10 @@
 {
-  "extends": "../../../tsconfig.json",
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "baseUrl": ".",
-    "noEmit": false
+    "jsx": "react-jsx",
+    "types": ["react"],
+    "isolatedModules": true,
+    "allowSyntheticDefaultImports": true
   },
   "include": ["src"]
 }

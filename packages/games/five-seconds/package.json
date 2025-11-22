@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
     "exports": {
+    "./definition": "./src/definition.ts",
     "./schema":"./src/schema.ts",
     ".": {
       "types": "./src/logic/index.ts",
@@ -21,10 +22,12 @@
   "dependencies": {
     "@guess-logo/game-core": "workspace:*",
     "@guess-logo/shared": "workspace:*",
+    "react": "catalog:react19",
     "immer": "catalog:",
     "zod": "catalog:"
   },
   "devDependencies": {
+    "@types/react": "catalog:react19",
     "typescript": "catalog:"
   }
 }
