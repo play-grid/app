@@ -1,3 +1,4 @@
+import type { FiveSecondsAction, FiveSecondsGameState } from '@guess-logo/five-seconds/logic';
 import { fiveSecondsGame } from '@guess-logo/five-seconds/definition';
 import { FiveSecondsGameStateSchema } from '@guess-logo/five-seconds/logic';
 import { difficultySchema } from '@guess-logo/five-seconds/schema';
