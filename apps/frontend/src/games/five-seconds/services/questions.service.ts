@@ -1,4 +1,4 @@
-import type { Difficulty } from '@guess-logo/five-seconds/f';
+import type { Difficulty } from '@guess-logo/five-seconds/schema';
 import { HTTPException } from 'hono/http-exception';
 import client from '@/lib/hono-client';
 

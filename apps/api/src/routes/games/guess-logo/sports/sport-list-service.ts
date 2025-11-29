@@ -1,5 +1,5 @@
 import type { DrizzleD1Database } from 'drizzle-orm/d1';
-import { and, eq, desc, sql, innerJoin } from 'drizzle-orm';
+import { and, desc, eq, sql } from 'drizzle-orm';
 import * as schema from './sports.tables';
 
 type DB = DrizzleD1Database<typeof schema>;
