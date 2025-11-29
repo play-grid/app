@@ -1,4 +1,7 @@
 import type {
+  GameAction,
+} from '../../game-logic/schema/actions.types';
+import type {
   GamePhase,
   Player,
 } from '../../game-logic/schema/state.types';
@@ -30,35 +33,35 @@ import { useDispatch } from './use-dispatch';
  * }
  * ```
  */
-export function useGameActions() {
-  const dispatch = useDispatch();
+export function useGameActions<TAction extends GameAction = GameAction>() {
+  const dispatch = useDispatch<TAction>();
 
   // Phase Management
 
   const setPhase = useCallback(
     async (phase: GamePhase) => {
-      await dispatch({ type: 'SET_PHASE', payload: phase });
+      await dispatch({ type: 'SET_PHASE', payload: phase } as TAction);
     },
     [dispatch],
   );
 
   const startGame = useCallback(
     async () => {
-      await dispatch({ type: 'START_GAME' });
+      await dispatch({ type: 'START_GAME' } as TAction);
     },
     [dispatch],
   );
 
   const endGame = useCallback(
     async () => {
-      await dispatch({ type: 'END_GAME' });
+      await dispatch({ type: 'END_GAME' } as TAction);
     },
     [dispatch],
   );
 
   const resetGame = useCallback(
     async () => {
-      await dispatch({ type: 'RESET_GAME' });
+      await dispatch({ type: 'RESET_GAME' } as TAction);
     },
     [dispatch],
   );
@@ -69,7 +72,7 @@ export function useGameActions() {
       await dispatch({
         type: 'ADD_PLAYER',
         payload: playerData,
-      });
+      } as TAction);
     },
     [dispatch],
   );
@@ -79,7 +82,7 @@ export function useGameActions() {
       await dispatch({
         type: 'REMOVE_PLAYER',
         payload: { playerId },
-      });
+      } as TAction);
     },
     [dispatch],
   );
@@ -89,7 +92,7 @@ export function useGameActions() {
       await dispatch({
         type: 'UPDATE_PLAYER',
         payload: { playerId, updates },
-      });
+      } as TAction);
     },
     [dispatch],
   );
@@ -99,7 +102,7 @@ export function useGameActions() {
       await dispatch({
         type: 'TOGGLE_PLAYER_READY',
         payload: { playerId },
-      });
+      } as TAction);
     },
     [dispatch],
   );
@@ -111,7 +114,7 @@ export function useGameActions() {
       await dispatch({
         type: 'UPDATE_SETTINGS',
         payload: updates,
-      });
+      } as TAction);
     },
     [dispatch],
   );
@@ -120,14 +123,14 @@ export function useGameActions() {
 
   const nextTurn = useCallback(
     async () => {
-      await dispatch({ type: 'NEXT_TURN' });
+      await dispatch({ type: 'NEXT_TURN' } as TAction);
     },
     [dispatch],
   );
 
   const previousTurn = useCallback(
     async () => {
-      await dispatch({ type: 'PREVIOUS_TURN' });
+      await dispatch({ type: 'PREVIOUS_TURN' } as TAction);
     },
     [dispatch],
   );
@@ -137,14 +140,14 @@ export function useGameActions() {
       await dispatch({
         type: 'SET_CURRENT_PLAYER',
         payload: { playerId },
-      });
+      } as TAction);
     },
     [dispatch],
   );
 
   const nextRound = useCallback(
     async () => {
-      await dispatch({ type: 'NEXT_ROUND' });
+      await dispatch({ type: 'NEXT_ROUND' } as TAction);
     },
     [dispatch],
   );

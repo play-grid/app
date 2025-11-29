@@ -27,7 +27,8 @@ export function createPersistenceStore<T>({
   const checkSavedGame = () => {
     try {
       const savedItem = localStorage.getItem(storageKey);
-      if (!savedItem) return false;
+      if (!savedItem)
+        return false;
 
       const parsedItem = JSON.parse(savedItem);
       if (!parsedItem || !parsedItem.timestamp || !parsedItem.data) {
@@ -48,7 +49,9 @@ export function createPersistenceStore<T>({
       }
 
       return true;
-    } catch (error) {
+    }
+    // eslint-disable-next-line unused-imports/no-unused-vars
+    catch (error) {
       return false;
     }
   };
@@ -66,7 +69,8 @@ export function createPersistenceStore<T>({
         };
         localStorage.setItem(storageKey, JSON.stringify(stateToSave));
         set({ savedState: state });
-      } catch (error) {
+      }
+      catch (error) {
         console.error('Failed to save game state:', error);
       }
     },
@@ -74,7 +78,8 @@ export function createPersistenceStore<T>({
     loadGameState: () => {
       try {
         const savedItem = localStorage.getItem(storageKey);
-        if (!savedItem) return null;
+        if (!savedItem)
+          return null;
 
         const parsedItem = JSON.parse(savedItem);
         if (!parsedItem || !parsedItem.timestamp || !parsedItem.data) {
@@ -83,22 +88,22 @@ export function createPersistenceStore<T>({
 
         const isExpired = Date.now() - parsedItem.timestamp > maxAge;
         if (isExpired) {
-          console.log('Saved game state has expired. Clearing.');
           get().clearGameState();
           return null;
         }
 
         if (validate(parsedItem.data)) {
-          console.log('Loaded saved game state from localStorage.');
           set({ savedState: parsedItem.data });
           return parsedItem.data as T;
-        } else {
-            console.warn('Saved game state failed validation. Clearing.');
-            get().clearGameState();
         }
-        
+        else {
+          console.warn('Saved game state failed validation. Clearing.');
+          get().clearGameState();
+        }
+
         return null;
-      } catch (error) {
+      }
+      catch (error) {
         console.error('Failed to load game state:', error);
         get().clearGameState();
         return null;

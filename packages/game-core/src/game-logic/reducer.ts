@@ -7,6 +7,7 @@ import {
   nextRound,
   nextTurn,
   removePlayer,
+  resetGame,
   setCurrentPlayer,
   startGame,
   togglePlayerReady,
@@ -32,6 +33,8 @@ export function gameReducer(state: BaseGameStateWire, action: GameAction): BaseG
       return startGame(state);
     case 'END_GAME':
       return endGame(state);
+    case 'RESET_GAME':
+      return resetGame(state);
     case 'NEXT_TURN':
       return nextTurn(state);
     case 'SET_CURRENT_PLAYER':

@@ -147,9 +147,7 @@ export function updateSettings<TState extends BaseGameStateWire>(
   };
 }
 
-// =================================================================
 // Turn Management
-// =================================================================
 
 /**
  * A pure function that advances the turn to the next player.
@@ -228,9 +226,7 @@ export function nextRound<TState extends BaseGameStateWire>(state: TState): TSta
   };
 }
 
-// =================================================================
 // Lifecycle
-// =================================================================
 
 /**
  * A pure function that transitions the game to the "playing" phase
@@ -263,5 +259,26 @@ export function endGame<TState extends BaseGameStateWire>(state: TState): TState
     ...state,
     phase: 'results',
     endedAt: Date.now(),
+  };
+}
+
+/**
+ * A pure function that resets the game state to the lobby,
+ * clearing players and game progress but preserving settings.
+ */
+export function resetGame<TState extends BaseGameStateWire>(state: TState): TState {
+  const stateToPreserve = {
+    settings: state.settings,
+  };
+
+  return {
+    ...state,
+    ...stateToPreserve,
+    phase: 'lobby',
+    players: {},
+    hostId: '',
+    turnState: undefined,
+    startedAt: undefined,
+    endedAt: undefined,
   };
 }
