@@ -6,7 +6,7 @@ export { BaseActionSchema } from './contracts/game-definition';
 export type { BaseAction } from './contracts/game-definition';
 
 export { gameReducer } from './game-logic/reducer';
-export { GameActionSchema } from './game-logic/schema/actions.types';
+export { GameActionSchemas } from './game-logic/schema/actions.types';
 
 export type { GameAction, GameEventType } from './game-logic/schema/actions.types';
 

@@ -26,12 +26,12 @@ import { useAdapter } from '../adapter-context';
  *
  * @returns Async dispatch function
  */
-export function useDispatch() {
-  const adapter = useAdapter();
+export function useDispatch<TAction extends GameAction = GameAction>() {
+  const adapter = useAdapter<TAction>();
 
   // Memoize to prevent unnecessary re-renders
   return useCallback(
-    async (action: GameAction) => {
+    async (action: TAction) => {
       await adapter.dispatch(action);
     },
     [adapter],

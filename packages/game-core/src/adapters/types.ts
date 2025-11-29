@@ -21,7 +21,10 @@ export type StateListener<TState = BaseGameStateWire> = (state: TState) => void;
  *
  * React components only depend on this interface, not the implementation.
  */
-export interface GameAdapter<TState = BaseGameStateWire> {
+export interface GameAdapter<
+  TState = BaseGameStateWire,
+  TAction extends GameAction = GameAction,
+> {
   /**
    * Get the current state snapshot.
    * This is called synchronously by React during render.
@@ -38,7 +41,7 @@ export interface GameAdapter<TState = BaseGameStateWire> {
    * @param action - The action to dispatch
    * @returns Promise that resolves when action is processed
    */
-  dispatch: (action: GameAction) => Promise<void>;
+  dispatch: (action: TAction) => Promise<void>;
 
   /**
    * Subscribe to state changes.
