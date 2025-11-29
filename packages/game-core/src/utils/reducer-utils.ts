@@ -1,4 +1,3 @@
-import type { GameAction } from '../game-logic/schema/actions.types';
 import type { BaseGameStateWire } from '../game-logic/schema/state.types';
 
 /**
@@ -16,26 +15,15 @@ import type { BaseGameStateWire } from '../game-logic/schema/state.types';
  * @param gameReducer - Game-specific reducer
  * @param coreReducer - Core reducer (handles base actions)
  * @returns Composed reducer function
- *
- * @example
- * ```typescript
- * const composed = composeReducers(
- *   fiveSecondsReducer,
- *   gameReducer
- * );
- *
- * // Custom action - handled by fiveSecondsReducer
- * composed(state, { type: 'START_VOTING', payload: {...} });
- *
- * // Core action - handled by gameReducer
- * composed(state, { type: 'NEXT_TURN' });
- * ```
  */
-export function composeReducers<TState extends BaseGameStateWire>(
-  gameReducer: (state: TState, action: GameAction) => TState,
-  coreReducer: (state: TState, action: GameAction) => TState,
-): (state: TState, action: GameAction) => TState {
-  return (state: TState, action: GameAction): TState => {
+export function composeReducers<
+  TState extends BaseGameStateWire,
+  TAction = any,
+>(
+  gameReducer: (state: TState, action: TAction) => TState,
+  coreReducer: (state: TState, action: TAction) => TState,
+): (state: TState, action: TAction) => TState {
+  return (state: TState, action: TAction): TState => {
     // Try game-specific reducer first
     const newState = gameReducer(state, action);
 

@@ -17,17 +17,20 @@ export interface GameStore<TState = GameState> {
  * @param reducer - Optional custom reducer (defaults to core gameReducer)
  * @returns A GameAdapter instance
  */
-export function createLocalAdapter<TState extends GameState = GameState>(
+export function createLocalAdapter<
+  TState extends GameState = GameState,
+  TAction extends GameAction = GameAction,
+>(
   initialState: TState,
-  reducer: (state: TState, action: GameAction) => TState = defaultReducer as any,
-): GameAdapter<TState> {
+  reducer: (state: TState, action: TAction) => TState = defaultReducer as any,
+): GameAdapter<TState, TAction> {
   const store: StoreApi<GameStore<TState>> = create<GameStore<TState>>(set => ({
     state: initialState,
 
     dispatch: (action: GameAction) => {
       set(currentStore => ({
         ...currentStore,
-        state: reducer(currentStore.state, action),
+        state: reducer(currentStore.state, action as TAction),
       }));
     },
   }));
@@ -35,7 +38,7 @@ export function createLocalAdapter<TState extends GameState = GameState>(
   return {
     getState: () => store.getState().state,
 
-    dispatch: async (action: GameAction) => {
+    dispatch: async (action: TAction) => {
       store.getState().dispatch(action);
     },
 

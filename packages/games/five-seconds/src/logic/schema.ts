@@ -1,4 +1,4 @@
-import { BaseGameStateSchema, GameActionSchema, PlayerSchema } from '@guess-logo/game-core';
+import { BaseGameStateSchema, GameActionSchemas, PlayerSchema } from '@guess-logo/game-core';
 import { z } from 'zod';
 import { difficultySchema } from '../schema';
 
@@ -53,7 +53,7 @@ export const ResetVotingActionSchema = z.object({
 });
 
 export const FiveSecondsActionSchema = z.union([
-  GameActionSchema,
+  ...GameActionSchemas,
   AddSeenQuestionIdActionSchema,
   StartVotingActionSchema,
   SubmitVoteActionSchema,

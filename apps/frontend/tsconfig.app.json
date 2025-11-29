@@ -19,5 +19,5 @@
     "resolveJsonModule": true,
     "esModuleInterop": true
   },
-  "include": ["src", "../../packages/game-core/src/stores"]
+  "include": ["src"]
 }
