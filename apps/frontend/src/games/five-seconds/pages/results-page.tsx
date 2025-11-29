@@ -1,16 +1,19 @@
+import {
+  useFiveSecondsActions,
+  useFiveSecondsState,
+} from '@guess-logo/five-seconds/hooks';
 import { Award, Medal, RotateCcw, Trophy } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { useFiveSecondsStore } from '../stores/game-store';
 
 export function ResultsPage() {
   const { t } = useTranslation();
-  const players = useFiveSecondsStore(state => state.players);
-  const resetGame = useFiveSecondsStore(state => state.resetGame);
+  const { players } = useFiveSecondsState();
+  const { resetGame } = useFiveSecondsActions();
 
   // Sort players by score
-  const sortedPlayers = [...players].sort((a, b) => b.score - a.score);
+  const sortedPlayers = Object.values(players).sort((a, b) => b.score - a.score);
   const winner = sortedPlayers[0];
 
   const getPositionIcon = (index: number) => {
@@ -37,14 +40,18 @@ export function ResultsPage() {
               {t('fiveSecondsGame.results.wins', { name: winner?.name })}
             </h1>
             <p className="text-2xl text-muted-foreground">
-              {t('fiveSecondsGame.results.withPoints', { count: winner?.score || 0 })}
+              {t('fiveSecondsGame.results.withPoints', {
+                count: winner?.score || 0,
+              })}
             </p>
           </div>
         </div>
 
         {/* Leaderboard */}
         <Card className="p-6 md:p-8 space-y-6 bg-card border-border">
-          <h2 className="text-3xl font-bold text-center">{t('fiveSecondsGame.results.finalScores')}</h2>
+          <h2 className="text-3xl font-bold text-center">
+            {t('fiveSecondsGame.results.finalScores')}
+          </h2>
 
           <div className="space-y-4">
             {sortedPlayers.map((player, index) => (
@@ -64,13 +71,19 @@ export function ResultsPage() {
                   <div>
                     <p className="text-xl font-bold">{player.name}</p>
                     <p className="text-2xl text-muted-foreground">
-                      {t('fiveSecondsGame.results.withPoints', { count: winner?.score || 0 })}
+                      {t('fiveSecondsGame.results.withPoints', {
+                        count: winner?.score || 0,
+                      })}
                     </p>
                   </div>
                 </div>
                 <div className="text-right">
-                  <p className="text-4xl font-bold tabular-nums">{player.score}</p>
-                  <p className="text-sm opacity-80">{t('points', { count: player.score })}</p>
+                  <p className="text-4xl font-bold tabular-nums">
+                    {player.score}
+                  </p>
+                  <p className="text-sm opacity-80">
+                    {t('points', { count: player.score })}
+                  </p>
                 </div>
               </div>
             ))}

@@ -1,5 +1,10 @@
+import {
+  useFiveSecondsActions,
+  useFiveSecondsState,
+} from '@guess-logo/five-seconds/hooks';
+import { FIVE_SECONDS_GAME_OPTIONS } from '@guess-logo/five-seconds/logic/initial-state';
 import { Info, Play, Settings } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import BackButton from '@/components/back-button';
 import { Button } from '@/components/ui/button';
@@ -9,29 +14,31 @@ import { GameInstructions } from '../components/game-instructions';
 import { GameSettings } from '../components/game-settings';
 import { PlayerList } from '../components/player-list';
 import { useUrlSyncedSettingsOnly } from '../hooks/use-url-synced-settings';
-import { useFiveSecondsStore } from '../stores/game-store';
 
 const FIRST_VISIT_KEY = 'FIVE_SECONDS_FIRST_VISIT';
 
 export function FiveSecondsLobby() {
   const { t } = useTranslation();
-  const players = useFiveSecondsStore(state => state.players);
-  const canStartGame = useFiveSecondsStore(state => state.canStartGame);
-  const startGame = useFiveSecondsStore(state => state.startGame);
+  const { players } = useFiveSecondsState();
+  const { startGame } = useFiveSecondsActions();
   useUrlSyncedSettingsOnly();
 
-  const [isInstructionsOpen, setIsInstructionsOpen] = useState(false);
-
-  useEffect(() => {
-    // Check if this is the first visit
+  const [isInstructionsOpen, setIsInstructionsOpen] = useState(() => {
     const hasVisited = localStorage.getItem(FIRST_VISIT_KEY);
-
     if (!hasVisited) {
-      // Open instructions dialog on first visit
-      setIsInstructionsOpen(true);
       localStorage.setItem(FIRST_VISIT_KEY, 'true');
+      return true;
     }
-  }, []);
+    return false;
+  });
+
+  const canStartGame = () => {
+    const playerCount = Object.keys(players).length;
+    return (
+      playerCount >= FIVE_SECONDS_GAME_OPTIONS.minPlayers
+      && playerCount <= FIVE_SECONDS_GAME_OPTIONS.maxPlayers
+    );
+  };
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-4 md:p-8">
@@ -70,7 +77,9 @@ export function FiveSecondsLobby() {
           <Card className="p-6 space-y-6 bg-card border-border">
             <div className="flex items-center gap-3">
               <Settings className="w-6 h-6 text-primary" />
-              <h2 className="text-2xl font-bold">{t('fiveSecondsGame.lobby.gameSettings')}</h2>
+              <h2 className="text-2xl font-bold">
+                {t('fiveSecondsGame.lobby.gameSettings')}
+              </h2>
             </div>
 
             <GameSettings />
@@ -86,7 +95,7 @@ export function FiveSecondsLobby() {
               {t('fiveSecondsGame.lobby.startGame')}
             </Button>
 
-            {!canStartGame() && players.length > 0 && (
+            {!canStartGame() && Object.keys(players).length > 0 && (
               <p className="text-sm text-center text-muted-foreground">
                 {t('fiveSecondsGame.lobby.startRequirement')}
               </p>

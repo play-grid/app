@@ -1,5 +1,9 @@
+import {
+  useFiveSecondsActions,
+  useFiveSecondsState,
+} from '@guess-logo/five-seconds/hooks';
 import { ArrowLeft, RotateCcw } from 'lucide-react';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -20,28 +24,34 @@ import { PreTurnView } from '../components/pre-turn-view';
 import { RoundInfo } from '../components/round-info';
 import { VotingView } from '../components/voting-view';
 import { useQuestion } from '../hooks/use-question';
+import { useTimer } from '../hooks/use-timer';
 import { NoQuestionsFoundError } from '../services/questions.service';
-import { useFiveSecondsStore } from '../stores/game-store';
 
 export function GameplayPage() {
-  // Store selectors
-  const players = useFiveSecondsStore(state => state.players);
-  const settings = useFiveSecondsStore(state => state.settings);
-  const turnState = useFiveSecondsStore(state => state.turnState);
-  const votingState = useFiveSecondsStore(state => state.votingState);
-  const updatePlayer = useFiveSecondsStore(state => state.updatePlayer);
-  const nextTurn = useFiveSecondsStore(state => state.nextTurn);
-  const endGame = useFiveSecondsStore(state => state.endGame);
-  const startVoting = useFiveSecondsStore(state => state.startVoting);
-  const submitVote = useFiveSecondsStore(state => state.submitVote);
-  const tallyVotes = useFiveSecondsStore(state => state.tallyVotes);
-  const resetVoting = useFiveSecondsStore(state => state.resetVoting);
-  const resetGame = useFiveSecondsStore(state => state.resetGame);
-  const setPhase = useFiveSecondsStore(state => state.setPhase);
-  const seenQuestionIds = useFiveSecondsStore(state => state.seenQuestionIds);
-  const addSeenQuestionId = useFiveSecondsStore(state => state.addSeenQuestionId);
+  const state = useFiveSecondsState();
+  const {
+    players,
+    settings,
+    turnState,
+    votingState,
+    seenQuestionIds,
+  } = state;
+  const {
+    nextTurn,
+    endGame,
+    startVoting,
+    submitVote,
+    tallyVotes,
+    resetVoting,
+    resetGame,
+    setPhase,
+    addSeenQuestionId,
+  } = useFiveSecondsActions();
 
   const { t } = useTranslation();
+  const hasProcessedVotingRef = useRef(false);
+  const [isResetConfirmOpen, setIsResetConfirmOpen] = useState(false);
+
   // Local component state
   const {
     data: currentQuestion,
@@ -52,128 +62,127 @@ export function GameplayPage() {
     refetch: fetchQuestion,
   } = useQuestion(settings.categoryIds, settings.difficulty, seenQuestionIds);
 
+  // Calculate time for current question
   const timeForCurrentQuestion = useMemo(() => {
-    if (currentQuestion?.estimatedReadingTime) {
+    if (currentQuestion && 'id' in currentQuestion && currentQuestion.estimatedReadingTime) {
       const readingTime = Number.parseInt(currentQuestion.estimatedReadingTime, 10) || 0;
       return settings.timePerTurn + readingTime;
     }
     return settings.timePerTurn;
   }, [currentQuestion, settings.timePerTurn]);
 
-  const [timeLeft, setTimeLeft] = useState(timeForCurrentQuestion);
-  const [isAnswering, setIsAnswering] = useState(false);
-  const [isResetConfirmOpen, setIsResetConfirmOpen] = useState(false);
+  // Derived state
+  const currentPlayer = players[turnState?.currentPlayerId || ''];
+
+  // Timer hook
+  const { timeLeft, start: startTimer, reset: resetTimer, isRunning } = useTimer({
+    initialTime: timeForCurrentQuestion,
+    onComplete: useCallback(() => {
+      if (currentPlayer) {
+        const voterIds = Object.values(players)
+          .filter(p => p.id !== currentPlayer.id)
+          .map(p => p.id);
+        startVoting(voterIds);
+      }
+    }, [players, currentPlayer, startVoting]),
+  });
+
+  // Derived state: determine game phase from voting state and timer
+  const gamePhase = useMemo(() => {
+    if (votingState?.isVoting)
+      return 'voting';
+    if (isRunning)
+      return 'answering';
+    return 'pre-turn';
+  }, [votingState?.isVoting, isRunning]);
 
   // Fetch initial question on mount
   useEffect(() => {
     fetchQuestion();
   }, [fetchQuestion]);
 
-  useEffect(() => {
-    setTimeLeft(timeForCurrentQuestion);
-  }, [timeForCurrentQuestion]);
-
   // Add question to seen list
   useEffect(() => {
-    if (currentQuestion && !seenQuestionIds.includes(currentQuestion.id)) {
+    if (currentQuestion && 'id' in currentQuestion && !seenQuestionIds.includes(currentQuestion.id)) {
       addSeenQuestionId(currentQuestion.id);
     }
   }, [currentQuestion, seenQuestionIds, addSeenQuestionId]);
 
-  // Derived state
-  const currentPlayer = players.find(p => p.id === turnState?.currentPlayerId);
-  const isVotingFinished
-    = votingState && votingState.currentVoterIndex >= votingState.voters.length;
+  // Reset timer when question changes
+  useEffect(() => {
+    if (currentQuestion && 'id' in currentQuestion) {
+      resetTimer(timeForCurrentQuestion);
+    }
+  }, [currentQuestion, timeForCurrentQuestion, resetTimer]);
+
+  // More derived state
+  const isVotingFinished = votingState && votingState.currentVoterIndex >= votingState.voters.length;
   const currentVoterId = votingState && votingState.voters[votingState.currentVoterIndex];
-  const currentVoter = players.find(p => p.id === currentVoterId);
+  const currentVoter = players[currentVoterId || ''];
 
-  // Effect to start voting when timer ends
-  useEffect(() => {
-    if (timeLeft === 0 && isAnswering && currentPlayer) {
-      setIsAnswering(false);
-      startVoting(currentPlayer.id, players);
-    }
-  }, [timeLeft, isAnswering, currentPlayer, players, startVoting]);
-
-  // Effect to handle the countdown timer
-  useEffect(() => {
-    if (!isAnswering) {
-      return undefined;
-    }
-
-    const timerId = setInterval(() => {
-      setTimeLeft(prevTime => (prevTime > 0 ? prevTime - 1 : 0));
-    }, 1000);
-
-    return () => clearInterval(timerId);
-  }, [isAnswering]);
-
-  // Effect to tally votes when voting is finished
-  const handleNextTurn = useCallback(() => {
-    setIsAnswering(false);
-    resetVoting();
-
-    if (turnState && turnState.roundNumber >= settings.roundsToWin && turnState.turnIndex === players.length - 1) {
-      endGame();
+  // Handle next turn logic
+  const handleNextTurn = useCallback(async () => {
+    if (turnState && turnState.roundNumber >= settings.roundsToWin && turnState.turnIndex === Object.keys(players).length - 1) {
+      await endGame();
       return;
     }
 
-    if (nextTurn) {
-      nextTurn();
-    }
-
+    await resetVoting();
+    await nextTurn();
     fetchQuestion();
-    setTimeLeft(timeForCurrentQuestion);
-  }, [turnState, players, endGame, nextTurn, timeForCurrentQuestion, resetVoting, fetchQuestion, settings]);
+  }, [turnState, players, endGame, nextTurn, resetVoting, fetchQuestion, settings]);
 
+  // Handle voting finished
   useEffect(() => {
-    if (isVotingFinished) {
-      const isValid = tallyVotes();
-      if (isValid && currentPlayer) {
-        updatePlayer(currentPlayer.id, { score: currentPlayer.score + 1 });
-      }
-      handleNextTurn();
+    if (isVotingFinished && currentPlayer && !hasProcessedVotingRef.current) {
+      hasProcessedVotingRef.current = true;
+
+      const processVotingEnd = async () => {
+        await tallyVotes(currentPlayer.id);
+        await handleNextTurn();
+      };
+
+      processVotingEnd().then(() => {
+        // Reset ref after processing
+        hasProcessedVotingRef.current = false;
+      });
     }
-  }, [isVotingFinished, tallyVotes, currentPlayer, updatePlayer, handleNextTurn]);
+    else if (!isVotingFinished) {
+      hasProcessedVotingRef.current = false;
+    }
+  }, [isVotingFinished, currentPlayer, tallyVotes, handleNextTurn]);
 
-  // TODO: refactor this to be in game-core
-  // ---  Event Handlers ---
-  const handleStartTurn = () => {
-    setIsAnswering(true);
-    setTimeLeft(timeForCurrentQuestion);
-  };
+  // Event Handlers
+  const handleStartTurn = useCallback(() => {
+    startTimer();
+  }, [startTimer]);
 
-  const handleVote = (isValid: boolean) => {
+  const handleVote = useCallback((isValid: boolean) => {
     submitVote(isValid);
-  };
+  }, [submitVote]);
 
-  const handleResetGame = () => {
+  const handleResetGame = useCallback(() => {
     resetGame();
     setIsResetConfirmOpen(false);
-  };
+  }, [resetGame]);
 
   return (
     <div className="min-h-screen flex flex-col p-4 md:p-8">
       {/* Header with Reset Button */}
       <div className="w-full max-w-4xl mx-auto mb-6">
         <div className="flex justify-start gap-2">
-          {!isError && !isPaused
-            && (
-              <Button
-                variant="outline"
-                size="sm"
-                className="gap-2"
-                onClick={() => {
-                  setPhase('lobby');
-                }}
-                aria-label={t('common.back')}
-              >
-                <ArrowLeft className="w-4 h-4" />
-                {' '}
-                {/* Using ArrowLeft icon */}
-                <span className="hidden sm:inline">{t('common.back')}</span>
-              </Button>
-            )}
+          {!isError && !isPaused && (
+            <Button
+              variant="outline"
+              size="sm"
+              className="gap-2"
+              onClick={() => setPhase('lobby')}
+              aria-label={t('common.back')}
+            >
+              <ArrowLeft className="w-4 h-4" />
+              <span className="hidden sm:inline">{t('common.back')}</span>
+            </Button>
+          )}
           <Dialog open={isResetConfirmOpen} onOpenChange={setIsResetConfirmOpen}>
             <DialogTrigger asChild>
               <Button
@@ -209,7 +218,7 @@ export function GameplayPage() {
       {/* Main Game Content */}
       <div className="flex-1 flex items-center justify-center">
         <div className="w-full max-w-4xl space-y-6">
-          <PlayerScores players={players} currentPlayerId={currentPlayer?.id} />
+          <PlayerScores players={Object.values(players)} currentPlayerId={currentPlayer?.id} />
           <RoundInfo roundNumber={turnState?.roundNumber || 1} />
 
           <Card className="p-8 md:p-12 space-y-8 bg-card border-border">
@@ -239,32 +248,32 @@ export function GameplayPage() {
                           </div>
                         )
                   )
-                : !isAnswering && !votingState?.isVoting && currentQuestion
+                : gamePhase === 'pre-turn' && currentQuestion && 'id' in currentQuestion
+                  ? (
+                      <PreTurnView
+                        currentPlayerName={currentPlayer?.name || ''}
+                        onStartTurn={handleStartTurn}
+                      />
+                    )
+                  : gamePhase === 'voting' && !isVotingFinished && currentQuestion && 'id' in currentQuestion && votingState
                     ? (
-                        <PreTurnView
-                          currentPlayerName={currentPlayer?.name || ''}
-                          onStartTurn={handleStartTurn}
+                        <VotingView
+                          votingState={votingState}
+                          currentVoter={currentVoter}
+                          currentPlayer={currentPlayer}
+                          currentQuestion={currentQuestion}
+                          onVote={handleVote}
                         />
                       )
-                    : votingState?.isVoting && !isVotingFinished && currentQuestion
+                    : gamePhase === 'answering' && currentQuestion && 'id' in currentQuestion
                       ? (
-                          <VotingView
-                            votingState={votingState}
-                            currentVoter={currentVoter}
-                            currentPlayer={currentPlayer}
+                          <AnsweringView
+                            timeLeft={timeLeft}
+                            totalTime={timeForCurrentQuestion}
                             currentQuestion={currentQuestion}
-                            onVote={handleVote}
                           />
                         )
-                      : currentQuestion
-                        ? (
-                            <AnsweringView
-                              timeLeft={timeLeft}
-                              totalTime={timeForCurrentQuestion}
-                              currentQuestion={currentQuestion}
-                            />
-                          )
-                        : null}
+                      : null}
           </Card>
         </div>
       </div>

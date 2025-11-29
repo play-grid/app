@@ -1,3 +1,7 @@
+import {
+  useFiveSecondsActions,
+  useFiveSecondsState,
+} from '@guess-logo/five-seconds/hooks';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
@@ -8,7 +12,6 @@ import { Card } from '@/components/ui/card';
 import { UsersIcon } from '@/components/ui/icons';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
-import { useFiveSecondsStore } from '../stores/game-store';
 
 // Zod schema for player name validation
 function createPlayerNameSchema(t: any) {
@@ -24,9 +27,8 @@ const MAX_PLAYERS = 4;
 
 export function PlayerList() {
   const { t } = useTranslation();
-  const players = useFiveSecondsStore(s => s.players);
-  const addPlayer = useFiveSecondsStore(s => s.addPlayer);
-  const removePlayer = useFiveSecondsStore(s => s.removePlayer);
+  const { players } = useFiveSecondsState();
+  const { addPlayer, removePlayer } = useFiveSecondsActions();
 
   const [playerName, setPlayerName] = useState('');
   const [exiting, setExiting] = useState<string[]>([]);
@@ -41,7 +43,7 @@ export function PlayerList() {
       playerNameSchema.parse(name);
 
       // Check for duplicate names
-      if (players.some(p => p.name.toLowerCase() === name.trim().toLowerCase())) {
+      if (Object.values(players).some(p => p.name.toLowerCase() === name.trim().toLowerCase())) {
         setValidationError(t('fiveSecondsGame.lobby.nameAlreadyExists'));
         return false;
       }
@@ -77,7 +79,7 @@ export function PlayerList() {
       return;
     }
 
-    if (players.length >= MAX_PLAYERS) {
+    if (Object.keys(players).length >= MAX_PLAYERS) {
       toast.error(t('fiveSecondsGame.lobby.maxPlayersReached'));
       return;
     }
@@ -116,7 +118,7 @@ export function PlayerList() {
       action: {
         label: t('common.toasts.playerRemoveUndo'),
         onClick: () => {
-          useFiveSecondsStore.getState().addPlayer(player);
+          addPlayer(player); // Use the addPlayer action from the new hooks
           setEntering([player.id]); // Animate when undoing
           setTimeout(() => setEntering([]), 200);
         },
@@ -124,7 +126,7 @@ export function PlayerList() {
     });
   };
 
-  const isMaxPlayersReached = players.length >= MAX_PLAYERS;
+  const isMaxPlayersReached = Object.keys(players).length >= MAX_PLAYERS;
   const isAddButtonDisabled = isMaxPlayersReached || !playerName.trim() || !!validationError;
 
   return (
@@ -133,7 +135,7 @@ export function PlayerList() {
       <div className="flex items-center gap-3">
         <UsersIcon className="w-6 h-6 text-accent" aria-hidden="true" />
         <h2 className="text-2xl font-bold">
-          {t('fiveSecondsGame.lobby.playersTitle', { count: players.length, max: MAX_PLAYERS })}
+          {t('fiveSecondsGame.lobby.playersTitle', { count: Object.keys(players).length, max: MAX_PLAYERS })}
         </h2>
       </div>
 
@@ -186,14 +188,14 @@ export function PlayerList() {
         role="list"
         aria-label={t('fiveSecondsGame.lobby.currentPlayers')}
       >
-        {players.length === 0
+        {Object.keys(players).length === 0
           ? (
               <div className="text-center py-8">
                 <p className="text-muted-foreground">{t('fiveSecondsGame.lobby.noPlayers')}</p>
               </div>
             )
           : (
-              players.map(player => (
+              Object.values(players).map(player => (
                 <div
                   key={player.id}
                   className={cn(

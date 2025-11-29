@@ -1,4 +1,8 @@
 import type { SupportedLanguage } from '@guess-logo/shared/types';
+import {
+  useFiveSecondsActions,
+  useFiveSecondsState,
+} from '@guess-logo/five-seconds/hooks';
 import { difficultySchema } from '@guess-logo/five-seconds/schema';
 import { useQueryClient } from '@tanstack/react-query';
 import { Timer, Trophy } from 'lucide-react';
@@ -15,14 +19,13 @@ import {
 } from '@/components/ui/select';
 import { useCategories } from '../hooks/use-categories';
 import { getCategoryById } from '../services/category.service';
-import { useFiveSecondsStore } from '../stores/game-store';
 
 export function GameSettings() {
   const { t, i18n } = useTranslation();
   const queryClient = useQueryClient();
 
-  const settings = useFiveSecondsStore(s => s.settings);
-  const updateSettings = useFiveSecondsStore(s => s.updateSettings);
+  const { settings } = useFiveSecondsState();
+  const { updateSettings } = useFiveSecondsActions();
   const { data: categories } = useCategories({
     language: i18n.language as SupportedLanguage,
   });

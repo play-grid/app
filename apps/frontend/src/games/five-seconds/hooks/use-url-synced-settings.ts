@@ -1,11 +1,14 @@
+import {
+  useFiveSecondsActions,
+  useFiveSecondsState,
+} from '@guess-logo/five-seconds/hooks';
 import { difficultySchema } from '@guess-logo/five-seconds/schema';
 import { useEffect, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { useFiveSecondsStore } from '../stores/game-store';
 
 export function useUrlSyncedSettingsOnly() {
-  const settings = useFiveSecondsStore(s => s.settings);
-  const updateSettings = useFiveSecondsStore(s => s.updateSettings);
+  const { settings } = useFiveSecondsState();
+  const { updateSettings } = useFiveSecondsActions();
 
   const [searchParams, setSearchParams] = useSearchParams();
   const isInitializedRef = useRef(false);

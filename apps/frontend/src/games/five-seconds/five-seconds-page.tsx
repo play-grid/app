@@ -1,10 +1,10 @@
+import { useFiveSecondsState } from '@guess-logo/five-seconds/hooks';
 import { GameplayPage } from './pages/gameplay-page';
 import { FiveSecondsLobby } from './pages/lobby-page';
 import { ResultsPage } from './pages/results-page';
-import { useFiveSecondsStore } from './stores/game-store';
 
 export default function FiveSecondsPage() {
-  const phase = useFiveSecondsStore(state => state.phase);
+  const { phase } = useFiveSecondsState();
 
   switch (phase) {
     case 'lobby':
