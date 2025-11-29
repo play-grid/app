@@ -33,7 +33,7 @@ export function fiveSecondsGameReducer(
         resetVoting(draft);
         break;
       case 'TALLY_VOTES':
-        tallyVotes(draft);
+        tallyVotes(draft, action.payload);
         break;
     }
   });

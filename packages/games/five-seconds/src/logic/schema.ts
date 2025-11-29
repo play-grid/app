@@ -46,7 +46,10 @@ export type SubmitVoteAction = z.infer<typeof SubmitVoteActionSchema>;
 
 export const TallyVotesActionSchema = z.object({
   type: z.literal('TALLY_VOTES'),
+  payload: z.object({ currentPlayerId: z.string() }),
 });
+
+export type TallyVotesAction = z.infer<typeof TallyVotesActionSchema>;
 
 export const ResetVotingActionSchema = z.object({
   type: z.literal('RESET_VOTING'),

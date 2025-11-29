@@ -4,6 +4,7 @@ import type {
   FiveSecondsGameState,
   StartVotingAction,
   SubmitVoteAction,
+  TallyVotesAction,
 } from './schema';
 
 export function addSeenQuestionId(
@@ -47,6 +48,7 @@ export function resetVoting(draft: Draft<FiveSecondsGameState>): void {
 
 export function tallyVotes(
   draft: Draft<FiveSecondsGameState>,
+  payload: TallyVotesAction['payload'],
 ):
 void {
   const voting = draft.votingState;
@@ -57,9 +59,13 @@ void {
   const validVotes = voting.votes.filter(v => v.isValid).length;
   const invalidVotes = voting.votes.length - validVotes;
 
-  if (validVotes <= invalidVotes) {
+  if (validVotes > invalidVotes) {
     // TODO:implement
     // Penalty logic for failed vote
+    const player = draft.players[payload.currentPlayerId];
+    if (player) {
+      player.score += 1;
+    }
   }
 
   // Reset voting state
