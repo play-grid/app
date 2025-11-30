@@ -1,4 +1,5 @@
 export { createLocalAdapter } from './adapters/local/zustand-store';
+export { createGameContract } from './adapters/multiplayer/contracts/base.contract';
 
 export type { GameDefinition, GameMeta } from './contracts/game-definition';
 
