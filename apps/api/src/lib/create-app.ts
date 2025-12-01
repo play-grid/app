@@ -1,12 +1,13 @@
-import type { AppOpenAPI } from './types';
+import type { Context } from 'hono';
 
+import type { AppEnv, AppOpenAPI } from './types';
 import { cache } from 'hono/cache';
 import { cors } from 'hono/cors';
 import { etag } from 'hono/etag';
+
 import { notFound, onError } from 'stoker/middlewares';
 
 import { validateEnv } from '@/env';
-
 import rateLimiterMiddleware from '@/middlewares/rate-limter';
 import { isAllowedOrigin } from '@/utils/origin';
 import { createAuth } from '../auth';
@@ -55,12 +56,28 @@ export default function createApp(): AppOpenAPI {
     return handler(c, next);
   });
 
-  app.use('*', cache({
-    cacheName: 'logo-api',
-    cacheControl: 'public, max-age=86400',
-  }));
+  const isWebSocketUpgrade = (c: Context<AppEnv, '*'>) => {
+    const upgradeHeader = c.req.header('Upgrade');
+    return upgradeHeader && upgradeHeader.toLowerCase() === 'websocket';
+  };
 
-  app.use('*', etag());
+  app.use('*', async (c, next) => {
+    if (isWebSocketUpgrade(c)) {
+      return next();
+    }
+
+    return cache({
+      cacheName: 'logo-api',
+      cacheControl: 'public, max-age=86400',
+    })(c, next);
+  });
+
+  app.use('*', async (c, next) => {
+    if (isWebSocketUpgrade(c)) {
+      return next();
+    }
+    return etag()(c, next);
+  });
   app.use('*', (c, next) => rateLimiterMiddleware(c)(c, next));
 
   app.use('*', async (c, next) => {
