@@ -1,10 +1,14 @@
 import type { GameDefinition } from '@guess-logo/game-core';
+import { registerGame } from '@guess-logo/game-core';
 import { fiveSecondsGameReducer } from './logic/reducer';
 import { FiveSecondsActionSchema, FiveSecondsGameStateSchema } from './logic/schema';
 
-export const fiveSecondsGame: GameDefinition<typeof FiveSecondsGameStateSchema, typeof FiveSecondsActionSchema> = {
+export const fiveSecondsGame: GameDefinition<
+  typeof FiveSecondsGameStateSchema,
+  typeof FiveSecondsActionSchema
+> = {
   meta: {
-    id: 'five-seconds-game',
+    id: 'five-seconds',
     name: 'Five seconds',
     minPlayers: 2,
     maxPlayers: 4,
@@ -30,3 +34,5 @@ export const fiveSecondsGame: GameDefinition<typeof FiveSecondsGameStateSchema, 
 
   reducer: fiveSecondsGameReducer,
 };
+
+registerGame(fiveSecondsGame);
