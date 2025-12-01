@@ -5,22 +5,15 @@ import { createErrorSchema } from 'stoker/openapi/schemas';
 
 import {
   createGameRoomInputSchema,
+  errorSchema,
   gameRoomResponseSchema,
   joinGameRoomResponseSchema,
   joinGameRoomSchema,
+  messageSchema,
+  roomStatsResponseSchema,
 } from './schemas';
 
 const tags = ['GameRoom'];
-
-// Simple error schema
-const simpleErrorSchema = z.object({
-  error: z.string(),
-});
-
-// Message schema for handler errors
-const messageSchema = z.object({
-  message: z.string(),
-});
 
 export const create = createRoute({
   path: '/game-room',
@@ -37,12 +30,51 @@ export const create = createRoute({
       gameRoomResponseSchema,
       'The created game room',
     ),
+    [HttpStatusCodes.BAD_REQUEST]: jsonContent(
+      errorSchema,
+      'Invalid game type or player count',
+    ),
     [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
       createErrorSchema(createGameRoomInputSchema),
       'The validation error(s)',
     ),
     [HttpStatusCodes.INTERNAL_SERVER_ERROR]: jsonContent(
       messageSchema,
+      'Internal server error',
+    ),
+  },
+});
+
+export const join = createRoute({
+  path: '/game-room/{id}/join',
+  method: 'post',
+  request: {
+    params: z.object({ id: z.string() }),
+    body: jsonContentRequired(
+      joinGameRoomSchema,
+      'The player to add to the room',
+    ),
+  },
+  tags,
+  responses: {
+    [HttpStatusCodes.OK]: jsonContent(
+      joinGameRoomResponseSchema,
+      'Successfully joined the game room',
+    ),
+    [HttpStatusCodes.BAD_REQUEST]: jsonContent(
+      errorSchema,
+      'Room is full or invalid request',
+    ),
+    [HttpStatusCodes.NOT_FOUND]: jsonContent(
+      errorSchema,
+      'Game room not found',
+    ),
+    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
+      createErrorSchema(joinGameRoomSchema),
+      'The validation error(s)',
+    ),
+    [HttpStatusCodes.INTERNAL_SERVER_ERROR]: jsonContent(
+      errorSchema,
       'Internal server error',
     ),
   },
@@ -66,15 +98,11 @@ export const websocketUpgrade = createRoute({
       description: 'WebSocket connection established',
     },
     [HttpStatusCodes.BAD_REQUEST]: jsonContent(
-      simpleErrorSchema,
+      errorSchema,
       'Invalid WebSocket upgrade request',
     ),
-    [HttpStatusCodes.NOT_FOUND]: jsonContent(
-      simpleErrorSchema,
-      'Game room not found',
-    ),
     [HttpStatusCodes.INTERNAL_SERVER_ERROR]: jsonContent(
-      simpleErrorSchema,
+      errorSchema,
       'Internal server error',
     ),
   },
@@ -90,64 +118,13 @@ export const getRoomStats = createRoute({
   },
   tags,
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(
-      z.object({
-        totalConnections: z.number(),
-        maxPlayers: z.number(),
-        roomConfig: z.object({
-          roomId: z.string(),
-          name: z.string(),
-          maxPlayers: z.number(),
-          gameType: z.string(),
-          isPrivate: z.boolean(),
-          createdAt: z.string(),
-        }).nullable(),
-        sessions: z.array(z.object({
-          roomId: z.string(),
-          playerId: z.string().optional(),
-          joinedAt: z.number(),
-          duration: z.number(),
-        })),
-      }),
-      'Room statistics',
-    ),
+    [HttpStatusCodes.OK]: jsonContent(roomStatsResponseSchema, 'Room statistics'),
     [HttpStatusCodes.NOT_FOUND]: jsonContent(
-      simpleErrorSchema,
+      errorSchema,
       'Game room not found',
     ),
     [HttpStatusCodes.INTERNAL_SERVER_ERROR]: jsonContent(
-      simpleErrorSchema,
-      'Internal server error',
-    ),
-  },
-});
-
-export const join = createRoute({
-  path: '/game-room/{id}/join',
-  method: 'post',
-  request: {
-    params: z.object({ id: z.string() }),
-    body: jsonContentRequired(
-      joinGameRoomSchema,
-      'The player to add to the room',
-    ),
-  },
-  tags,
-  responses: {
-    [HttpStatusCodes.OK]: jsonContent(
-      joinGameRoomResponseSchema,
-      'The updated game room',
-    ),
-    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
-      createErrorSchema(joinGameRoomSchema),
-      'The validation error(s)',
-    ),
-    [HttpStatusCodes.NOT_FOUND]: jsonContent(
-      simpleErrorSchema,
-      'Game room not found',
-    ),
-    [HttpStatusCodes.INTERNAL_SERVER_ERROR]: jsonContent(
-      messageSchema,
+      errorSchema,
       'Internal server error',
     ),
   },

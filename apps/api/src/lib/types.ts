@@ -1,7 +1,8 @@
 import type { OpenAPIHono, RouteConfig, RouteHandler } from '@hono/zod-openapi';
 
+import type { Session, User } from 'better-auth/types';
+import type { GameSessionObject } from '../durable-objects/game-session/game-session.object';
 import type { BASE_PATH } from './constants';
-import type { GameRoomDurableObject } from './game-room.do';
 import type { auth } from '@/auth';
 import type { Env } from '@/env';
 
@@ -11,7 +12,12 @@ export interface CloudflareBindings {
   LOGO_CACHE: KVNamespace;
   RATE_LIMIT: KVNamespace;
   QUESTIONS: KVNamespace;
-  GAME_ROOM: DurableObjectNamespace<GameRoomDurableObject>;
+  Variables: {
+    userId?: string;
+    user?: User;
+    session?: Session;
+  };
+  GAME_SESSION: DurableObjectNamespace<GameSessionObject>;
   GAME_HUB_DB: D1Database;
   ALLOWED_ORIGINS: string;
 }

@@ -6,7 +6,7 @@ import createRouter from '@/lib/create-router';
 import { BASE_PATH } from '../lib/constants';
 import auth from './auth/auth.index';
 import gameRoom from './game-room/game-room.index';
-import gameType from './game-type/game-type.index';
+import gameType from './game-type/game-types.index';
 import { gamesRoutes } from './games';
 import health from './health/health.index';
 import index from './index.route';

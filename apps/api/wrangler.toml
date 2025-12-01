@@ -8,12 +8,12 @@ workers_dev = true
 ALLOWED_ORIGINS = "http://localhost:5173,http://localhost:4173,https://guess-logo.pages.dev,https://games.mohdalaa.com"
 
 [[durable_objects.bindings]]
-name = "GAME_ROOM"
-class_name = "GameRoomDurableObject"
+name = "GAME_SESSION"
+class_name = "GameSessionObject"
 
 [[migrations]]
 tag = "v1" # Should be unique for each entry
-new_sqlite_classes = [ "GameRoomDurableObject" ]
+new_sqlite_classes = [ "GameSessionObject" ]
 
 # Array of new classes
 [observability]

@@ -1,4 +1,3 @@
-import type { GameRoomStats } from '@guess-logo/shared/types';
 import type { AppRouteHandler } from '../../lib/types';
 import type {
   CreateRoute,
@@ -6,56 +5,104 @@ import type {
   JoinRoute,
   WebSocketUpgradeRoute,
 } from './game-room.routes';
-
+import type { JoinGameRoomResponse } from './schemas';
+import {
+  getGameDefinition,
+  isGameRegistered,
+} from '@guess-logo/game-core';
+import { nanoid } from 'nanoid';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
+import { doRoomStatsSchema, errorSchema } from './schemas';
 
+/**
+ * Create a new game room
+ */
 export const create: AppRouteHandler<CreateRoute> = async (c) => {
   try {
     const body = c.req.valid('json');
 
-    // Generate a unique room ID
-    const roomId = crypto.randomUUID();
+    // Get userId if auth middleware is enabled (optional)
+    const userId = c.get('user')?.id;
 
-    // Get the Durable Object stub
-    const id = c.env.GAME_ROOM.idFromName(roomId);
-    const stub = c.env.GAME_ROOM.get(id);
+    // Validate game type exists in registry
+    if (!isGameRegistered(body.gameType)) {
+      return c.json(
+        { error: `Invalid game type: ${body.gameType}` },
+        HttpStatusCodes.BAD_REQUEST,
+      );
+    }
 
-    // Initialize the room with the provided configuration
+    // Get game definition to validate constraints
+
+    const gameDefinition = getGameDefinition(body.gameType);
+    if (!gameDefinition) {
+      return c.json(
+        { message: 'Game definition not found' },
+        HttpStatusCodes.INTERNAL_SERVER_ERROR,
+      );
+    }
+
+    // Validate maxPlayers against game definition
+    const maxPlayers = body.maxPlayers ?? gameDefinition.meta.maxPlayers;
+    if (
+      maxPlayers < gameDefinition.meta.minPlayers
+      || maxPlayers > gameDefinition.meta.maxPlayers
+    ) {
+      return c.json(
+        {
+          error: `Player count must be between ${gameDefinition.meta.minPlayers} and ${gameDefinition.meta.maxPlayers}`,
+        },
+        HttpStatusCodes.BAD_REQUEST,
+      );
+    }
+
+    // Generate unique room ID
+    const roomId = nanoid(10);
+
+    // Get Durable Object stub
+    const id = c.env.GAME_SESSION.idFromName(roomId);
+    const stub = c.env.GAME_SESSION.get(id);
+
+    // Initialize the game session
     const initResponse = await stub.fetch('http://internal/init', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         roomId,
-        name: body.name,
-        maxPlayers: body.maxPlayers,
         gameType: body.gameType,
+        maxPlayers,
         isPrivate: body.isPrivate,
+        createdBy: userId,
       }),
     });
 
     if (!initResponse.ok) {
-      throw new Error('Failed to initialize game room');
+      const error = await initResponse.text();
+      throw new Error(`Failed to initialize game session: ${error}`);
     }
 
-    // Construct WebSocket URL (this would be your actual domain)
-    const websocketUrl = `wss://${c.req.header('host')}/api/game-room/${roomId}/ws`;
+    // Construct WebSocket URL for gameplay
+    const host = c.req.header('host') || 'localhost:8787';
+    const protocol = host.includes('localhost') ? 'ws' : 'wss';
+    const websocketUrl = `${protocol}://${host}/api/game-room/${roomId}/ws`;
 
-    const gameRoom = {
-      id: roomId,
-      name: body.name,
-      maxPlayers: body.maxPlayers,
-      currentPlayers: 0,
-      gameType: body.gameType,
-      isPrivate: body.isPrivate,
-      status: 'waiting' as const,
-      createdAt: new Date().toISOString(),
-      websocketUrl,
-    };
-
-    return c.json(gameRoom, HttpStatusCodes.CREATED);
+    return c.json(
+      {
+        id: roomId,
+        name: body.name,
+        gameType: body.gameType,
+        maxPlayers,
+        currentPlayers: 0,
+        isPrivate: body.isPrivate,
+        status: 'waiting' as const,
+        createdAt: new Date().toISOString(),
+        websocketUrl,
+      },
+      HttpStatusCodes.CREATED,
+    );
   }
   catch (error) {
-    console.error('Error creating game room:', error);
+    console.error('[GameRoom] Create error:', error);
     return c.json(
       { message: 'Failed to create game room' },
       HttpStatusCodes.INTERNAL_SERVER_ERROR,
@@ -63,65 +110,135 @@ export const create: AppRouteHandler<CreateRoute> = async (c) => {
   }
 };
 
-export const websocketUpgrade: AppRouteHandler<WebSocketUpgradeRoute> = async (c) => {
+/**
+ * Join an existing game room
+ */
+export const join: AppRouteHandler<JoinRoute> = async (c) => {
   try {
     const { id: roomId } = c.req.valid('param');
+    const body = c.req.valid('json');
 
-    // Validate WebSocket headers
-    const upgradeHeader = c.req.header('upgrade');
-    if (!upgradeHeader || upgradeHeader.toLowerCase() !== 'websocket') {
+    // Get Durable Object stub
+    const id = c.env.GAME_SESSION.idFromName(roomId);
+    const stub = c.env.GAME_SESSION.get(id);
+
+    // Add player to the session
+    const joinResponse = await stub.fetch('http://internal/join', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        playerName: body.playerName,
+        playerId: body.playerId,
+      }),
+    });
+
+    if (joinResponse.status === HttpStatusCodes.NOT_FOUND) {
       return c.json(
-        { error: 'Expected Upgrade: websocket' },
+        { error: 'Game room not found' },
+        HttpStatusCodes.NOT_FOUND,
+      );
+    }
+
+    if (joinResponse.status === HttpStatusCodes.BAD_REQUEST) {
+      const rawError = await joinResponse.json();
+      const parsedError = errorSchema.safeParse(rawError);
+      const errorMessage = parsedError.success ? parsedError.data.error : 'Failed to join room';
+
+      return c.json(
+        { error: errorMessage },
         HttpStatusCodes.BAD_REQUEST,
       );
     }
 
-    // Get the Durable Object stub
-    const id = c.env.GAME_ROOM.idFromName(String(roomId));
-    const stub = c.env.GAME_ROOM.get(id);
+    if (!joinResponse.ok) {
+      throw new Error('Failed to join game session');
+    }
 
-    // Forward the WebSocket upgrade request to the Durable Object
-    const response = await stub.fetch(c.req.raw);
+    const joinData = await joinResponse.json<JoinGameRoomResponse>();
 
-    return response;
+    // Construct WebSocket URL
+    const host = c.req.header('host') || 'localhost:8787';
+    const protocol = host.includes('localhost') ? 'ws' : 'wss';
+    const websocketUrl = `${protocol}://${host}/api/game-room/${roomId}/ws`;
+
+    return c.json(
+      {
+        id: roomId,
+        name: joinData.name,
+        gameType: joinData.gameType,
+        maxPlayers: joinData.maxPlayers,
+        currentPlayers: joinData.currentPlayers,
+        isPrivate: false,
+        status: 'waiting' as const,
+        createdAt: new Date().toISOString(),
+        websocketUrl,
+        player: joinData.player,
+      },
+      HttpStatusCodes.OK,
+    );
   }
   catch (error) {
-    console.error('Error upgrading to WebSocket:', error);
+    console.error('[GameRoom] Join error:', error);
     return c.json(
-      { error: 'Failed to establish WebSocket connection' },
+      { error: 'Failed to join game room' },
       HttpStatusCodes.INTERNAL_SERVER_ERROR,
     );
   }
 };
 
-export const getGameRoomStats: AppRouteHandler<GetRoomStatsRoute> = async (c) => {
+/**
+ * Get game room statistics
+ */
+export const getGameRoomStats: AppRouteHandler<GetRoomStatsRoute> = async (
+  c,
+) => {
   try {
     const { id: roomId } = c.req.valid('param');
 
-    // Debug: Log the roomId to see what we're getting
-    // console.log('Stats request roomId:', roomId, typeof roomId);
-
-    // Ensure roomId is a string
-    const roomIdString = String(roomId);
-
-    const doId = c.env.GAME_ROOM.idFromName(roomIdString);
-    const stub = c.env.GAME_ROOM.get(doId);
+    const id = c.env.GAME_SESSION.idFromName(roomId);
+    const stub = c.env.GAME_SESSION.get(id);
 
     const response = await stub.fetch('http://internal/stats');
 
     if (response.status === HttpStatusCodes.NOT_FOUND) {
-      return c.json({ error: 'Game room not found' }, HttpStatusCodes.NOT_FOUND);
+      return c.json(
+        { error: 'Game room not found' },
+        HttpStatusCodes.NOT_FOUND,
+      );
     }
 
     if (!response.ok) {
       throw new Error('Failed to get game room stats');
     }
 
-    const stats = await response.json<GameRoomStats>();
-    return c.json(stats, HttpStatusCodes.OK);
+    const rawData = await response.json();
+
+    const rawStats = doRoomStatsSchema.parse(rawData);
+
+    return c.json(
+      {
+        totalConnections: rawStats.currentPlayers,
+        maxPlayers: rawStats.maxPlayers,
+        roomConfig: {
+          roomId: rawStats.roomId,
+          name: rawStats.roomId,
+          maxPlayers: rawStats.maxPlayers,
+          gameType: rawStats.gameType,
+          isPrivate: false,
+          createdAt: rawStats.createdAt,
+        },
+        sessions: rawStats.players.map(player => ({
+          roomId: rawStats.roomId,
+          playerId: player.id,
+          joinedAt: Date.now(),
+          duration: 0,
+        })),
+      },
+      HttpStatusCodes.OK,
+    );
   }
   catch (error) {
-    console.error('Error getting game room stats:', error);
+    console.error('[GameRoom] Get stats error:', error);
     return c.json(
       { error: 'Failed to get game room stats' },
       HttpStatusCodes.INTERNAL_SERVER_ERROR,
@@ -129,60 +246,32 @@ export const getGameRoomStats: AppRouteHandler<GetRoomStatsRoute> = async (c) =>
   }
 };
 
-export const join: AppRouteHandler<JoinRoute> = async (c) => {
+/**
+ * Upgrade HTTP connection to WebSocket for gameplay
+ */
+export const websocketUpgrade: AppRouteHandler<WebSocketUpgradeRoute> = async (
+  c,
+) => {
   try {
     const { id: roomId } = c.req.valid('param');
-    const { playerName } = c.req.valid('json');
 
-    // Get the Durable Object stub
-    const id = c.env.GAME_ROOM.idFromName(String(roomId));
-    const stub = c.env.GAME_ROOM.get(id);
-
-    // Add the player to the room
-    const joinResponse = await stub.fetch('http://internal/join', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ playerName }),
-    });
-
-    if (joinResponse.status === HttpStatusCodes.NOT_FOUND) {
-      return c.json({ error: 'Game room not found' }, HttpStatusCodes.NOT_FOUND);
+    const upgradeHeader = c.req.header('upgrade');
+    if (upgradeHeader?.toLowerCase() !== 'websocket') {
+      return c.json(
+        { error: 'Expected WebSocket upgrade request' },
+        HttpStatusCodes.BAD_REQUEST,
+      );
     }
 
-    if (!joinResponse.ok) {
-      const errorText = await joinResponse.text();
-      try {
-        const error = JSON.parse(errorText);
-        return c.json({ error: error.error || error.message || 'Unknown error' }, joinResponse.status as any);
-      }
-      catch {
-        return c.json({ error: errorText || 'Unknown error' }, joinResponse.status as any);
-      }
-    }
+    const id = c.env.GAME_SESSION.idFromName(roomId);
+    const stub = c.env.GAME_SESSION.get(id);
 
-    const roomState = (await joinResponse.json()) as any;
-
-    const websocketUrl = `wss://${c.req.header('host')}/api/game-room/${roomId}/ws`;
-
-    const gameRoom = {
-      id: roomState.roomId,
-      name: roomState.name,
-      maxPlayers: roomState.maxPlayers,
-      currentPlayers: roomState.currentPlayers,
-      gameType: roomState.gameType,
-      isPrivate: roomState.isPrivate,
-      status: 'waiting' as const,
-      createdAt: roomState.createdAt,
-      websocketUrl,
-      player: roomState.player,
-    };
-
-    return c.json(gameRoom, HttpStatusCodes.OK);
+    return stub.fetch(c.req.raw);
   }
   catch (error) {
-    console.error('Error joining game room:', error);
+    console.error('[GameRoom] WebSocket upgrade error:', error);
     return c.json(
-      { error: 'Failed to join game room' },
+      { error: 'Failed to establish WebSocket connection' },
       HttpStatusCodes.INTERNAL_SERVER_ERROR,
     );
   }
