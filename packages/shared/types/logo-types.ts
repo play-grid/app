@@ -1,5 +1,5 @@
 import type { z } from 'zod';
-import type { logoSetSchema, sportLeagueSchema, sportRegionSchema } from '../schemas/logo-schemas';
+import type { logoListSchema, logoSetSchema, sportLeagueSchema, sportRegionSchema } from '../schemas/logo-schemas';
 import type { Country } from './country';
 import type { SupportedLanguage } from './i18n';
 
@@ -17,10 +17,7 @@ export type LocaleRecord = {
 };
 
 // Base interface for list metadata (API response)
-export interface LogoListMetadata {
-  id: string;
-  name: LocaleRecord;
-}
+export type LogoListMetadata = z.infer<typeof logoListSchema>;
 
 // Extended interface with fetchItems (internal use)
 export interface LogoList extends LogoListMetadata {

@@ -64,6 +64,10 @@ export const FiveSecondsActionSchema = z.union([
 ]);
 
 export type FiveSecondsAction = z.infer<typeof FiveSecondsActionSchema>;
+export type AddSeenQuestionIdAction = z.infer<typeof AddSeenQuestionIdActionSchema>;
+export type StartVotingAction = z.infer<typeof StartVotingActionSchema>;
+export type SubmitVoteAction = z.infer<typeof SubmitVoteActionSchema>;
+export type TallyVotesAction = z.infer<typeof TallyVotesActionSchema>;
 export type FiveSecondsGameState = z.infer<typeof FiveSecondsGameStateSchema>;
 export type FiveSecondsGameSettings = z.infer<typeof FiveSecondsGameSettingsSchema>;
 export type VotingState = z.infer<typeof VotingStateSchema>;

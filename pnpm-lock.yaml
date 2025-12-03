@@ -18,6 +18,9 @@ catalogs:
     hono:
       specifier: ^4.9.5
       version: 4.9.9
+    immer:
+      specifier: ^10.2.0
+      version: 10.2.0
     tailwindcss:
       specifier: ^4.1.17
       version: 4.1.17
@@ -426,6 +429,9 @@ importers:
       '@types/react':
         specifier: catalog:react19
         version: 19.2.6
+      typescript:
+        specifier: 'catalog:'
+        version: 5.9.3
 
   packages/games:
     dependencies:

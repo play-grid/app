@@ -1,4 +1,4 @@
-import type { FiveSecondsGameSettings, VotingState } from '../types';
+import type { FiveSecondsGameSettings, VotingState } from './schema';
 import { difficultySchema } from '../schema';
 
 export const FIVE_SECONDS_INITIAL_SETTINGS: FiveSecondsGameSettings = {

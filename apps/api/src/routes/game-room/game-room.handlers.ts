@@ -1,3 +1,4 @@
+import type { Room } from '@guess-logo/shared/schemas';
 import type { AppRouteHandler } from '../../lib/types';
 import type {
   CreateRoute,
@@ -33,7 +34,6 @@ export const create: AppRouteHandler<CreateRoute> = async (c) => {
     }
 
     // Get game definition to validate constraints
-
     const gameDefinition = getGameDefinition(body.gameType);
     if (!gameDefinition) {
       return c.json(
@@ -43,7 +43,7 @@ export const create: AppRouteHandler<CreateRoute> = async (c) => {
     }
 
     // Validate maxPlayers against game definition
-    const maxPlayers = body.maxPlayers ?? gameDefinition.meta.maxPlayers;
+    const maxPlayers = body.maxPlayers;
     if (
       maxPlayers < gameDefinition.meta.minPlayers
       || maxPlayers > gameDefinition.meta.maxPlayers
@@ -86,20 +86,19 @@ export const create: AppRouteHandler<CreateRoute> = async (c) => {
     const protocol = host.includes('localhost') ? 'ws' : 'wss';
     const websocketUrl = `${protocol}://${host}/api/game-room/${roomId}/ws`;
 
-    return c.json(
-      {
-        id: roomId,
-        name: body.name,
-        gameType: body.gameType,
-        maxPlayers,
-        currentPlayers: 0,
-        isPrivate: body.isPrivate,
-        status: 'waiting' as const,
-        createdAt: new Date().toISOString(),
-        websocketUrl,
-      },
-      HttpStatusCodes.CREATED,
-    );
+    const response: Room & { websocketUrl: string } = {
+      id: roomId,
+      name: body.name,
+      gameType: body.gameType,
+      maxPlayers,
+      currentPlayers: 0,
+      isPrivate: body.isPrivate,
+      status: 'waiting',
+      createdAt: new Date().toISOString(),
+      websocketUrl,
+    };
+
+    return c.json(response, HttpStatusCodes.CREATED);
   }
   catch (error) {
     console.error('[GameRoom] Create error:', error);
@@ -142,7 +141,9 @@ export const join: AppRouteHandler<JoinRoute> = async (c) => {
     if (joinResponse.status === HttpStatusCodes.BAD_REQUEST) {
       const rawError = await joinResponse.json();
       const parsedError = errorSchema.safeParse(rawError);
-      const errorMessage = parsedError.success ? parsedError.data.error : 'Failed to join room';
+      const errorMessage = parsedError.success
+        ? parsedError.data.error
+        : 'Failed to join room';
 
       return c.json(
         { error: errorMessage },
@@ -161,21 +162,20 @@ export const join: AppRouteHandler<JoinRoute> = async (c) => {
     const protocol = host.includes('localhost') ? 'ws' : 'wss';
     const websocketUrl = `${protocol}://${host}/api/game-room/${roomId}/ws`;
 
-    return c.json(
-      {
-        id: roomId,
-        name: joinData.name,
-        gameType: joinData.gameType,
-        maxPlayers: joinData.maxPlayers,
-        currentPlayers: joinData.currentPlayers,
-        isPrivate: false,
-        status: 'waiting' as const,
-        createdAt: new Date().toISOString(),
-        websocketUrl,
-        player: joinData.player,
-      },
-      HttpStatusCodes.OK,
-    );
+    const response: JoinGameRoomResponse = {
+      id: roomId,
+      name: joinData.name,
+      gameType: joinData.gameType,
+      maxPlayers: joinData.maxPlayers,
+      currentPlayers: joinData.currentPlayers,
+      isPrivate: joinData.isPrivate,
+      status: joinData.status,
+      createdAt: joinData.createdAt,
+      websocketUrl,
+      player: joinData.player,
+    };
+
+    return c.json(response, HttpStatusCodes.OK);
   }
   catch (error) {
     console.error('[GameRoom] Join error:', error);
@@ -212,7 +212,6 @@ export const getGameRoomStats: AppRouteHandler<GetRoomStatsRoute> = async (
     }
 
     const rawData = await response.json();
-
     const rawStats = doRoomStatsSchema.parse(rawData);
 
     return c.json(
@@ -221,6 +220,7 @@ export const getGameRoomStats: AppRouteHandler<GetRoomStatsRoute> = async (
         maxPlayers: rawStats.maxPlayers,
         roomConfig: {
           roomId: rawStats.roomId,
+          id: rawStats.roomId,
           name: rawStats.roomId,
           maxPlayers: rawStats.maxPlayers,
           gameType: rawStats.gameType,
@@ -230,8 +230,8 @@ export const getGameRoomStats: AppRouteHandler<GetRoomStatsRoute> = async (
         sessions: rawStats.players.map(player => ({
           roomId: rawStats.roomId,
           playerId: player.id,
-          joinedAt: Date.now(),
-          duration: 0,
+          joinedAt: Date.now(), // Could be tracked in DO
+          duration: 0, // Could be calculated in DO
         })),
       },
       HttpStatusCodes.OK,

@@ -3,16 +3,53 @@
   "type": "module",
   "version": "0.2.0",
   "private": true,
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "exports": {
-    ".": "./src/index.ts",
-    "./react/hooks": "./src/react/hooks/use-game.ts",
-    "./contracts": "./src/contracts/game-definition.ts",
-    "./adapter/local": "./src/adapter/local/zustand-store.ts",
-    "./adapter/multiplayer": "./src/adapters/multiplayer/client/multiplayer.adapter.ts",
-    "./utils": "./src/utils/reducer-utils.ts",
-    "./game-logic/reducer": "./src/game-logic/reducer.ts"
-  },
+        "exports": {
+          ".": {
+            "types": "./dist/index.d.ts",
+            "import": "./dist/index.js",
+            "require": "./dist/index.js",
+            "default": "./dist/index.js"
+          },
+          "./react/hooks": {
+            "types": "./dist/react/hooks/use-game.d.ts",
+            "import": "./dist/react/hooks/use-game.js",
+            "require": "./dist/react/hooks/use-game.js",
+            "default": "./dist/react/hooks/use-game.js"
+          },
+          "./contracts": {
+            "types": "./dist/contracts/game-definition.d.ts",
+            "import": "./dist/contracts/game-definition.js",
+            "require": "./dist/contracts/game-definition.js",
+            "default": "./dist/contracts/game-definition.js"
+          },
+          "./adapter/local": {
+            "types": "./dist/adapter/local/zustand-store.d.ts",
+            "import": "./dist/adapter/local/zustand-store.js",
+            "require": "./dist/adapter/local/zustand-store.js",
+            "default": "./dist/adapter/local/zustand-store.js"
+          },
+          "./adapter/multiplayer": {
+            "types": "./dist/adapters/multiplayer/client/multiplayer.adapter.d.ts",
+            "import": "./dist/adapters/multiplayer/client/multiplayer.adapter.js",
+            "require": "./dist/adapters/multiplayer/client/multiplayer.adapter.js",
+            "default": "./dist/adapters/multiplayer/client/multiplayer.adapter.js"
+          },
+          "./utils": {
+            "types": "./dist/utils/reducer-utils.d.ts",
+            "import": "./dist/utils/reducer-utils.js",
+            "require": "./dist/utils/reducer-utils.js",
+            "default": "./dist/utils/reducer-utils.js"
+          },
+          "./game-logic/reducer": {
+            "types": "./dist/game-logic/reducer.d.ts",
+            "import": "./dist/game-logic/reducer.js",
+            "require": "./dist/game-logic/reducer.js",
+            "default": "./dist/game-logic/reducer.js"
+          }
+        },
   "dependencies": {
     "@guess-logo/eslint-config": "workspace:*",
     "@orpc/client": "^1.10.1",
@@ -30,9 +67,10 @@
   "devDependencies": {
     "@orpc/server": "^1.12.2",
     "@types/node": "catalog:",
-    "@types/react": "catalog:react19"
+    "@types/react": "catalog:react19",
+    "typescript": "catalog:"
   },
   "scripts": {
-    "build": "tsc -p tsconfig.build.json"
+    "build": "pnpm exec tsc -p tsconfig.build.json"
   }
 }

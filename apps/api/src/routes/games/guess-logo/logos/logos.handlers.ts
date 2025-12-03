@@ -25,6 +25,7 @@ export const getLogoLists: AppRouteHandler<GetLogoListsRoute> = async (c) => {
     const simplifiedLists = logoLists.map(list => ({
       id: list.id,
       name: list.name,
+      teamsCount: list.teamsCount,
     }));
 
     return c.json(simplifiedLists, HttpStatusCodes.OK);

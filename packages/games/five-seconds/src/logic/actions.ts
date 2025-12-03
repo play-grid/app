@@ -1,11 +1,5 @@
 import type { Draft } from 'immer';
-import type {
-  AddSeenQuestionIdAction,
-  FiveSecondsGameState,
-  StartVotingAction,
-  SubmitVoteAction,
-  TallyVotesAction,
-} from './schema';
+import type { AddSeenQuestionIdAction, FiveSecondsGameState, StartVotingAction, SubmitVoteAction, TallyVotesAction } from './schema';
 
 export function addSeenQuestionId(
   draft: Draft<FiveSecondsGameState>,

@@ -19,7 +19,7 @@ export const languageQuery = z.object({ language: z.enum(['en', 'ar'], { error: 
 export const logoListSchema = z.object({
   id: z.string(),
   name: localeRecordSchema,
-  teamsCount: z.number(),
+  teamsCount: z.number().optional(),
 });
 
 export const sportRegionSchema = z.object({

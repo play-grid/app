@@ -8,7 +8,7 @@
     "./data/load-region": "./data/sport/load-region.ts",
     "./data/load-custom-list": "./data/sport/load-custom-list.ts",
     "./types/logos": "./types/logo-types.ts",
-    "./schemas": "./schemas/logo-schemas.ts",
+    "./schemas": "./schemas/index.ts",
     "./utils": "./utils/index.ts"
   },
   "devDependencies": {
