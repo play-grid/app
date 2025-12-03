@@ -1,6 +1,6 @@
 import type { GameSessionManager } from './game-session.manager';
 import { os } from '@orpc/server';
-import { HibernationEventIterator } from '@orpc/server/hibernation';
+import { encodeHibernationRPCEvent, HibernationEventIterator } from '@orpc/server/hibernation';
 import { z } from 'zod';
 
 /**
@@ -34,7 +34,6 @@ export function createGameSessionRouter(
       )
       .handler(async ({ input, context }) => {
         try {
-          // Action already validated by Zod, manager will re-validate
           context.manager.dispatchAction(input.action);
 
           return { success: true };
@@ -50,14 +49,10 @@ export function createGameSessionRouter(
 
     onStateUpdate: base.output(stateSchema).handler(async ({ context }) => {
       return new HibernationEventIterator<any>((id) => {
-        context.ws.serializeAttachment({ stateIteratorId: id });
+        context.ws.serializeAttachment({ id });
 
-        // Send initial state
         context.ws.send(
-          JSON.stringify({
-            type: 'state',
-            data: context.manager.getState(),
-          }),
+          encodeHibernationRPCEvent(id, context.manager.getState()),
         );
       });
     }),

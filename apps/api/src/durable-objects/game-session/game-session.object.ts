@@ -296,7 +296,10 @@ export class GameSessionObject extends DurableObject {
     ws: WebSocket,
     message: string | ArrayBuffer,
   ): Promise<void> {
-    //TODO:logger
+    if (!this.handler || !this.manager) {
+      await this.rehydrate();
+    }
+    // TODO:logger
     // eslint-disable-next-line no-console
     console.log('[GameSessionObject] Received message:', message);
     if (!this.handler || !this.manager) {

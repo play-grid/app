@@ -13,7 +13,6 @@ export class GameSessionManager {
   private ctx: DurableObjectState;
 
   constructor(config: GameSessionManagerConfig) {
-    // Parse initialState to ensure proper defaults and validation
     this.currentState = config.gameDefinition.stateSchema.parse(
       config.initialState,
     );
@@ -56,13 +55,13 @@ export class GameSessionManager {
           continue;
         }
 
-        const { stateIteratorId } = attachment as { stateIteratorId?: string };
-        if (!stateIteratorId) {
+        const { id } = attachment as { id?: string };
+        if (!id) {
           continue;
         }
 
         ws.send(
-          encodeHibernationRPCEvent(stateIteratorId, this.currentState),
+          encodeHibernationRPCEvent(id, this.currentState),
         );
       }
       catch (error) {
