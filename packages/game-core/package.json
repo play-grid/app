@@ -9,6 +9,7 @@
     "./react/hooks": "./src/react/hooks/use-game.ts",
     "./contracts": "./src/contracts/game-definition.ts",
     "./adapter/local": "./src/adapter/local/zustand-store.ts",
+    "./adapter/multiplayer": "./src/adapters/multiplayer/client/multiplayer.adapter.ts",
     "./utils": "./src/utils/reducer-utils.ts",
     "./game-logic/reducer": "./src/game-logic/reducer.ts"
   },
@@ -27,6 +28,7 @@
     "react": "catalog:react19"
   },
   "devDependencies": {
+    "@orpc/server": "^1.12.2",
     "@types/node": "catalog:",
     "@types/react": "catalog:react19"
   },
