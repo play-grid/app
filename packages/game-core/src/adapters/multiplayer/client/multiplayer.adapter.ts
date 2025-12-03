@@ -1,9 +1,8 @@
-// TODO : use logger like pino
 /* eslint-disable no-console */
+import type { ContractRouterClient } from '@orpc/contract';
 import type { z } from 'zod';
-import type { GameAction } from '../../../game-logic/schema/actions.types';
-import type { BaseGameStateWire } from '../../../game-logic/schema/state.types';
 import type { GameAdapter, StateListener, Unsubscribe } from '../../types';
+import type { GameContract } from '../contracts';
 import { createORPCClient } from '@orpc/client';
 import { RPCLink } from '@orpc/client/websocket';
 import PartySocket from 'partysocket';
@@ -17,7 +16,7 @@ export interface MultiplayerAdapterConfig<
   token?: string;
   stateSchema: TStateSchema;
   actionSchema: TActionSchema;
-  initialState: BaseGameStateWire;
+  initialState: z.infer<TStateSchema>;
 }
 
 /**
@@ -25,19 +24,18 @@ export interface MultiplayerAdapterConfig<
  * Leverages oRPC's type-safe RPC and Hibernation's efficient streaming.
  */
 export class MultiplayerAdapter<
-  TState extends BaseGameStateWire = BaseGameStateWire,
-  TAction extends GameAction = GameAction,
-> implements GameAdapter<TState, TAction> {
-  private currentState: TState;
-  private listeners = new Set<StateListener<TState>>();
+  TStateSchema extends z.ZodType,
+  TActionSchema extends z.ZodType,
+> implements GameAdapter<z.infer<TStateSchema>, z.infer<TActionSchema>> {
+  private currentState: z.infer<TStateSchema>;
+  private listeners = new Set<StateListener<z.infer<TStateSchema>>>();
   private websocket: PartySocket;
-  private client: any; // TODO: Can be typed with server router type for full IDE support
+  private client: ContractRouterClient<GameContract<TStateSchema, TActionSchema>>;
   private stateStreamController: AbortController | null = null;
 
-  constructor(config: MultiplayerAdapterConfig<any, any>) {
-    this.currentState = config.initialState as TState;
+  constructor(config: MultiplayerAdapterConfig<TStateSchema, TActionSchema>) {
+    this.currentState = config.initialState;
 
-    // Create PartySocket with correct API
     this.websocket = new PartySocket({
       host: config.wsUrl,
       room: config.room,
@@ -51,14 +49,12 @@ export class MultiplayerAdapter<
       reconnectionDelayGrowFactor: 1.3,
     });
 
-    // Create oRPC client with WebSocket link
     const link = new RPCLink({
       websocket: this.websocket,
     });
 
     this.client = createORPCClient(link);
 
-    // Setup connection handlers
     this.websocket.addEventListener('open', () => {
       console.log('[MultiplayerAdapter] Connected');
       this.subscribeToStateUpdates();
@@ -74,14 +70,20 @@ export class MultiplayerAdapter<
     });
   }
 
-  getState(): TState {
+  getState(): z.infer<TStateSchema> {
     return this.currentState;
   }
 
-  async dispatch(action: TAction): Promise<void> {
+  async dispatch(action: z.infer<TActionSchema>): Promise<void> {
     try {
-      const result = await this.client.dispatchAction({
+      const payload: { action: z.infer<TActionSchema>; requestId?: string } = {
         action,
+      };
+
+      payload.requestId = `req_${Date.now()}`;
+
+      const result = await this.client.dispatchAction({
+        ...payload,
         requestId: `req_${Date.now()}`,
       });
 
@@ -95,7 +97,7 @@ export class MultiplayerAdapter<
     }
   }
 
-  subscribe(listener: StateListener<TState>): Unsubscribe {
+  subscribe(listener: StateListener<z.infer<TStateSchema>>): Unsubscribe {
     this.listeners.add(listener);
     return () => {
       this.listeners.delete(listener);
@@ -113,12 +115,14 @@ export class MultiplayerAdapter<
 
     void (async () => {
       try {
-        const stateIterator = await this.client.onStateUpdate(undefined, {
-          signal: this.stateStreamController!.signal,
-        });
+        const stateIterator = (await this.client.onStateUpdate()) as AsyncIterable<z.infer<TStateSchema>>;
 
         for await (const state of stateIterator) {
-          this.updateState(state as TState);
+          if (this.stateStreamController?.signal.aborted) {
+            console.log('[MultiplayerAdapter] State stream cancelled');
+            break;
+          }
+          this.updateState(state);
         }
       }
       catch (error) {
@@ -139,7 +143,7 @@ export class MultiplayerAdapter<
     }
   }
 
-  private updateState(newState: TState): void {
+  private updateState(newState: z.infer<TStateSchema>): void {
     this.currentState = newState;
     this.notifyListeners();
   }
@@ -160,10 +164,10 @@ export class MultiplayerAdapter<
  * Factory function to create multiplayer adapter
  */
 export function createMultiplayerAdapter<
-  TState extends BaseGameStateWire,
-  TAction extends GameAction,
+  TStateSchema extends z.ZodType,
+  TActionSchema extends z.ZodType,
 >(
-  config: MultiplayerAdapterConfig<any, any>,
-): MultiplayerAdapter<TState, TAction> {
-  return new MultiplayerAdapter<TState, TAction>(config);
+  config: MultiplayerAdapterConfig<TStateSchema, TActionSchema>,
+): MultiplayerAdapter<TStateSchema, TActionSchema> {
+  return new MultiplayerAdapter<TStateSchema, TActionSchema>(config);
 }
