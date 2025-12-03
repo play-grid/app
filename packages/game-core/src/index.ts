@@ -3,14 +3,11 @@ export { createLocalAdapter } from './adapters/local/zustand-store';
 export { createGameContract } from './adapters/multiplayer/contracts/base.contract';
 export type { GameContract } from './adapters/multiplayer/contracts/base.contract';
 
-export type { GameDefinition, GameMeta } from './contracts/game-definition';
-export { BaseActionSchema } from './contracts/game-definition';
-
+export type { GameDefinition } from './contracts/game-definition';
 export type { BaseAction } from './contracts/game-definition';
-
 export { gameReducer } from './game-logic/reducer';
-export { GameActionSchemas } from './game-logic/schema/actions.types';
 
+export { GameActionSchema } from './game-logic/schema/actions.types';
 export type { GameAction, GameEventType } from './game-logic/schema/actions.types';
 
 export { BaseGameStateSchema, PlayerSchema } from './game-logic/schema/state.types';

@@ -13,13 +13,10 @@ export function changePhase<TState extends BaseGameStateWire>(
 
 /**
  * A pure function that returns a new state with a player added.
- * It's generic over `TState` and uses indexed access types on `TState`
- * to correctly handle custom player properties.
  */
 export function addPlayer<TState extends BaseGameStateWire>(
   state: TState,
-  // This now correctly expects a player object WITHOUT `isHost` and `isReady`
-  playerData: Omit<TState['players'][string], 'isHost' | 'isReady' | 'score'>,
+  playerData: Omit<Player, 'isHost' | 'isReady' | 'score'>,
   maxPlayers?: number,
 ): TState {
   const { players, hostId } = state;
@@ -28,28 +25,25 @@ export function addPlayer<TState extends BaseGameStateWire>(
     return state;
   }
 
-  // The new player object is created by combining the partial data
-  // with the properties managed by the reducer.
   const newPlayer = {
-    ...(playerData as TState['players'][string]), // Assert because we are adding the missing properties right after
+    ...playerData,
     isHost: Object.keys(players).length === 0,
     isReady: false,
     score: 0,
-  };
+  } as TState['players'][string];
 
   return {
     ...state,
     players: {
       ...players,
       [newPlayer.id]: newPlayer,
-    },
-    hostId: hostId ?? newPlayer.id,
+    } as TState['players'],
+    hostId: hostId || newPlayer.id,
   };
 }
 
 /**
  * A pure function that returns a new state with a player removed.
- * This is also generic to ensure it works with any custom game state.
  */
 export function removePlayer<TState extends BaseGameStateWire>(
   state: TState,
@@ -89,12 +83,11 @@ export function removePlayer<TState extends BaseGameStateWire>(
 
 /**
  * A pure function that returns a new state with a player updated.
- * This is also generic to ensure it works with any custom game state.
  */
 export function updatePlayer<TState extends BaseGameStateWire>(
   state: TState,
   playerId: Player['id'],
-  updates: Partial<TState['players'][string]>,
+  updates: Partial<Player>,
 ): TState {
   const { players } = state;
   const playerToUpdate = players[playerId];
@@ -113,7 +106,7 @@ export function updatePlayer<TState extends BaseGameStateWire>(
     players: {
       ...players,
       [playerId]: updatedPlayer,
-    },
+    } as TState['players'],
   };
 }
 
@@ -128,7 +121,7 @@ export function togglePlayerReady<TState extends BaseGameStateWire>(
   if (!player) {
     return state;
   }
-  return updatePlayer(state, playerId, { isReady: !player.isReady } as Partial<TState['players'][string]>);
+  return updatePlayer(state, playerId, { isReady: !player.isReady });
 }
 
 /**
@@ -146,8 +139,6 @@ export function updateSettings<TState extends BaseGameStateWire>(
     },
   };
 }
-
-// Turn Management
 
 /**
  * A pure function that advances the turn to the next player.
@@ -219,14 +210,12 @@ export function nextRound<TState extends BaseGameStateWire>(state: TState): TSta
     turnState: {
       ...turnState,
       roundNumber: turnState.roundNumber + 1,
-      // Reset turn to the first player
+
       turnIndex: 0,
       currentPlayerId: playerIds[0] ?? '',
     },
   };
 }
-
-// Lifecycle
 
 /**
  * A pure function that transitions the game to the "playing" phase
@@ -239,7 +228,7 @@ export function startGame<TState extends BaseGameStateWire>(state: TState): TSta
     ...state,
     phase: 'playing',
     startedAt: Date.now(),
-    // Initialize turn state when game starts
+
     turnState:
       playerIds.length > 0
         ? {
@@ -275,7 +264,7 @@ export function resetGame<TState extends BaseGameStateWire>(state: TState): TSta
     ...state,
     ...stateToPreserve,
     phase: 'lobby',
-    players: {},
+    players: {} as TState['players'],
     hostId: '',
     turnState: undefined,
     startedAt: undefined,

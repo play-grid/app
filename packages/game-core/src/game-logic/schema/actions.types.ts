@@ -106,7 +106,7 @@ export const ResetGameActionSchema = z.object({
   type: z.literal('RESET_GAME'),
 });
 
-export const GameActionSchemas = [
+export const GameActionSchema = z.discriminatedUnion('type', [
   SetPhaseActionSchema,
   AddPlayerActionSchema,
   RemovePlayerActionSchema,
@@ -121,8 +121,6 @@ export const GameActionSchemas = [
   StartGameActionSchema,
   EndGameActionSchema,
   ResetGameActionSchema,
-];
-
-export const GameActionSchema = z.union(GameActionSchemas);
+]);
 
 export type GameAction = z.infer<typeof GameActionSchema>;

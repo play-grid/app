@@ -23,7 +23,7 @@ export type StateListener<TState = BaseGameStateWire> = (state: TState) => void;
  */
 export interface GameAdapter<
   TState = BaseGameStateWire,
-  TAction extends GameAction = GameAction,
+  TAction = GameAction,
 > {
   /**
    * Get the current state snapshot.

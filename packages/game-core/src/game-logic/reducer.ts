@@ -15,7 +15,10 @@ import {
   updateSettings,
 } from './actions';
 
-export function gameReducer(state: BaseGameStateWire, action: GameAction): BaseGameStateWire {
+export function gameReducer<TState extends BaseGameStateWire>(
+  state: TState,
+  action: GameAction,
+): TState {
   switch (action.type) {
     case 'SET_PHASE':
       return changePhase(state, action.payload);

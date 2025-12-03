@@ -1,3 +1,5 @@
+// packages/game-core/src/adapters/local/zustand-store.ts
+
 import type { StoreApi } from 'zustand';
 import type { GameAction } from '../../game-logic/schema/actions.types';
 import type { BaseGameStateWire as GameState } from '../../game-logic/schema/state.types';
@@ -19,10 +21,13 @@ export interface GameStore<TState = GameState> {
  */
 export function createLocalAdapter<
   TState extends GameState = GameState,
-  TAction extends GameAction = GameAction,
+  TAction = GameAction,
 >(
   initialState: TState,
-  reducer: (state: TState, action: TAction) => TState = defaultReducer as any,
+  reducer: (state: TState, action: TAction) => TState = defaultReducer as unknown as (
+    state: TState,
+    action: TAction,
+  ) => TState,
 ): GameAdapter<TState, TAction> {
   const store: StoreApi<GameStore<TState>> = create<GameStore<TState>>(set => ({
     state: initialState,
@@ -39,7 +44,7 @@ export function createLocalAdapter<
     getState: () => store.getState().state,
 
     dispatch: async (action: TAction) => {
-      store.getState().dispatch(action);
+      store.getState().dispatch(action as GameAction);
     },
 
     subscribe: (listener: StateListener<TState>): Unsubscribe => {
