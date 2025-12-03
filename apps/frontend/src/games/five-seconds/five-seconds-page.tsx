@@ -1,4 +1,4 @@
-import { useFiveSecondsState } from '@guess-logo/five-seconds/hooks';
+import { useFiveSecondsState }  from '@guess-logo/five-seconds';
 import { GameplayPage } from './pages/gameplay-page';
 import { FiveSecondsLobby } from './pages/lobby-page';
 import { ResultsPage } from './pages/results-page';

@@ -1,4 +1,4 @@
-import type { Difficulty } from '@guess-logo/five-seconds/schema';
+import type { Difficulty } from '@guess-logo/five-seconds';
 import { useQuery } from '@tanstack/react-query';
 import { getRandomQuestion } from '../services/questions.service';
 

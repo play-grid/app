@@ -1,7 +1,7 @@
 import {
   useFiveSecondsActions,
   useFiveSecondsState,
-} from '@guess-logo/five-seconds/hooks';
+} from '@guess-logo/five-seconds';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';

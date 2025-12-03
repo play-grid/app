@@ -4,28 +4,7 @@
   "private": true,
   "type": "module",
     "exports": {
-    "./definition": "./src/definition.ts",
-    "./schema":"./src/schema.ts",
-    "./hooks": {
-      "types": "./src/hooks/index.ts",
-      "default": "./src/hooks/index.ts"
-    },
-    "./hooks/*": {
-      "types": "./src/hooks/*.ts",
-      "default": "./src/hooks/*.ts"
-    },
-    ".": {
-      "types": "./src/logic/index.ts",
-      "default": "./src/logic/index.ts"
-    },
-    "./logic": {
-      "types": "./src/logic/index.ts",
-      "default": "./src/logic/index.ts"
-    },
-    "./logic/*": {
-      "types": "./src/logic/*.ts",
-      "default": "./src/logic/*.ts"
-    }
+    ".": "./index.ts"
   },
   "dependencies": {
     "@guess-logo/game-core": "workspace:*",

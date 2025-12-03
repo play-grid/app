@@ -1,4 +1,4 @@
-import type { Question } from '@guess-logo/five-seconds/schema';
+import type { Question }  from '@guess-logo/five-seconds';
 import { Timer } from 'lucide-react';
 import { Progress } from '@/components/ui/progress';
 import { QuestionInfo } from './question-info';

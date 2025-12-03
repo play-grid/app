@@ -1,8 +1,8 @@
 import {
+  difficultySchema,
   useFiveSecondsActions,
   useFiveSecondsState,
-} from '@guess-logo/five-seconds/hooks';
-import { difficultySchema } from '@guess-logo/five-seconds/schema';
+} from '@guess-logo/five-seconds';
 import { useEffect, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 

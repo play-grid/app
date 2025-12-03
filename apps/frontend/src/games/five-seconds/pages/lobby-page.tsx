@@ -1,8 +1,8 @@
 import {
+  FIVE_SECONDS_GAME_OPTIONS,
   useFiveSecondsActions,
   useFiveSecondsState,
-} from '@guess-logo/five-seconds/hooks';
-import { FIVE_SECONDS_GAME_OPTIONS } from '@guess-logo/five-seconds/logic/initial-state';
+} from '@guess-logo/five-seconds';
 import { Info, Play, Settings } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
