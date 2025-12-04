@@ -20,6 +20,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { CreateOrJoinRoomDialog } from '@/features/room/create-or-join-room-dialog';
 import { gridConfigurations } from '../lib/grid-configurations';
 import { fetchLogoLists, fetchLogos } from '../services/unified-logo-service';
 
@@ -33,6 +34,8 @@ interface GameSetupProps {
   onPlayerANameChange: (name: string) => void;
   onPlayerBNameChange: (name: string) => void;
   onStartGame: () => void;
+  onRoomCreated: (roomId: string) => void;
+  onRoomJoined: (roomId: string) => void;
   canStart: boolean;
   isUpdating: boolean;
 }
@@ -274,7 +277,39 @@ export function GameSetup({
             {t('start-game')}
           </Button>
 
-          {/* <CreateRoomDialog /> */}
+          <CreateOrJoinRoomDialog
+            gameType="guess-logo"
+            gameSettings={{
+              selectedSet,
+              selectedGrid,
+              selectedList,
+            }}
+            onRoomCreated={(room) => {
+              onRoomCreated(room.id);
+            }}
+            onRoomJoined={(room) => {
+              onRoomJoined(room.id);
+            }}
+            renderGameSettings={(
+              <div className="p-3 bg-muted rounded-lg">
+                <Label className="text-sm font-medium">{t('current-game-settings')}</Label>
+                <div className="text-sm text-muted-foreground mt-1">
+                  <p>
+                    {t('logo-set')}
+                    :
+                    {' '}
+                    {t(selectedSet)}
+                  </p>
+                  <p>
+                    {t('grid-size')}
+                    :
+                    {' '}
+                    {selectedGrid}
+                  </p>
+                </div>
+              </div>
+            )}
+          />
         </div>
         {attemptedStart && (!playerAValidation.success || !playerBValidation.success) && (
           <p className="text-sm text-red-500 mt-2">{t('enter-valid-player-names-to-continue')}</p>

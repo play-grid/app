@@ -1,3 +1,4 @@
+import type { Room } from '@guess-logo/shared/schemas';
 import {
   FIVE_SECONDS_GAME_OPTIONS,
   useFiveSecondsActions,
@@ -6,10 +7,12 @@ import {
 import { Info, Play, Settings } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import BackButton from '@/components/back-button';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
+import { CreateOrJoinRoomDialog } from '@/features/room/create-or-join-room-dialog';
 import { GameInstructions } from '../components/game-instructions';
 import { GameSettings } from '../components/game-settings';
 import { PlayerList } from '../components/player-list';
@@ -18,8 +21,9 @@ import { useUrlSyncedSettingsOnly } from '../hooks/use-url-synced-settings';
 const FIRST_VISIT_KEY = 'FIVE_SECONDS_FIRST_VISIT';
 
 export function FiveSecondsLobby() {
-  const { t } = useTranslation();
-  const { players } = useFiveSecondsState();
+  const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
+  const { players, settings } = useFiveSecondsState();
   const { startGame } = useFiveSecondsActions();
   useUrlSyncedSettingsOnly();
 
@@ -38,6 +42,14 @@ export function FiveSecondsLobby() {
       playerCount >= FIVE_SECONDS_GAME_OPTIONS.minPlayers
       && playerCount <= FIVE_SECONDS_GAME_OPTIONS.maxPlayers
     );
+  };
+
+  const handleRoomCreated = (room: Room) => {
+    navigate(`/${i18n.language}/five-seconds?mode=multiplayer&room=${room.id}&host=true`, { replace: true });
+  };
+
+  const handleRoomJoined = (room: Room) => {
+    navigate(`/${i18n.language}/five-seconds?mode=multiplayer&room=${room.id}`, { replace: true });
   };
 
   return (
@@ -84,16 +96,26 @@ export function FiveSecondsLobby() {
 
             <GameSettings />
 
-            {/* Start Game Button */}
-            <Button
-              size="lg"
-              className="w-full text-lg font-semibold"
-              onClick={startGame}
-              disabled={!canStartGame()}
-            >
-              <Play className="w-5 h-5 mr-2" />
-              {t('fiveSecondsGame.lobby.startGame')}
-            </Button>
+            <div className="flex flex-col sm:flex-row gap-4">
+              {/* Start Game Button (Local) */}
+              <Button
+                size="lg"
+                className="w-full text-lg font-semibold"
+                onClick={startGame}
+                disabled={!canStartGame()}
+              >
+                <Play className="w-5 h-5 mr-2" />
+                {t('fiveSecondsGame.lobby.startGame')}
+              </Button>
+
+              {/* Create or Join Room Button (Online) */}
+              <CreateOrJoinRoomDialog
+                gameType="five-seconds"
+                gameSettings={settings}
+                onRoomCreated={handleRoomCreated}
+                onRoomJoined={handleRoomJoined}
+              />
+            </div>
 
             {!canStartGame() && Object.keys(players).length > 0 && (
               <p className="text-sm text-center text-muted-foreground">

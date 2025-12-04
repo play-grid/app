@@ -35,9 +35,10 @@ export function createGameAdapter<
 
   if (options.mode === 'multiplayer' && options.roomId) {
     const apiHost = import.meta.env.DEV ? 'localhost:8787' : window.location.host;
+
     return createMultiplayerAdapter({
       wsUrl: apiHost,
-      room: `game-room:${options.roomId}`,
+      room: options.roomId,
       token: undefined,
       stateSchema: definition.stateSchema,
       actionSchema: definition.actionSchema,

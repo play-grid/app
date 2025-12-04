@@ -15,6 +15,7 @@ export default function FiveSecondsRoutes() {
   // Determine mode: local or multiplayer
   const mode = searchParams.get('mode') || 'local';
   const roomId = searchParams.get('room');
+  const isHost = searchParams.get('host') === 'true';
 
   // Get URL parameters
   const urlDifficulty = searchParams.get('difficulty');
@@ -56,7 +57,7 @@ export default function FiveSecondsRoutes() {
       roomId: roomId ?? undefined,
       initialState: validatedInitialState,
     });
-  }, [mode, roomId, validatedInitialState]);
+  }, [mode, roomId, isHost, validatedInitialState]);
 
   return (
     <AdapterProvider adapter={adapter}>

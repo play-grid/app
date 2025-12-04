@@ -10,7 +10,7 @@ import { GameInstructions } from '../components/game-instructions';
 import { GridSizeSlider } from '../components/grid-size-slider';
 import { PlayerGrid } from '../components/player-grid';
 import { useGameError } from '../hooks/game-room/use-game-error';
-import { useGameRoomPersistence } from '../hooks/game-room/use-game-room-persistence';
+// import { useGameRoomPersistence } from '../hooks/game-room/use-game-room-persistence';
 import { useGameRouteParams } from '../hooks/game-room/use-game-route-params';
 import { useGameUI } from '../hooks/game-room/use-game-ui';
 import { useLogoListChanger } from '../hooks/use-logo-list-changer';
@@ -25,10 +25,10 @@ export default function LocalGamePlayPage() {
   const { changeLogoList } = useLogoListChanger();
 
   const routeParams = useGameRouteParams({ enabled: true });
-  const { loadAttempted, clearGameState } = useGameRoomPersistence({
-    ...routeParams,
-    enabled: true,
-  });
+  // const { loadAttempted, clearGameState } = useGameRoomPersistence({
+  //   ...routeParams,
+  //   enabled: true,
+  // });
 
   const {
     playerA,
@@ -40,7 +40,7 @@ export default function LocalGamePlayPage() {
     togglePlayerBLogo,
     switchTurn,
     selectedList,
-    updateLogosForList,
+    // updateLogosForList,
     isUpdatingLogos,
     shuffleLogos,
     error: storeError,
@@ -57,23 +57,23 @@ export default function LocalGamePlayPage() {
 
   const gridConfig = getGridConfiguration(routeParams.gridSize);
 
-  useEffect(() => {
-    if (loadAttempted) {
-      updateLogosForList(
-        routeParams.listId,
-        routeParams.logoSet,
-        i18n.language as any,
-        gridConfig.totalLogos,
-      );
-    }
-  }, [
-    loadAttempted,
-    routeParams.listId,
-    routeParams.logoSet,
-    i18n.language,
-    updateLogosForList,
-    gridConfig.totalLogos,
-  ]);
+  // useEffect(() => {
+  //   if (loadAttempted) {
+  //     updateLogosForList(
+  //       routeParams.listId,
+  //       routeParams.logoSet,
+  //       i18n.language as any,
+  //       gridConfig.totalLogos,
+  //     );
+  //   }
+  // }, [
+  //   loadAttempted,
+  //   routeParams.listId,
+  //   routeParams.logoSet,
+  //   i18n.language,
+  //   updateLogosForList,
+  //   gridConfig.totalLogos,
+  // ]);
 
   // --- UI Logic --- //
   const { showLoading, loadingMessage, showError, errorMessage } = useGameUI({
@@ -83,7 +83,7 @@ export default function LocalGamePlayPage() {
   });
 
   const handleResetGame = () => {
-    clearGameState();
+    // clearGameState();
     resetGame();
     clearError();
     navigate('/');

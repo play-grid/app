@@ -80,6 +80,16 @@ export default function GameSetupPage() {
   // Get logos for validation
   const canStart = true;
 
+  const handleRoomCreated = (roomId: string) => {
+    resetGame();
+    navigate(`/room/${roomId}`);
+  };
+
+  const handleRoomJoined = (roomId: string) => {
+    resetGame();
+    navigate(`/room/${roomId}`);
+  };
+
   const handleStartGame = () => {
     const encodedPlayerA = encodeURIComponent(playerA.name.trim() || 'Player A');
     const encodedPlayerB = encodeURIComponent(playerB.name.trim() || 'Player B');
@@ -166,6 +176,8 @@ export default function GameSetupPage() {
           canStart={canStart}
           isUpdating={isUpdatingList}
           onStartGame={handleStartGame}
+          onRoomCreated={handleRoomCreated}
+          onRoomJoined={handleRoomJoined}
         />
       </div>
     </div>

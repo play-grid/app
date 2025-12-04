@@ -85,7 +85,7 @@ const sessionSchema = z.object({
 export const roomStatsResponseSchema = z.object({
   totalConnections: z.number().int().describe('Current number of connected players'),
   maxPlayers: z.number().int().describe('Maximum allowed players'),
-  
+
   roomConfig: RoomSchema.omit({
     status: true,
     currentPlayers: true,
