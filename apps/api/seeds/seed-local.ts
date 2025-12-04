@@ -28,7 +28,6 @@ async function main() {
   await seedD1Sports(db);
   await seedD1FiveSecondsCategories(db);
   await seedD1Questions(db);
-  
 
   sqlite.close();
   console.log('Database seeded and closed.');

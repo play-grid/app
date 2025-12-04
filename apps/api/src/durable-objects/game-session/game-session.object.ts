@@ -1,16 +1,14 @@
+/* eslint-disable no-console */
 import { getGameDefinition, isGameRegistered } from '@guess-logo/game-core';
 import { onError } from '@orpc/server';
 import { HibernationPlugin } from '@orpc/server/hibernation';
-
 import { RPCHandler } from '@orpc/server/websocket';
 import { DurableObject } from 'cloudflare:workers';
 import { ZodError } from 'zod';
 import { GameSessionManager } from './game-session.manager';
 import { createGameSessionRouter } from './game-session.router';
-import {
-  initGameSessionSchema,
-  joinGameSessionSchema,
-} from './schemas';
+import { initGameSessionSchema, joinGameSessionSchema } from './schemas';
+import '../../games';
 
 export interface GameSessionMetadata {
   roomId: string;
@@ -34,9 +32,9 @@ export class GameSessionObject extends DurableObject {
   async fetch(request: Request): Promise<Response> {
     const url = new URL(request.url);
 
-    // Ensure the object is initialized before handling requests
-    if (!this.handler) {
-      await this.rehydrate();
+    // ✅ FIX: Handle /ws path for WebSocket upgrades
+    if (url.pathname.endsWith('/ws')) {
+      return this.handleWebSocketUpgrade(request);
     }
 
     if (url.pathname === '/init') {
@@ -51,27 +49,25 @@ export class GameSessionObject extends DurableObject {
       return this.handleStats();
     }
 
-    const upgradeHeader = request.headers.get('Upgrade');
-    if (upgradeHeader?.toLowerCase() === 'websocket') {
-      return this.handleWebSocketUpgrade(request);
-    }
-
     return new Response('Not found', { status: 404 });
   }
 
   private async rehydrate() {
-    const metadata
-      = await this.ctx.storage.get<GameSessionMetadata>('metadata');
+    console.log('[GameSessionObject] Rehydrating...');
+    const metadata = await this.ctx.storage.get<GameSessionMetadata>('metadata');
+
     if (!metadata) {
-      // This can happen if the object is accessed before initialization
-      return;
+      console.error('[GameSessionObject] No metadata found in storage');
+      return false;
     }
 
+    console.log('[GameSessionObject] Found metadata:', metadata);
     this.metadata = metadata;
+
     const gameDefinition = getGameDefinition(metadata.gameType);
     if (!gameDefinition) {
       console.error(`Game definition not found for: ${metadata.gameType}`);
-      return;
+      return false;
     }
 
     this.manager = new GameSessionManager({
@@ -95,12 +91,67 @@ export class GameSessionObject extends DurableObject {
       plugins: [new HibernationPlugin()],
     });
 
-    const players
-      = await this.ctx.storage.get<Map<string, { id: string; name: string }>>(
-        'players',
-      );
+    const players = await this.ctx.storage.get<Map<string, { id: string; name: string }>>(
+      'players',
+    );
     if (players) {
       this.players = players;
+    }
+
+    return true;
+  }
+
+  private async handleWebSocketUpgrade(request: Request): Promise<Response> {
+    const upgradeHeader = request.headers.get('Upgrade');
+    if (upgradeHeader?.toLowerCase() !== 'websocket') {
+      return new Response('Expected WebSocket upgrade', { status: 426 });
+    }
+
+    // ✅ Attempt rehydration if handler/manager missing
+    if (!this.handler || !this.manager) {
+      const success = await this.rehydrate();
+      if (!success) {
+        return new Response('Room not initialized', { status: 503 });
+      }
+    }
+
+    const { 0: client, 1: server } = new WebSocketPair();
+    this.ctx.acceptWebSocket(server);
+
+    return new Response(null, {
+      status: 101,
+      webSocket: client,
+    });
+  }
+
+  async webSocketMessage(ws: WebSocket, message: string | ArrayBuffer): Promise<void> {
+    // ✅ Try to rehydrate if needed
+    if (!this.handler || !this.manager) {
+      const success = await this.rehydrate();
+      if (!success) {
+        console.error('[GameSessionObject] Cannot rehydrate. Closing socket.');
+        ws.close(1008, 'Room session not found');
+        return;
+      }
+    }
+
+    try {
+      await this.handler!.message(ws, message, {
+        context: {
+          ws,
+          getWebSockets: () => this.ctx.getWebSockets(),
+          manager: this.manager!,
+        },
+      });
+    }
+    catch (err) {
+      console.error('[GameSessionObject] Error handling message:', err);
+    }
+  }
+
+  async webSocketClose(ws: WebSocket): Promise<void> {
+    if (this.handler) {
+      this.handler.close(ws);
     }
   }
 
@@ -109,34 +160,25 @@ export class GameSessionObject extends DurableObject {
       const body = await request.json();
       const validatedInput = initGameSessionSchema.parse(body);
 
-      // Validate game is registered
       if (!isGameRegistered(validatedInput.gameType)) {
         return new Response(
           JSON.stringify({
             error: `Game type "${validatedInput.gameType}" is not registered`,
           }),
-          {
-            status: 400,
-            headers: { 'Content-Type': 'application/json' },
-          },
+          { status: 400, headers: { 'Content-Type': 'application/json' } },
         );
       }
 
-      // Get game definition with null check
       const gameDefinition = getGameDefinition(validatedInput.gameType);
       if (!gameDefinition) {
         return new Response(
           JSON.stringify({
             error: `Game definition not found for: ${validatedInput.gameType}`,
           }),
-          {
-            status: 500,
-            headers: { 'Content-Type': 'application/json' },
-          },
+          { status: 500, headers: { 'Content-Type': 'application/json' } },
         );
       }
 
-      // Store metadata
       this.metadata = {
         roomId: validatedInput.roomId,
         gameType: validatedInput.gameType,
@@ -147,14 +189,12 @@ export class GameSessionObject extends DurableObject {
       };
       await this.ctx.storage.put('metadata', this.metadata);
 
-      // Initialize manager with parsed initial state
       this.manager = new GameSessionManager({
         gameDefinition,
         initialState: gameDefinition.initialState,
         ctx: this.ctx,
       });
 
-      // Create oRPC router
       const router = createGameSessionRouter(
         gameDefinition.actionSchema,
         gameDefinition.stateSchema,
@@ -170,13 +210,8 @@ export class GameSessionObject extends DurableObject {
       });
 
       return new Response(
-        JSON.stringify({
-          success: true,
-          roomId: this.metadata.roomId,
-        }),
-        {
-          headers: { 'Content-Type': 'application/json' },
-        },
+        JSON.stringify({ success: true, roomId: this.metadata.roomId }),
+        { headers: { 'Content-Type': 'application/json' } },
       );
     }
     catch (error) {
@@ -184,18 +219,15 @@ export class GameSessionObject extends DurableObject {
 
       if (error instanceof ZodError) {
         return new Response(
-          JSON.stringify({
-            error: 'Invalid request data',
-            details: error.issues, // Use 'issues' not 'errors'
-          }),
+          JSON.stringify({ error: 'Invalid request data', details: error.issues }),
           { status: 400, headers: { 'Content-Type': 'application/json' } },
         );
       }
 
-      return new Response(
-        JSON.stringify({ error: 'Failed to initialize room' }),
-        { status: 500, headers: { 'Content-Type': 'application/json' } },
-      );
+      return new Response(JSON.stringify({ error: 'Failed to initialize room' }), {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' },
+      });
     }
   }
 
@@ -276,49 +308,5 @@ export class GameSessionObject extends DurableObject {
       }),
       { headers: { 'Content-Type': 'application/json' } },
     );
-  }
-
-  private async handleWebSocketUpgrade(_request: Request): Promise<Response> {
-    if (!this.handler) {
-      return new Response('Room not initialized', { status: 503 });
-    }
-
-    const { 0: client, 1: server } = new WebSocketPair();
-    this.ctx.acceptWebSocket(server);
-
-    return new Response(null, {
-      status: 101,
-      webSocket: client,
-    });
-  }
-
-  async webSocketMessage(
-    ws: WebSocket,
-    message: string | ArrayBuffer,
-  ): Promise<void> {
-    if (!this.handler || !this.manager) {
-      await this.rehydrate();
-    }
-    // TODO:logger
-    // eslint-disable-next-line no-console
-    console.log('[GameSessionObject] Received message:', message);
-    if (!this.handler || !this.manager) {
-      console.error('[GameSessionObject] Handler or manager not initialized');
-      return;
-    }
-
-    await this.handler.message(ws, message, {
-      context: {
-        ws,
-        getWebSockets: () => this.ctx.getWebSockets(),
-        manager: this.manager!, // Safe assertion after null check above
-      },
-    });
-  }
-
-  async webSocketClose(ws: WebSocket): Promise<void> {
-    if (this.handler) {
-      this.handler.close(ws);
-    }
   }
 }

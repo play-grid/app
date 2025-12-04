@@ -5,7 +5,7 @@ import type { GameAdapter, StateListener, Unsubscribe } from '../../types';
 import type { GameContract } from '../contracts';
 import { createORPCClient } from '@orpc/client';
 import { RPCLink } from '@orpc/client/websocket';
-import PartySocket from 'partysocket';
+import { WebSocket } from 'partysocket';
 
 export interface MultiplayerAdapterConfig<
   TStateSchema extends z.ZodType,
@@ -19,35 +19,33 @@ export interface MultiplayerAdapterConfig<
   initialState: z.infer<TStateSchema>;
 }
 
-/**
- * Multiplayer adapter using oRPC + Hibernation.
- * Leverages oRPC's type-safe RPC and Hibernation's efficient streaming.
- */
 export class MultiplayerAdapter<
   TStateSchema extends z.ZodType,
   TActionSchema extends z.ZodType,
 > implements GameAdapter<z.infer<TStateSchema>, z.infer<TActionSchema>> {
   private currentState: z.infer<TStateSchema>;
   private listeners = new Set<StateListener<z.infer<TStateSchema>>>();
-  private websocket: PartySocket;
+  private websocket: WebSocket;
   private client: ContractRouterClient<GameContract<TStateSchema, TActionSchema>>;
   private stateStreamController: AbortController | null = null;
 
   constructor(config: MultiplayerAdapterConfig<TStateSchema, TActionSchema>) {
     this.currentState = config.initialState;
 
-    this.websocket = new PartySocket({
-      host: config.wsUrl,
-      room: config.room,
-      query: config.token
-        ? {
-            token: config.token,
-          }
-        : undefined,
-      maxReconnectionDelay: 10000,
-      minReconnectionDelay: 1000,
-      reconnectionDelayGrowFactor: 1.3,
-    });
+    this.websocket = new WebSocket(
+      async () => {
+        const roomId = config.room;
+        const token = config.token ? `?token=${config.token}` : '';
+        return `ws://${config.wsUrl}/api/game-room/${roomId}/ws${token}`;
+      },
+      [], // no custom protocols
+      {
+        debug: true,
+        maxReconnectionDelay: 10000,
+        minReconnectionDelay: 1000,
+        reconnectionDelayGrowFactor: 1.3,
+      },
+    );
 
     const link = new RPCLink({
       websocket: this.websocket,
@@ -60,9 +58,13 @@ export class MultiplayerAdapter<
       this.subscribeToStateUpdates();
     });
 
-    this.websocket.addEventListener('close', () => {
-      console.log('[MultiplayerAdapter] Disconnected');
+    this.websocket.addEventListener('close', (event) => {
+      console.log('[MultiplayerAdapter] Disconnected:', event.code, event.reason);
       this.unsubscribeFromStateUpdates();
+
+      if (event.code === 1008) {
+        console.error('[MultiplayerAdapter] Room session invalid');
+      }
     });
 
     this.websocket.addEventListener('error', (error) => {
@@ -115,7 +117,9 @@ export class MultiplayerAdapter<
 
     void (async () => {
       try {
-        const stateIterator = (await this.client.onStateUpdate()) as AsyncIterable<z.infer<TStateSchema>>;
+        const stateIterator = (await this.client.onStateUpdate()) as AsyncIterable<
+          z.infer<TStateSchema>
+        >;
 
         for await (const state of stateIterator) {
           if (this.stateStreamController?.signal.aborted) {
@@ -160,14 +164,11 @@ export class MultiplayerAdapter<
   }
 }
 
-/**
- * Factory function to create multiplayer adapter
- */
 export function createMultiplayerAdapter<
   TStateSchema extends z.ZodType,
   TActionSchema extends z.ZodType,
 >(
   config: MultiplayerAdapterConfig<TStateSchema, TActionSchema>,
 ): MultiplayerAdapter<TStateSchema, TActionSchema> {
-  return new MultiplayerAdapter<TStateSchema, TActionSchema>(config);
+  return new MultiplayerAdapter(config);
 }
