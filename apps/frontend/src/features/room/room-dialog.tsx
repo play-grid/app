@@ -8,41 +8,50 @@ import { useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useCreateRoom, useJoinRoom } from './use-room';
 
-interface CreateOrJoinRoomDialogProps {
+interface RoomDialogProps {
   gameType: string;
   gameSettings: Record<string, unknown>;
   renderGameSettings?: ReactNode;
   onRoomCreated: (room: Room) => void;
   onRoomJoined: (room: Room) => void;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
 }
 
-export function CreateOrJoinRoomDialog({
+export function RoomDialog({
   gameType,
   gameSettings,
   renderGameSettings,
   onRoomCreated,
   onRoomJoined,
-}: CreateOrJoinRoomDialogProps) {
+  open,
+  onOpenChange,
+}: RoomDialogProps) {
   const { t, i18n } = useTranslation();
-  const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
+
   const { mutate: createRoom, data: room, isPending, isError } = useCreateRoom({
     onSuccess: (room) => {
       onRoomCreated(room);
-      setOpen(false);
+      onOpenChange(false);
     },
   });
   const { mutate: joinRoom, isPending: isJoining, isError: isJoiningError } = useJoinRoom({
-    onSuccess: (room) => {
+    onSuccess: (room: Room) => {
       onRoomJoined(room);
-      setOpen(false);
+      onOpenChange(false);
+
+      const lang = i18n.language;
+      navigate(`/${lang}/${gameType}?mode=multiplayer&room=${room.id}&host=false`);
     },
   });
   const [joinRoomId, setJoinRoomId] = useState('');
@@ -93,12 +102,7 @@ export function CreateOrJoinRoomDialog({
   });
   return (
     <DirectionProvider dir={isRTL ? 'rtl' : 'ltr'}>
-      <Dialog open={open} onOpenChange={setOpen}>
-        <DialogTrigger asChild>
-          <Button className="w-1/2 " size="lg">
-            {t('play-online')}
-          </Button>
-        </DialogTrigger>
+      <Dialog open={open} onOpenChange={onOpenChange}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>{t('play-online')}</DialogTitle>

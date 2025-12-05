@@ -7,12 +7,17 @@ import {
 import { Info, Play, Settings } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import {
+  createSearchParams,
+  useNavigate,
+  useSearchParams,
+} from 'react-router-dom';
 import BackButton from '@/components/back-button';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
-import { CreateOrJoinRoomDialog } from '@/features/room/create-or-join-room-dialog';
+import { RoomDialog } from '@/features/room/room-dialog';
+import { RoomHeader } from '@/features/room/room-stats-header';
 import { GameInstructions } from '../components/game-instructions';
 import { GameSettings } from '../components/game-settings';
 import { PlayerList } from '../components/player-list';
@@ -26,6 +31,10 @@ export function FiveSecondsLobby() {
   const { players, settings } = useFiveSecondsState();
   const { startGame } = useFiveSecondsActions();
   useUrlSyncedSettingsOnly();
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const mode = searchParams.get('mode') || 'local';
+  const roomId = searchParams.get('room');
 
   const [isInstructionsOpen, setIsInstructionsOpen] = useState(() => {
     const hasVisited = localStorage.getItem(FIRST_VISIT_KEY);
@@ -35,6 +44,7 @@ export function FiveSecondsLobby() {
     }
     return false;
   });
+  const [isRoomDialogOpen, setIsRoomDialogOpen] = useState(false);
 
   const canStartGame = () => {
     const playerCount = Object.keys(players).length;
@@ -45,11 +55,29 @@ export function FiveSecondsLobby() {
   };
 
   const handleRoomCreated = (room: Room) => {
-    navigate(`/${i18n.language}/five-seconds?mode=multiplayer&room=${room.id}&host=true`, { replace: true });
+    navigate(
+      `/${i18n.language}/five-seconds?mode=multiplayer&room=${room.id}&host=true`,
+      { replace: true },
+    );
   };
 
   const handleRoomJoined = (room: Room) => {
-    navigate(`/${i18n.language}/five-seconds?mode=multiplayer&room=${room.id}`, { replace: true });
+    navigate(`/${i18n.language}/five-seconds?mode=multiplayer&room=${room.id}`, {
+      replace: true,
+    });
+  };
+
+  const handleModeSwitch = (newMode: 'local' | 'multiplayer') => {
+    if (newMode === 'multiplayer') {
+      setIsRoomDialogOpen(true);
+    }
+    else {
+      const newSearchParams = createSearchParams();
+      newSearchParams.set('mode', 'local');
+      newSearchParams.delete('room');
+      newSearchParams.delete('host');
+      setSearchParams(newSearchParams);
+    }
   };
 
   return (
@@ -66,6 +94,12 @@ export function FiveSecondsLobby() {
           <p className="text-lg md:text-xl lg:text-2xl text-muted-foreground text-pretty max-w-3xl mx-auto">
             {t('fiveSecondsGame.lobby.subtitle')}
           </p>
+          <RoomHeader
+            mode={mode}
+            roomId={roomId}
+            onSwitchMode={handleModeSwitch}
+            onOpenRoomDialog={() => setIsRoomDialogOpen(true)}
+          />
 
           {/* How to Play Button */}
           <Dialog open={isInstructionsOpen} onOpenChange={setIsInstructionsOpen}>
@@ -108,12 +142,13 @@ export function FiveSecondsLobby() {
                 {t('fiveSecondsGame.lobby.startGame')}
               </Button>
 
-              {/* Create or Join Room Button (Online) */}
-              <CreateOrJoinRoomDialog
+              <RoomDialog
                 gameType="five-seconds"
                 gameSettings={settings}
                 onRoomCreated={handleRoomCreated}
                 onRoomJoined={handleRoomJoined}
+                open={isRoomDialogOpen}
+                onOpenChange={setIsRoomDialogOpen}
               />
             </div>
 

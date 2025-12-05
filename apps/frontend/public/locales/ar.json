@@ -141,7 +141,8 @@
     },
     "network": {
       "offline": "تأكد من الشبكة وجرب مرة ثانية"
-    }
+    },
+    "switchMode": "تبديل الوضع"
   },
   "customizations": {
     "trigger_label": "إعدادات سحرية ✨",
@@ -157,6 +158,7 @@
   "cancel_button": "يمكن بعدين 🤷‍♂️",
   "found": "شاف",
   "play-online": "العب اونلاين",
+  "play-local": "العب محلي",
   "create-game-room": "إنشاء غرفة لعبة",
   "create-room-error": "فشل إنشاء الغرفة. الرجاء المحاولة مرة أخرى.",
   "creating-room": "جارٍ إنشاء الغرفة...",
@@ -207,8 +209,9 @@
       "title": "لعبة الخمس ثواني",
       "subtitle": "فكر بسرعة. جاوب أسرع. اغلب الساعة.",
       "playersTitle": "اللاعبون ({{count}}/{{max}})",
+      "welcomePlayer":"",
       "enterYourName": "أدخل اسمك",
-      "join": "انضم",
+      "addPlayer": "انضم",
       "noPlayers": "لا يوجد لاعبون بعد. أضف نفسك لتبدأ!",
       "host": "المضيف",
       "notReady": "غير جاهز",
@@ -346,5 +349,13 @@
     "noFeedbackTypeSelected": "الرجاء اختيار نوع الملاحظة",
     "successMessage": "تم إرسال ملاحظاتك بنجاح! شكرا لك.",
     "errorMessage": "حدث خطأ أثناء إرسال ملاحظاتك. الرجاء المحاولة مرة أخرى."
+  },
+  "mode": {
+    "local": "الوضع المحلي",
+    "online": "طور اللعب الجماعي"
+  },
+  "room": {
+    "change":"تغير الغزفة",
+    "loading": "جاري تحميل الغرفه..."
   }
 }
