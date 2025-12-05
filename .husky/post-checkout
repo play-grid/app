@@ -1,14 +1,3 @@
-# .husky/post-checkout
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-
->>>>>>> 8077c53 (chore(husky): replace simple-git-hooks with husky)
-=======
-
-=======
->>>>>>> 0f156b3 (chore(husky): replace simple-git-hooks with husky)
->>>>>>> 7774d7e (chore(husky): replace simple-git-hooks with husky)
 bash << EOF
 # ANSI color codes
 RED='\033[0;31m'

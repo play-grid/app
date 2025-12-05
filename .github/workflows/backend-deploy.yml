@@ -1,21 +1,12 @@
-<<<<<<< HEAD
-name: Deploy api
-=======
 name: Deploy Backend
->>>>>>> 507b308 (Add backend deployment workflow for Cloudflare Workers)
 
 on:
   push:
     branches:
       - main
     paths:
-<<<<<<< HEAD
-      - 'apps/api/**'
-      - '.github/workflows/api-deploy.yml'
-=======
       - 'apps/backend/**'
       - '.github/workflows/backend-deploy.yml'
->>>>>>> 507b308 (Add backend deployment workflow for Cloudflare Workers)
   workflow_dispatch:
 
 # Ensures only one deployment runs at a time
@@ -23,32 +14,20 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: false
 
-<<<<<<< HEAD
-
 permissions:
   contents: read
   deployments: write
-=======
->>>>>>> 507b308 (Add backend deployment workflow for Cloudflare Workers)
+
 jobs:
   deploy:
     name: Deploy to Cloudflare Workers
     runs-on: ubuntu-latest
-    
-<<<<<<< HEAD
-    
-    defaults:
-      run:
-        working-directory: apps/api
-=======
     permissions:
       contents: read
       deployments: write
-    
     defaults:
       run:
         working-directory: apps/backend
->>>>>>> 507b308 (Add backend deployment workflow for Cloudflare Workers)
     
     steps:
       - name: Checkout repository
@@ -80,11 +59,7 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-<<<<<<< HEAD
-          workingDirectory: apps/api
-=======
           workingDirectory: apps/backend
->>>>>>> 507b308 (Add backend deployment workflow for Cloudflare Workers)
           command: deploy
       
       - name: Create deployment summary
@@ -92,11 +67,7 @@ jobs:
         run: |
           echo "## ✅ Deployment Successful" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-<<<<<<< HEAD
-          echo "api deployed successfully to Cloudflare Workers" >> $GITHUB_STEP_SUMMARY
-=======
           echo "Backend deployed successfully to Cloudflare Workers" >> $GITHUB_STEP_SUMMARY
->>>>>>> 507b308 (Add backend deployment workflow for Cloudflare Workers)
           echo "- **Commit**: ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
           echo "- **Branch**: ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
           echo "- **Triggered by**: ${{ github.actor }}" >> $GITHUB_STEP_SUMMARY
