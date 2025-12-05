@@ -1,11 +1,9 @@
 import type { BaseAction, BaseGameStateWire, GameDefinition } from '@guess-logo/game-core';
 import type z from 'zod';
 import {
-  composeReducers,
   createLocalAdapter,
-  gameReducer,
+  createNativeWSClient,
 } from '@guess-logo/game-core';
-import { createMultiplayerAdapter } from '@guess-logo/game-core/adapter/multiplayer';
 
 export function createGameAdapter<
   TStateSchema extends z.ZodType<BaseGameStateWire>,
@@ -22,24 +20,19 @@ export function createGameAdapter<
   type Action = z.infer<TActionSchema>;
 
   if (options.mode === 'local') {
-    const composedReducer = composeReducers<State, Action>(
-      definition.reducer,
-      gameReducer,
-    );
-
     return createLocalAdapter<State, Action>(
       options.initialState as State,
-      composedReducer,
+      definition.reducer,
     );
   }
 
   if (options.mode === 'multiplayer' && options.roomId) {
     const apiHost = import.meta.env.DEV ? 'localhost:8787' : window.location.host;
+    const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
+    const wsUrl = `${protocol}://${apiHost}/api/game-room/${options.roomId}/ws`;
 
-    return createMultiplayerAdapter({
-      wsUrl: apiHost,
-      room: options.roomId,
-      token: undefined,
+    return createNativeWSClient<TStateSchema, TActionSchema>({
+      websocketUrl: wsUrl,
       stateSchema: definition.stateSchema,
       actionSchema: definition.actionSchema,
       initialState: options.initialState,

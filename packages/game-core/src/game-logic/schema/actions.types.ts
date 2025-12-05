@@ -46,7 +46,11 @@ export const SetPhaseActionSchema = z.object({
 
 export const AddPlayerActionSchema = z.object({
   type: z.literal('ADD_PLAYER'),
-  payload: PlayerSchema.omit({ isHost: true, isReady: true, score: true }),
+  payload: z.object({
+    id: z.string(),
+    name: z.string(),
+    avatar: z.string().optional(),
+  }),
 });
 
 export const RemovePlayerActionSchema = z.object({

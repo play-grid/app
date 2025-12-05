@@ -58,9 +58,9 @@ export const FiveSecondsCustomActionSchema = z.discriminatedUnion('type', [
 ]);
 
 // Export the full union for use in the reducer
-export const FiveSecondsActionSchema = z.union([
-  GameActionSchema,
-  FiveSecondsCustomActionSchema,
+export const FiveSecondsActionSchema = z.discriminatedUnion('type', [
+  ...GameActionSchema.options,
+  ...FiveSecondsCustomActionSchema.options,
 ]);
 
 export type FiveSecondsAction = z.infer<typeof FiveSecondsActionSchema>;

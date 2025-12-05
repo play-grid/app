@@ -21,43 +21,46 @@ export default function FiveSecondsRoutes() {
   const urlDifficulty = searchParams.get('difficulty');
   const urlCategories = searchParams.get('categories');
 
-  const initialSettingsFromUrl: Partial<
+  const validatedInitialState = useMemo(() => {
+    const initialSettingsFromUrl: Partial<
     typeof fiveSecondsGame.initialState.settings
-  > = {};
+    > = {};
 
-  if (urlDifficulty) {
-    const parsed = difficultySchema.safeParse(urlDifficulty);
-    if (parsed.success) {
-      initialSettingsFromUrl.difficulty = parsed.data;
+    if (urlDifficulty) {
+      const parsed = difficultySchema.safeParse(urlDifficulty);
+      if (parsed.success) {
+        initialSettingsFromUrl.difficulty = parsed.data;
+      }
     }
-  }
 
-  if (urlCategories) {
-    const categoryIds = urlCategories.split(',').filter(Boolean);
-    if (categoryIds.length > 0) {
-      initialSettingsFromUrl.categoryIds = categoryIds;
+    if (urlCategories) {
+      const categoryIds = urlCategories.split(',').filter(Boolean);
+      if (categoryIds.length > 0) {
+        initialSettingsFromUrl.categoryIds = categoryIds;
+      }
     }
-  }
 
-  const initialStateWithUrlSettings = {
-    ...fiveSecondsGame.initialState,
-    settings: {
-      ...fiveSecondsGame.initialState.settings,
-      ...initialSettingsFromUrl,
-    },
-  };
-
-  const validatedInitialState = FiveSecondsGameStateSchema.parse(
-    initialStateWithUrlSettings,
-  );
+    const initialStateWithUrlSettings = {
+      ...fiveSecondsGame.initialState,
+      settings: {
+        ...fiveSecondsGame.initialState.settings,
+        ...initialSettingsFromUrl,
+      },
+    };
+    return FiveSecondsGameStateSchema.parse(
+      initialStateWithUrlSettings,
+    );
+  }, [urlDifficulty, urlCategories]);
 
   const adapter = useMemo(() => {
+    // eslint-disable-next-line no-console
+    console.log('Creating new game adapter', { mode, roomId, isHost });
     return createGameAdapter(fiveSecondsGame, {
       mode: mode as 'local' | 'multiplayer',
       roomId: roomId ?? undefined,
       initialState: validatedInitialState,
     });
-  }, [mode, roomId, isHost, validatedInitialState]);
+  }, [mode, roomId, validatedInitialState]);
 
   return (
     <AdapterProvider adapter={adapter}>

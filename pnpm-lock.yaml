@@ -400,7 +400,7 @@ importers:
         version: 1.10.2
       '@orpc/experimental-durable-iterator':
         specifier: ^1.10.1
-        version: 1.10.2(typescript@5.9.3)
+        version: 1.10.2(typescript@5.9.3)(ws@8.18.3)
       immer:
         specifier: 'catalog:'
         version: 10.2.0
@@ -422,7 +422,7 @@ importers:
     devDependencies:
       '@orpc/server':
         specifier: ^1.12.2
-        version: 1.12.2
+        version: 1.12.2(ws@8.18.3)
       '@types/node':
         specifier: 'catalog:'
         version: 24.10.1
@@ -5970,6 +5970,18 @@ packages:
       utf-8-validate:
         optional: true
 
+  ws@8.18.3:
+    resolution: {integrity: sha512-PEIGCY5tSlUt50cqyMXfCzX+oOPqN0vuGqWzbcJ2xvnkzkq46oOpz7dQaTDBdfICb4N14+GARUDw2XV2N4tvzg==}
+    engines: {node: '>=10.0.0'}
+    peerDependencies:
+      bufferutil: ^4.0.1
+      utf-8-validate: '>=5.0.2'
+    peerDependenciesMeta:
+      bufferutil:
+        optional: true
+      utf-8-validate:
+        optional: true
+
   xml-name-validator@4.0.0:
     resolution: {integrity: sha512-ICP2e+jsHvAj2E2lIHxa5tjXRlKDJo4IdvPvCXbXQGdzSfmSpNVyIKMvoZHjDY9DP0zV17iI85o90vRFXNccRw==}
     engines: {node: '>=12'}
@@ -6951,11 +6963,11 @@ snapshots:
     transitivePeerDependencies:
       - '@opentelemetry/api'
 
-  '@orpc/experimental-durable-iterator@1.10.2(typescript@5.9.3)':
+  '@orpc/experimental-durable-iterator@1.10.2(typescript@5.9.3)(ws@8.18.3)':
     dependencies:
       '@orpc/client': 1.10.2
       '@orpc/contract': 1.10.2
-      '@orpc/server': 1.10.2
+      '@orpc/server': 1.10.2(ws@8.18.3)
       '@orpc/shared': 1.10.2
       partysocket: 1.1.6
       valibot: 1.1.0(typescript@5.9.3)
@@ -6970,7 +6982,7 @@ snapshots:
 
   '@orpc/interop@1.12.2': {}
 
-  '@orpc/server@1.10.2':
+  '@orpc/server@1.10.2(ws@8.18.3)':
     dependencies:
       '@orpc/client': 1.10.2
       '@orpc/contract': 1.10.2
@@ -6983,11 +6995,13 @@ snapshots:
       '@orpc/standard-server-node': 1.10.2
       '@orpc/standard-server-peer': 1.10.2
       cookie: 1.0.2
+    optionalDependencies:
+      ws: 8.18.3
     transitivePeerDependencies:
       - '@opentelemetry/api'
       - fastify
 
-  '@orpc/server@1.12.2':
+  '@orpc/server@1.12.2(ws@8.18.3)':
     dependencies:
       '@orpc/client': 1.12.2
       '@orpc/contract': 1.12.2
@@ -7000,6 +7014,8 @@ snapshots:
       '@orpc/standard-server-node': 1.12.2
       '@orpc/standard-server-peer': 1.12.2
       cookie: 1.0.2
+    optionalDependencies:
+      ws: 8.18.3
     transitivePeerDependencies:
       - '@opentelemetry/api'
       - fastify
@@ -11867,6 +11883,9 @@ snapshots:
   wrappy@1.0.2: {}
 
   ws@8.18.0: {}
+
+  ws@8.18.3:
+    optional: true
 
   xml-name-validator@4.0.0: {}
 

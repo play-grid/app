@@ -16,21 +16,21 @@ export function changePhase<TState extends BaseGameStateWire>(
  */
 export function addPlayer<TState extends BaseGameStateWire>(
   state: TState,
-  playerData: Omit<Player, 'isHost' | 'isReady' | 'score'>,
-  maxPlayers?: number,
+  playerData: Partial<Player> & { id: string; name: string },
 ): TState {
   const { players, hostId } = state;
-
-  if (maxPlayers && Object.keys(players).length >= maxPlayers) {
+  if (players[playerData.id]) {
     return state;
   }
 
-  const newPlayer = {
-    ...playerData,
+  const newPlayer: Player = {
+    id: playerData.id,
+    name: playerData.name,
+    avatar: playerData.avatar,
     isHost: Object.keys(players).length === 0,
     isReady: false,
     score: 0,
-  } as TState['players'][string];
+  };
 
   return {
     ...state,

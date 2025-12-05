@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import type { BaseGameStateWire, GameDefinition } from '@guess-logo/game-core';
-import { encodeHibernationRPCEvent } from '@orpc/server/hibernation';
+import type z from 'zod';
+import { ZodError } from 'zod';
 
 export interface GameSessionManagerConfig {
   gameDefinition: GameDefinition<any, any>;
@@ -15,11 +16,9 @@ export class GameSessionManager {
 
   constructor(config: GameSessionManagerConfig) {
     try {
-      // Parse and validate initial state against schema
       this.currentState = config.gameDefinition.stateSchema.parse(
         config.initialState,
       );
-      console.log('[GameSessionManager] Initial state validated successfully:', JSON.stringify(this.currentState, null, 2));
     }
     catch (error) {
       console.error('[GameSessionManager] Initial state validation failed:', error);
@@ -31,60 +30,78 @@ export class GameSessionManager {
   }
 
   getState(): BaseGameStateWire {
-    try {
-      const state = this.currentState;
-      console.log('[GameSessionManager] Getting state:', JSON.stringify(state, null, 2));
-
-      // Validate state before returning
-      const validated = this.gameDefinition.stateSchema.parse(state);
-      console.log('[GameSessionManager] State validation passed');
-      return validated;
-    }
-    catch (error) {
-      console.error('[GameSessionManager] State validation error:', error);
-      throw error;
-    }
+    return this.currentState;
   }
 
-  /**
-   * Dispatch an action - accepts any and validates internally
-   */
+  // TODO make these logs so deep in logger
   dispatchAction(action: any): void {
+    console.log(`[GameSessionManager] Dispatching action: ${action?.type}`);
+    console.log('[GameSessionManager] Action payload (raw):', JSON.stringify(action));
+
+    let validatedAction: z.infer<typeof this.gameDefinition.actionSchema>;
     try {
-      const validatedAction = this.gameDefinition.actionSchema.parse(action);
-      const newState = this.gameDefinition.reducer(
+      validatedAction = this.gameDefinition.actionSchema.parse(action);
+    }
+    catch (error) {
+      if (error instanceof ZodError) {
+        console.error(`[GameSessionManager] Zod validation failed for action ${action?.type || 'unknown'}:`, JSON.stringify(error.issues));
+        throw new Error(`Action validation failed: ${error.issues.map(i => `${i.path.join('.')}: ${i.message}`).join(', ')}`);
+      }
+      console.error(`[GameSessionManager] Unexpected error during action validation ${action?.type || 'unknown'}:`, error);
+      throw error;
+    }
+
+    console.log('[GameSessionManager] Action payload (validated and parsed):', JSON.stringify(validatedAction));
+
+    const oldState = this.currentState;
+    let newState;
+    try {
+      newState = this.gameDefinition.reducer(
         this.currentState,
         validatedAction,
       );
-      const validatedState = this.gameDefinition.stateSchema.parse(newState);
+    }
+    catch (reducerError) {
+      console.error(`[GameSessionManager] Error in game reducer for action ${validatedAction.type}:`, reducerError);
+      throw new Error(`Reducer error: ${reducerError instanceof Error ? reducerError.message : 'unknown'}`);
+    }
 
-      this.currentState = validatedState;
-      this.broadcastState();
+    try {
+      this.currentState = this.gameDefinition.stateSchema.parse(newState);
     }
     catch (error) {
-      console.error('[GameSessionManager] Action dispatch failed:', error);
+      if (error instanceof ZodError) {
+        console.error(`[GameSessionManager] Zod validation failed for NEW state after action ${validatedAction.type}:`, JSON.stringify(error.issues));
+
+        this.currentState = oldState;
+        throw new Error(`New state validation failed: ${error.issues.map(i => `${i.path.join('.')}: ${i.message}`).join(', ')}`);
+      }
+      console.error(`[GameSessionManager] Unexpected error during new state validation ${validatedAction.type}:`, error);
       throw error;
     }
+
+    console.log('[GameSessionManager] State BEFORE action:', JSON.stringify(oldState.players));
+    console.log('[GameSessionManager] State AFTER action:', JSON.stringify(this.currentState.players));
+
+    this.ctx.blockConcurrencyWhile(async () => {
+      await this.ctx.storage.put('state', this.currentState);
+    });
+
+    this.broadcastState();
   }
 
   private broadcastState(): void {
     const websockets = this.ctx.getWebSockets();
+    console.log(`[GameSessionManager] Broadcasting state to ${websockets.length} clients. Current player count: ${Object.keys(this.currentState.players).length}`);
+
+    const message = JSON.stringify({
+      type: 'onStateUpdate',
+      payload: this.currentState,
+    });
 
     for (const ws of websockets) {
       try {
-        const attachment = ws.deserializeAttachment();
-        if (typeof attachment !== 'object' || attachment === null) {
-          continue;
-        }
-
-        const { id } = attachment as { id?: string };
-        if (!id) {
-          continue;
-        }
-
-        ws.send(
-          encodeHibernationRPCEvent(id, this.currentState),
-        );
+        ws.send(message);
       }
       catch (error) {
         console.error('[GameSessionManager] Broadcast error:', error);
@@ -96,6 +113,9 @@ export class GameSessionManager {
     this.currentState = this.gameDefinition.stateSchema.parse(
       this.gameDefinition.initialState,
     );
+
+    this.ctx.storage.put('state', this.currentState);
+
     this.broadcastState();
   }
 }

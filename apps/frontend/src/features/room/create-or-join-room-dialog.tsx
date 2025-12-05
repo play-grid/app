@@ -32,11 +32,18 @@ export function CreateOrJoinRoomDialog({
   onRoomJoined,
 }: CreateOrJoinRoomDialogProps) {
   const { t, i18n } = useTranslation();
+  const [open, setOpen] = useState(false);
   const { mutate: createRoom, data: room, isPending, isError } = useCreateRoom({
-    onSuccess: onRoomCreated,
+    onSuccess: (room) => {
+      onRoomCreated(room);
+      setOpen(false);
+    },
   });
   const { mutate: joinRoom, isPending: isJoining, isError: isJoiningError } = useJoinRoom({
-    onSuccess: onRoomJoined,
+    onSuccess: (room) => {
+      onRoomJoined(room);
+      setOpen(false);
+    },
   });
   const [joinRoomId, setJoinRoomId] = useState('');
   const [playerName, setPlayerName] = useState('');
@@ -86,7 +93,7 @@ export function CreateOrJoinRoomDialog({
   });
   return (
     <DirectionProvider dir={isRTL ? 'rtl' : 'ltr'}>
-      <Dialog>
+      <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
           <Button className="w-1/2 " size="lg">
             {t('play-online')}

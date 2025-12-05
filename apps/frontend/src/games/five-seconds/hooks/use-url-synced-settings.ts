@@ -53,9 +53,10 @@ export function useUrlSyncedSettingsOnly() {
     isSyncingRef.current = true;
 
     setSearchParams(
-      {
-        difficulty: settings.difficulty,
-        categories: settings.categoryIds.join(','),
+      (prev) => {
+        prev.set('difficulty', settings.difficulty);
+        prev.set('categories', settings.categoryIds.join(','));
+        return prev;
       },
       { replace: true },
     );
