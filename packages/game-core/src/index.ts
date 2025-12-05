@@ -1,4 +1,4 @@
-export { createLocalAdapter } from './adapters/local/zustand-store';
+export * from './adapters/index';
 
 export { createGameContract } from './adapters/multiplayer/contracts/base.contract';
 export type { GameContract } from './adapters/multiplayer/contracts/base.contract';
