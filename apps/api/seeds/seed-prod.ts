@@ -7,7 +7,7 @@ async function main() {
   console.warn('Seeding production database...');
   try {
     const { env } = await getPlatformProxy();
-    const db = drizzle(env.GAME_HUB_DB);
+    const db = drizzle(env.GAME_HUB_DB as any);
     await seedD1Questions(db as any);
     console.warn('Seeding completed successfully.');
   }

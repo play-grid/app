@@ -71,6 +71,7 @@
     "typescript": "catalog:"
   },
   "scripts": {
+    "tsCheck": "tsc --noEmit",
     "build": "pnpm exec tsc -p tsconfig.build.json"
   }
 }

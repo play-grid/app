@@ -135,16 +135,16 @@ export default function (plop: NodePlopAPI) {
       },
       // 5. Inject import
       {
-        type: 'injectImport',
+        type: 'injectImport' as any,
         filePath: '{{modulePath}}/index.ts',
         importStatement: 'import {{camelCase name}} from \'./{{kebabCase name}}/{{kebabCase name}}.index\';',
-      },
+      } as any,
       // 6. Inject route
       {
-        type: 'injectRoute',
+        type: 'injectRoute' as any,
         filePath: '{{modulePath}}/index.ts',
         routeStatement: '.route(\'/{{kebabCase name}}\', {{camelCase name}})',
-      },
+      } as any,
     ],
   });
 
@@ -341,7 +341,7 @@ export const list{{pascalCase name}}sOutputSchema = z.array({{camelCase name}}Ou
         {
           type: 'modify',
           path: '{{modulePath}}/{{kebabCase name}}/{{kebabCase name}}.index.ts',
-          transform: (fileContent, answers) => {
+          transform: (fileContent: any, answers: any) => {
             const { name, action } = answers;
             const pascalCaseName = plop.getHelper('pascalCase')(name);
             const kebabCaseName = plop.getHelper('kebabCase')(name);

@@ -6,6 +6,7 @@
     "lint": "pnpm run -r --parallel --aggregate-output lint",
     "lint:fix": "pnpm run -r --parallel --aggregate-output lint:fix",
     "build": "pnpm run -r build",
+    "tsCheck": "pnpm run -r tsCheck",
     "test:e2e": "pnpm --filter @guess-logo/frontend test:e2e",
     "deploy": "pnpm deploy:frontend && pnpm deploy:api",
     "deploy:frontend": "pnpm --filter frontend build && cd apps/frontend && pnpm wrangler pages deploy",
