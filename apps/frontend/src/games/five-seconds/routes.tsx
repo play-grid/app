@@ -1,8 +1,8 @@
 import { difficultySchema, fiveSecondsGame, FiveSecondsGameStateSchema } from '@guess-logo/five-seconds';
 import { AdapterProvider } from '@guess-logo/game-core';
-import { lazy, useMemo } from 'react';
+import { lazy, useEffect, useMemo } from 'react';
 import { Route, Routes, useLocation, useSearchParams } from 'react-router-dom';
-import { createGameAdapter } from '@/lib/create-game-adapter';
+import { destroyAdapter, getOrCreateAdapter } from '@/lib/adapter-instance';
 import NotFoundPage from '@/pages/not-found-page';
 
 const FiveSecondsPage = lazy(() => import('./five-seconds-page'));
@@ -12,12 +12,9 @@ export default function FiveSecondsRoutes() {
   const lang = location.pathname.split('/')[1];
   const [searchParams] = useSearchParams();
 
-  // Determine mode: local or multiplayer
   const mode = searchParams.get('mode') || 'local';
   const roomId = searchParams.get('room');
-  const isHost = searchParams.get('host') === 'true';
 
-  // Get URL parameters
   const urlDifficulty = searchParams.get('difficulty');
   const urlCategories = searchParams.get('categories');
 
@@ -47,20 +44,23 @@ export default function FiveSecondsRoutes() {
         ...initialSettingsFromUrl,
       },
     };
-    return FiveSecondsGameStateSchema.parse(
-      initialStateWithUrlSettings,
-    );
+    return FiveSecondsGameStateSchema.parse(initialStateWithUrlSettings);
   }, [urlDifficulty, urlCategories]);
 
   const adapter = useMemo(() => {
-    // eslint-disable-next-line no-console
-    console.log('Creating new game adapter', { mode, roomId, isHost });
-    return createGameAdapter(fiveSecondsGame, {
+    return getOrCreateAdapter(fiveSecondsGame, {
       mode: mode as 'local' | 'multiplayer',
       roomId: roomId ?? undefined,
       initialState: validatedInitialState,
     });
-  }, [mode, roomId, validatedInitialState]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [roomId, mode]);
+
+  useEffect(() => {
+    return () => {
+      destroyAdapter();
+    };
+  }, []);
 
   return (
     <AdapterProvider adapter={adapter}>
