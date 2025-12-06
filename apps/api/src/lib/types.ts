@@ -1,6 +1,7 @@
 import type { OpenAPIHono, RouteConfig, RouteHandler } from '@hono/zod-openapi';
 
 import type { Session, User } from 'better-auth/types';
+import type { PinoLogger } from 'hono-pino';
 import type { GameSessionObject } from '../durable-objects/game-session/game-session.object';
 import type { BASE_PATH } from './constants';
 import type { auth } from '@/auth';
@@ -16,6 +17,7 @@ export interface CloudflareBindings {
     userId?: string;
     user?: User;
     session?: Session;
+    logger: PinoLogger;
   };
   GAME_SESSION: DurableObjectNamespace<GameSessionObject>;
   GAME_HUB_DB: D1Database;

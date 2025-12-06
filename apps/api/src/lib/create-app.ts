@@ -8,6 +8,7 @@ import { etag } from 'hono/etag';
 import { notFound, onError } from 'stoker/middlewares';
 
 import { validateEnv } from '@/env';
+import { pinoLogger } from '@/middlewares/pino-logger';
 import rateLimiterMiddleware from '@/middlewares/rate-limter';
 import { isAllowedOrigin } from '@/utils/origin';
 import { createAuth } from '../auth';
@@ -99,6 +100,7 @@ export default function createApp(): AppOpenAPI {
 
   app.notFound(notFound);
   app.onError(onError);
+  app.use(pinoLogger());
 
   return app.basePath(BASE_PATH);
 }
