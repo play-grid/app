@@ -1,3 +1,4 @@
+import { UserButton } from '@daveyplate/better-auth-ui';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import SiteCustomizations from '@/components/site-about';
@@ -23,7 +24,11 @@ function HomePage() {
   const { t } = useTranslation();
   return (
     <div className="min-h-208 bg-background text-foreground flex flex-col items-center p-4">
-      <SiteCustomizations />
+      <div className="w-full flex justify-between items-center px-4">
+        <SiteCustomizations />
+        <UserButton size='icon' className='size-10' />
+      </div>
+
       <main className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl w-full mt-5">
         {games.map(game => (
           <Card

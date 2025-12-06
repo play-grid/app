@@ -1,4 +1,5 @@
 import { AuthUIProvider } from '@daveyplate/better-auth-ui';
+import { useTranslation } from 'react-i18next';
 import {
   BrowserRouter,
   NavLink,
@@ -13,6 +14,7 @@ import QueryProvider from '@/context/api-provider';
 import { LanguageRouter } from '@/i18n/language-router';
 import { authClient } from '@/lib/auth-client';
 import App from './app';
+import authAr from './i18n/auth-ar.json';
 import '@/i18n/config';
 import './index.css';
 
@@ -30,7 +32,7 @@ function ReactRouterLink(props: {
 
 function AppProviders() {
   const navigate = useNavigate();
-
+  const { i18n } = useTranslation();
   return (
     <QueryProvider>
       <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
@@ -42,6 +44,7 @@ function AppProviders() {
                 navigate={navigate}
                 replace={href => redirect(href)}
                 Link={ReactRouterLink}
+                localization={i18n.language === 'ar' ? authAr : undefined}
               >
                 <Toaster richColors />
                 <NetworkStatusNotifier />

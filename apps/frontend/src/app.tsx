@@ -8,6 +8,7 @@ import { GuessLogoSkeleton } from './games/guess-logo/components/guess-logo-skel
 import { LanguageLayout } from './i18n/language-layout';
 import { LanguageRouter } from './i18n/language-router';
 import AboutPage from './pages/about-page';
+import AccountPage from './pages/auth/account-page';
 import AuthPage from './pages/auth/auth-page';
 import HomePage from './pages/home-page';
 import LegalPage from './pages/legal-page';
@@ -58,6 +59,7 @@ export function LanguageRoutes() {
         <Route path="/legal" element={<LegalPage />} />
         <Route path="/privacy" element={<PrivacyPage />} />
         <Route path="/auth/:pathname" element={<AuthPage />} />
+        <Route path="/account/:pathname" element={<AccountPage />} />
 
         {/* Game-specific routes */}
         <Route
