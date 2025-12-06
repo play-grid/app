@@ -1,5 +1,6 @@
 import { spawn } from 'node:child_process';
 import process from 'node:process';
+import { logger } from '@/utils/logger';
 
 async function runCommand(command: string, args: string[]): Promise<void> {
   return new Promise((resolve, reject) => {
@@ -20,12 +21,12 @@ async function runCommand(command: string, args: string[]): Promise<void> {
 
 async function main() {
   try {
-    console.log('Running production migrations...');
+    logger.info('Running production migrations...');
     await runCommand('wrangler', ['d1', 'migrations', 'apply', 'GAME_HUB_DB', '--remote']);
-    console.log('Migrations applied successfully.');
+    logger.info('Migrations applied successfully.');
   }
   catch (error) {
-    console.error('Production migration and seed failed:', error);
+    logger.error(error, 'Production migration and seed failed:');
     process.exit(1);
   }
 }

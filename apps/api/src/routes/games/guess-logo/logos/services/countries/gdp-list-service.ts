@@ -1,5 +1,6 @@
 import type { LogoItem, SupportedLanguage } from '@guess-logo/shared/types';
 import { topGdpCountryNames, topGdpCountryNamesAr } from '@guess-logo/shared/data';
+import { logger } from '@/utils/logger';
 import { getCountryByName } from './apicountries-service';
 import { getLocalizedCountryData } from './country-utils';
 import { generateFlagUrl } from './flag-logo-service';
@@ -27,11 +28,11 @@ export async function gdpList(language: SupportedLanguage): Promise<LogoItem[]> 
         });
       }
       else {
-        console.warn(`API returned no data for country: ${countryName}`);
+        logger.warn(`API returned no data for country: ${countryName}`);
       }
     }
     catch (error) {
-      console.error(`Failed to fetch data for country ${countryName}:`, error);
+      logger.error(error, `Failed to fetch data for country ${countryName}:`);
     }
   }
 

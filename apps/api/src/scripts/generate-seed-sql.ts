@@ -2,9 +2,10 @@ import crypto from 'node:crypto';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import process from 'node:process';
+import { logger } from '@/utils/logger';
 
 async function generateSeedSql() {
-  console.log('Generating seed SQL...');
+  logger.info('Generating seed SQL...');
   const dataPath = path.resolve(
     process.cwd(),
     'src/routes/games/five-seconds/questions/data/questions.json',
@@ -26,7 +27,7 @@ async function generateSeedSql() {
 
   const outputPath = path.resolve(process.cwd(), 'seeds/seed-prod.sql');
   await fs.writeFile(outputPath, sql);
-  console.log('Seed SQL generated successfully.');
+  logger.info('Seed SQL generated successfully.');
 }
 
 generateSeedSql();

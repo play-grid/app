@@ -1,5 +1,6 @@
 import type { DrizzleD1Database } from 'drizzle-orm/d1';
 import { and, desc, eq, sql } from 'drizzle-orm';
+import { logger } from '@/utils/logger';
 import * as schema from './sports.tables';
 
 type DB = DrizzleD1Database<typeof schema>;
@@ -128,9 +129,8 @@ export async function getAllTeamsInCustomList(db: DB, listId: string) {
     });
 
     if (listItems.some(item => !item.team)) {
-      console.warn(`[getAllTeamsInCustomList] Some list items for listId "${listId}" are missing the 'team' relation.`);
       const itemsWithoutTeam = listItems.filter(item => !item.team).map(item => item.id);
-      console.warn(`[getAllTeamsInCustomList] Items without a team: ${itemsWithoutTeam.join(', ')}`);
+      logger.warn({ itemsWithoutTeam }, `[getAllTeamsInCustomList] Some list items for listId "${listId}" are missing the 'team' relation.`);
     }
 
     return listItems
@@ -142,7 +142,7 @@ export async function getAllTeamsInCustomList(db: DB, listId: string) {
       }));
   }
   catch (error) {
-    console.error(`[getAllTeamsInCustomList] Error fetching teams for listId: "${listId}"`, error);
+    logger.error(error, `[getAllTeamsInCustomList] Error fetching teams for listId: "${listId}"`);
     throw new Error(`Failed to fetch teams for custom list ${listId}`);
   }
 }

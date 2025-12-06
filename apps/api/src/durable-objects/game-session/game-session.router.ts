@@ -1,4 +1,5 @@
 import type { GameSessionManager } from './game-session.manager';
+import { logger } from '@/utils/logger';
 
 /**
  * A thin router that handles raw WebSocket messages and routes them
@@ -14,7 +15,7 @@ export class GameSessionRouter {
       const data = JSON.parse(typeof rawMessage === 'string' ? rawMessage : rawMessage.toString());
 
       if (!data.type) {
-        console.warn('[GameSessionRouter] Message missing "type" field');
+        logger.warn('[GameSessionRouter] Message missing "type" field');
         return;
       }
       switch (data.type) {
@@ -31,11 +32,11 @@ export class GameSessionRouter {
           break;
 
         default:
-          console.warn(`[GameSessionRouter] Unknown message type: ${data.type}`);
+          logger.warn(`[GameSessionRouter] Unknown message type: ${data.type}`);
       }
     }
     catch (error) {
-      console.error('[GameSessionRouter] Error handling message:', error);
+      logger.error(error, '[GameSessionRouter] Error handling message:');
       ws.send(JSON.stringify({
         type: 'error',
         payload: { message: 'Invalid message format or server error' },

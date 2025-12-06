@@ -1,6 +1,7 @@
 import type { SupportedLanguage } from '@guess-logo/shared/types';
 import { TMDB } from 'tmdb-ts';
 import { getEnv } from '@/lib/context-manager';
+import { logger } from '@/utils/logger';
 import { getBaseOptions } from './utils/get-base-options';
 
 export async function fetchMoviePoster(
@@ -30,7 +31,7 @@ export async function fetchMoviePoster(
   }
   catch (error) {
     // Handle any errors that occur during the API calls.
-    console.error('Error fetching movie poster:', error);
+    logger.error(error, 'Error fetching movie poster:');
     return null;
   }
 }

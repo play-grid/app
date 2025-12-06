@@ -10,6 +10,7 @@ import { notFound, onError } from 'stoker/middlewares';
 import { validateEnv } from '@/env';
 import { pinoLogger } from '@/middlewares/pino-logger';
 import rateLimiterMiddleware from '@/middlewares/rate-limter';
+import { logger } from '@/utils/logger';
 import { isAllowedOrigin } from '@/utils/origin';
 import { createAuth } from '../auth';
 import { BASE_PATH } from './constants';
@@ -25,11 +26,10 @@ export default function createApp(): AppOpenAPI {
       try {
         validateEnv(c.env as unknown as Record<string, unknown>);
         envValidated = true;
-        // eslint-disable-next-line no-console
-        console.log('✅ Environment variables validated successfully');
+        logger.info('✅ Environment variables validated successfully');
       }
       catch (error) {
-        console.error('Environment validation failed:', error);
+        logger.error(error, 'Environment validation failed:');
         return c.json({ error: 'Server configuration error' }, 500);
       }
     }

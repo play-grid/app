@@ -4,6 +4,7 @@ import type { AppRouteHandler } from '@/lib/types';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import { getDB } from '@/db';
 import { fiveSecondsFeedback } from '@/routes/games/five-seconds/five-seconds.tables';
+import { logger } from '@/utils/logger';
 import { feedbackTypes } from './types';
 
 export const getFeedbackTypesHandler: AppRouteHandler<GetFeedbackTypesRoute> = async (c) => {
@@ -36,7 +37,7 @@ export const createFeedbackHandler: AppRouteHandler<CreateFeedbackRoute> = async
     return c.json(newFeedback[0], HttpStatusCodes.CREATED);
   }
   catch (error: any) {
-    console.error('Error creating feedback:', error);
+    logger.error(error, 'Error creating feedback:');
 
     // Handle specific, common errors
     if (error.message?.includes('FOREIGN KEY constraint')

@@ -12,6 +12,7 @@ import type { AppRouteHandler } from '@/lib/types';
 import { logoOverrides as rawOverrides } from '@guess-logo/shared/data';
 import { shuffleArray } from '@guess-logo/shared/utils';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
+import { logger } from '@/utils/logger';
 import { fetchLogoLists } from './services/logo-lists-service';
 
 // Handler to get available lists for a logo set
@@ -31,7 +32,7 @@ export const getLogoLists: AppRouteHandler<GetLogoListsRoute> = async (c) => {
     return c.json(simplifiedLists, HttpStatusCodes.OK);
   }
   catch (error) {
-    console.error(`Failed to fetch logo lists for set ${set}:`, error);
+    logger.error(error, `Failed to fetch logo lists for set ${set}:`);
     return c.json(
       { error: 'Failed to fetch logo lists' },
       HttpStatusCodes.INTERNAL_SERVER_ERROR,
@@ -103,7 +104,7 @@ export const getLogosBySetAndList: AppRouteHandler<GetLogosBySetAndListRoute> = 
     return c.json(processedLogos, HttpStatusCodes.OK);
   }
   catch (error) {
-    console.error(`Failed to fetch logos for set ${set}, list ${list}:`, error);
+    logger.error(error, `Failed to fetch logos for set ${set}, list ${list}:`);
     return c.json(
       { error: 'Failed to fetch logos' },
       HttpStatusCodes.INTERNAL_SERVER_ERROR,
@@ -134,7 +135,7 @@ async function fetchLogosFromList(
     return logoItems;
   }
   catch (error) {
-    console.error(`Error fetching logos from list ${listId} in set ${set}:`, error);
+    logger.error(error, `Error fetching logos from list ${listId} in set ${set}:`);
     throw error;
   }
 }

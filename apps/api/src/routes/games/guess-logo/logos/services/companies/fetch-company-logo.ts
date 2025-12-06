@@ -1,4 +1,5 @@
 import { getEnv } from '@/lib/context-manager';
+import { logger } from '@/utils/logger';
 
 export interface SearchResult {
   name: string;
@@ -53,7 +54,7 @@ export async function fetchCompanyLogo(
     const searchData = await response.json() as SearchResult[];
 
     if (!searchData || searchData.length === 0) {
-      console.warn(`No results for: ${companyName}`);
+      logger.warn(`No results for: ${companyName}`);
       return { logo: null, name: null, domain: null };
     }
 
@@ -86,7 +87,7 @@ export async function fetchCompanyLogo(
     return result;
   }
   catch (error) {
-    console.error(`Error fetching logo for ${companyName}:`, error);
+    logger.error(error, `Error fetching logo for ${companyName}:`);
     return { logo: null, name: null, domain: null };
   }
 }

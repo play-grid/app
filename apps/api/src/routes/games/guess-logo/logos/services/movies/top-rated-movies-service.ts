@@ -1,6 +1,7 @@
 import type { LogoItem, SupportedLanguage } from '@guess-logo/shared/types';
 import { TMDB } from 'tmdb-ts';
 import { getEnv } from '@/lib/context-manager';
+import { logger } from '@/utils/logger';
 import { fetchPaginatedMovies } from './utils/fetch-paginated-movies';
 import { getBaseOptions } from './utils/get-base-options';
 
@@ -23,7 +24,7 @@ export async function fetchTopRatedMovies(
     }));
   }
   catch (error) {
-    console.error('Error fetching top rated movies:', error);
+    logger.error(error, 'Error fetching top rated movies:');
     return []; // ✅ empty array instead of null
   }
 }

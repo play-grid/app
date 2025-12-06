@@ -3,6 +3,7 @@ import { join } from 'node:path';
 import process from 'node:process';
 import Cloudflare from 'cloudflare';
 import { getNodeEnv } from '@/env';
+import { logger } from '@/utils/logger';
 
 const env = getNodeEnv();
 interface SeedOptions {
@@ -35,8 +36,8 @@ async function seedKV(options: SeedOptions) {
   const rawData = JSON.parse(readFileSync(fullPath, 'utf-8'));
   const dataArray = Array.isArray(rawData) ? rawData : [rawData];
 
-  console.log(`Starting seed process for ${dataArray.length} items...`);
-  console.log(`Target KV Namespace: ${kvNamespaceId}`);
+  logger.info(`Starting seed process for ${dataArray.length} items...`);
+  logger.info(`Target KV Namespace: ${kvNamespaceId}`);
 
   // Batch the data
   const batches: any[][] = [];
@@ -72,17 +73,17 @@ async function seedKV(options: SeedOptions) {
       });
 
       successCount += batch.length;
-      console.log(`✓ Batch ${i + 1}/${batches.length} complete (${successCount}/${dataArray.length} items)`);
+      logger.info(`✓ Batch ${i + 1}/${batches.length} complete (${successCount}/${dataArray.length} items)`);
     }
     catch (error) {
-      console.error(`✗ Error seeding batch ${i + 1}:`, error);
+      logger.error(error, `✗ Error seeding batch ${i + 1}:`);
       errorCount += batch.length;
     }
   }
 
-  console.log('\n✅ Seeding complete!');
-  console.log(`Success: ${successCount}`);
-  console.log(`Errors: ${errorCount}`);
+  logger.info('\n✅ Seeding complete!');
+  logger.info(`Success: ${successCount}`);
+  logger.info(`Errors: ${errorCount}`);
 }
 // Export the generic seed function and run questions seed by default
 export { seedKV };

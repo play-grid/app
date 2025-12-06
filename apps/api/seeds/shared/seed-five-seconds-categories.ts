@@ -1,8 +1,8 @@
-/* eslint-disable no-console */
 import type { BetterSQLite3Database } from 'drizzle-orm/better-sqlite3';
 import type { LibSQLDatabase } from 'drizzle-orm/libsql';
 import { eq } from 'drizzle-orm';
 import { fiveSecondsCategories } from '@/routes/games/five-seconds/five-seconds.tables';
+import { logger } from '@/utils/logger';
 
 interface CategoryData {
   id: string;
@@ -19,7 +19,7 @@ const categoriesToSeed: CategoryData[] = [
 export async function seedD1FiveSecondsCategories(
   db: BetterSQLite3Database<any> | LibSQLDatabase<any>,
 ) {
-  console.log('Seeding Five Seconds categories...');
+  logger.info('Seeding Five Seconds categories...');
 
   for (const category of categoriesToSeed) {
     const existingCategory = await db
@@ -37,5 +37,5 @@ export async function seedD1FiveSecondsCategories(
     }
   }
 
-  console.log('Five Seconds categories seeded successfully!');
+  logger.info('Five Seconds categories seeded successfully!');
 }

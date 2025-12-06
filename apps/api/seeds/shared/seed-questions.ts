@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import type { BetterSQLite3Database } from 'drizzle-orm/better-sqlite3';
 import type { LibSQLDatabase } from 'drizzle-orm/libsql';
 
@@ -8,6 +7,7 @@ import path from 'node:path';
 
 import { eq } from 'drizzle-orm';
 import { fiveSecondsQuestions } from '@/db/schema';
+import { logger } from '@/utils/logger';
 
 const BATCH_SIZE = 100;
 
@@ -19,7 +19,7 @@ function getBaseDir() {
 }
 
 export async function seedD1Questions(db: BetterSQLite3Database<any> | LibSQLDatabase<any>) {
-  console.log('Seeding questions...');
+  logger.info('Seeding questions...');
   const baseDir = getBaseDir();
   const dataPath = path.join(baseDir, 'questions.json');
 
@@ -47,8 +47,8 @@ export async function seedD1Questions(db: BetterSQLite3Database<any> | LibSQLDat
       }
     });
     await Promise.all(insertPromises);
-    console.log(`Batch ${i / BATCH_SIZE + 1} processed.`);
+    logger.info(`Batch ${i / BATCH_SIZE + 1} processed.`);
   }
 
-  console.log('Seeding complete!');
+  logger.info('Seeding complete!');
 }

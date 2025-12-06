@@ -13,6 +13,7 @@ import type { AppRouteHandler } from '@/lib/types';
 import { shuffleArray } from '@guess-logo/shared/utils';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import { getDB } from '@/db';
+import { logger } from '@/utils/logger';
 import {
   getAllSportTeamsInCountry as getAllSportTeamsInCountrySer,
   getAllTeamsInCustomList,
@@ -50,7 +51,7 @@ export const getSportRegions: AppRouteHandler<GetSportRegionsRoute> = async (c) 
     return c.json(regions, HttpStatusCodes.OK);
   }
   catch (error) {
-    console.error('Failed to fetch sport regions:', error);
+    logger.error(error, 'Failed to fetch sport regions:');
     return c.json({ error: 'Failed to fetch sport regions' }, HttpStatusCodes.INTERNAL_SERVER_ERROR);
   }
 };
@@ -69,7 +70,7 @@ export const getSportLeagues: AppRouteHandler<GetSportLeaguesRoute> = async (c) 
     return c.json(leagues, HttpStatusCodes.OK);
   }
   catch (error) {
-    console.error(`Failed to fetch leagues for region ${regionName}:`, error);
+    logger.error(error, `Failed to fetch leagues for region ${regionName}:`);
 
     return c.json({ error: 'Failed to fetch leagues' }, HttpStatusCodes.BAD_REQUEST);
   }
@@ -104,7 +105,7 @@ export const getSportTeams: AppRouteHandler<GetSportTeamsRoute> = async (c) => {
     return c.json(processedTeams, HttpStatusCodes.OK);
   }
   catch (error) {
-    console.error(`Failed to fetch teams for league ${leagueId} in region ${regionName}:`, error);
+    logger.error(error, `Failed to fetch teams for league ${leagueId} in region ${regionName}:`);
     return c.json({ error: 'Failed to fetch teams' }, HttpStatusCodes.BAD_REQUEST);
   }
 };
@@ -138,7 +139,7 @@ export const getAllSportTeamsInRegion: AppRouteHandler<GetAllSportTeamsInRegionR
     return c.json(processedTeams, HttpStatusCodes.OK);
   }
   catch (error) {
-    console.error(`Failed to fetch all teams in region ${regionName}:`, error);
+    logger.error(error, `Failed to fetch all teams in region ${regionName}:`);
     return c.json({ error: 'Failed to fetch teams' }, HttpStatusCodes.BAD_REQUEST);
   }
 };
@@ -150,7 +151,7 @@ export const getCustomSportLists: AppRouteHandler<GetCustomSportListsRoute> = as
     return c.json(lists, HttpStatusCodes.OK);
   }
   catch (error) {
-    console.error('Failed to fetch custom sport lists:', error);
+    logger.error(error, 'Failed to fetch custom sport lists:');
     return c.json({ error: 'Failed to fetch custom sport lists' }, HttpStatusCodes.INTERNAL_SERVER_ERROR);
   }
 };
@@ -179,7 +180,7 @@ export const getAllSportTeamsInCountry: AppRouteHandler<GetAllSportTeamsInCountr
     return c.json(processedTeams, HttpStatusCodes.OK);
   }
   catch (error) {
-    console.error(`Failed to fetch all teams in country ${countryId}:`, error);
+    logger.error(error, `Failed to fetch all teams in country ${countryId}:`);
     return c.json({ error: 'Failed to fetch teams' }, HttpStatusCodes.BAD_REQUEST);
   }
 };
@@ -219,7 +220,7 @@ export const getSportTeamsInCustomList: AppRouteHandler<GetSportTeamsInCustomLis
   }
   catch (error) {
     const errMessage = error instanceof Error ? error.message : 'An unknown error occurred';
-    console.error(`Failed to fetch all teams in custom list ${listSlug}:`, errMessage);
+    logger.error(error, `Failed to fetch all teams in custom list ${listSlug}:`);
     return c.json({ error: `Failed to fetch teams for custom list: ${errMessage}` }, HttpStatusCodes.INTERNAL_SERVER_ERROR);
   }
 };
@@ -258,7 +259,7 @@ export const getAvailableCountries: AppRouteHandler<GetAvailableCountriesRoute> 
     return c.json(enrichedCountries, HttpStatusCodes.OK);
   }
   catch (error) {
-    console.error('Failed to fetch available countries:', error);
+    logger.error(error, 'Failed to fetch available countries:');
     return c.json({ error: 'Failed to fetch available countries' }, HttpStatusCodes.INTERNAL_SERVER_ERROR);
   }
 };

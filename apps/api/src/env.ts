@@ -1,5 +1,6 @@
 import process from 'node:process';
 import { z } from 'zod';
+import { logger } from './utils/logger';
 // Define the schema once
 export const EnvSchema = z.object({
   NODE_ENV: z.string().default('development'),
@@ -39,8 +40,7 @@ export function validateEnv(envVars: Record<string, unknown>): Env {
   const result = EnvSchema.safeParse(envVars);
 
   if (!result.success) {
-    console.error('❌ Invalid environment variables:');
-    console.error(JSON.stringify(result.error.flatten().fieldErrors, null, 2));
+    logger.error(result.error.flatten().fieldErrors, '❌ Invalid environment variables:');
     throw new Error('Invalid environment configuration');
   }
 

@@ -1,8 +1,8 @@
-/* eslint-disable no-console */
 import type { GameSessionRouter } from './game-session.router';
 import { getGameDefinition, isGameRegistered } from '@guess-logo/game-core';
 import { DurableObject } from 'cloudflare:workers';
 import { ZodError } from 'zod';
+import { logger } from '@/utils/logger';
 import { GameSessionManager } from './game-session.manager';
 import { createGameSessionRouter } from './game-session.router';
 import { initGameSessionSchema, joinGameSessionSchema } from './schemas';
@@ -60,23 +60,23 @@ export class GameSessionObject extends DurableObject {
   }
 
   private async rehydrate(): Promise<boolean> {
-    console.log('[GameSessionObject] Rehydrating...');
+    logger.debug('[GameSessionObject] Rehydrating...');
 
     const metadata = await this.ctx.storage.get<GameSessionMetadata>('metadata');
-    console.log('[GameSessionObject] Rehydrating... got metadata', metadata);
+    logger.debug(metadata, '[GameSessionObject] Rehydrating... got metadata');
 
     if (!metadata) {
-      console.error('[GameSessionObject] No metadata found in storage');
+      logger.error('[GameSessionObject] No metadata found in storage');
       return false;
     }
 
     this.metadata = metadata;
 
     const gameDefinition = getGameDefinition(metadata.gameType);
-    console.log('[GameSessionObject] Rehydrating... got gameDefinition', !!gameDefinition);
+    logger.debug(!!gameDefinition, '[GameSessionObject] Rehydrating... got gameDefinition');
 
     if (!gameDefinition) {
-      console.error(`Game definition not found for: ${metadata.gameType}`);
+      logger.error(`Game definition not found for: ${metadata.gameType}`);
       return false;
     }
 
@@ -84,7 +84,7 @@ export class GameSessionObject extends DurableObject {
     const savedState = await this.ctx.storage.get('state');
     const initialState = savedState || gameDefinition.initialState;
 
-    console.log('[GameSessionObject] Rehydrating... got savedState', !!savedState);
+    logger.debug(!!savedState, '[GameSessionObject] Rehydrating... got savedState');
 
     this.manager = new GameSessionManager({
       gameDefinition,
@@ -94,7 +94,7 @@ export class GameSessionObject extends DurableObject {
 
     this.router = createGameSessionRouter(this.manager);
 
-    console.log('[GameSessionObject] Rehydration complete.');
+    logger.debug('[GameSessionObject] Rehydration complete.');
     return true;
   }
 
@@ -175,7 +175,7 @@ export class GameSessionObject extends DurableObject {
       );
     }
     catch (error) {
-      console.error('[GameSessionObject] Init error:', error);
+      logger.error(error, '[GameSessionObject] Init error:');
       if (error instanceof ZodError) {
         return new Response(
           JSON.stringify({ error: 'Invalid request data', details: error.issues }),
@@ -240,7 +240,7 @@ export class GameSessionObject extends DurableObject {
       );
     }
     catch (error) {
-      console.error('[GameSessionObject] Join error:', error);
+      logger.error(error, '[GameSessionObject] Join error:');
       return new Response(
         JSON.stringify({ error: 'Failed to join room' }),
         { status: 500 },

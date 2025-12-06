@@ -1,10 +1,10 @@
-/* eslint-disable no-console */
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import process from 'node:process';
 import Database from 'better-sqlite3';
 
 import { drizzle } from 'drizzle-orm/better-sqlite3';
+import { logger } from '@/utils/logger';
 import { seedD1FiveSecondsCategories } from './shared/seed-five-seconds-categories';
 import { seedD1Questions } from './shared/seed-questions';
 // import { seedD1Sports } from './shared/seed-sports';
@@ -19,7 +19,7 @@ async function main() {
   }
 
   const sqlitePath = path.join(dbDir, dbFile);
-  console.log('Using SQLite file:', sqlitePath);
+  logger.info({ sqlitePath }, 'Using SQLite file');
 
   const sqlite = new Database(sqlitePath);
   const db = drizzle(sqlite);
@@ -30,10 +30,10 @@ async function main() {
   await seedD1Questions(db);
 
   sqlite.close();
-  console.log('Database seeded and closed.');
+  logger.info('Database seeded and closed.');
 }
 
 main().catch((error) => {
-  console.error('Error seeding local database:', error);
+  logger.error(error, 'Error seeding local database:');
   process.exit(1);
 });

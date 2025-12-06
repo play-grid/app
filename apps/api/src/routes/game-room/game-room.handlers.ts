@@ -13,6 +13,7 @@ import {
 } from '@guess-logo/game-core';
 import { nanoid } from 'nanoid';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
+import { logger } from '@/utils/logger';
 import { doRoomStatsSchema, errorSchema } from './schemas';
 
 /**
@@ -101,7 +102,7 @@ export const create: AppRouteHandler<CreateRoute> = async (c) => {
     return c.json(response, HttpStatusCodes.CREATED);
   }
   catch (error) {
-    console.error('[GameRoom] Create error:', error);
+    logger.error(error, '[GameRoom] Create error:');
     return c.json(
       { message: 'Failed to create game room' },
       HttpStatusCodes.INTERNAL_SERVER_ERROR,
@@ -178,7 +179,7 @@ export const join: AppRouteHandler<JoinRoute> = async (c) => {
     return c.json(response, HttpStatusCodes.OK);
   }
   catch (error) {
-    console.error('[GameRoom] Join error:', error);
+    logger.error(error, '[GameRoom] Join error:');
     return c.json(
       { error: 'Failed to join game room' },
       HttpStatusCodes.INTERNAL_SERVER_ERROR,
@@ -238,7 +239,7 @@ export const getGameRoomStats: AppRouteHandler<GetRoomStatsRoute> = async (
     );
   }
   catch (error) {
-    console.error('[GameRoom] Get stats error:', error);
+    logger.error(error, '[GameRoom] Get stats error:');
     return c.json(
       { error: 'Failed to get game room stats' },
       HttpStatusCodes.INTERNAL_SERVER_ERROR,
@@ -269,7 +270,7 @@ export const websocketUpgrade: AppRouteHandler<WebSocketUpgradeRoute> = async (
     return stub.fetch(c.req.raw);
   }
   catch (error) {
-    console.error('[GameRoom] WebSocket upgrade error:', error);
+    logger.error(error, '[GameRoom] WebSocket upgrade error:');
     return c.json(
       { error: 'Failed to establish WebSocket connection' },
       HttpStatusCodes.INTERNAL_SERVER_ERROR,

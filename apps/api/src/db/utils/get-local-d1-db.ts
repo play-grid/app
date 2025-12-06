@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { logger } from '@/utils/logger';
 
 export function getLocalD1DB() {
   try {
@@ -22,7 +23,7 @@ export function getLocalD1DB() {
     return path.resolve(basePath, dbFile);
   }
   catch (err) {
-    console.error(`Error finding local D1 database: ${err}`);
+    logger.error(err, 'Error finding local D1 database:');
     throw err;
   }
 }
