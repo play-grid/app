@@ -105,6 +105,9 @@ importers:
       hono:
         specifier: 'catalog:'
         version: 4.10.7
+      hono-pino:
+        specifier: ^0.10.3
+        version: 0.10.3(hono@4.10.7)(pino@10.1.0)
       hono-rate-limiter:
         specifier: ^0.4.2
         version: 0.4.2(hono@4.10.7)
@@ -481,6 +484,9 @@ importers:
 
   packages/logger:
     devDependencies:
+      '@types/node':
+        specifier: 'catalog:'
+        version: 24.10.1
       pino:
         specifier: ^10.1.0
         version: 10.1.0
@@ -3946,6 +3952,13 @@ packages:
   homedir-polyfill@1.0.3:
     resolution: {integrity: sha512-eSmmWE5bZTK2Nou4g0AI3zZ9rswp7GRKoKXS1BLUkvPviOqs4YTN1djQIqrXy9k5gEtdLPy86JjRwsNM9tnDcA==}
     engines: {node: '>=0.10.0'}
+
+  hono-pino@0.10.3:
+    resolution: {integrity: sha512-n0RNPIFOoq25Fg8b4D5gus4sVqI0z+8I17ibl96+p43d07UnZ0EMM/It0qSgfc7UtaC+XP5FkFmRHwBp6owsNA==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      hono: '>=4.0.0'
+      pino: '>=7.1.0'
 
   hono-rate-limiter@0.4.2:
     resolution: {integrity: sha512-AAtFqgADyrmbDijcRTT/HJfwqfvhalya2Zo+MgfdrMPas3zSMD8SU03cv+ZsYwRU1swv7zgVt0shwN059yzhjw==}
@@ -9490,6 +9503,12 @@ snapshots:
   homedir-polyfill@1.0.3:
     dependencies:
       parse-passwd: 1.0.0
+
+  hono-pino@0.10.3(hono@4.10.7)(pino@10.1.0):
+    dependencies:
+      defu: 6.1.4
+      hono: 4.10.7
+      pino: 10.1.0
 
   hono-rate-limiter@0.4.2(hono@4.10.7):
     dependencies:

@@ -7,7 +7,7 @@ import { drizzle } from 'drizzle-orm/better-sqlite3';
 import { logger } from '@/utils/logger';
 import { seedD1FiveSecondsCategories } from './shared/seed-five-seconds-categories';
 import { seedD1Questions } from './shared/seed-questions';
-// import { seedD1Sports } from './shared/seed-sports';
+import { seedD1Sports } from './shared/seed-sports';
 
 async function main() {
   const dbDir = '.wrangler/state/v3/d1/miniflare-D1DatabaseObject/';
@@ -25,7 +25,7 @@ async function main() {
   const db = drizzle(sqlite);
 
   // Run seeders
-  // await seedD1Sports(db);
+  await seedD1Sports(db);
   await seedD1FiveSecondsCategories(db);
   await seedD1Questions(db);
 

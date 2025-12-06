@@ -23,8 +23,5 @@ export default defineConfig(({ mode }) => {
         },
       },
     },
-    optimizeDeps: {
-      exclude: ['@guess-logo/game-core'],
-    },
   };
 });
