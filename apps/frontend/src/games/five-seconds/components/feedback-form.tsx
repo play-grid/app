@@ -16,6 +16,7 @@ import {
 } from '@/components/ui/select';
 import { useSession } from '@/hooks/auth-hooks';
 import client from '@/lib/hono-client';
+import { logger } from '@/utils/logger';
 
 const feedbackTypesEndpoint = client.api.games['five-seconds'].questions.feedback.types.$get;
 const feedbackEndpoint = client.api.games['five-seconds'].questions.feedback.$post;
@@ -63,7 +64,7 @@ export function FeedbackForm({ questionId, onSuccess }: FeedbackFormProps) {
       onSuccess?.();
     },
     onError: (error: any) => {
-      console.error('Error submitting feedback:', error);
+      logger.error(error, 'Error submitting feedback:');
       toast.error(t('feedback.errorMessage'));
     },
   });

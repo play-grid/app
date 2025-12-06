@@ -1,6 +1,5 @@
 import type { SupportedLanguage } from '@guess-logo/shared/types';
 import type { FooterAttribution, FooterLogoSet } from '../lib/footer-attribution';
-import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';

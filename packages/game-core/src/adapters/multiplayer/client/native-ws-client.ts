@@ -1,6 +1,6 @@
-/* eslint-disable no-console */
 import type { z } from 'zod';
 import type { GameAdapter, StateListener, Unsubscribe } from '../../types';
+import { logger } from '../../../utils/logger';
 
 export interface NativeWSClientAdapterConfig<
   TStateSchema extends z.ZodType,
@@ -23,13 +23,13 @@ export class NativeWSClient<
 
   constructor(config: NativeWSClientAdapterConfig<TStateSchema, TActionSchema>) {
     this.config = config;
-    console.log(`[NativeWSClient] Constructor called for URL: ${config.websocketUrl}`); // ADD THIS LINE
+    logger.info(`[NativeWSClient] Constructor called for URL: ${config.websocketUrl}`);
     this.currentState = config.initialState;
-    console.log('[NativeWSClient] Connecting to:', config.websocketUrl);
+    logger.info({ websocketUrl: config.websocketUrl }, '[NativeWSClient] Connecting to');
     this.websocket = new WebSocket(config.websocketUrl);
 
     this.websocket.addEventListener('open', () => {
-      console.log('[NativeWSClient] Connected');
+      logger.info('[NativeWSClient] Connected');
       this.send('syncState', {});
     });
 
@@ -38,7 +38,7 @@ export class NativeWSClient<
     });
 
     this.websocket.addEventListener('close', (event: CloseEvent) => {
-      console.log('[NativeWSClient] Disconnected:', event.code, event.reason);
+      logger.info({ code: event.code, reason: event.reason }, '[NativeWSClient] Disconnected:');
     });
   }
 
@@ -53,12 +53,12 @@ export class NativeWSClient<
 
       if (message.type === 'dispatchAction_result') {
         if (!message.payload.success) {
-          console.error('[NativeWSClient] Action failed:', message.payload.error);
+          logger.error(message.payload.error, '[NativeWSClient] Action failed:');
         }
       }
     }
     catch (err) {
-      console.error('[NativeWSClient] Failed to parse message:', err);
+      logger.error(err, '[NativeWSClient] Failed to parse message:');
     }
   };
 
@@ -67,7 +67,7 @@ export class NativeWSClient<
       this.websocket.send(JSON.stringify({ type, payload }));
     }
     else {
-      console.warn('[NativeWSClient] Socket not open, cannot send', type);
+      logger.warn({ type }, '[NativeWSClient] Socket not open, cannot send');
     }
   };
 
@@ -81,7 +81,7 @@ export class NativeWSClient<
       this.config.actionSchema.parse(action);
     }
     catch (error) {
-      console.error('[NativeWSClient] Client-side action validation failed:', error);
+      logger.error(error, '[NativeWSClient] Client-side action validation failed:');
       return; // Don't send invalid action
     }
 
@@ -118,7 +118,7 @@ export class NativeWSClient<
         listener(this.currentState);
       }
       catch (error) {
-        console.error('[NativeWSClient] Listener error:', error);
+        logger.error(error, '[NativeWSClient] Listener error:');
       }
     });
   };

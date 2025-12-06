@@ -1,7 +1,7 @@
 import {
   useFiveSecondsActions,
   useFiveSecondsState,
-}  from '@guess-logo/five-seconds';
+} from '@guess-logo/five-seconds';
 import { Award, Medal, RotateCcw, Trophy } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';

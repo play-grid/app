@@ -1,12 +1,12 @@
 import { useFiveSecondsState } from '@guess-logo/five-seconds';
+import { logger } from '@/utils/logger';
 import { GameplayPage } from './pages/gameplay-page';
 import { FiveSecondsLobby } from './pages/lobby-page';
 import { ResultsPage } from './pages/results-page';
 
 export default function FiveSecondsPage() {
   const { phase } = useFiveSecondsState();
-  // eslint-disable-next-line no-console
-  console.log('Current game phase:', phase);
+  logger.info({ phase }, 'Current game phase:');
 
   switch (phase) {
     case 'lobby':

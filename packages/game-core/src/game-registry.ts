@@ -3,6 +3,7 @@ import type { z } from 'zod';
 import type { BaseAction, GameDefinition } from './contracts/game-definition';
 import type { BaseGameStateWire } from './game-logic/schema/state.types';
 import { createGameContract } from './adapters/multiplayer/contracts/base.contract';
+import { logger } from './utils/logger';
 
 interface RegisteredGame<
   TStateSchema extends z.ZodType<BaseGameStateWire>,
@@ -24,7 +25,7 @@ export function registerGame<
   const gameId = definition.meta.id;
 
   if (gameRegistry.has(gameId)) {
-    console.warn(`Game "${gameId}" already registered. Overwriting.`);
+    logger.warn(`Game "${gameId}" already registered. Overwriting.`);
   }
 
   // Create contract from definition schemas

@@ -2,6 +2,7 @@ import type { LogoSetKey, Player } from '@guess-logo/shared/types';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
+import { logger } from '@/utils/logger';
 
 export interface SavedGameState {
   playerA: Player;
@@ -106,7 +107,7 @@ export const usePersistenceStore = create<PersistenceState>()(
           });
         }
         catch (error) {
-          console.error('Failed to save game state:', error);
+          logger.error(error, 'Failed to save game state:');
         }
       },
 
@@ -140,7 +141,7 @@ export const usePersistenceStore = create<PersistenceState>()(
           return gameState;
         }
         catch (error) {
-          console.error('Failed to load game state:', error);
+          logger.error(error, 'Failed to load game state:');
           if (isLocalStorageAvailable()) {
             window.localStorage.removeTime(STORAGE_KEY);
           }
@@ -159,7 +160,7 @@ export const usePersistenceStore = create<PersistenceState>()(
           });
         }
         catch (error) {
-          console.error('Failed to clear game state:', error);
+          logger.error(error, 'Failed to clear game state:');
         }
       },
 

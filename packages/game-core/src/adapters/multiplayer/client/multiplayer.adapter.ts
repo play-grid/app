@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import type { ContractRouterClient } from '@orpc/contract';
 import type { z } from 'zod';
 import type { GameAdapter, StateListener, Unsubscribe } from '../../types';
@@ -6,6 +5,7 @@ import type { GameContract } from '../contracts';
 import { createORPCClient } from '@orpc/client';
 import { RPCLink } from '@orpc/client/websocket';
 import { WebSocket } from 'partysocket';
+import { logger } from '../../../utils/logger';
 
 export interface MultiplayerAdapterConfig<
   TStateSchema extends z.ZodType,
@@ -54,21 +54,21 @@ export class MultiplayerAdapter<
     this.client = createORPCClient(link);
 
     this.websocket.addEventListener('open', () => {
-      console.log('[MultiplayerAdapter] Connected');
+      logger.info('[MultiplayerAdapter] Connected');
       this.subscribeToStateUpdates();
     });
 
     this.websocket.addEventListener('close', (event) => {
-      console.log('[MultiplayerAdapter] Disconnected:', event.code, event.reason);
+      logger.info({ code: event.code, reason: event.reason }, '[MultiplayerAdapter] Disconnected:');
       this.unsubscribeFromStateUpdates();
 
       if (event.code === 1008) {
-        console.error('[MultiplayerAdapter] Room session invalid');
+        logger.error('[MultiplayerAdapter] Room session invalid');
       }
     });
 
     this.websocket.addEventListener('error', (error) => {
-      console.error('[MultiplayerAdapter] WebSocket error:', error);
+      logger.error(error, '[MultiplayerAdapter] WebSocket error:');
     });
   }
 
@@ -94,7 +94,7 @@ export class MultiplayerAdapter<
       }
     }
     catch (error) {
-      console.error('[MultiplayerAdapter] Dispatch failed:', error);
+      logger.error(error, '[MultiplayerAdapter] Dispatch failed:');
       throw error;
     }
   }
@@ -123,7 +123,7 @@ export class MultiplayerAdapter<
 
         for await (const state of stateIterator) {
           if (this.stateStreamController?.signal.aborted) {
-            console.log('[MultiplayerAdapter] State stream cancelled');
+            logger.info('[MultiplayerAdapter] State stream cancelled');
             break;
           }
           this.updateState(state);
@@ -131,10 +131,10 @@ export class MultiplayerAdapter<
       }
       catch (error) {
         if (error instanceof Error && error.name === 'AbortError') {
-          console.log('[MultiplayerAdapter] State stream cancelled');
+          logger.info('[MultiplayerAdapter] State stream cancelled');
         }
         else {
-          console.error('[MultiplayerAdapter] State stream error:', error);
+          logger.error(error, '[MultiplayerAdapter] State stream error:');
         }
       }
     })();
@@ -158,7 +158,7 @@ export class MultiplayerAdapter<
         listener(this.currentState);
       }
       catch (error) {
-        console.error('[MultiplayerAdapter] Listener error:', error);
+        logger.error(error, '[MultiplayerAdapter] Listener error:');
       }
     });
   }

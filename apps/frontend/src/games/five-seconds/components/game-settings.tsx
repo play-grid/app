@@ -17,6 +17,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { logger } from '@/utils/logger';
 import { useCategories } from '../hooks/use-categories';
 import { getCategoryById } from '../services/category.service';
 
@@ -51,7 +52,7 @@ export function GameSettings() {
       });
     }
     catch (err) {
-      console.error('Failed to prefetch category', categoryId, err);
+      logger.error({ categoryId, err }, 'Failed to prefetch category');
     }
   };
 

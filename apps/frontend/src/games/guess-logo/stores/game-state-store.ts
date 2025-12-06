@@ -8,6 +8,7 @@ import type {
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
+import { logger } from '@/utils/logger';
 import { fetchLogos } from '../services/logo-query-service';
 import { fetchLogoLists } from '../services/unified-logo-service';
 
@@ -159,7 +160,7 @@ export const useGameStore = create<GameState>()(
             });
           }
           catch (error) {
-            console.error('Failed to update logos for list', error);
+            logger.error(error, 'Failed to update logos for list');
             set({ error: (error as Error).message || 'Failed to fetch logos.' });
           }
           finally {
@@ -196,7 +197,7 @@ export const useGameStore = create<GameState>()(
             }
           }
           catch (error) {
-            console.error('Failed to update selected set', error);
+            logger.error(error, 'Failed to update selected set');
             set({ error: (error as Error).message || 'Failed to fetch logo lists.' });
           }
           finally {
@@ -271,7 +272,7 @@ export const useGameStore = create<GameState>()(
             });
           }
           catch (error) {
-            console.error('Failed to shuffle logos', error);
+            logger.error(error, 'Failed to shuffle logos');
           }
           finally {
             set({ isUpdatingLogos: false });

@@ -1,7 +1,7 @@
 import {
   useFiveSecondsActions,
   useFiveSecondsState,
-}  from '@guess-logo/five-seconds';
+} from '@guess-logo/five-seconds';
 import { ArrowLeft, RotateCcw } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';

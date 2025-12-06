@@ -20,7 +20,8 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { CreateOrJoinRoomDialog } from '@/features/room/create-or-join-room-dialog';
+import { RoomDialog } from '@/features/room/room-dialog';
+import { logger } from '@/utils/logger';
 import { gridConfigurations } from '../lib/grid-configurations';
 import { fetchLogoLists, fetchLogos } from '../services/unified-logo-service';
 
@@ -115,7 +116,7 @@ export function GameSetup({
     // 1. Fetch available lists
       const lists = await fetchLogoLists(setId);
       if (!Array.isArray(lists) || lists.length === 0) {
-        console.warn(`No lists found for set: ${setId}`);
+        logger.warn(`No lists found for set: ${setId}`);
         return;
       }
 
@@ -130,7 +131,7 @@ export function GameSetup({
       });
     }
     catch (err) {
-      console.error(`Failed to prefetch logos for set ${setId}:`, err);
+      logger.error(err, `Failed to prefetch logos for set ${setId}:`);
     }
   }
 
@@ -277,7 +278,7 @@ export function GameSetup({
             {t('start-game')}
           </Button>
 
-          <CreateOrJoinRoomDialog
+          <RoomDialog
             gameType="guess-logo"
             gameSettings={{
               selectedSet,

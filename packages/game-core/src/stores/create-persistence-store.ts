@@ -1,5 +1,6 @@
 // packages/game-core/src/stores/create-persistence-store.ts
 import { create } from 'zustand';
+import { logger } from '../utils/logger';
 
 interface PersistenceStore<T> {
   savedState: T | null;
@@ -71,7 +72,7 @@ export function createPersistenceStore<T>({
         set({ savedState: state });
       }
       catch (error) {
-        console.error('Failed to save game state:', error);
+        logger.error(error, 'Failed to save game state:');
       }
     },
 
@@ -97,14 +98,14 @@ export function createPersistenceStore<T>({
           return parsedItem.data as T;
         }
         else {
-          console.warn('Saved game state failed validation. Clearing.');
+          logger.warn('Saved game state failed validation. Clearing.');
           get().clearGameState();
         }
 
         return null;
       }
       catch (error) {
-        console.error('Failed to load game state:', error);
+        logger.error(error, 'Failed to load game state:');
         get().clearGameState();
         return null;
       }

@@ -3,6 +3,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { authClient } from '@/lib/auth-client';
+import { logger } from '@/utils/logger';
 import arAuth from '../../public/auth-ar.json';
 
 function ReactRouterLink(props: {
@@ -38,14 +39,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
               });
 
               if (error) {
-                console.error('Error checking username:', error);
+                logger.error(error, 'Error checking username:');
                 return false;
               }
 
               return !!data?.available;
             }
             catch (err) {
-              console.error('Unexpected error:', err);
+              logger.error(err, 'Unexpected error:');
               return false;
             }
           },

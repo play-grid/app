@@ -1,4 +1,4 @@
-import type { Question }  from '@guess-logo/five-seconds';
+import type { Question } from '@guess-logo/five-seconds';
 import type { SupportedLanguage } from '@guess-logo/shared/types';
 import { useQueryClient } from '@tanstack/react-query';
 import { Clock, Info } from 'lucide-react';

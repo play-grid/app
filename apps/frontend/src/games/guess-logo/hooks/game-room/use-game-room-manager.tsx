@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { devLog } from '@/utils/logger';
+import { logger } from '@/utils/logger';
 import { useGameStore } from '../../stores/game-state-store';
 import { useGameConnection } from './use-game-connection';
 
@@ -26,7 +26,7 @@ export function useGameRoomManager(roomId?: string) {
 
   useEffect(() => {
     if (onMessage) {
-      devLog('Received message from server:', onMessage);
+      logger.debug('Received message from server:');
       const message = onMessage as GameServerMessage;
 
       switch (message.type) {
@@ -35,14 +35,14 @@ export function useGameRoomManager(roomId?: string) {
           break;
         case 'ERROR':
           // You might want to set this error in the UI store
-          console.error('Server Error:', message.payload);
+          logger.error(message.payload, 'Server Error:');
           break;
         case 'GAME_NOT_FOUND':
           // Handle game not found, e.g., redirect or show an error
-          console.error('Game not found');
+          logger.error('Game not found');
           break;
         default:
-          devLog('Unknown message type:', message.type);
+          logger.debug('Unknown message type:', message.type);
       }
     }
   }, [onMessage, applyServerState]);

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { joinGameRoom } from '@/features/room/room-service';
+import { logger } from '@/utils/logger';
 import { useGameMode } from './use-game-mode';
 
 export interface PlayerIdentity {
@@ -25,7 +26,7 @@ export function useMultiplayer() {
       }
     }
     catch (e) {
-      console.error('Failed to parse player from localStorage', e);
+      logger.error(e, 'Failed to parse player from localStorage');
       localStorage.removeItem(storageKey);
     }
   }, [isMultiplayer, roomId, storageKey]);

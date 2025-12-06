@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { devLog } from '@/utils/logger';
+import { logger } from '@/utils/logger';
 
 type MessageHandler = (data: any) => void;
 
@@ -28,12 +28,12 @@ export function useWebSocket(url: string, onMessage?: MessageHandler) {
 
       ws.onopen = () => {
         setIsConnected(true);
-        devLog('✅ WS connected');
+        logger.debug('✅ WS connected');
       };
 
       ws.onclose = () => {
         setIsConnected(false);
-        devLog('⚠️ WS disconnected, retrying...');
+        logger.debug('⚠️ WS disconnected, retrying...');
         reconnectTimer = setTimeout(connect, 2000); // simple retry
       };
 

@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import type { BaseGameStateWire, GameDefinition } from '@guess-logo/game-core';
 import type z from 'zod';
 import { ZodError } from 'zod';

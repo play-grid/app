@@ -5,6 +5,7 @@ import BackButton from '@/components/back-button';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useGameNavigation } from '@/hooks/use-game-navigation';
+import { logger } from '@/utils/logger';
 import { GameSetup } from '../components/game-setup';
 import { useGameStore } from '../stores/game-state-store';
 import { usePersistenceStore } from '../stores/legacy-persistence-store';
@@ -64,7 +65,7 @@ export default function GameSetupPage() {
       }
     }
     catch (error) {
-      console.error('Failed to load saved game state:', error);
+      logger.error(error, 'Failed to load saved game state:');
     }
 
     setResumeCheckComplete(true);

@@ -137,20 +137,22 @@ export function SportsListSelector({
             </SelectTrigger>
             <SelectContent>
               {regions.map((region) => {
-                  const regionName = region.name[i18n.language as keyof typeof region.name];
-                  const parsed = parseSportsListId(region.id);
-                  const regionKey
-                    = parsed.success && parsed.data.type === 'region'
-                      ? parsed.data.regionName
-                      : `unknown-${region.id}`;
-                  return (
-                    <SelectItem key={region.id} value={regionKey}>
-                      {regionName}
-                      {' '}
-                      ({region.teamsCount})
-                    </SelectItem>
-                  );
-                })}
+                const regionName = region.name[i18n.language as keyof typeof region.name];
+                const parsed = parseSportsListId(region.id);
+                const regionKey
+                  = parsed.success && parsed.data.type === 'region'
+                    ? parsed.data.regionName
+                    : `unknown-${region.id}`;
+                return (
+                  <SelectItem key={region.id} value={regionKey}>
+                    {regionName}
+                    {' '}
+                    (
+                    {region.teamsCount}
+                    )
+                  </SelectItem>
+                );
+              })}
             </SelectContent>
           </Select>
 
@@ -193,7 +195,9 @@ export function SportsListSelector({
                             {' '}
                             {leagueName}
                             {' '}
-                            ({league.teamsCount})
+                            (
+                            {league.teamsCount}
+                            )
                           </SelectItem>
                         );
                       })}
@@ -229,7 +233,9 @@ export function SportsListSelector({
                       {' '}
                       {countryName}
                       {' '}
-                      ({country.teamsCount})
+                      (
+                      {country.teamsCount}
+                      )
                     </SelectItem>
                   );
                 })}
@@ -244,12 +250,14 @@ export function SportsListSelector({
           </SelectTrigger>
           <SelectContent>
             {customLists.map(list => (
-                <SelectItem key={list.id} value={list.slug}>
-                  {list.name}
-                  {' '}
-                  ({list.teamsCount})
-                </SelectItem>
-              ))}
+              <SelectItem key={list.id} value={list.slug}>
+                {list.name}
+                {' '}
+                (
+                {list.teamsCount}
+                )
+              </SelectItem>
+            ))}
           </SelectContent>
         </Select>
       )}
