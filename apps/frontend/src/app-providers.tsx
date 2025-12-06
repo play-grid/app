@@ -45,6 +45,15 @@ function AppProviders() {
                 replace={href => redirect(href)}
                 Link={ReactRouterLink}
                 localization={i18n.language === 'ar' ? authAr : undefined}
+                basePath=""
+                viewPaths={{
+                  SIGN_IN: 'login',
+                  SIGN_OUT: 'logout',
+                  SIGN_UP: 'register',
+                  FORGOT_PASSWORD: 'forgot',
+                  RESET_PASSWORD: 'reset',
+                  MAGIC_LINK: 'magic',
+                }}
               >
                 <Toaster richColors />
                 <NetworkStatusNotifier />

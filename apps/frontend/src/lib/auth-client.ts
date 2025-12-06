@@ -5,9 +5,9 @@ export const authClient = createAuthClient({
   baseURL: env.VITE_API_URL,
   credentials: 'include',
   paths: {
-    session: '/api/auth/get-session',
+    session: '/api/get-session',
     signup: {
-      email: '/api/auth/sign-up/email',
+      email: '/api/sign-up/email',
     },
   },
 });

@@ -58,7 +58,7 @@ export function LanguageRoutes() {
         <Route path="/about" element={<AboutPage />} />
         <Route path="/legal" element={<LegalPage />} />
         <Route path="/privacy" element={<PrivacyPage />} />
-        <Route path="/auth/:pathname" element={<AuthPage />} />
+        <Route path="/:pathname" element={<AuthPage />} />
         <Route path="/account/:pathname" element={<AccountPage />} />
 
         {/* Game-specific routes */}

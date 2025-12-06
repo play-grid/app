@@ -45,7 +45,6 @@ function SiteCustomizations() {
           className={cn(
             'group',
             'rounded-full p-2 size-9',
-            isRTL ? 'ml-auto' : 'mr-auto',
           )}
           variant="secondary"
         >
