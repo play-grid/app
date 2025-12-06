@@ -52,6 +52,7 @@
     "drizzle-zod": "^0.8.3",
     "hono": "catalog:",
     "hono-rate-limiter": "^0.4.2",
+    "nanoid": "^5.1.6",
     "stoker": "^2.0.1",
     "tmdb-ts": "^2.0.2",
     "zod": "catalog:"
