@@ -1,0 +1,12 @@
+{
+  "name": "@guess-logo/logger",
+  "version": "1.0.0",
+  "type": "module",
+  "exports":{
+    ".":"./index.ts"
+  },
+  "devDependencies": {
+    "pino": "^10.1.0",
+    "pino-pretty": "^13.1.3"
+  }
+}

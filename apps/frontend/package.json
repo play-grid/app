@@ -64,6 +64,7 @@
   "devDependencies": {
     "@eslint-react/eslint-plugin": "^2.3.1",
     "@eslint/js": "^9.39.1",
+    "@guess-logo/logger":"workspace:*",
     "@guess-logo/eslint-config": "workspace:*",
     "@iconify-json/solar": "^1.2.5",
     "@iconify/react": "^6.0.2",

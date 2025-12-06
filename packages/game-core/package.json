@@ -65,6 +65,7 @@
     "react": "catalog:react19"
   },
   "devDependencies": {
+    "@guess-logo/logger":"workspace:*",
     "@orpc/server": "^1.12.2",
     "@types/node": "catalog:",
     "@types/react": "catalog:react19",
