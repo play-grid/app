@@ -89,7 +89,7 @@ else
 
     if [ -d "apps/api/.wrangler" ]; then
       echo -e "${CYAN}Clearing wrangler cache...${RESET}"
-      rm -rf apps/api/.wrangler
+      rm -rf apps/api/.wrangler/state/v3/cache && rm -rf apps/api/.wrangler/state/v3/do/ && rm -rf apps/api/.wrangler/state/v3/kv/
     fi
     
   else
