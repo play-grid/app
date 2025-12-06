@@ -3,4 +3,11 @@ import { env } from '@/env';
 
 export const authClient = createAuthClient({
   baseURL: env.VITE_API_URL,
+  credentials: 'include',
+  paths: {
+    session: '/api/auth/get-session',
+    signup: {
+      email: '/api/auth/sign-up/email',
+    },
+  },
 });
