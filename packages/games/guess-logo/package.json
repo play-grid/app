@@ -1,0 +1,27 @@
+{
+  "name": "@guess-logo/guess-logo",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./hooks": {
+      "types": "./src/hooks/index.ts",
+      "default": "./src/hooks/index.ts"
+    },
+    "./logic": {
+      "types": "./src/logic/index.ts",
+      "default": "./src/logic/index.ts"
+    }
+  },
+  "dependencies": {
+    "@guess-logo/game-core": "workspace:*",
+    "@guess-logo/shared": "workspace:*",
+    "react": "catalog:react19",
+    "immer": "catalog:",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@types/react": "catalog:react19",
+    "typescript": "catalog:"
+  }
+}
