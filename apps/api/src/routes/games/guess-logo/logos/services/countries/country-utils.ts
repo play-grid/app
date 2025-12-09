@@ -1,5 +1,5 @@
 import type { Country, SupportedLanguage } from '@guess-logo/shared/types';
-import { regionOverrides } from '@guess-logo/shared/data';
+import { regionOverrides } from '@guess-logo/guess-logo';
 
 // function cleanName(name: string): string {
 //   return name

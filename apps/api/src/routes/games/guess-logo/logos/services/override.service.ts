@@ -1,9 +1,17 @@
 import type { LogoContent } from '@guess-logo/guess-logo';
 import { getEnv } from '@/lib/context-manager';
 
-interface LogoOverrides {
+export interface LogoOverrideSets {
+  [logoSet: string]: {
+    [listId: string]: {
+      [logoName: string]: string;
+    };
+  };
+}
+
+export interface LogoOverrides {
   _v: string;
-  sets: Record<string, Record<string, Record<string, string>>>;
+  sets: LogoOverrideSets;
 }
 
 export async function applyLogoOverrides<T extends LogoContent>(
@@ -35,6 +43,6 @@ export async function getLogoOverrides(): Promise<LogoOverrides> {
   }
 
   // Fallback to imported overrides
-  const { logoOverrides } = await import('@guess-logo/shared/data');
+  const { logoOverrides } = await import('@guess-logo/guess-logo');
   return logoOverrides as LogoOverrides;
 }

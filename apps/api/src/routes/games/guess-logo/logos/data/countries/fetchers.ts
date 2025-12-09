@@ -1,7 +1,6 @@
 import type { CountryLogo } from '@guess-logo/guess-logo';
 import type { SupportedLanguage } from '@guess-logo/shared/types';
-import { LOGO_SET_TYPE_MAP } from '@guess-logo/guess-logo';
-import { topGdpCountryNames, topGdpCountryNamesAr } from '@guess-logo/shared/data';
+import { LOGO_SET_TYPE_MAP, topGdpCountryNames, topGdpCountryNamesAr } from '@guess-logo/guess-logo';
 import { logger } from '@/utils/logger';
 import { getAllCountries, getCountryByName } from '../../services/countries/apicountries-service';
 import { getLocalizedCountryData } from '../../services/countries/country-utils';

@@ -1,7 +1,6 @@
 import type { CompanyLogo } from '@guess-logo/guess-logo';
 import type { SupportedLanguage } from '@guess-logo/shared/types';
-import { LOGO_SET_TYPE_MAP } from '@guess-logo/guess-logo';
-import { companies, saudiCompanies } from '@guess-logo/shared/data';
+import { companies, LOGO_SET_TYPE_MAP, saudiCompanies } from '@guess-logo/guess-logo';
 import { processInChunks } from '@/utils/promise-utils';
 import { fetchCompanyLogo } from '../../services/companies/fetch-company-logo';
 
