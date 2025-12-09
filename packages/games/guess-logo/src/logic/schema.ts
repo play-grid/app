@@ -31,12 +31,6 @@ export const GuessLogoGameStateSchema = BaseGameStateSchema.extend({
 export type GuessLogoGameState = z.infer<typeof GuessLogoGameStateSchema>;
 
 // GAME ACTIONS
-export const LoadContentActionSchema = z.object({
-  type: z.literal('LOAD_CONTENT'),
-  payload: z.object({
-    logos: z.array(LogoContentSchema),
-  }),
-});
 
 export const EliminateLogoActionSchema = z.object({
   type: z.literal('ELIMINATE_LOGO'),
@@ -54,12 +48,17 @@ export const RestoreLogoActionSchema = z.object({
   }),
 });
 
-export const GuessLogoActionSchema = z.object({
-  type: z.literal('GUESS_LOGO'),
+export const ShuffleLogosActionSchema = z.object({
+  type: z.literal('SHUFFLE_LOGOS'),
   payload: z.object({
-    guessingPlayerId: z.string(),
-    targetPlayerId: z.string(),
-    guessedLogoId: z.number(),
+    logos: z.array(LogoContentSchema),
+  }),
+});
+
+export const LoadContentActionSchema = z.object({
+  type: z.literal('LOAD_CONTENT'),
+  payload: z.object({
+    logos: z.array(LogoContentSchema),
   }),
 });
 
@@ -70,14 +69,7 @@ export const CheckWinnerActionSchema = z.object({
   }),
 });
 
-export const ShuffleLogosActionSchema = z.object({
-  type: z.literal('SHUFFLE_LOGOS'),
-  payload: z.object({
-    logos: z.array(LogoContentSchema),
-  }),
-});
-
-export const GuessLogoActionSchemaUnion = z.union([
+export const GuessLogoActionSchema = z.union([
   ...GameActionSchemas,
   LoadContentActionSchema,
   EliminateLogoActionSchema,
@@ -90,6 +82,5 @@ export type LoadContentAction = z.infer<typeof LoadContentActionSchema>;
 export type EliminateLogoAction = z.infer<typeof EliminateLogoActionSchema>;
 export type RestoreLogoAction = z.infer<typeof RestoreLogoActionSchema>;
 export type CheckWinnerAction = z.infer<typeof CheckWinnerActionSchema>;
-export type GuessLogoAction = z.infer<typeof GuessLogoActionSchema>;
 export type ShuffleLogosAction = z.infer<typeof ShuffleLogosActionSchema>;
-export type GuessLogoActionType = z.infer<typeof GuessLogoActionSchemaUnion>;
+export type GuessLogoActionType = z.infer<typeof GuessLogoActionSchema>;
