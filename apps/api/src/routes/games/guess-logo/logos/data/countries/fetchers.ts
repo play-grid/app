@@ -3,11 +3,11 @@ import type { SupportedLanguage } from '@guess-logo/shared/types';
 import { LOGO_SET_TYPE_MAP } from '@guess-logo/guess-logo';
 import { topGdpCountryNames, topGdpCountryNamesAr } from '@guess-logo/shared/data';
 import { logger } from '@/utils/logger';
-import { getCountryByName } from './apicountries-service';
-import { getLocalizedCountryData } from './country-utils';
-import { generateFlagUrl } from './flag-logo-service';
+import { getAllCountries, getCountryByName } from '../../services/countries/apicountries-service';
+import { getLocalizedCountryData } from '../../services/countries/country-utils';
+import { generateFlagUrl } from '../../services/countries/flag-logo-service';
 
-export async function gdpList(language: SupportedLanguage): Promise<CountryLogo[]> {
+export async function fetchGdpCountries(language: SupportedLanguage): Promise<CountryLogo[]> {
   const logoItems: CountryLogo[] = [];
   let idCounter = 0;
 
@@ -44,4 +44,29 @@ export async function gdpList(language: SupportedLanguage): Promise<CountryLogo[
   }
 
   return logoItems;
+}
+
+export async function fetchPopulationCountries(language: SupportedLanguage): Promise<CountryLogo[]> {
+  const countries = await getAllCountries();
+
+  // Sort by population in descending order
+  const sortedCountries = countries
+    .sort((a, b) => (b.population || 0) - (a.population || 0));
+
+  return sortedCountries.map((country, index) => {
+    const name = language === 'ar' ? country.translations?.ar ?? '' : country.name;
+    const localizedCountry = getLocalizedCountryData(country, language);
+    return {
+      id: index,
+      name,
+      originalName: country.name,
+      imageUrl: generateFlagUrl(country),
+      type: LOGO_SET_TYPE_MAP.countries,
+      countryData: {
+        name: localizedCountry.name,
+        region: localizedCountry.region,
+        currency: localizedCountry.currencies?.[0]?.code ?? '',
+      },
+    };
+  });
 }

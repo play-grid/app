@@ -49,6 +49,10 @@ export const getLogosBySetAndList = createRoute({
       z.array(LogoContentSchema),
       'Successfully retrieved logos',
     ),
+    [HttpStatusCodes.NOT_FOUND]: jsonContent(
+      z.object({ error: z.string() }),
+      'Logo list not found',
+    ),
     [HttpStatusCodes.BAD_REQUEST]: jsonContent(
       z.object({ error: z.string() }),
       'Invalid request parameters',

@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { localeRecordSchema } from './i18n';
 
 // Logo set enum
 export const logoSetSchema = z.enum(['companies', 'countries', 'movies', 'sports']);
@@ -9,10 +10,6 @@ export const logoItemSchema = z.object({
   imageUrl: z.string(),
 });
 
-export const localeRecordSchema = z.object({
-  en: z.string(),
-  ar: z.string(),
-});
 export const languageQuery = z.object({ language: z.enum(['en', 'ar'], { error: 'Language not supported' }).default('en') });
 
 // Logo list schema

@@ -5,23 +5,18 @@ import type {
   GetLogosBySetAndListRoute,
 } from './logos.routes';
 import type { AppRouteHandler } from '@/lib/types';
-import { logoOverrides as rawOverrides } from '@guess-logo/shared/data';
 import { shuffleArray } from '@guess-logo/shared/utils';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import { logger } from '@/utils/logger';
-import { fetchLogoLists } from './services/logo-lists-service';
+import { getLogoListsMetadata } from './data/metadata';
+import { getLogoFetcher } from './data/registry';
+import { applyLogoOverrides, getLogoOverrides } from './services/override.service';
 
-interface LogoOverrides {
-  _v: string;
-  sets: Record<string, Record<string, Record<string, string>>>;
-}
-
-export const getLogoLists: AppRouteHandler<GetLogoListsRoute> = async (c) => {
+export const getLogoLists: AppRouteHandler<GetLogoListsRoute> = (c) => {
   const set = c.req.valid('param').set as LogoSetKey;
 
   try {
-    const logoLists = await fetchLogoLists(set);
-
+    const logoLists = getLogoListsMetadata(set);
     return c.json(logoLists, HttpStatusCodes.OK);
   }
   catch (error) {
@@ -47,38 +42,30 @@ export const getLogosBySetAndList: AppRouteHandler<GetLogosBySetAndListRoute> = 
 
   const { count, language, shuffle } = c.req.valid('query');
   const countNum = Math.min(Number.parseInt(count, 10), 100);
-  const logoOverrides = rawOverrides as LogoOverrides;
-
-  const overrideVersion = logoOverrides._v || '';
-
-  const fullDatasetCacheKey = `logos:full:${set}:${list}:${language}:${overrideVersion}`;
 
   try {
-    let allLogos: LogoContent[];
+    const overrides = await getLogoOverrides();
+    const overrideVersion = overrides._v || '';
 
-    const cached = await c.env.LOGO_CACHE.get(fullDatasetCacheKey);
+    const cacheKey = `logos:full:${set}:${list}:${language}:${overrideVersion}`;
+
+    let allLogos: LogoContent[];
+    const cached = await c.env.LOGO_CACHE.get(cacheKey);
 
     if (cached) {
       allLogos = JSON.parse(cached);
     }
     else {
-      const logos = await fetchLogosFromList(set, list, language as SupportedLanguage);
+      const fetcher = getLogoFetcher(set, list);
+      if (!fetcher) {
+        return c.json({ error: 'Not found' }, HttpStatusCodes.NOT_FOUND);
+      }
 
-      allLogos = logos.map((logo) => {
-        const overrideKey
-          = logo.type === 'country' && logo.originalName
-            ? logo.originalName
-            : logo.name;
+      const rawLogos = await fetcher(language as SupportedLanguage);
 
-        const overrideUrl = logoOverrides.sets[set]?.[list]?.[overrideKey];
+      allLogos = await applyLogoOverrides(rawLogos, set, list, overrides);
 
-        if (overrideUrl) {
-          return { ...logo, imageUrl: overrideUrl };
-        }
-        return logo;
-      });
-
-      await c.env.LOGO_CACHE.put(fullDatasetCacheKey, JSON.stringify(allLogos), {
+      await c.env.LOGO_CACHE.put(cacheKey, JSON.stringify(allLogos), {
         expirationTtl: 86400,
       });
     }
@@ -103,26 +90,3 @@ export const getLogosBySetAndList: AppRouteHandler<GetLogosBySetAndListRoute> = 
     );
   }
 };
-
-async function fetchLogosFromList(
-  set: LogoSetKey,
-  listId: string,
-  language: SupportedLanguage,
-): Promise<LogoContent[]> {
-  try {
-    const logoLists = await fetchLogoLists(set);
-
-    const targetList = logoLists.find(list => list.id === listId);
-    if (!targetList) {
-      throw new Error(`List '${listId}' not found for set '${set}'`);
-    }
-
-    const logoItems = await targetList.fetchItems(language, listId);
-
-    return logoItems;
-  }
-  catch (error) {
-    logger.error(error, `Error fetching logos from list ${listId} in set ${set}:`);
-    throw error;
-  }
-}
