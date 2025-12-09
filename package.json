@@ -19,20 +19,6 @@
     "lint-staged": "^16.1.5",
     "tsx": "^4.20.6"
   },
-  "pnpm": {
-    "overrides": {
-      "esbuild": "0.25.9"
-    },
-    "onlyBuiltDependencies": [
-      "@swc/core",
-      "@tailwindcss/oxide",
-      "better-sqlite3",
-      "cypress",
-      "esbuild",
-      "sharp",
-      "workerd"
-    ]
-  },
   "lint-staged": {
     "apps/frontend/**/*.{js,ts,tsx}": "eslint --fix --config apps/frontend/eslint.config.js",
     "apps/api/**/*.{js,ts}": [

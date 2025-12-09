@@ -459,9 +459,6 @@ importers:
       '@guess-logo/eslint-config':
         specifier: workspace:*
         version: link:../eslint-config
-      typescript:
-        specifier: 'catalog:'
-        version: 5.9.3
       zod:
         specifier: 'catalog:'
         version: 4.1.13
