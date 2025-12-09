@@ -1,4 +1,4 @@
-import { BaseGameStateSchema, GameActionSchemas, PlayerSchema } from '@guess-logo/game-core';
+import { BaseGameStateSchema, GameActionSchema, PlayerSchema } from '@guess-logo/game-core';
 import z from 'zod';
 import { LogoContentSchema, LogoSetKeySchema } from '../base.schema';
 
@@ -25,7 +25,6 @@ export const GuessLogoGameStateSchema = BaseGameStateSchema.extend({
   players: z.record(z.string(), PlayerSchema),
   logos: z.array(LogoContentSchema).default([]),
   isContentLoaded: z.boolean().default(false),
-  bothPlayersSelectedSecret: z.boolean().default(false),
 });
 
 export type GuessLogoGameState = z.infer<typeof GuessLogoGameStateSchema>;
@@ -69,8 +68,7 @@ export const CheckWinnerActionSchema = z.object({
   }),
 });
 
-export const GuessLogoActionSchema = z.union([
-  ...GameActionSchemas,
+export const GuessLogoCustomActionSchema = z.discriminatedUnion('type', [
   LoadContentActionSchema,
   EliminateLogoActionSchema,
   RestoreLogoActionSchema,
@@ -78,9 +76,14 @@ export const GuessLogoActionSchema = z.union([
   ShuffleLogosActionSchema,
 ]);
 
+export const GuessLogoActionSchema = z.discriminatedUnion('type', [
+  ...GameActionSchema.options,
+  ...GuessLogoCustomActionSchema.options,
+]);
+
 export type LoadContentAction = z.infer<typeof LoadContentActionSchema>;
 export type EliminateLogoAction = z.infer<typeof EliminateLogoActionSchema>;
 export type RestoreLogoAction = z.infer<typeof RestoreLogoActionSchema>;
 export type CheckWinnerAction = z.infer<typeof CheckWinnerActionSchema>;
 export type ShuffleLogosAction = z.infer<typeof ShuffleLogosActionSchema>;
-export type GuessLogoActionType = z.infer<typeof GuessLogoActionSchema>;
+export type GuessLogoAction = z.infer<typeof GuessLogoActionSchema>;

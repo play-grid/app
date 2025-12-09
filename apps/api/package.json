@@ -39,6 +39,7 @@
   },
   "dependencies": {
     "@guess-logo/five-seconds": "workspace:*",
+    "@guess-logo/guess-logo": "workspace:*",
     "@guess-logo/game-core": "workspace:*",
     "@guess-logo/shared": "workspace:*",
     "@hono-rate-limiter/cloudflare": "^0.2.2",

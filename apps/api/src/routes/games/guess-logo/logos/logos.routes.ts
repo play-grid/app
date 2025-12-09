@@ -1,12 +1,8 @@
-import {
-  logoItemSchema,
-  logoListSchema,
-  logoQuerySchema,
-  logoSetSchema,
-} from '@guess-logo/shared/schemas';
+import { LogoContentSchema, LogoSetKeySchema } from '@guess-logo/guess-logo';
 import { createRoute, z } from '@hono/zod-openapi';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import { jsonContent } from 'stoker/openapi/helpers';
+import { LogoListResponseSchema, LogoQuerySchema } from './logos.schemas';
 
 const tags = ['Logos'];
 
@@ -17,12 +13,12 @@ export const getLogoLists = createRoute({
   tags,
   request: {
     params: z.object({
-      set: logoSetSchema,
+      set: LogoSetKeySchema,
     }),
   },
   responses: {
     [HttpStatusCodes.OK]: jsonContent(
-      z.array(logoListSchema),
+      z.array(LogoListResponseSchema),
       'Successfully retrieved available logo lists',
     ),
     [HttpStatusCodes.BAD_REQUEST]: jsonContent(
@@ -43,14 +39,14 @@ export const getLogosBySetAndList = createRoute({
   tags,
   request: {
     params: z.object({
-      set: logoSetSchema,
+      set: LogoSetKeySchema,
       list: z.string(),
     }),
-    query: logoQuerySchema,
+    query: LogoQuerySchema,
   },
   responses: {
     [HttpStatusCodes.OK]: jsonContent(
-      z.array(logoItemSchema),
+      z.array(LogoContentSchema),
       'Successfully retrieved logos',
     ),
     [HttpStatusCodes.BAD_REQUEST]: jsonContent(

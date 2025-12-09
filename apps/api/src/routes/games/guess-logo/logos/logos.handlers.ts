@@ -1,9 +1,5 @@
-import type {
-  LogoItem,
-  LogoOverrides,
-  LogoSetKey,
-  LogoSetKey as TLogoSet,
-} from '@guess-logo/shared/types';
+import type { LogoContent, LogoSetKey } from '@guess-logo/guess-logo';
+import type { SupportedLanguage } from '@guess-logo/shared/types';
 import type {
   GetLogoListsRoute,
   GetLogosBySetAndListRoute,
@@ -15,21 +11,18 @@ import * as HttpStatusCodes from 'stoker/http-status-codes';
 import { logger } from '@/utils/logger';
 import { fetchLogoLists } from './services/logo-lists-service';
 
-// Handler to get available lists for a logo set
+interface LogoOverrides {
+  _v: string;
+  sets: Record<string, Record<string, Record<string, string>>>;
+}
+
 export const getLogoLists: AppRouteHandler<GetLogoListsRoute> = async (c) => {
   const set = c.req.valid('param').set as LogoSetKey;
 
   try {
     const logoLists = await fetchLogoLists(set);
 
-    // Return only the id and name for each list
-    const simplifiedLists = logoLists.map(list => ({
-      id: list.id,
-      name: list.name,
-      teamsCount: list.teamsCount,
-    }));
-
-    return c.json(simplifiedLists, HttpStatusCodes.OK);
+    return c.json(logoLists, HttpStatusCodes.OK);
   }
   catch (error) {
     logger.error(error, `Failed to fetch logo lists for set ${set}:`);
@@ -40,7 +33,6 @@ export const getLogoLists: AppRouteHandler<GetLogoListsRoute> = async (c) => {
   }
 };
 
-// Handler to get logos by set and list
 export const getLogosBySetAndList: AppRouteHandler<GetLogosBySetAndListRoute> = async (
   c,
 ) => {
@@ -59,23 +51,25 @@ export const getLogosBySetAndList: AppRouteHandler<GetLogosBySetAndListRoute> = 
 
   const overrideVersion = logoOverrides._v || '';
 
-  // Cache key for the FULL dataset (without count or shuffle in the key)
   const fullDatasetCacheKey = `logos:full:${set}:${list}:${language}:${overrideVersion}`;
 
   try {
-    let allLogos: LogoItem[];
+    let allLogos: LogoContent[];
 
-    // Check cache for full dataset first
     const cached = await c.env.LOGO_CACHE.get(fullDatasetCacheKey);
 
     if (cached) {
       allLogos = JSON.parse(cached);
     }
     else {
-      const logos = await fetchLogosFromList(set, list, language);
+      const logos = await fetchLogosFromList(set, list, language as SupportedLanguage);
 
       allLogos = logos.map((logo) => {
-        const overrideKey = logo.originalName || logo.name;
+        const overrideKey
+          = logo.type === 'country' && logo.originalName
+            ? logo.originalName
+            : logo.name;
+
         const overrideUrl = logoOverrides.sets[set]?.[list]?.[overrideKey];
 
         if (overrideUrl) {
@@ -89,15 +83,13 @@ export const getLogosBySetAndList: AppRouteHandler<GetLogosBySetAndListRoute> = 
       });
     }
 
-    let processedLogos: LogoItem[];
+    let processedLogos: LogoContent[];
 
-    // If shuffle is requested, shuffle the full dataset then slice
     if (shuffle === true) {
-      const shuffledLogos = shuffleArray([...allLogos]); // Clone to avoid mutating cache
+      const shuffledLogos = shuffleArray([...allLogos]);
       processedLogos = shuffledLogos.slice(0, countNum);
     }
     else {
-      // No shuffle, just take the first N items
       processedLogos = allLogos.slice(0, countNum);
     }
 
@@ -112,25 +104,20 @@ export const getLogosBySetAndList: AppRouteHandler<GetLogosBySetAndListRoute> = 
   }
 };
 
-// Helper function to fetch logos from a specific list
 async function fetchLogosFromList(
-  set: TLogoSet,
+  set: LogoSetKey,
   listId: string,
-  language = 'en',
-): Promise<LogoItem[]> {
+  language: SupportedLanguage,
+): Promise<LogoContent[]> {
   try {
-    // Get all available lists for this set
     const logoLists = await fetchLogoLists(set);
 
-    // Find the specific list
     const targetList = logoLists.find(list => list.id === listId);
     if (!targetList) {
       throw new Error(`List '${listId}' not found for set '${set}'`);
     }
 
-    // Get logo items from the list with language parameter
-    // Pass listId so fetchItems can check for overrides
-    const logoItems = await targetList.fetchItems(language as any, listId);
+    const logoItems = await targetList.fetchItems(language, listId);
 
     return logoItems;
   }

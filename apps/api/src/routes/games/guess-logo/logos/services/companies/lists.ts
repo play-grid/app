@@ -1,4 +1,4 @@
-import type { LogoList } from '@guess-logo/shared/types';
+import type { LogoList } from '@guess-logo/guess-logo';
 import { companyList } from './company-list-service';
 import { saudiCompanyList } from './saudi-company-list-service';
 

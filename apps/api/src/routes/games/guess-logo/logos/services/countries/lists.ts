@@ -1,4 +1,4 @@
-import type { LogoList } from '@guess-logo/shared/types';
+import type { LogoList } from '@guess-logo/guess-logo';
 import { gdpList } from './gdp-list-service';
 import { populationList } from './population-list-service';
 

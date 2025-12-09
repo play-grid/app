@@ -1,4 +1,6 @@
-import type { LogoItem, SupportedLanguage } from '@guess-logo/shared/types';
+import type { CompanyLogo } from '@guess-logo/guess-logo';
+import type { SupportedLanguage } from '@guess-logo/shared/types';
+import { LOGO_SET_TYPE_MAP } from '@guess-logo/guess-logo';
 import { logoOverrides, saudiCompanies } from '@guess-logo/shared/data';
 import { processInChunks } from '@/utils/promise-utils';
 import { fetchCompanyLogo } from './fetch-company-logo';
@@ -8,7 +10,7 @@ const CHUNK_SIZE = 10;
 export async function saudiCompanyList(
   language: SupportedLanguage,
   listId: string = 'saudi',
-): Promise<LogoItem[]> {
+): Promise<CompanyLogo[]> {
   const results = await processInChunks(
     saudiCompanies.logos,
     async (logo, index) => {
@@ -18,27 +20,23 @@ export async function saudiCompanyList(
       const overrideUrl = logoOverrides.sets?.companies?.[listId]?.[overrideKey];
 
       let imageUrl: string | null = null;
-      let apiName: string | null = null;
 
       if (overrideUrl) {
         imageUrl = overrideUrl;
-        apiName = logo.en;
       }
       else {
         const result = await fetchCompanyLogo(logo.en);
         imageUrl = result.logo;
-        apiName = result.name;
       }
 
       return {
         id: index,
         name: logo[language], // Localized name
-        originalName: apiName || logo.en, // API name or fallback
         imageUrl: imageUrl || '',
-        eliminated: false,
+        type: LOGO_SET_TYPE_MAP.companies,
       };
     },
     CHUNK_SIZE,
   );
-  return results;
+  return results.filter((logo): logo is CompanyLogo => !!logo.imageUrl);
 }

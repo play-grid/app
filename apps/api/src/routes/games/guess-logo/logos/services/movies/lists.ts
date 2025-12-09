@@ -1,4 +1,4 @@
-import type { LogoList } from '@guess-logo/shared/types';
+import type { LogoList } from '@guess-logo/guess-logo';
 import { fetchDramaMovies } from './drama-movies-service';
 import { fetchFamilyMovies } from './family-movies-service';
 import { fetchTopRatedMovies } from './top-rated-movies-service';

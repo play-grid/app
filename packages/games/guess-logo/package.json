@@ -4,14 +4,7 @@
   "private": true,
   "type": "module",
   "exports": {
-    "./hooks": {
-      "types": "./src/hooks/index.ts",
-      "default": "./src/hooks/index.ts"
-    },
-    "./logic": {
-      "types": "./src/logic/index.ts",
-      "default": "./src/logic/index.ts"
-    }
+    ".":"./index.ts"
   },
   "dependencies": {
     "@guess-logo/game-core": "workspace:*",

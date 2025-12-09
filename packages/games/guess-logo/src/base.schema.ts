@@ -1,9 +1,10 @@
+import type { LocaleRecord, SupportedLanguage } from '@guess-logo/shared/types';
 import z from 'zod';
 
 const BaseLogoSchema = z.object({
   id: z.number(),
   name: z.string(),
-  imageUrl: z.string().url(),
+  imageUrl: z.url(),
 });
 
 const CompanyLogoSchema = BaseLogoSchema.extend({
@@ -60,3 +61,17 @@ export const LOGO_SET_TYPE_MAP = {
   sports: 'sports',
   movies: 'movie',
 } as const;
+
+
+/**
+ * @internal
+ */
+export interface LogoList {
+  id: string;
+  name: LocaleRecord;
+  fetchItems: (
+    language: SupportedLanguage,
+    listId?: string,
+  ) => Promise<LogoContent[]>;
+  teamsCount?: number;
+}

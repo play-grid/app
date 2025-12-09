@@ -8,3 +8,7 @@ export const SUPPORTED_REGION = ['en-US', 'ar-SA'] as const;
 export type SupportedRegion = typeof SUPPORTED_REGION[number];
 
 export type LanguageQuery = z.infer<typeof languageQuery>;
+
+export type LocaleRecord = {
+  [key in SupportedLanguage]: string;
+};

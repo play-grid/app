@@ -3,6 +3,9 @@ import type { logoListSchema, logoSetSchema, sportLeagueSchema, sportRegionSchem
 import type { Country } from './country';
 import type { SupportedLanguage } from './i18n';
 
+/**
+ * @deprecated
+ */
 export interface LogoItem {
   id: number;
   name: string;
@@ -12,14 +15,16 @@ export interface LogoItem {
   countryData?: Country;
 }
 
-export type LocaleRecord = {
-  [key in SupportedLanguage]: string;
-};
-
+/**
+ * @deprecated
+ */
 // Base interface for list metadata (API response)
 export type LogoListMetadata = z.infer<typeof logoListSchema>;
 
 // Extended interface with fetchItems (internal use)
+/**
+ * @deprecated
+ */
 export interface LogoList extends LogoListMetadata {
   fetchItems: (language: SupportedLanguage, listId?: string) => Promise<LogoItem[]>;
 }

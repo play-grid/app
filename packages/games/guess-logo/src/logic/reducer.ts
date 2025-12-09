@@ -1,5 +1,5 @@
 import type { Draft } from 'immer';
-import type { GuessLogoActionType, GuessLogoGameState } from './schema';
+import type { GuessLogoAction, GuessLogoGameState } from './schema';
 import { produce } from 'immer';
 import {
   checkWinner,
@@ -11,7 +11,7 @@ import {
 
 export function guessLogoGameReducer(
   state: GuessLogoGameState,
-  action: GuessLogoActionType,
+  action: GuessLogoAction,
 ): GuessLogoGameState {
   return produce(state, (draft: Draft<GuessLogoGameState>) => {
     switch (action.type) {
