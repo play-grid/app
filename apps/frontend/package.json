@@ -19,6 +19,7 @@
     "@daveyplate/better-auth-ui": "^3.2.8",
     "@guess-logo/api": "workspace:*",
     "@guess-logo/five-seconds": "workspace:*",
+    "@guess-logo/guess-logo": "workspace:*",
     "@guess-logo/game-core": "workspace:*",
     "@guess-logo/shared": "workspace:*",
     "@hookform/resolvers": "^5.2.2",

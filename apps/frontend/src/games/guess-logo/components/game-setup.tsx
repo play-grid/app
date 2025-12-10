@@ -1,4 +1,4 @@
-import type { Player } from '@guess-logo/shared/types';
+import type { Player } from '@guess-logo/game-core';
 import type { LogoSetKey } from '../lib/logo-data';
 import { useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';

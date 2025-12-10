@@ -187,6 +187,9 @@ importers:
       '@guess-logo/game-core':
         specifier: workspace:*
         version: link:../../packages/game-core
+      '@guess-logo/guess-logo':
+        specifier: workspace:*
+        version: link:../../packages/games/guess-logo
       '@guess-logo/shared':
         specifier: workspace:*
         version: link:../../packages/shared
@@ -456,6 +459,9 @@ importers:
       '@guess-logo/eslint-config':
         specifier: workspace:*
         version: link:../eslint-config
+      typescript:
+        specifier: 'catalog:'
+        version: 5.9.3
       zod:
         specifier: 'catalog:'
         version: 4.1.13

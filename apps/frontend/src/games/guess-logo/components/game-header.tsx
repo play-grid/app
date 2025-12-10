@@ -1,4 +1,5 @@
-import type { LogoListMetadata, LogoSetKey, Player } from '@guess-logo/shared/types';
+import type { Player } from '@guess-logo/game-core';
+import type { ListMetadata, LogoSetKey } from '@guess-logo/guess-logo';
 import type { GridConfiguration } from '../lib/grid-configurations';
 import { useTranslation } from 'react-i18next';
 import { Badge } from '@/components/ui/badge';
@@ -25,7 +26,7 @@ interface GameHeaderProps {
   playerA: Player;
   playerB: Player;
   gridConfig: GridConfiguration;
-  availableLists: LogoListMetadata[];
+  availableLists: ListMetadata[];
   onSwitchTurn: () => void;
   onResetGame: () => void;
   onStartNewGame?: () => void;

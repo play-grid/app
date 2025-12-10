@@ -48,7 +48,10 @@ export const getSportRegions: AppRouteHandler<GetSportRegionsRoute> = async (c) 
   const db = getDB(c);
   try {
     const regions = await getSportRegionsService(db);
-    return c.json(regions, HttpStatusCodes.OK);
+    return c.json(
+      regions.map(r => ({ ...r, logosCount: r.teamsCount })),
+      HttpStatusCodes.OK,
+    );
   }
   catch (error) {
     logger.error(error, 'Failed to fetch sport regions:');
@@ -67,7 +70,14 @@ export const getSportLeagues: AppRouteHandler<GetSportLeaguesRoute> = async (c) 
 
     const leagues = await getLeaguesInRegion(db, regionId);
 
-    return c.json(leagues, HttpStatusCodes.OK);
+    return c.json(
+      leagues.map(l => ({
+        id: l.id,
+        name: l.name,
+        logosCount: l.teamsCount,
+      })),
+      HttpStatusCodes.OK,
+    );
   }
   catch (error) {
     logger.error(error, `Failed to fetch leagues for region ${regionName}:`);
@@ -100,7 +110,10 @@ export const getSportTeams: AppRouteHandler<GetSportTeamsRoute> = async (c) => {
       allTeams = JSON.parse(cached);
     }
 
-    const teamsArray = Array.isArray(allTeams) ? allTeams : [];
+    const teamsArray = (Array.isArray(allTeams) ? allTeams : []).map(team => ({
+      ...team,
+      type: 'sports' as const,
+    }));
     const processedTeams = shuffle ? shuffleArray([...teamsArray]).slice(0, countNum) : teamsArray.slice(0, countNum);
     return c.json(processedTeams, HttpStatusCodes.OK);
   }
@@ -134,7 +147,10 @@ export const getAllSportTeamsInRegion: AppRouteHandler<GetAllSportTeamsInRegionR
       allTeams = JSON.parse(cached);
     }
 
-    const teamsArray = Array.isArray(allTeams) ? allTeams : [];
+    const teamsArray = (Array.isArray(allTeams) ? allTeams : []).map(team => ({
+      ...team,
+      type: 'sports' as const,
+    }));
     const processedTeams = shuffle ? shuffleArray([...teamsArray]).slice(0, countNum) : teamsArray.slice(0, countNum);
     return c.json(processedTeams, HttpStatusCodes.OK);
   }
@@ -148,7 +164,18 @@ export const getCustomSportLists: AppRouteHandler<GetCustomSportListsRoute> = as
   const db = getDB(c);
   try {
     const lists = await getCustomLists(db);
-    return c.json(lists, HttpStatusCodes.OK);
+    return c.json(
+      lists.map(l => ({
+        id: l.id,
+        slug: l.slug,
+        name: {
+          en: l.name,
+          ar: l.name,
+        },
+        logosCount: l.teamsCount,
+      })),
+      HttpStatusCodes.OK,
+    );
   }
   catch (error) {
     logger.error(error, 'Failed to fetch custom sport lists:');
@@ -174,7 +201,10 @@ export const getAllSportTeamsInCountry: AppRouteHandler<GetAllSportTeamsInCountr
       allTeams = JSON.parse(cached);
     }
 
-    const teamsArray = Array.isArray(allTeams) ? allTeams : [];
+    const teamsArray = (Array.isArray(allTeams) ? allTeams : []).map(team => ({
+      ...team,
+      type: 'sports' as const,
+    }));
     const processedTeams = shuffle ? shuffleArray([...teamsArray]).slice(0, countNum) : teamsArray.slice(0, countNum);
 
     return c.json(processedTeams, HttpStatusCodes.OK);
@@ -250,10 +280,10 @@ export const getAvailableCountries: AppRouteHandler<GetAvailableCountriesRoute> 
       id: country.id,
       name: {
         en: countryNameMap[country.id]?.en || country.id,
-        ar: countryNameMap[country.id]?.ar,
+        ar: countryNameMap[country.id]?.ar || '',
       },
       flag: countryNameMap[country.id]?.flag || '🌍',
-      teamsCount: country.teamsCount,
+      logosCount: country.teamsCount,
     }));
 
     return c.json(enrichedCountries, HttpStatusCodes.OK);

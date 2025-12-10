@@ -22,7 +22,8 @@ const CountryLogoSchema = BaseLogoSchema.extend({
   }),
 });
 
-export const SportsLogoSchema = BaseLogoSchema.extend({
+export const SportsLogoSchema = BaseLogoSchema.omit({ id: true }).extend({
+  id: z.string(),
   type: z.literal('sports'),
   league: z.string().optional(),
   sport: z.string().optional(),
