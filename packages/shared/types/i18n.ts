@@ -1,5 +1,5 @@
 import type { z } from 'zod';
-import type { languageQuery } from '../schemas/logo-schemas';
+import type { languageQuery } from '../schemas';
 
 export const SUPPORTED_LANGUAGES = ['en', 'ar'] as const;
 export type SupportedLanguage = typeof SUPPORTED_LANGUAGES[number];

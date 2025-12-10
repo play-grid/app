@@ -1,4 +1,3 @@
-import type { LocaleRecord, SupportedLanguage } from '@guess-logo/shared/types';
 import { localeRecordSchema } from '@guess-logo/shared/schemas';
 import z from 'zod';
 
@@ -75,16 +74,16 @@ export const ListMetadataSchema = z.object({
 
 export type ListMetadata = z.infer<typeof ListMetadataSchema>;
 
-/**
- * @deprecated
- * @internal
- */
-export interface LogoList {
-  id: string;
-  name: LocaleRecord;
-  fetchItems: (
-    language: SupportedLanguage,
-    listId?: string,
-  ) => Promise<LogoContent[]>;
-  teamsCount?: number;
-}
+// Logos Lists that contain logos,- sports
+export const sportRegionSchema = z.object({
+  id: z.string(),
+  name: localeRecordSchema,
+});
+export type sportRegion = z.infer<typeof sportRegionSchema>;
+
+export const sportLeagueSchema = z.object({
+  id: z.string(),
+  name: localeRecordSchema,
+});
+
+export type sportLeague = z.infer<typeof sportLeagueSchema>;

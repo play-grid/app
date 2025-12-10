@@ -1,6 +1,13 @@
 import type { GameDefinition } from '@guess-logo/game-core';
+import type { GuessLogoAction, GuessLogoGameState } from './logic/schema';
+import { composeReducers, gameReducer, registerGame } from '@guess-logo/game-core';
 import { guessLogoGameReducer } from './logic/reducer';
 import { GuessLogoActionSchema, GuessLogoGameStateSchema } from './logic/schema';
+
+const composedReducer = composeReducers<GuessLogoGameState, GuessLogoAction>(
+  guessLogoGameReducer,
+  gameReducer,
+);
 
 export const guessLogoGame: GameDefinition<
   typeof GuessLogoGameStateSchema,
@@ -34,5 +41,6 @@ export const guessLogoGame: GameDefinition<
     isContentLoaded: false,
   },
 
-  reducer: guessLogoGameReducer,
+  reducer: composedReducer,
 };
+registerGame(guessLogoGame);
