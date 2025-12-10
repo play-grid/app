@@ -22,7 +22,7 @@ const CountryLogoSchema = BaseLogoSchema.extend({
   }),
 });
 
-const SportsLogoSchema = BaseLogoSchema.extend({
+export const SportsLogoSchema = BaseLogoSchema.extend({
   type: z.literal('sports'),
   league: z.string().optional(),
   sport: z.string().optional(),
@@ -87,3 +87,13 @@ export const sportLeagueSchema = z.object({
 });
 
 export type sportLeague = z.infer<typeof sportLeagueSchema>;
+
+// API :
+
+export const LogoQuerySchema = z.object({
+  count: z.string().optional().default('48'),
+  language: z.string().optional().default('en'),
+  shuffle: z.string().optional().default('true').transform(v => v === 'true'),
+});
+
+export type LogoQuery = z.infer<typeof LogoQuerySchema>;

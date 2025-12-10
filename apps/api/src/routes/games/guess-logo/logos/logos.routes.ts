@@ -1,8 +1,7 @@
-import { LogoContentSchema, LogoSetKeySchema } from '@guess-logo/guess-logo';
+import { ListMetadataSchema, LogoContentSchema, LogoQuerySchema, LogoSetKeySchema } from '@guess-logo/guess-logo';
 import { createRoute, z } from '@hono/zod-openapi';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import { jsonContent } from 'stoker/openapi/helpers';
-import { LogoListResponseSchema, LogoQuerySchema } from './logos.schemas';
 
 const tags = ['Logos'];
 
@@ -18,7 +17,7 @@ export const getLogoLists = createRoute({
   },
   responses: {
     [HttpStatusCodes.OK]: jsonContent(
-      z.array(LogoListResponseSchema),
+      z.array(ListMetadataSchema),
       'Successfully retrieved available logo lists',
     ),
     [HttpStatusCodes.BAD_REQUEST]: jsonContent(

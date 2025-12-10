@@ -1,19 +1,19 @@
 // TODO: split this this is a game-specific routes file
-import { logoItemSchema, logoListSchema, logoQuerySchema, sportRegionSchema } from '@guess-logo/shared/schemas';
+import { ListMetadataSchema, LogoQuerySchema, SportsLogoSchema } from '@guess-logo/guess-logo';
 import { createRoute, z } from '@hono/zod-openapi';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import { jsonContent } from 'stoker/openapi/helpers';
 
 const tags = ['Sports'];
 
-// Get sport regions
+// Get sport regions aka List in logos api
 export const getSportRegions = createRoute({
   path: '/',
   method: 'get',
   tags,
   responses: {
     [HttpStatusCodes.OK]: jsonContent(
-      z.array(sportRegionSchema),
+      z.array(ListMetadataSchema),
       'Successfully retrieved sport regions',
     ),
     [HttpStatusCodes.INTERNAL_SERVER_ERROR]: jsonContent(
@@ -30,12 +30,7 @@ export const getCustomSportLists = createRoute({
   tags,
   responses: {
     [HttpStatusCodes.OK]: jsonContent(
-      z.array(z.object({
-        id: z.string(),
-        name: z.string(),
-        slug: z.string(),
-        teamsCount: z.number(),
-      })),
+      z.array(ListMetadataSchema.extend({ slug: z.string() })),
       'Successfully retrieved custom sport lists',
     ),
     [HttpStatusCodes.INTERNAL_SERVER_ERROR]: jsonContent(
@@ -45,7 +40,7 @@ export const getCustomSportLists = createRoute({
   },
 });
 
-// Get leagues in a region
+// Get leagues in a region aka List
 export const getSportLeagues = createRoute({
   path: '/{region}',
   method: 'get',
@@ -57,7 +52,7 @@ export const getSportLeagues = createRoute({
   },
   responses: {
     [HttpStatusCodes.OK]: jsonContent(
-      z.array(logoListSchema),
+      z.array(ListMetadataSchema),
       'Successfully retrieved leagues in region',
     ),
     [HttpStatusCodes.NOT_FOUND]: jsonContent( // <-- ADDED 404 response
@@ -75,7 +70,7 @@ export const getSportLeagues = createRoute({
   },
 });
 
-// Get teams in a specific league
+// Get teams in a specific league, which is return logos
 export const getSportTeams = createRoute({
   path: '/{region}/{leagueId}',
   method: 'get',
@@ -85,11 +80,11 @@ export const getSportTeams = createRoute({
       region: z.string(),
       leagueId: z.string(),
     }),
-    query: logoQuerySchema,
+    query: LogoQuerySchema,
   },
   responses: {
     [HttpStatusCodes.OK]: jsonContent(
-      z.array(logoItemSchema),
+      z.array(SportsLogoSchema),
       'Successfully retrieved teams in league',
     ),
     [HttpStatusCodes.NOT_FOUND]: jsonContent(
@@ -107,7 +102,7 @@ export const getSportTeams = createRoute({
   },
 });
 
-// Get all teams in a region (all leagues combined)
+// Get all teams in a region (all leagues combined) //logos
 export const getAllSportTeamsInRegion = createRoute({
   path: '/{region}/all',
   method: 'get',
@@ -116,11 +111,11 @@ export const getAllSportTeamsInRegion = createRoute({
     params: z.object({
       region: z.string(),
     }),
-    query: logoQuerySchema,
+    query: LogoQuerySchema,
   },
   responses: {
     [HttpStatusCodes.OK]: jsonContent(
-      z.array(logoItemSchema),
+      z.array(SportsLogoSchema),
       'Successfully retrieved all teams in region',
     ),
     [HttpStatusCodes.BAD_REQUEST]: jsonContent(
@@ -147,11 +142,11 @@ export const getAllSportTeamsInCountry = createRoute({
     params: z.object({
       countryId: z.string(),
     }),
-    query: logoQuerySchema,
+    query: LogoQuerySchema,
   },
   responses: {
     [HttpStatusCodes.OK]: jsonContent(
-      z.array(logoItemSchema),
+      z.array(SportsLogoSchema),
       'Successfully retrieved all teams in country',
     ),
     [HttpStatusCodes.BAD_REQUEST]: jsonContent(
@@ -174,11 +169,11 @@ export const getSportTeamsInCustomList = createRoute({
     params: z.object({
       listSlug: z.string(),
     }),
-    query: logoQuerySchema,
+    query: LogoQuerySchema,
   },
   responses: {
     [HttpStatusCodes.OK]: jsonContent(
-      z.array(logoItemSchema),
+      z.array(SportsLogoSchema),
       'Successfully retrieved all teams in custom list',
     ),
     [HttpStatusCodes.NOT_FOUND]: jsonContent(
@@ -202,15 +197,7 @@ export const getAvailableCountries = createRoute({
   tags,
   responses: {
     [HttpStatusCodes.OK]: jsonContent(
-      z.array(z.object({
-        id: z.string(),
-        name: z.object({
-          en: z.string(),
-          ar: z.string().optional(),
-        }),
-        flag: z.string(),
-        teamsCount: z.number(),
-      })),
+      z.array(ListMetadataSchema),
       'Successfully retrieved available countries',
     ),
     [HttpStatusCodes.INTERNAL_SERVER_ERROR]: jsonContent(
