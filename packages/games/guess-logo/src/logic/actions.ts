@@ -20,7 +20,7 @@ export function loadContent(
 
 export function eliminateLogo(
   draft: Draft<GuessLogoGameState>,
-  payload: { playerId: string; logoId: number },
+  payload: { playerId: string; logoId: number | string },
 ): void {
   const metadata = getPlayerMetadata(draft, payload.playerId);
 
@@ -31,7 +31,7 @@ export function eliminateLogo(
 
 export function restoreLogo(
   draft: Draft<GuessLogoGameState>,
-  payload: { playerId: string; logoId: number },
+  payload: { playerId: string; logoId: number | string },
 ): void {
   const metadata = getPlayerMetadata(draft, payload.playerId);
 
@@ -51,7 +51,7 @@ export function checkWinner(
   const metadata = getPlayerMetadata(draft, payload.playerId);
 
   const activeLogos = draft.logos.filter(
-    logo => !metadata.eliminatedLogoIds.includes(logo.id),
+    logo => !metadata.eliminatedLogoIds.map(String).includes(String(logo.id)),
   );
 
   if (activeLogos.length === 1 && draft.logos.length > 0) {

@@ -13,9 +13,9 @@ export const GuessLogoSettingsSchema = z.object({
 export type GuessLogoSettings = z.infer<typeof GuessLogoSettingsSchema>;
 
 export const GuessLogoPlayerMetadataSchema = z.object({
-  eliminatedLogoIds: z.array(z.number()).default([]),
-  secretLogoId: z.number().optional(),
-  winningLogoId: z.number().optional(),
+  eliminatedLogoIds: z.array(z.union([z.string(), z.number()])).default([]),
+  secretLogoId: z.union([z.string(), z.number()]).optional(),
+  winningLogoId: z.union([z.string(), z.number()]).optional(),
 });
 export type GuessLogoPlayerMetadata = z.infer<typeof GuessLogoPlayerMetadataSchema>;
 
@@ -35,7 +35,7 @@ export const EliminateLogoActionSchema = z.object({
   type: z.literal('ELIMINATE_LOGO'),
   payload: z.object({
     playerId: z.string(),
-    logoId: z.number(),
+    logoId: z.union([z.string(), z.number()]),
   }),
 });
 
@@ -43,7 +43,7 @@ export const RestoreLogoActionSchema = z.object({
   type: z.literal('RESTORE_LOGO'),
   payload: z.object({
     playerId: z.string(),
-    logoId: z.number(),
+    logoId: z.union([z.string(), z.number()]),
   }),
 });
 

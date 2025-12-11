@@ -22,7 +22,7 @@ export function getPlayerActiveLogos(
   playerId: string,
 ): LogoContent[] {
   const metadata = getPlayerMetadata(state, playerId);
-  return state.logos.filter((logo: { id: number }) => !metadata.eliminatedLogoIds.includes(logo.id));
+  return state.logos.filter(logo => !metadata.eliminatedLogoIds.map(String).includes(String(logo.id)));
 }
 
 export function getPlayerSecretLogo(
@@ -33,7 +33,7 @@ export function getPlayerSecretLogo(
   if (!metadata.secretLogoId)
     return null;
 
-  return state.logos.find((logo: { id: number | undefined }) => logo.id === metadata.secretLogoId) ?? null;
+  return state.logos.find(logo => logo.id === metadata.secretLogoId) ?? null;
 }
 
 // Type guard helpers
