@@ -9,11 +9,11 @@ export { createGameDefinition } from './game-definition-factory';
 export { gameReducer } from './game-logic/reducer';
 
 export { GameActionSchema } from './game-logic/schema/actions.types';
-export type { GameAction, GameEventType } from './game-logic/schema/actions.types';
+export type { GameAction } from './game-logic/schema/actions.types';
 
 export { BaseGameStateSchema, PlayerSchema } from './game-logic/schema/state.types';
 
-export type { BaseGameStateWire, GamePhase, Player, TurnState } from './game-logic/schema/state.types';
+export type { BaseGameState, GamePhase, Player, TurnState } from './game-logic/schema/state.types';
 
 export * from './game-registry';
 export { AdapterProvider, useAdapter } from './react/adapter-context';

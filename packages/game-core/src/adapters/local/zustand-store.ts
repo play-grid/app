@@ -2,7 +2,7 @@
 
 import type { StoreApi } from 'zustand';
 import type { GameAction } from '../../game-logic/schema/actions.types';
-import type { BaseGameStateWire as GameState } from '../../game-logic/schema/state.types';
+import type { BaseGameState as GameState } from '../../game-logic/schema/state.types';
 import type { GameAdapter, StateListener, Unsubscribe } from '../types';
 import { create } from 'zustand';
 import { gameReducer as defaultReducer } from '../../game-logic/reducer';

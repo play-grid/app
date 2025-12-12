@@ -1,5 +1,5 @@
 import type { GameAction } from '../game-logic/schema/actions.types';
-import type { BaseGameStateWire } from '../game-logic/schema/state.types';
+import type { BaseGameState } from '../game-logic/schema/state.types';
 
 /**
  * Unsubscribe function returned by subscribe method
@@ -9,7 +9,7 @@ export type Unsubscribe = () => void;
 /**
  * Listener function that receives state updates
  */
-export type StateListener<TState = BaseGameStateWire> = (state: TState) => void;
+export type StateListener<TState = BaseGameState> = (state: TState) => void;
 
 /**
  * The core adapter interface that abstracts state management.
@@ -22,7 +22,7 @@ export type StateListener<TState = BaseGameStateWire> = (state: TState) => void;
  * React components only depend on this interface, not the implementation.
  */
 export interface GameAdapter<
-  TState = BaseGameStateWire,
+  TState = BaseGameState,
   TAction = GameAction,
 > {
   /**

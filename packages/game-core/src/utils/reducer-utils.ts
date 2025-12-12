@@ -1,5 +1,5 @@
 import type { GameAction } from '../game-logic/schema/actions.types';
-import type { BaseGameStateWire } from '../game-logic/schema/state.types';
+import type { BaseGameState } from '../game-logic/schema/state.types';
 
 /**
  * Composes multiple reducers into a single reducer.
@@ -18,7 +18,7 @@ import type { BaseGameStateWire } from '../game-logic/schema/state.types';
  * @returns Composed reducer function
  */
 
-export function composeReducers<TState extends BaseGameStateWire, TAction>(
+export function composeReducers<TState extends BaseGameState, TAction>(
   gameSpecificReducer: (state: TState, action: TAction) => TState,
   coreReducer: (state: TState, action: GameAction) => TState,
 ): (state: TState, action: TAction) => TState {

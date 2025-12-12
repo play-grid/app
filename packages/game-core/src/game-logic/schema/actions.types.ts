@@ -1,48 +1,91 @@
 import z from 'zod';
+import { GamePhaseSchema } from './state.types';
 
-import {
-  BaseGameStateSchema,
-  GamePhaseSchema,
-  PlayerSchema,
-  TurnStateSchema,
-} from './state.types';
+export const InitTurnStateActionSchema = z.object({
+  type: z.literal('INIT_TURN_STATE'),
+  payload: z.object({
+    playerOrder: z.array(z.string()).optional(),
+    startingPlayerId: z.string().optional(),
+    initialPhase: GamePhaseSchema.optional(),
+  }).optional(),
+});
 
-export const GameEventSchema = z.discriminatedUnion('type', [
-  z.object({
-    type: z.literal('state_update'),
-    state: BaseGameStateSchema,
-    timestamp: z.number(),
+export type InitTurnStateAction = z.infer<typeof InitTurnStateActionSchema>;
+
+export const NextTurnActionSchema = z.object({
+  type: z.literal('NEXT_TURN'),
+  payload: z.object({
+    skipCount: z.number().int().min(0).optional(),
+    resetPhase: GamePhaseSchema.optional(),
+  }).optional(),
+});
+
+export type NextTurnAction = z.infer<typeof NextTurnActionSchema>;
+
+export const PreviousTurnActionSchema = z.object({
+  type: z.literal('PREVIOUS_TURN'),
+});
+
+export type PreviousTurnAction = z.infer<typeof PreviousTurnActionSchema>;
+
+export const ReverseTurnDirectionActionSchema = z.object({
+  type: z.literal('REVERSE_TURN_DIRECTION'),
+});
+
+export type ReverseTurnDirectionAction = z.infer<typeof ReverseTurnDirectionActionSchema>;
+
+export const SkipPlayersActionSchema = z.object({
+  type: z.literal('SKIP_PLAYERS'),
+  payload: z.object({
+    count: z.number().int().min(1).default(1),
   }),
+});
 
-  z.object({
-    type: z.literal('player_joined'),
-    player: PlayerSchema,
-    timestamp: z.number(),
-  }),
-  z.object({
-    type: z.literal('player_left'),
+export type SkipPlayersAction = z.infer<typeof SkipPlayersActionSchema>;
+
+export const SetCurrentPlayerActionSchema = z.object({
+  type: z.literal('SET_CURRENT_PLAYER'),
+  payload: z.object({
     playerId: z.string(),
-    timestamp: z.number(),
   }),
+});
 
-  z.object({
-    type: z.literal('phase_changed'),
+export type SetCurrentPlayerAction = z.infer<typeof SetCurrentPlayerActionSchema>;
+
+export const SetGamePhaseSchemaAction = z.object({
+  type: z.literal('SET_TURN_PHASE'),
+  payload: z.object({
     phase: GamePhaseSchema,
-    timestamp: z.number(),
   }),
-  z.object({
-    type: z.literal('turn_changed'),
-    turnState: TurnStateSchema,
-    timestamp: z.number(),
-  }),
-]);
+});
 
-export type GameEventType = z.infer<typeof GameEventSchema>;
+export type SetTurnPhaseAction = z.infer<typeof SetGamePhaseSchemaAction>;
+
+export const ReorderPlayersActionSchema = z.object({
+  type: z.literal('REORDER_PLAYERS'),
+  payload: z.object({
+    newOrder: z.array(z.string()),
+  }),
+});
+
+export type ReorderPlayersAction = z.infer<typeof ReorderPlayersActionSchema>;
+
+export const NextRoundActionSchema = z.object({
+  type: z.literal('NEXT_ROUND'),
+  payload: z.object({
+    startingPlayerId: z.string().optional(),
+    resetPhase: GamePhaseSchema.optional(),
+  }).optional(),
+});
+
+export type NextRoundAction = z.infer<typeof NextRoundActionSchema>;
 
 export const SetPhaseActionSchema = z.object({
   type: z.literal('SET_PHASE'),
   payload: GamePhaseSchema,
 });
+
+export type SetPhaseAction = z.infer<typeof SetPhaseActionSchema>;
 
 export const AddPlayerActionSchema = z.object({
   type: z.literal('ADD_PLAYER'),
@@ -53,78 +96,79 @@ export const AddPlayerActionSchema = z.object({
   }),
 });
 
+export type AddPlayerAction = z.infer<typeof AddPlayerActionSchema>;
+
 export const RemovePlayerActionSchema = z.object({
   type: z.literal('REMOVE_PLAYER'),
   payload: z.object({ playerId: z.string() }),
 });
 
+export type RemovePlayerAction = z.infer<typeof RemovePlayerActionSchema>;
+
 export const UpdatePlayerActionSchema = z.object({
   type: z.literal('UPDATE_PLAYER'),
   payload: z.object({
     playerId: z.string(),
-    updates: PlayerSchema.partial(),
+    updates: z.record(z.string(), z.any()),
   }),
 });
 
-export const SetPlayersActionSchema = z.object({
-  type: z.literal('SET_PLAYERS'),
-  payload: z.record(z.string(), PlayerSchema),
-});
+export type UpdatePlayerAction = z.infer<typeof UpdatePlayerActionSchema>;
 
 export const TogglePlayerReadyActionSchema = z.object({
   type: z.literal('TOGGLE_PLAYER_READY'),
   payload: z.object({ playerId: z.string() }),
 });
 
+export type TogglePlayerReadyAction = z.infer<typeof TogglePlayerReadyActionSchema>;
+
 export const UpdateSettingsActionSchema = z.object({
   type: z.literal('UPDATE_SETTINGS'),
   payload: z.record(z.string(), z.any()),
 });
 
-export const NextTurnActionSchema = z.object({
-  type: z.literal('NEXT_TURN'),
-});
-
-export const PreviousTurnActionSchema = z.object({
-  type: z.literal('PREVIOUS_TURN'),
-});
-
-export const SetCurrentPlayerActionSchema = z.object({
-  type: z.literal('SET_CURRENT_PLAYER'),
-  payload: z.object({ playerId: z.string() }),
-});
-
-export const NextRoundActionSchema = z.object({
-  type: z.literal('NEXT_ROUND'),
-});
+export type UpdateSettingsAction = z.infer<typeof UpdateSettingsActionSchema>;
 
 export const StartGameActionSchema = z.object({
   type: z.literal('START_GAME'),
+  payload: z.object({
+    playerOrder: z.array(z.string()).optional(),
+    startingPlayerId: z.string().optional(),
+  }).optional(),
 });
+
+export type StartGameAction = z.infer<typeof StartGameActionSchema>;
 
 export const EndGameActionSchema = z.object({
   type: z.literal('END_GAME'),
 });
 
+export type EndGameAction = z.infer<typeof EndGameActionSchema>;
+
 export const ResetGameActionSchema = z.object({
   type: z.literal('RESET_GAME'),
 });
 
+export type ResetGameAction = z.infer<typeof ResetGameActionSchema>;
+
 export const GameActionSchema = z.discriminatedUnion('type', [
   SetPhaseActionSchema,
-  AddPlayerActionSchema,
-  RemovePlayerActionSchema,
-  UpdatePlayerActionSchema,
-  SetPlayersActionSchema,
-  TogglePlayerReadyActionSchema,
-  UpdateSettingsActionSchema,
-  NextTurnActionSchema,
-  PreviousTurnActionSchema,
-  SetCurrentPlayerActionSchema,
-  NextRoundActionSchema,
   StartGameActionSchema,
   EndGameActionSchema,
   ResetGameActionSchema,
+  AddPlayerActionSchema,
+  RemovePlayerActionSchema,
+  UpdatePlayerActionSchema,
+  TogglePlayerReadyActionSchema,
+  UpdateSettingsActionSchema,
+  InitTurnStateActionSchema,
+  NextTurnActionSchema,
+  PreviousTurnActionSchema,
+  ReverseTurnDirectionActionSchema,
+  SkipPlayersActionSchema,
+  SetCurrentPlayerActionSchema,
+  SetGamePhaseSchemaAction,
+  ReorderPlayersActionSchema,
+  NextRoundActionSchema,
 ]);
-
 export type GameAction = z.infer<typeof GameActionSchema>;

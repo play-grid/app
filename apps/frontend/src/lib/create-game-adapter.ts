@@ -1,4 +1,4 @@
-import type { BaseAction, BaseGameStateWire, GameDefinition } from '@guess-logo/game-core';
+import type { BaseAction, BaseGameState, GameDefinition } from '@guess-logo/game-core';
 import type z from 'zod';
 import {
   createLocalAdapter,
@@ -6,7 +6,7 @@ import {
 } from '@guess-logo/game-core';
 
 export function createGameAdapter<
-  TStateSchema extends z.ZodType<BaseGameStateWire>,
+  TStateSchema extends z.ZodType<BaseGameState>,
   TActionSchema extends z.ZodType<BaseAction>,
 >(
   definition: GameDefinition<TStateSchema, TActionSchema>,

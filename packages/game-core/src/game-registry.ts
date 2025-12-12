@@ -1,12 +1,12 @@
 // packages/game-core/src/game-registry.ts
 import type { z } from 'zod';
 import type { BaseAction, GameDefinition, GameMeta } from './contracts/game-definition';
-import type { BaseGameStateWire } from './game-logic/schema/state.types';
+import type { BaseGameState } from './game-logic/schema/state.types';
 import { createGameContract } from './adapters/multiplayer/contracts/base.contract';
 import { logger } from './utils/logger';
 
 interface RegisteredGame<
-  TStateSchema extends z.ZodType<BaseGameStateWire>,
+  TStateSchema extends z.ZodType<BaseGameState>,
   TActionSchema extends z.ZodType<BaseAction>,
 > {
   definition: GameDefinition<TStateSchema, TActionSchema>;
@@ -16,7 +16,7 @@ interface RegisteredGame<
 const gameRegistry = new Map<string, RegisteredGame<any, any>>();
 
 export function registerGame<
-  TStateSchema extends z.ZodType<BaseGameStateWire>,
+  TStateSchema extends z.ZodType<BaseGameState>,
   TActionSchema extends z.ZodType<BaseAction>,
 >(definition: GameDefinition<TStateSchema, TActionSchema>): void {
   const gameId = definition.meta.id;

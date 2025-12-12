@@ -1,17 +1,17 @@
 import type { GameAdapter } from '../adapters/types';
 import type { GameAction } from '../game-logic/schema/actions.types';
-import type { BaseGameStateWire } from '../game-logic/schema/state.types';
+import type { BaseGameState } from '../game-logic/schema/state.types';
 import { createContext, useContext } from 'react';
 
 const AdapterContext = createContext<GameAdapter<
-  BaseGameStateWire,
+  BaseGameState,
   any
 > | null>(null);
 
 export interface AdapterProviderProps<
   TAction extends GameAction = GameAction,
 > {
-  adapter: GameAdapter<BaseGameStateWire, TAction>;
+  adapter: GameAdapter<BaseGameState, TAction>;
   children: React.ReactNode;
 }
 
@@ -46,7 +46,7 @@ export function AdapterProvider<TAction extends GameAction = GameAction>({
  */
 export function useAdapter<
   TAction extends GameAction = GameAction,
->(): GameAdapter<BaseGameStateWire, TAction> {
+>(): GameAdapter<BaseGameState, TAction> {
   const adapter = useContext(AdapterContext);
 
   if (!adapter) {

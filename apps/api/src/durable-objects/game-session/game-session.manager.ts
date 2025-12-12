@@ -1,16 +1,16 @@
-import type { BaseGameStateWire, GameDefinition } from '@guess-logo/game-core';
+import type { BaseGameState, GameDefinition } from '@guess-logo/game-core';
 import type z from 'zod';
 import { ZodError } from 'zod';
 import { logger } from '@/utils/logger';
 
 export interface GameSessionManagerConfig {
   gameDefinition: GameDefinition<any, any>;
-  initialState: Partial<BaseGameStateWire>;
+  initialState: Partial<BaseGameState>;
   ctx: DurableObjectState;
 }
 
 export class GameSessionManager {
-  private currentState: BaseGameStateWire;
+  private currentState: BaseGameState;
   private gameDefinition: GameDefinition<any, any>;
   private ctx: DurableObjectState;
 
@@ -29,11 +29,11 @@ export class GameSessionManager {
     this.ctx = config.ctx;
   }
 
-  getState(): BaseGameStateWire {
+  getState(): BaseGameState {
     return this.currentState;
   }
 
-  // TODO make these logs so deep in logger
+  
   dispatchAction(action: any): void {
     logger.debug(`[GameSessionManager] Dispatching action: ${action?.type}`);
     logger.debug({ action }, '[GameSessionManager] Action payload (raw):');

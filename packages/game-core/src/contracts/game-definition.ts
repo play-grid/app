@@ -1,5 +1,5 @@
 import type { GameAction } from '../game-logic/schema/actions.types';
-import type { BaseGameStateWire } from '../game-logic/schema/state.types';
+import type { BaseGameState } from '../game-logic/schema/state.types';
 import { z } from 'zod';
 
 export const GameMetaSchema = z.object({
@@ -18,7 +18,7 @@ export type GameMeta = z.infer<typeof GameMetaSchema>;
 export type BaseAction = GameAction | Record<string, any>;
 
 export interface GameDefinition<
-  TStateSchema extends z.ZodType<BaseGameStateWire>,
+  TStateSchema extends z.ZodType<BaseGameState>,
   TActionSchema extends z.ZodType<BaseAction>,
 > {
   meta: GameMeta;

@@ -1,4 +1,4 @@
-import type { BaseGameStateWire } from '../../game-logic/schema/state.types';
+import type { BaseGameState } from '../../game-logic/schema/state.types';
 import { useSyncExternalStore } from 'react';
 import { useAdapter } from '../adapter-context';
 
@@ -24,8 +24,8 @@ import { useAdapter } from '../adapter-context';
  * @param selector - Optional function to select a subset of state
  * @returns The selected state value
  */
-export function useGameState<TSelected = BaseGameStateWire>(
-  selector?: (state: BaseGameStateWire) => TSelected,
+export function useGameState<TSelected = BaseGameState>(
+  selector?: (state: BaseGameState) => TSelected,
 ): TSelected {
   const adapter = useAdapter();
 

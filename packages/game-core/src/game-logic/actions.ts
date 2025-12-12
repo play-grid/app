@@ -1,23 +1,304 @@
-import type { BaseGameStateWire, GamePhase, Player } from './schema/state.types';
+import type {
+  BaseGameState,
+  GamePhase,
+  Player,
+  TurnPhase,
+  TurnState,
+} from './schema/state.types';
 
-/**
- * A pure function that returns a new state with the phase updated.
- * This is generic over the state `TState` to preserve any custom fields.
- */
-export function changePhase<TState extends BaseGameStateWire>(
-  state: TState,
+export function initTurnState<T extends BaseGameState>(
+  state: T,
+  options?: {
+    playerOrder?: string[];
+    startingPlayerId?: string;
+    initialPhase?: TurnPhase;
+  },
+): T {
+  const { playerOrder, startingPlayerId, initialPhase } = options || {};
+
+  const order = playerOrder || Object.keys(state.players);
+
+  if (order.length === 0) {
+    return { ...state, turnState: undefined };
+  }
+
+  let startIndex = 0;
+  if (startingPlayerId) {
+    const idx = order.indexOf(startingPlayerId);
+    if (idx !== -1)
+      startIndex = idx;
+  }
+
+  const turnState: TurnState = {
+    playerOrder: order,
+    currentPlayerIndex: startIndex,
+    currentPlayerId: order[startIndex],
+    direction: 'forward',
+    roundNumber: 1,
+    turnNumber: 0,
+    phase: initialPhase,
+    skipsRemaining: 0,
+  };
+
+  return { ...state, turnState };
+}
+
+export function nextTurn<T extends BaseGameState>(
+  state: T,
+  options?: {
+    skipCount?: number;
+    resetPhase?: TurnPhase;
+  },
+): T {
+  const { turnState } = state;
+  if (!turnState)
+    return state;
+
+  const { skipCount = 0, resetPhase } = options || {};
+  const { playerOrder, currentPlayerIndex, direction, skipsRemaining } = turnState;
+
+  if (playerOrder.length === 0)
+    return state;
+
+  const totalSkips = skipCount + skipsRemaining;
+  const directionMultiplier = direction === 'forward' ? 1 : -1;
+  const moveAmount = (1 + totalSkips) * directionMultiplier;
+
+  const newIndex = (
+    currentPlayerIndex
+    + moveAmount
+    + playerOrder.length * 100
+  ) % playerOrder.length;
+
+  const newPlayerId = playerOrder[newIndex];
+
+  const isNewRound = (
+    direction === 'forward' && newIndex < currentPlayerIndex
+  ) || (
+    direction === 'reverse' && newIndex > currentPlayerIndex
+  );
+
+  const newTurnState: TurnState = {
+    ...turnState,
+    currentPlayerIndex: newIndex,
+    currentPlayerId: newPlayerId,
+    turnNumber: turnState.turnNumber + 1,
+    roundNumber: isNewRound ? turnState.roundNumber + 1 : turnState.roundNumber,
+    skipsRemaining: 0,
+    phase: resetPhase ?? turnState.phase,
+  };
+
+  return { ...state, turnState: newTurnState };
+}
+
+export function previousTurn<T extends BaseGameState>(state: T): T {
+  const { turnState } = state;
+  if (!turnState)
+    return state;
+
+  const { playerOrder, currentPlayerIndex, direction } = turnState;
+  if (playerOrder.length === 0)
+    return state;
+
+  const directionMultiplier = direction === 'forward' ? -1 : 1;
+  const newIndex = (
+    currentPlayerIndex
+    + directionMultiplier
+    + playerOrder.length
+  ) % playerOrder.length;
+
+  return {
+    ...state,
+    turnState: {
+      ...turnState,
+      currentPlayerIndex: newIndex,
+      currentPlayerId: playerOrder[newIndex],
+      turnNumber: Math.max(0, turnState.turnNumber - 1),
+    },
+  };
+}
+
+export function reverseTurnDirection<T extends BaseGameState>(state: T): T {
+  if (!state.turnState)
+    return state;
+
+  return {
+    ...state,
+    turnState: {
+      ...state.turnState,
+      direction: state.turnState.direction === 'forward' ? 'reverse' : 'forward',
+    },
+  };
+}
+
+export function skipPlayers<T extends BaseGameState>(
+  state: T,
+  count: number = 1,
+): T {
+  if (!state.turnState)
+    return state;
+
+  return {
+    ...state,
+    turnState: {
+      ...state.turnState,
+      skipsRemaining: state.turnState.skipsRemaining + count,
+    },
+  };
+}
+
+export function setCurrentPlayer<T extends BaseGameState>(
+  state: T,
+  playerId: string,
+): T {
+  const { turnState } = state;
+  if (!turnState)
+    return state;
+
+  const { playerOrder } = turnState;
+  const newIndex = playerOrder.indexOf(playerId);
+
+  if (newIndex === -1)
+    return state;
+
+  return {
+    ...state,
+    turnState: {
+      ...turnState,
+      currentPlayerIndex: newIndex,
+      currentPlayerId: playerId,
+    },
+  };
+}
+
+export function setTurnPhase<T extends BaseGameState>(
+  state: T,
+  phase: TurnPhase,
+): T {
+  if (!state.turnState)
+    return state;
+
+  return {
+    ...state,
+    turnState: {
+      ...state.turnState,
+      phase,
+    },
+  };
+}
+
+export function reorderPlayers<T extends BaseGameState>(
+  state: T,
+  newOrder: string[],
+): T {
+  if (!state.turnState)
+    return state;
+
+  const invalidPlayers = newOrder.filter(id => !state.players[id]);
+  if (invalidPlayers.length > 0)
+    return state;
+
+  const { currentPlayerId } = state.turnState;
+  const newIndex = newOrder.indexOf(currentPlayerId);
+
+  if (newIndex === -1)
+    return state;
+
+  return {
+    ...state,
+    turnState: {
+      ...state.turnState,
+      playerOrder: newOrder,
+      currentPlayerIndex: newIndex,
+    },
+  };
+}
+
+export function nextRound<T extends BaseGameState>(
+  state: T,
+  options?: {
+    startingPlayerId?: string;
+    resetPhase?: TurnPhase;
+  },
+): T {
+  const { turnState } = state;
+  if (!turnState)
+    return state;
+
+  const { startingPlayerId, resetPhase } = options || {};
+  const { playerOrder } = turnState;
+
+  let startIndex = 0;
+  if (startingPlayerId) {
+    const idx = playerOrder.indexOf(startingPlayerId);
+    if (idx !== -1)
+      startIndex = idx;
+  }
+
+  return {
+    ...state,
+    turnState: {
+      ...turnState,
+      roundNumber: turnState.roundNumber + 1,
+      turnNumber: 0,
+      currentPlayerIndex: startIndex,
+      currentPlayerId: playerOrder[startIndex],
+      phase: resetPhase ?? turnState.phase,
+      skipsRemaining: 0,
+    },
+  };
+}
+
+export function removePlayerFromTurnOrder<T extends BaseGameState>(
+  state: T,
+  playerId: string,
+): T {
+  const { turnState } = state;
+  if (!turnState)
+    return state;
+
+  const { playerOrder, currentPlayerIndex } = turnState;
+  const removeIndex = playerOrder.indexOf(playerId);
+
+  if (removeIndex === -1)
+    return state;
+
+  const newOrder = playerOrder.filter(id => id !== playerId);
+
+  if (newOrder.length === 0) {
+    return { ...state, turnState: undefined };
+  }
+
+  let newIndex = currentPlayerIndex;
+  if (removeIndex < currentPlayerIndex) {
+    newIndex = currentPlayerIndex - 1;
+  }
+  else if (removeIndex === currentPlayerIndex) {
+    newIndex = currentPlayerIndex % newOrder.length;
+  }
+
+  return {
+    ...state,
+    turnState: {
+      ...turnState,
+      playerOrder: newOrder,
+      currentPlayerIndex: newIndex,
+      currentPlayerId: newOrder[newIndex],
+    },
+  };
+}
+
+export function changePhase<T extends BaseGameState>(
+  state: T,
   phase: GamePhase,
-): TState {
+): T {
   return { ...state, phase };
 }
 
-/**
- * A pure function that returns a new state with a player added.
- */
-export function addPlayer<TState extends BaseGameStateWire>(
-  state: TState,
+export function addPlayer<T extends BaseGameState>(
+  state: T,
   playerData: Partial<Player> & { id: string; name: string },
-): TState {
+): T {
   const { players, hostId } = state;
   if (players[playerData.id]) {
     return state;
@@ -37,18 +318,15 @@ export function addPlayer<TState extends BaseGameStateWire>(
     players: {
       ...players,
       [newPlayer.id]: newPlayer,
-    } as TState['players'],
+    } as T['players'],
     hostId: hostId || newPlayer.id,
   };
 }
 
-/**
- * A pure function that returns a new state with a player removed.
- */
-export function removePlayer<TState extends BaseGameStateWire>(
-  state: TState,
+export function removePlayer<T extends BaseGameState>(
+  state: T,
   playerId: Player['id'],
-): TState {
+): T {
   const { players, hostId } = state;
   const { [playerId]: removedPlayer, ...remainingPlayers } = players;
 
@@ -57,12 +335,12 @@ export function removePlayer<TState extends BaseGameStateWire>(
   }
 
   if (hostId !== playerId) {
-    return { ...state, players: remainingPlayers as TState['players'] };
+    return { ...state, players: remainingPlayers as T['players'] };
   }
 
   const remainingPlayerIds = Object.keys(remainingPlayers);
   if (remainingPlayerIds.length === 0) {
-    return { ...state, players: {} as TState['players'], hostId: '' };
+    return { ...state, players: {} as T['players'], hostId: '' };
   }
 
   const newHostId = remainingPlayerIds[0];
@@ -76,19 +354,16 @@ export function removePlayer<TState extends BaseGameStateWire>(
 
   return {
     ...state,
-    players: newPlayers as TState['players'],
+    players: newPlayers as T['players'],
     hostId: newHostId,
   };
 }
 
-/**
- * A pure function that returns a new state with a player updated.
- */
-export function updatePlayer<TState extends BaseGameStateWire>(
-  state: TState,
+export function updatePlayer<T extends BaseGameState>(
+  state: T,
   playerId: Player['id'],
   updates: Partial<Player>,
-): TState {
+): T {
   const { players } = state;
   const playerToUpdate = players[playerId];
 
@@ -106,17 +381,14 @@ export function updatePlayer<TState extends BaseGameStateWire>(
     players: {
       ...players,
       [playerId]: updatedPlayer,
-    } as TState['players'],
+    } as T['players'],
   };
 }
 
-/**
- * A pure function that returns a new state with a player's ready status toggled.
- */
-export function togglePlayerReady<TState extends BaseGameStateWire>(
-  state: TState,
+export function togglePlayerReady<T extends BaseGameState>(
+  state: T,
   playerId: Player['id'],
-): TState {
+): T {
   const player = state.players[playerId];
   if (!player) {
     return state;
@@ -124,13 +396,10 @@ export function togglePlayerReady<TState extends BaseGameStateWire>(
   return updatePlayer(state, playerId, { isReady: !player.isReady });
 }
 
-/**
- * A pure function that returns a new state with the settings updated.
- */
-export function updateSettings<TState extends BaseGameStateWire>(
-  state: TState,
-  updates: Partial<TState['settings']>,
-): TState {
+export function updateSettings<T extends BaseGameState>(
+  state: T,
+  updates: Partial<T['settings']>,
+): T {
   return {
     ...state,
     settings: {
@@ -140,95 +409,13 @@ export function updateSettings<TState extends BaseGameStateWire>(
   };
 }
 
-/**
- * A pure function that advances the turn to the next player.
- */
-export function nextTurn<TState extends BaseGameStateWire>(state: TState): TState {
-  const { turnState, players } = state;
-
-  if (!turnState || Object.keys(players).length === 0) {
-    return state;
-  }
-
-  const playerIds = Object.keys(players);
-  const currentPlayerIndex = playerIds.indexOf(turnState.currentPlayerId);
-  const nextPlayerIndex = (currentPlayerIndex + 1) % playerIds.length;
-  const nextPlayerId = playerIds[nextPlayerIndex];
-
-  return {
-    ...state,
-    turnState: {
-      ...turnState,
-      currentPlayerId: nextPlayerId,
-      turnIndex: nextPlayerIndex,
-    },
-  };
-}
-
-/**
- * A pure function that sets the current turn to a specific player.
- */
-export function setCurrentPlayer<TState extends BaseGameStateWire>(
-  state: TState,
-  playerId: Player['id'],
-): TState {
-  const { turnState, players } = state;
-  if (!turnState) {
-    return state;
-  }
-
-  const playerIds = Object.keys(players);
-  const playerIndex = playerIds.indexOf(playerId);
-
-  if (playerIndex === -1) {
-    return state;
-  }
-
-  return {
-    ...state,
-    turnState: {
-      ...turnState,
-      currentPlayerId: playerId,
-      turnIndex: playerIndex,
-    },
-  };
-}
-
-/**
- * A pure function that advances the game to the next round.
- */
-export function nextRound<TState extends BaseGameStateWire>(state: TState): TState {
-  const { turnState, players } = state;
-  if (!turnState) {
-    return state;
-  }
-
-  const playerIds = Object.keys(players);
-
-  return {
-    ...state,
-    turnState: {
-      ...turnState,
-      roundNumber: turnState.roundNumber + 1,
-
-      turnIndex: 0,
-      currentPlayerId: playerIds[0] ?? '',
-    },
-  };
-}
-
-/**
- * A pure function that transitions the game to the "playing" phase
- * and initializes the turn state.
- */
-export function startGame<TState extends BaseGameStateWire>(state: TState): TState {
+export function startGame<T extends BaseGameState>(state: T): T {
   const playerIds = Object.keys(state.players);
 
   return {
     ...state,
     phase: 'playing',
     startedAt: Date.now(),
-
     turnState:
       playerIds.length > 0
         ? {
@@ -240,10 +427,7 @@ export function startGame<TState extends BaseGameStateWire>(state: TState): TSta
   };
 }
 
-/**
- * A pure function that transitions the game to the "results" phase.
- */
-export function endGame<TState extends BaseGameStateWire>(state: TState): TState {
+export function endGame<T extends BaseGameState>(state: T): T {
   return {
     ...state,
     phase: 'results',
@@ -251,11 +435,7 @@ export function endGame<TState extends BaseGameStateWire>(state: TState): TState
   };
 }
 
-/**
- * A pure function that resets the game state to the lobby,
- * clearing players and game progress but preserving settings.
- */
-export function resetGame<TState extends BaseGameStateWire>(state: TState): TState {
+export function resetGame<T extends BaseGameState>(state: T): T {
   const stateToPreserve = {
     settings: state.settings,
   };
@@ -264,7 +444,7 @@ export function resetGame<TState extends BaseGameStateWire>(state: TState): TSta
     ...state,
     ...stateToPreserve,
     phase: 'lobby',
-    players: {} as TState['players'],
+    players: {} as T['players'],
     hostId: '',
     turnState: undefined,
     startedAt: undefined,
