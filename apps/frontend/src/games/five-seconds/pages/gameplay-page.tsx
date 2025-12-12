@@ -122,7 +122,11 @@ export function GameplayPage() {
 
   // Handle next turn logic
   const handleNextTurn = useCallback(async () => {
-    if (turnState && turnState.roundNumber >= settings.roundsToWin && turnState.turnIndex === Object.keys(players).length - 1) {
+    if (
+      turnState
+      && turnState.roundNumber >= settings.roundsToWin
+      && turnState.currentPlayerIndex === turnState.playerOrder.length - 1
+    ) {
       await endGame();
       return;
     }
@@ -130,7 +134,7 @@ export function GameplayPage() {
     await resetVoting();
     await nextTurn();
     fetchQuestion();
-  }, [turnState, players, endGame, nextTurn, resetVoting, fetchQuestion, settings]);
+  }, [turnState, endGame, nextTurn, resetVoting, fetchQuestion, settings]);
 
   // Handle voting finished
   useEffect(() => {

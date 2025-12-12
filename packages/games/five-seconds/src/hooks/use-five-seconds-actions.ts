@@ -46,7 +46,6 @@ export function useFiveSecondsActions() {
 
   return {
     ...coreActions,
-
     addSeenQuestionId,
     startVoting,
     submitVote,
