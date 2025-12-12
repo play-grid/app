@@ -25,7 +25,6 @@ export const createGameRoomBaseSchema = RoomSchema.pick({
   maxPlayers: true,
   isPrivate: true,
 }).extend({
-  // Override gameType to use registry validation
   gameType: getGameTypeSchema().optional(),
 }).partial({
   maxPlayers: true,

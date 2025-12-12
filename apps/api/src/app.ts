@@ -1,7 +1,8 @@
+/* eslint-disable perfectionist/sort-imports */
+import './games';
 import { registerRoutes } from '@/routes';
 import configureOpenAPI from './lib/configure-open-api';
 import createApp from './lib/create-app';
-import './games';
 
 const app = registerRoutes(createApp());
 configureOpenAPI(app);
