@@ -5,6 +5,7 @@ export type { GameContract } from './adapters/multiplayer/contracts/base.contrac
 
 export type { GameDefinition } from './contracts/game-definition';
 export type { BaseAction } from './contracts/game-definition';
+export { createGameDefinition } from './game-definition-factory';
 export { gameReducer } from './game-logic/reducer';
 
 export { GameActionSchema } from './game-logic/schema/actions.types';
