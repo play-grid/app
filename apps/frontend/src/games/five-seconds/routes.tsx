@@ -52,6 +52,7 @@ export default function FiveSecondsRoutes() {
       mode: mode as 'local' | 'multiplayer',
       roomId: roomId ?? undefined,
       initialState: validatedInitialState,
+      persistenceKey: 'five-seconds-game:v1',
     });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [roomId, mode]);

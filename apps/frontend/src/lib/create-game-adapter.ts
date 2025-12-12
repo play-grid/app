@@ -4,6 +4,7 @@ import {
   createLocalAdapter,
   createNativeWSClient,
 } from '@guess-logo/game-core';
+import { createJSONStorage } from 'zustand/middleware';
 
 export function createGameAdapter<
   TStateSchema extends z.ZodType<BaseGameState>,
@@ -14,6 +15,7 @@ export function createGameAdapter<
     mode: 'local' | 'multiplayer';
     roomId?: string;
     initialState: z.infer<TStateSchema>;
+    persistenceKey?: string;
   },
 ) {
   type State = z.infer<TStateSchema>;
@@ -21,8 +23,13 @@ export function createGameAdapter<
 
   if (options.mode === 'local') {
     return createLocalAdapter<State, Action>(
-      options.initialState as State,
-      definition.reducer,
+      options.initialState,
+      definition.reducer as (state: State, action: Action) => State,
+      {
+        enabled: true,
+        name: options.persistenceKey ?? 'game-core:local',
+        storage: createJSONStorage(() => localStorage),
+      },
     );
   }
 
