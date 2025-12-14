@@ -12,7 +12,10 @@ export function createGameDefinition<
     stateSchema: TStateSchema;
     actionSchema: TActionSchema;
     initialState: z.infer<TStateSchema>;
-    customReducer: (state: z.infer<TStateSchema>, action: z.infer<TActionSchema>) => z.infer<TStateSchema>;
+    customReducer: (
+      state: z.infer<TStateSchema>,
+      action: z.infer<TActionSchema>,
+    ) => z.infer<TStateSchema>;
   },
 ): GameDefinition<TStateSchema, TActionSchema> {
   const composedReducer = composeReducers(config.customReducer, gameReducer);
