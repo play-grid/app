@@ -22,11 +22,14 @@ export interface CloudflareBindings {
   GAME_SESSION: DurableObjectNamespace<GameSessionObject>;
   GAME_HUB_DB: D1Database;
   ALLOWED_ORIGINS: string;
+  API_URL: string;
 }
 
-// Automatically merge Env (from Zod schema) with Cloudflare bindings
+export type FullBindings = Env & CloudflareBindings;
+
+// For Hono (main Worker only)
 export interface AppEnv {
-  Bindings: Env & CloudflareBindings;
+  Bindings: FullBindings;
   Variables: {
     user: typeof auth.$Infer.Session.user | null;
     session: typeof auth.$Infer.Session.session | null;

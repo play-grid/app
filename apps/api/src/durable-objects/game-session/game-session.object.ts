@@ -1,12 +1,17 @@
 import type { GameSessionRouter } from './game-session.router';
-import { getGameDefinition, isGameRegistered } from '@guess-logo/game-core';
+import type { AppEnv } from '@/lib/types';
+import {
+  createGameEffectHandlers,
+  getGameDefinition,
+  isGameRegistered,
+} from '@guess-logo/game-core';
 import { DurableObject } from 'cloudflare:workers';
 import { ZodError } from 'zod';
 import { logger } from '@/utils/logger';
 import { GameSessionManager } from './game-session.manager';
 import { createGameSessionRouter } from './game-session.router';
 import { initGameSessionSchema, joinGameSessionSchema } from './schemas';
-import '../../games';
+import '../../games'; // Ensures all games are registered at startup
 
 export interface GameSessionMetadata {
   roomId: string;
@@ -17,12 +22,26 @@ export interface GameSessionMetadata {
   createdBy?: string;
 }
 
-export class GameSessionObject extends DurableObject {
+/**
+ * GameSessionObject - Cloudflare Durable Object for authoritative multiplayer
+ *
+ * Responsibilities:
+ * 1. Initialize game sessions
+ * 2. Manage WebSocket connections
+ * 3. Delegate game logic to GameSessionManager
+ * 4. Handle player join/leave
+ * 5. Persist and rehydrate sessions
+ *
+ * Architecture:
+ * HTTP Endpoints (/init, /join, /stats) → GameSessionObject → GameSessionManager → Game Definition
+ * WebSocket Messages → GameSessionRouter → GameSessionManager → Game Definition
+ */
+export class GameSessionObject extends DurableObject<AppEnv['Bindings']> {
   private manager: GameSessionManager | null = null;
   private router: GameSessionRouter | null = null;
   private metadata: GameSessionMetadata | null = null;
 
-  constructor(ctx: DurableObjectState, env: any) {
+  constructor(ctx: DurableObjectState, env: AppEnv['Bindings']) {
     super(ctx, env);
   }
 
@@ -52,6 +71,10 @@ export class GameSessionObject extends DurableObject {
     return new Response('Not found', { status: 404 });
   }
 
+  /**
+   * Ensure the session is initialized before processing requests
+   * Rehydrates from storage if necessary
+   */
   private async ensureInitialized(): Promise<boolean> {
     if (this.manager && this.router) {
       return true;
@@ -59,6 +82,10 @@ export class GameSessionObject extends DurableObject {
     return this.rehydrate();
   }
 
+  /**
+   * Rehydrate the game session from durable storage
+   * Called when the Durable Object wakes up from hibernation
+   */
   private async rehydrate(): Promise<boolean> {
     logger.debug('[GameSessionObject] Rehydrating...');
 
@@ -85,10 +112,21 @@ export class GameSessionObject extends DurableObject {
 
     logger.debug(!!savedState, '[GameSessionObject] Rehydrating... got savedState');
 
+    // Get the API URL from environment (you'll need to pass this through)
+    const apiUrl = this.env?.API_URL || 'http://localhost:8787';
+
+    // Create effect handlers for this game
+    const effectHandlers = createGameEffectHandlers(metadata.gameType, apiUrl);
+    logger.debug(
+      `[GameSessionObject] Created ${effectHandlers.length} effect handler(s) for ${metadata.gameType}`,
+    );
+
     this.manager = new GameSessionManager({
       gameDefinition,
       initialState,
       ctx: this.ctx,
+      effectHandlers,
+      apiUrl,
     });
 
     this.router = createGameSessionRouter(this.manager);
@@ -136,9 +174,13 @@ export class GameSessionObject extends DurableObject {
   }
 
   async webSocketClose(): Promise<void> {
-
+    // Cleanup logic if needed
   }
 
+  /**
+   * Initialize a new game session
+   * Called by the backend API when creating a room
+   */
   private async handleInit(request: Request): Promise<Response> {
     try {
       const body = await request.json();
@@ -159,6 +201,7 @@ export class GameSessionObject extends DurableObject {
         );
       }
 
+      // Save metadata
       this.metadata = {
         roomId: validatedInput.roomId,
         gameType: validatedInput.gameType,
@@ -169,20 +212,34 @@ export class GameSessionObject extends DurableObject {
       };
       await this.ctx.storage.put('metadata', this.metadata);
 
+      // Get API URL from environment
+      const apiUrl = this.env?.API_URL || 'http://localhost:8787';
+
+      // Create effect handlers for this game
+      const effectHandlers = createGameEffectHandlers(validatedInput.gameType, apiUrl);
+      logger.info(
+        `[GameSessionObject] Created ${effectHandlers.length} effect handler(s) for ${validatedInput.gameType}`,
+      );
+
+      // Create manager with effect handlers
       this.manager = new GameSessionManager({
         gameDefinition,
         initialState: gameDefinition.initialState,
         ctx: this.ctx,
+        effectHandlers,
+        apiUrl,
       });
 
       this.router = createGameSessionRouter(this.manager);
 
+      // Add host player if provided
       let hostPlayer;
       let credentials;
       if (validatedInput.hostPlayerName) {
         const playerId = validatedInput.createdBy || crypto.randomUUID();
         logger.info('Adding host player:', validatedInput.hostPlayerName, 'id:', playerId);
-        this.manager.dispatchAction({
+
+        await this.manager.dispatchAction({
           type: 'ADD_PLAYER',
           payload: {
             id: playerId,
@@ -198,7 +255,6 @@ export class GameSessionObject extends DurableObject {
         await this.ctx.storage.put(`credentials:${credentials}`, credentialsData);
 
         const state = this.manager.getState();
-
         hostPlayer = state.players[playerId];
 
         if (!hostPlayer) {
@@ -234,6 +290,9 @@ export class GameSessionObject extends DurableObject {
     }
   }
 
+  /**
+   * Handle a player joining the game
+   */
   private async handleJoin(request: Request): Promise<Response> {
     try {
       await this.ensureInitialized();
@@ -269,7 +328,7 @@ export class GameSessionObject extends DurableObject {
       await this.ctx.storage.put(`credentials:${credentials}`, credentialsData);
 
       logger.info('Dispatching ADD_PLAYER for player:', playerId, validatedInput.playerName);
-      this.manager.dispatchAction({
+      await this.manager.dispatchAction({
         type: 'ADD_PLAYER',
         payload: {
           id: playerId,
@@ -298,9 +357,7 @@ export class GameSessionObject extends DurableObject {
           currentPlayers: Object.keys(updatedState.players).length,
           maxPlayers: this.metadata.maxPlayers,
           gameType: this.metadata.gameType,
-
           currentState: updatedState,
-
           name: this.metadata.roomId,
           isPrivate: this.metadata.isPrivate,
           status: 'active',
