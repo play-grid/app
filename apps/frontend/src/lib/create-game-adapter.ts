@@ -14,6 +14,8 @@ export function createGameAdapter<
   options: {
     mode: 'local' | 'multiplayer';
     roomId?: string;
+    playerId?: string;
+    credentials?: string;
     initialState: z.infer<TStateSchema>;
     persistenceKey?: string;
   },
@@ -33,10 +35,10 @@ export function createGameAdapter<
     );
   }
 
-  if (options.mode === 'multiplayer' && options.roomId) {
+  if (options.mode === 'multiplayer' && options.roomId && options.playerId && options.credentials) {
     const apiHost = import.meta.env.DEV ? 'localhost:8787' : window.location.host;
     const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
-    const wsUrl = `${protocol}://${apiHost}/api/game-room/${options.roomId}/ws`;
+    const wsUrl = `${protocol}://${apiHost}/api/game-room/${options.roomId}/ws?playerId=${encodeURIComponent(options.playerId)}&credentials=${encodeURIComponent(options.credentials)}`;
 
     return createNativeWSClient<TStateSchema, TActionSchema>({
       websocketUrl: wsUrl,

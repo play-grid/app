@@ -3,22 +3,34 @@ import type { ExtractJsonPayload } from '@/lib/extract-json-payload';
 import client from '@/lib/hono-client';
 
 export type CreateRoomPayload = ExtractJsonPayload<(typeof client.api['game-room'])['$post']>;
+
+export type CreateRoomResponse = Room & {
+  websocketUrl?: string;
+  hostPlayer?: { id: string; name: string };
+  credentials?: string;
+  currentState?: any;
+};
+
 type JoinRoomPayload = ExtractJsonPayload<(typeof client.api['game-room'][':id']['join'])['$post']>;
 
-export async function createGameRoom(payload: CreateRoomPayload): Promise<Room & { websocketUrl?: string }> {
+export async function createGameRoom(payload: CreateRoomPayload): Promise<CreateRoomResponse> {
   const response = await client.api['game-room'].$post({ json: payload });
 
   if (!response.ok) {
     throw new Error('Failed to create game room');
   }
-
   return response.json();
 }
 
 export async function joinGameRoom(
   roomId: string,
   payload: JoinRoomPayload,
-): Promise<Room & { player: { id: string; name: string } }> {
+): Promise<Room & {
+  websocketUrl: string;
+  player: { id: string; name: string };
+  credentials: string;
+  currentState?: any;
+}> {
   const response = await client.api['game-room'][':id'].join.$post({
     param: { id: roomId },
     json: payload,

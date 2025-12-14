@@ -1,9 +1,9 @@
 import type { Room } from '@guess-logo/shared/schemas';
-import type { CreateRoomPayload } from './room-service';
+import type { CreateRoomPayload, CreateRoomResponse } from './room-service';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { useSession } from '@/hooks/auth-hooks';
+import { useRoomSession } from '@/features/room/room-store';
 import { createGameRoom, getRoomById, joinGameRoom } from './room-service';
 
 interface UseCreateRoomProps {
@@ -13,20 +13,23 @@ interface UseCreateRoomProps {
 export function useCreateRoom({ onSuccess }: UseCreateRoomProps = {}) {
   const navigate = useNavigate();
   const { i18n } = useTranslation();
-  const { user } = useSession();
+  const { setSession } = useRoomSession();
 
   return useMutation({
     mutationFn: async (payload: CreateRoomPayload): Promise<Room> => {
-      const response = await createGameRoom(payload);
+      const response = await createGameRoom(payload) as CreateRoomResponse;
 
-      const hostPlayer = {
-        id: user?.id ?? `host-${response.id}`,
-        name: user?.name ?? 'Host',
-      };
-
-      if (response.id) {
-        const storageKey = `player-${response.id}`;
-        localStorage.setItem(storageKey, JSON.stringify(hostPlayer));
+      if (response.hostPlayer && response.credentials) {
+        setSession({
+          roomId: response.id,
+          playerId: response.hostPlayer.id,
+          playerName: response.hostPlayer.name,
+          credentials: response.credentials,
+          initialGameState: response.currentState || null,
+        });
+      }
+      else {
+        console.warn('No hostPlayer or credentials in response');
       }
 
       return response as Room;
@@ -45,20 +48,32 @@ interface UseJoinRoomProps {
 }
 
 export function useJoinRoom({ onSuccess }: UseJoinRoomProps = {}) {
+  const { setSession } = useRoomSession();
+
   return useMutation({
     mutationFn: async (variables: { roomId: string; playerName: string }): Promise<Room> => {
       const response = await joinGameRoom(variables.roomId, {
         playerName: variables.playerName,
       });
 
-      if (response.player && variables.roomId) {
-        const storageKey = `player-${variables.roomId}`;
-        localStorage.setItem(storageKey, JSON.stringify(response.player));
+      if (response.player && response.credentials && variables.roomId) {
+        setSession({
+          roomId: variables.roomId,
+          playerId: response.player.id,
+          playerName: response.player.name,
+          credentials: response.credentials,
+          initialGameState: response.currentState || null,
+        });
+      }
+      else {
+        console.warn('No player or credentials in join response');
       }
 
       return response as Room;
     },
-    onSuccess,
+    onSuccess: (data) => {
+      onSuccess?.(data);
+    },
   });
 }
 
