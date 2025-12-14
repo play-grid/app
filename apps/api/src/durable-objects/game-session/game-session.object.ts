@@ -17,14 +17,10 @@ export interface GameSessionMetadata {
   createdBy?: string;
 }
 
-// apps/api/src/durable-objects/game-session.object.ts
-
 export class GameSessionObject extends DurableObject {
   private manager: GameSessionManager | null = null;
   private router: GameSessionRouter | null = null;
   private metadata: GameSessionMetadata | null = null;
-  // Remove this line:
-  // private players: Map<string, { id: string; name: string }> = new Map();
 
   constructor(ctx: DurableObjectState, env: any) {
     super(ctx, env);
@@ -47,6 +43,10 @@ export class GameSessionObject extends DurableObject {
 
     if (url.pathname === '/stats') {
       return this.handleStats();
+    }
+
+    if (url.pathname === '/validate-credentials') {
+      return this.handleValidateCredentials(request);
     }
 
     return new Response('Not found', { status: 404 });
@@ -80,7 +80,6 @@ export class GameSessionObject extends DurableObject {
       return false;
     }
 
-    // Get the saved state or use initial state
     const savedState = await this.ctx.storage.get('state');
     const initialState = savedState || gameDefinition.initialState;
 
@@ -123,8 +122,21 @@ export class GameSessionObject extends DurableObject {
     await this.router!.handleMessage(ws, message);
   }
 
+  async webSocketOpen(ws: WebSocket): Promise<void> {
+    const success = await this.ensureInitialized();
+    if (!success) {
+      ws.close(1008, 'Room session not found');
+      return;
+    }
+    const message = JSON.stringify({
+      type: 'onStateUpdate',
+      payload: this.manager!.getState(),
+    });
+    ws.send(message);
+  }
+
   async webSocketClose(): Promise<void> {
-    // Cleanup if needed
+
   }
 
   private async handleInit(request: Request): Promise<Response> {
@@ -157,7 +169,6 @@ export class GameSessionObject extends DurableObject {
       };
       await this.ctx.storage.put('metadata', this.metadata);
 
-      // Initialize with game's initial state
       this.manager = new GameSessionManager({
         gameDefinition,
         initialState: gameDefinition.initialState,
@@ -166,11 +177,45 @@ export class GameSessionObject extends DurableObject {
 
       this.router = createGameSessionRouter(this.manager);
 
-      // Persist initial state
+      let hostPlayer;
+      let credentials;
+      if (validatedInput.hostPlayerName) {
+        const playerId = validatedInput.createdBy || crypto.randomUUID();
+        logger.info('Adding host player:', validatedInput.hostPlayerName, 'id:', playerId);
+        this.manager.dispatchAction({
+          type: 'ADD_PLAYER',
+          payload: {
+            id: playerId,
+            name: validatedInput.hostPlayerName,
+          },
+        });
+
+        credentials = crypto.randomUUID();
+        const credentialsData = {
+          playerId,
+          expiresAt: Date.now() + 5 * 60 * 1000,
+        };
+        await this.ctx.storage.put(`credentials:${credentials}`, credentialsData);
+
+        const state = this.manager.getState();
+
+        hostPlayer = state.players[playerId];
+
+        if (!hostPlayer) {
+          logger.error('Host player not found in state after ADD_PLAYER');
+        }
+      }
+
       await this.ctx.storage.put('state', this.manager.getState());
 
       return new Response(
-        JSON.stringify({ success: true, roomId: this.metadata.roomId }),
+        JSON.stringify({
+          success: true,
+          roomId: this.metadata.roomId,
+          hostPlayer,
+          credentials,
+          currentState: this.manager.getState(),
+        }),
         { headers: { 'Content-Type': 'application/json' } },
       );
     }
@@ -215,6 +260,15 @@ export class GameSessionObject extends DurableObject {
 
       const playerId = validatedInput.playerId || crypto.randomUUID();
 
+      const credentials = crypto.randomUUID();
+
+      const credentialsData = {
+        playerId,
+        expiresAt: Date.now() + 5 * 60 * 1000,
+      };
+      await this.ctx.storage.put(`credentials:${credentials}`, credentialsData);
+
+      logger.info('Dispatching ADD_PLAYER for player:', playerId, validatedInput.playerName);
       this.manager.dispatchAction({
         type: 'ADD_PLAYER',
         payload: {
@@ -224,17 +278,33 @@ export class GameSessionObject extends DurableObject {
       });
 
       const updatedState = this.manager.getState();
+      logger.info('Updated state players:', Object.keys(updatedState.players));
+
+      const playerInState = updatedState.players[playerId];
+
+      if (!playerInState) {
+        logger.error('Player not found in state after ADD_PLAYER action');
+        return new Response(
+          JSON.stringify({ error: 'Failed to add player to game state' }),
+          { status: 500 },
+        );
+      }
 
       return new Response(
         JSON.stringify({
           roomId: this.metadata.roomId,
-          player: {
-            id: playerId,
-            name: validatedInput.playerName,
-          },
+          player: playerInState,
+          credentials,
           currentPlayers: Object.keys(updatedState.players).length,
           maxPlayers: this.metadata.maxPlayers,
           gameType: this.metadata.gameType,
+
+          currentState: updatedState,
+
+          name: this.metadata.roomId,
+          isPrivate: this.metadata.isPrivate,
+          status: 'active',
+          createdAt: this.metadata.createdAt,
         }),
         { headers: { 'Content-Type': 'application/json' } },
       );
@@ -273,5 +343,65 @@ export class GameSessionObject extends DurableObject {
       }),
       { headers: { 'Content-Type': 'application/json' } },
     );
+  }
+
+  private async handleValidateCredentials(request: Request): Promise<Response> {
+    try {
+      await this.ensureInitialized();
+
+      if (!this.metadata || !this.manager) {
+        return new Response(
+          JSON.stringify({ error: 'Room not found' }),
+          { status: 404 },
+        );
+      }
+
+      const url = new URL(request.url);
+      const playerId = url.searchParams.get('playerId');
+      const credentials = url.searchParams.get('credentials');
+
+      if (!playerId || !credentials) {
+        return new Response(
+          JSON.stringify({ error: 'Missing playerId or credentials' }),
+          { status: 400 },
+        );
+      }
+
+      const storedData = await this.ctx.storage.get<{ playerId: string; expiresAt: number }>(`credentials:${credentials}`);
+
+      if (!storedData) {
+        return new Response(
+          JSON.stringify({ error: 'Invalid credentials' }),
+          { status: 401 },
+        );
+      }
+
+      if (storedData.playerId !== playerId || storedData.expiresAt < Date.now()) {
+        return new Response(
+          JSON.stringify({ error: 'Invalid or expired credentials' }),
+          { status: 401 },
+        );
+      }
+
+      const state = this.manager.getState();
+      if (!state.players[playerId]) {
+        return new Response(
+          JSON.stringify({ error: 'Player not found in room' }),
+          { status: 401 },
+        );
+      }
+
+      return new Response(
+        JSON.stringify({ valid: true }),
+        { headers: { 'Content-Type': 'application/json' } },
+      );
+    }
+    catch (error) {
+      logger.error(error, '[GameSessionObject] Validate credentials error:');
+      return new Response(
+        JSON.stringify({ error: 'Failed to validate credentials' }),
+        { status: 500 },
+      );
+    }
   }
 }

@@ -26,6 +26,7 @@ export const createGameRoomBaseSchema = RoomSchema.pick({
   isPrivate: true,
 }).extend({
   gameType: getGameTypeSchema().optional(),
+  hostPlayerName: z.string().min(1, 'Host player name is required'),
 }).partial({
   maxPlayers: true,
   isPrivate: true,
@@ -45,6 +46,7 @@ export const createGameRoomInputSchema = createGameRoomBaseSchema.transform(
       maxPlayers: data.maxPlayers ?? 4,
       gameType: data.gameType ?? defaultGameType,
       isPrivate: data.isPrivate ?? false,
+      hostPlayerName: data.hostPlayerName,
     };
   },
 );
@@ -65,10 +67,20 @@ export const gameRoomResponseSchema = RoomSchema.extend({
 });
 
 /**
- * Join response includes room info + player details
+ * Create response includes room info + host player details + credentials if host joined
+ */
+export const createGameRoomResponseSchema = gameRoomResponseSchema.extend({
+  hostPlayer: PlayerSchema.optional().describe('The host player that was auto-joined'),
+  credentials: z.string().optional().describe('Short-lived credential token for host WebSocket authentication'),
+  initialGameState: z.any().optional().describe('The initial game state with host player'),
+});
+
+/**
+ * Join response includes room info + player details + credentials
  */
 export const joinGameRoomResponseSchema = gameRoomResponseSchema.extend({
   player: PlayerSchema.describe('The player that just joined'),
+  credentials: z.string().describe('Short-lived credential token for WebSocket authentication'),
 });
 
 const sessionSchema = z.object({
@@ -113,23 +125,11 @@ export const messageSchema = z.object({
   message: z.string(),
 });
 
-/**
- * Internal schema for Durable Object stats endpoint
- * This is what the DO returns, separate from public API
- */
-export const doRoomStatsSchema = z.object({
-  roomId: z.string(),
-  gameType: z.string(),
-  currentPlayers: z.number().int(),
-  maxPlayers: z.number().int(),
-  players: z.array(PlayerSchema),
-  createdAt: z.iso.datetime(),
-});
-
 export type CreateRoomFormValues = z.infer<typeof createGameRoomBaseSchema>;
+
+export type CreateGameRoomResponse = z.infer<typeof createGameRoomResponseSchema>;
 export type CreateRoomInputValues = z.infer<typeof createGameRoomInputSchema>;
 export type GameRoomResponse = z.infer<typeof gameRoomResponseSchema>;
 export type JoinGameRoomValues = z.infer<typeof joinGameRoomSchema>;
 export type JoinGameRoomResponse = z.infer<typeof joinGameRoomResponseSchema>;
 export type RoomStatsResponse = z.infer<typeof roomStatsResponseSchema>;
-export type DORoomStats = z.infer<typeof doRoomStatsSchema>;

@@ -5,8 +5,8 @@ import { createErrorSchema } from 'stoker/openapi/schemas';
 
 import {
   createGameRoomInputSchema,
+  createGameRoomResponseSchema,
   errorSchema,
-  gameRoomResponseSchema,
   joinGameRoomResponseSchema,
   joinGameRoomSchema,
   messageSchema,
@@ -27,7 +27,7 @@ export const create = createRoute({
   tags,
   responses: {
     [HttpStatusCodes.CREATED]: jsonContent(
-      gameRoomResponseSchema,
+      createGameRoomResponseSchema,
       'The created game room',
     ),
     [HttpStatusCodes.BAD_REQUEST]: jsonContent(

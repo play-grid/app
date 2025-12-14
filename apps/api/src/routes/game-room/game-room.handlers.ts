@@ -1,4 +1,3 @@
-import type { Room } from '@guess-logo/shared/schemas';
 import type { AppRouteHandler } from '../../lib/types';
 import type {
   CreateRoute,
@@ -6,15 +5,20 @@ import type {
   JoinRoute,
   WebSocketUpgradeRoute,
 } from './game-room.routes';
-import type { JoinGameRoomResponse } from './schemas';
+import type { CreateGameRoomResponse, JoinGameRoomResponse } from './schemas';
 import {
   getGameDefinition,
   isGameRegistered,
 } from '@guess-logo/game-core';
 import { nanoid } from 'nanoid';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
+import {
+  gameSessionStatsResponseSchema,
+  initGameSessionResponseSchema,
+  joinGameSessionResponseSchema,
+} from '@/durable-objects/game-session/schemas';
 import { logger } from '@/utils/logger';
-import { doRoomStatsSchema, errorSchema } from './schemas';
+import { errorSchema } from './schemas';
 
 /**
  * Create a new game room
@@ -65,6 +69,7 @@ export const create: AppRouteHandler<CreateRoute> = async (c) => {
     const stub = c.env.GAME_SESSION.get(id);
 
     // Initialize the game session
+
     const initResponse = await stub.fetch('http://internal/init', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -74,6 +79,7 @@ export const create: AppRouteHandler<CreateRoute> = async (c) => {
         maxPlayers,
         isPrivate: body.isPrivate,
         createdBy: userId,
+        hostPlayerName: body.hostPlayerName,
       }),
     });
 
@@ -82,21 +88,32 @@ export const create: AppRouteHandler<CreateRoute> = async (c) => {
       throw new Error(`Failed to initialize game session: ${error}`);
     }
 
+    const rawInitData = await initResponse.json();
+    const initData = initGameSessionResponseSchema.parse(rawInitData);
+
+    const hostPlayer = initData.hostPlayer;
+    const credentials = initData.credentials;
+    const initialGameState = initData.currentState;
+    const currentPlayers = hostPlayer ? 1 : 0;
+
     // Construct WebSocket URL for gameplay
     const host = c.req.header('host') || 'localhost:8787';
     const protocol = host.includes('localhost') ? 'ws' : 'wss';
     const websocketUrl = `${protocol}://${host}/api/game-room/${roomId}/ws`;
 
-    const response: Room & { websocketUrl: string } = {
+    const response: CreateGameRoomResponse = {
       id: roomId,
       name: body.name,
       gameType: body.gameType,
       maxPlayers,
-      currentPlayers: 0,
+      currentPlayers,
       isPrivate: body.isPrivate,
       status: 'waiting',
       createdAt: new Date().toISOString(),
       websocketUrl,
+      hostPlayer,
+      credentials,
+      initialGameState, // Now correctly passes the game state with host player
     };
 
     return c.json(response, HttpStatusCodes.CREATED);
@@ -156,24 +173,27 @@ export const join: AppRouteHandler<JoinRoute> = async (c) => {
       throw new Error('Failed to join game session');
     }
 
-    const joinData = await joinResponse.json<JoinGameRoomResponse>();
+    const rawJoinData = await joinResponse.json();
+    const joinData = joinGameSessionResponseSchema.parse(rawJoinData);
 
     // Construct WebSocket URL
     const host = c.req.header('host') || 'localhost:8787';
     const protocol = host.includes('localhost') ? 'ws' : 'wss';
     const websocketUrl = `${protocol}://${host}/api/game-room/${roomId}/ws`;
 
-    const response: JoinGameRoomResponse = {
+    const response: JoinGameRoomResponse & { currentState?: any } = {
       id: roomId,
-      name: joinData.name,
+      name: joinData.name || roomId, // Fallback to roomId if name not present
       gameType: joinData.gameType,
       maxPlayers: joinData.maxPlayers,
       currentPlayers: joinData.currentPlayers,
-      isPrivate: joinData.isPrivate,
-      status: joinData.status,
-      createdAt: joinData.createdAt,
+      isPrivate: joinData.isPrivate ?? false,
+      status: (joinData.status as any) || 'active',
+      createdAt: joinData.createdAt || new Date().toISOString(),
       websocketUrl,
       player: joinData.player,
+      credentials: joinData.credentials,
+      currentState: joinData.currentState, // Pass the current game state
     };
 
     return c.json(response, HttpStatusCodes.OK);
@@ -213,7 +233,7 @@ export const getGameRoomStats: AppRouteHandler<GetRoomStatsRoute> = async (
     }
 
     const rawData = await response.json();
-    const rawStats = doRoomStatsSchema.parse(rawData);
+    const rawStats = gameSessionStatsResponseSchema.parse(rawData);
 
     return c.json(
       {
@@ -264,8 +284,33 @@ export const websocketUpgrade: AppRouteHandler<WebSocketUpgradeRoute> = async (
       );
     }
 
+    // Extract and validate credentials from query params
+    const url = new URL(c.req.url);
+    const playerId = url.searchParams.get('playerId');
+    const credentials = url.searchParams.get('credentials');
+
+    if (!playerId || !credentials) {
+      return c.json(
+        { error: 'Missing playerId or credentials in query parameters' },
+        HttpStatusCodes.BAD_REQUEST,
+      );
+    }
+
+    // Validate credentials with Durable Object
     const id = c.env.GAME_SESSION.idFromName(roomId);
     const stub = c.env.GAME_SESSION.get(id);
+
+    const validationResponse = await stub.fetch(`http://internal/validate-credentials?playerId=${encodeURIComponent(playerId)}&credentials=${encodeURIComponent(credentials)}`, {
+      method: 'GET',
+    });
+
+    if (!validationResponse.ok) {
+      const errorData = await validationResponse.json() as { error?: string };
+      return c.json(
+        { error: errorData.error || 'Invalid credentials' },
+        HttpStatusCodes.UNAUTHORIZED,
+      );
+    }
 
     return stub.fetch(c.req.raw);
   }
