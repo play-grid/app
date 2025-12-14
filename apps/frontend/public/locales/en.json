@@ -356,7 +356,8 @@
     "loading": "Loading Room...",
     "dialog": {
       "description": "Create or join a multiplayer game room"
-    }
+    },
+    "advanced-options": "Advanced options"
   },
   "step": "Step",
   "of": "of",
@@ -364,11 +365,10 @@
   "public-room-desc": "Anyone with the room code can join",
   "private-room-desc": "Only invited players can join",
   "enter-room-code-or-link": "Enter room code or paste link...",
-  "default-room-name": "My Game Room",
-  "randomRoomNames": {
-    "adjectives": ["Cool", "Epic", "Awesome", "Fun", "Crazy", "Wild", "Amazing", "Brilliant", "Fantastic", "Great"],
-    "nouns": ["Arena", "Battle", "Challenge", "Quest", "Showdown", "Adventure", "Journey", "Mission", "Game", "Match"]
-  },
+   "default-room-name": "My Game Room",
+   "room-title-optional": "Room title (optional)",
+   "leave-empty-to-start": "Leave empty to start instantly",
+   "room-of": "Room {{hostName}}",
   "validation": {
     "name": {
       "min": "Name must be at least 2 characters",

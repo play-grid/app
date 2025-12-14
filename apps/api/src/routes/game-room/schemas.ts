@@ -21,10 +21,10 @@ function getGameTypeSchema() {
  * Uses RoomSchema as base but makes fields optional/provides defaults
  */
 export const createGameRoomBaseSchema = RoomSchema.pick({
-  name: true,
   maxPlayers: true,
   isPrivate: true,
 }).extend({
+  name: z.string().max(50, 'validation.roomName.max').optional(),
   gameType: getGameTypeSchema().optional(),
   hostPlayerName: z.string().min(1, 'validation.hostName.required'),
 }).partial({
@@ -42,7 +42,7 @@ export const createGameRoomInputSchema = createGameRoomBaseSchema.transform(
     const defaultGameType = registeredGameIds[0] || 'five-seconds';
 
     return {
-      name: data.name,
+      name: (data.name && data.name.trim()) ? data.name.trim() : `${data.hostPlayerName}'s Game`,
       maxPlayers: data.maxPlayers ?? 4,
       gameType: data.gameType ?? defaultGameType,
       isPrivate: data.isPrivate ?? false,

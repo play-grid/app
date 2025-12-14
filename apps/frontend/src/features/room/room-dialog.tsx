@@ -4,8 +4,8 @@ import type { ReactNode } from 'react';
 import { createGameRoomBaseSchema } from '@guess-logo/api/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { DirectionProvider } from '@radix-ui/react-direction';
-import { Check, Copy, Globe, Lock } from 'lucide-react';
-import { useMemo, useState } from 'react';
+import { Check, ChevronDown, Copy, Globe, Lock } from 'lucide-react';
+import { useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -22,25 +22,6 @@ import { cn } from '@/lib/utils';
 import { CopyButton } from './copy-button';
 import { JoinRoomForm } from './join-room-form';
 import { useCreateRoom } from './use-room';
-
-function generateRandomRoomName(t: any) {
-  const nameParts = t('randomRoomNames', { returnObjects: true });
-  if (
-    nameParts
-    && typeof nameParts === 'object'
-    && 'adjectives' in nameParts
-    && 'nouns' in nameParts
-    && Array.isArray(nameParts.adjectives)
-    && Array.isArray(nameParts.nouns)
-    && nameParts.adjectives.length > 0
-    && nameParts.nouns.length > 0
-  ) {
-    const adj = nameParts.adjectives[Math.floor(Math.random() * nameParts.adjectives.length)];
-    const noun = nameParts.nouns[Math.floor(Math.random() * nameParts.nouns.length)];
-    return `${adj} ${noun}`;
-  }
-  return t('default-room-name');
-}
 
 interface RoomDialogProps {
   gameType: string;
@@ -68,8 +49,7 @@ export function RoomDialog({
   // State for multi-step form
   const [createStep, setCreateStep] = useState(1);
   const [copied, setCopied] = useState<'url' | null>(null);
-
-  const randomRoomName = useMemo(() => generateRandomRoomName(t), [t]);
+  const [advancedOptionsOpen, setAdvancedOptionsOpen] = useState(false);
 
   const { mutate: createRoom, data: room, isPending, isError } = useCreateRoom({
     onSuccess: (room) => {
@@ -80,7 +60,7 @@ export function RoomDialog({
   const createForm = useForm<CreateRoomFormValues>({
     resolver: zodResolver(createGameRoomBaseSchema),
     defaultValues: {
-      name: randomRoomName,
+      name: '',
       maxPlayers: 4,
       gameType,
       isPrivate: false,
@@ -105,6 +85,7 @@ export function RoomDialog({
 
     const roomData = {
       ...values,
+      name: values.name ?? '',
       ...gameSettings,
       gameType,
     };
@@ -121,7 +102,7 @@ export function RoomDialog({
     if (!open && !room) {
       setCreateStep(1);
       createForm.reset({
-        name: generateRandomRoomName(t),
+        name: '',
         maxPlayers: 4,
         gameType,
         isPrivate: false,
@@ -146,7 +127,7 @@ export function RoomDialog({
   return (
     <DirectionProvider dir={isRTL ? 'rtl' : 'ltr'}>
       <Dialog open={open} onOpenChange={handleDialogClose}>
-        <DialogContent className="sm:max-w-[500px] p-6 flex flex-col min-h-[66vh]">
+        <DialogContent className="sm:max-w-[500px] p-6 flex flex-col">
           <DialogHeader>
             <DialogTitle>{t('play-online')}</DialogTitle>
             <DialogDescription>{t('room.dialog.description')}</DialogDescription>
@@ -169,7 +150,7 @@ export function RoomDialog({
 
                       {/* Loading content */}
                       <div className="flex-1 flex items-center justify-center">
-                        <Spinner />
+                        <Spinner className="text-primary" />
                       </div>
 
                       {/* Placeholder for button area to maintain consistent height */}
@@ -254,17 +235,6 @@ export function RoomDialog({
                         {/* Step indicator - fixed at top */}
                         <div className="shrink-0 space-y-2 mb-4">
                           <div className="flex flex-col items-start text-sm">
-                            {/* {createStep === 2 && (
-                              <Button
-                                type="button"
-                                variant="ghost"
-                                size="sm"
-                                onClick={handleBackInCreate}
-                                className="h-auto p-2 text-muted-foreground hover:text-foreground"
-                              >
-                                {t('common.back')}
-                              </Button>
-                            )} */}
                             <span className="text-muted-foreground ml-auto">
                               {t('step')}
                               {' '}
@@ -297,18 +267,6 @@ export function RoomDialog({
                           {createStep === 1 && (
                             <div className="space-y-4">
                               <div className="space-y-2">
-                                <Label htmlFor="name">{t('room-name')}</Label>
-                                <Input
-                                  id="name"
-                                  type="text"
-                                  placeholder={t('room-name-placeholder')}
-                                  {...createForm.register('name')}
-                                />
-                                {createForm.formState.errors.name && (
-                                  <p className="text-red-500 text-sm">{t(createForm.formState.errors.name.message as string)}</p>
-                                )}
-                              </div>
-                              <div className="space-y-2">
                                 <Label htmlFor="host-player-name">{t('your-name')}</Label>
                                 <Input
                                   id="host-player-name"
@@ -320,6 +278,75 @@ export function RoomDialog({
                                   <p className="text-red-500 text-sm">{t(createForm.formState.errors.hostPlayerName.message as string)}</p>
                                 )}
                               </div>
+
+                              <Button
+                                type="button"
+                                variant="ghost"
+                                className="flex items-center gap-2 text-muted-foreground -ml-2"
+                                onClick={() => setAdvancedOptionsOpen(!advancedOptionsOpen)}
+                              >
+                                <span>{t('room.advanced-options')}</span>
+                                <ChevronDown className={`h-4 w-4 transition-transform ${advancedOptionsOpen ? 'rotate-180' : ''}`} />
+                              </Button>
+
+                              {advancedOptionsOpen && (
+                                <div className="space-y-4 border-l-2 pl-4 ml-1 border-dashed">
+                                  <div className="space-y-2">
+                                    <Label htmlFor="name">{t('room-title-optional')}</Label>
+                                    <p className="text-sm text-muted-foreground">{t('leave-empty-to-start')}</p>
+                                    <Input
+                                      id="name"
+                                      type="text"
+                                      placeholder={t('room-name-placeholder')}
+                                      {...createForm.register('name')}
+                                    />
+                                    {createForm.formState.errors.name && (
+                                      <p className="text-red-500 text-sm">{t(createForm.formState.errors.name.message as string)}</p>
+                                    )}
+                                  </div>
+                                  <div className="space-y-3">
+                                    <Label>{t('room-privacy')}</Label>
+                                    <ItemGroup className="space-y-2">
+                                      <Item
+                                        variant="outline"
+                                        className={cn(
+                                          'cursor-pointer items-start transition-all hover:bg-accent hover:border-primary/50',
+                                          !isPrivate ? 'border-primary bg-primary/5 ring-1 ring-primary' : 'border-border',
+                                        )}
+                                        onClick={() => createForm.setValue('isPrivate', false)}
+                                      >
+                                        <ItemContent>
+                                          <ItemTitle className="flex items-center gap-2">
+                                            <Globe className="w-4 h-4" />
+                                            {t('public-room')}
+                                          </ItemTitle>
+                                          <ItemDescription>
+                                            {t('public-room-desc')}
+                                          </ItemDescription>
+                                        </ItemContent>
+                                      </Item>
+                                      <Item
+                                        variant="outline"
+                                        className={cn(
+                                          'cursor-pointer items-start transition-all hover:bg-accent hover:border-primary/50',
+                                          isPrivate ? 'border-primary bg-primary/5 ring-1 ring-primary' : 'border-border',
+                                        )}
+                                        onClick={() => createForm.setValue('isPrivate', true)}
+                                      >
+                                        <ItemContent>
+                                          <ItemTitle className="flex items-center gap-2">
+                                            <Lock className="w-4 h-4" />
+                                            {t('private-room')}
+                                          </ItemTitle>
+                                          <ItemDescription>
+                                            {t('private-room-desc')}
+                                          </ItemDescription>
+                                        </ItemContent>
+                                      </Item>
+                                    </ItemGroup>
+                                  </div>
+                                </div>
+                              )}
                             </div>
                           )}
 
@@ -345,50 +372,6 @@ export function RoomDialog({
                                 {createForm.formState.errors.maxPlayers && (
                                   <p className="text-red-500 text-sm">{t(createForm.formState.errors.maxPlayers.message as string)}</p>
                                 )}
-                              </div>
-
-                              <div className="space-y-3">
-                                <Label>{t('room-privacy')}</Label>
-                                <ItemGroup className="space-y-2">
-                                  <Item
-                                    variant="outline"
-                                    className={cn(
-                                      'cursor-pointer items-start transition-all hover:bg-accent hover:border-primary/50',
-                                      !isPrivate ? 'border-primary bg-primary/5 ring-1 ring-primary' : 'border-border',
-                                    )}
-                                    onClick={() => createForm.setValue('isPrivate', false)}
-                                  >
-                                    <ItemContent>
-                                      <ItemTitle className="flex items-center gap-2">
-                                        <Globe className="w-4 h-4" />
-                                        {t('public-room')}
-                                      </ItemTitle>
-                                      <ItemDescription>
-                                        {t('public-room-desc')}
-                                      </ItemDescription>
-                                    </ItemContent>
-                                  </Item>
-
-                                  {/* Private Room Item */}
-                                  <Item
-                                    variant="outline"
-                                    className={cn(
-                                      'cursor-pointer items-start transition-all hover:bg-accent hover:border-primary/50',
-                                      isPrivate ? 'border-primary bg-primary/5 ring-1 ring-primary' : 'border-border',
-                                    )}
-                                    onClick={() => createForm.setValue('isPrivate', true)}
-                                  >
-                                    <ItemContent>
-                                      <ItemTitle className="flex items-center gap-2">
-                                        <Lock className="w-4 h-4" />
-                                        {t('private-room')}
-                                      </ItemTitle>
-                                      <ItemDescription>
-                                        {t('private-room-desc')}
-                                      </ItemDescription>
-                                    </ItemContent>
-                                  </Item>
-                                </ItemGroup>
                               </div>
                             </div>
                           )}
