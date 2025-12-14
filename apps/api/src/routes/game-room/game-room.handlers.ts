@@ -10,7 +10,6 @@ import {
   getGameDefinition,
   isGameRegistered,
 } from '@guess-logo/game-core';
-import { nanoid } from 'nanoid';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import {
   gameSessionStatsResponseSchema,
@@ -19,6 +18,17 @@ import {
 } from '@/durable-objects/game-session/schemas';
 import { logger } from '@/utils/logger';
 import { errorSchema } from './schemas';
+
+/**
+ * Generates a random 7-digit number string for a room ID.
+ * Ensures the number is between 1,000,000 and 9,999,999.
+ */
+function generateSevenDigitCode(): string {
+  const min = 1000000; // Smallest 7-digit number
+  const max = 9999999; // Largest 7-digit number
+  const num = Math.floor(Math.random() * (max - min + 1)) + min;
+  return num.toString();
+}
 
 /**
  * Create a new game room
@@ -62,7 +72,7 @@ export const create: AppRouteHandler<CreateRoute> = async (c) => {
     }
 
     // Generate unique room ID
-    const roomId = nanoid(10);
+    const roomId = generateSevenDigitCode();
 
     // Get Durable Object stub
     const id = c.env.GAME_SESSION.idFromName(roomId);

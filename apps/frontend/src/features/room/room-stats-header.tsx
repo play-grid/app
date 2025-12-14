@@ -1,11 +1,10 @@
-import { AlertCircle, Check, Copy, Earth, Globe, Zap } from 'lucide-react';
-import { useState } from 'react';
+import { AlertCircle, Earth, Globe, Zap } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { cn } from '@/lib/utils';
 import { useRoomStats } from './use-room';
+import { CopyButton } from './copy-button';
 
 interface RoomStatsHeaderProps {
   mode: string;
@@ -25,7 +24,6 @@ export function RoomHeader({
     mode,
     roomId: roomId ?? undefined,
   });
-  const [copied, setCopied] = useState(false);
 
   if (mode === 'local') {
     return (
@@ -110,14 +108,6 @@ export function RoomHeader({
       );
     }
 
-    async function copyRoomId() {
-      if (!roomId)
-        return;
-      await navigator.clipboard.writeText(roomId);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 1000);
-    }
-
     if (room) {
       return (
         <Card className="border-primary/20 bg-linear-to-r from-primary/5 to-transparent p-4">
@@ -131,25 +121,7 @@ export function RoomHeader({
                   {roomId}
                 </code>
 
-                <Button
-                  size="icon"
-                  variant="ghost"
-                  onClick={copyRoomId}
-                  className="relative shrink-0"
-                >
-                  <Copy
-                    className={cn(`
-                      h-4 w-4 absolute transition-all duration-200
-                      ${copied ? 'opacity-0 scale-75' : 'opacity-100 scale-100'}
-                    `)}
-                  />
-                  <Check
-                    className={cn(`
-                      h-4 w-4 absolute transition-all duration-200
-                      ${copied ? 'opacity-100 scale-100' : 'opacity-0 scale-75'}
-                    `)}
-                  />
-                </Button>
+                <CopyButton text={roomId!} />
               </div>
             </div>
 

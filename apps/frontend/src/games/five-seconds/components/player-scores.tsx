@@ -1,4 +1,4 @@
-import type { FiveSecondsPlayer } from '../types';
+import type { FiveSecondsPlayer } from '@guess-logo/five-seconds';
 import { Trophy } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 

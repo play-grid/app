@@ -158,6 +158,8 @@
   "create-room-error": "Failed to create room. Please try again.",
   "creating-room": "Creating room...",
   "room-created": "Room created successfully!",
+  "share-code-with-players": "Share this code with other players to join",
+  "copied": "Copied",
   "copy-id": "Copy ID",
   "create-room": "Create Room",
   "soon": "Soon 🔥🔥",
@@ -178,6 +180,7 @@
   "max-players": "Max Players",
   "select-game-type": "Select a game type",
   "game-type": "Game Type",
+  "public-room": "Public Room",
   "private-room": "Private Room",
   "room-name-placeholder": "Enter a room name",
   "failed-to-load-game-types": "Failed to load game types",
@@ -350,6 +353,32 @@
   },
   "room": {
     "change":"change",
-    "loading": "Loading Room..."
+    "loading": "Loading Room...",
+    "dialog": {
+      "description": "Create or join a multiplayer game room"
+    }
+  },
+  "step": "Step",
+  "of": "of",
+  "room-privacy": "Room Privacy",
+  "public-room-desc": "Anyone with the room code can join",
+  "private-room-desc": "Only invited players can join",
+  "enter-room-code-or-link": "Enter room code or paste link...",
+  "default-room-name": "My Game Room",
+  "randomRoomNames": {
+    "adjectives": ["Cool", "Epic", "Awesome", "Fun", "Crazy", "Wild", "Amazing", "Brilliant", "Fantastic", "Great"],
+    "nouns": ["Arena", "Battle", "Challenge", "Quest", "Showdown", "Adventure", "Journey", "Mission", "Game", "Match"]
+  },
+  "validation": {
+    "name": {
+      "min": "Name must be at least 2 characters",
+      "max": "Name must be at most 20 characters"
+    },
+    "roomId": {
+      "min": "Room code must be at least 4 characters"
+    },
+    "hostName": {
+      "required": "Host name is required"
+    }
   }
 }

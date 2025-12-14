@@ -26,7 +26,7 @@ export const createGameRoomBaseSchema = RoomSchema.pick({
   isPrivate: true,
 }).extend({
   gameType: getGameTypeSchema().optional(),
-  hostPlayerName: z.string().min(1, 'Host player name is required'),
+  hostPlayerName: z.string().min(1, 'validation.hostName.required'),
 }).partial({
   maxPlayers: true,
   isPrivate: true,
@@ -57,6 +57,14 @@ export const createGameRoomInputSchema = createGameRoomBaseSchema.transform(
 export const joinGameRoomSchema = z.object({
   playerName: PlayerSchema.shape.name,
   playerId: PlayerSchema.shape.id.optional(),
+});
+
+/**
+ * Schema for the frontend "Join Room" form
+ */
+export const joinRoomFormSchema = z.object({
+  playerName: z.string().min(2, 'validation.name.min').max(20, 'validation.name.max'),
+  roomId: z.string().min(4, 'validation.roomId.min'),
 });
 
 /**
@@ -131,5 +139,6 @@ export type CreateGameRoomResponse = z.infer<typeof createGameRoomResponseSchema
 export type CreateRoomInputValues = z.infer<typeof createGameRoomInputSchema>;
 export type GameRoomResponse = z.infer<typeof gameRoomResponseSchema>;
 export type JoinGameRoomValues = z.infer<typeof joinGameRoomSchema>;
+export type JoinRoomFormValues = z.infer<typeof joinRoomFormSchema>;
 export type JoinGameRoomResponse = z.infer<typeof joinGameRoomResponseSchema>;
 export type RoomStatsResponse = z.infer<typeof roomStatsResponseSchema>;

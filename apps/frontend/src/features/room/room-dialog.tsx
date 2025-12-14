@@ -1,22 +1,45 @@
-import type { CreateRoomFormValues } from '@guess-logo/api/schemas';
+import type { CreateRoomFormValues, JoinRoomFormValues } from '@guess-logo/api/schemas';
 import type { Room } from '@guess-logo/shared/schemas';
 import type { ReactNode } from 'react';
-import { createGameRoomBaseSchema } from '@guess-logo/api/schemas';
+import { createGameRoomBaseSchema, joinRoomFormSchema } from '@guess-logo/api/schemas';
 import { standardSchemaResolver } from '@hookform/resolvers/standard-schema';
 import { DirectionProvider } from '@radix-ui/react-direction';
-import { useState } from 'react';
+import { Check, Copy, Globe, Lock } from 'lucide-react';
+import { useMemo, useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { AltArrowLeftIcon, AltArrowRightIcon } from '@/components/ui/icons';
 import { Input } from '@/components/ui/input';
+import { Item, ItemContent, ItemDescription, ItemGroup, ItemTitle } from '@/components/ui/item';
 import { Label } from '@/components/ui/label';
+import { Spinner } from '@/components/ui/spinner';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useSession } from '@/hooks/auth-hooks';
+import { cn } from '@/lib/utils';
+import { CopyButton } from './copy-button';
 import { useCreateRoom, useJoinRoom } from './use-room';
+
+function generateRandomRoomName(t: any) {
+  const nameParts = t('randomRoomNames', { returnObjects: true });
+  if (
+    nameParts
+    && typeof nameParts === 'object'
+    && 'adjectives' in nameParts
+    && 'nouns' in nameParts
+    && Array.isArray(nameParts.adjectives)
+    && Array.isArray(nameParts.nouns)
+    && nameParts.adjectives.length > 0
+    && nameParts.nouns.length > 0
+  ) {
+    const adj = nameParts.adjectives[Math.floor(Math.random() * nameParts.adjectives.length)];
+    const noun = nameParts.nouns[Math.floor(Math.random() * nameParts.nouns.length)];
+    return `${adj} ${noun}`;
+  }
+  return t('default-room-name');
+}
 
 interface RoomDialogProps {
   gameType: string;
@@ -26,6 +49,19 @@ interface RoomDialogProps {
   onRoomJoined: (room: Room) => void;
   open: boolean;
   onOpenChange: (open: boolean) => void;
+}
+
+function extractRoomId(value: string): string {
+  try {
+    const url = new URL(value);
+    const roomIdInQuery = url.searchParams.get('room');
+    if (roomIdInQuery) {
+      return roomIdInQuery;
+    }
+  }
+  catch {
+  }
+  return value.trim();
 }
 
 export function RoomDialog({
@@ -39,38 +75,35 @@ export function RoomDialog({
 }: RoomDialogProps) {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
-
+  const [searchParams] = useSearchParams();
   const { user } = useSession();
+
+  // State for multi-step form
+  const [createStep, setCreateStep] = useState(1);
+  const [copied, setCopied] = useState<'url' | null>(null);
+
+  // Generate random name only once using useMemo
+  const randomRoomName = useMemo(() => generateRandomRoomName(t), [t]);
+
   const { mutate: createRoom, data: room, isPending, isError } = useCreateRoom({
     onSuccess: (room) => {
       onRoomCreated(room);
-      onOpenChange(false);
     },
   });
 
-  const { mutate: joinRoom, isPending: isJoining, isError: isJoiningError } = useJoinRoom({
+  const { mutate: joinRoom, isError: isJoiningError } = useJoinRoom({
     onSuccess: (room: Room) => {
       onRoomJoined(room);
       onOpenChange(false);
-
       const lang = i18n.language;
       navigate(`/${lang}/${gameType}?mode=multiplayer&room=${room.id}&host=false`);
     },
   });
 
-  const [joinRoomId, setJoinRoomId] = useState('');
-  const [playerName, setPlayerName] = useState('');
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    setValue,
-    control,
-  } = useForm<CreateRoomFormValues>({
+  const createForm = useForm<CreateRoomFormValues>({
     resolver: standardSchemaResolver(createGameRoomBaseSchema),
     defaultValues: {
-      name: '',
+      name: randomRoomName,
       maxPlayers: 4,
       gameType,
       isPrivate: false,
@@ -78,152 +111,373 @@ export function RoomDialog({
     },
   });
 
-  const roomUrl = room ? `${window.location.origin}/game/${room.id}` : '';
+  const joinForm = useForm<JoinRoomFormValues>({
+    resolver: standardSchemaResolver(joinRoomFormSchema),
+    defaultValues: {
+      playerName: user?.name || '',
+      roomId: searchParams.get('room') || '',
+    },
+  });
+
+  const roomUrl = room ? `${window.location.origin}/${i18n.language}/${gameType}?mode=multiplayer&room=${room.id}` : '';
   const isRTL = i18n.language === 'ar';
 
-  function copyToClipboard(text: string) {
-    navigator.clipboard.writeText(text);
-  }
+  const handleCopy = async (text: string, type: 'url') => {
+    await navigator.clipboard.writeText(text);
+    setCopied(type);
+    setTimeout(() => setCopied(null), 2000);
+  };
 
-  function handleJoinGame() {
-    if (joinRoomId.trim() && playerName.trim()) {
-      joinRoom({ roomId: joinRoomId.trim(), playerName: playerName.trim() });
+  const handleCreateSubmit = (values: CreateRoomFormValues) => {
+    if (createStep === 1) {
+      setCreateStep(2);
+      return;
     }
-  }
 
-  const onSubmit = (values: CreateRoomFormValues) => {
     const roomData = {
       ...values,
       ...gameSettings,
       gameType,
     };
-
     createRoom(roomData);
   };
 
+  const handleJoinSubmit = (values: JoinRoomFormValues) => {
+    const roomId = extractRoomId(values.roomId);
+    joinRoom({ roomId, playerName: values.playerName });
+  };
+
+  const handleBackInCreate = () => {
+    if (createStep === 2 && !room) {
+      setCreateStep(1);
+    }
+  };
+
+  const handleDialogClose = (open: boolean) => {
+    if (!open && !room) {
+      setCreateStep(1);
+      createForm.reset({
+        name: generateRandomRoomName(t),
+        maxPlayers: 4,
+        gameType,
+        isPrivate: false,
+        hostPlayerName: user?.name || '',
+      });
+    }
+    onOpenChange(open);
+  };
+
   const isPrivate = useWatch({
-    control,
+    control: createForm.control,
     name: 'isPrivate',
     defaultValue: false,
   });
+
+  const maxPlayers = useWatch({
+    control: createForm.control,
+    name: 'maxPlayers',
+    defaultValue: 4,
+  });
+
   return (
     <DirectionProvider dir={isRTL ? 'rtl' : 'ltr'}>
-      <Dialog open={open} onOpenChange={onOpenChange}>
-        <DialogContent>
+      <Dialog open={open} onOpenChange={handleDialogClose}>
+        <DialogContent className="sm:max-w-[500px] p-6 flex flex-col max-h-[90vh]">
           <DialogHeader>
             <DialogTitle>{t('play-online')}</DialogTitle>
+            <DialogDescription>{t('room.dialog.description')}</DialogDescription>
           </DialogHeader>
-          <Tabs defaultValue="create-room">
+
+          <Tabs defaultValue="create-room" className="flex-1 flex flex-col min-h-0">
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="create-room">{t('create-room')}</TabsTrigger>
               <TabsTrigger value="join-room">{t('join-room')}</TabsTrigger>
             </TabsList>
-            <TabsContent value="create-room">
-              {isError && <p className="text-red-500">{t('create-room-error')}</p>}
+
+            {/* CREATE ROOM TAB */}
+            <TabsContent value="create-room" className="flex-1 flex flex-col mt-4 min-h-0">
+              {isError && <p className="text-red-500 text-sm mb-4">{t('create-room-error')}</p>}
+
               {isPending
                 ? (
-                    <p>{t('creating-room')}</p>
+                    <>
+                      <div className="shrink-0 h-12"></div>
+
+                      {/* Loading content */}
+                      <div className="flex-1 flex items-center justify-center">
+                        <Spinner />
+                      </div>
+
+                      {/* Placeholder for button area to maintain consistent height */}
+                      <div className="mt-4 pt-4 h-16"></div>
+                    </>
                   )
                 : room
                   ? (
                       <div className="space-y-4">
-                        <p>{t('room-created')}</p>
-                        {renderGameSettings}
-                        <div>
-                          <Label htmlFor="room-url">{t('room-url')}</Label>
-                          <div className="flex items-center gap-2 mt-1">
-                            <Input id="room-url" value={roomUrl} readOnly />
-                            <Button onClick={() => copyToClipboard(roomUrl)}>{t('copy-url')}</Button>
+                        {/* Success State - kept as is */}
+                        <div className="text-center py-4">
+                          <div className="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-3">
+                            <Check className="w-6 h-6 text-green-600" />
+                          </div>
+                          <p className="font-semibold text-primary text-lg">{t('room-created')}</p>
+                          <p className="text-sm text-muted-foreground">{t('share-code-with-players')}</p>
+                        </div>
+                        {renderGameSettings && (
+                          <div className="space-y-2">
+                            {renderGameSettings}
+                          </div>
+                        )}
+                        <div className="space-y-3">
+                          <div className="bg-primary/5 border-2 border-primary/20 rounded-lg p-4">
+                            <Label htmlFor="room-code" className="text-sm font-medium mb-2 block">
+                              {t('room-code')}
+                            </Label>
+                            <div className="flex items-center gap-2">
+                              <code className="flex-1 text-2xl font-bold font-mono text-primary">
+                                {room.id}
+                              </code>
+                              <CopyButton text={room.id} variant="outline" />
+                            </div>
+                          </div>
+                          <div>
+                            <Label htmlFor="room-url" className="text-sm font-medium mb-2 block">
+                              {t('room-url')}
+                            </Label>
+                            <div
+                              className="relative group bg-primary/5 border-2 border-primary/20 rounded-lg p-4 cursor-pointer hover:bg-primary/10 hover:border-primary/30 transition-all duration-200 active:scale-[0.99]"
+                              onClick={() => handleCopy(roomUrl, 'url')}
+                            >
+                              <div className="flex items-center justify-between gap-3">
+                                <span className="font-mono text-sm text-primary truncate flex-1">
+                                  {roomUrl}
+                                </span>
+                                <div className="shrink-0">
+                                  {copied === 'url'
+                                    ? (
+                                        <div className="flex items-center gap-1.5 text-green-600 animate-in fade-in duration-200">
+                                          <Check className="h-4 w-4" />
+                                          <span className="text-xs font-medium">{t('copied')}</span>
+                                        </div>
+                                      )
+                                    : (
+                                        <div className="flex items-center gap-1.5 text-muted-foreground group-hover:text-primary transition-colors">
+                                          <Copy className="h-4 w-4" />
+                                          <span className="text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity">
+                                            {t('copy-url')}
+                                          </span>
+                                        </div>
+                                      )}
+                                </div>
+                              </div>
+                            </div>
                           </div>
                         </div>
-                        <div>
-                          <Label htmlFor="room-id">{t('room-code')}</Label>
-                          <div className="flex items-center gap-2 mt-1">
-                            <Input id="room-id" value={room.id} readOnly />
-                            <Button onClick={() => copyToClipboard(room.id)}>{t('copy-code')}</Button>
-                          </div>
-                        </div>
+                        <Button
+                          onClick={() => {
+                            handleDialogClose(false);
+                            const lang = i18n.language;
+                            navigate(`/${lang}/${gameType}?mode=multiplayer&room=${room.id}&host=true`);
+                          }}
+                          className="w-full"
+                        >
+                          {t('start-game')}
+                        </Button>
                       </div>
                     )
                   : (
-                      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                        <div className="space-y-2">
-                          <Label htmlFor="name">{t('room-name')}</Label>
-                          <Input
-                            id="name"
-                            type="text"
-                            placeholder={t('room-name-placeholder')}
-                            {...register('name')}
-                          />
-                          {errors.name && <p className="text-red-500 text-sm mt-1">{t(errors.name.message as string)}</p>}
+                      <form onSubmit={createForm.handleSubmit(handleCreateSubmit)} className="flex flex-col h-full">
+                        {/* Step indicator - fixed at top */}
+                        <div className="shrink-0 space-y-2 mb-4">
+                          <div className="flex items-center justify-between text-sm">
+                            {createStep === 2 && (
+                              <Button
+                                type="button"
+                                variant="ghost"
+                                size="sm"
+                                onClick={handleBackInCreate}
+                                className="h-auto p-2 text-muted-foreground hover:text-foreground"
+                              >
+                                {t('common.back')}
+                              </Button>
+                            )}
+                            <span className="text-muted-foreground ml-auto">
+                              {t('step')}
+                              {' '}
+                              {createStep}
+                              {' '}
+                              {t('of')}
+                              {' '}
+                              2
+                            </span>
+                          </div>
+                          <div className="flex gap-2">
+                            <div className={cn('flex-1 h-1 rounded-full', createStep >= 1 ? 'bg-primary' : 'bg-muted')} />
+                            <div className={cn('flex-1 h-1 rounded-full', createStep >= 2 ? 'bg-primary' : 'bg-muted')} />
+                          </div>
                         </div>
 
-                        {renderGameSettings}
+                        {/* Form content - takes available space */}
+                        <div className="flex-1 overflow-y-auto min-h-0 px-2">
+                          {/* STEP 1: Basic Info */}
+                          {createStep === 1 && (
+                            <div className="space-y-4">
+                              <div className="space-y-2">
+                                <Label htmlFor="name">{t('room-name')}</Label>
+                                <Input
+                                  id="name"
+                                  type="text"
+                                  placeholder={t('room-name-placeholder')}
+                                  {...createForm.register('name')}
+                                />
+                                {createForm.formState.errors.name && (
+                                  <p className="text-red-500 text-sm">{t(createForm.formState.errors.name.message as string)}</p>
+                                )}
+                              </div>
+                              <div className="space-y-2">
+                                <Label htmlFor="host-player-name">{t('your-name')}</Label>
+                                <Input
+                                  id="host-player-name"
+                                  type="text"
+                                  placeholder={t('your-name-placeholder')}
+                                  {...createForm.register('hostPlayerName')}
+                                />
+                                {createForm.formState.errors.hostPlayerName && (
+                                  <p className="text-red-500 text-sm">{t(createForm.formState.errors.hostPlayerName.message as string)}</p>
+                                )}
+                              </div>
+                            </div>
+                          )}
 
-                        <div className="space-y-2">
-                          <Label htmlFor="maxPlayers">{t('max-players')}</Label>
-                          <Input
-                            id="maxPlayers"
-                            type="number"
-                            {...register('maxPlayers', { valueAsNumber: true })}
-                            min={2}
-                            max={8}
-                          />
-                          {errors.maxPlayers && <p className="text-red-500 text-sm mt-1">{errors.maxPlayers.message}</p>}
+                          {/* STEP 2: Settings */}
+                          {createStep === 2 && (
+                            <div className="space-y-4">
+                              {renderGameSettings}
+                              <div className="space-y-2">
+                                <Label htmlFor="maxPlayers">{t('max-players')}</Label>
+                                <div className="grid grid-cols-4 gap-2">
+                                  {[2, 4, 6, 8].map(num => (
+                                    <Button
+                                      key={num}
+                                      type="button"
+                                      variant={maxPlayers === num ? 'default' : 'outline'}
+                                      onClick={() => createForm.setValue('maxPlayers', num)}
+                                      className="w-full"
+                                    >
+                                      {num}
+                                    </Button>
+                                  ))}
+                                </div>
+                                {createForm.formState.errors.maxPlayers && (
+                                  <p className="text-red-500 text-sm">{t(createForm.formState.errors.maxPlayers.message as string)}</p>
+                                )}
+                              </div>
+
+                              <div className="space-y-3">
+                                <Label>{t('room-privacy')}</Label>
+                                <ItemGroup className="space-y-2">
+                                  <Item
+                                    variant="outline"
+                                    className={cn(
+                                      'cursor-pointer items-start transition-all hover:bg-accent hover:border-primary/50',
+                                      !isPrivate ? 'border-primary bg-primary/5 ring-1 ring-primary' : 'border-border',
+                                    )}
+                                    onClick={() => createForm.setValue('isPrivate', false)}
+                                  >
+                                    <ItemContent>
+                                      <ItemTitle className="flex items-center gap-2">
+                                        <Globe className="w-4 h-4" />
+                                        {t('public-room')}
+                                      </ItemTitle>
+                                      <ItemDescription>
+                                        {t('public-room-desc')}
+                                      </ItemDescription>
+                                    </ItemContent>
+                                  </Item>
+
+                                  {/* Private Room Item */}
+                                  <Item
+                                    variant="outline"
+                                    className={cn(
+                                      'cursor-pointer items-start transition-all hover:bg-accent hover:border-primary/50',
+                                      isPrivate ? 'border-primary bg-primary/5 ring-1 ring-primary' : 'border-border',
+                                    )}
+                                    onClick={() => createForm.setValue('isPrivate', true)}
+                                  >
+                                    <ItemContent>
+                                      <ItemTitle className="flex items-center gap-2">
+                                        <Lock className="w-4 h-4" />
+                                        {t('private-room')}
+                                      </ItemTitle>
+                                      <ItemDescription>
+                                        {t('private-room-desc')}
+                                      </ItemDescription>
+                                    </ItemContent>
+                                  </Item>
+                                </ItemGroup>
+                              </div>
+                            </div>
+                          )}
                         </div>
-                        <div className="space-y-2">
-                          <Label htmlFor="host-player-name">{t('your-name')}</Label>
-                          <Input
-                            id="host-player-name"
-                            type="text"
-                            placeholder={t('your-name-placeholder')}
-                            {...register('hostPlayerName')}
-                            required
-                          />
-                          {errors.hostPlayerName && <p className="text-red-500 text-sm mt-1">{errors.hostPlayerName.message}</p>}
+
+                        {/* Button fixed at bottom */}
+                        <div className="mt-4 pt-4">
+                          <Button type="submit" className="w-full" disabled={isPending}>
+                            {createStep === 1
+                              ? (
+                                  <>
+                                    {t('common.next')}
+                                    {isRTL ? <AltArrowLeftIcon className="h-4 w-4 rtl:mr-2 ml-2" /> : <AltArrowRightIcon className="h-4 w-4 rtl:mr-2 ml-2" />}
+                                  </>
+                                )
+                              : (
+                                  t('create-room')
+                                )}
+                          </Button>
                         </div>
-                        <div className="flex items-center space-x-2">
-                          <Checkbox
-                            id="isPrivate"
-                            checked={isPrivate}
-                            onCheckedChange={checked => setValue('isPrivate', Boolean(checked))}
-                          />
-                          <Label htmlFor="isPrivate">{t('private-room')}</Label>
-                        </div>
-                        <Button type="submit">{t('create-room')}</Button>
                       </form>
                     )}
             </TabsContent>
-            <TabsContent value="join-room">
-              {/* TODO refactor this to use RHF with shared zod schema this is temporary */}
-              <div className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="player-name">{t('your-name')}</Label>
-                  <Input
-                    id="player-name"
-                    type="text"
-                    placeholder={t('your-name-placeholder')}
-                    value={playerName}
-                    onChange={e => setPlayerName(e.target.value)}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="join-room-id">{t('enter-room-code')}</Label>
-                  <div className="flex items-.center gap-2">
+
+            {/* JOIN ROOM TAB */}
+            <TabsContent value="join-room" className="flex-1 flex flex-col mt-4 min-h-0">
+              <form onSubmit={joinForm.handleSubmit(handleJoinSubmit)} className="flex-1 flex flex-col min-h-0">
+                <div className="flex-1 space-y-4 overflow-y-auto min-h-0">
+                  <div className="space-y-2">
+                    <Label htmlFor="player-name">{t('your-name')}</Label>
+                    <Input
+                      id="player-name"
+                      type="text"
+                      placeholder={t('your-name-placeholder')}
+                      {...joinForm.register('playerName')}
+                    />
+                    {joinForm.formState.errors.playerName && (
+                      <p className="text-red-500 text-sm">{t(joinForm.formState.errors.playerName.message as string)}</p>
+                    )}
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="join-room-id">{t('enter-room-code')}</Label>
                     <Input
                       id="join-room-id"
                       type="text"
-                      placeholder={t('enter-room-code')}
-                      value={joinRoomId}
-                      onChange={e => setJoinRoomId(e.target.value)}
+                      placeholder={t('enter-room-code-or-link')}
+                      {...joinForm.register('roomId')}
+                      className="font-mono"
                     />
-                    <Button onClick={handleJoinGame} disabled={isJoining}>
-                      {isJoining ? t('joining...') : t('join')}
-                    </Button>
+                    {joinForm.formState.errors.roomId && (
+                      <p className="text-red-500 text-sm">{t(joinForm.formState.errors.roomId.message as string)}</p>
+                    )}
                   </div>
-                  {isJoiningError && <p className="text-red-500">{t('join-room-error')}</p>}
                 </div>
-              </div>
+                <div className="mt-4 pt-4">
+                  <Button type="submit" className="w-full">
+                    {t('join')}
+                  </Button>
+                  {isJoiningError && (
+                    <p className="text-red-500 text-sm text-center mt-2">{t('join-room-error')}</p>
+                  )}
+                </div>
+              </form>
             </TabsContent>
           </Tabs>
         </DialogContent>
