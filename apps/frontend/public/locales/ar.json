@@ -225,6 +225,7 @@
       "roundsToWin": "جولات الفوز",
       "roundsUnit": "{{rounds}} جولات",
       "startGame": "ابدأ اللعبة",
+      "settingsDisabled": "لا يمكن تغيير إعدادات اللعبة إلا من قبل الهوست",
       "startRequirement": "يجب أن يكون جميع اللاعبين جاهزين للبدء (لاعبان على الأقل)",
       "nameAlreadyExists": "هذا الاسم مستخدم بالفعل",
       "nameRequired": "الرجاء إدخال اسم",

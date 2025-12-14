@@ -225,6 +225,7 @@
       "maxPlayersReached": "Maximum number of players reached",
       "playerAdded": "{{name}} joined the game!",
       "maxPlayersInfo": "Maximum number of players reached",
+      "settingsDisabled": "Only the host can change game settings.",
       "currentPlayers": "Current players",
       "removePlayer": "Remove {{name}}",
       "ready": "Ready",

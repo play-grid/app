@@ -8,6 +8,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { Timer, Trophy } from 'lucide-react';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import {
@@ -17,7 +18,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
+import { useRoomPermissions } from '@/context/room-permissions';
+import { cn } from '@/lib/utils';
 import { logger } from '@/utils/logger';
+
 import { useCategories } from '../hooks/use-categories';
 import { getCategoryById } from '../services/category.service';
 
@@ -25,13 +34,17 @@ export function GameSettings() {
   const { t, i18n } = useTranslation();
   const queryClient = useQueryClient();
 
-  const { settings } = useFiveSecondsState();
+  const { players, settings } = useFiveSecondsState();
   const { updateSettings } = useFiveSecondsActions();
   const { data: categories } = useCategories({
     language: i18n.language as SupportedLanguage,
   });
 
-  const language = (i18n.language.startsWith('ar') ? 'ar' : 'en') as SupportedLanguage;
+  const permissions = useRoomPermissions(players);
+  const canEdit = permissions.canEditSettings;
+
+  const language
+    = (i18n.language.startsWith('ar') ? 'ar' : 'en') as SupportedLanguage;
 
   const handleCategoryChange = async (categoryId: string) => {
     if (!settings.categoryIds)
@@ -68,8 +81,12 @@ export function GameSettings() {
     });
   }, [settings.categoryIds, language, queryClient]);
 
-  return (
-    <div className="space-y-6">
+  const content = (
+    <div
+      className={cn('space-y-6', {
+        'opacity-50': !canEdit,
+      })}
+    >
       {/* Difficulty */}
       <div className="space-y-2">
         <Label>{t('fiveSecondsGame.lobby.difficulty')}</Label>
@@ -143,7 +160,9 @@ export function GameSettings() {
             {[3, 5, 7].map(rounds => (
               <Button
                 key={rounds}
-                variant={settings.roundsToWin === rounds ? 'default' : 'outline'}
+                variant={
+                  settings.roundsToWin === rounds ? 'default' : 'outline'
+                }
                 onClick={() => updateSettings({ roundsToWin: rounds })}
                 className="flex-1"
               >
@@ -155,4 +174,22 @@ export function GameSettings() {
       </div>
     </div>
   );
+
+  if (!canEdit) {
+    return (
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <div className="relative cursor-not-allowed">
+            <div className="absolute inset-0 z-10" />
+            {content}
+          </div>
+        </TooltipTrigger>
+        <TooltipContent>
+          <p>{t('fiveSecondsGame.lobby.settingsDisabled')}</p>
+        </TooltipContent>
+      </Tooltip>
+    );
+  }
+
+  return content;
 }

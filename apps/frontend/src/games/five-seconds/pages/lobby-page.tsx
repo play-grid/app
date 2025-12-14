@@ -8,7 +8,6 @@ import { Info, Play, Settings } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
-  createSearchParams,
   useNavigate,
   useSearchParams,
 } from 'react-router-dom';
@@ -18,6 +17,7 @@ import { Card } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { RoomDialog } from '@/features/room/room-dialog';
 import { RoomHeader } from '@/features/room/room-stats-header';
+import { useClearSession } from '@/features/room/use-session-cleanup';
 import { GameInstructions } from '../components/game-instructions';
 import { GameSettings } from '../components/game-settings';
 import { PlayerList } from '../components/player-list';
@@ -31,7 +31,8 @@ export function FiveSecondsLobby() {
   const { players, settings } = useFiveSecondsState();
   const { startGame } = useFiveSecondsActions();
   useUrlSyncedSettingsOnly();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams, _setSearchParams] = useSearchParams();
+  const clearSession = useClearSession();
 
   const mode = searchParams.get('mode') || 'local';
   const roomId = searchParams.get('room');
@@ -69,14 +70,13 @@ export function FiveSecondsLobby() {
 
   const handleModeSwitch = (newMode: 'local' | 'multiplayer') => {
     if (newMode === 'multiplayer') {
+      localStorage.removeItem('five-seconds-game:v1');
       setIsRoomDialogOpen(true);
     }
     else {
-      const newSearchParams = createSearchParams();
-      newSearchParams.set('mode', 'local');
-      newSearchParams.delete('room');
-      newSearchParams.delete('host');
-      setSearchParams(newSearchParams);
+      clearSession();
+      localStorage.removeItem('five-seconds-game:v1');
+      window.location.assign(`/${i18n.language}/five-seconds?mode=local`);
     }
   };
 

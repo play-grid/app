@@ -11,6 +11,8 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { UsersIcon } from '@/components/ui/icons';
 import { Input } from '@/components/ui/input';
+import { useRoomPermissions } from '@/context/room-permissions';
+import { useRoomSession } from '@/features/room/room-store';
 import { cn } from '@/lib/utils';
 
 // Zod schema for player name validation
@@ -29,12 +31,16 @@ export function PlayerList() {
   const { t } = useTranslation();
   const { players } = useFiveSecondsState();
   const { addPlayer, removePlayer } = useFiveSecondsActions();
+  const permissions = useRoomPermissions(players);
+  const { session } = useRoomSession();
 
   const [playerName, setPlayerName] = useState('');
   const [exiting, setExiting] = useState<string[]>([]);
   const [entering, setEntering] = useState<string[]>([]);
 
   const [validationError, setValidationError] = useState<string>('');
+
+  const isMultiplayer = !!session;
 
   const validatePlayerName = (name: string): boolean => {
     const playerNameSchema = createPlayerNameSchema(t);
@@ -139,48 +145,50 @@ export function PlayerList() {
         </h2>
       </div>
 
-      {/* Add Player Form */}
-      <div className="space-y-2">
-        <div className="flex gap-2">
-          <div className="flex-1">
-            <Input
-              placeholder={t('fiveSecondsGame.lobby.enterYourName')}
-              value={playerName}
-              onChange={e => handleInputChange(e.target.value)}
-              onKeyDown={e => e.key === 'Enter' && !isAddButtonDisabled && handleAddPlayer()}
-              className={`bg-background border-border ${validationError ? 'border-destructive focus-visible:ring-destructive' : ''}`}
-              maxLength={20}
-              aria-label={t('fiveSecondsGame.lobby.enterYourName')}
-              aria-invalid={!!validationError}
-              aria-describedby={validationError ? 'player-name-error' : undefined}
-              disabled={isMaxPlayersReached}
-            />
-            {validationError && (
-              <p
-                id="player-name-error"
-                className="text-sm text-destructive mt-1.5 flex items-center gap-1"
-                role="alert"
-              >
-                <span aria-hidden="true">⚠</span>
-                {validationError}
-              </p>
-            )}
+      {/* Add Player Form - Only show for host in multiplayer or for everyone in local mode */}
+      {!isMultiplayer && (
+        <div className="space-y-2">
+          <div className="flex gap-2">
+            <div className="flex-1">
+              <Input
+                placeholder={t('fiveSecondsGame.lobby.enterYourName')}
+                value={playerName}
+                onChange={e => handleInputChange(e.target.value)}
+                onKeyDown={e => e.key === 'Enter' && !isAddButtonDisabled && handleAddPlayer()}
+                className={`bg-background border-border ${validationError ? 'border-destructive focus-visible:ring-destructive' : ''}`}
+                maxLength={20}
+                aria-label={t('fiveSecondsGame.lobby.enterYourName')}
+                aria-invalid={!!validationError}
+                aria-describedby={validationError ? 'player-name-error' : undefined}
+                disabled={isMaxPlayersReached}
+              />
+              {validationError && (
+                <p
+                  id="player-name-error"
+                  className="text-sm text-destructive mt-1.5 flex items-center gap-1"
+                  role="alert"
+                >
+                  <span aria-hidden="true">⚠</span>
+                  {validationError}
+                </p>
+              )}
+            </div>
+            <Button
+              onClick={handleAddPlayer}
+              disabled={isAddButtonDisabled}
+              aria-label={t('fiveSecondsGame.lobby.join')}
+            >
+              {t('fiveSecondsGame.lobby.join')}
+            </Button>
           </div>
-          <Button
-            onClick={handleAddPlayer}
-            disabled={isAddButtonDisabled}
-            aria-label={t('fiveSecondsGame.lobby.join')}
-          >
-            {t('fiveSecondsGame.lobby.join')}
-          </Button>
-        </div>
 
-        {isMaxPlayersReached && (
-          <p className="text-sm text-muted-foreground">
-            {t('fiveSecondsGame.lobby.maxPlayersInfo')}
-          </p>
-        )}
-      </div>
+          {isMaxPlayersReached && (
+            <p className="text-sm text-muted-foreground">
+              {t('fiveSecondsGame.lobby.maxPlayersInfo')}
+            </p>
+          )}
+        </div>
+      )}
 
       {/* Player List */}
       <div
@@ -209,7 +217,7 @@ export function PlayerList() {
 
                   <div className="flex items-center gap-3 flex-1 min-w-0">
                     <div
-                      className="w-10 h-10 rounded-full bg-accent flex items-center justify-center text-accent-foreground font-bold flex-shrink-0"
+                      className="w-10 h-10 rounded-full bg-accent flex items-center justify-center text-accent-foreground font-bold shrink-0"
                       aria-hidden="true"
                     >
                       {player.name[0].toUpperCase()}
@@ -224,15 +232,29 @@ export function PlayerList() {
                     </div>
                   </div>
 
-                  <Button
-                    size="sm"
-                    variant="destructive"
-                    onClick={() => handleRemovePlayer(player)}
-                    aria-label={t('fiveSecondsGame.lobby.removePlayer', { name: player.name })}
-                    className="flex-shrink-0"
-                  >
-                    {t('fiveSecondsGame.lobby.remove')}
-                  </Button>
+                  {(!isMultiplayer || (permissions.canKickPlayers && player.id !== session?.playerId)) && (
+                    <Button
+                      size="sm"
+                      variant="destructive"
+                      onClick={() => handleRemovePlayer(player)}
+                      aria-label={t('fiveSecondsGame.lobby.removePlayer', { name: player.name })}
+                      className="shrink-0"
+                    >
+                      {t('fiveSecondsGame.lobby.remove')}
+                    </Button>
+                  )}
+
+                  {!permissions.canKickPlayers && isMultiplayer && player.id !== session?.playerId && (
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => toast.info('Vote to kick feature coming soon')}
+                      aria-label={`Vote to kick ${player.name}`}
+                      className="shrink-0"
+                    >
+                      Vote to Kick
+                    </Button>
+                  )}
                 </div>
               ))
             )}

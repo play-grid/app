@@ -2,6 +2,7 @@ import { difficultySchema, fiveSecondsGame, FiveSecondsGameStateSchema } from '@
 import { AdapterProvider } from '@guess-logo/game-core';
 import { lazy, useEffect, useMemo } from 'react';
 import { Route, Routes, useLocation, useSearchParams } from 'react-router-dom';
+import { useRoomSession } from '@/features/room/room-store';
 import { destroyAdapter, getOrCreateAdapter } from '@/lib/adapter-instance';
 import NotFoundPage from '@/pages/not-found-page';
 
@@ -11,16 +12,19 @@ export default function FiveSecondsRoutes() {
   const location = useLocation();
   const lang = location.pathname.split('/')[1];
   const [searchParams] = useSearchParams();
+  const { session } = useRoomSession();
 
-  const mode = searchParams.get('mode') || 'local';
   const roomId = searchParams.get('room');
+  const mode = (roomId && searchParams.get('mode') === 'multiplayer') ? 'multiplayer' : 'local';
 
   const urlDifficulty = searchParams.get('difficulty');
   const urlCategories = searchParams.get('categories');
 
   const validatedInitialState = useMemo(() => {
+    const baseState = session?.initialGameState || fiveSecondsGame.initialState;
+
     const initialSettingsFromUrl: Partial<
-    typeof fiveSecondsGame.initialState.settings
+      typeof fiveSecondsGame.initialState.settings
     > = {};
 
     if (urlDifficulty) {
@@ -38,24 +42,47 @@ export default function FiveSecondsRoutes() {
     }
 
     const initialStateWithUrlSettings = {
-      ...fiveSecondsGame.initialState,
+      ...baseState,
       settings: {
-        ...fiveSecondsGame.initialState.settings,
+        ...baseState.settings,
         ...initialSettingsFromUrl,
       },
     };
     return FiveSecondsGameStateSchema.parse(initialStateWithUrlSettings);
-  }, [urlDifficulty, urlCategories]);
+  }, [urlDifficulty, urlCategories, session?.initialGameState]);
 
   const adapter = useMemo(() => {
-    return getOrCreateAdapter(fiveSecondsGame, {
-      mode: mode as 'local' | 'multiplayer',
-      roomId: roomId ?? undefined,
-      initialState: validatedInitialState,
-      persistenceKey: 'five-seconds-game:v1',
-    });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [roomId, mode]);
+    const hasValidSession = session?.roomId === roomId && session?.credentials;
+    const isMultiplayer = mode === 'multiplayer' && roomId && hasValidSession;
+
+    const identifier = isMultiplayer ? `multiplayer-${roomId}` : 'local';
+
+    if (isMultiplayer) {
+      return getOrCreateAdapter(
+        fiveSecondsGame,
+        {
+          mode: 'multiplayer',
+          roomId: roomId!,
+          playerId: session.playerId,
+          credentials: session.credentials,
+          initialState: validatedInitialState,
+          persistenceKey: 'five-seconds-game:v1',
+        },
+        identifier,
+      );
+    }
+
+    // Fallback to local mode
+    return getOrCreateAdapter(
+      fiveSecondsGame,
+      {
+        mode: 'local',
+        initialState: validatedInitialState,
+        persistenceKey: 'five-seconds-game:v1',
+      },
+      identifier,
+    );
+  }, [roomId, mode, session, validatedInitialState]);
 
   useEffect(() => {
     return () => {

@@ -15,6 +15,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useSession } from '@/hooks/auth-hooks';
 import { useCreateRoom, useJoinRoom } from './use-room';
 
 interface RoomDialogProps {
@@ -39,12 +40,14 @@ export function RoomDialog({
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
 
+  const { user } = useSession();
   const { mutate: createRoom, data: room, isPending, isError } = useCreateRoom({
     onSuccess: (room) => {
       onRoomCreated(room);
       onOpenChange(false);
     },
   });
+
   const { mutate: joinRoom, isPending: isJoining, isError: isJoiningError } = useJoinRoom({
     onSuccess: (room: Room) => {
       onRoomJoined(room);
@@ -54,6 +57,7 @@ export function RoomDialog({
       navigate(`/${lang}/${gameType}?mode=multiplayer&room=${room.id}&host=false`);
     },
   });
+
   const [joinRoomId, setJoinRoomId] = useState('');
   const [playerName, setPlayerName] = useState('');
 
@@ -70,6 +74,7 @@ export function RoomDialog({
       maxPlayers: 4,
       gameType,
       isPrivate: false,
+      hostPlayerName: user?.name || '',
     },
   });
 
@@ -92,6 +97,7 @@ export function RoomDialog({
       ...gameSettings,
       gameType,
     };
+
     createRoom(roomData);
   };
 
@@ -164,6 +170,17 @@ export function RoomDialog({
                             max={8}
                           />
                           {errors.maxPlayers && <p className="text-red-500 text-sm mt-1">{errors.maxPlayers.message}</p>}
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="host-player-name">{t('your-name')}</Label>
+                          <Input
+                            id="host-player-name"
+                            type="text"
+                            placeholder={t('your-name-placeholder')}
+                            {...register('hostPlayerName')}
+                            required
+                          />
+                          {errors.hostPlayerName && <p className="text-red-500 text-sm mt-1">{errors.hostPlayerName.message}</p>}
                         </div>
                         <div className="flex items-center space-x-2">
                           <Checkbox
