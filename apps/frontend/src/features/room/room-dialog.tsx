@@ -1,14 +1,14 @@
-import type { CreateRoomFormValues, JoinRoomFormValues } from '@guess-logo/api/schemas';
+import type { CreateRoomFormValues } from '@guess-logo/api/schemas';
 import type { Room } from '@guess-logo/shared/schemas';
 import type { ReactNode } from 'react';
-import { createGameRoomBaseSchema, joinRoomFormSchema } from '@guess-logo/api/schemas';
-import { standardSchemaResolver } from '@hookform/resolvers/standard-schema';
+import { createGameRoomBaseSchema } from '@guess-logo/api/schemas';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { DirectionProvider } from '@radix-ui/react-direction';
 import { Check, Copy, Globe, Lock } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { AltArrowLeftIcon, AltArrowRightIcon } from '@/components/ui/icons';
@@ -20,7 +20,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useSession } from '@/hooks/auth-hooks';
 import { cn } from '@/lib/utils';
 import { CopyButton } from './copy-button';
-import { useCreateRoom, useJoinRoom } from './use-room';
+import { JoinRoomForm } from './join-room-form';
+import { useCreateRoom } from './use-room';
 
 function generateRandomRoomName(t: any) {
   const nameParts = t('randomRoomNames', { returnObjects: true });
@@ -51,19 +52,6 @@ interface RoomDialogProps {
   onOpenChange: (open: boolean) => void;
 }
 
-function extractRoomId(value: string): string {
-  try {
-    const url = new URL(value);
-    const roomIdInQuery = url.searchParams.get('room');
-    if (roomIdInQuery) {
-      return roomIdInQuery;
-    }
-  }
-  catch {
-  }
-  return value.trim();
-}
-
 export function RoomDialog({
   gameType,
   gameSettings,
@@ -75,14 +63,12 @@ export function RoomDialog({
 }: RoomDialogProps) {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
   const { user } = useSession();
 
   // State for multi-step form
   const [createStep, setCreateStep] = useState(1);
   const [copied, setCopied] = useState<'url' | null>(null);
 
-  // Generate random name only once using useMemo
   const randomRoomName = useMemo(() => generateRandomRoomName(t), [t]);
 
   const { mutate: createRoom, data: room, isPending, isError } = useCreateRoom({
@@ -91,31 +77,14 @@ export function RoomDialog({
     },
   });
 
-  const { mutate: joinRoom, isError: isJoiningError } = useJoinRoom({
-    onSuccess: (room: Room) => {
-      onRoomJoined(room);
-      onOpenChange(false);
-      const lang = i18n.language;
-      navigate(`/${lang}/${gameType}?mode=multiplayer&room=${room.id}&host=false`);
-    },
-  });
-
   const createForm = useForm<CreateRoomFormValues>({
-    resolver: standardSchemaResolver(createGameRoomBaseSchema),
+    resolver: zodResolver(createGameRoomBaseSchema),
     defaultValues: {
       name: randomRoomName,
       maxPlayers: 4,
       gameType,
       isPrivate: false,
       hostPlayerName: user?.name || '',
-    },
-  });
-
-  const joinForm = useForm<JoinRoomFormValues>({
-    resolver: standardSchemaResolver(joinRoomFormSchema),
-    defaultValues: {
-      playerName: user?.name || '',
-      roomId: searchParams.get('room') || '',
     },
   });
 
@@ -142,16 +111,11 @@ export function RoomDialog({
     createRoom(roomData);
   };
 
-  const handleJoinSubmit = (values: JoinRoomFormValues) => {
-    const roomId = extractRoomId(values.roomId);
-    joinRoom({ roomId, playerName: values.playerName });
-  };
-
-  const handleBackInCreate = () => {
-    if (createStep === 2 && !room) {
-      setCreateStep(1);
-    }
-  };
+  // const handleBackInCreate = () => {
+  //   if (createStep === 2 && !room) {
+  //     setCreateStep(1);
+  //   }
+  // };
 
   const handleDialogClose = (open: boolean) => {
     if (!open && !room) {
@@ -182,7 +146,7 @@ export function RoomDialog({
   return (
     <DirectionProvider dir={isRTL ? 'rtl' : 'ltr'}>
       <Dialog open={open} onOpenChange={handleDialogClose}>
-        <DialogContent className="sm:max-w-[500px] p-6 flex flex-col max-h-[90vh]">
+        <DialogContent className="sm:max-w-[500px] p-6 flex flex-col min-h-[66vh]">
           <DialogHeader>
             <DialogTitle>{t('play-online')}</DialogTitle>
             <DialogDescription>{t('room.dialog.description')}</DialogDescription>
@@ -286,11 +250,11 @@ export function RoomDialog({
                       </div>
                     )
                   : (
-                      <form onSubmit={createForm.handleSubmit(handleCreateSubmit)} className="flex flex-col h-full">
+                      <form onSubmit={createForm.handleSubmit(handleCreateSubmit)} className="flex flex-col flex-1 min-h-0">
                         {/* Step indicator - fixed at top */}
                         <div className="shrink-0 space-y-2 mb-4">
-                          <div className="flex items-center justify-between text-sm">
-                            {createStep === 2 && (
+                          <div className="flex flex-col items-start text-sm">
+                            {/* {createStep === 2 && (
                               <Button
                                 type="button"
                                 variant="ghost"
@@ -300,7 +264,7 @@ export function RoomDialog({
                               >
                                 {t('common.back')}
                               </Button>
-                            )}
+                            )} */}
                             <span className="text-muted-foreground ml-auto">
                               {t('step')}
                               {' '}
@@ -312,12 +276,22 @@ export function RoomDialog({
                             </span>
                           </div>
                           <div className="flex gap-2">
-                            <div className={cn('flex-1 h-1 rounded-full', createStep >= 1 ? 'bg-primary' : 'bg-muted')} />
-                            <div className={cn('flex-1 h-1 rounded-full', createStep >= 2 ? 'bg-primary' : 'bg-muted')} />
+                            <div
+                              className={cn(
+                                'flex-1 h-1 rounded-full cursor-pointer transition-colors',
+                                createStep >= 1 ? 'bg-primary hover:bg-primary/70' : 'bg-muted',
+                              )}
+                              onClick={() => setCreateStep(1)}
+                            />
+                            <button
+                              type="submit"
+                              className={cn(
+                                'flex-1 h-1 rounded-full cursor-pointer transition-colors',
+                                createStep >= 2 ? 'bg-primary hover:bg-primary/70' : 'bg-muted',
+                              )}
+                            />
                           </div>
                         </div>
-
-                        {/* Form content - takes available space */}
                         <div className="flex-1 overflow-y-auto min-h-0 px-2">
                           {/* STEP 1: Basic Info */}
                           {createStep === 1 && (
@@ -420,8 +394,7 @@ export function RoomDialog({
                           )}
                         </div>
 
-                        {/* Button fixed at bottom */}
-                        <div className="mt-4 pt-4">
+                        <div className="shrink-0 mt-4 pt-4">
                           <Button type="submit" className="w-full" disabled={isPending}>
                             {createStep === 1
                               ? (
@@ -441,43 +414,11 @@ export function RoomDialog({
 
             {/* JOIN ROOM TAB */}
             <TabsContent value="join-room" className="flex-1 flex flex-col mt-4 min-h-0">
-              <form onSubmit={joinForm.handleSubmit(handleJoinSubmit)} className="flex-1 flex flex-col min-h-0">
-                <div className="flex-1 space-y-4 overflow-y-auto min-h-0">
-                  <div className="space-y-2">
-                    <Label htmlFor="player-name">{t('your-name')}</Label>
-                    <Input
-                      id="player-name"
-                      type="text"
-                      placeholder={t('your-name-placeholder')}
-                      {...joinForm.register('playerName')}
-                    />
-                    {joinForm.formState.errors.playerName && (
-                      <p className="text-red-500 text-sm">{t(joinForm.formState.errors.playerName.message as string)}</p>
-                    )}
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="join-room-id">{t('enter-room-code')}</Label>
-                    <Input
-                      id="join-room-id"
-                      type="text"
-                      placeholder={t('enter-room-code-or-link')}
-                      {...joinForm.register('roomId')}
-                      className="font-mono"
-                    />
-                    {joinForm.formState.errors.roomId && (
-                      <p className="text-red-500 text-sm">{t(joinForm.formState.errors.roomId.message as string)}</p>
-                    )}
-                  </div>
-                </div>
-                <div className="mt-4 pt-4">
-                  <Button type="submit" className="w-full">
-                    {t('join')}
-                  </Button>
-                  {isJoiningError && (
-                    <p className="text-red-500 text-sm text-center mt-2">{t('join-room-error')}</p>
-                  )}
-                </div>
-              </form>
+              <JoinRoomForm
+                gameType={gameType}
+                onRoomJoined={onRoomJoined}
+                onDialogClose={() => onOpenChange(false)}
+              />
             </TabsContent>
           </Tabs>
         </DialogContent>
