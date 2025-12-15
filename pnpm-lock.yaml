@@ -181,6 +181,9 @@ importers:
       '@guess-logo/api':
         specifier: workspace:*
         version: link:../api
+      '@guess-logo/api-client':
+        specifier: workspace:*
+        version: link:../../packages/api-client
       '@guess-logo/five-seconds':
         specifier: workspace:*
         version: link:../../packages/games/five-seconds
@@ -396,6 +399,15 @@ importers:
         specifier: ^4.46.0
         version: 4.53.0(@cloudflare/workers-types@4.20251205.0)
 
+  packages/api-client:
+    dependencies:
+      '@guess-logo/api':
+        specifier: workspace:*
+        version: link:../../apps/api
+      hono:
+        specifier: 'catalog:'
+        version: 4.10.7
+
   packages/eslint-config:
     dependencies:
       '@antfu/eslint-config':
@@ -456,9 +468,15 @@ importers:
 
   packages/games:
     dependencies:
+      '@guess-logo/api-client':
+        specifier: workspace:*
+        version: link:../api-client
       '@guess-logo/eslint-config':
         specifier: workspace:*
         version: link:../eslint-config
+      '@guess-logo/logger':
+        specifier: workspace:*
+        version: link:../logger
       zod:
         specifier: 'catalog:'
         version: 4.1.13

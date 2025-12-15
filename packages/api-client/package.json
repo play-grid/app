@@ -1,0 +1,13 @@
+{
+  "name": "@guess-logo/api-client",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "exports":{
+    ".":"./index.ts"
+  },
+  "dependencies": {
+    "@guess-logo/api": "workspace:*",
+    "hono":"catalog:"
+  }
+}
