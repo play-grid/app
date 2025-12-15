@@ -1,7 +1,7 @@
 import { createRoute, z } from '@hono/zod-openapi';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import { jsonContent } from 'stoker/openapi/helpers';
-import { questionQuery, questionSchema } from './questions.schemas';
+import { questionBatchQuery, questionQuery, questionSchema } from './questions.schemas';
 
 export const tags = ['questions'];
 
@@ -35,3 +35,26 @@ export const getRandomQuestion = createRoute({
 });
 
 export type getRandomQuestionRoute = typeof getRandomQuestion;
+
+export const getBatchQuestions = createRoute({
+  path: '/batch',
+  method: 'get',
+  request: {
+    query: questionBatchQuery,
+  },
+  tags,
+  responses: {
+    [HttpStatusCodes.OK]: jsonContent(
+      z.object({
+        questions: z.array(questionSchema),
+      }),
+      'Batch of random questions',
+    ),
+    [HttpStatusCodes.INTERNAL_SERVER_ERROR]: jsonContent(
+      z.object({ error: z.string() }),
+      'Internal server error',
+    ),
+  },
+});
+
+export type getBatchQuestionsRoute = typeof getBatchQuestions;

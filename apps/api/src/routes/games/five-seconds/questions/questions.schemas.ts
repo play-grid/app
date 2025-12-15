@@ -47,3 +47,28 @@ export const questionQuery = z.object({
     )
     .optional(),
 });
+
+export const questionBatchQuery = z.object({
+  count: z.coerce.number().int().min(1).max(50),
+  difficulty: difficultySchema.optional(),
+  categoryIds: z
+    .preprocess(
+      (val) => {
+        if (!val)
+          return [];
+        return Array.isArray(val) ? val : [val];
+      },
+      z.array(z.string()),
+    )
+    .optional(),
+  excludeIds: z
+    .preprocess(
+      (val) => {
+        if (!val)
+          return [];
+        return Array.isArray(val) ? val : [val];
+      },
+      z.array(z.string()),
+    )
+    .optional(),
+});

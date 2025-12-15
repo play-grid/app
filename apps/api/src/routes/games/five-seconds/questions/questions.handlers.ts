@@ -1,4 +1,4 @@
-import type { getRandomQuestionRoute } from './questions.routes';
+import type { getBatchQuestionsRoute, getRandomQuestionRoute } from './questions.routes';
 import type { AppRouteHandler } from '@/lib/types';
 import { and, eq, inArray, not, sql } from 'drizzle-orm';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
@@ -72,4 +72,51 @@ export const getRandomQuestion: AppRouteHandler<getRandomQuestionRoute> = async 
   });
 
   return c.json(response, HttpStatusCodes.OK);
+};
+
+export const getBatchQuestions: AppRouteHandler<getBatchQuestionsRoute> = async (c) => {
+  const db = getDB(c);
+  const { count, difficulty, categoryIds = [], excludeIds = [] } = c.req.valid('query');
+
+  const filters: any[] = [];
+
+  if (difficulty && difficulty !== 'all') {
+    filters.push(eq(fiveSecondsQuestions.difficulty, difficulty));
+  }
+
+  if (categoryIds.length) {
+    filters.push(inArray(fiveSecondsQuestions.categoryId, categoryIds));
+  }
+
+  if (excludeIds.length) {
+    filters.push(not(inArray(fiveSecondsQuestions.id, excludeIds)));
+  }
+
+  const whereClause = filters.length ? and(...filters) : undefined;
+  
+  const questions = await db
+    .select()
+    .from(fiveSecondsQuestions)
+    .leftJoin(
+      fiveSecondsCategories,
+      eq(fiveSecondsQuestions.categoryId, fiveSecondsCategories.id),
+    )
+    .where(whereClause)
+    .orderBy(sql`RANDOM()`)
+    .limit(count);
+
+  if (questions.length === 0) {
+    return c.json({ questions: [] }, HttpStatusCodes.OK);
+  }
+
+  const parsed = questions.map(q => questionSchema.parse({
+    ...q.five_seconds_questions,
+    categoryId: q.five_seconds_categories?.id,
+    category: q.five_seconds_categories,
+    estimatedReadingTime: calculateReadingTime(q.five_seconds_questions.question),
+    exampleAnswers: q.five_seconds_questions.exampleAnswers ?? '',
+    metadata: q.five_seconds_questions.metadata ?? {},
+  }));
+
+  return c.json({ questions: parsed }, HttpStatusCodes.OK);
 };
