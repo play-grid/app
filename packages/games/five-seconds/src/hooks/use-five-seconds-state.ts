@@ -1,4 +1,5 @@
 import type { FiveSecondsGameState, VotingState } from '../logic/schema';
+import type { Question } from '../schema';
 import { useGameState } from '@guess-logo/game-core';
 
 /**
@@ -6,6 +7,10 @@ import { useGameState } from '@guess-logo/game-core';
  */
 export function useFiveSecondsState(): FiveSecondsGameState {
   return useGameState<FiveSecondsGameState>();
+}
+
+export function useCurrentQuestion(): Question | null {
+  return useGameState(state => (state as FiveSecondsGameState).currentQuestion);
 }
 
 export function useVotingState(): VotingState | null {

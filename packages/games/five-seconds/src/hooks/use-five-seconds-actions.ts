@@ -6,6 +6,12 @@ export function useFiveSecondsActions() {
   const dispatch = useDispatch<FiveSecondsAction>();
   const coreActions = useGameActions();
 
+  const fetchNewQuestion = useCallback(async () => {
+    await dispatch({
+      type: 'FETCH_QUESTION',
+    });
+  }, [dispatch]);
+
   const addSeenQuestionId = useCallback(
     async (id: string) => {
       await dispatch({
@@ -46,6 +52,7 @@ export function useFiveSecondsActions() {
 
   return {
     ...coreActions,
+    fetchNewQuestion,
     addSeenQuestionId,
     startVoting,
     submitVote,

@@ -14,6 +14,7 @@ export const questionSchema = z.object({
   categoryId: z.string(),
   difficulty: difficultySchema,
   estimatedReadingTime: z.string().optional(),
+  metadata: z.record(z.any(), z.any()).optional(),
 });
 
 export type Difficulty = z.infer<typeof difficultySchema>;

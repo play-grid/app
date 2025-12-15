@@ -1,5 +1,5 @@
 import type { Draft } from 'immer';
-import type { AddSeenQuestionIdAction, FiveSecondsGameState, StartVotingAction, SubmitVoteAction, TallyVotesAction } from './schema';
+import type { AddSeenQuestionIdAction, FiveSecondsGameState, SetQuestionAction, StartVotingAction, SubmitVoteAction, TallyVotesAction } from './schema';
 
 export function addSeenQuestionId(
   draft: Draft<FiveSecondsGameState>,
@@ -7,6 +7,13 @@ export function addSeenQuestionId(
 ):
 void {
   draft.seenQuestionIds.push(payload.id);
+}
+
+export function setQuestion(draft: Draft<FiveSecondsGameState>, payload: SetQuestionAction['payload']): void {
+  draft.currentQuestion = payload.question;
+  if (!draft.seenQuestionIds.includes(payload.question.id)) {
+    draft.seenQuestionIds.push(payload.question.id);
+  }
 }
 
 export function startVoting(

@@ -1,4 +1,5 @@
 import { createGameDefinition, registerGame } from '@guess-logo/game-core';
+import { createFiveSecondsEffects } from './logic/effect-handlers';
 import { fiveSecondsGameReducer } from './logic/reducer';
 import { FiveSecondsActionSchema, FiveSecondsGameStateSchema } from './logic/schema';
 
@@ -26,9 +27,11 @@ export const fiveSecondsGame = createGameDefinition({
     },
     votingState: null,
     seenQuestionIds: [],
+    currentQuestion: null,
+    questions: [],
   },
 
   customReducer: fiveSecondsGameReducer,
 });
 
-registerGame(fiveSecondsGame);
+registerGame(fiveSecondsGame, createFiveSecondsEffects);
