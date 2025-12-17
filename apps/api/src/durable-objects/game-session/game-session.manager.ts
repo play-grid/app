@@ -1,5 +1,6 @@
+// apps/api/src/durable-objects/game-session/game-session.manager.ts
+
 import type { BaseGameState, GameDefinition, GameEffect } from '@guess-logo/game-core';
-import { GameActionSchema } from '@guess-logo/game-core';
 import { ZodError } from 'zod';
 import { logger } from '@/utils/logger';
 
@@ -10,6 +11,8 @@ export interface GameSessionManagerConfig {
   effectHandlers?: GameEffect[];
   apiUrl?: string;
 }
+
+const MAX_DISPATCH_DEPTH = 10;
 
 /**
  * GameSessionManager - The authoritative state machine for multiplayer games
@@ -30,7 +33,6 @@ export class GameSessionManager {
   private ctx: DurableObjectState;
   private effectHandlers: GameEffect[];
   private apiUrl: string;
-  private isProcessingEffects: boolean = false;
 
   constructor(config: GameSessionManagerConfig) {
     try {
@@ -66,9 +68,15 @@ export class GameSessionManager {
    * 4. Persist to storage
    * 5. Broadcast to all clients
    * 6. Run effect functions (which may dispatch follow-up actions)
+   *
+   * @throws Error if validation fails or state is invalid
    */
-  async dispatchAction(action: any): Promise<void> {
-    logger.debug(`[GameSessionManager] Dispatching action: ${action?.type}`);
+  async dispatchAction(action: any, depth = 0): Promise<void> {
+    if (depth > MAX_DISPATCH_DEPTH) {
+      throw new Error('Max dispatch depth exceeded, possible infinite loop');
+    }
+
+    logger.debug(`[GameSessionManager] Dispatching action: ${action?.type} (depth: ${depth})`);
     logger.debug({ action }, '[GameSessionManager] Action payload (raw):');
 
     // Validate the action
@@ -79,37 +87,26 @@ export class GameSessionManager {
     const oldState = this.currentState;
     const newState = this.runReducer(oldState, validatedAction);
 
-    // Validate and save the new state
+    // Validate and save the new state (this can throw)
     this.updateState(oldState, newState, validatedAction);
 
     // Persist and broadcast
     await this.persistState();
     this.broadcastState();
 
-    // Execute side effects (non-blocking)
-    this.executeEffects(validatedAction).catch((error) => {
-      logger.error(error, '[GameSessionManager] Effect execution failed:');
-    });
+    // Execute side effects and allow errors to propagate
+    await this.executeEffects(validatedAction, depth);
   }
 
   /**
    * Validate an action against the game's action schema
+   * @throws Error if action is invalid
    */
   private validateAction(action: any): any {
-    const coreActionTypes = GameActionSchema.options.map(
-      schema => schema.shape.type.def.values,
-    );
-    const coreActions = new Set(coreActionTypes);
-
     try {
       return this.gameDefinition.actionSchema.parse(action);
     }
     catch (error) {
-      // Allow core actions to pass through even if not in game schema
-      if (coreActions.has(action?.type)) {
-        return action;
-      }
-
       if (error instanceof ZodError) {
         logger.error(
           error.issues,
@@ -130,6 +127,7 @@ export class GameSessionManager {
 
   /**
    * Run the pure reducer to compute new state
+   * @throws Error if reducer throws
    */
   private runReducer(state: BaseGameState, action: any): BaseGameState {
     try {
@@ -148,23 +146,30 @@ export class GameSessionManager {
 
   /**
    * Validate and update the current state
+   * If new state is invalid, state is rolled back to oldState
+   * @throws Error if state validation fails
    */
   private updateState(oldState: BaseGameState, newState: BaseGameState, action: any): void {
     try {
-      this.currentState = this.gameDefinition.stateSchema.parse(newState);
+      // Validate the new state
+      const validatedNewState = this.gameDefinition.stateSchema.parse(newState);
+
+      // Only update if validation passed
+      this.currentState = validatedNewState;
 
       logger.debug(oldState.players, '[GameSessionManager] State BEFORE action:');
       logger.debug(this.currentState.players, '[GameSessionManager] State AFTER action:');
     }
     catch (error) {
+      // ROLLBACK: Keep old state
+      this.currentState = oldState;
+
       if (error instanceof ZodError) {
         logger.error(
           error.issues,
           `[GameSessionManager] Zod validation failed for NEW state after action ${action.type}:`,
         );
 
-        // Rollback to old state
-        this.currentState = oldState;
         throw new Error(
           `New state validation failed: ${error.issues.map(i => `${i.path.join('.')}: ${i.message}`).join(', ')}`,
         );
@@ -218,57 +223,87 @@ export class GameSessionManager {
    * creating a cycle: Action → State Update → Effect → New Action → ...
    *
    * Example: NEXT_ROUND → (fetch questions) → LOAD_QUESTIONS
+   *
+   * Note: Effect errors are logged but do NOT throw
    */
-  private async executeEffects(action: any): Promise<void> {
-    if (this.isProcessingEffects) {
-      logger.warn('[GameSessionManager] Already processing effects, skipping to prevent loops');
-      return;
-    }
-
+  private async executeEffects(action: any, depth: number): Promise<void> {
     if (this.effectHandlers.length === 0) {
       logger.debug('[GameSessionManager] No effects registered');
       return;
     }
 
-    this.isProcessingEffects = true;
+    logger.debug(`[GameSessionManager] ===== STARTING EFFECT EXECUTION =====`);
+    logger.debug(`[GameSessionManager] Running ${this.effectHandlers.length} effect(s) for action: ${action.type}`);
 
-    try {
-      logger.debug(`[GameSessionManager] Running ${this.effectHandlers.length} effect(s) for action: ${action.type}`);
+    const context = {
+      state: this.currentState,
+      action,
+      apiUrl: this.apiUrl,
+      ctx: this.ctx,
+    };
 
-      const context = {
-        state: this.currentState,
-        action,
-        apiUrl: this.apiUrl,
-        ctx: this.ctx,
-      };
+    logger.debug(`[GameSessionManager] Effect context created:`, {
+      actionType: action.type,
+      apiUrl: this.apiUrl,
+      stateKeys: Object.keys(this.currentState),
+    });
 
-      // Run all effects in parallel
-      const results = await Promise.allSettled(
-        this.effectHandlers.map(effectHandlers => effectHandlers(context)),
-      );
+    // Run all effects in parallel
+    logger.debug(`[GameSessionManager] Invoking ${this.effectHandlers.length} effect handler(s)...`);
+    const results = await Promise.allSettled(
+      this.effectHandlers.map((effectHandler, index) => {
+        logger.debug(`[GameSessionManager] Invoking effect handler #${index}...`);
+        return effectHandler(context).catch((err) => {
+          logger.error(`[GameSessionManager] Effect handler #${index} threw error:`, err);
+          throw err;
+        });
+      }),
+    );
 
-      // Process any follow-up actions
-      for (const result of results) {
-        if (result.status === 'rejected') {
-          logger.error(
-            result.reason,
-            `[GameSessionManager] Effect failed for action ${action.type}:`,
-          );
-          continue;
-        }
+    logger.debug(`[GameSessionManager] All effects completed. Processing results...`);
 
-        const followUpAction = result.value;
-        if (followUpAction) {
-          logger.info(
-            `[GameSessionManager] Effect returned follow-up action: ${followUpAction.type}`,
-          );
-          // Dispatch the follow-up action (recursive call)
-          await this.dispatchAction(followUpAction);
-        }
+    const followUpActions: any[] = [];
+
+    // Process any follow-up actions
+    for (let i = 0; i < results.length; i++) {
+      const result = results[i];
+
+      if (result.status === 'rejected') {
+        logger.error(
+          `[GameSessionManager] ❌ Effect #${i} REJECTED for action ${action.type}:`,
+          result.reason,
+        );
+        logger.error(`[GameSessionManager] Rejection reason type:`, result.reason?.constructor?.name);
+        logger.error(`[GameSessionManager] Rejection message:`, result.reason?.message || 'No message');
+        continue;
       }
+
+      logger.debug(`[GameSessionManager] ✅ Effect #${i} FULFILLED for action ${action.type}`);
+
+      const followUpAction = result.value;
+
+      if (followUpAction === null) {
+        logger.debug(`[GameSessionManager] Effect #${i} returned null (no follow-up action)`);
+        continue;
+      }
+
+      if (followUpAction === undefined) {
+        logger.warn(`[GameSessionManager] Effect #${i} returned undefined (should return null instead)`);
+        continue;
+      }
+
+      logger.info(
+        `[GameSessionManager] ✅ Effect #${i} returned follow-up action: ${followUpAction.type}`,
+      );
+      logger.debug(`[GameSessionManager] Follow-up action payload:`, followUpAction);
+      followUpActions.push(followUpAction);
     }
-    finally {
-      this.isProcessingEffects = false;
+
+    logger.debug(`[GameSessionManager] ===== EFFECT EXECUTION COMPLETE =====`);
+
+    // Dispatch all collected follow-up actions
+    for (const followUpAction of followUpActions) {
+      await this.dispatchAction(followUpAction, depth + 1);
     }
   }
 
