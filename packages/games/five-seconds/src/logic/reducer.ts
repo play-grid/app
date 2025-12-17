@@ -1,63 +1,72 @@
-// packages/games/five-seconds/game-logic/reducer.ts
-import type { Draft } from 'immer';
 import type { FiveSecondsAction, FiveSecondsGameState } from './schema';
 import { produce } from 'immer';
-import { logger } from '../logger';
 import {
   addSeenQuestionId,
+  loadQuestions,
+  nextTurn,
   resetVoting,
   setQuestion,
+  setTurnPhase,
+  startTurn,
   startVoting,
   submitVote,
   tallyVotes,
 } from './actions';
 
-/**
- * The game-specific reducer for "Five Seconds".
- * This only handles actions that are unique to this game.
- * For core actions, it will do nothing and return the original state.
- */
 export function fiveSecondsGameReducer(
   state: FiveSecondsGameState,
   action: FiveSecondsAction,
 ): FiveSecondsGameState {
-  return produce(state, (draft: Draft<FiveSecondsGameState>) => {
-    switch (action.type) {
-      case 'ADD_SEEN_QUESTION_ID':
+  switch (action.type) {
+    case 'ADD_SEEN_QUESTION_ID':
+      return produce(state, (draft) => {
         addSeenQuestionId(draft, action.payload);
-        break;
-      case 'SET_QUESTION':
+      });
+
+    case 'SET_QUESTION':
+      return produce(state, (draft) => {
         setQuestion(draft, action.payload);
-        break;
-      case 'START_VOTING':
+      });
+
+    case 'NEXT_TURN':
+      return produce(state, (draft) => {
+        nextTurn(draft);
+      });
+
+    case 'LOAD_QUESTIONS':
+      return produce(state, (draft) => {
+        loadQuestions(draft, action.payload);
+      });
+
+    case 'START_TURN':
+      return produce(state, (draft) => {
+        startTurn(draft);
+      });
+    case 'SET_GAME_TURN_PHASE':
+      return produce(state, (draft) => {
+        setTurnPhase(draft, action.payload);
+      });
+    case 'START_VOTING':
+      return produce(state, (draft) => {
         startVoting(draft, action.payload);
-        break;
-      case 'SUBMIT_VOTE':
+      });
+
+    case 'SUBMIT_VOTE':
+      return produce(state, (draft) => {
         submitVote(draft, action.payload);
-        break;
-      case 'RESET_VOTING':
+      });
+
+    case 'RESET_VOTING':
+      return produce(state, (draft) => {
         resetVoting(draft);
-        break;
-      case 'TALLY_VOTES':
+      });
+
+    case 'TALLY_VOTES':
+      return produce(state, (draft) => {
         tallyVotes(draft, action.payload);
-        break;
-      case 'LOAD_QUESTIONS':
-        // Store questions from effect handler
-        draft.questions = action.payload.questions;
-        if (action.payload.questions.length > 0) {
-          // Set first question as current
-          draft.currentQuestion = action.payload.questions[0];
-          // Add all question IDs to seen list
-          action.payload.questions.forEach((q) => {
-            if (!draft.seenQuestionIds.includes(q.id)) {
-              draft.seenQuestionIds.push(q.id);
-            }
-          });
-        }
-        break;
-      case 'FETCH_QUESTIONS_ERROR':
-        logger.error('Failed to fetch questions:', action.payload.error);
-        break;
-    }
-  });
+      });
+
+    default:
+      return state;
+  }
 }

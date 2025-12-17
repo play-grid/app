@@ -6,10 +6,18 @@ export function useFiveSecondsActions() {
   const dispatch = useDispatch<FiveSecondsAction>();
   const coreActions = useGameActions();
 
-  const fetchNewQuestion = useCallback(async () => {
-    await dispatch({
-      type: 'FETCH_QUESTION',
-    });
+  const setGameTurnPhase = useCallback(
+    async (phase: string) => {
+      await dispatch({ type: 'SET_GAME_TURN_PHASE', payload: { phase } }); // ← Updated
+    },
+    [dispatch],
+  );
+  const fetchQuestionMultiplayer = useCallback(async () => {
+    await dispatch({ type: 'FETCH_QUESTION' });
+  }, [dispatch]);
+
+  const startTurn = useCallback(async () => {
+    await dispatch({ type: 'START_TURN' });
   }, [dispatch]);
 
   const addSeenQuestionId = useCallback(
@@ -50,9 +58,19 @@ export function useFiveSecondsActions() {
     await dispatch({ type: 'RESET_VOTING' });
   }, [dispatch]);
 
+  const nextTurn = useCallback(
+    async () => {
+      await dispatch({ type: 'NEXT_TURN' });
+    },
+    [dispatch],
+  );
+
   return {
     ...coreActions,
-    fetchNewQuestion,
+    setGameTurnPhase,
+    nextTurn,
+    fetchQuestionMultiplayer,
+    startTurn,
     addSeenQuestionId,
     startVoting,
     submitVote,

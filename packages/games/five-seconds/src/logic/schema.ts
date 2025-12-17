@@ -1,8 +1,12 @@
-// packages/games/five-seconds/game-logic/schema.ts
-import { BaseGameStateSchema, GameActionSchema, PlayerSchema } from '@guess-logo/game-core';
+import {
+  BaseGameStateSchema,
+  GameActionSchema,
+  PlayerSchema,
+} from '@guess-logo/game-core';
 import { z } from 'zod';
-import { difficultySchema, questionSchema } from '../schema';
+import { baseQuestionSchema, difficultySchema } from '../schema';
 
+// GAME STATE
 export const FiveSecondsGameSettingsSchema = z.object({
   categoryIds: z.array(z.string()),
   difficulty: difficultySchema,
@@ -22,14 +26,24 @@ export const FiveSecondsGameStateSchema = BaseGameStateSchema.extend({
   players: z.record(z.string(), PlayerSchema),
   votingState: VotingStateSchema.nullable(),
   seenQuestionIds: z.array(z.string()),
-  currentQuestion: questionSchema.nullable(),
-  questions: z.array(questionSchema),
+  currentQuestion: baseQuestionSchema.nullable(),
+  questions: z.array(baseQuestionSchema).default([]),
 });
 
-// Action Schemas
+// GAME ACTIONS
+export const SetGameTurnPhaseActionSchema = z.object({
+  type: z.literal('SET_GAME_TURN_PHASE'),
+  payload: z.object({
+    phase: z.string(),
+  }),
+});
+
 export const AddSeenQuestionIdActionSchema = z.object({
   type: z.literal('ADD_SEEN_QUESTION_ID'),
   payload: z.object({ id: z.string() }),
+});
+export const StartTurnActionSchema = z.object({
+  type: z.literal('START_TURN'),
 });
 
 export const StartVotingActionSchema = z.object({
@@ -53,25 +67,27 @@ export const ResetVotingActionSchema = z.object({
   type: z.literal('RESET_VOTING'),
 });
 
-// Action dispatched by frontend to trigger question fetching
+// EFFECT ACTIONS (Server → Client or Client → Server)
 export const FetchQuestionActionSchema = z.object({
   type: z.literal('FETCH_QUESTION'),
 });
 
+// For setting the CURRENT question (single, on-demand)
 export const SetQuestionActionSchema = z.object({
   type: z.literal('SET_QUESTION'),
-  payload: z.object({ question: questionSchema }),
-});
-
-// Internal action dispatched by effect handler after fetching questions
-export const LoadQuestionsActionSchema = z.object({
-  type: z.literal('LOAD_QUESTIONS'),
   payload: z.object({
-    questions: z.array(questionSchema),
+    question: baseQuestionSchema,
   }),
 });
 
-// Internal error action dispatched by effect handler on fetch failure
+// For loading a BATCH into the buffer (multiplayer only)
+export const LoadQuestionsActionSchema = z.object({
+  type: z.literal('LOAD_QUESTIONS'),
+  payload: z.object({
+    questions: z.array(baseQuestionSchema),
+  }),
+});
+
 export const FetchQuestionsErrorActionSchema = z.object({
   type: z.literal('FETCH_QUESTIONS_ERROR'),
   payload: z.object({
@@ -79,7 +95,9 @@ export const FetchQuestionsErrorActionSchema = z.object({
   }),
 });
 
+// UNION SCHEMAS
 export const FiveSecondsCustomActionSchema = z.discriminatedUnion('type', [
+  SetGameTurnPhaseActionSchema,
   AddSeenQuestionIdActionSchema,
   StartVotingActionSchema,
   SubmitVoteActionSchema,
@@ -89,23 +107,33 @@ export const FiveSecondsCustomActionSchema = z.discriminatedUnion('type', [
   SetQuestionActionSchema,
   LoadQuestionsActionSchema,
   FetchQuestionsErrorActionSchema,
+  StartTurnActionSchema,
 ]);
 
-// Export the full union for use in the reducer
 export const FiveSecondsActionSchema = z.discriminatedUnion('type', [
   ...GameActionSchema.options,
   ...FiveSecondsCustomActionSchema.options,
 ]);
 
-// Type exports
+// TYPE EXPORTS
+export type FiveSecondsGameState = z.infer<typeof FiveSecondsGameStateSchema>;
+export type FiveSecondsGameSettings = z.infer<
+  typeof FiveSecondsGameSettingsSchema
+>;
+export type VotingState = z.infer<typeof VotingStateSchema>;
+
 export type FiveSecondsAction = z.infer<typeof FiveSecondsActionSchema>;
-export type AddSeenQuestionIdAction = z.infer<typeof AddSeenQuestionIdActionSchema>;
+
+export type AddSeenQuestionIdAction = z.infer<
+  typeof AddSeenQuestionIdActionSchema
+>;
 export type StartVotingAction = z.infer<typeof StartVotingActionSchema>;
+export type StartTurnAction = z.infer<typeof StartTurnActionSchema>;
+export type SetGameTurnPhaseAction = z.infer<typeof SetGameTurnPhaseActionSchema>;
 export type SubmitVoteAction = z.infer<typeof SubmitVoteActionSchema>;
 export type TallyVotesAction = z.infer<typeof TallyVotesActionSchema>;
 export type SetQuestionAction = z.infer<typeof SetQuestionActionSchema>;
 export type LoadQuestionsAction = z.infer<typeof LoadQuestionsActionSchema>;
-export type FetchQuestionsErrorAction = z.infer<typeof FetchQuestionsErrorActionSchema>;
-export type FiveSecondsGameState = z.infer<typeof FiveSecondsGameStateSchema>;
-export type FiveSecondsGameSettings = z.infer<typeof FiveSecondsGameSettingsSchema>;
-export type VotingState = z.infer<typeof VotingStateSchema>;
+export type FetchQuestionsErrorAction = z.infer<
+  typeof FetchQuestionsErrorActionSchema
+>;
