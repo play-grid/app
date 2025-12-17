@@ -1,7 +1,6 @@
 import type { Question } from '@guess-logo/five-seconds';
 import type { SupportedLanguage } from '@guess-logo/shared/types';
-import { useQueryClient } from '@tanstack/react-query';
-import { Clock, Info } from 'lucide-react';
+import { Info } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Badge } from '@/components/ui/badge';
@@ -15,16 +14,17 @@ import { FeedbackForm } from './feedback-form';
 const feedbackTypesEndpoint = client.api.games['five-seconds'].questions.feedback.types.$get;
 
 export function QuestionInfo({ currentQuestion }: { currentQuestion: Question }) {
-  const firstCategoryId = currentQuestion.categoryId;
+  const categoryId = currentQuestion.categoryId || '';
   const { t, i18n } = useTranslation();
-  const queryClient = useQueryClient();
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const { data: category, isLoading } = useCategory(
-    firstCategoryId,
+    categoryId,
     i18n.language as SupportedLanguage,
   );
 
   const prefetchFeedbackTypes = async () => {
+    // eslint-disable-next-line ts/no-require-imports
+    const queryClient = require('@tanstack/react-query').useQueryClient();
     await queryClient.prefetchQuery({
       queryKey: ['feedbackTypes'],
       queryFn: async () => {
@@ -39,7 +39,7 @@ export function QuestionInfo({ currentQuestion }: { currentQuestion: Question })
 
   return (
     <div className="text-center space-y-4">
-      <div className="flex items-center justify-center gap-2">
+      <div className="flex items-center justify-center gap-2 flex-wrap">
         <Badge variant="outline" className="text-sm">
           {isLoading
             ? (
@@ -47,23 +47,18 @@ export function QuestionInfo({ currentQuestion }: { currentQuestion: Question })
               )
             : (
                 <>
-                  {category?.name ?? firstCategoryId}
+                  {category?.name ?? categoryId ?? 'Unknown'}
                   {' '}
                   •
-                  {t(currentQuestion.difficulty)}
+                  {' '}
+                  {t(`difficulty.${currentQuestion.difficulty}`)}
                 </>
               )}
         </Badge>
-        {currentQuestion.estimatedReadingTime && (
-          <Badge variant="outline" className="text-sm flex items-center gap-1">
-            <Clock className="w-3 h-3" />
-            <span>{currentQuestion.estimatedReadingTime}</span>
-          </Badge>
-        )}
         <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
           <PopoverTrigger asChild>
             <Button variant="outline" size="sm" onMouseOver={prefetchFeedbackTypes}>
-              <Info />
+              <Info className="w-4 h-4" />
             </Button>
           </PopoverTrigger>
           <PopoverContent>
@@ -77,7 +72,7 @@ export function QuestionInfo({ currentQuestion }: { currentQuestion: Question })
       <h3 className="text-3xl md:text-4xl font-bold text-balance">
         {t('fiveSecondsGame.gameplay.nameThree')}
         {' '}
-        {currentQuestion.question}
+        {currentQuestion.text}
       </h3>
     </div>
   );

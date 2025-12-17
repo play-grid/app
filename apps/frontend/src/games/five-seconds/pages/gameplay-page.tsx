@@ -1,7 +1,4 @@
-import {
-  useFiveSecondsActions,
-  useFiveSecondsState,
-} from '@guess-logo/five-seconds';
+import { useFiveSecondsActions, useFiveSecondsState } from '@guess-logo/five-seconds';
 import { ArrowLeft, RotateCcw } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -17,6 +14,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+
 import { Spinner } from '@/components/ui/spinner';
 import { AnsweringView } from '../components/answering-view';
 import { PlayerScores } from '../components/player-scores';
@@ -25,7 +23,6 @@ import { RoundInfo } from '../components/round-info';
 import { VotingView } from '../components/voting-view';
 import { useQuestion } from '../hooks/use-question';
 import { useTimer } from '../hooks/use-timer';
-import { NoQuestionsFoundError } from '../services/questions.service';
 
 export function GameplayPage() {
   const state = useFiveSecondsState();
@@ -36,91 +33,68 @@ export function GameplayPage() {
     votingState,
     seenQuestionIds,
   } = state;
+
   const {
     nextTurn,
     endGame,
     startVoting,
+    startTurn,
     submitVote,
     tallyVotes,
     resetVoting,
     resetGame,
     setPhase,
-    addSeenQuestionId,
   } = useFiveSecondsActions();
 
   const { t } = useTranslation();
   const hasProcessedVotingRef = useRef(false);
+  const hasProcessedTimerRef = useRef(false);
   const [isResetConfirmOpen, setIsResetConfirmOpen] = useState(false);
 
-  // Local component state
   const {
-    data: currentQuestion,
-    isLoading,
-    isError,
-    isPaused,
+    question,
     error,
-    refetch: fetchQuestion,
-  } = useQuestion(settings.categoryIds, settings.difficulty, seenQuestionIds);
-
-  // Calculate time for current question
-  const timeForCurrentQuestion = useMemo(() => {
-    if (currentQuestion && 'id' in currentQuestion && currentQuestion.estimatedReadingTime) {
-      const readingTime = Number.parseInt(currentQuestion.estimatedReadingTime, 10) || 0;
-      return settings.timePerTurn + readingTime;
-    }
-    return settings.timePerTurn;
-  }, [currentQuestion, settings.timePerTurn]);
-
-  // Derived state
-  const currentPlayer = players[turnState?.currentPlayerId || ''];
-
-  // Timer hook
-  const { timeLeft, start: startTimer, reset: resetTimer, isRunning } = useTimer({
-    initialTime: timeForCurrentQuestion,
-    onComplete: useCallback(() => {
-      if (currentPlayer) {
-        const voterIds = Object.values(players)
-          .filter(p => p.id !== currentPlayer.id)
-          .map(p => p.id);
-        startVoting(voterIds);
-      }
-    }, [players, currentPlayer, startVoting]),
+    isLoading,
+    fetchQuestion,
+  } = useQuestion({
+    categoryIds: settings.categoryIds,
+    difficulty: settings.difficulty,
+    excludeIds: seenQuestionIds,
+    timePerTurn: settings.timePerTurn,
+    enabled: state.phase !== 'lobby',
   });
 
-  // Derived state: determine game phase from voting state and timer
+  const isValidQuestion = (
+    q: unknown,
+  ): q is { id: string; text: string; difficulty: string } => {
+    return (
+      typeof q === 'object'
+      && q !== null
+      && 'id' in q
+      && 'text' in q
+      && 'difficulty' in q
+    );
+  };
+
+  const currentPlayer = players[turnState?.currentPlayerId || ''];
+
+  const { timeLeft, start: startTimer, reset: resetTimer, isRunning } = useTimer({
+    initialTime: settings.timePerTurn,
+    onComplete: () => {},
+  });
+
   const gamePhase = useMemo(() => {
     if (votingState?.isVoting)
       return 'voting';
-    if (isRunning)
+    if (turnState?.phase === 'answering')
       return 'answering';
     return 'pre-turn';
-  }, [votingState?.isVoting, isRunning]);
+  }, [votingState?.isVoting, turnState?.phase]);
 
-  // Fetch initial question on mount
-  useEffect(() => {
-    fetchQuestion();
-  }, [fetchQuestion]);
-
-  // Add question to seen list
-  useEffect(() => {
-    if (currentQuestion && 'id' in currentQuestion && !seenQuestionIds.includes(currentQuestion.id)) {
-      addSeenQuestionId(currentQuestion.id);
-    }
-  }, [currentQuestion, seenQuestionIds, addSeenQuestionId]);
-
-  // Reset timer when question changes
-  useEffect(() => {
-    if (currentQuestion && 'id' in currentQuestion) {
-      resetTimer(timeForCurrentQuestion);
-    }
-  }, [currentQuestion, timeForCurrentQuestion, resetTimer]);
-
-  // More derived state
   const isVotingFinished = votingState && votingState.currentVoterIndex >= votingState.voters.length;
   const currentVoterId = votingState && votingState.voters[votingState.currentVoterIndex];
   const currentVoter = players[currentVoterId || ''];
 
-  // Handle next turn logic
   const handleNextTurn = useCallback(async () => {
     if (
       turnState
@@ -133,33 +107,59 @@ export function GameplayPage() {
 
     await resetVoting();
     await nextTurn();
-    fetchQuestion();
-  }, [turnState, endGame, nextTurn, resetVoting, fetchQuestion, settings]);
+  }, [turnState, settings.roundsToWin, endGame, resetVoting, nextTurn]);
 
-  // Handle voting finished
+  useEffect(() => {
+    if (turnState?.phase === 'answering' && !isRunning) {
+      hasProcessedTimerRef.current = false;
+      resetTimer(settings.timePerTurn);
+      startTimer();
+    }
+  }, [turnState?.phase, isRunning, resetTimer, startTimer, settings.timePerTurn]);
+
+  useEffect(() => {
+    if (timeLeft <= 0 && !isRunning && turnState?.phase === 'answering' && !hasProcessedTimerRef.current) {
+      hasProcessedTimerRef.current = true;
+
+      const handleTimerExpire = async () => {
+        if (currentPlayer) {
+          const voterIds = Object.values(players)
+            .filter(p => p.id !== currentPlayer.id)
+            .map(p => p.id);
+
+          await startVoting(voterIds);
+        }
+      };
+
+      handleTimerExpire();
+    }
+  }, [timeLeft, isRunning, turnState?.phase, currentPlayer?.id, players, startVoting]);
+
   useEffect(() => {
     if (isVotingFinished && currentPlayer && !hasProcessedVotingRef.current) {
       hasProcessedVotingRef.current = true;
 
       const processVotingEnd = async () => {
-        await tallyVotes(currentPlayer.id);
-        await handleNextTurn();
+        try {
+          await tallyVotes(currentPlayer.id);
+          await handleNextTurn();
+        }
+        catch (err) {
+          console.error('Error processing voting end:', err);
+        }
+        finally {
+          hasProcessedVotingRef.current = false;
+        }
       };
 
-      processVotingEnd().then(() => {
-        // Reset ref after processing
-        hasProcessedVotingRef.current = false;
-      });
+      processVotingEnd();
     }
-    else if (!isVotingFinished) {
-      hasProcessedVotingRef.current = false;
-    }
-  }, [isVotingFinished, currentPlayer, tallyVotes, handleNextTurn]);
+  }, [isVotingFinished, currentPlayer?.id, tallyVotes, handleNextTurn]);
 
-  // Event Handlers
-  const handleStartTurn = useCallback(() => {
-    startTimer();
-  }, [startTimer]);
+  const handleStartTurn = useCallback(async () => {
+    hasProcessedTimerRef.current = false;
+    await startTurn();
+  }, [startTurn]);
 
   const handleVote = useCallback((isValid: boolean) => {
     submitVote(isValid);
@@ -172,10 +172,9 @@ export function GameplayPage() {
 
   return (
     <div className="min-h-screen flex flex-col p-4 md:p-8">
-      {/* Header with Reset Button */}
       <div className="w-full max-w-4xl mx-auto mb-6">
         <div className="flex justify-start gap-2">
-          {!isError && !isPaused && (
+          {error && (
             <Button
               variant="outline"
               size="sm"
@@ -187,6 +186,7 @@ export function GameplayPage() {
               <span className="hidden sm:inline">{t('common.back')}</span>
             </Button>
           )}
+
           <Dialog open={isResetConfirmOpen} onOpenChange={setIsResetConfirmOpen}>
             <DialogTrigger asChild>
               <Button
@@ -196,12 +196,17 @@ export function GameplayPage() {
                 aria-label={t('fiveSecondsGame.gameplay.resetGame')}
               >
                 <RotateCcw className="w-4 h-4" />
-                <span className="hidden sm:inline">{t('fiveSecondsGame.gameplay.resetGame')}</span>
+                <span className="hidden sm:inline">
+                  {t('fiveSecondsGame.gameplay.resetGame')}
+                </span>
               </Button>
             </DialogTrigger>
+
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>{t('fiveSecondsGame.gameplay.resetConfirmTitle')}</DialogTitle>
+                <DialogTitle>
+                  {t('fiveSecondsGame.gameplay.resetConfirmTitle')}
+                </DialogTitle>
                 <DialogDescription>
                   {t('fiveSecondsGame.gameplay.resetConfirmDescription')}
                 </DialogDescription>
@@ -219,10 +224,13 @@ export function GameplayPage() {
         </div>
       </div>
 
-      {/* Main Game Content */}
       <div className="flex-1 flex items-center justify-center">
         <div className="w-full max-w-4xl space-y-6">
-          <PlayerScores players={Object.values(players)} currentPlayerId={currentPlayer?.id} />
+          <PlayerScores
+            players={Object.values(players)}
+            currentPlayerId={currentPlayer?.id}
+          />
+
           <RoundInfo roundNumber={turnState?.roundNumber || 1} />
 
           <Card className="p-8 md:p-12 space-y-8 bg-card border-border">
@@ -232,49 +240,52 @@ export function GameplayPage() {
                     <Spinner />
                   </div>
                 )
-              : isError || isPaused
+              : error
                 ? (
-                    error instanceof NoQuestionsFoundError
-                      ? (
-                          <div className="text-center">
-                            <p className="mb-4">{t('fiveSecondsGame.gameplay.noMoreQuestions')}</p>
-                            <Button onClick={() => resetGame()}>
+                    <div className="text-center space-y-4">
+                      <p className="text-lg font-semibold text-destructive">
+                        {t('common.error')}
+                      </p>
+                      <p className="text-sm text-muted-foreground">
+                        {error}
+                      </p>
+                      {error
+                        ? (
+                            <Button
+                              variant="default"
+                              onClick={() => setPhase('lobby')}
+                            >
                               {t('fiveSecondsGame.gameplay.backToLobby')}
                             </Button>
-                          </div>
-                        )
-                      : (
-                          <div className="text-center">
-                            <p className="mb-4">{t('common.error')}</p>
-                            <Button onClick={() => fetchQuestion()}>
+                          )
+                        : (
+                            <Button
+                              variant="default"
+                              onClick={() => fetchQuestion()}
+                            >
                               {t('common.retry')}
                             </Button>
-                          </div>
-                        )
+                          )}
+                    </div>
                   )
-                : gamePhase === 'pre-turn' && currentQuestion && 'id' in currentQuestion
-                  ? (
-                      <PreTurnView
-                        currentPlayerName={currentPlayer?.name || ''}
-                        onStartTurn={handleStartTurn}
-                      />
-                    )
-                  : gamePhase === 'voting' && !isVotingFinished && currentQuestion && 'id' in currentQuestion && votingState
+                : gamePhase === 'pre-turn' && question && isValidQuestion(question)
+                  ? <PreTurnView currentPlayerName={currentPlayer?.name || ''} onStartTurn={handleStartTurn} />
+                  : gamePhase === 'voting' && !isVotingFinished && question && isValidQuestion(question) && votingState
                     ? (
                         <VotingView
                           votingState={votingState}
                           currentVoter={currentVoter}
                           currentPlayer={currentPlayer}
-                          currentQuestion={currentQuestion}
+                          currentQuestion={question}
                           onVote={handleVote}
                         />
                       )
-                    : gamePhase === 'answering' && currentQuestion && 'id' in currentQuestion
+                    : gamePhase === 'answering' && question && isValidQuestion(question)
                       ? (
                           <AnsweringView
                             timeLeft={timeLeft}
-                            totalTime={timeForCurrentQuestion}
-                            currentQuestion={currentQuestion}
+                            totalTime={settings.timePerTurn}
+                            currentQuestion={question}
                           />
                         )
                       : null}
