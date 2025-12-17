@@ -1,40 +1,54 @@
-import type { Difficulty } from '@guess-logo/five-seconds';
-import { HTTPException } from 'hono/http-exception';
+import type { GetRandomQuestionResponse } from '@guess-logo/api/schemas';
+import type { Difficulty, Question } from '@guess-logo/five-seconds';
 import client from '@/lib/hono-client';
 
 export class NoQuestionsFoundError extends Error {
-  constructor() {
-    super('No questions found matching the criteria');
+  constructor(message: string) {
+    super(message);
     this.name = 'NoQuestionsFoundError';
   }
+}
+
+function isErrorResponse(
+  data: GetRandomQuestionResponse,
+): data is Extract<GetRandomQuestionResponse, { code: 'NO_QUESTIONS_FOUND' }> {
+  return 'code' in data && data.code === 'NO_QUESTIONS_FOUND';
 }
 
 export async function getRandomQuestion(
   categoryIds: string[],
   difficulty: Difficulty,
   excludeIds: string[],
-) {
+  timePerTurn: number = 5,
+): Promise<Question> {
   try {
     const res = await client.api.games['five-seconds'].questions.random.$get({
       query: {
         categoryIds,
         difficulty,
         excludeIds,
+        timePerTurn,
       },
     });
 
     if (!res.ok) {
       throw new Error('Failed to fetch random question');
     }
-    return res.json();
-  }
-  catch (err) {
-    if (err instanceof HTTPException && err.res && err.res.status === 200) {
-      const errorData = await err.res.json();
-      if (errorData.code === 'NO_QUESTIONS_FOUND') {
-        throw new NoQuestionsFoundError();
-      }
+
+    const data: GetRandomQuestionResponse = await res.json();
+
+    if (isErrorResponse(data)) {
+      throw new NoQuestionsFoundError(data.message);
     }
-    throw err;
+
+    return data as Question;
+  }
+  catch (error) {
+    if (error instanceof NoQuestionsFoundError) {
+      throw error;
+    }
+    throw new Error(
+      error instanceof Error ? error.message : 'Failed to fetch question',
+    );
   }
 }

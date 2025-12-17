@@ -1,7 +1,12 @@
 import { createRoute, z } from '@hono/zod-openapi';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import { jsonContent } from 'stoker/openapi/helpers';
-import { questionBatchQuery, questionQuery, questionSchema } from './questions.schemas';
+import {
+  getBatchQuestionsResponseSchema,
+  getRandomQuestionResponseSchema,
+  questionBatchQuery,
+  questionQuery,
+} from './questions.schemas';
 
 export const tags = ['questions'];
 
@@ -14,18 +19,12 @@ export const getRandomQuestion = createRoute({
   method: 'get',
   responses: {
     [HttpStatusCodes.OK]: jsonContent(
-      z.union([
-        questionSchema,
-        z.object({
-          code: z.literal('NO_QUESTIONS_FOUND'),
-          message: z.string(),
-        }),
-      ]),
+      getRandomQuestionResponseSchema,
       'Successfully retrieved a random question or no questions found',
     ),
     [HttpStatusCodes.BAD_REQUEST]: jsonContent(
       z.object({ error: z.string() }),
-      'Invalid request set',
+      'Invalid request parameters',
     ),
     [HttpStatusCodes.INTERNAL_SERVER_ERROR]: jsonContent(
       z.object({ error: z.string() }),
@@ -34,7 +33,7 @@ export const getRandomQuestion = createRoute({
   },
 });
 
-export type getRandomQuestionRoute = typeof getRandomQuestion;
+export type GetRandomQuestionRoute = typeof getRandomQuestion;
 
 export const getBatchQuestions = createRoute({
   path: '/batch',
@@ -45,9 +44,7 @@ export const getBatchQuestions = createRoute({
   tags,
   responses: {
     [HttpStatusCodes.OK]: jsonContent(
-      z.object({
-        questions: z.array(questionSchema),
-      }),
+      getBatchQuestionsResponseSchema,
       'Batch of random questions',
     ),
     [HttpStatusCodes.INTERNAL_SERVER_ERROR]: jsonContent(
@@ -57,4 +54,4 @@ export const getBatchQuestions = createRoute({
   },
 });
 
-export type getBatchQuestionsRoute = typeof getBatchQuestions;
+export type GetBatchQuestionsRoute = typeof getBatchQuestions;

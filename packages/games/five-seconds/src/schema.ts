@@ -8,15 +8,13 @@ export const categorySchema = z.object({
   icon: z.string(),
 });
 
-export const questionSchema = z.object({
+export const baseQuestionSchema = z.object({
   id: z.string(),
-  question: z.string(),
-  categoryId: z.string(),
+  text: z.string(),
   difficulty: difficultySchema,
-  estimatedReadingTime: z.string().optional(),
-  metadata: z.record(z.any(), z.any()).optional(),
+  categoryId: z.string(),
 });
 
 export type Difficulty = z.infer<typeof difficultySchema>;
 export type Category = z.infer<typeof categorySchema>;
-export type Question = z.infer<typeof questionSchema>;
+export type Question = z.infer<typeof baseQuestionSchema>;

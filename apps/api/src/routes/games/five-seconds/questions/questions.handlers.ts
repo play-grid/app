@@ -1,4 +1,7 @@
-import type { getBatchQuestionsRoute, getRandomQuestionRoute } from './questions.routes';
+import type {
+  GetBatchQuestionsRoute,
+  GetRandomQuestionRoute,
+} from './questions.routes';
 import type { AppRouteHandler } from '@/lib/types';
 import { and, eq, inArray, not, sql } from 'drizzle-orm';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
@@ -7,17 +10,23 @@ import { getDB } from '@/db';
 import { fiveSecondsCategories, fiveSecondsQuestions } from '../five-seconds.tables';
 import { questionSchema } from './questions.schemas';
 
-function calculateReadingTime(text: string) {
+function calculateReadingTime(text: string): number {
   const charsPerSecond = 10;
   const seconds = Math.ceil(text.length / charsPerSecond);
-  return `${Math.max(2, seconds)}s`;
+  return Math.max(2, seconds);
 }
 
-export const getRandomQuestion: AppRouteHandler<getRandomQuestionRoute> = async (c) => {
+export const getRandomQuestion: AppRouteHandler<GetRandomQuestionRoute> = async (
+  c,
+) => {
   const db = getDB(c);
-  const { difficulty, categoryIds = [], excludeIds = [] } = c.req.valid('query');
+  const {
+    difficulty,
+    categoryIds = [],
+    excludeIds = [],
+    timePerTurn,
+  } = c.req.valid('query');
 
-  // Build WHERE clause
   const filters: any[] = [];
 
   if (difficulty && difficulty !== 'all') {
@@ -36,7 +45,6 @@ export const getRandomQuestion: AppRouteHandler<getRandomQuestionRoute> = async 
     ? filters.reduce((acc, f) => and(acc, f))
     : undefined;
 
-  // Get ONE random question directly from DB
   const [random] = await db
     .select()
     .from(fiveSecondsQuestions)
@@ -51,9 +59,9 @@ export const getRandomQuestion: AppRouteHandler<getRandomQuestionRoute> = async 
   if (!random) {
     return c.json(
       {
-        code: 'NO_QUESTIONS_FOUND',
+        code: 'NO_QUESTIONS_FOUND' as const,
         message: 'No questions match the given filters.',
-      } as const,
+      },
       HttpStatusCodes.OK,
     );
   }
@@ -62,21 +70,32 @@ export const getRandomQuestion: AppRouteHandler<getRandomQuestionRoute> = async 
   c.header('Pragma', 'no-cache');
   c.header('Expires', '0');
 
+  const readingTime = calculateReadingTime(
+    random.five_seconds_questions.question,
+  );
+
   const response = questionSchema.parse({
-    ...random.five_seconds_questions,
+    id: random.five_seconds_questions.id,
+    text: random.five_seconds_questions.question,
+    difficulty: random.five_seconds_questions.difficulty,
     categoryId: random.five_seconds_categories?.id,
-    category: random.five_seconds_categories,
-    estimatedReadingTime: calculateReadingTime(random.five_seconds_questions.question),
-    exampleAnswers: random.five_seconds_questions.exampleAnswers ?? '',
-    metadata: random.five_seconds_questions.metadata ?? {},
+    totalTime: timePerTurn + readingTime,
   });
 
   return c.json(response, HttpStatusCodes.OK);
 };
 
-export const getBatchQuestions: AppRouteHandler<getBatchQuestionsRoute> = async (c) => {
+export const getBatchQuestions: AppRouteHandler<GetBatchQuestionsRoute> = async (
+  c,
+) => {
   const db = getDB(c);
-  const { count, difficulty, categoryIds = [], excludeIds = [] } = c.req.valid('query');
+  const {
+    count,
+    difficulty,
+    categoryIds = [],
+    excludeIds = [],
+    timePerTurn,
+  } = c.req.valid('query');
 
   const filters: any[] = [];
 
@@ -93,7 +112,7 @@ export const getBatchQuestions: AppRouteHandler<getBatchQuestionsRoute> = async 
   }
 
   const whereClause = filters.length ? and(...filters) : undefined;
-  
+
   const questions = await db
     .select()
     .from(fiveSecondsQuestions)
@@ -105,18 +124,17 @@ export const getBatchQuestions: AppRouteHandler<getBatchQuestionsRoute> = async 
     .orderBy(sql`RANDOM()`)
     .limit(count);
 
-  if (questions.length === 0) {
-    return c.json({ questions: [] }, HttpStatusCodes.OK);
-  }
+  const parsed = questions.map((q) => {
+    const readingTime = calculateReadingTime(q.five_seconds_questions.question);
 
-  const parsed = questions.map(q => questionSchema.parse({
-    ...q.five_seconds_questions,
-    categoryId: q.five_seconds_categories?.id,
-    category: q.five_seconds_categories,
-    estimatedReadingTime: calculateReadingTime(q.five_seconds_questions.question),
-    exampleAnswers: q.five_seconds_questions.exampleAnswers ?? '',
-    metadata: q.five_seconds_questions.metadata ?? {},
-  }));
+    return questionSchema.parse({
+      id: q.five_seconds_questions.id,
+      text: q.five_seconds_questions.question,
+      difficulty: q.five_seconds_questions.difficulty,
+      categoryId: q.five_seconds_categories?.id,
+      totalTime: timePerTurn + readingTime,
+    });
+  });
 
   return c.json({ questions: parsed }, HttpStatusCodes.OK);
 };
