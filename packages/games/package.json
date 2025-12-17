@@ -4,9 +4,12 @@
   "version": "0.2.0",
   "private": true,
   "dependencies": {
-    "@guess-logo/logger": "workspace:*",
     "@guess-logo/api-client": "workspace:*",
     "@guess-logo/eslint-config": "workspace:*",
+    "@guess-logo/logger": "workspace:*",
     "zod": "catalog:"
+  },
+  "devDependencies": {
+    "vitest": "^4.0.16"
   }
 }

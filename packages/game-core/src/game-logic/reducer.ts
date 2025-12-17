@@ -16,6 +16,7 @@ import {
   setCurrentPlayer,
   setTurnPhase,
   skipPlayers,
+  startGame,
   togglePlayerReady,
   updatePlayer,
   updateSettings,
@@ -28,25 +29,14 @@ export function gameReducer<T extends BaseGameState>(
   switch (action.type) {
     case 'SET_PHASE':
       return changePhase(state, action.payload);
-
-    case 'START_GAME': {
-      const newState = {
-        ...state,
-        phase: 'playing' as const,
-        startedAt: Date.now(),
-      };
-      return initTurnState(newState, action.payload);
-    }
-
+    case 'START_GAME':
+      return startGame(state);
     case 'END_GAME':
       return endGame(state);
-
     case 'RESET_GAME':
       return resetGame(state);
-
     case 'ADD_PLAYER':
       return addPlayer(state, action.payload);
-
     case 'REMOVE_PLAYER': {
       let newState = removePlayer(state, action.payload.playerId);
       if (state.turnState) {
@@ -56,40 +46,28 @@ export function gameReducer<T extends BaseGameState>(
     }
     case 'UPDATE_PLAYER':
       return updatePlayer(state, action.payload.playerId, action.payload.updates);
-
     case 'TOGGLE_PLAYER_READY':
       return togglePlayerReady(state, action.payload.playerId);
-
     case 'UPDATE_SETTINGS':
       return updateSettings(state, action.payload);
-
     case 'INIT_TURN_STATE':
       return initTurnState(state, action.payload);
-
     case 'NEXT_TURN':
       return nextTurn(state, action.payload);
-
     case 'PREVIOUS_TURN':
       return previousTurn(state);
-
     case 'REVERSE_TURN_DIRECTION':
       return reverseTurnDirection(state);
-
     case 'SKIP_PLAYERS':
       return skipPlayers(state, action.payload.count);
-
     case 'SET_CURRENT_PLAYER':
       return setCurrentPlayer(state, action.payload.playerId);
-
     case 'SET_TURN_PHASE':
       return setTurnPhase(state, action.payload.phase);
-
     case 'REORDER_PLAYERS':
       return reorderPlayers(state, action.payload.newOrder);
-
     case 'NEXT_ROUND':
       return nextRound(state, action.payload);
-
     default:
       return state;
   }

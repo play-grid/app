@@ -19,7 +19,7 @@ import { useDispatch } from './use-dispatch';
  *
  *   return (
  *     <>
- *       <button onClick={() => addPlayer({ id: '1', name: 'Alice' })}>
+ *       <button onClick={() => addPlayer({ id: '1', name: 'Mohammed' })}>
  *         Join
  *       </button>
  *       <button onClick={() => toggleReady('1')}>

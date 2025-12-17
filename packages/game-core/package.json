@@ -65,11 +65,12 @@
     "react": "catalog:react19"
   },
   "devDependencies": {
-    "@guess-logo/logger":"workspace:*",
+    "@guess-logo/logger": "workspace:*",
     "@orpc/server": "^1.12.2",
     "@types/node": "catalog:",
     "@types/react": "catalog:react19",
-    "typescript": "catalog:"
+    "typescript": "catalog:",
+    "vitest": "~4.0.15"
   },
   "scripts": {
     "tsCheck": "tsc --noEmit",
