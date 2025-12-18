@@ -23,7 +23,7 @@
     "apps/frontend/**/*.{js,ts,tsx}": "eslint --fix --config apps/frontend/eslint.config.js",
     "apps/api/**/*.{js,ts}": [
       "eslint --fix --config apps/api/eslint.config.js",
-      "pnpm --filter @guess-logo/api test --"
+      "pnpm --filter @guess-logo/api test:unit --"
     ],
     "packages/game-core/**/*.{js,ts}": [
       "eslint --fix --config packages/game-core/eslint.config.js"

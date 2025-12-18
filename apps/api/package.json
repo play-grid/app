@@ -7,7 +7,10 @@
   "scripts": {
     "dev": "wrangler dev",
     "deploy": "wrangler deploy --minify",
-    "test": "vitest",
+    "test": "vitest run --exclude \"**/*.integration.test.ts\"",
+    "test:unit": "vitest run --exclude \"**/*.integration.test.ts\"",
+    "test:integration": "vitest run --exclude \"**/*.unit.test.ts\"",
+    "test:all": "vitest run",
     "test:ui": "vitest --ui",
     "test:run": "vitest run",
     "test:coverage": "vitest run --coverage",
