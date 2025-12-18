@@ -74,6 +74,7 @@
   },
   "scripts": {
     "tsCheck": "tsc --noEmit",
+    "test":"vitest run",
     "build": "pnpm exec tsc -p tsconfig.build.json"
   }
 }
