@@ -112,10 +112,12 @@ CREATE TABLE `custom_list_items` (
 CREATE TABLE `custom_lists` (
 	`id` text(24) PRIMARY KEY NOT NULL,
 	`name` text NOT NULL,
+	`slug` text NOT NULL,
 	`createdAt` integer NOT NULL,
 	`updatedAt` integer NOT NULL
 );
 --> statement-breakpoint
+CREATE UNIQUE INDEX `custom_lists_slug_unique` ON `custom_lists` (`slug`);--> statement-breakpoint
 CREATE TABLE `leagues` (
 	`id` text(24) PRIMARY KEY NOT NULL,
 	`name` text NOT NULL,
@@ -138,7 +140,7 @@ CREATE TABLE `teams` (
 	`id` text(24) PRIMARY KEY NOT NULL,
 	`name` text NOT NULL,
 	`logo` text NOT NULL,
-	`league_id` text NOT NULL,
+	`league_id` text,
 	`createdAt` integer NOT NULL,
 	`updatedAt` integer NOT NULL,
 	FOREIGN KEY (`league_id`) REFERENCES `leagues`(`id`) ON UPDATE no action ON DELETE no action

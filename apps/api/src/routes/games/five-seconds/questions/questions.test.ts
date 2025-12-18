@@ -58,7 +58,7 @@ beforeAll(async () => {
   vi.spyOn(await import('@/db'), 'getDB').mockReturnValue(db);
 });
 
-afterAll(() => sqlite.close());
+afterAll(() => sqlite?.close());
 
 describe('get /random', () => {
   it('should return random questions (non-repeating until exhausted)', async () => {
@@ -71,6 +71,7 @@ describe('get /random', () => {
           difficulty: 'all',
           categoryIds: [],
           excludeIds: Array.from(seen),
+          timePerTurn: 5,
         },
       });
 
@@ -95,6 +96,7 @@ describe('get /random', () => {
         difficulty: 'all',
         categoryIds: [],
         excludeIds: Array.from(seen),
+        timePerTurn: 5,
       },
     });
 
@@ -115,6 +117,7 @@ describe('get /random', () => {
         difficulty: 'hard',
         categoryIds: [],
         excludeIds: [],
+        timePerTurn: 5,
       },
     });
 
@@ -134,6 +137,7 @@ describe('get /random', () => {
         difficulty: 'all',
         categoryIds: ['cat_cinema_v1', 'cat_tech_games_v1'],
         excludeIds: [],
+        timePerTurn: 5,
       },
     });
 
@@ -153,6 +157,7 @@ describe('get /random', () => {
         difficulty: 'all',
         categoryIds: [],
         excludeIds: ['q1', 'q2'],
+        timePerTurn: 5,
       },
     });
 
@@ -172,6 +177,7 @@ describe('get /random', () => {
         difficulty: 'all',
         categoryIds: [],
         excludeIds: [],
+        timePerTurn: 5,
       },
     });
 
@@ -188,6 +194,7 @@ describe('get /random', () => {
         difficulty: 'hard',
         categoryIds: ['cat_general_v1'], // mismatch, so none found
         excludeIds: [],
+        timePerTurn: 5,
       },
     });
 
