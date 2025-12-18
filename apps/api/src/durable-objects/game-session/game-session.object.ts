@@ -11,7 +11,7 @@ import { logger } from '@/utils/logger';
 import { GameSessionManager } from './game-session.manager';
 import { createGameSessionRouter } from './game-session.router';
 import { initGameSessionSchema, joinGameSessionSchema } from './schemas';
-import '../../games'; // Ensures all games are registered at startup
+import '../../games';
 
 export interface GameSessionMetadata {
   roomId: string;
