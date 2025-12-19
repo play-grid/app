@@ -1,6 +1,6 @@
-@import "tailwindcss";
-@import "tw-animate-css";
-@import "@daveyplate/better-auth-ui/css";
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import '@daveyplate/better-auth-ui/css';
 
 @custom-variant dark (&:is(.dark *));
 @custom-variant rtl (&:is([dir="rtl"], [dir="rtl"] *));
@@ -19,7 +19,7 @@
 }
 
 :root {
- --background: #e8f0f0;
+  --background: #e8f0f0;
   --foreground: #0a4a55;
   --card: #f2f7f7;
   --card-foreground: #0a4a55;
@@ -64,10 +64,10 @@
   --spacing: 0.25rem;
 
   /* Font family CSS custom properties */
-  --font-sans-en: "Allerta", system-ui, ui-sans-serif, sans-serif;
-  --font-serif-en: "Playfair Display", serif;
-  --font-sans-ar: "Rubik", sans-serif;
-  --font-serif-ar: "Amiri", serif;
+  --font-sans-en: 'Allerta', system-ui, ui-sans-serif, sans-serif;
+  --font-serif-en: 'Playfair Display', serif;
+  --font-sans-ar: 'Rubik', sans-serif;
+  --font-serif-ar: 'Amiri', serif;
 }
 
 .dark {
@@ -150,7 +150,7 @@
 
   --font-family-sans: var(--font-sans-en);
   --font-family-serif: var(--font-serif-en);
-  --font-family-mono: "Playfair Display", monospace;
+  --font-family-mono: 'Playfair Display', monospace;
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -175,13 +175,13 @@
   }
 
   /* Alternative approach - direct element targeting */
-  [lang="ar"] .font-sans,
-  [lang="ar"].font-sans {
+  [lang='ar'] .font-sans,
+  [lang='ar'].font-sans {
     font-family: var(--font-sans-ar);
   }
-  
-  [lang="ar"] .font-serif,
-  [lang="ar"].font-serif {
+
+  [lang='ar'] .font-serif,
+  [lang='ar'].font-serif {
     font-family: var(--font-serif-ar);
   }
 
@@ -189,19 +189,21 @@
   .glass-effect {
     @apply bg-background/80 backdrop-blur-xl border border-border/60;
   }
-  
+
   .hover-lift {
     @apply transition-transform duration-200 ease-out hover:scale-[1.02];
   }
-  
+
   .gradient-border {
     @apply relative overflow-hidden;
   }
-  
+
   .gradient-border::before {
-    @apply absolute inset-0 rounded-[inherit] p-px bg-gradient-to-r from-primary/50 to-accent/50;
+    @apply absolute inset-0 rounded-[inherit] p-px bg-linear-to-r from-primary/50 to-accent/50;
     content: '';
-    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
     mask-composite: xor;
   }
 
@@ -209,20 +211,19 @@
   .font-en-sans {
     font-family: var(--font-sans-en);
   }
-  
+
   .font-en-serif {
     font-family: var(--font-serif-en);
-}
-  
+  }
+
   .font-ar-sans {
     font-family: var(--font-sans-ar);
   }
-  
+
   .font-ar-serif {
     font-family: var(--font-serif-ar);
   }
 }
-
 
 @theme {
   --ease-snappy: cubic-bezier(0.2, 0.4, 0.1, 0.95);
@@ -231,17 +232,31 @@
   --animate-player-list-exit: player-list-exit 300ms var(--ease-snappy);
 
   @keyframes player-list-enter {
-    from { opacity: 0; transform: translateY(8px) scale(0.96); }
-    to { opacity: 1; transform: translateY(0) scale(1); }
+    from {
+      opacity: 0;
+      transform: translateY(8px) scale(0.96);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
   }
 
   @keyframes player-list-exit {
-    from { opacity: 1; transform: scale(1); max-height: 100px; }
-    to { opacity: 0; transform: scale(0.95);     z-index: -1;
+    from {
+      opacity: 1;
+      transform: scale(1);
+      max-height: 100px;
+    }
+    to {
+      opacity: 0;
+      transform: scale(0.95);
+      z-index: -1;
       max-height: 0;
       padding-top: 0;
       padding-bottom: 0;
       margin-top: 0;
-      margin-bottom: 0; }
+      margin-bottom: 0;
+    }
   }
 }

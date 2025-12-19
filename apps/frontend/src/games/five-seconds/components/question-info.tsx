@@ -5,11 +5,11 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Badge } from '@/components/ui/badge';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { Spinner } from '@/components/ui/spinner';
 import client from '@/lib/hono-client';
 import { useCategory } from '../hooks/use-category';
 import { FeedbackForm } from './feedback-form';
 import { Button } from './ui/button';
+import { Spinner } from './ui/spinner';
 
 const feedbackTypesEndpoint = client.api.games['five-seconds'].questions.feedback.types.$get;
 
