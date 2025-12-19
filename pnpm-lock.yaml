@@ -468,6 +468,9 @@ importers:
       '@guess-logo/shared':
         specifier: workspace:*
         version: link:../../packages/shared
+      '@guess-logo/ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
       '@hookform/resolvers':
         specifier: catalog:frontend
         version: 5.2.2(react-hook-form@7.69.0(react@19.2.0))

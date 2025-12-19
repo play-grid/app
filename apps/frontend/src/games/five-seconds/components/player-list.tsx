@@ -2,6 +2,7 @@ import {
   useFiveSecondsActions,
   useFiveSecondsState,
 } from '@guess-logo/five-seconds';
+import { UsersIcon } from '@guess-logo/ui/icons';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
@@ -9,7 +10,6 @@ import { z } from 'zod';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { UsersIcon } from '@/components/ui/icons';
 import { Input } from '@/components/ui/input';
 import { useRoomPermissions } from '@/context/room-permissions';
 import { useRoomSession } from '@/features/room/room-store';

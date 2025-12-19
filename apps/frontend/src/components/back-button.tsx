@@ -1,7 +1,7 @@
+import { ArrowLeftIcon, ArrowRightIcon } from '@guess-logo/ui/icons';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { ArrowLeftIcon, ArrowRightIcon } from '@/components/ui/icons';
 
 function BackButton() {
   const navigate = useNavigate();

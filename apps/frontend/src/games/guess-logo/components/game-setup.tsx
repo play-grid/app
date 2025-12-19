@@ -1,12 +1,5 @@
 import type { Player } from '@guess-logo/game-core';
 import type { LogoSetKey } from '../lib/logo-data';
-import { useQueryClient } from '@tanstack/react-query';
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { z } from 'zod';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
 import {
   BasketballIcon,
   BuildingsIcon,
@@ -16,7 +9,14 @@ import {
   TrophyIcon,
   UsersIcon,
   VideoIcon,
-} from '@/components/ui/icons';
+} from '@guess-logo/ui/icons';
+import { useQueryClient } from '@tanstack/react-query';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { z } from 'zod';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
