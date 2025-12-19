@@ -17,6 +17,9 @@ export default function createConfig(options, ...userConfigs) {
     rules: {
       'pnpm/json-enforce-catalog': 'off',
     },
+    formatters: {
+      css: true,
+    },
     unicorn: {
       overrides: {
         'unicorn/filename-case': [
