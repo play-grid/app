@@ -1,0 +1,146 @@
+.pixel__button {
+  position: relative;
+  box-shadow: var(--shadow-md);
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  &:active {
+    transform: translateY(3px);
+  }
+}
+
+.pixel-default__button {
+  &::after {
+    border-right: 4px solid color-mix(in hsl, var(--foreground) 70%, rgba(0, 0, 0));
+    border-bottom: 4px solid color-mix(in hsl, var(--foreground) 70%, rgba(0, 0, 0));
+  }
+  &:hover {
+    background-color: var(--muted);
+  }
+
+  &:active {
+    background-color: color-mix(in hsl, var(--muted) 70%, rgb(0, 0, 0));
+  }
+}
+
+.pixel-secondary__button {
+  background-color: var(--secondary);
+  color: var(--secondary-foreground);
+
+  &::after {
+    border-right: 4px solid color-mix(in hsl, var(--secondary) 70%, rgb(0, 0, 0));
+    border-bottom: 4px solid color-mix(in hsl, var(--secondary) 70%, rgb(0, 0, 0));
+  }
+
+  &:hover {
+    background-color: color-mix(in hsl, var(--secondary) 90%, rgb(0, 0, 0));
+  }
+
+  &:active {
+    background-color: color-mix(in hsl, var(--secondary) 70%, rgb(0, 0, 0));
+  }
+}
+
+.pixel-success__button {
+  background-color: var(--success);
+  color: var(--destructive-foreground);
+
+  &::after {
+    border-right: 4px solid color-mix(in hsl, var(--success) 70%, rgb(0, 0, 0));
+    border-bottom: 4px solid color-mix(in hsl, var(--success) 70%, rgb(0, 0, 0));
+  }
+
+  &:hover {
+    background-color: color-mix(in hsl, var(--success) 90%, rgb(0, 0, 0));
+  }
+
+  &:active {
+    background-color: color-mix(in hsl, var(--success) 70%, rgb(0, 0, 0));
+  }
+}
+
+.pixel-destructive__button {
+  background-color: var(--destructive);
+  color: var(--destructive-foreground);
+
+  &::after {
+    border-right: 4px solid color-mix(in hsl, var(--destructive) 70%, rgb(77, 77, 77));
+    border-bottom: 4px solid color-mix(in hsl, var(--destructive) 70%, rgb(77, 77, 77));
+  }
+
+  &:hover {
+    background-color: color-mix(in hsl, var(--destructive) 90%, rgb(77, 77, 77));
+  }
+
+  &:active {
+    background-color: color-mix(in hsl, var(--destructive) 70%, rgb(77, 77, 77));
+  }
+}
+
+.pixel-warning__button {
+  background-color: var(--urgency);
+  color: var(--destructive-foreground);
+  &::after {
+    border-right: 4px solid color-mix(in hsl, var(--urgency) 70%, rgb(32, 32, 32));
+    border-bottom: 4px solid color-mix(in hsl, var(--urgency) 70%, rgb(32, 32, 32));
+  }
+  &:hover {
+    background-color: color-mix(in hsl, var(--urgency) 90%, rgb(32, 32, 32));
+  }
+
+  &:active {
+    background-color: color-mix(in hsl, var(--urgency) 70%, rgb(32, 32, 32));
+  }
+}
+
+.pixel-link__button {
+  box-shadow: none;
+  color: var(--primary);
+  margin: 0;
+  padding: 0;
+
+  &:hover {
+    background-color: transparent;
+    color: color-mix(in hsl, var(--primary) 70%, rgb(0, 0, 0));
+  }
+
+  &:active {
+    color: color-mix(in hsl, var(--primary) 90%, rgb(0, 0, 0));
+  }
+
+  &:visited {
+    color: color-mix(in hsl, var(--primary) 70%, rgb(0, 0, 0));
+  }
+}
+.pixel-outline__button {
+  background: transparent;
+
+  color: var(--foreground);
+
+  &::after {
+    border-right: 4px solid color-mix(in hsl, var(--foreground) 70%, black);
+
+    border-bottom: 4px solid color-mix(in hsl, var(--foreground) 70%, black);
+  }
+  &:hover {
+    background: var(--accent);
+  }
+}
+.pixel-ghost__button {
+  background: transparent;
+  &::after {
+    border-right: 4px solid color-mix(in hsl, var(--muted) 70%, black);
+
+    border-bottom: 4px solid color-mix(in hsl, var(--muted) 70%, black);
+  }
+  &:hover {
+    background: var(--accent);
+  }
+}

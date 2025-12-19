@@ -66,7 +66,7 @@ function SiteCustomizations() {
           <SheetHeader
             className={cn(
               'relative px-6 pt-8 pb-8 overflow-hidden',
-              'bg-gradient-to-br from-primary via-primary to-primary/80',
+              'bg-linear-to-br from-primary via-primary to-primary/80',
               'text-background',
             )}
           >
@@ -196,7 +196,7 @@ function SiteCustomizations() {
                   data-testid="save-customizations-button"
                   className={cn(
                     'flex-1 h-12 text-base font-bold rounded-2xl',
-                    'bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary',
+                    'bg-linear-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary',
                     'text-primary-foreground shadow-lg hover:shadow-xl',
                     'transition-all duration-300 hover:scale-[1.02]',
                     'border-2 border-primary/20',

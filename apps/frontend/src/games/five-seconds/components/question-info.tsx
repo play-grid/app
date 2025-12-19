@@ -4,12 +4,12 @@ import { Info } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Spinner } from '@/components/ui/spinner';
 import client from '@/lib/hono-client';
 import { useCategory } from '../hooks/use-category';
 import { FeedbackForm } from './feedback-form';
+import { Button } from './ui/button';
 
 const feedbackTypesEndpoint = client.api.games['five-seconds'].questions.feedback.types.$get;
 

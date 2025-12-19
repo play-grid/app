@@ -8,12 +8,12 @@ import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import { z } from 'zod';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { useRoomPermissions } from '@/context/room-permissions';
 import { useRoomSession } from '@/features/room/room-store';
 import { cn } from '@/lib/utils';
+import { Button } from './ui/button';
 
 // Zod schema for player name validation
 function createPlayerNameSchema(t: any) {

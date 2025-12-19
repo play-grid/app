@@ -9,7 +9,6 @@ import { Timer, Trophy } from 'lucide-react';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import {
   Select,
@@ -26,9 +25,10 @@ import {
 import { useRoomPermissions } from '@/context/room-permissions';
 import { cn } from '@/lib/utils';
 import { logger } from '@/utils/logger';
-
 import { useCategories } from '../hooks/use-categories';
+
 import { getCategoryById } from '../services/category.service';
+import { Button } from './ui/button';
 
 export function GameSettings() {
   const { t, i18n } = useTranslation();

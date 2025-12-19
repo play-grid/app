@@ -3,7 +3,6 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import {
@@ -17,6 +16,7 @@ import {
 import { useSession } from '@/hooks/auth-hooks';
 import client from '@/lib/hono-client';
 import { logger } from '@/utils/logger';
+import { Button } from './ui/button';
 
 const feedbackTypesEndpoint = client.api.games['five-seconds'].questions.feedback.types.$get;
 const feedbackEndpoint = client.api.games['five-seconds'].questions.feedback.$post;

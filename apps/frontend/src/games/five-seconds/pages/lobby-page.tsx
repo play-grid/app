@@ -12,7 +12,6 @@ import {
   useSearchParams,
 } from 'react-router-dom';
 import BackButton from '@/components/back-button';
-import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { RoomDialog } from '@/features/room/room-dialog';
@@ -21,6 +20,7 @@ import { useClearSession } from '@/features/room/use-session-cleanup';
 import { GameInstructions } from '../components/game-instructions';
 import { GameSettings } from '../components/game-settings';
 import { PlayerList } from '../components/player-list';
+import { Button } from '../components/ui/button';
 import { useUrlSyncedSettingsOnly } from '../hooks/use-url-synced-settings';
 
 const FIRST_VISIT_KEY = 'FIVE_SECONDS_FIRST_VISIT';
@@ -88,7 +88,7 @@ export function FiveSecondsLobby() {
 
         {/* Header */}
         <div className="text-center space-y-4">
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-balance">
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-foreground">
             {t('fiveSecondsGame.lobby.title')}
           </h1>
           <p className="text-lg md:text-xl lg:text-2xl text-muted-foreground text-pretty max-w-3xl mx-auto">
