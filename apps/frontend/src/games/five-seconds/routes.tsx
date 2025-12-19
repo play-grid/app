@@ -1,98 +1,17 @@
-import { difficultySchema, fiveSecondsGame, FiveSecondsGameStateSchema } from '@guess-logo/five-seconds';
-import { AdapterProvider } from '@guess-logo/game-core';
-import { lazy, useEffect, useMemo } from 'react';
-import { Route, Routes, useLocation, useSearchParams } from 'react-router-dom';
-import { useRoomSession } from '@/features/room/room-store';
-import { destroyAdapter, getOrCreateAdapter } from '@/lib/adapter-instance';
+import { lazy } from 'react';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import NotFoundPage from '@/pages/not-found-page';
+import { FiveSecondsLayout } from './five-seconds-layout';
 
 const FiveSecondsPage = lazy(() => import('./five-seconds-page'));
 
 export default function FiveSecondsRoutes() {
   const location = useLocation();
   const lang = location.pathname.split('/')[1];
-  const [searchParams] = useSearchParams();
-  const { session } = useRoomSession();
-
-  const roomId = searchParams.get('room');
-  const mode = (roomId && searchParams.get('mode') === 'multiplayer') ? 'multiplayer' : 'local';
-
-  const urlDifficulty = searchParams.get('difficulty');
-  const urlCategories = searchParams.get('categories');
-
-  const validatedInitialState = useMemo(() => {
-    const baseState = session?.initialGameState || fiveSecondsGame.initialState;
-
-    const initialSettingsFromUrl: Partial<
-      typeof fiveSecondsGame.initialState.settings
-    > = {};
-
-    if (urlDifficulty) {
-      const parsed = difficultySchema.safeParse(urlDifficulty);
-      if (parsed.success) {
-        initialSettingsFromUrl.difficulty = parsed.data;
-      }
-    }
-
-    if (urlCategories) {
-      const categoryIds = urlCategories.split(',').filter(Boolean);
-      if (categoryIds.length > 0) {
-        initialSettingsFromUrl.categoryIds = categoryIds;
-      }
-    }
-
-    const initialStateWithUrlSettings = {
-      ...baseState,
-      settings: {
-        ...baseState.settings,
-        ...initialSettingsFromUrl,
-      },
-    };
-    return FiveSecondsGameStateSchema.parse(initialStateWithUrlSettings);
-  }, [urlDifficulty, urlCategories, session?.initialGameState]);
-
-  const adapter = useMemo(() => {
-    const hasValidSession = session?.roomId === roomId && session?.credentials;
-    const isMultiplayer = mode === 'multiplayer' && roomId && hasValidSession;
-
-    const identifier = isMultiplayer ? `multiplayer-${roomId}` : 'local';
-
-    if (isMultiplayer) {
-      return getOrCreateAdapter(
-        fiveSecondsGame,
-        {
-          mode: 'multiplayer',
-          roomId: roomId!,
-          playerId: session.playerId,
-          credentials: session.credentials,
-          initialState: validatedInitialState,
-          persistenceKey: 'five-seconds-game:v1',
-        },
-        identifier,
-      );
-    }
-
-    // Fallback to local mode
-    return getOrCreateAdapter(
-      fiveSecondsGame,
-      {
-        mode: 'local',
-        initialState: validatedInitialState,
-        persistenceKey: 'five-seconds-game:v1',
-      },
-      identifier,
-    );
-  }, [roomId, mode, session, validatedInitialState]);
-
-  useEffect(() => {
-    return () => {
-      destroyAdapter();
-    };
-  }, []);
 
   return (
-    <AdapterProvider adapter={adapter}>
-      <Routes>
+    <Routes>
+      <Route element={<FiveSecondsLayout />}>
         <Route path="/" element={<FiveSecondsPage />} />
         <Route
           path="*"
@@ -105,7 +24,7 @@ export default function FiveSecondsRoutes() {
             />
           )}
         />
-      </Routes>
-    </AdapterProvider>
+      </Route>
+    </Routes>
   );
 }

@@ -1,0 +1,123 @@
+.fiveSeconds {
+  background: var(--background);
+  /* --- Base --- */
+  --font-size: 16px;
+  --background: #cec4a9; /* Pale Oak */
+  --foreground: #413c31; /* Charcoal Brown */
+
+  /* --- Cards & Surfaces --- */
+  --card: #dbe2cd; /* Light Muted Olive */
+  --card-foreground: #413c31;
+  --popover: #ebe5d5; /* Ivory Cream */
+  --popover-foreground: #413c31;
+
+  /* --- Primary Actions --- */
+  --primary: #9ead84; /* Muted Olive 2 */
+  --primary-foreground: #ffffff;
+
+  --secondary: #b3c593; /* Muted Olive Shading */
+  --secondary-foreground: #413c31;
+
+  /* --- Feedback & States --- */
+  --muted: #c2ba9e; /* Muted background version */
+  --muted-foreground: #78746c; /* Dim Grey */
+  --accent: #ebe5d5; /* Ivory Cream for highlights */
+  --accent-foreground: #413c31;
+
+  --success: #8baf6d; /* Warm Sage */
+  --urgency: #b66a49; /* Dusty Rust - */
+  --destructive: #8c3f3f; /* Muted Brick */
+  --destructive-foreground: #ffffff;
+
+  /* --- Inputs & Borders --- */
+  --border: rgba(65, 60, 49, 0.15); /* Charcoal Brown with alpha */
+  --input: #f3f3f5;
+  --input-background: #f3f3f5;
+  --switch-background: #9ead84;
+
+  /* --- Misc --- */
+  --radius: 0.625rem;
+  --ring: #9ead84;
+
+  --sidebar: #d4ccb6;
+  --sidebar-foreground: #413c31;
+  --box-shadow-width: 2px;
+
+  --shadow-md:
+    calc(-1 * var(--box-shadow-width)) 0 0 0 var(--foreground), var(--box-shadow-width) 0 0 0 var(--foreground),
+    0 var(--box-shadow-width) 0 0 var(--foreground), 0 calc(-1 * var(--box-shadow-width)) 0 0 var(--foreground);
+  --shadow-lg:
+    calc(-2 * var(--box-shadow-width)) 0 0 0 var(--foreground),
+    calc(2 * var(--box-shadow-width)) 0 0 0 var(--foreground),
+    0 calc(2 * var(--box-shadow-width)) 0 0 var(--foreground),
+    0 calc(-2 * var(--box-shadow-width)) 0 0 var(--foreground);
+  --shadow-xl:
+    calc(-2 * var(--box-shadow-width)) 0 0 0 var(--foreground),
+    calc(2 * var(--box-shadow-width)) 0 0 0 var(--foreground),
+    0 calc(2 * var(--box-shadow-width)) 0 0 var(--foreground),
+    0 calc(-2 * var(--box-shadow-width)) 0 0 var(--foreground),
+    calc(2 * var(--box-shadow-width)) calc(2 * var(--box-shadow-width)) 0 0 var(--muted-foreground);
+  --shadow-2xl:
+    calc(-3 * var(--box-shadow-width)) 0 0 0 var(--foreground),
+    calc(3 * var(--box-shadow-width)) 0 0 0 var(--foreground),
+    0 calc(3 * var(--box-shadow-width)) 0 0 var(--foreground),
+    0 calc(-3 * var(--box-shadow-width)) 0 0 var(--foreground);
+}
+
+.fiveSeconds.dark {
+  /* --- Base --- */
+  --background: #322c21; /* Charcoal Brown Deep */
+  --foreground: #cec4a9; /* Pale Oak as text */
+
+  /* --- Cards & Surfaces --- */
+  --card: #413c31; /* Deep surface */
+  --card-foreground: #cec4a9;
+  --popover: #3a3428;
+  --popover-foreground: #cec4a9;
+
+  /* --- Primary Actions --- */
+  --primary: #9ead84; /* Keep the olive but might need slightly more saturation */
+  --primary-foreground: #322c21;
+
+  --secondary: #4d4638;
+  --secondary-foreground: #cec4a9;
+
+  /* --- Feedback & States --- */
+  --muted: #413c31;
+  --muted-foreground: #9a958c;
+  --accent: #4d4638;
+  --accent-foreground: #cec4a9;
+
+  --success: #6d8b54; /* Darker Sage */
+  --urgency: #a15a3a; /* Darker Rust */
+  --destructive: #6e3232; /* Deep Brick */
+  --destructive-foreground: #cec4a9;
+
+  /* --- Inputs & Borders --- */
+  --border: rgba(206, 196, 169, 0.1);
+  --input: #3a3428;
+  --ring: #9ead84;
+
+  --box-shadow-width: 4px;
+
+  --shadow-md:
+    calc(-1 * var(--box-shadow-width)) 0 0 0 var(--ring), var(--box-shadow-width) 0 0 0 var(--ring),
+    0 var(--box-shadow-width) 0 0 var(--ring), 0 calc(-1 * var(--box-shadow-width)) 0 0 var(--ring);
+
+  --shadow-lg:
+    calc(-1.5 * var(--box-shadow-width)) 0 0 0 var(--ring), calc(1.5 * var(--box-shadow-width)) 0 0 0 var(--ring),
+    0 calc(1.5 * var(--box-shadow-width)) 0 0 var(--ring), 0 calc(-1.5 * var(--box-shadow-width)) 0 0 var(--ring);
+
+  --shadow-xl:
+    calc(-1 * var(--box-shadow-width)) 0 0 0 var(--ring), var(--box-shadow-width) 0 0 0 var(--ring),
+    0 var(--box-shadow-width) 0 0 var(--ring), 0 calc(-1 * var(--box-shadow-width)) 0 0 var(--ring),
+    var(--box-shadow-width) var(--box-shadow-width) 0 0 var(--foreground);
+
+  --shadow-2xl:
+    calc(-2 * var(--box-shadow-width)) 0 0 0 var(--ring), calc(2 * var(--box-shadow-width)) 0 0 0 var(--ring),
+    0 calc(2 * var(--box-shadow-width)) 0 0 var(--ring), 0 calc(-2 * var(--box-shadow-width)) 0 0 var(--ring);
+
+  --shadow-destructive:
+    calc(-1 * var(--box-shadow-width)) 0 0 0 var(--destructive), var(--box-shadow-width) 0 0 0 var(--destructive),
+    0 var(--box-shadow-width) 0 0 var(--destructive), 0 calc(-1 * var(--box-shadow-width)) 0 0 var(--destructive);
+}
