@@ -12,7 +12,6 @@ import {
   useSearchParams,
 } from 'react-router-dom';
 import BackButton from '@/components/back-button';
-import { Card } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { RoomDialog } from '@/features/room/room-dialog';
 import { RoomHeader } from '@/features/room/room-stats-header';
@@ -21,6 +20,7 @@ import { GameInstructions } from '../components/game-instructions';
 import { GameSettings } from '../components/game-settings';
 import { PlayerList } from '../components/player-list';
 import { Button } from '../components/ui/button';
+import { Card } from '../components/ui/card';
 import { useUrlSyncedSettingsOnly } from '../hooks/use-url-synced-settings';
 
 const FIRST_VISIT_KEY = 'FIVE_SECONDS_FIRST_VISIT';

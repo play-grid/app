@@ -8,12 +8,12 @@ import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import { z } from 'zod';
 import { Badge } from '@/components/ui/badge';
-import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { useRoomPermissions } from '@/context/room-permissions';
 import { useRoomSession } from '@/features/room/room-store';
 import { cn } from '@/lib/utils';
 import { Button } from './ui/button';
+import { Card } from './ui/card';
 
 // Zod schema for player name validation
 function createPlayerNameSchema(t: any) {
@@ -136,7 +136,7 @@ export function PlayerList() {
   const isAddButtonDisabled = isMaxPlayersReached || !playerName.trim() || !!validationError;
 
   return (
-    <Card className="p-6 space-y-6 bg-card border-border">
+    <Card className="p-6 space-y-6">
       {/* Header */}
       <div className="flex items-center gap-3">
         <UsersIcon className="w-6 h-6 text-accent" aria-hidden="true" />

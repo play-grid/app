@@ -1,6 +1,6 @@
 import type { FiveSecondsPlayer } from '@guess-logo/five-seconds';
 import { Trophy } from 'lucide-react';
-import { Card } from '@/components/ui/card';
+import { Card } from './ui/card';
 
 interface PlayerScoresProps {
   players: FiveSecondsPlayer[];
