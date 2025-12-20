@@ -2,6 +2,13 @@ import { useFiveSecondsActions, useFiveSecondsState } from '@guess-logo/five-sec
 import { ArrowLeft, RotateCcw } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { AnsweringView } from '../components/answering-view';
+import { PlayerScores } from '../components/player-scores';
+import { PreTurnView } from '../components/pre-turn-view';
+
+import { RoundInfo } from '../components/round-info';
+import { Button } from '../components/ui/button';
+import { Card } from '../components/ui/card';
 import {
   Dialog,
   DialogClose,
@@ -11,14 +18,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
-import { AnsweringView } from '../components/answering-view';
-import { PlayerScores } from '../components/player-scores';
-
-import { PreTurnView } from '../components/pre-turn-view';
-import { RoundInfo } from '../components/round-info';
-import { Button } from '../components/ui/button';
-import { Card } from '../components/ui/card';
+} from '../components/ui/dialog';
 import { Spinner } from '../components/ui/spinner';
 import { VotingView } from '../components/voting-view';
 import { useQuestion } from '../hooks/use-question';

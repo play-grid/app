@@ -1,7 +1,6 @@
-import { AlertCircle, Earth, Globe, Zap } from 'lucide-react';
+import { AlertCircle, Globe, Zap } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { CopyButton } from './copy-button';
 import { useRoomStats } from './use-room';
@@ -9,15 +8,11 @@ import { useRoomStats } from './use-room';
 interface RoomStatsHeaderProps {
   mode: string;
   roomId?: string | null;
-  onSwitchMode?: (newMode: 'local' | 'multiplayer') => void;
-  onOpenRoomDialog?: () => void;
 }
 
 export function RoomHeader({
   mode,
   roomId,
-  onSwitchMode,
-  onOpenRoomDialog,
 }: RoomStatsHeaderProps) {
   const { t } = useTranslation();
   const { room, isLoading, isError, error } = useRoomStats({
@@ -32,17 +27,6 @@ export function RoomHeader({
           <Zap className="h-3.5 w-3.5" />
           {t('mode.local')}
         </Badge>
-        {onSwitchMode && (
-          <Button
-            variant="default"
-            size="sm"
-            onClick={() => onSwitchMode('multiplayer')}
-            className="gap-2"
-          >
-            <Earth className="h-4 w-4" />
-            {t('play-online')}
-          </Button>
-        )}
       </div>
     );
   }
@@ -56,24 +40,6 @@ export function RoomHeader({
             <span className="text-xs text-destructive">
               {error instanceof Error ? error.message : t('room.error')}
             </span>
-
-            {/* Switch to local actually switches mode */}
-            {onSwitchMode && (
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => onSwitchMode('local')}
-              >
-                {t('play-local')}
-              </Button>
-            )}
-
-            {/* Optional: keep a way to open the room dialog */}
-            {onOpenRoomDialog && (
-              <Button variant="ghost" size="sm" onClick={onOpenRoomDialog}>
-                {t('room.change')}
-              </Button>
-            )}
           </div>
         </Card>
       );
@@ -86,24 +52,6 @@ export function RoomHeader({
             <Globe className="h-3.5 w-3.5" />
             {t('room.loading')}
           </Badge>
-
-          {/* Switch to local actually switches mode */}
-          {onSwitchMode && (
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => onSwitchMode('local')}
-            >
-              {t('play-local')}
-            </Button>
-          )}
-
-          {/* Optional: keep dialog */}
-          {onOpenRoomDialog && (
-            <Button variant="ghost" size="sm" onClick={onOpenRoomDialog}>
-              {t('room.change')}
-            </Button>
-          )}
         </div>
       );
     }
@@ -137,24 +85,6 @@ export function RoomHeader({
               >
                 {room.status}
               </Badge>
-
-              {/* Switch to local actually switches mode */}
-              {onSwitchMode && (
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => onSwitchMode('local')}
-                >
-                  {t('play-local')}
-                </Button>
-              )}
-
-              {/* Optional: keep dialog */}
-              {onOpenRoomDialog && (
-                <Button variant="ghost" size="sm" onClick={onOpenRoomDialog}>
-                  {t('room.change')}
-                </Button>
-              )}
             </div>
           </div>
         </Card>

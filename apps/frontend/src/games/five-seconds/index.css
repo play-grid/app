@@ -45,20 +45,30 @@
   --sidebar-foreground: #413c31;
   --box-shadow-width: 2px;
 
+  /* Added shadow-sm (uses 1px or half box-shadow-width for a lighter pixel border) */
+  --shadow-sm:
+    calc(-0.5 * var(--box-shadow-width)) 0 0 0 var(--foreground), 
+    calc(0.5 * var(--box-shadow-width)) 0 0 0 var(--foreground),
+    0 calc(0.5 * var(--box-shadow-width)) 0 0 var(--foreground), 
+    0 calc(-0.5 * var(--box-shadow-width)) 0 0 var(--foreground);
+
   --shadow-md:
     calc(-1 * var(--box-shadow-width)) 0 0 0 var(--foreground), var(--box-shadow-width) 0 0 0 var(--foreground),
     0 var(--box-shadow-width) 0 0 var(--foreground), 0 calc(-1 * var(--box-shadow-width)) 0 0 var(--foreground);
+    
   --shadow-lg:
     calc(-2 * var(--box-shadow-width)) 0 0 0 var(--foreground),
     calc(2 * var(--box-shadow-width)) 0 0 0 var(--foreground),
     0 calc(2 * var(--box-shadow-width)) 0 0 var(--foreground),
     0 calc(-2 * var(--box-shadow-width)) 0 0 var(--foreground);
+    
   --shadow-xl:
     calc(-2 * var(--box-shadow-width)) 0 0 0 var(--foreground),
     calc(2 * var(--box-shadow-width)) 0 0 0 var(--foreground),
     0 calc(2 * var(--box-shadow-width)) 0 0 var(--foreground),
     0 calc(-2 * var(--box-shadow-width)) 0 0 var(--foreground),
     calc(2 * var(--box-shadow-width)) calc(2 * var(--box-shadow-width)) 0 0 var(--muted-foreground);
+    
   --shadow-2xl:
     calc(-3 * var(--box-shadow-width)) 0 0 0 var(--foreground),
     calc(3 * var(--box-shadow-width)) 0 0 0 var(--foreground),

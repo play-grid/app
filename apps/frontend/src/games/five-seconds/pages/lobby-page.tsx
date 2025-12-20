@@ -4,7 +4,7 @@ import {
   useFiveSecondsActions,
   useFiveSecondsState,
 } from '@guess-logo/five-seconds';
-import { Info, Play, Settings } from 'lucide-react';
+import { Earth, Info, Play, Settings, Zap } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -12,15 +12,15 @@ import {
   useSearchParams,
 } from 'react-router-dom';
 import BackButton from '@/components/back-button';
-import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
-import { RoomDialog } from '@/features/room/room-dialog';
 import { RoomHeader } from '@/features/room/room-stats-header';
 import { useClearSession } from '@/features/room/use-session-cleanup';
 import { GameInstructions } from '../components/game-instructions';
+import { GameRoomModal } from '../components/game-room-modal';
 import { GameSettings } from '../components/game-settings';
 import { PlayerList } from '../components/player-list';
 import { Button } from '../components/ui/button';
 import { Card } from '../components/ui/card';
+import { Dialog, DialogContent, DialogTrigger } from '../components/ui/dialog';
 import { useUrlSyncedSettingsOnly } from '../hooks/use-url-synced-settings';
 
 const FIRST_VISIT_KEY = 'FIVE_SECONDS_FIRST_VISIT';
@@ -31,7 +31,7 @@ export function FiveSecondsLobby() {
   const { players, settings } = useFiveSecondsState();
   const { startGame } = useFiveSecondsActions();
   useUrlSyncedSettingsOnly();
-  const [searchParams, _setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const clearSession = useClearSession();
 
   const mode = searchParams.get('mode') || 'local';
@@ -45,7 +45,6 @@ export function FiveSecondsLobby() {
     }
     return false;
   });
-  const [isRoomDialogOpen, setIsRoomDialogOpen] = useState(false);
 
   const canStartGame = () => {
     const playerCount = Object.keys(players).length;
@@ -68,16 +67,10 @@ export function FiveSecondsLobby() {
     });
   };
 
-  const handleModeSwitch = (newMode: 'local' | 'multiplayer') => {
-    if (newMode === 'multiplayer') {
-      localStorage.removeItem('five-seconds-game:v1');
-      setIsRoomDialogOpen(true);
-    }
-    else {
-      clearSession();
-      localStorage.removeItem('five-seconds-game:v1');
-      window.location.assign(`/${i18n.language}/five-seconds?mode=local`);
-    }
+  const switchToLocalMode = () => {
+    clearSession();
+    localStorage.removeItem('five-seconds-game:v1');
+    window.location.assign(`/${i18n.language}/five-seconds?mode=local`);
   };
 
   return (
@@ -97,22 +90,43 @@ export function FiveSecondsLobby() {
           <RoomHeader
             mode={mode}
             roomId={roomId}
-            onSwitchMode={handleModeSwitch}
-            onOpenRoomDialog={() => setIsRoomDialogOpen(true)}
           />
 
-          {/* How to Play Button */}
-          <Dialog open={isInstructionsOpen} onOpenChange={setIsInstructionsOpen}>
-            <DialogTrigger asChild>
-              <Button variant="outline" size="lg" className="gap-2">
-                <Info className="w-5 h-5" />
-                {t('fiveSecondsGame.howToPlay')}
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="max-h-[90vh] overflow-y-auto">
-              <GameInstructions />
-            </DialogContent>
-          </Dialog>
+          <div className="flex items-center justify-center gap-4">
+            <Dialog open={isInstructionsOpen} onOpenChange={setIsInstructionsOpen}>
+              <DialogTrigger asChild>
+                <Button variant="outline" size="lg" className="gap-2">
+                  <Info className="w-5 h-5" />
+                  {t('fiveSecondsGame.howToPlay')}
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="max-h-[90vh] overflow-y-auto">
+                <GameInstructions />
+              </DialogContent>
+            </Dialog>
+
+            {mode === 'local'
+              ? (
+                  <GameRoomModal
+                    trigger={(
+                      <Button variant="default" size="lg" className="gap-2">
+                        <Earth className="h-5 w-5" />
+                        {t('play-online')}
+                      </Button>
+                    )}
+                    gameType="five-seconds"
+                    gameSettings={settings}
+                    onRoomCreated={handleRoomCreated}
+                    onRoomJoined={handleRoomJoined}
+                  />
+                )
+              : (
+                  <Button variant="outline" size="lg" onClick={switchToLocalMode} className="gap-2">
+                    <Zap className="h-5 w-5" />
+                    {t('play-local')}
+                  </Button>
+                )}
+          </div>
         </div>
 
         <div className="grid md:grid-cols-2 gap-6">
@@ -140,15 +154,6 @@ export function FiveSecondsLobby() {
                 <Play className="w-5 h-5 mr-2" />
                 {t('fiveSecondsGame.lobby.startGame')}
               </Button>
-
-              <RoomDialog
-                gameType="five-seconds"
-                gameSettings={settings}
-                onRoomCreated={handleRoomCreated}
-                onRoomJoined={handleRoomJoined}
-                open={isRoomDialogOpen}
-                onOpenChange={setIsRoomDialogOpen}
-              />
             </div>
 
             {!canStartGame() && Object.keys(players).length > 0 && (
