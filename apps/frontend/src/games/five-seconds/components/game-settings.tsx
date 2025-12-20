@@ -11,13 +11,6 @@ import { useTranslation } from 'react-i18next';
 
 import { Label } from '@/components/ui/label';
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
@@ -26,9 +19,16 @@ import { useRoomPermissions } from '@/context/room-permissions';
 import { cn } from '@/lib/utils';
 import { logger } from '@/utils/logger';
 import { useCategories } from '../hooks/use-categories';
-
 import { getCategoryById } from '../services/category.service';
+
 import { Button } from './ui/button';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from './ui/select';
 
 export function GameSettings() {
   const { t, i18n } = useTranslation();

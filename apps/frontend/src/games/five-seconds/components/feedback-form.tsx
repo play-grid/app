@@ -5,6 +5,10 @@ import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { useSession } from '@/hooks/auth-hooks';
+import client from '@/lib/hono-client';
+import { logger } from '@/utils/logger';
+import { Button } from './ui/button';
 import {
   Select,
   SelectContent,
@@ -12,11 +16,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { useSession } from '@/hooks/auth-hooks';
-import client from '@/lib/hono-client';
-import { logger } from '@/utils/logger';
-import { Button } from './ui/button';
+} from './ui/select';
 
 const feedbackTypesEndpoint = client.api.games['five-seconds'].questions.feedback.types.$get;
 const feedbackEndpoint = client.api.games['five-seconds'].questions.feedback.$post;
