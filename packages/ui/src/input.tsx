@@ -1,5 +1,4 @@
 import { cn } from '@guess-logo/ui';
-
 import * as React from 'react';
 
 function Input({ className, type, ...props }: React.ComponentProps<'input'>) {
@@ -7,24 +6,20 @@ function Input({ className, type, ...props }: React.ComponentProps<'input'>) {
     <input
       type={type}
       className={cn(
-        // Base styles
-        'flex h-10 w-full rounded-lg border bg-card px-3 py-2 text-sm',
+        // Base Structural Layout
+        'flex h-10 w-full px-3 py-2 text-sm',
 
-        // Colors and theming
-        'border-border text-foreground placeholder:text-muted-foreground',
-        'shadow-sm transition-all duration-200',
+        // Directionality
+        'text-left rtl:text-right',
 
-        // Focus states
-        'focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-0 focus:border-ring',
+        // Reset/Primitive styles
+        'bg-transparent outline-none appearance-none',
 
-        // Disabled state
+        // State logic
         'disabled:cursor-not-allowed disabled:opacity-50',
 
-        // File input styles
-        'file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground',
-
-        // Error state
-        'aria-invalid:border-destructive aria-invalid:ring-destructive/20',
+        // File input reset
+        'file:border-0 file:bg-transparent file:text-sm file:font-medium',
 
         className,
       )}

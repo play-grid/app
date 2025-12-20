@@ -41,7 +41,7 @@ export function SelectContent({ ref, children, className, position = 'popper', .
         {...props}
       >
         <SelectPrimitive.Viewport
-            className={cn('p-1', position === 'popper' && 'min-w-[var(--radix-select-trigger-width)]')}
+          className={cn('p-1', position === 'popper' && 'min-w-[var(--radix-select-trigger-width)]')}
         >
           {children}
         </SelectPrimitive.Viewport>
@@ -68,14 +68,13 @@ export function SelectItem({ ref, children, className, ...props }: React.Compone
   );
 }
 
-
 export function SelectItemIndicator({ ref, className, ...props }: React.ComponentPropsWithoutRef<typeof SelectPrimitive.ItemIndicator> & { ref?: React.RefObject<React.ElementRef<typeof SelectPrimitive.ItemIndicator> | null> }) {
   return (
     <SelectPrimitive.ItemIndicator
       ref={ref}
       className={cn(
         'absolute flex h-3.5 w-3.5 items-center justify-center',
-        className
+        className,
       )}
       {...props}
     />
@@ -89,7 +88,7 @@ export function SelectLabel({ ref, className, ...props }: React.ComponentPropsWi
       className={cn(
         'px-2 py-1.5 text-sm font-medium',
         'text-left rtl:text-right',
-        className
+        className,
       )}
       {...props}
     />

@@ -4,12 +4,11 @@ import {
   useFiveSecondsActions,
   useFiveSecondsState,
 } from '@guess-logo/five-seconds';
+import { ClockIcon, TrophyIcon } from '@guess-logo/ui/icons';
 import { useQueryClient } from '@tanstack/react-query';
-import { Timer, Trophy } from 'lucide-react';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Label } from '@/components/ui/label';
 import {
   Tooltip,
   TooltipContent,
@@ -18,10 +17,11 @@ import {
 import { useRoomPermissions } from '@/context/room-permissions';
 import { cn } from '@/lib/utils';
 import { logger } from '@/utils/logger';
+
 import { useCategories } from '../hooks/use-categories';
 import { getCategoryById } from '../services/category.service';
-
 import { Button } from './ui/button';
+import { Label } from './ui/label';
 import {
   Select,
   SelectContent,
@@ -43,8 +43,9 @@ export function GameSettings() {
   const permissions = useRoomPermissions(players);
   const canEdit = permissions.canEditSettings;
 
-  const language
-    = (i18n.language.startsWith('ar') ? 'ar' : 'en') as SupportedLanguage;
+  const language = (
+    i18n.language.startsWith('ar') ? 'ar' : 'en'
+  ) as SupportedLanguage;
 
   const handleCategoryChange = async (categoryId: string) => {
     if (!settings.categoryIds)
@@ -92,7 +93,8 @@ export function GameSettings() {
         <Label>{t('fiveSecondsGame.lobby.difficulty')}</Label>
         <Select
           value={settings.difficulty}
-          onValueChange={value => updateSettings({ difficulty: value as any })}
+          onValueChange={value =>
+            updateSettings({ difficulty: value as any })}
         >
           <SelectTrigger>
             <SelectValue placeholder={t('fiveSecondsGame.lobby.difficulty')} />
@@ -119,7 +121,6 @@ export function GameSettings() {
               }
               size="sm"
               onClick={() => handleCategoryChange(cat.id)}
-              className="rounded-full"
             >
               {t(cat.name)}
             </Button>
@@ -133,7 +134,7 @@ export function GameSettings() {
           {t('fiveSecondsGame.lobby.timePerTurn')}
         </Label>
         <div className="flex items-center gap-4">
-          <Timer className="w-5 h-5 text-accent" />
+          <ClockIcon className="w-5 h-5" />
           <div className="flex gap-2 flex-1">
             {[5, 10, 15].map(time => (
               <Button
@@ -155,7 +156,7 @@ export function GameSettings() {
           {t('fiveSecondsGame.lobby.roundsToWin')}
         </Label>
         <div className="flex items-center gap-4">
-          <Trophy className="w-5 h-5 text-accent" />
+          <TrophyIcon className="w-5 h-5" />
           <div className="flex gap-2 flex-1">
             {[3, 5, 7].map(rounds => (
               <Button

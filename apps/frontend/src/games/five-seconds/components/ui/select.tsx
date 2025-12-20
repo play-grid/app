@@ -23,7 +23,7 @@ export function SelectTrigger({ className, children, ...props }: React.Component
     <PrimitiveSelectTrigger
       className={cn(
         'bg-popover text-foreground border-none',
-        'shadow-md focus:translate-y-px transition-all',
+        'shadow-md focus:shadow-lg focus:translate-y-px transition-all',
         className,
       )}
       {...props}

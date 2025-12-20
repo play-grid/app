@@ -14,7 +14,7 @@ import { cva } from 'class-variance-authority';
 import * as React from 'react';
 
 const cardVariants = cva(
-  'bg-card text-foreground transition-all',
+  'text-foreground transition-all',
   {
     variants: {
       variant: {

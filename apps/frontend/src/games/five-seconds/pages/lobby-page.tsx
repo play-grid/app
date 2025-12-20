@@ -120,7 +120,7 @@ export function FiveSecondsLobby() {
           <PlayerList />
 
           {/* Settings Section */}
-          <Card className="p-6 space-y-6 bg-card border-border">
+          <Card className="p-6 space-y-6 border-border">
             <div className="flex items-center gap-3">
               <Settings className="w-6 h-6 text-primary" />
               <h2 className="text-2xl font-bold">
@@ -131,7 +131,6 @@ export function FiveSecondsLobby() {
             <GameSettings />
 
             <div className="flex flex-col sm:flex-row gap-4">
-              {/* Start Game Button (Local) */}
               <Button
                 size="lg"
                 className="w-full text-lg font-semibold"

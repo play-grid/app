@@ -8,12 +8,12 @@ import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import { z } from 'zod';
 import { Badge } from '@/components/ui/badge';
-import { Input } from '@/components/ui/input';
 import { useRoomPermissions } from '@/context/room-permissions';
 import { useRoomSession } from '@/features/room/room-store';
 import { cn } from '@/lib/utils';
 import { Button } from './ui/button';
 import { Card } from './ui/card';
+import { Input } from './ui/input';
 
 // Zod schema for player name validation
 function createPlayerNameSchema(t: any) {
@@ -133,15 +133,19 @@ export function PlayerList() {
   };
 
   const isMaxPlayersReached = Object.keys(players).length >= MAX_PLAYERS;
-  const isAddButtonDisabled = isMaxPlayersReached || !playerName.trim() || !!validationError;
+  const isAddButtonDisabled
+    = isMaxPlayersReached || !playerName.trim() || !!validationError;
 
   return (
     <Card className="p-6 space-y-6">
       {/* Header */}
       <div className="flex items-center gap-3">
-        <UsersIcon className="w-6 h-6 text-accent" aria-hidden="true" />
+        <UsersIcon className="w-6 h-6" aria-hidden="true" />
         <h2 className="text-2xl font-bold">
-          {t('fiveSecondsGame.lobby.playersTitle', { count: Object.keys(players).length, max: MAX_PLAYERS })}
+          {t('fiveSecondsGame.lobby.playersTitle', {
+            count: Object.keys(players).length,
+            max: MAX_PLAYERS,
+          })}
         </h2>
       </div>
 
@@ -207,14 +211,13 @@ export function PlayerList() {
                 <div
                   key={player.id}
                   className={cn(
-                    'flex items-center justify-between p-4 bg-secondary rounded-lg border border-border hover:bg-secondary/80',
+                    'flex items-center justify-between p-4',
                     'transition-[background-color] duration-300 origin-center',
                     exiting.includes(player.id) && 'animate-player-list-exit opacity-0 pointer-events-none',
                     entering.includes(player.id) && 'animate-player-list-enter',
                   )}
                   role="listitem"
                 >
-
                   <div className="flex items-center gap-3 flex-1 min-w-0">
                     <div
                       className="w-10 h-10 rounded-full bg-accent flex items-center justify-center text-accent-foreground font-bold shrink-0"
