@@ -10,7 +10,11 @@ catalogs:
       specifier: ^4.1.17
       version: 4.1.18
     '@tanstack/react-query':
+<<<<<<< HEAD
       specifier: 5.90.12
+=======
+      specifier: ^5.90.12
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
       version: 5.90.12
     '@types/node':
       specifier: 24.10.1
@@ -41,6 +45,7 @@ catalogs:
     zod:
       specifier: ^4.1.12
       version: 4.2.1
+<<<<<<< HEAD
   frontend:
     '@hookform/resolvers':
       specifier: ^5.2.2
@@ -111,6 +116,8 @@ catalogs:
     tailwind-merge:
       specifier: ^3.3.1
       version: 3.4.0
+=======
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
   react19:
     '@types/react':
       specifier: ^19.2.6
@@ -347,6 +354,91 @@ importers:
 =======
 >>>>>>> 4e89210 (chore(build-system): introduce turborepo for monorepo tasks)
 
+  apps/admin:
+    dependencies:
+      '@guess-logo/api-client':
+        specifier: workspace:*
+        version: link:../../packages/api-client
+      '@tailwindcss/vite':
+        specifier: ^4.0.6
+        version: 4.1.18(vite@7.3.0(@types/node@22.19.3)(jiti@2.6.1)(lightningcss@1.30.2)(tsx@4.21.0)(yaml@2.8.2))
+      '@tanstack/react-devtools':
+        specifier: ^0.7.0
+        version: 0.7.11(@types/react-dom@19.2.3(@types/react@19.2.7))(@types/react@19.2.7)(csstype@3.2.3)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(solid-js@1.9.10)
+      '@tanstack/react-query':
+        specifier: 'catalog:'
+        version: 5.90.12(react@19.2.3)
+      '@tanstack/react-router':
+        specifier: ^1.132.0
+        version: 1.141.8(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      '@tanstack/react-router-devtools':
+        specifier: ^1.132.0
+        version: 1.141.8(@tanstack/react-router@1.141.8(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(@tanstack/router-core@1.141.8)(csstype@3.2.3)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(solid-js@1.9.10)
+      '@tanstack/router-plugin':
+        specifier: ^1.132.0
+        version: 1.142.0(@tanstack/react-router@1.141.8(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(vite@7.3.0(@types/node@22.19.3)(jiti@2.6.1)(lightningcss@1.30.2)(tsx@4.21.0)(yaml@2.8.2))
+      lucide-react:
+        specifier: ^0.545.0
+        version: 0.545.0(react@19.2.3)
+      react:
+        specifier: ^19.2.0
+        version: 19.2.3
+      react-dom:
+        specifier: ^19.2.0
+        version: 19.2.3(react@19.2.3)
+      tailwindcss:
+        specifier: ^4.0.6
+        version: 4.1.18
+    devDependencies:
+      '@guess-logo/eslint-config':
+        specifier: workspace:*
+        version: link:../../packages/eslint-config
+      '@guess-logo/logger':
+        specifier: workspace:*
+        version: link:../../packages/logger
+      '@tanstack/devtools-vite':
+        specifier: ^0.3.11
+        version: 0.3.12(vite@7.3.0(@types/node@22.19.3)(jiti@2.6.1)(lightningcss@1.30.2)(tsx@4.21.0)(yaml@2.8.2))
+      '@tanstack/eslint-config':
+        specifier: ^0.3.0
+        version: 0.3.4(@typescript-eslint/utils@8.50.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@tanstack/eslint-plugin-query':
+        specifier: ^5.91.2
+        version: 5.91.2(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@testing-library/dom':
+        specifier: ^10.4.0
+        version: 10.4.1
+      '@testing-library/react':
+        specifier: ^16.2.0
+        version: 16.3.1(@testing-library/dom@10.4.1)(@types/react-dom@19.2.3(@types/react@19.2.7))(@types/react@19.2.7)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      '@types/node':
+        specifier: ^22.10.2
+        version: 22.19.3
+      '@types/react':
+        specifier: ^19.2.0
+        version: 19.2.7
+      '@types/react-dom':
+        specifier: ^19.2.0
+        version: 19.2.3(@types/react@19.2.7)
+      '@vitejs/plugin-react':
+        specifier: ^5.0.4
+        version: 5.1.2(vite@7.3.0(@types/node@22.19.3)(jiti@2.6.1)(lightningcss@1.30.2)(tsx@4.21.0)(yaml@2.8.2))
+      jsdom:
+        specifier: ^27.0.0
+        version: 27.3.0
+      typescript:
+        specifier: ^5.7.2
+        version: 5.9.3
+      vite:
+        specifier: ^7.1.7
+        version: 7.3.0(@types/node@22.19.3)(jiti@2.6.1)(lightningcss@1.30.2)(tsx@4.21.0)(yaml@2.8.2)
+      vitest:
+        specifier: ^3.0.5
+        version: 3.2.4(@types/debug@4.1.12)(@types/node@22.19.3)(jiti@2.6.1)(jsdom@27.3.0)(lightningcss@1.30.2)(tsx@4.21.0)(yaml@2.8.2)
+      web-vitals:
+        specifier: ^5.1.0
+        version: 5.1.0
+
   apps/api:
     dependencies:
       '@guess-logo/five-seconds':
@@ -483,7 +575,11 @@ importers:
         specifier: workspace:*
         version: link:../../packages/ui
       '@hookform/resolvers':
+<<<<<<< HEAD
         specifier: catalog:frontend
+=======
+        specifier: ^5.2.2
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
         version: 5.2.2(react-hook-form@7.69.0(react@19.2.0))
       '@radix-ui/react-checkbox':
         specifier: catalog:frontend
@@ -603,10 +699,14 @@ importers:
       '@eslint-react/eslint-plugin':
         specifier: ^2.3.1
 <<<<<<< HEAD
+<<<<<<< HEAD
         version: 2.3.13(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
 =======
         version: 2.3.12(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
 >>>>>>> bd4f164 (chore(api-generators): migrate plop to turborepo generators)
+=======
+        version: 2.3.13(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
       '@eslint/js':
         specifier: ^9.39.1
         version: 9.39.2
@@ -655,10 +755,14 @@ importers:
       eslint-plugin-react-refresh:
         specifier: ^0.4.24
 <<<<<<< HEAD
+<<<<<<< HEAD
         version: 0.4.26(eslint@9.39.2(jiti@2.6.1))
 =======
         version: 0.4.24(eslint@9.39.2(jiti@2.6.1))
 >>>>>>> bd4f164 (chore(api-generators): migrate plop to turborepo generators)
+=======
+        version: 0.4.26(eslint@9.39.2(jiti@2.6.1))
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
       execa:
         specifier: ^9.6.0
         version: 9.6.1
@@ -675,7 +779,11 @@ importers:
         specifier: ^3.0.2
         version: 3.0.2
       react-i18next:
+<<<<<<< HEAD
         specifier: catalog:frontend
+=======
+        specifier: ^15.7.4
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
         version: 15.7.4(i18next@25.7.3(typescript@5.9.3))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(typescript@5.9.3)
       typescript:
         specifier: 'catalog:'
@@ -683,10 +791,14 @@ importers:
       typescript-eslint:
         specifier: ^8.46.3
 <<<<<<< HEAD
+<<<<<<< HEAD
         version: 8.50.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
 =======
         version: 8.48.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
 >>>>>>> bd4f164 (chore(api-generators): migrate plop to turborepo generators)
+=======
+        version: 8.50.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
       vite:
         specifier: ^7.2.2
         version: 7.3.0(@types/node@24.10.1)(jiti@2.6.1)(lightningcss@1.30.2)(tsx@4.21.0)(yaml@2.8.2)
@@ -712,6 +824,7 @@ importers:
         specifier: ^6.2.0
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         version: 6.7.1(@eslint-react/eslint-plugin@2.3.13(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(@vue/compiler-sfc@3.5.26)(eslint-plugin-react-hooks@7.0.1(eslint@9.39.2(jiti@2.6.1)))(eslint-plugin-react-refresh@0.4.26(eslint@9.39.2(jiti@2.6.1)))(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)(vitest@4.0.16(@types/node@24.10.1)(jiti@2.6.1)(jsdom@27.3.0)(lightningcss@1.30.2)(tsx@4.21.0)(yaml@2.8.2))
       eslint:
         specifier: 'catalog:'
@@ -721,6 +834,9 @@ importers:
 =======
         version: 6.4.2(@eslint-react/eslint-plugin@2.3.12(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(@vue/compiler-sfc@3.5.25)(eslint-plugin-format@1.1.0(eslint@9.39.2(jiti@2.6.1)))(eslint-plugin-react-hooks@7.0.1(eslint@9.39.2(jiti@2.6.1)))(eslint-plugin-react-refresh@0.4.24(eslint@9.39.2(jiti@2.6.1)))(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)(vitest@4.0.16(@types/node@24.10.1)(jiti@2.6.1)(lightningcss@1.30.2)(tsx@4.21.0)(yaml@2.8.2))
 >>>>>>> bd4f164 (chore(api-generators): migrate plop to turborepo generators)
+=======
+        version: 6.7.1(@eslint-react/eslint-plugin@2.3.13(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(@vue/compiler-sfc@3.5.26)(eslint-plugin-react-hooks@7.0.1(eslint@9.39.2(jiti@2.6.1)))(eslint-plugin-react-refresh@0.4.26(eslint@9.39.2(jiti@2.6.1)))(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)(vitest@4.0.16(@types/node@24.10.1)(jiti@2.6.1)(jsdom@27.3.0)(lightningcss@1.30.2)(tsx@4.21.0)(yaml@2.8.2))
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
       eslint:
         specifier: 'catalog:'
         version: 9.39.2(jiti@2.6.1)
@@ -1680,10 +1796,13 @@ packages:
     resolution: {integrity: sha512-Kr+LPIUVKz2qkx1HAMH8q1q6azbqBAsXJUxBl/ODDuVPX45Z9DfwB8tPjTi6nNZ8BuM3nbJxC5zCAg5elnBUTQ==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
+<<<<<<< HEAD
   '@eslint/js@9.39.2':
     resolution: {integrity: sha512-q1mjIoW1VX4IvSocvM/vbTiveKC4k9eLrajNEuSsmjymSDEbpGddtpfOoN7YGAqBK3NG+uqo8ia4PDTt8buCYA==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
+=======
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
   '@eslint/js@9.39.2':
     resolution: {integrity: sha512-q1mjIoW1VX4IvSocvM/vbTiveKC4k9eLrajNEuSsmjymSDEbpGddtpfOoN7YGAqBK3NG+uqo8ia4PDTt8buCYA==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
@@ -4294,12 +4413,15 @@ packages:
     resolution: {integrity: sha512-eYm0QWBtUrBWZWG0d386OGAw16Z995PiOVo2B7bjWSbHedGl5e0ZWaq65kOGgUSNesEIDkB9ISbTg/JK9dhCZA==}
     engines: {node: '>=6'}
 
+<<<<<<< HEAD
   cmdk@1.1.1:
     resolution: {integrity: sha512-Vsv7kFaXm+ptHDMZ7izaRsP70GgrW9NBNGswt9OZaVBLlE0SNpDq8eu/VGXyF9r7M0azK3Wy7OlYXsuyYLFzHg==}
     peerDependencies:
       react: ^18 || ^19 || ^19.0.0-rc
       react-dom: ^18 || ^19 || ^19.0.0-rc
 
+=======
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
   color-convert@1.9.3:
     resolution: {integrity: sha512-QfAUtd+vFdAtFQcC8CCyYt1fYWxSqAiK2cSD6zDB8N3cpsEBAvRxp9zOGg6G/SHHJYAT88/az/IuDGALsNVbGg==}
 
@@ -4446,9 +4568,12 @@ packages:
     resolution: {integrity: sha512-BnBS08aLUM+DKamupXs3w2tJJoqU+AkaE/+6vQxi/G/DPmIZFJJp9Dkb1kM03AZx8ADehDUZgsNxju3mPXZYIA==}
     engines: {node: '>=20'}
 
+<<<<<<< HEAD
   date-fns@3.6.0:
     resolution: {integrity: sha512-fRHTG8g/Gif+kSh50gaGEdToemgfj74aRX3swtiouboip5JDLAyDE9F11nHMIcvOaXeOC6D7SpNhi7uFyB7Uww==}
 
+=======
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
   dateformat@4.6.3:
     resolution: {integrity: sha512-2P0p0pFGzHS5EMnhdxQi7aJN+iMheud0UhG4dlE1DLAlvL8JHjJJTX/CSm4JXwV0Ka5nGk3zC5mcb5bUQUxxMA==}
 
@@ -4830,6 +4955,7 @@ packages:
     resolution: {integrity: sha512-bEnmU5gqzS+4O+id9vrbP43vByjF+8KOs+QuuV4OlqAuXmnRW2zfI/Rza1fQvdihQ5h4DUo0NqFAiViD4mSrzQ==}
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   eslint-import-context@0.1.9:
     resolution: {integrity: sha512-K9Hb+yRaGAGUbwjhFNHvSmmkZs9+zbuoe3kFQ4V1wYjrepUFYM2dZAfNtjbbj3qsPfUfsA68Bx/ICWQMi+C8Eg==}
     engines: {node: ^12.20.0 || ^14.18.0 || >=16.0.0}
@@ -4844,6 +4970,16 @@ packages:
     peerDependencies:
       eslint: '>=8.40.0'
 >>>>>>> 6fa9dfd (feat(eslint-config): enable css formatting)
+=======
+  eslint-import-context@0.1.9:
+    resolution: {integrity: sha512-K9Hb+yRaGAGUbwjhFNHvSmmkZs9+zbuoe3kFQ4V1wYjrepUFYM2dZAfNtjbbj3qsPfUfsA68Bx/ICWQMi+C8Eg==}
+    engines: {node: ^12.20.0 || ^14.18.0 || >=16.0.0}
+    peerDependencies:
+      unrs-resolver: ^1.0.0
+    peerDependenciesMeta:
+      unrs-resolver:
+        optional: true
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
 
   eslint-json-compat-utils@0.2.1:
     resolution: {integrity: sha512-YzEodbDyW8DX8bImKhAcCeu/L31Dd/70Bidx2Qex9OFUtgzXLqtfWL4Hr5fM/aCCB8QUZLuJur0S9k6UfgFkfg==}
@@ -4881,6 +5017,7 @@ packages:
       eslint: '>=8'
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   eslint-plugin-import-lite@0.3.1:
     resolution: {integrity: sha512-9+EByHZatvWFn/lRsUja5pwah0U5lhOA6SXqTI/iIzoIJHMgmsHUHEaTlLzKU/ukyCRwKEU5E92aUURPgVWq0A==}
 =======
@@ -4892,6 +5029,10 @@ packages:
   eslint-plugin-import-lite@0.3.0:
     resolution: {integrity: sha512-dkNBAL6jcoCsXZsQ/Tt2yXmMDoNt5NaBh/U7yvccjiK8cai6Ay+MK77bMykmqQA2bTF6lngaLCDij6MTO3KkvA==}
 >>>>>>> 6fa9dfd (feat(eslint-config): enable css formatting)
+=======
+  eslint-plugin-import-lite@0.3.1:
+    resolution: {integrity: sha512-9+EByHZatvWFn/lRsUja5pwah0U5lhOA6SXqTI/iIzoIJHMgmsHUHEaTlLzKU/ukyCRwKEU5E92aUURPgVWq0A==}
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     peerDependencies:
       eslint: '>=9.0.0'
@@ -5181,6 +5322,9 @@ packages:
     resolution: {integrity: sha512-f3qQ9oQy9j2AhBe/H9VC91wLmKBCCU/gDOnKNAYG5hswO7BLKj09Hc5HYNz9cGI++xlpDCIgDaitVs03ATR84Q==}
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
   fast-glob@3.2.12:
     resolution: {integrity: sha512-DVj4CQIYYow0BlaelwK1pHl5n5cRSJfM60UA0zK891sVInoPri2Ekj7+e1CT3/3qxXenpI+nBBmQAcJPJgaj4w==}
     engines: {node: '>=8.6.0'}
@@ -5188,10 +5332,13 @@ packages:
   fast-glob@3.3.3:
     resolution: {integrity: sha512-7MptL8U0cqcFdzIzwOTHoilX9x5BrNqye7Z/LuC7kCMRio1EMSyqRK3BEAUD7sXRq4iT4AzTVuZdhgQ2TCvYLg==}
     engines: {node: '>=8.6.0'}
+<<<<<<< HEAD
 =======
   fast-diff@1.3.0:
     resolution: {integrity: sha512-VxPP4NqbUjj6MaAOafWeUn2cXWLcCtljklUtZf0Ind4XQ+QPtmA0b18zZy0jIQx+ExRVCR/ZQpBmik5lXshNsw==}
 >>>>>>> 6fa9dfd (feat(eslint-config): enable css formatting)
+=======
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
 
   fast-json-stable-stringify@2.1.0:
     resolution: {integrity: sha512-lhd/wF+Lk98HZoTCtlVraHtfh5XYijIjalXck7saUtuanSDyLMxnHhSXEDJqHxD7msR8D0uCmqlkwjCV8xvwHw==}
@@ -5627,10 +5774,13 @@ packages:
     resolution: {integrity: sha512-m6FAo/spmsW2Ab2fU35JTYwtOKa2yAwXSwgjSv1TJzh4Mh7mC3lzAOVLBprb72XsTrgkEIsl7YrFNAiDiRhIGg==}
     engines: {node: '>=12'}
 
+<<<<<<< HEAD
   inflection@3.0.2:
     resolution: {integrity: sha512-+Bg3+kg+J6JUWn8J6bzFmOWkTQ6L/NHfDRSYU+EVvuKHDxUDHAXgqixHfVlzuBQaPOTac8hn43aPhMNk6rMe3g==}
     engines: {node: '>=18.0.0'}
 
+=======
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
   inflight@1.0.6:
     resolution: {integrity: sha512-k92I/b08q4wvFscXCLvqfsHCrjrF7yiXsQuIVvVE7N82W3+aqpzuUdBbfhWcy/FZR3/4IgflMgKLOsvPDrGCJA==}
     deprecated: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
@@ -6774,6 +6924,7 @@ packages:
   quansync@0.2.11:
     resolution: {integrity: sha512-AifT7QEbW9Nri4tAwR5M/uzpBuqfZf+zwaEM/QkzEjj7NBuFD2rBuy0K3dE+8wltbezDV7JMA0WfnCPYRSYbXA==}
 
+<<<<<<< HEAD
   query-string@7.1.3:
     resolution: {integrity: sha512-hh2WYhq4fi8+b+/2Kg9CEge4fDPvHS534aOOvOZeQ3+Vf2mCFsaFBYj0i+iXcAq6I9Vzp5fjMFBlONvayDC1qg==}
     engines: {node: '>=6'}
@@ -6782,6 +6933,8 @@ packages:
     resolution: {integrity: sha512-5fBfMOcDi5SA9qj5jZhWAcTtDfKF5WFdd2uD9nVNlbxVv1baq65aALy6qofpNEGELHvisjjasxQp7BlM9gvMzw==}
     engines: {node: '>=18'}
 
+=======
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
   queue-microtask@1.2.3:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
 
@@ -6827,6 +6980,7 @@ packages:
     peerDependencies:
       react: ^19.2.3
 
+<<<<<<< HEAD
   react-dropzone@14.3.8:
     resolution: {integrity: sha512-sBgODnq+lcA4P296DY4wacOZz3JFpD99fp+hb//iBO2HHnyeZU3FwWyXJ6salNpqQdsZrgMrotuko/BdJMV8Ug==}
     engines: {node: '>= 10.13'}
@@ -6843,6 +6997,8 @@ packages:
     peerDependencies:
       react: '>=16.13.1'
 
+=======
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
   react-google-recaptcha@3.1.0:
     resolution: {integrity: sha512-cYW2/DWas8nEKZGD7SCu9BSuVz8iOcOLHChHyi7upUuVhkpkhYG/6N3KDiTQ3XAiZ2UAZkfvYKMfAHOzBOcGEg==}
     peerDependencies:
@@ -6875,9 +7031,12 @@ packages:
 
   react-is@17.0.2:
     resolution: {integrity: sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==}
+<<<<<<< HEAD
 
   react-is@19.2.3:
     resolution: {integrity: sha512-qJNJfu81ByyabuG7hPFEbXqNcWSU3+eVus+KJs+0ncpGfMyYdvSmxiJxbWR65lYi1I+/0HBcliO029gc4F+PnA==}
+=======
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
 
   react-qr-code@2.0.18:
     resolution: {integrity: sha512-v1Jqz7urLMhkO6jkgJuBYhnqvXagzceg3qJUWayuCK/c6LTIonpWbwxR1f1APGd4xrW/QcQEovNrAojbUz65Tg==}
@@ -8172,6 +8331,7 @@ snapshots:
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   '@acemir/cssom@0.9.29': {}
 
   '@antfu/eslint-config@6.7.1(@eslint-react/eslint-plugin@2.3.13(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(@vue/compiler-sfc@3.5.26)(eslint-plugin-react-hooks@7.0.1(eslint@9.39.2(jiti@2.6.1)))(eslint-plugin-react-refresh@0.4.26(eslint@9.39.2(jiti@2.6.1)))(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)(vitest@4.0.16(@types/node@24.10.1)(jiti@2.6.1)(jsdom@27.3.0)(lightningcss@1.30.2)(tsx@4.21.0)(yaml@2.8.2))':
@@ -8181,12 +8341,18 @@ snapshots:
 =======
   '@antfu/eslint-config@6.4.2(@eslint-react/eslint-plugin@2.3.12(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(@vue/compiler-sfc@3.5.25)(eslint-plugin-format@1.1.0(eslint@9.39.2(jiti@2.6.1)))(eslint-plugin-react-hooks@7.0.1(eslint@9.39.2(jiti@2.6.1)))(eslint-plugin-react-refresh@0.4.24(eslint@9.39.2(jiti@2.6.1)))(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)(vitest@4.0.16(@types/node@24.10.1)(jiti@2.6.1)(lightningcss@1.30.2)(tsx@4.21.0)(yaml@2.8.2))':
 >>>>>>> bd4f164 (chore(api-generators): migrate plop to turborepo generators)
+=======
+  '@acemir/cssom@0.9.29': {}
+
+  '@antfu/eslint-config@6.7.1(@eslint-react/eslint-plugin@2.3.13(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(@vue/compiler-sfc@3.5.26)(eslint-plugin-react-hooks@7.0.1(eslint@9.39.2(jiti@2.6.1)))(eslint-plugin-react-refresh@0.4.26(eslint@9.39.2(jiti@2.6.1)))(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)(vitest@4.0.16(@types/node@24.10.1)(jiti@2.6.1)(jsdom@27.3.0)(lightningcss@1.30.2)(tsx@4.21.0)(yaml@2.8.2))':
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
     dependencies:
       '@antfu/install-pkg': 1.1.0
       '@clack/prompts': 0.11.0
       '@eslint-community/eslint-plugin-eslint-comments': 4.5.0(eslint@9.39.2(jiti@2.6.1))
       '@eslint/markdown': 7.5.1
       '@stylistic/eslint-plugin': 5.6.1(eslint@9.39.2(jiti@2.6.1))
+<<<<<<< HEAD
 <<<<<<< HEAD
       '@typescript-eslint/eslint-plugin': 8.50.0(@typescript-eslint/parser@8.50.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
       '@typescript-eslint/parser': 8.50.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
@@ -8196,6 +8362,11 @@ snapshots:
       '@typescript-eslint/parser': 8.48.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
       '@vitest/eslint-plugin': 1.5.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)(vitest@4.0.16(@types/node@24.10.1)(jiti@2.6.1)(lightningcss@1.30.2)(tsx@4.21.0)(yaml@2.8.2))
 >>>>>>> bd4f164 (chore(api-generators): migrate plop to turborepo generators)
+=======
+      '@typescript-eslint/eslint-plugin': 8.50.0(@typescript-eslint/parser@8.50.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@typescript-eslint/parser': 8.50.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@vitest/eslint-plugin': 1.5.4(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)(vitest@4.0.16(@types/node@24.10.1)(jiti@2.6.1)(jsdom@27.3.0)(lightningcss@1.30.2)(tsx@4.21.0)(yaml@2.8.2))
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
       ansis: 4.2.0
       cac: 6.7.14
       eslint: 9.39.2(jiti@2.6.1)
@@ -8203,6 +8374,7 @@ snapshots:
       eslint-flat-config-utils: 2.1.4
       eslint-merge-processors: 2.0.0(eslint@9.39.2(jiti@2.6.1))
       eslint-plugin-antfu: 3.1.1(eslint@9.39.2(jiti@2.6.1))
+<<<<<<< HEAD
 <<<<<<< HEAD
       eslint-plugin-command: 3.4.0(eslint@9.39.2(jiti@2.6.1))
       eslint-plugin-import-lite: 0.3.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
@@ -8212,10 +8384,16 @@ snapshots:
       eslint-plugin-import-lite: 0.3.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
       eslint-plugin-jsdoc: 61.4.2(eslint@9.39.2(jiti@2.6.1))
 >>>>>>> bd4f164 (chore(api-generators): migrate plop to turborepo generators)
+=======
+      eslint-plugin-command: 3.4.0(eslint@9.39.2(jiti@2.6.1))
+      eslint-plugin-import-lite: 0.3.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      eslint-plugin-jsdoc: 61.5.0(eslint@9.39.2(jiti@2.6.1))
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
       eslint-plugin-jsonc: 2.21.0(eslint@9.39.2(jiti@2.6.1))
       eslint-plugin-n: 17.23.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
       eslint-plugin-no-only-tests: 3.3.0
       eslint-plugin-perfectionist: 4.15.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+<<<<<<< HEAD
 <<<<<<< HEAD
       eslint-plugin-pnpm: 1.4.3(eslint@9.39.2(jiti@2.6.1))
       eslint-plugin-regexp: 2.10.0(eslint@9.39.2(jiti@2.6.1))
@@ -8235,10 +8413,21 @@ snapshots:
       eslint-plugin-yml: 1.19.0(eslint@9.39.2(jiti@2.6.1))
       eslint-processor-vue-blocks: 2.0.0(@vue/compiler-sfc@3.5.25)(eslint@9.39.2(jiti@2.6.1))
 >>>>>>> bd4f164 (chore(api-generators): migrate plop to turborepo generators)
+=======
+      eslint-plugin-pnpm: 1.4.3(eslint@9.39.2(jiti@2.6.1))
+      eslint-plugin-regexp: 2.10.0(eslint@9.39.2(jiti@2.6.1))
+      eslint-plugin-toml: 0.12.0(eslint@9.39.2(jiti@2.6.1))
+      eslint-plugin-unicorn: 62.0.0(eslint@9.39.2(jiti@2.6.1))
+      eslint-plugin-unused-imports: 4.3.0(@typescript-eslint/eslint-plugin@8.50.0(@typescript-eslint/parser@8.50.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))
+      eslint-plugin-vue: 10.6.2(@stylistic/eslint-plugin@5.6.1(eslint@9.39.2(jiti@2.6.1)))(@typescript-eslint/parser@8.50.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(vue-eslint-parser@10.2.0(eslint@9.39.2(jiti@2.6.1)))
+      eslint-plugin-yml: 1.19.1(eslint@9.39.2(jiti@2.6.1))
+      eslint-processor-vue-blocks: 2.0.0(@vue/compiler-sfc@3.5.26)(eslint@9.39.2(jiti@2.6.1))
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
       globals: 16.5.0
       jsonc-eslint-parser: 2.4.2
       local-pkg: 1.1.2
       parse-gitignore: 2.0.0
+<<<<<<< HEAD
 <<<<<<< HEAD
       toml-eslint-parser: 0.10.1
       vue-eslint-parser: 10.2.0(eslint@9.39.2(jiti@2.6.1))
@@ -8256,14 +8445,20 @@ snapshots:
 >>>>>>> 6fa9dfd (feat(eslint-config): enable css formatting)
 =======
       toml-eslint-parser: 0.10.0
+=======
+      toml-eslint-parser: 0.10.1
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
       vue-eslint-parser: 10.2.0(eslint@9.39.2(jiti@2.6.1))
       yaml-eslint-parser: 1.3.2
     optionalDependencies:
-      '@eslint-react/eslint-plugin': 2.3.12(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
-      eslint-plugin-format: 1.1.0(eslint@9.39.2(jiti@2.6.1))
+      '@eslint-react/eslint-plugin': 2.3.13(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
       eslint-plugin-react-hooks: 7.0.1(eslint@9.39.2(jiti@2.6.1))
+<<<<<<< HEAD
       eslint-plugin-react-refresh: 0.4.24(eslint@9.39.2(jiti@2.6.1))
 >>>>>>> bd4f164 (chore(api-generators): migrate plop to turborepo generators)
+=======
+      eslint-plugin-react-refresh: 0.4.26(eslint@9.39.2(jiti@2.6.1))
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
     transitivePeerDependencies:
       - '@eslint/json'
       - '@vue/compiler-sfc'
@@ -8873,6 +9068,7 @@ snapshots:
   '@eslint-community/regexpp@4.12.2': {}
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   '@eslint-react/ast@2.3.13(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)':
     dependencies:
       '@eslint-react/eff': 2.3.13
@@ -8887,12 +9083,21 @@ snapshots:
       '@typescript-eslint/typescript-estree': 8.48.1(typescript@5.9.3)
       '@typescript-eslint/utils': 8.48.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
 >>>>>>> bd4f164 (chore(api-generators): migrate plop to turborepo generators)
+=======
+  '@eslint-react/ast@2.3.13(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)':
+    dependencies:
+      '@eslint-react/eff': 2.3.13
+      '@typescript-eslint/types': 8.50.0
+      '@typescript-eslint/typescript-estree': 8.50.0(typescript@5.9.3)
+      '@typescript-eslint/utils': 8.50.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
       eslint: 9.39.2(jiti@2.6.1)
       string-ts: 2.3.1
       typescript: 5.9.3
     transitivePeerDependencies:
       - supports-color
 
+<<<<<<< HEAD
 <<<<<<< HEAD
   '@eslint-react/core@2.3.13(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)':
     dependencies:
@@ -8914,6 +9119,17 @@ snapshots:
       '@typescript-eslint/types': 8.48.1
       '@typescript-eslint/utils': 8.48.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
 >>>>>>> bd4f164 (chore(api-generators): migrate plop to turborepo generators)
+=======
+  '@eslint-react/core@2.3.13(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)':
+    dependencies:
+      '@eslint-react/ast': 2.3.13(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@eslint-react/eff': 2.3.13
+      '@eslint-react/shared': 2.3.13(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@eslint-react/var': 2.3.13(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@typescript-eslint/scope-manager': 8.50.0
+      '@typescript-eslint/types': 8.50.0
+      '@typescript-eslint/utils': 8.50.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
       birecord: 0.1.1
       eslint: 9.39.2(jiti@2.6.1)
       ts-pattern: 5.9.0
@@ -8923,6 +9139,7 @@ snapshots:
 
   '@eslint-react/eff@2.3.13': {}
 
+<<<<<<< HEAD
 <<<<<<< HEAD
   '@eslint-react/eslint-plugin@2.3.13(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)':
     dependencies:
@@ -8940,25 +9157,37 @@ snapshots:
       eslint-plugin-react-x: 2.3.13(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
 =======
   '@eslint-react/eslint-plugin@2.3.12(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)':
+=======
+  '@eslint-react/eslint-plugin@2.3.13(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)':
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
     dependencies:
-      '@eslint-react/eff': 2.3.12
-      '@eslint-react/shared': 2.3.12(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
-      '@typescript-eslint/scope-manager': 8.48.1
-      '@typescript-eslint/type-utils': 8.48.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
-      '@typescript-eslint/types': 8.48.1
-      '@typescript-eslint/utils': 8.48.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@eslint-react/eff': 2.3.13
+      '@eslint-react/shared': 2.3.13(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@typescript-eslint/scope-manager': 8.50.0
+      '@typescript-eslint/type-utils': 8.50.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@typescript-eslint/types': 8.50.0
+      '@typescript-eslint/utils': 8.50.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
       eslint: 9.39.2(jiti@2.6.1)
+<<<<<<< HEAD
       eslint-plugin-react-dom: 2.3.12(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
       eslint-plugin-react-hooks-extra: 2.3.12(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
       eslint-plugin-react-naming-convention: 2.3.12(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
       eslint-plugin-react-web-api: 2.3.12(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
       eslint-plugin-react-x: 2.3.12(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
 >>>>>>> bd4f164 (chore(api-generators): migrate plop to turborepo generators)
+=======
+      eslint-plugin-react-dom: 2.3.13(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      eslint-plugin-react-hooks-extra: 2.3.13(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      eslint-plugin-react-naming-convention: 2.3.13(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      eslint-plugin-react-web-api: 2.3.13(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      eslint-plugin-react-x: 2.3.13(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
       ts-api-utils: 2.1.0(typescript@5.9.3)
       typescript: 5.9.3
     transitivePeerDependencies:
       - supports-color
 
+<<<<<<< HEAD
 <<<<<<< HEAD
   '@eslint-react/shared@2.3.13(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)':
     dependencies:
@@ -8970,6 +9199,12 @@ snapshots:
       '@eslint-react/eff': 2.3.12
       '@typescript-eslint/utils': 8.48.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
 >>>>>>> bd4f164 (chore(api-generators): migrate plop to turborepo generators)
+=======
+  '@eslint-react/shared@2.3.13(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)':
+    dependencies:
+      '@eslint-react/eff': 2.3.13
+      '@typescript-eslint/utils': 8.50.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
       eslint: 9.39.2(jiti@2.6.1)
       ts-pattern: 5.9.0
       typescript: 5.9.3
@@ -8977,6 +9212,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+<<<<<<< HEAD
 <<<<<<< HEAD
   '@eslint-react/var@2.3.13(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)':
     dependencies:
@@ -8994,6 +9230,15 @@ snapshots:
       '@typescript-eslint/types': 8.48.1
       '@typescript-eslint/utils': 8.48.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
 >>>>>>> bd4f164 (chore(api-generators): migrate plop to turborepo generators)
+=======
+  '@eslint-react/var@2.3.13(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)':
+    dependencies:
+      '@eslint-react/ast': 2.3.13(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@eslint-react/eff': 2.3.13
+      '@typescript-eslint/scope-manager': 8.50.0
+      '@typescript-eslint/types': 8.50.0
+      '@typescript-eslint/utils': 8.50.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
       eslint: 9.39.2(jiti@2.6.1)
       ts-pattern: 5.9.0
       typescript: 5.9.3
@@ -9036,8 +9281,11 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+<<<<<<< HEAD
   '@eslint/js@9.39.2': {}
 
+=======
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
   '@eslint/js@9.39.2': {}
 
   '@eslint/markdown@7.5.1':
@@ -9139,12 +9387,15 @@ snapshots:
     dependencies:
       '@standard-schema/utils': 0.3.0
       react-hook-form: 7.69.0(react@19.2.0)
+<<<<<<< HEAD
 
   '@hugeicons/core-free-icons@3.1.0': {}
 
   '@hugeicons/react@1.1.3(react@19.2.3)':
     dependencies:
       react: 19.2.3
+=======
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
 
   '@humanfs/core@0.19.1': {}
 
@@ -11157,10 +11408,14 @@ snapshots:
     dependencies:
       '@eslint-community/eslint-utils': 4.9.0(eslint@9.39.2(jiti@2.6.1))
 <<<<<<< HEAD
+<<<<<<< HEAD
       '@typescript-eslint/types': 8.50.0
 =======
       '@typescript-eslint/types': 8.48.1
 >>>>>>> bd4f164 (chore(api-generators): migrate plop to turborepo generators)
+=======
+      '@typescript-eslint/types': 8.50.0
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
       eslint: 9.39.2(jiti@2.6.1)
       eslint-visitor-keys: 4.2.1
       espree: 10.4.0
@@ -11294,6 +11549,9 @@ snapshots:
       vite: 7.3.0(@types/node@22.19.3)(jiti@2.6.1)(lightningcss@1.30.2)(tsx@4.21.0)(yaml@2.8.2)
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
   '@tailwindcss/vite@4.1.18(vite@7.3.0(@types/node@24.10.1)(jiti@2.6.1)(lightningcss@1.30.2)(tsx@4.21.0)(yaml@2.8.2))':
     dependencies:
       '@tailwindcss/node': 4.1.18
@@ -11381,11 +11639,14 @@ snapshots:
   '@tanstack/eslint-plugin-query@5.91.2(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)':
     dependencies:
       '@typescript-eslint/utils': 8.50.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+<<<<<<< HEAD
 =======
   '@tanstack/eslint-plugin-query@5.91.2(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)':
     dependencies:
       '@typescript-eslint/utils': 8.48.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
 >>>>>>> bd4f164 (chore(api-generators): migrate plop to turborepo generators)
+=======
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
       eslint: 9.39.2(jiti@2.6.1)
     transitivePeerDependencies:
       - supports-color
@@ -11769,6 +12030,7 @@ snapshots:
     optional: true
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   '@typescript-eslint/eslint-plugin@8.50.0(@typescript-eslint/parser@8.50.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)':
     dependencies:
       '@eslint-community/regexpp': 4.12.2
@@ -11780,16 +12042,22 @@ snapshots:
       eslint: 9.39.2(jiti@2.6.1)
 =======
   '@typescript-eslint/eslint-plugin@8.48.1(@typescript-eslint/parser@8.48.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)':
+=======
+  '@typescript-eslint/eslint-plugin@8.50.0(@typescript-eslint/parser@8.50.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)':
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
     dependencies:
       '@eslint-community/regexpp': 4.12.2
-      '@typescript-eslint/parser': 8.48.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
-      '@typescript-eslint/scope-manager': 8.48.1
-      '@typescript-eslint/type-utils': 8.48.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
-      '@typescript-eslint/utils': 8.48.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
-      '@typescript-eslint/visitor-keys': 8.48.1
+      '@typescript-eslint/parser': 8.50.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@typescript-eslint/scope-manager': 8.50.0
+      '@typescript-eslint/type-utils': 8.50.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@typescript-eslint/utils': 8.50.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@typescript-eslint/visitor-keys': 8.50.0
       eslint: 9.39.2(jiti@2.6.1)
+<<<<<<< HEAD
       graphemer: 1.4.0
 >>>>>>> bd4f164 (chore(api-generators): migrate plop to turborepo generators)
+=======
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
       ignore: 7.0.5
       natural-compare: 1.4.0
       ts-api-utils: 2.1.0(typescript@5.9.3)
@@ -11798,10 +12066,14 @@ snapshots:
       - supports-color
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   '@typescript-eslint/parser@8.50.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)':
 =======
   '@typescript-eslint/parser@8.48.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)':
 >>>>>>> bd4f164 (chore(api-generators): migrate plop to turborepo generators)
+=======
+  '@typescript-eslint/parser@8.50.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)':
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
     dependencies:
       '@typescript-eslint/scope-manager': 8.50.0
       '@typescript-eslint/types': 8.50.0
@@ -11832,6 +12104,7 @@ snapshots:
       typescript: 5.9.3
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   '@typescript-eslint/type-utils@8.50.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)':
     dependencies:
       '@typescript-eslint/types': 8.50.0
@@ -11844,6 +12117,13 @@ snapshots:
       '@typescript-eslint/typescript-estree': 8.48.1(typescript@5.9.3)
       '@typescript-eslint/utils': 8.48.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
 >>>>>>> bd4f164 (chore(api-generators): migrate plop to turborepo generators)
+=======
+  '@typescript-eslint/type-utils@8.50.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)':
+    dependencies:
+      '@typescript-eslint/types': 8.50.0
+      '@typescript-eslint/typescript-estree': 8.50.0(typescript@5.9.3)
+      '@typescript-eslint/utils': 8.50.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
       debug: 4.4.3(supports-color@8.1.1)
       eslint: 9.39.2(jiti@2.6.1)
       ts-api-utils: 2.1.0(typescript@5.9.3)
@@ -11869,6 +12149,7 @@ snapshots:
       - supports-color
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   '@typescript-eslint/utils@8.50.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)':
     dependencies:
       '@eslint-community/eslint-utils': 4.9.0(eslint@9.39.2(jiti@2.6.1))
@@ -11883,6 +12164,14 @@ snapshots:
       '@typescript-eslint/types': 8.48.1
       '@typescript-eslint/typescript-estree': 8.48.1(typescript@5.9.3)
 >>>>>>> bd4f164 (chore(api-generators): migrate plop to turborepo generators)
+=======
+  '@typescript-eslint/utils@8.50.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)':
+    dependencies:
+      '@eslint-community/eslint-utils': 4.9.0(eslint@9.39.2(jiti@2.6.1))
+      '@typescript-eslint/scope-manager': 8.50.0
+      '@typescript-eslint/types': 8.50.0
+      '@typescript-eslint/typescript-estree': 8.50.0(typescript@5.9.3)
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
       eslint: 9.39.2(jiti@2.6.1)
       typescript: 5.9.3
     transitivePeerDependencies:
@@ -11961,6 +12250,7 @@ snapshots:
       - '@swc/helpers'
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   '@vitejs/plugin-react@5.1.2(vite@7.3.0(@types/node@22.19.3)(jiti@2.6.1)(lightningcss@1.30.2)(tsx@4.21.0)(yaml@2.8.2))':
     dependencies:
       '@babel/core': 7.28.5
@@ -11980,6 +12270,17 @@ snapshots:
       typescript: 5.9.3
       vitest: 4.0.16(@types/node@24.10.1)(jiti@2.6.1)(lightningcss@1.30.2)(tsx@4.21.0)(yaml@2.8.2)
 >>>>>>> bd4f164 (chore(api-generators): migrate plop to turborepo generators)
+=======
+  '@vitejs/plugin-react@5.1.2(vite@7.3.0(@types/node@22.19.3)(jiti@2.6.1)(lightningcss@1.30.2)(tsx@4.21.0)(yaml@2.8.2))':
+    dependencies:
+      '@babel/core': 7.28.5
+      '@babel/plugin-transform-react-jsx-self': 7.27.1(@babel/core@7.28.5)
+      '@babel/plugin-transform-react-jsx-source': 7.27.1(@babel/core@7.28.5)
+      '@rolldown/pluginutils': 1.0.0-beta.53
+      '@types/babel__core': 7.20.5
+      react-refresh: 0.18.0
+      vite: 7.3.0(@types/node@22.19.3)(jiti@2.6.1)(lightningcss@1.30.2)(tsx@4.21.0)(yaml@2.8.2)
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
     transitivePeerDependencies:
       - supports-color
 
@@ -12610,6 +12911,7 @@ snapshots:
 
   clsx@2.1.1: {}
 
+<<<<<<< HEAD
   cmdk@1.1.1(@types/react-dom@19.2.3(@types/react@19.2.7))(@types/react@19.2.7)(react-dom@19.2.3(react@19.2.3))(react@19.2.3):
     dependencies:
       '@radix-ui/react-compose-refs': 1.1.2(@types/react@19.2.7)(react@19.2.3)
@@ -12622,6 +12924,8 @@ snapshots:
       - '@types/react'
       - '@types/react-dom'
 
+=======
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
   color-convert@1.9.3:
     dependencies:
       color-name: 1.1.3
@@ -12798,8 +13102,11 @@ snapshots:
       whatwg-mimetype: 4.0.0
       whatwg-url: 15.1.0
 
+<<<<<<< HEAD
   date-fns@3.6.0: {}
 
+=======
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
   dateformat@4.6.3: {}
 
   dayjs@1.11.19: {}
@@ -13064,6 +13371,9 @@ snapshots:
   escape-string-regexp@5.0.0: {}
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
   escodegen@2.1.0:
     dependencies:
       esprima: 4.0.1
@@ -13097,16 +13407,23 @@ snapshots:
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   eslint-import-context@0.1.9(unrs-resolver@1.11.1):
 =======
   eslint-formatting-reporter@0.0.0(eslint@9.39.1(jiti@2.6.1)):
 =======
   eslint-formatting-reporter@0.0.0(eslint@9.39.2(jiti@2.6.1)):
 >>>>>>> bd4f164 (chore(api-generators): migrate plop to turborepo generators)
+=======
+  eslint-import-context@0.1.9(unrs-resolver@1.11.1):
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
     dependencies:
-      eslint: 9.39.2(jiti@2.6.1)
-      prettier-linter-helpers: 1.0.0
+      get-tsconfig: 4.13.0
+      stable-hash-x: 0.2.0
+    optionalDependencies:
+      unrs-resolver: 1.11.1
 
+<<<<<<< HEAD
 <<<<<<< HEAD
   eslint-json-compat-utils@0.2.1(eslint@9.39.1(jiti@2.6.1))(jsonc-eslint-parser@2.4.1):
 >>>>>>> 6fa9dfd (feat(eslint-config): enable css formatting)
@@ -13120,6 +13437,9 @@ snapshots:
     dependencies:
 =======
   eslint-json-compat-utils@0.2.1(eslint@9.39.2(jiti@2.6.1))(jsonc-eslint-parser@2.4.1):
+=======
+  eslint-json-compat-utils@0.2.1(eslint@9.39.2(jiti@2.6.1))(jsonc-eslint-parser@2.4.2):
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
     dependencies:
 >>>>>>> bd4f164 (chore(api-generators): migrate plop to turborepo generators)
       eslint: 9.39.2(jiti@2.6.1)
@@ -13149,10 +13469,14 @@ snapshots:
     dependencies:
       eslint: 9.39.2(jiti@2.6.1)
 
-  eslint-plugin-command@3.3.1(eslint@9.39.2(jiti@2.6.1)):
+  eslint-plugin-command@3.4.0(eslint@9.39.2(jiti@2.6.1)):
     dependencies:
+<<<<<<< HEAD
       '@es-joy/jsdoccomment': 0.50.2
 >>>>>>> bd4f164 (chore(api-generators): migrate plop to turborepo generators)
+=======
+      '@es-joy/jsdoccomment': 0.78.0
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
       eslint: 9.39.2(jiti@2.6.1)
 
   eslint-plugin-es-x@7.8.0(eslint@9.39.2(jiti@2.6.1)):
@@ -13162,6 +13486,7 @@ snapshots:
       eslint: 9.39.2(jiti@2.6.1)
       eslint-compat-utils: 0.5.1(eslint@9.39.2(jiti@2.6.1))
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
   eslint-plugin-import-lite@0.3.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3):
@@ -13190,11 +13515,18 @@ snapshots:
       '@eslint-community/eslint-utils': 4.9.0(eslint@9.39.2(jiti@2.6.1))
       '@typescript-eslint/types': 8.48.1
 >>>>>>> bd4f164 (chore(api-generators): migrate plop to turborepo generators)
+=======
+  eslint-plugin-import-lite@0.3.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3):
+    dependencies:
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
       eslint: 9.39.2(jiti@2.6.1)
     optionalDependencies:
       typescript: 5.9.3
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
   eslint-plugin-import-x@4.16.1(@typescript-eslint/utils@8.50.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1)):
     dependencies:
       '@typescript-eslint/types': 8.50.0
@@ -13213,9 +13545,12 @@ snapshots:
       - supports-color
 
   eslint-plugin-jsdoc@61.5.0(eslint@9.39.2(jiti@2.6.1)):
+<<<<<<< HEAD
 =======
   eslint-plugin-jsdoc@61.4.2(eslint@9.39.2(jiti@2.6.1)):
 >>>>>>> bd4f164 (chore(api-generators): migrate plop to turborepo generators)
+=======
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
     dependencies:
       '@es-joy/jsdoccomment': 0.76.0
       '@es-joy/resolve.exports': 1.2.0
@@ -13242,10 +13577,14 @@ snapshots:
       eslint: 9.39.2(jiti@2.6.1)
       eslint-compat-utils: 0.6.5(eslint@9.39.2(jiti@2.6.1))
 <<<<<<< HEAD
+<<<<<<< HEAD
       eslint-json-compat-utils: 0.2.1(eslint@9.39.2(jiti@2.6.1))(jsonc-eslint-parser@2.4.2)
 =======
       eslint-json-compat-utils: 0.2.1(eslint@9.39.2(jiti@2.6.1))(jsonc-eslint-parser@2.4.1)
 >>>>>>> bd4f164 (chore(api-generators): migrate plop to turborepo generators)
+=======
+      eslint-json-compat-utils: 0.2.1(eslint@9.39.2(jiti@2.6.1))(jsonc-eslint-parser@2.4.2)
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
       espree: 10.4.0
       graphemer: 1.4.0
       jsonc-eslint-parser: 2.4.2
@@ -13258,10 +13597,14 @@ snapshots:
     dependencies:
       '@eslint-community/eslint-utils': 4.9.0(eslint@9.39.2(jiti@2.6.1))
 <<<<<<< HEAD
+<<<<<<< HEAD
       enhanced-resolve: 5.18.4
 =======
       enhanced-resolve: 5.18.3
 >>>>>>> bd4f164 (chore(api-generators): migrate plop to turborepo generators)
+=======
+      enhanced-resolve: 5.18.4
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
       eslint: 9.39.2(jiti@2.6.1)
       eslint-plugin-es-x: 7.8.0(eslint@9.39.2(jiti@2.6.1))
       get-tsconfig: 4.13.0
@@ -13278,18 +13621,24 @@ snapshots:
   eslint-plugin-perfectionist@4.15.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3):
     dependencies:
 <<<<<<< HEAD
+<<<<<<< HEAD
       '@typescript-eslint/types': 8.50.0
       '@typescript-eslint/utils': 8.50.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
 =======
       '@typescript-eslint/types': 8.48.1
       '@typescript-eslint/utils': 8.48.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
 >>>>>>> bd4f164 (chore(api-generators): migrate plop to turborepo generators)
+=======
+      '@typescript-eslint/types': 8.50.0
+      '@typescript-eslint/utils': 8.50.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
       eslint: 9.39.2(jiti@2.6.1)
       natural-orderby: 5.0.0
     transitivePeerDependencies:
       - supports-color
       - typescript
 
+<<<<<<< HEAD
 <<<<<<< HEAD
   eslint-plugin-pnpm@1.4.3(eslint@9.39.2(jiti@2.6.1)):
     dependencies:
@@ -13303,12 +13652,20 @@ snapshots:
       eslint: 9.39.2(jiti@2.6.1)
       jsonc-eslint-parser: 2.4.1
 >>>>>>> bd4f164 (chore(api-generators): migrate plop to turborepo generators)
+=======
+  eslint-plugin-pnpm@1.4.3(eslint@9.39.2(jiti@2.6.1)):
+    dependencies:
+      empathic: 2.0.0
+      eslint: 9.39.2(jiti@2.6.1)
+      jsonc-eslint-parser: 2.4.2
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
       pathe: 2.0.3
       pnpm-workspace-yaml: 1.4.3
       tinyglobby: 0.2.15
       yaml: 2.8.2
       yaml-eslint-parser: 1.3.2
 
+<<<<<<< HEAD
 <<<<<<< HEAD
   eslint-plugin-react-dom@2.3.13(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3):
     dependencies:
@@ -13332,6 +13689,18 @@ snapshots:
       '@typescript-eslint/types': 8.48.1
       '@typescript-eslint/utils': 8.48.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
 >>>>>>> bd4f164 (chore(api-generators): migrate plop to turborepo generators)
+=======
+  eslint-plugin-react-dom@2.3.13(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3):
+    dependencies:
+      '@eslint-react/ast': 2.3.13(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@eslint-react/core': 2.3.13(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@eslint-react/eff': 2.3.13
+      '@eslint-react/shared': 2.3.13(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@eslint-react/var': 2.3.13(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@typescript-eslint/scope-manager': 8.50.0
+      '@typescript-eslint/types': 8.50.0
+      '@typescript-eslint/utils': 8.50.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
       compare-versions: 6.1.1
       eslint: 9.39.2(jiti@2.6.1)
       string-ts: 2.3.1
@@ -13340,6 +13709,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+<<<<<<< HEAD
 <<<<<<< HEAD
   eslint-plugin-react-hooks-extra@2.3.13(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3):
     dependencies:
@@ -13365,6 +13735,19 @@ snapshots:
       '@typescript-eslint/types': 8.48.1
       '@typescript-eslint/utils': 8.48.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
 >>>>>>> bd4f164 (chore(api-generators): migrate plop to turborepo generators)
+=======
+  eslint-plugin-react-hooks-extra@2.3.13(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3):
+    dependencies:
+      '@eslint-react/ast': 2.3.13(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@eslint-react/core': 2.3.13(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@eslint-react/eff': 2.3.13
+      '@eslint-react/shared': 2.3.13(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@eslint-react/var': 2.3.13(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@typescript-eslint/scope-manager': 8.50.0
+      '@typescript-eslint/type-utils': 8.50.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@typescript-eslint/types': 8.50.0
+      '@typescript-eslint/utils': 8.50.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
       eslint: 9.39.2(jiti@2.6.1)
       string-ts: 2.3.1
       ts-pattern: 5.9.0
@@ -13383,6 +13766,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+<<<<<<< HEAD
 <<<<<<< HEAD
   eslint-plugin-react-naming-convention@2.3.13(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3):
     dependencies:
@@ -13408,6 +13792,19 @@ snapshots:
       '@typescript-eslint/types': 8.48.1
       '@typescript-eslint/utils': 8.48.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
 >>>>>>> bd4f164 (chore(api-generators): migrate plop to turborepo generators)
+=======
+  eslint-plugin-react-naming-convention@2.3.13(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3):
+    dependencies:
+      '@eslint-react/ast': 2.3.13(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@eslint-react/core': 2.3.13(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@eslint-react/eff': 2.3.13
+      '@eslint-react/shared': 2.3.13(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@eslint-react/var': 2.3.13(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@typescript-eslint/scope-manager': 8.50.0
+      '@typescript-eslint/type-utils': 8.50.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@typescript-eslint/types': 8.50.0
+      '@typescript-eslint/utils': 8.50.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
       eslint: 9.39.2(jiti@2.6.1)
       string-ts: 2.3.1
       ts-pattern: 5.9.0
@@ -13415,6 +13812,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+<<<<<<< HEAD
 <<<<<<< HEAD
   eslint-plugin-react-refresh@0.4.26(eslint@9.39.2(jiti@2.6.1)):
     dependencies:
@@ -13432,11 +13830,15 @@ snapshots:
       '@typescript-eslint/utils': 8.50.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
 =======
   eslint-plugin-react-refresh@0.4.24(eslint@9.39.2(jiti@2.6.1)):
+=======
+  eslint-plugin-react-refresh@0.4.26(eslint@9.39.2(jiti@2.6.1)):
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
     dependencies:
       eslint: 9.39.2(jiti@2.6.1)
 
-  eslint-plugin-react-web-api@2.3.12(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3):
+  eslint-plugin-react-web-api@2.3.13(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3):
     dependencies:
+<<<<<<< HEAD
       '@eslint-react/ast': 2.3.12(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
       '@eslint-react/core': 2.3.12(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
       '@eslint-react/eff': 2.3.12
@@ -13446,6 +13848,16 @@ snapshots:
       '@typescript-eslint/types': 8.48.1
       '@typescript-eslint/utils': 8.48.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
 >>>>>>> bd4f164 (chore(api-generators): migrate plop to turborepo generators)
+=======
+      '@eslint-react/ast': 2.3.13(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@eslint-react/core': 2.3.13(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@eslint-react/eff': 2.3.13
+      '@eslint-react/shared': 2.3.13(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@eslint-react/var': 2.3.13(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@typescript-eslint/scope-manager': 8.50.0
+      '@typescript-eslint/types': 8.50.0
+      '@typescript-eslint/utils': 8.50.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
       eslint: 9.39.2(jiti@2.6.1)
       string-ts: 2.3.1
       ts-pattern: 5.9.0
@@ -13453,6 +13865,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+<<<<<<< HEAD
 <<<<<<< HEAD
   eslint-plugin-react-x@2.3.13(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3):
     dependencies:
@@ -13478,6 +13891,19 @@ snapshots:
       '@typescript-eslint/types': 8.48.1
       '@typescript-eslint/utils': 8.48.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
 >>>>>>> bd4f164 (chore(api-generators): migrate plop to turborepo generators)
+=======
+  eslint-plugin-react-x@2.3.13(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3):
+    dependencies:
+      '@eslint-react/ast': 2.3.13(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@eslint-react/core': 2.3.13(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@eslint-react/eff': 2.3.13
+      '@eslint-react/shared': 2.3.13(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@eslint-react/var': 2.3.13(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@typescript-eslint/scope-manager': 8.50.0
+      '@typescript-eslint/type-utils': 8.50.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@typescript-eslint/types': 8.50.0
+      '@typescript-eslint/utils': 8.50.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
       compare-versions: 6.1.1
       eslint: 9.39.2(jiti@2.6.1)
       is-immutable-type: 5.0.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
@@ -13532,6 +13958,7 @@ snapshots:
       strip-indent: 4.1.1
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   eslint-plugin-unused-imports@4.3.0(@typescript-eslint/eslint-plugin@8.50.0(@typescript-eslint/parser@8.50.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1)):
     dependencies:
       eslint: 9.39.2(jiti@2.6.1)
@@ -13541,13 +13968,20 @@ snapshots:
   eslint-plugin-vue@10.6.2(@stylistic/eslint-plugin@5.6.1(eslint@9.39.2(jiti@2.6.1)))(@typescript-eslint/parser@8.50.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(vue-eslint-parser@10.2.0(eslint@9.39.2(jiti@2.6.1))):
 =======
   eslint-plugin-unused-imports@4.3.0(@typescript-eslint/eslint-plugin@8.48.1(@typescript-eslint/parser@8.48.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1)):
+=======
+  eslint-plugin-unused-imports@4.3.0(@typescript-eslint/eslint-plugin@8.50.0(@typescript-eslint/parser@8.50.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1)):
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
     dependencies:
       eslint: 9.39.2(jiti@2.6.1)
     optionalDependencies:
-      '@typescript-eslint/eslint-plugin': 8.48.1(@typescript-eslint/parser@8.48.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@typescript-eslint/eslint-plugin': 8.50.0(@typescript-eslint/parser@8.50.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
 
+<<<<<<< HEAD
   eslint-plugin-vue@10.6.2(@stylistic/eslint-plugin@5.6.1(eslint@9.39.2(jiti@2.6.1)))(@typescript-eslint/parser@8.48.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(vue-eslint-parser@10.2.0(eslint@9.39.2(jiti@2.6.1))):
 >>>>>>> bd4f164 (chore(api-generators): migrate plop to turborepo generators)
+=======
+  eslint-plugin-vue@10.6.2(@stylistic/eslint-plugin@5.6.1(eslint@9.39.2(jiti@2.6.1)))(@typescript-eslint/parser@8.50.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(vue-eslint-parser@10.2.0(eslint@9.39.2(jiti@2.6.1))):
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
     dependencies:
       '@eslint-community/eslint-utils': 4.9.0(eslint@9.39.2(jiti@2.6.1))
       eslint: 9.39.2(jiti@2.6.1)
@@ -13560,6 +13994,7 @@ snapshots:
     optionalDependencies:
       '@stylistic/eslint-plugin': 5.6.1(eslint@9.39.2(jiti@2.6.1))
 <<<<<<< HEAD
+<<<<<<< HEAD
       '@typescript-eslint/parser': 8.50.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
 
   eslint-plugin-yml@1.19.1(eslint@9.39.2(jiti@2.6.1)):
@@ -13568,6 +14003,11 @@ snapshots:
 
   eslint-plugin-yml@1.19.0(eslint@9.39.2(jiti@2.6.1)):
 >>>>>>> bd4f164 (chore(api-generators): migrate plop to turborepo generators)
+=======
+      '@typescript-eslint/parser': 8.50.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+
+  eslint-plugin-yml@1.19.1(eslint@9.39.2(jiti@2.6.1)):
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
     dependencies:
       debug: 4.4.3(supports-color@8.1.1)
       diff-sequences: 27.5.1
@@ -13580,6 +14020,7 @@ snapshots:
       - supports-color
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   eslint-processor-vue-blocks@2.0.0(@vue/compiler-sfc@3.5.26)(eslint@9.39.2(jiti@2.6.1)):
     dependencies:
       '@vue/compiler-sfc': 3.5.26
@@ -13588,6 +14029,11 @@ snapshots:
     dependencies:
       '@vue/compiler-sfc': 3.5.25
 >>>>>>> bd4f164 (chore(api-generators): migrate plop to turborepo generators)
+=======
+  eslint-processor-vue-blocks@2.0.0(@vue/compiler-sfc@3.5.26)(eslint@9.39.2(jiti@2.6.1)):
+    dependencies:
+      '@vue/compiler-sfc': 3.5.26
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
       eslint: 9.39.2(jiti@2.6.1)
 
   eslint-scope@8.4.0:
@@ -13766,6 +14212,9 @@ snapshots:
   fast-deep-equal@3.1.3: {}
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
   fast-glob@3.2.12:
     dependencies:
       '@nodelib/fs.stat': 2.0.5
@@ -13781,9 +14230,12 @@ snapshots:
       glob-parent: 5.1.2
       merge2: 1.4.1
       micromatch: 4.0.8
+<<<<<<< HEAD
 =======
   fast-diff@1.3.0: {}
 >>>>>>> 6fa9dfd (feat(eslint-config): enable css formatting)
+=======
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
 
   fast-json-stable-stringify@2.1.0: {}
 
@@ -14212,8 +14664,11 @@ snapshots:
 
   indent-string@5.0.0: {}
 
+<<<<<<< HEAD
   inflection@3.0.2: {}
 
+=======
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
   inflight@1.0.6:
     dependencies:
       once: 1.4.0
@@ -14319,10 +14774,14 @@ snapshots:
   is-immutable-type@5.0.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3):
     dependencies:
 <<<<<<< HEAD
+<<<<<<< HEAD
       '@typescript-eslint/type-utils': 8.50.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
 =======
       '@typescript-eslint/type-utils': 8.48.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
 >>>>>>> bd4f164 (chore(api-generators): migrate plop to turborepo generators)
+=======
+      '@typescript-eslint/type-utils': 8.50.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
       eslint: 9.39.2(jiti@2.6.1)
       ts-api-utils: 2.1.0(typescript@5.9.3)
       ts-declaration-location: 1.0.7(typescript@5.9.3)
@@ -15135,6 +15594,7 @@ snapshots:
       react: 19.2.0
       react-dom: 19.2.0(react@19.2.0)
 
+<<<<<<< HEAD
   next-themes@0.4.6(react-dom@19.2.3(react@19.2.0))(react@19.2.0):
     dependencies:
       react: 19.2.0
@@ -15145,6 +15605,8 @@ snapshots:
       react: 19.2.3
       react-dom: 19.2.3(react@19.2.3)
 
+=======
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
   no-case@2.3.2:
     dependencies:
       lower-case: 1.1.4
@@ -15588,6 +16050,7 @@ snapshots:
 
   quansync@0.2.11: {}
 
+<<<<<<< HEAD
   query-string@7.1.3:
     dependencies:
       decode-uri-component: 0.2.2
@@ -15601,6 +16064,8 @@ snapshots:
       filter-obj: 5.1.0
       split-on-first: 3.0.0
 
+=======
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
   queue-microtask@1.2.3: {}
 
   quick-format-unescaped@4.0.4: {}
@@ -15665,6 +16130,7 @@ snapshots:
       react: 19.2.0
       scheduler: 0.27.0
 
+<<<<<<< HEAD
   react-dom@19.2.3(react@19.2.0):
     dependencies:
       react: 19.2.0
@@ -15691,6 +16157,12 @@ snapshots:
     dependencies:
       '@babel/runtime': 7.28.4
       react: 19.2.3
+=======
+  react-dom@19.2.3(react@19.2.3):
+    dependencies:
+      react: 19.2.3
+      scheduler: 0.27.0
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
 
   react-google-recaptcha@3.1.0(react@19.2.0):
     dependencies:
@@ -15702,10 +16174,13 @@ snapshots:
     dependencies:
       react: 19.2.0
 
+<<<<<<< HEAD
   react-hook-form@7.69.0(react@19.2.3):
     dependencies:
       react: 19.2.3
 
+=======
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
   react-i18next@15.7.4(i18next@25.7.3(typescript@5.9.3))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(typescript@5.9.3):
     dependencies:
       '@babel/runtime': 7.28.4
@@ -15729,8 +16204,11 @@ snapshots:
   react-is@16.13.1: {}
 
   react-is@17.0.2: {}
+<<<<<<< HEAD
 
   react-is@19.2.3: {}
+=======
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
 
   react-qr-code@2.0.18(react@19.2.0):
     dependencies:
@@ -15767,6 +16245,7 @@ snapshots:
     optionalDependencies:
       '@types/react': 19.2.7
 
+<<<<<<< HEAD
   react-remove-scroll@2.7.2(@types/react@19.2.7)(react@19.2.3):
     dependencies:
       react: 19.2.3
@@ -15778,18 +16257,23 @@ snapshots:
     optionalDependencies:
       '@types/react': 19.2.7
 
+=======
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
   react-router-dom@7.11.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0):
     dependencies:
       react: 19.2.0
       react-dom: 19.2.0(react@19.2.0)
       react-router: 7.11.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
 
+<<<<<<< HEAD
   react-router-dom@7.11.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3):
     dependencies:
       react: 19.2.3
       react-dom: 19.2.3(react@19.2.3)
       react-router: 7.11.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
 
+=======
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
   react-router@7.11.0(react-dom@19.2.0(react@19.2.0))(react@19.2.0):
     dependencies:
       cookie: 1.1.1
@@ -16449,7 +16933,11 @@ snapshots:
       '@tsconfig/node16': 1.0.4
       '@types/node': 24.10.1
       acorn: 8.15.0
+<<<<<<< HEAD
       acorn-walk: 8.3.4
+=======
+      acorn-walk: 8.3.2
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
       arg: 4.1.3
       create-require: 1.1.1
       diff: 4.0.2
@@ -16529,6 +17017,7 @@ snapshots:
       tagged-tag: 1.0.0
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   typescript-eslint@8.50.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3):
     dependencies:
       '@typescript-eslint/eslint-plugin': 8.50.0(@typescript-eslint/parser@8.50.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
@@ -16543,6 +17032,14 @@ snapshots:
       '@typescript-eslint/typescript-estree': 8.48.1(typescript@5.9.3)
       '@typescript-eslint/utils': 8.48.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
 >>>>>>> bd4f164 (chore(api-generators): migrate plop to turborepo generators)
+=======
+  typescript-eslint@8.50.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3):
+    dependencies:
+      '@typescript-eslint/eslint-plugin': 8.50.0(@typescript-eslint/parser@8.50.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@typescript-eslint/parser': 8.50.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+      '@typescript-eslint/typescript-estree': 8.50.0(typescript@5.9.3)
+      '@typescript-eslint/utils': 8.50.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
       eslint: 9.39.2(jiti@2.6.1)
       typescript: 5.9.3
     transitivePeerDependencies:

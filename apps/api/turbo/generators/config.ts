@@ -34,6 +34,7 @@ export default function (plop: PlopTypes.NodePlopAPI) {
   plop.setHelper('eq', (a: any, b: any) => a === b);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   plop.setHelper('or', (...args: any[]) => {
     return args.slice(0, -1).some(Boolean) as any;
   });
@@ -48,6 +49,14 @@ export default function (plop: PlopTypes.NodePlopAPI) {
   // Custom action to manually inject import
   plop.setActionType('injectImport', (answers, config, plop) => {
 >>>>>>> bd4f164 (chore(api-generators): migrate plop to turborepo generators)
+=======
+  plop.setHelper('or', (...args: any[]) => {
+    return args.slice(0, -1).some(Boolean) as any;
+  });
+
+  // Custom action to manually inject import
+  plop.setActionType('injectImport', (answers: any, config: any, plop: any) => {
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
     if (!plop) {
       return 'Plop instance is undefined';
     }
@@ -79,10 +88,14 @@ export default function (plop: PlopTypes.NodePlopAPI) {
 
   // Custom action to manually inject route
 <<<<<<< HEAD
+<<<<<<< HEAD
   plop.setActionType('injectRoute', (answers: any, config: any, plop: any) => {
 =======
   plop.setActionType('injectRoute', (answers, config, plop) => {
 >>>>>>> bd4f164 (chore(api-generators): migrate plop to turborepo generators)
+=======
+  plop.setActionType('injectRoute', (answers: any, config: any, plop: any) => {
+>>>>>>> 263dadd (feat(admin): scaffold new TanStack admin application)
     if (!plop) {
       return 'Plop instance is undefined';
     }
