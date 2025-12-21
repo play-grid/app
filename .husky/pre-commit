@@ -1,2 +1,5 @@
 pnpm check-types
 pnpm lint-staged
+pnpm -filter=@guess-logo/api test:unit
+pnpm -filter=@guess-logo/game-core test
+pnpm -filter=@guess-logo/games test

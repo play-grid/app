@@ -1,45 +1,88 @@
-# Gemini Code Assistant Context
+# Guess Logo Game - Project Context
 
-This document provides context for the Gemini code assistant to understand the "Guess Logo" project.
+## Project Structure
+This is a monorepo using **pnpm** workspaces with:
+- **apps/frontend** - React + Vite SPA
+- **apps/api** - Cloudflare Workers + Hono
+- **packages/game-core** - Shared game framework
+- **packages/games** - Game implementations
 
-## Project Overview
+## Tech Stack
+**Frontend**: React, TypeScript, Vite, Zustand, TanStack Query, Radix UI, Tailwind CSS, i18next
 
-This is a monorepo for a "Guess the Logo" game. The project is split into two main parts: a frontend application and a backend API. It uses `pnpm` for workspace management.
+**Backend**: Cloudflare Workers, Hono, Durable Objects, Zod schemas
 
-### Frontend (`apps/frontend`)
+### Admin Panel (`apps/admin`)
+React Admin, shadcn-admin-kit, TanStack Router, TypeScript
+- Manages games, users, and application data
+- Custom UI built with shadcn-admin-kit
+- Client-side routing with TanStack Router
 
-The frontend is a single-page application built with **React** and **Vite**. It uses **TypeScript** for type safety and **Tailwind CSS** for styling. Key libraries include:
+## Development Standards
+- Use TypeScript everywhere
+- Commits linted with `lint-staged` and `simple-git-hooks`
 
-*   **React Router:** For client-side routing.
-*   **Zustand:** For state management.
-*   **TanStack Query:** For data fetching and caching.
-*   **Radix UI:** For accessible UI components.
-*   **i18next:** For internationalization.
+## Core Architecture
 
-### Backend (`apps/api`)
+### Game Definition System
+```typescript
+GameDefinition {
+  stateSchema: ZodSchema
+  actionSchema: ZodSchema
+  reducer: (state, action) => newState  // Pure, deterministic
+  initialState: GameState
+}
+```
 
-The backend is a **Cloudflare Worker** application built with **Hono**, a lightweight web framework. It uses **Durable Objects** for stateful logic, likely for managing game rooms or sessions.
+### Execution Modes
+1. **Local Mode** - Client-authoritative, instant updates
+2. **Multiplayer Mode** - Server-authoritative via WebSocket
 
-## Building and Running
+Both modes use the same pure reducer and adapter pattern.
+
+### Game Adapter Pattern
+```typescript
+interface GameAdapter {
+  getState: () => GameState
+  dispatch: (action: Action) => Promise<void>
+  subscribe: (listener) => Unsubscribe
+}
+```
+
+### Backend Authority
+- Durable Objects = one game room = one state machine
+- Runs reducer for each action
+- Validates with Zod schemas
+- Broadcasts updates to all clients
+- Prevents cheating
+
+## Build & Run Commands
 
 ### Frontend
-
-*   **Install dependencies:** `pnpm install`
-*   **Run development server:** `pnpm --filter @guess-logo/frontend dev`
-*   **Build for production:** `pnpm --filter @guess-logo/frontend build`
-*   **Lint:** `pnpm --filter @guess-logo/frontend lint:fix`
+```bash
+pnpm install
+pnpm --filter @guess-logo/frontend dev
+pnpm --filter @guess-logo/frontend build
+pnpm --filter @guess-logo/frontend lint:fix
+```
 
 ### Backend
+```bash
+pnpm install
+pnpm --filter api dev
+pnpm --filter api deploy
+pnpm --filter api lint:fix
+pnpm turbo gen  # Generate new API routes
+```
 
-*   **Install dependencies:** `pnpm install`
-*   **Run development server:** `pnpm --filter api dev`
-*   **Deploy:** `pnpm --filter api deploy`
-*   **Lint:** `pnpm --filter api lint:fix`
+## Key Files & Paths
+- Frontend source: `apps/frontend/src/` (use `@/` prefix)
+- API templates: `apps/api/turbo/generators/templates/`
+- Game implementations: `packages/games/`
+- Shared utilities: `packages/game-core/`
 
-## Development Conventions
-
-*   The project uses **ESLint** for code linting.
-*   **TypeScript** is used in both the frontend and backend.
-*   The frontend uses a path alias `@` for the `src` directory.
-*   Commits are linted using `lint-staged` and `simple-git-hooks`.
-*   always use pnpm  lint:fix instead of pnpm lint so format always.
+## Game Logic Rules
+- All game rules = pure reducers
+- No side effects in reducers
+- Identical composition for local & multiplayer
+- Only the **adapter** layer changes between modes

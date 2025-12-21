@@ -23,18 +23,9 @@
   },
   "lint-staged": {
     "apps/frontend/**/*.{js,ts,tsx}": "eslint --fix --config apps/frontend/eslint.config.js",
-    "apps/api/**/*.{js,ts}": [
-      "eslint --fix --config apps/api/eslint.config.js",
-      "pnpm --filter @guess-logo/api test:unit --"
-    ],
-    "packages/game-core/**/*.{js,ts}": [
-      "eslint --fix --config packages/game-core/eslint.config.js",
-      "pnpm --filter @guess-logo/game-core test"
-    ],
-    "packages/games/**/*.{js,ts}": [
-      "eslint --fix --config packages/games/eslint.config.js",
-      "pnpm --filter @guess-logo/games test --"
-    ]
+    "apps/api/**/*.{js,ts}": "eslint --fix --config apps/api/eslint.config.js",
+    "packages/game-core/**/*.{js,ts}": "eslint --fix --config packages/game-core/eslint.config.js",
+    "packages/games/**/*.{js,ts}": "eslint --fix --config packages/games/eslint.config.js"
   },
   "packageManager": "pnpm@10.26.1+sha512.664074abc367d2c9324fdc18037097ce0a8f126034160f709928e9e9f95d98714347044e5c3164d65bd5da6c59c6be362b107546292a8eecb7999196e5ce58fa"
 }
