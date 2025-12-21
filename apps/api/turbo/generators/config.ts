@@ -31,14 +31,14 @@ export default function (plop: PlopTypes.NodePlopAPI) {
     return `${name}s`;
   });
 
-  plop.setHelper('eq', (a, b) => a === b);
+  plop.setHelper('eq', (a: any, b: any) => a === b);
 
-  plop.setHelper('or', (...args) => {
-    return args.slice(0, -1).some(Boolean);
+  plop.setHelper('or', (...args: any[]) => {
+    return args.slice(0, -1).some(Boolean) as any;
   });
 
   // Custom action to manually inject import
-  plop.setActionType('injectImport', (answers, config, plop) => {
+  plop.setActionType('injectImport', (answers: any, config: any, plop: any) => {
     if (!plop) {
       return 'Plop instance is undefined';
     }
@@ -69,7 +69,7 @@ export default function (plop: PlopTypes.NodePlopAPI) {
   });
 
   // Custom action to manually inject route
-  plop.setActionType('injectRoute', (answers, config, plop) => {
+  plop.setActionType('injectRoute', (answers: any, config: any, plop: any) => {
     if (!plop) {
       return 'Plop instance is undefined';
     }
@@ -191,7 +191,7 @@ export default function (plop: PlopTypes.NodePlopAPI) {
         name: 'createFiles',
         message: 'Resource files don\'t exist. Create them?',
         default: true,
-        when: (answers) => {
+        when: (answers: any) => {
           const routesPath = path.join(
             process.cwd(),
             answers.modulePath as string,
@@ -202,7 +202,7 @@ export default function (plop: PlopTypes.NodePlopAPI) {
         },
       },
     ],
-    actions: (data) => {
+    actions: (data: any) => {
       const actions: any[] = [];
 
       const routesPath = path.join(
