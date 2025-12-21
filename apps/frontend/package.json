@@ -9,7 +9,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint --fix",
     "preview": "vite preview",
-    "tsCheck": "tsc --noEmit",
+    "check-types": "tsc --noEmit",
     "cy:open": "cypress open",
     "test:e2e": "concurrently -k -s first \"pnpm --filter @guess-logo/frontend dev\" \"pnpm --filter @guess-logo/api dev\" \"wait-on http://localhost:${VITE_SERVER_PORT:-5173} http://localhost:8787/api/health && cypress run\"",
     "deploy": "pnpm build && pnpm wrangler pages deploy dist"

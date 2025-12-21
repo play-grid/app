@@ -2,11 +2,11 @@
   "name": "guess-logo",
   "private": true,
   "scripts": {
-    "dev": "pnpm run -r --parallel --aggregate-output dev",
-    "lint": "pnpm run -r --parallel --aggregate-output lint",
-    "lint:fix": "pnpm run -r --parallel --aggregate-output lint:fix",
-    "build": "pnpm run -r build",
-    "tsCheck": "pnpm run -r tsCheck",
+    "dev": "turbo dev",
+    "lint": "turbo lint",
+    "lint:fix": "turbo lint:fix",
+    "build": "turbo build",
+    "check-types": "turbo check-types",
     "test:e2e": "pnpm --filter @guess-logo/frontend test:e2e",
     "deploy": "pnpm deploy:frontend && pnpm deploy:api",
     "deploy:frontend": "pnpm --filter frontend build && cd apps/frontend && pnpm wrangler pages deploy",
@@ -16,8 +16,9 @@
   "devDependencies": {
     "eslint": "catalog:",
     "husky": "^9.1.7",
-    "lint-staged": "^16.1.5",
-    "tsx": "^4.20.6"
+    "lint-staged": "^16.2.7",
+    "tsx": "^4.21.0",
+    "turbo": "^2.7.1"
   },
   "lint-staged": {
     "apps/frontend/**/*.{js,ts,tsx}": "eslint --fix --config apps/frontend/eslint.config.js",
@@ -34,5 +35,5 @@
       "pnpm --filter @guess-logo/games test --"
     ]
   },
-  "packageManager": "pnpm@10.19.0+sha512.c9fc7236e92adf5c8af42fd5bf1612df99c2ceb62f27047032f4720b33f8eacdde311865e91c411f2774f618d82f320808ecb51718bfa82c060c4ba7c76a32b8"
+  "packageManager": "pnpm@10.26.1+sha512.664074abc367d2c9324fdc18037097ce0a8f126034160f709928e9e9f95d98714347044e5c3164d65bd5da6c59c6be362b107546292a8eecb7999196e5ce58fa"
 }

@@ -1,2 +1,2 @@
-pnpm tsCheck
+pnpm check-types
 pnpm lint-staged

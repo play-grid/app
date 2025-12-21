@@ -27,3 +27,4 @@ llms.*
 .gemini/
 opencode.json
 AGENTS.md
+.turbo

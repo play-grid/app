@@ -73,7 +73,7 @@
     "vitest": "~4.0.15"
   },
   "scripts": {
-    "tsCheck": "tsc --noEmit",
+    "check-types": "tsc --noEmit",
     "test":"vitest run",
     "build": "pnpm exec tsc -p tsconfig.build.json"
   }

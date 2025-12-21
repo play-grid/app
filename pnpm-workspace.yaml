@@ -11,7 +11,7 @@ catalog:
   '@types/node': 24.10.1
   '@vitejs/plugin-react': 5.1.0
   better-auth: 1.4.0-beta.18
-  eslint: ^9.39.1
+  eslint: ^9.39.2
   hono: ^4.9.5
   immer: ^10.2.0
   tailwindcss: ^4.1.17
@@ -26,9 +26,6 @@ catalogs:
     react: 19.2.0
     react-dom: 19.2.0
 
-overrides:
-  esbuild: 0.25.9
-
 onlyBuiltDependencies:
   - '@swc/core'
   - '@tailwindcss/oxide'
@@ -38,3 +35,6 @@ onlyBuiltDependencies:
   - simple-git-hooks
   - workerd
   - better-sqlite3
+
+overrides:
+  esbuild: 0.25.9
