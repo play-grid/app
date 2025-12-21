@@ -17,7 +17,11 @@ catalogs:
       version: 24.10.1
     eslint:
       specifier: ^9.39.2
+<<<<<<< HEAD
       version: 9.39.2
+=======
+      version: 9.39.1
+>>>>>>> 4e89210 (chore(build-system): introduce turborepo for monorepo tasks)
     hono:
       specifier: ^4.9.5
       version: 4.11.1
@@ -142,6 +146,7 @@ importers:
       turbo:
         specifier: ^2.7.1
         version: 2.7.1
+<<<<<<< HEAD
 
   apps/admin:
     dependencies:
@@ -335,6 +340,8 @@ importers:
       web-vitals:
         specifier: ^5.1.0
         version: 5.1.0
+=======
+>>>>>>> 4e89210 (chore(build-system): introduce turborepo for monorepo tasks)
 
   apps/api:
     dependencies:
