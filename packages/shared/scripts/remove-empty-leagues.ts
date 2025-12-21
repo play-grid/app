@@ -42,11 +42,12 @@ async function processDirectory(dirPath: string) {
     for (const file of files) {
       const filePath = path.join(dirPath, file);
       const content = fs.readFileSync(filePath, 'utf-8');
-      
+
       let data;
       try {
         data = JSON.parse(content);
-      } catch (e) {
+      }
+      catch (e) {
         console.warn(`⚠️ Skipping ${file} — Invalid JSON.`);
         continue;
       }
@@ -64,11 +65,13 @@ async function processDirectory(dirPath: string) {
       if (removedCount > 0) {
         fs.writeFileSync(filePath, JSON.stringify(filteredLeagues, null, 2), 'utf-8');
         console.log(`✅ Updated ${file}: Removed ${removedCount} leagues with empty teams.`);
-      } else {
+      }
+      else {
         console.log(`- Skipped ${file}: No empty leagues found.`);
       }
     }
-  } catch (error) {
+  }
+  catch (error) {
     console.error(`❌ An error occurred while processing ${path.basename(dirPath)}:`, error);
   }
 }

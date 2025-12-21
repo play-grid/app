@@ -69,7 +69,7 @@ async function createTopTeamsList() {
     // 1. Load the list of team names to find
     const teamNamesContent = fs.readFileSync(teamNamesInputFile, 'utf-8');
     const { famous_football_clubs_original_names: targetTeamNames } = JSON.parse(teamNamesContent);
-    
+
     const normalizedTargetNames = targetTeamNames.map(normalize);
     console.log(`📋 Loaded ${normalizedTargetNames.length} unique team names to find.`);
 
@@ -103,13 +103,13 @@ async function createTopTeamsList() {
                 });
                 foundTeamIds.add(team.id);
               }
-              break; 
+              break;
             }
           }
         }
       }
     }
-    
+
     console.log(`✅ Found ${foundTeams.length} matching teams.`);
 
     // 3. Structure the found teams into a single virtual league
@@ -135,11 +135,10 @@ async function createTopTeamsList() {
     fs.writeFileSync(outputPath, JSON.stringify(finalOutput, null, 2), 'utf-8');
 
     console.log(`\n🎉 Successfully created custom team list with ${foundTeams.length} teams at: ${outputPath}`);
-
-  } catch (error) {
+  }
+  catch (error) {
     console.error('❌ An error occurred:', error);
   }
 }
 
 createTopTeamsList();
-

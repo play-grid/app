@@ -1,4 +1,4 @@
-import type antfu from "@antfu/eslint-config";
+import type antfu from '@antfu/eslint-config';
 
 type AntfuParams = Parameters<typeof antfu>;
 type AntfuReturn = ReturnType<typeof antfu>;

@@ -47,7 +47,7 @@ const regionsDir = path.join(ROOT, 'leagues-by-regions');
 const regionFiles = fs.readdirSync(regionsDir).filter(f => f.endsWith('.json'));
 const teams = JSON.parse(fs.readFileSync(path.join(ROOT, 'teams.json'), 'utf8'));
 
-let allLeagues: any[] = [];
+const allLeagues: any[] = [];
 for (const file of regionFiles) {
   if (file === 'summary.json')
     continue;

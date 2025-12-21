@@ -3,8 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { useRoomStats } from './use-room';
 import { CopyButton } from './copy-button';
+import { useRoomStats } from './use-room';
 
 interface RoomStatsHeaderProps {
   mode: string;

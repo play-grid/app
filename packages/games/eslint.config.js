@@ -1,3 +1,3 @@
-import base from "@guess-logo/eslint-config";
+import base from '@guess-logo/eslint-config';
 
 export default base;

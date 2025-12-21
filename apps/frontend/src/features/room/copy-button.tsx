@@ -14,7 +14,7 @@ export function CopyButton({
   text,
   className,
   size = 'icon',
-  variant = 'ghost'
+  variant = 'ghost',
 }: CopyButtonProps) {
   const [copied, setCopied] = useState(false);
 
