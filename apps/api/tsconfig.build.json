@@ -2,11 +2,10 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./dist",
-    "rootDir": "./src",
     "declaration": true,
     "emitDeclarationOnly": true,
     "noEmit": false
   },
-  "include": ["src"],
+  "include": ["src/**/*", "durable-objects/**/*", "lib/**/*", "routes/**/*", "games.ts"],
   "exclude": ["node_modules", "dist", ".wrangler"]
 }
