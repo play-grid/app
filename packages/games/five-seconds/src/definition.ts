@@ -21,7 +21,7 @@ export const fiveSecondsGame = createGameDefinition({
     createdAt: Date.now(),
     settings: {
       categoryIds: ['cat_general_v1'],
-      difficulty: 'all',
+      difficulty: 'easy',
       timePerTurn: 5,
       roundsToWin: 5,
     },

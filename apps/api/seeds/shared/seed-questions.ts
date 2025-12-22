@@ -32,17 +32,15 @@ export async function seedD1Questions(db: BetterSQLite3Database<any> | LibSQLDat
       const existing = await db
         .select()
         .from(fiveSecondsQuestions)
-        .where(eq(fiveSecondsQuestions.question, q.question))
+        .where(eq(fiveSecondsQuestions.text, q.question))
         .get();
 
       if (!existing) {
         return db.insert(fiveSecondsQuestions).values({
           id: crypto.randomUUID(),
-          question: q.question,
-          exampleAnswers: q.exampleAnswers,
+          text: q.question,
           categoryId: q.categoryId,
           difficulty: q.difficulty,
-          metadata: JSON.stringify(q.metadata),
         });
       }
     });
