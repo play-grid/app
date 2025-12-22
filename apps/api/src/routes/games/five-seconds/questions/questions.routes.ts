@@ -2,33 +2,30 @@ import { createRoute, z } from '@hono/zod-openapi';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import { jsonContent } from 'stoker/openapi/helpers';
 import {
-  getBatchQuestionsResponseSchema,
-  getRandomQuestionResponseSchema,
-  questionBatchQuery,
-  questionQuery,
+  getBatchQuestionsQuerySchema,
+  getRandomQuestionQuerySchema,
+  questionResponseSchema,
 } from './questions.schemas';
 
-export const tags = ['questions'];
+const tags = ['Five Seconds - Questions'];
 
 export const getRandomQuestion = createRoute({
   path: '/random',
-  request: {
-    query: questionQuery,
-  },
-  tags,
   method: 'get',
+  tags,
+  request: {
+    query: getRandomQuestionQuerySchema,
+  },
   responses: {
     [HttpStatusCodes.OK]: jsonContent(
-      getRandomQuestionResponseSchema,
-      'Successfully retrieved a random question or no questions found',
-    ),
-    [HttpStatusCodes.BAD_REQUEST]: jsonContent(
-      z.object({ error: z.string() }),
-      'Invalid request parameters',
-    ),
-    [HttpStatusCodes.INTERNAL_SERVER_ERROR]: jsonContent(
-      z.object({ error: z.string() }),
-      'Internal server error',
+      z.union([
+        questionResponseSchema,
+        z.object({
+          code: z.literal('NO_QUESTIONS_FOUND'),
+          message: z.string(),
+        }),
+      ]),
+      'A random question or no questions found',
     ),
   },
 });
@@ -38,18 +35,16 @@ export type GetRandomQuestionRoute = typeof getRandomQuestion;
 export const getBatchQuestions = createRoute({
   path: '/batch',
   method: 'get',
-  request: {
-    query: questionBatchQuery,
-  },
   tags,
+  request: {
+    query: getBatchQuestionsQuerySchema,
+  },
   responses: {
     [HttpStatusCodes.OK]: jsonContent(
-      getBatchQuestionsResponseSchema,
-      'Batch of random questions',
-    ),
-    [HttpStatusCodes.INTERNAL_SERVER_ERROR]: jsonContent(
-      z.object({ error: z.string() }),
-      'Internal server error',
+      z.object({
+        questions: z.array(questionResponseSchema),
+      }),
+      'A batch of questions',
     ),
   },
 });

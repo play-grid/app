@@ -7,13 +7,25 @@ import { and, eq, inArray, not, sql } from 'drizzle-orm';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 
 import { getDB } from '@/db';
-import { fiveSecondsCategories, fiveSecondsQuestions } from '../five-seconds.tables';
-import { questionSchema } from './questions.schemas';
+import {
+  fiveSecondsCategories,
+  fiveSecondsQuestions,
+} from '../five-seconds.tables';
+import { questionResponseSchema } from './questions.schemas';
 
 function calculateReadingTime(text: string): number {
   const charsPerSecond = 10;
   const seconds = Math.ceil(text.length / charsPerSecond);
   return Math.max(2, seconds);
+}
+
+function getDifficultyFilter(
+  difficulty?: 'easy' | 'medium' | 'hard' | 'all',
+): 'easy' | 'medium' | 'hard' | undefined {
+  if (!difficulty || difficulty === 'all') {
+    return undefined;
+  }
+  return difficulty;
 }
 
 export const getRandomQuestion: AppRouteHandler<GetRandomQuestionRoute> = async (
@@ -29,8 +41,9 @@ export const getRandomQuestion: AppRouteHandler<GetRandomQuestionRoute> = async 
 
   const filters: any[] = [];
 
-  if (difficulty && difficulty !== 'all') {
-    filters.push(eq(fiveSecondsQuestions.difficulty, difficulty));
+  const dbDifficulty = getDifficultyFilter(difficulty);
+  if (dbDifficulty) {
+    filters.push(eq(fiveSecondsQuestions.difficulty, dbDifficulty));
   }
 
   if (categoryIds.length) {
@@ -41,9 +54,7 @@ export const getRandomQuestion: AppRouteHandler<GetRandomQuestionRoute> = async 
     filters.push(not(inArray(fiveSecondsQuestions.id, excludeIds)));
   }
 
-  const whereClause = filters.length
-    ? filters.reduce((acc, f) => and(acc, f))
-    : undefined;
+  const whereClause = filters.length > 0 ? and(...filters) : undefined;
 
   const [random] = await db
     .select()
@@ -71,14 +82,17 @@ export const getRandomQuestion: AppRouteHandler<GetRandomQuestionRoute> = async 
   c.header('Expires', '0');
 
   const readingTime = calculateReadingTime(
-    random.five_seconds_questions.question,
+    random.five_seconds_questions.text,
   );
 
-  const response = questionSchema.parse({
+  const response = questionResponseSchema.parse({
     id: random.five_seconds_questions.id,
-    text: random.five_seconds_questions.question,
+    text: random.five_seconds_questions.text,
     difficulty: random.five_seconds_questions.difficulty,
-    categoryId: random.five_seconds_categories?.id,
+    categoryId: random.five_seconds_questions.categoryId,
+    deletedAt: random.five_seconds_questions.deletedAt,
+    createdAt: random.five_seconds_questions.createdAt,
+    updatedAt: random.five_seconds_questions.updatedAt,
     totalTime: timePerTurn + readingTime,
   });
 
@@ -99,8 +113,9 @@ export const getBatchQuestions: AppRouteHandler<GetBatchQuestionsRoute> = async 
 
   const filters: any[] = [];
 
-  if (difficulty && difficulty !== 'all') {
-    filters.push(eq(fiveSecondsQuestions.difficulty, difficulty));
+  const dbDifficulty = getDifficultyFilter(difficulty);
+  if (dbDifficulty) {
+    filters.push(eq(fiveSecondsQuestions.difficulty, dbDifficulty));
   }
 
   if (categoryIds.length) {
@@ -111,7 +126,7 @@ export const getBatchQuestions: AppRouteHandler<GetBatchQuestionsRoute> = async 
     filters.push(not(inArray(fiveSecondsQuestions.id, excludeIds)));
   }
 
-  const whereClause = filters.length ? and(...filters) : undefined;
+  const whereClause = filters.length > 0 ? and(...filters) : undefined;
 
   const questions = await db
     .select()
@@ -125,13 +140,16 @@ export const getBatchQuestions: AppRouteHandler<GetBatchQuestionsRoute> = async 
     .limit(count);
 
   const parsed = questions.map((q) => {
-    const readingTime = calculateReadingTime(q.five_seconds_questions.question);
+    const readingTime = calculateReadingTime(q.five_seconds_questions.text);
 
-    return questionSchema.parse({
+    return questionResponseSchema.parse({
       id: q.five_seconds_questions.id,
-      text: q.five_seconds_questions.question,
+      text: q.five_seconds_questions.text,
       difficulty: q.five_seconds_questions.difficulty,
-      categoryId: q.five_seconds_categories?.id,
+      categoryId: q.five_seconds_questions.categoryId,
+      deletedAt: q.five_seconds_questions.deletedAt,
+      createdAt: q.five_seconds_questions.createdAt,
+      updatedAt: q.five_seconds_questions.updatedAt,
       totalTime: timePerTurn + readingTime,
     });
   });
