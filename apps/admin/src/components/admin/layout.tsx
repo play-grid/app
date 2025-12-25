@@ -34,7 +34,7 @@ export function Layout(props: CoreLayoutProps) {
           'ml-auto w-full max-w-full',
           'peer-data-[state=collapsed]:w-[calc(100%-var(--sidebar-width-icon)-1rem)]',
           'peer-data-[state=expanded]:w-[calc(100%-var(--sidebar-width))]',
-          'sm:transition-[width] sm:duration-200 sm:ease-linear',
+          'sm:transition-[width] sm:duration-150 sm:ease-linear',
           'flex h-svh flex-col',
           'group-data-[scroll-locked=1]/body:h-full',
           'has-[main.fixed-main]:group-data-[scroll-locked=1]/body:h-svh',
@@ -59,7 +59,7 @@ export function Layout(props: CoreLayoutProps) {
           )}
         >
           <Suspense fallback={<Loading />}>
-            <div className="flex flex-1 flex-col px-4 ">{props.children}</div>
+            <div className="flex flex-1 flex-col sm:px-24 px-4">{props.children}</div>
           </Suspense>
         </ErrorBoundary>
       </main>

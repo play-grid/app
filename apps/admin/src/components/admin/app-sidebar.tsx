@@ -45,7 +45,11 @@ export function AppSidebar() {
     }
   };
   return (
-    <Sidebar variant="floating" collapsible="icon">
+    <Sidebar
+      variant="floating"
+      collapsible="icon"
+      className="transition-[width,transform] duration-150 ease-linear"
+    >
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
