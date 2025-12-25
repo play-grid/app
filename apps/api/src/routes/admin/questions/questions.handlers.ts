@@ -7,7 +7,7 @@ import type {
   UpdateQuestionsRoute,
 } from './questions.routes';
 import type { AppRouteHandler } from '@/lib/types';
-import { and, eq, ilike, isNull, sql } from 'drizzle-orm';
+import { and, asc, desc, eq, ilike, isNull, sql } from 'drizzle-orm';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import { getDB } from '@/db';
 import {
@@ -16,8 +16,9 @@ import {
   fiveSecondsQuestions,
 } from '@/routes/games/five-seconds/five-seconds.tables';
 
-// Helper for excluding soft-deleted records
-const notDeleted = isNull(fiveSecondsQuestions.deletedAt);
+// Helper function for excluding soft-deleted records
+// Use this as a function to ensure fresh evaluation
+const notDeleted = () => isNull(fiveSecondsQuestions.deletedAt);
 
 // Helper function to cast difficulty
 function castDifficulty(val: string): Difficulty {
@@ -32,13 +33,16 @@ export const listQuestionsHandler: AppRouteHandler<
   ListQuestionsRoute
 > = async (c) => {
   const db = getDB(c);
-  const { page, limit, difficulty, categoryId, search } = c.req.valid(
+  const { page, limit, difficulty, categoryId, search, sort, order } = c.req.valid(
     'query',
   );
 
   const offset = (page - 1) * limit;
 
   const whereConditions = [];
+
+  // IMPORTANT: Add notDeleted condition FIRST
+  whereConditions.push(notDeleted());
 
   if (difficulty) {
     whereConditions.push(eq(fiveSecondsQuestions.difficulty, difficulty));
@@ -54,7 +58,6 @@ export const listQuestionsHandler: AppRouteHandler<
     );
   }
 
-  whereConditions.push(notDeleted);
   const whereClause = whereConditions.length > 0 ? and(...whereConditions) : undefined;
 
   const [{ count }] = await db
@@ -62,7 +65,23 @@ export const listQuestionsHandler: AppRouteHandler<
     .from(fiveSecondsQuestions)
     .where(whereClause);
 
-  const rawQuestions = await db
+  // Map sort field to database column
+  const sortFieldMap: Record<string, any> = {
+    id: fiveSecondsQuestions.id,
+    text: fiveSecondsQuestions.text,
+    difficulty: fiveSecondsQuestions.difficulty,
+    categoryId: fiveSecondsQuestions.categoryId,
+    categoryNameEn: fiveSecondsCategories.nameEn,
+    categoryNameAr: fiveSecondsCategories.nameAr,
+    createdAt: fiveSecondsQuestions.createdAt,
+    updatedAt: fiveSecondsQuestions.updatedAt,
+    feedbackCount: sql<number>`count(${fiveSecondsFeedback.id})`,
+  };
+
+  const sortColumn = sort ? sortFieldMap[sort] : fiveSecondsQuestions.createdAt;
+  const isDescending = order === 'DESC';
+
+  const query = db
     .select({
       id: fiveSecondsQuestions.id,
       text: fiveSecondsQuestions.text,
@@ -85,12 +104,21 @@ export const listQuestionsHandler: AppRouteHandler<
       eq(fiveSecondsQuestions.id, fiveSecondsFeedback.questionId),
     )
     .where(whereClause)
-    .groupBy(fiveSecondsQuestions.id)
-    .orderBy(fiveSecondsQuestions.createdAt)
-    .limit(limit)
-    .offset(offset);
+    .groupBy(
+      fiveSecondsQuestions.id,
+      fiveSecondsQuestions.text,
+      fiveSecondsQuestions.difficulty,
+      fiveSecondsQuestions.categoryId,
+      fiveSecondsQuestions.deletedAt,
+      fiveSecondsQuestions.createdAt,
+      fiveSecondsQuestions.updatedAt,
+      fiveSecondsCategories.nameEn,
+      fiveSecondsCategories.nameAr,
+    )
+    .orderBy(isDescending ? desc(sortColumn) : asc(sortColumn));
 
-  // Cast difficulty to proper type
+  const rawQuestions = await query.limit(limit).offset(offset);
+
   const questions = rawQuestions.map(q => ({
     ...q,
     difficulty: castDifficulty(q.difficulty),
@@ -135,8 +163,18 @@ export const getQuestionsByIdHandler: AppRouteHandler<
       fiveSecondsFeedback,
       eq(fiveSecondsQuestions.id, fiveSecondsFeedback.questionId),
     )
-    .where(and(eq(fiveSecondsQuestions.id, id), notDeleted))
-    .groupBy(fiveSecondsQuestions.id)
+    .where(and(eq(fiveSecondsQuestions.id, id), notDeleted()))
+    .groupBy(
+      fiveSecondsQuestions.id,
+      fiveSecondsQuestions.text,
+      fiveSecondsQuestions.difficulty,
+      fiveSecondsQuestions.categoryId,
+      fiveSecondsQuestions.deletedAt,
+      fiveSecondsQuestions.createdAt,
+      fiveSecondsQuestions.updatedAt,
+      fiveSecondsCategories.nameEn,
+      fiveSecondsCategories.nameAr,
+    )
     .limit(1);
 
   if (!rawQuestion) {
@@ -168,7 +206,7 @@ export const createQuestionsHandler: AppRouteHandler<
     const existingQuestion = await db
       .select()
       .from(fiveSecondsQuestions)
-      .where(and(eq(fiveSecondsQuestions.text, input.text), notDeleted))
+      .where(and(eq(fiveSecondsQuestions.text, input.text), notDeleted()))
       .limit(1);
 
     if (existingQuestion.length > 0) {
@@ -226,7 +264,17 @@ export const createQuestionsHandler: AppRouteHandler<
         eq(fiveSecondsQuestions.id, fiveSecondsFeedback.questionId),
       )
       .where(eq(fiveSecondsQuestions.id, newQuestion.id))
-      .groupBy(fiveSecondsQuestions.id)
+      .groupBy(
+        fiveSecondsQuestions.id,
+        fiveSecondsQuestions.text,
+        fiveSecondsQuestions.difficulty,
+        fiveSecondsQuestions.categoryId,
+        fiveSecondsQuestions.deletedAt,
+        fiveSecondsQuestions.createdAt,
+        fiveSecondsQuestions.updatedAt,
+        fiveSecondsCategories.nameEn,
+        fiveSecondsCategories.nameAr,
+      )
       .limit(1);
 
     const question = {
@@ -265,7 +313,7 @@ export const updateQuestionsHandler: AppRouteHandler<
     const existingQuestion = await db
       .select()
       .from(fiveSecondsQuestions)
-      .where(and(eq(fiveSecondsQuestions.id, id), notDeleted))
+      .where(and(eq(fiveSecondsQuestions.id, id), notDeleted()))
       .limit(1);
 
     if (existingQuestion.length === 0) {
@@ -284,7 +332,7 @@ export const updateQuestionsHandler: AppRouteHandler<
           and(
             eq(fiveSecondsQuestions.text, input.text),
             sql`${fiveSecondsQuestions.id} != ${id}`,
-            notDeleted,
+            notDeleted(),
           ),
         )
         .limit(1);
@@ -352,7 +400,17 @@ export const updateQuestionsHandler: AppRouteHandler<
         eq(fiveSecondsQuestions.id, fiveSecondsFeedback.questionId),
       )
       .where(eq(fiveSecondsQuestions.id, id))
-      .groupBy(fiveSecondsQuestions.id)
+      .groupBy(
+        fiveSecondsQuestions.id,
+        fiveSecondsQuestions.text,
+        fiveSecondsQuestions.difficulty,
+        fiveSecondsQuestions.categoryId,
+        fiveSecondsQuestions.deletedAt,
+        fiveSecondsQuestions.createdAt,
+        fiveSecondsQuestions.updatedAt,
+        fiveSecondsCategories.nameEn,
+        fiveSecondsCategories.nameAr,
+      )
       .limit(1);
 
     const question = {
@@ -387,10 +445,11 @@ export const deleteQuestionsHandler: AppRouteHandler<
   const { id } = c.req.valid('param');
 
   try {
+    // Check if the question exists and is not deleted
     const existingQuestion = await db
       .select()
       .from(fiveSecondsQuestions)
-      .where(and(eq(fiveSecondsQuestions.id, id), notDeleted))
+      .where(and(eq(fiveSecondsQuestions.id, id), notDeleted()))
       .limit(1);
 
     if (existingQuestion.length === 0) {
@@ -400,13 +459,35 @@ export const deleteQuestionsHandler: AppRouteHandler<
       );
     }
 
-    // Soft delete
-    await db
+    // Perform the soft delete with updated timestamp
+    const deletedAt = new Date();
+    const [result] = await db
       .update(fiveSecondsQuestions)
-      .set({ deletedAt: new Date() })
-      .where(eq(fiveSecondsQuestions.id, id));
+      .set({
+        deletedAt,
+        updatedAt: deletedAt,
+      })
+      .where(eq(fiveSecondsQuestions.id, id))
+      .returning();
 
-    return c.body(null, HttpStatusCodes.NO_CONTENT);
+    if (!result) {
+      return c.json(
+        { error: 'Failed to delete question' },
+        HttpStatusCodes.INTERNAL_SERVER_ERROR,
+      );
+    }
+
+    // IMPORTANT: Return the deleted record with deletedAt set
+    // This allows React Admin's optimistic/undoable mode to work correctly
+    return c.json({
+      id: result.id,
+      text: result.text,
+      difficulty: castDifficulty(result.difficulty),
+      categoryId: result.categoryId,
+      deletedAt: result.deletedAt,
+      createdAt: result.createdAt,
+      updatedAt: result.updatedAt,
+    }, HttpStatusCodes.OK);
   }
   catch (error: any) {
     console.error('Error deleting question:', error);

@@ -33,7 +33,7 @@ const QuestionFeedbackIcon = () => (
 
 function App() {
   return (
-    <Admin dataProvider={dataProvider}>
+    <Admin dataProvider={dataProvider} >
       <Resource
         name="questions"
         list={ListQuestions}
@@ -41,6 +41,12 @@ function App() {
         create={CreateQuestions}
         edit={EditQuestions}
       />
+      <Resource
+        name="question-feedback"
+        list={ListQuestionFeedback}
+        icon={QuestionFeedbackIcon}
+      />
+      <Resource name="categories" />
     </Admin>
   );
 }

@@ -4,7 +4,7 @@ import {
   questionWithCategorySchema,
 } from '@guess-logo/five-seconds';
 import { z } from 'zod';
-import { paginationSchema } from '../shared-schemas';
+import { adminListQuerySchema, paginationSchema } from '../shared-schemas';
 
 export const createQuestionsInputSchema = baseQuestionSchema.omit({
   id: true,
@@ -24,10 +24,7 @@ export const listQuestionsResponseSchema = z.object({
   pagination: paginationSchema,
 });
 
-export const listQuestionsQuerySchema = z.object({
-  page: z.coerce.number().int().min(1).default(1),
-  limit: z.coerce.number().int().min(1).max(100).default(20),
+export const listQuestionsQuerySchema = adminListQuerySchema.extend({
   difficulty: difficultySchema.optional(),
   categoryId: z.string().optional(),
-  search: z.string().optional(),
 });

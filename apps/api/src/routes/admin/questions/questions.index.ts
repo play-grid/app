@@ -4,9 +4,9 @@ import * as routes from './questions.routes';
 
 const router = createRouter()
   .openapi(routes.listQuestions, handlers.listQuestionsHandler)
-  .openapi(routes.deleteQuestions, handlers.deleteQuestionsHandler)
-  .openapi(routes.getQuestionsById, handlers.getQuestionsByIdHandler)
   .openapi(routes.createQuestions, handlers.createQuestionsHandler)
-  .openapi(routes.updateQuestions, handlers.updateQuestionsHandler);
+  .openapi(routes.getQuestionsById, handlers.getQuestionsByIdHandler)
+  .openapi(routes.updateQuestions, handlers.updateQuestionsHandler)
+  .openapi(routes.deleteQuestions, handlers.deleteQuestionsHandler);
 
 export default router;

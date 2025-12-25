@@ -5,17 +5,17 @@ const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8787';
 
 const client = hcWithType(API_URL);
 
-type ResourceType = 'questions';
+type ResourceType = 'questions' | 'question-feedback' | 'categories';
 
 const routeMap: Record<
   ResourceType,
-  {
+  Partial<{
     getList: () => any;
     getOne: () => any;
     create: () => any;
     update: () => any;
     delete: () => any;
-  }
+  }>
 > = {
   questions: {
     getList: () => client.api.admin.questions.$get,
@@ -23,6 +23,13 @@ const routeMap: Record<
     create: () => client.api.admin.questions.$post,
     update: () => client.api.admin.questions[':id'].$patch,
     delete: () => client.api.admin.questions[':id'].$delete,
+  },
+  'question-feedback': {
+    getList: () => (client.api.admin as any)['question-feedback'].$get,
+  },
+  categories: {
+    getList: () => (client.api.admin as any).categories.$get,
+    getOne: () => (client.api.admin as any).categories[':id'].$get,
   },
 };
 
@@ -36,20 +43,34 @@ async function getListHandler(
   }
 ) {
   const { page = 1, perPage = 20 } = params.pagination || {};
-  const { filter = {} } = params;
+  const { filter = {}, sort } = params;
 
   try {
-    const endpoint = routeMap[resource]?.getList();
+    const resourceConfig = routeMap[resource];
+    if (!resourceConfig || !resourceConfig.getList) {
+      throw new Error(`Resource "${resource}" does not support getList`);
+    }
+
+    const endpoint = resourceConfig.getList();
     if (!endpoint) {
-      throw new Error(`Resource "${resource}" not supported`);
+      throw new Error(`Resource "${resource}" getList endpoint not configured`);
+    }
+
+    const query: Record<string, string> = {
+      page: page.toString(),
+      limit: perPage.toString(),
+      ...filter,
+      
+      _t: Date.now().toString(),
+    };
+
+    if (sort?.field && sort?.order) {
+      query.sort = sort.field;
+      query.order = sort.order;
     }
 
     const response = await endpoint({
-      query: {
-        page: page.toString(),
-        limit: perPage.toString(),
-        ...filter,
-      },
+      query,
     });
 
     if (!response.ok) {
@@ -76,9 +97,14 @@ async function getOneHandler(
   params: { id: string | number }
 ) {
   try {
-    const endpoint = routeMap[resource]?.getOne();
+    const resourceConfig = routeMap[resource];
+    if (!resourceConfig || !resourceConfig.getOne) {
+      throw new Error(`Resource "${resource}" does not support getOne`);
+    }
+
+    const endpoint = resourceConfig.getOne();
     if (!endpoint) {
-      throw new Error(`Resource "${resource}" not supported`);
+      throw new Error(`Resource "${resource}" getOne endpoint not configured`);
     }
 
     const response = await endpoint({
@@ -93,7 +119,9 @@ async function getOneHandler(
     }
 
     const data = await response.json();
-    return { data: data.data || data };
+    const recordData = data.data !== undefined ? data.data : data;
+    
+    return { data: recordData };
   } catch (error) {
     console.error(`Data provider error (getOne ${resource}):`, error);
     throw error;
@@ -105,9 +133,14 @@ async function createHandler(
   params: { data: Record<string, any> }
 ) {
   try {
-    const endpoint = routeMap[resource]?.create();
+    const resourceConfig = routeMap[resource];
+    if (!resourceConfig || !resourceConfig.create) {
+      throw new Error(`Resource "${resource}" does not support create`);
+    }
+
+    const endpoint = resourceConfig.create();
     if (!endpoint) {
-      throw new Error(`Resource "${resource}" not supported`);
+      throw new Error(`Resource "${resource}" create endpoint not configured`);
     }
 
     const response = await endpoint({
@@ -122,7 +155,9 @@ async function createHandler(
     }
 
     const data = await response.json();
-    return { data: data.data || data };
+    const recordData = data.data !== undefined ? data.data : data;
+    
+    return { data: recordData };
   } catch (error) {
     console.error(`Data provider error (create ${resource}):`, error);
     throw error;
@@ -134,9 +169,14 @@ async function updateHandler(
   params: { id: string | number; data: Record<string, any>; previousData?: Record<string, any> }
 ) {
   try {
-    const endpoint = routeMap[resource]?.update();
+    const resourceConfig = routeMap[resource];
+    if (!resourceConfig || !resourceConfig.update) {
+      throw new Error(`Resource "${resource}" does not support update`);
+    }
+
+    const endpoint = resourceConfig.update();
     if (!endpoint) {
-      throw new Error(`Resource "${resource}" not supported`);
+      throw new Error(`Resource "${resource}" update endpoint not configured`);
     }
 
     const response = await endpoint({
@@ -152,7 +192,9 @@ async function updateHandler(
     }
 
     const data = await response.json();
-    return { data: data.data || data };
+    const recordData = data.data !== undefined ? data.data : data;
+    
+    return { data: recordData };
   } catch (error) {
     console.error(`Data provider error (update ${resource}):`, error);
     throw error;
@@ -164,9 +206,14 @@ async function deleteHandler(
   params: { id: string | number; previousData?: any }
 ) {
   try {
-    const endpoint = routeMap[resource]?.delete();
+    const resourceConfig = routeMap[resource];
+    if (!resourceConfig || !resourceConfig.delete) {
+      throw new Error(`Resource "${resource}" does not support delete`);
+    }
+
+    const endpoint = resourceConfig.delete();
     if (!endpoint) {
-      throw new Error(`Resource "${resource}" not supported`);
+      throw new Error(`Resource "${resource}" delete endpoint not configured`);
     }
 
     const response = await endpoint({
@@ -174,16 +221,35 @@ async function deleteHandler(
     });
 
     if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
+      const contentType = response.headers?.get?.('content-type');
+      let errorData: any = {};
+      
+      if (contentType?.includes('application/json')) {
+        errorData = await response.json().catch(() => ({}));
+      }
+      
       throw new Error(
-        errorData.message || `Failed to delete ${resource}`
+        errorData.error || errorData.message || `Failed to delete ${resource}`
       );
     }
 
+    
+    const contentType = response.headers?.get?.('content-type');
+    if (contentType?.includes('application/json')) {
+      const data = await response.json();
+      const recordData = data.data !== undefined ? data.data : data;
+      
+      
+      
+      return { data: recordData };
+    }
 
-
+    
+    
     return { 
-      data: params.previousData || { id: params.id } 
+      data: params.previousData 
+        ? { ...params.previousData, deletedAt: new Date().toISOString() }
+        : { id: params.id, deletedAt: new Date().toISOString() }
     };
   } catch (error) {
     console.error(`Data provider error (delete ${resource}):`, error);
@@ -199,8 +265,6 @@ async function getManyHandler(
   resource: ResourceType,
   params: { ids: (string | number)[] }
 ) {
-  
-  
   const data = await Promise.all(
     params.ids.map((id) => getOneHandler(resource, { id }))
   );
@@ -217,8 +281,6 @@ async function getManyReferenceHandler(
     filter?: Record<string, any>;
   }
 ) {
-  
-  
   return getListHandler(resource, {
     pagination: params.pagination,
     sort: params.sort,
@@ -233,7 +295,6 @@ async function updateManyHandler(
     data: Record<string, any>;
   }
 ) {
-  
   const results = await Promise.all(
     params.ids.map((id) =>
       updateHandler(resource, { id, data: params.data })
@@ -244,15 +305,18 @@ async function updateManyHandler(
 
 async function deleteManyHandler(
   resource: ResourceType,
-  params: { ids: (string | number)[] }
+  params: { ids: (string | number)[]; previousData?: any[] }
 ) {
-  
   const results = await Promise.all(
-    params.ids.map((id) => deleteHandler(resource, { id }))
+    params.ids.map((id, index) =>
+      deleteHandler(resource, {
+        id,
+        previousData: params.previousData?.[index],
+      })
+    )
   );
   return { data: results.map((r) => r.data) };
 }
-
 
 const dataProvider: DataProvider = {
   getList: (resource: string, params: any) =>
@@ -276,15 +340,21 @@ const dataProvider: DataProvider = {
   updateMany: (resource: string, params: any) =>
     updateManyHandler(resource as ResourceType, params),
 
-    delete: (resource: string, params: any) => {
+  delete: (resource: string, params: any) => {
     const deleteParams = params as any;
     return deleteHandler(resource as ResourceType, {
       id: deleteParams.id,
       previousData: deleteParams.previousData,
     });
   },
-  deleteMany: (resource: string, params: any) =>
-    deleteManyHandler(resource as ResourceType, params),
-};
+
+  deleteMany: (resource: string, params: any) => {
+    const deleteParams = params as any;
+    return deleteManyHandler(resource as ResourceType, {
+      ids: deleteParams.ids,
+      previousData: deleteParams.previousData,
+    });
+  },
+} as DataProvider;
 
 export default dataProvider;
