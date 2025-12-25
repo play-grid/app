@@ -1,24 +1,12 @@
 import createRouter from '@/lib/create-router';
-import {
-  createQuestionsHandler,
-  deleteQuestionsHandler,
-  getQuestionsByIdHandler,
-  listQuestionsHandler,
-  updateQuestionsHandler,
-} from './questions.handlers';
-import {
-  createQuestions,
-  deleteQuestions,
-  getQuestionsById,
-  listQuestions,
-  updateQuestions,
-} from './questions.routes';
+import * as handlers from './questions.handlers';
+import * as routes from './questions.routes';
 
 const router = createRouter()
-  .openapi(listQuestions, listQuestionsHandler)
-  .openapi(deleteQuestions, deleteQuestionsHandler)
-  .openapi(getQuestionsById, getQuestionsByIdHandler)
-  .openapi(createQuestions, createQuestionsHandler)
-  .openapi(updateQuestions, updateQuestionsHandler);
+  .openapi(routes.listQuestions, handlers.listQuestionsHandler)
+  .openapi(routes.deleteQuestions, handlers.deleteQuestionsHandler)
+  .openapi(routes.getQuestionsById, handlers.getQuestionsByIdHandler)
+  .openapi(routes.createQuestions, handlers.createQuestionsHandler)
+  .openapi(routes.updateQuestions, handlers.updateQuestionsHandler);
 
 export default router;

@@ -12,6 +12,7 @@ import * as HttpStatusCodes from 'stoker/http-status-codes';
 import { getDB } from '@/db';
 import {
   fiveSecondsCategories,
+  fiveSecondsFeedback,
   fiveSecondsQuestions,
 } from '@/routes/games/five-seconds/five-seconds.tables';
 
@@ -36,6 +37,7 @@ export const listQuestionsHandler: AppRouteHandler<
   );
 
   const offset = (page - 1) * limit;
+
   const whereConditions = [];
 
   if (difficulty) {
@@ -71,13 +73,19 @@ export const listQuestionsHandler: AppRouteHandler<
       updatedAt: fiveSecondsQuestions.updatedAt,
       categoryNameEn: fiveSecondsCategories.nameEn,
       categoryNameAr: fiveSecondsCategories.nameAr,
+      feedbackCount: sql<number>`count(${fiveSecondsFeedback.id})`,
     })
     .from(fiveSecondsQuestions)
     .leftJoin(
       fiveSecondsCategories,
       eq(fiveSecondsQuestions.categoryId, fiveSecondsCategories.id),
     )
+    .leftJoin(
+      fiveSecondsFeedback,
+      eq(fiveSecondsQuestions.id, fiveSecondsFeedback.questionId),
+    )
     .where(whereClause)
+    .groupBy(fiveSecondsQuestions.id)
     .orderBy(fiveSecondsQuestions.createdAt)
     .limit(limit)
     .offset(offset);
@@ -93,7 +101,7 @@ export const listQuestionsHandler: AppRouteHandler<
   const totalPages = Math.ceil(count / limit);
 
   return c.json({
-    questions,
+    data: questions,
     pagination: { page, limit, total: count, totalPages },
   });
 };
@@ -116,13 +124,19 @@ export const getQuestionsByIdHandler: AppRouteHandler<
       updatedAt: fiveSecondsQuestions.updatedAt,
       categoryNameEn: fiveSecondsCategories.nameEn,
       categoryNameAr: fiveSecondsCategories.nameAr,
+      feedbackCount: sql<number>`count(${fiveSecondsFeedback.id})`,
     })
     .from(fiveSecondsQuestions)
     .leftJoin(
       fiveSecondsCategories,
       eq(fiveSecondsQuestions.categoryId, fiveSecondsCategories.id),
     )
+    .leftJoin(
+      fiveSecondsFeedback,
+      eq(fiveSecondsQuestions.id, fiveSecondsFeedback.questionId),
+    )
     .where(and(eq(fiveSecondsQuestions.id, id), notDeleted))
+    .groupBy(fiveSecondsQuestions.id)
     .limit(1);
 
   if (!rawQuestion) {
@@ -188,7 +202,7 @@ export const createQuestionsHandler: AppRouteHandler<
       })
       .returning();
 
-    // Fetch with category info
+    // Fetch with category info and feedback count
     const [rawQuestion] = await db
       .select({
         id: fiveSecondsQuestions.id,
@@ -200,13 +214,19 @@ export const createQuestionsHandler: AppRouteHandler<
         updatedAt: fiveSecondsQuestions.updatedAt,
         categoryNameEn: fiveSecondsCategories.nameEn,
         categoryNameAr: fiveSecondsCategories.nameAr,
+        feedbackCount: sql<number>`count(${fiveSecondsFeedback.id})`,
       })
       .from(fiveSecondsQuestions)
       .leftJoin(
         fiveSecondsCategories,
         eq(fiveSecondsQuestions.categoryId, fiveSecondsCategories.id),
       )
+      .leftJoin(
+        fiveSecondsFeedback,
+        eq(fiveSecondsQuestions.id, fiveSecondsFeedback.questionId),
+      )
       .where(eq(fiveSecondsQuestions.id, newQuestion.id))
+      .groupBy(fiveSecondsQuestions.id)
       .limit(1);
 
     const question = {
@@ -320,13 +340,19 @@ export const updateQuestionsHandler: AppRouteHandler<
         updatedAt: fiveSecondsQuestions.updatedAt,
         categoryNameEn: fiveSecondsCategories.nameEn,
         categoryNameAr: fiveSecondsCategories.nameAr,
+        feedbackCount: sql<number>`count(${fiveSecondsFeedback.id})`,
       })
       .from(fiveSecondsQuestions)
       .leftJoin(
         fiveSecondsCategories,
         eq(fiveSecondsQuestions.categoryId, fiveSecondsCategories.id),
       )
+      .leftJoin(
+        fiveSecondsFeedback,
+        eq(fiveSecondsQuestions.id, fiveSecondsFeedback.questionId),
+      )
       .where(eq(fiveSecondsQuestions.id, id))
+      .groupBy(fiveSecondsQuestions.id)
       .limit(1);
 
     const question = {

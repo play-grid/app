@@ -15,10 +15,12 @@ export const createQuestionsInputSchema = baseQuestionSchema.omit({
 
 export const updateQuestionsInputSchema = createQuestionsInputSchema.partial();
 
-export const questionsOutputSchema = questionWithCategorySchema;
+export const questionsOutputSchema = questionWithCategorySchema.extend({
+  feedbackCount: z.number(),
+});
 
 export const listQuestionsResponseSchema = z.object({
-  questions: z.array(questionsOutputSchema),
+  data: z.array(questionsOutputSchema),
   pagination: paginationSchema,
 });
 
