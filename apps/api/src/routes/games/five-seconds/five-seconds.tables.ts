@@ -1,5 +1,5 @@
-// apps/api/src/db/schema/five-seconds.tables.ts
 import type { InferSelectModel } from 'drizzle-orm';
+import { cuid2 } from 'drizzle-cuid2/sqlite';
 import {
   integer,
   sqliteTable,
@@ -8,12 +8,10 @@ import {
 } from 'drizzle-orm/sqlite-core';
 import { timestamp } from '@/db/utils/timestamp';
 
-const cuid = () => `cuid_${Math.random().toString(36).substring(2, 15)}`;
-
 export const fiveSecondsCategories = sqliteTable(
   'five_seconds_categories',
   {
-    id: text('id').primaryKey(),
+    id: cuid2('id').defaultRandom().primaryKey(),
     nameEn: text('name_en').notNull().default(''),
     nameAr: text('name_ar').notNull().default(''),
     ...timestamp,
@@ -29,7 +27,7 @@ export type FiveSecondsCategory = InferSelectModel<typeof fiveSecondsCategories>
 export const fiveSecondsQuestions = sqliteTable(
   'five_seconds_questions',
   {
-    id: text('id').primaryKey().$defaultFn(cuid),
+    id: cuid2('id').defaultRandom().primaryKey(),
     text: text('text').notNull(),
     difficulty: text('difficulty', {
       enum: ['easy', 'medium', 'hard'],
@@ -46,7 +44,7 @@ export const fiveSecondsQuestions = sqliteTable(
 export type FiveSecondsQuestion = InferSelectModel<typeof fiveSecondsQuestions>;
 
 export const fiveSecondsFeedback = sqliteTable('five_seconds_feedback', {
-  id: text('id').primaryKey().$defaultFn(cuid),
+  id: cuid2('id').defaultRandom().primaryKey(),
   questionId: text('question_id')
     .notNull()
     .references(() => fiveSecondsQuestions.id, { onDelete: 'cascade' }),

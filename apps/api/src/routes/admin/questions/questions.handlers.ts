@@ -216,7 +216,6 @@ export const createQuestionsHandler: AppRouteHandler<
       );
     }
 
-    // Check if category exists
     const category = await db
       .select()
       .from(fiveSecondsCategories)
