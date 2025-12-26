@@ -14,7 +14,10 @@
 
 @layer base {
   body {
-    @apply font-sans;
+    font-family: 'Geist', sans-serif;
+  }
+  :lang(ar) body {
+    font-family: 'Rubik', sans-serif;
   }
 }
 
@@ -64,7 +67,7 @@
   --spacing: 0.25rem;
 
   /* Font family CSS custom properties */
-  --font-sans-en: 'Allerta', system-ui, ui-sans-serif, sans-serif;
+  --font-sans-en: 'Geist', sans-serif;
   --font-serif-en: 'Playfair Display', serif;
   --font-sans-ar: 'Rubik', sans-serif;
   --font-serif-ar: 'Amiri', serif;
