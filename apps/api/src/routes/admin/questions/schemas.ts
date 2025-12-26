@@ -17,7 +17,7 @@ export const updateQuestionsInputSchema = createQuestionsInputSchema.partial();
 
 export const questionsOutputSchema = questionWithCategorySchema.extend({
   feedbackCount: z.number(),
-});
+}).openapi('AdminQuestion');
 
 export const listQuestionsResponseSchema = z.object({
   data: z.array(questionsOutputSchema),

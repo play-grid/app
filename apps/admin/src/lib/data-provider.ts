@@ -25,11 +25,11 @@ const routeMap: Record<
     delete: () => client.api.admin.questions[':id'].$delete,
   },
   'question-feedback': {
-    getList: () => (client.api.admin as any)['question-feedback'].$get,
+    getList: () => (client.api.admin)['question-feedback'].$get,
   },
   categories: {
-    getList: () => (client.api.admin as any).categories.$get,
-    getOne: () => (client.api.admin as any).categories[':id'].$get,
+    getList: () => (client.api.admin).categories.$get,
+    getOne: () => (client.api.admin).categories[':id'].$get,
   },
 };
 

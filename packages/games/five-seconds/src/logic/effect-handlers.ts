@@ -1,5 +1,3 @@
-// packages/games/five-seconds/src/logic/effect-handlers.ts
-
 import type { GameEffect, GameEffectContext } from '@guess-logo/game-core';
 import type {
   FetchQuestionsErrorAction,

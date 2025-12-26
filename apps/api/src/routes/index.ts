@@ -2,7 +2,7 @@
 import type { AppOpenAPI } from '../lib/types';
 import createRouter from '@/lib/create-router';
 import { BASE_PATH } from '../lib/constants';
-import { adminRoutes } from './admin';
+import questionFeedback from './admin/question-feedback/question-feedback.index';
 import auth from './auth/auth.index';
 import gameRoom from './game-room/game-room.index';
 import gameType from './game-type/game-types.index';
@@ -18,7 +18,7 @@ export function registerRoutes(app: AppOpenAPI) {
     .route('/', gameRoom)
     .route('/', gameType)
     .route('/games', gamesRoutes)
-    .route('/admin', adminRoutes);
+    .route('/admin/question-feedback', questionFeedback);
 }
 
 // stand alone router type used for api client
