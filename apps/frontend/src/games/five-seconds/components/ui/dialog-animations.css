@@ -1,0 +1,159 @@
+/* TODO : ,STILL NOT FINISHED */
+
+
+/*
+   Pixel Dialog Animations
+   Philosophy:
+   - Snap, not smooth
+   - Steps, not easing
+   - No scale, no blur, no filters
+   - Frame-based thinking
+   Overlay
+*/
+
+[data-slot="dialog-overlay"] {
+  animation: pixel-overlay-in 80ms steps(1);
+}
+
+@keyframes pixel-overlay-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/*   Dialog Content – Open
+*/
+
+[data-slot="dialog-content"] {
+  animation: pixel-content-pop 120ms steps(1);
+}
+
+@keyframes pixel-content-pop {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, calc(-50% + 8px));
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+
+/*   Dialog Content – Close
+*/
+
+[data-slot="dialog-content"][data-state="closed"] {
+  animation: pixel-content-kill 90ms steps(1) forwards;
+}
+
+@keyframes pixel-content-kill {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, calc(-50% - 8px));
+  }
+}
+
+/*   Micro Jitter (Utility)
+   Use on:
+   - wrong answer
+   - timer end
+   - warning states
+*/
+
+.pixel-jitter {
+  animation: pixel-jitter 60ms steps(1);
+}
+
+@keyframes pixel-jitter {
+  0% {
+    transform: translate(-50%, -50%);
+  }
+  50% {
+    transform: translate(calc(-50% + 1px), -50%);
+  }
+  100% {
+    transform: translate(-50%, -50%);
+  }
+}
+
+/*   Flicker (Utility)
+   Use on:
+   - question appear
+   - reveal moment
+*/
+
+.pixel-flicker {
+  animation: pixel-flicker 90ms steps(1);
+}
+
+@keyframes pixel-flicker {
+  0% {
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+  60% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/*   Shake (Error Feedback)
+*/
+
+.pixel-shake {
+  animation: pixel-shake 80ms steps(1);
+}
+
+@keyframes pixel-shake {
+  0% {
+    transform: translate(-50%, -50%);
+  }
+  25% {
+    transform: translate(calc(-50% - 2px), -50%);
+  }
+  50% {
+    transform: translate(calc(-50% + 2px), -50%);
+  }
+  75% {
+    transform: translate(calc(-50% - 1px), -50%);
+  }
+  100% {
+    transform: translate(-50%, -50%);
+  }
+}
+
+/*   Freeze Effect
+   Use by toggling class briefly (100ms)
+*/
+
+.pixel-freeze {
+  animation: pixel-freeze 100ms steps(1);
+}
+
+@keyframes pixel-freeze {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/*
+   Notes:
+   - Do NOT add easing
+   - Do NOT add scale()
+   - Keep movements <= 8px
+   - Use classes sparingly, timing is the magic
+   */

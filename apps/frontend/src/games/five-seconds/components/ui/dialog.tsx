@@ -13,6 +13,7 @@ import {
 } from '@guess-logo/ui/dialog';
 import { X } from 'lucide-react';
 import * as React from 'react';
+// TODO: import './dialog-animations.css';
 
 // Re-exporting these directly to avoid name collisions and logic duplication
 export const Dialog = PrimitiveDialog;
@@ -23,7 +24,7 @@ export const DialogClose = PrimitiveDialogClose;
 export function DialogOverlay({ className, ...props }: React.ComponentProps<typeof PrimitiveDialogOverlay>) {
   return (
     <PrimitiveDialogOverlay
-      className={cn('bg-foreground/40 backdrop-blur-[2px]', className)}
+      className={cn('bg-foreground backdrop-blur-[2px] ', className)}
       {...props}
     />
   );
@@ -39,6 +40,7 @@ export function DialogContent({
 }) {
   return (
     <PrimitiveDialogContent
+      data-slot="dialog-content"
       className={cn(
         'bg-popover text-popover-foreground p-6',
         'shadow-xl border-none',
@@ -49,6 +51,7 @@ export function DialogContent({
       {children}
       {showCloseButton && (
         <PrimitiveDialogClose
+          data-slot="dialog-close"
           className="pixel-destructive shadow-md absolute top-4 right-4 p-1 cursor-pointer rtl:right-auto rtl:left-4"
         >
           <X className="h-4 w-4" />
