@@ -1,0 +1,165 @@
+
+[data-slot="popover-content"] {
+  animation: pixelPopoverAppear 180ms steps(5, end);
+}
+
+[data-slot="popover-content"][data-state="closed"] {
+  animation: pixelPopoverDisappear 140ms steps(4, end) forwards;
+}
+
+
+@keyframes pixelPopoverAppear {
+  0% {
+    opacity: 0;
+    transform: translate(0, -16px);
+  }
+  25% {
+    opacity: 0.3;
+    transform: translate(0, -12px);
+  }
+  50% {
+    opacity: 0.6;
+    transform: translate(0, -8px);
+  }
+  75% {
+    opacity: 0.85;
+    transform: translate(0, -4px);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+}
+
+/* ===== Popover Disappear - 4 Frames ===== */
+@keyframes pixelPopoverDisappear {
+  0% {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+  33% {
+    opacity: 0.7;
+    transform: translate(0, -4px);
+  }
+  66% {
+    opacity: 0.3;
+    transform: translate(0, -8px);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(0, -16px);
+  }
+}
+
+/* ===== Side-specific animations ===== */
+[data-slot="popover-content"][data-side="bottom"] {
+  animation: pixelPopoverAppearBottom 180ms steps(5, end);
+}
+
+[data-slot="popover-content"][data-side="top"] {
+  animation: pixelPopoverAppearTop 180ms steps(5, end);
+}
+
+[data-slot="popover-content"][data-side="left"] {
+  animation: pixelPopoverAppearLeft 180ms steps(5, end);
+}
+
+[data-slot="popover-content"][data-side="right"] {
+  animation: pixelPopoverAppearRight 180ms steps(5, end);
+}
+
+/* ===== Bottom Side ===== */
+@keyframes pixelPopoverAppearBottom {
+  0% {
+    opacity: 0;
+    transform: translateY(-16px);
+  }
+  25% {
+    opacity: 0.3;
+    transform: translateY(-12px);
+  }
+  50% {
+    opacity: 0.6;
+    transform: translateY(-8px);
+  }
+  75% {
+    opacity: 0.85;
+    transform: translateY(-4px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== Top Side ===== */
+@keyframes pixelPopoverAppearTop {
+  0% {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  25% {
+    opacity: 0.3;
+    transform: translateY(12px);
+  }
+  50% {
+    opacity: 0.6;
+    transform: translateY(8px);
+  }
+  75% {
+    opacity: 0.85;
+    transform: translateY(4px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== Left Side ===== */
+@keyframes pixelPopoverAppearLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(16px);
+  }
+  25% {
+    opacity: 0.3;
+    transform: translateX(12px);
+  }
+  50% {
+    opacity: 0.6;
+    transform: translateX(8px);
+  }
+  75% {
+    opacity: 0.85;
+    transform: translateX(4px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ===== Right Side ===== */
+@keyframes pixelPopoverAppearRight {
+  0% {
+    opacity: 0;
+    transform: translateX(-16px);
+  }
+  25% {
+    opacity: 0.3;
+    transform: translateX(-12px);
+  }
+  50% {
+    opacity: 0.6;
+    transform: translateX(-8px);
+  }
+  75% {
+    opacity: 0.85;
+    transform: translateX(-4px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
