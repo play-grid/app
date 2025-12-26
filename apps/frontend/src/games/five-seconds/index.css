@@ -1,4 +1,23 @@
+@font-face {
+  font-family: 'PixelAE';
+  src: url('/assets/fonts/PixelAE-Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'PixelAE';
+  src: url('/assets/fonts/PixelAE-Bold.woff2') format('woff2');
+  font-weight: bold;
+  font-style: normal;
+}
+
 .fiveSeconds {
+  --font-sans-en: 'PixelAE', sans-serif;
+  --font-sans-ar: 'PixelAE', sans-serif;
+  --font-family-sans: var(--font-sans-en);
+  font-family: var(--font-family-sans);
+
   background: var(--background);
   /* --- Base --- */
   --font-size: 16px;
@@ -132,4 +151,8 @@
   --shadow-destructive:
     calc(-1 * var(--box-shadow-width)) 0 0 0 var(--destructive), var(--box-shadow-width) 0 0 0 var(--destructive),
     0 var(--box-shadow-width) 0 0 var(--destructive), 0 calc(-1 * var(--box-shadow-width)) 0 0 var(--destructive);
+}
+
+:lang(ar) .fiveSeconds {
+  --font-family-sans: var(--font-sans-ar);
 }

@@ -14,10 +14,7 @@
 
 @layer base {
   body {
-    font-family: 'Geist', sans-serif;
-  }
-  :lang(ar) body {
-    font-family: 'Rubik', sans-serif;
+    font-family: var(--font-family-sans);
   }
 }
 
@@ -71,6 +68,7 @@
   --font-serif-en: 'Playfair Display', serif;
   --font-sans-ar: 'Rubik', sans-serif;
   --font-serif-ar: 'Amiri', serif;
+  --font-family-sans: var(--font-sans-en);
 }
 
 .dark {
