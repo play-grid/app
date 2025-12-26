@@ -3,11 +3,11 @@ import type { SupportedLanguage } from '@guess-logo/shared/types';
 import { Info } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Badge } from '@/components/ui/badge';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import client from '@/lib/hono-client';
 import { useCategory } from '../hooks/use-category';
 import { FeedbackForm } from './feedback-form';
+import { Badge } from './ui/badge';
 import { Button } from './ui/button';
 import { Spinner } from './ui/spinner';
 
@@ -40,18 +40,18 @@ export function QuestionInfo({ currentQuestion }: { currentQuestion: Question })
   return (
     <div className="text-center space-y-4">
       <div className="flex items-center justify-center gap-2 flex-wrap">
-        <Badge variant="outline" className="text-sm">
+        <Badge variant="secondary" className="text-sm">
           {isLoading
             ? (
                 <Spinner className="inline w-3 h-3" />
               )
             : (
                 <>
-                  {category?.name ?? categoryId ?? 'Unknown'}
+                  {category?.nameAr ?? categoryId ?? 'Unknown'}
                   {' '}
                   •
                   {' '}
-                  {t(`difficulty.${currentQuestion.difficulty}`)}
+                  {t(`${currentQuestion.difficulty}`)}
                 </>
               )}
         </Badge>

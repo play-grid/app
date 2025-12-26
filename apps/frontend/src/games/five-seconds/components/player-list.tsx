@@ -7,10 +7,11 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import { z } from 'zod';
-import { Badge } from '@/components/ui/badge';
 import { useRoomPermissions } from '@/context/room-permissions';
 import { useRoomSession } from '@/features/room/room-store';
+import { useGameMode } from '@/hooks/use-game-mode';
 import { cn } from '@/lib/utils';
+import { Badge } from './ui/badge';
 import { Button } from './ui/button';
 import { Card } from './ui/card';
 import { Input } from './ui/input';
@@ -40,7 +41,7 @@ export function PlayerList() {
 
   const [validationError, setValidationError] = useState<string>('');
 
-  const isMultiplayer = !!session;
+  const { isMultiplayer } = useGameMode();
 
   const validatePlayerName = (name: string): boolean => {
     const playerNameSchema = createPlayerNameSchema(t);

@@ -1,0 +1,41 @@
+/* badge.css */
+.pixel__badge {
+  position: relative;
+  border-style: solid;
+  border-width: 2px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0;
+  user-select: none;
+}
+
+.pixel-default__badge {
+  border-color: color-mix(in hsl, var(--primary) 70%, black);
+  box-shadow: 2px 2px 0 color-mix(in hsl, var(--primary) 50%, black);
+}
+
+.pixel-secondary__badge {
+  border-color: color-mix(in hsl, var(--secondary) 70%, black);
+  box-shadow: 2px 2px 0 color-mix(in hsl, var(--secondary) 50%, black);
+}
+
+.pixel-destructive__badge {
+  border-color: color-mix(in hsl, var(--destructive) 70%, rgb(77, 77, 77));
+  box-shadow: 2px 2px 0 color-mix(in hsl, var(--destructive) 50%, rgb(77, 77, 77));
+}
+
+.pixel-success__badge {
+  border-color: color-mix(in hsl, var(--success) 70%, black);
+  box-shadow: 2px 2px 0 color-mix(in hsl, var(--success) 50%, black);
+}
+
+.pixel-warning__badge {
+  border-color: color-mix(in hsl, var(--urgency) 70%, rgb(32, 32, 32));
+  box-shadow: 2px 2px 0 color-mix(in hsl, var(--urgency) 50%, rgb(32, 32, 32));
+}
+
+.pixel-outline__badge {
+  border-color: color-mix(in hsl, var(--foreground) 70%, black);
+  box-shadow: 2px 2px 0 color-mix(in hsl, var(--foreground) 50%, black);
+}
