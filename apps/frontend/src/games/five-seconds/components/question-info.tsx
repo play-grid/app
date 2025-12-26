@@ -9,6 +9,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { Spinner } from '@/components/ui/spinner';
 import client from '@/lib/hono-client';
 import { useCategory } from '../hooks/use-category';
+import { getLocalizedCategoryName } from '../utils/category-utils';
 import { FeedbackForm } from './feedback-form';
 
 const feedbackTypesEndpoint = client.api.games['five-seconds'].questions.feedback.types.$get;
@@ -16,10 +17,11 @@ const feedbackTypesEndpoint = client.api.games['five-seconds'].questions.feedbac
 export function QuestionInfo({ currentQuestion }: { currentQuestion: Question }) {
   const categoryId = currentQuestion.categoryId || '';
   const { t, i18n } = useTranslation();
+  const language = (i18n.language.startsWith('ar') ? 'ar' : 'en') as SupportedLanguage;
+
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const { data: category, isLoading } = useCategory(
     categoryId,
-    i18n.language as SupportedLanguage,
   );
 
   const prefetchFeedbackTypes = async () => {
@@ -47,7 +49,7 @@ export function QuestionInfo({ currentQuestion }: { currentQuestion: Question })
               )
             : (
                 <>
-                  {category?.name ?? categoryId ?? 'Unknown'}
+                  {category && getLocalizedCategoryName(category, language)}
                   {' '}
                   •
                   {' '}

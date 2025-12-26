@@ -29,6 +29,7 @@ import { logger } from '@/utils/logger';
 
 import { useCategories } from '../hooks/use-categories';
 import { getCategoryById } from '../services/category.service';
+import { getLocalizedCategoryName } from '../utils/category-utils';
 
 export function GameSettings() {
   const { t, i18n } = useTranslation();
@@ -36,15 +37,12 @@ export function GameSettings() {
 
   const { players, settings } = useFiveSecondsState();
   const { updateSettings } = useFiveSecondsActions();
-  const { data: categories } = useCategories({
-    language: i18n.language as SupportedLanguage,
-  });
+  const { data: categories } = useCategories();
 
   const permissions = useRoomPermissions(players);
   const canEdit = permissions.canEditSettings;
 
-  const language
-    = (i18n.language.startsWith('ar') ? 'ar' : 'en') as SupportedLanguage;
+  const language = (i18n.language.startsWith('ar') ? 'ar' : 'en') as SupportedLanguage;
 
   const handleCategoryChange = async (categoryId: string) => {
     if (!settings.categoryIds)
@@ -58,9 +56,9 @@ export function GameSettings() {
 
     try {
       await queryClient.prefetchQuery({
-        queryKey: ['categories', categoryId, language],
-        queryFn: () => getCategoryById({ id: categoryId, language }),
-        staleTime: 10 * 60 * 1000, // same as useCategory
+        queryKey: ['categories', categoryId],
+        queryFn: () => getCategoryById({ id: categoryId }),
+        staleTime: 10 * 60 * 1000,
         gcTime: 20 * 60 * 1000,
       });
     }
@@ -69,17 +67,16 @@ export function GameSettings() {
     }
   };
 
-  // This ensures the cache is ready if the user had selections from a previous session
   useEffect(() => {
     settings.categoryIds?.forEach((id) => {
       queryClient.prefetchQuery({
-        queryKey: ['categories', id, language],
-        queryFn: () => getCategoryById({ id, language }),
+        queryKey: ['categories', id],
+        queryFn: () => getCategoryById({ id }),
         staleTime: 10 * 60 * 1000,
         gcTime: 20 * 60 * 1000,
       });
     });
-  }, [settings.categoryIds, language, queryClient]);
+  }, [settings.categoryIds, queryClient]);
 
   const content = (
     <div
@@ -121,7 +118,7 @@ export function GameSettings() {
               onClick={() => handleCategoryChange(cat.id)}
               className="rounded-full"
             >
-              {t(cat.name)}
+              {getLocalizedCategoryName(cat, language)}
             </Button>
           ))}
         </div>
