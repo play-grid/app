@@ -40,6 +40,11 @@
     "./schemas": "./src/schemas.ts",
     "./app": "./src/app.ts"
   },
+  "typesVersions": {
+    "*": {
+      "routes": ["./dist/routes/index.d.ts"]
+    }
+  },
   "dependencies": {
     "@guess-logo/five-seconds": "workspace:*",
     "@guess-logo/guess-logo": "workspace:*",

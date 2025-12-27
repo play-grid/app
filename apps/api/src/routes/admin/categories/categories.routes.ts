@@ -8,6 +8,7 @@ const tags = ['Categories'];
 export const listCategories = createRoute({
   path: '/',
   method: 'get',
+  operationId: 'listAdminCategories',
   tags,
   request: {
     query: z.object({
@@ -28,6 +29,7 @@ export type ListCategoriesRoute = typeof listCategories;
 export const getCategoriesById = createRoute({
   path: '/:id',
   method: 'get',
+  operationId: 'getAdminCategoryById',
   tags,
   request: {
     params: z.object({

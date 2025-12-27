@@ -14,6 +14,7 @@ const tags = ['Questions'];
 export const listQuestions = createRoute({
   path: '/',
   method: 'get',
+  operationId: 'listAdminQuestions',
   tags,
   request: {
     query: listQuestionsQuerySchema,
@@ -31,6 +32,7 @@ export type ListQuestionsRoute = typeof listQuestions;
 export const getQuestionsById = createRoute({
   path: '/:id',
   method: 'get',
+  operationId: 'getAdminQuestionById',
   tags,
   request: {
     params: z.object({
@@ -53,6 +55,7 @@ export type GetQuestionsByIdRoute = typeof getQuestionsById;
 export const createQuestions = createRoute({
   path: '/',
   method: 'post',
+  operationId: 'createAdminQuestion',
   tags,
   request: {
     body: jsonContentRequired(
@@ -85,6 +88,7 @@ export type CreateQuestionsRoute = typeof createQuestions;
 export const updateQuestions = createRoute({
   path: '/:id',
   method: 'patch',
+  operationId: 'updateAdminQuestion',
   tags,
   request: {
     params: z.object({
@@ -114,6 +118,7 @@ export type UpdateQuestionsRoute = typeof updateQuestions;
 export const deleteQuestions = createRoute({
   path: '/:id',
   method: 'delete',
+  operationId: 'deleteAdminQuestion',
   tags,
   request: {
     params: z.object({

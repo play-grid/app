@@ -42,7 +42,7 @@ export function GameSettings() {
   const permissions = useRoomPermissions(players);
   const canEdit = permissions.canEditSettings;
 
-  const language = ( i18n.language.startsWith('ar') ? 'ar' : 'en'
+  const language = (i18n.language.startsWith('ar') ? 'ar' : 'en'
   ) as SupportedLanguage;
 
   const handleCategoryChange = async (categoryId: string) => {

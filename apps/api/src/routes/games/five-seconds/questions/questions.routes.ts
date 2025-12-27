@@ -12,6 +12,7 @@ const tags = ['Five Seconds - Questions'];
 export const getRandomQuestion = createRoute({
   path: '/random',
   method: 'get',
+  operationId: 'getRandomGameQuestion',
   tags,
   request: {
     query: getRandomQuestionQuerySchema,
@@ -35,6 +36,7 @@ export type GetRandomQuestionRoute = typeof getRandomQuestion;
 export const getBatchQuestions = createRoute({
   path: '/batch',
   method: 'get',
+  operationId: 'getBatchGameQuestions',
   tags,
   request: {
     query: getBatchQuestionsQuerySchema,

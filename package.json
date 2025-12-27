@@ -19,7 +19,7 @@
     "husky": "^9.1.7",
     "lint-staged": "^16.2.7",
     "tsx": "^4.21.0",
-    "turbo": "^2.7.1"
+    "turbo": "^2.7.2"
   },
   "lint-staged": {
     "apps/frontend/**/*.{js,ts,tsx}": "eslint --fix --config apps/frontend/eslint.config.js",
