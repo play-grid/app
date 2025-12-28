@@ -1,4 +1,4 @@
-// src/hooks/use-game-navigation.tsx
+import type { SupportedLanguage } from '@guess-logo/shared/types';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { addLanguageToPath, removeLanguageFromPath } from '../utils/language-utils';
@@ -36,7 +36,7 @@ export function useGameNavigation(defaultGameId: string = 'guess-logo') {
     navigate: navigateWithGameAndLanguage,
     getCurrentPathWithoutGameAndLanguage,
     currentPath: location.pathname,
-    currentLanguage: i18n.language,
+    currentLanguage: i18n.language as SupportedLanguage,
     changeLanguage,
   };
 }

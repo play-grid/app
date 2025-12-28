@@ -6,7 +6,8 @@ import { FiveSecondsActionSchema, FiveSecondsGameStateSchema } from './logic/sch
 export const fiveSecondsGame = createGameDefinition({
   meta: {
     id: 'five-seconds',
-    name: 'Five seconds',
+    name: { en: 'Five Seconds', ar: 'خمس ثواني' },
+    description: { en: 'Answer questions as fast as you can in five seconds!', ar: 'أجب على الأسئلة بأسرع ما يمكن في خمس ثوانٍ!' },
     minPlayers: 2,
     maxPlayers: 4,
   },

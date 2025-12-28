@@ -52,6 +52,7 @@
   },
   "dependencies": {
     "@guess-logo/eslint-config": "workspace:*",
+    "@guess-logo/shared": "workspace:*",
     "@orpc/client": "^1.10.1",
     "@orpc/contract": "^1.10.1",
     "@orpc/experimental-durable-iterator": "^1.10.1",
