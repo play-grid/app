@@ -5,7 +5,6 @@ import { BASE_PATH } from '../lib/constants';
 import { adminRoutes } from './admin';
 import auth from './auth/auth.index';
 import gameRoom from './game-room/game-room.index';
-import gameType from './game-type/game-types.index';
 import { gamesRoutes } from './games';
 import health from './health/health.index';
 import index from './index.route';
@@ -16,7 +15,6 @@ export function registerRoutes(app: AppOpenAPI) {
     .route('/', auth)
     .route('/', health)
     .route('/', gameRoom)
-    .route('/', gameType)
     .route('/games', gamesRoutes)
     .route('/admin', adminRoutes);
 }
