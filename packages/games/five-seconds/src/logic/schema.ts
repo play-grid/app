@@ -28,6 +28,7 @@ export const FiveSecondsGameStateSchema = BaseGameStateSchema.extend({
   seenQuestionIds: z.array(z.string()),
   currentQuestion: baseQuestionSchema.nullable(),
   questions: z.array(baseQuestionSchema).default([]),
+  turnTimerEndsAt: z.number().nullable().default(null),
 });
 
 // GAME ACTIONS
@@ -65,6 +66,17 @@ export const TallyVotesActionSchema = z.object({
 
 export const ResetVotingActionSchema = z.object({
   type: z.literal('RESET_VOTING'),
+});
+
+export const StartTurnTimerActionSchema = z.object({
+  type: z.literal('START_TURN_TIMER'),
+  payload: z.object({
+    endsAt: z.number().nullable(),
+  }),
+});
+
+export const TimesUpActionSchema = z.object({
+  type: z.literal('TIMES_UP'),
 });
 
 // EFFECT ACTIONS (Server → Client or Client → Server)
@@ -108,6 +120,8 @@ export const FiveSecondsCustomActionSchema = z.discriminatedUnion('type', [
   LoadQuestionsActionSchema,
   FetchQuestionsErrorActionSchema,
   StartTurnActionSchema,
+  StartTurnTimerActionSchema,
+  TimesUpActionSchema,
 ]);
 
 export const FiveSecondsActionSchema = z.discriminatedUnion('type', [
@@ -137,3 +151,5 @@ export type LoadQuestionsAction = z.infer<typeof LoadQuestionsActionSchema>;
 export type FetchQuestionsErrorAction = z.infer<
   typeof FetchQuestionsErrorActionSchema
 >;
+export type StartTurnTimerAction = z.infer<typeof StartTurnTimerActionSchema>;
+export type TimesUpAction = z.infer<typeof TimesUpActionSchema>;

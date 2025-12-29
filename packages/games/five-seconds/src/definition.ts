@@ -30,9 +30,10 @@ export const fiveSecondsGame = createGameDefinition({
     seenQuestionIds: [],
     currentQuestion: null,
     questions: [],
+    turnTimerEndsAt: null,
   },
 
   customReducer: fiveSecondsGameReducer,
 });
 
-registerGame(fiveSecondsGame, createFiveSecondsEffects);
+registerGame(fiveSecondsGame, (apiUrl, mode) => createFiveSecondsEffects(apiUrl, mode));

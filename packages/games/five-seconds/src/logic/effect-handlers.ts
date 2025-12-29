@@ -5,6 +5,7 @@ import type {
   FiveSecondsGameState,
   LoadQuestionsAction,
   SetQuestionAction,
+  StartTurnTimerAction,
 } from './schema';
 import hcWithType from '@guess-logo/api-client';
 import { logger } from '../logger';
@@ -101,6 +102,78 @@ export function createFetchQuestionsEffect(apiUrl: string): GameEffect {
   };
 }
 
-export function createFiveSecondsEffects(apiUrl: string): GameEffect[] {
-  return [createFetchQuestionsEffect(apiUrl)];
+export function createTimerEffect(): GameEffect {
+  let localTimerId: ReturnType<typeof setTimeout> | undefined;
+
+  return async (
+    ctx: GameEffectContext,
+  ): Promise<StartTurnTimerAction | null> => {
+    const action = ctx.action as FiveSecondsAction;
+    const gameState = ctx.state as FiveSecondsGameState;
+    const isServer = !!ctx.ctx?.storage;
+
+    // Stop timer actions
+    const stopTimerActions = ['START_VOTING', 'NEXT_TURN', 'END_GAME', 'RESET_GAME'];
+    if (stopTimerActions.includes(action.type)) {
+      logger.info(`[TimerEffect] Stopping timer due to: ${action.type}`);
+
+      if (isServer) {
+        await ctx.ctx.storage.deleteAlarm();
+      }
+      else if (localTimerId) {
+        clearTimeout(localTimerId);
+        localTimerId = undefined;
+      }
+
+      return null;
+    }
+
+    // Start timer on START_TURN
+    if (action.type === 'START_TURN') {
+      const turnDuration = gameState.settings.timePerTurn * 1000;
+      const endsAt = Date.now() + turnDuration;
+      const currentDispatch = ctx.dispatch;
+
+      logger.info(`[TimerEffect] Starting ${turnDuration}ms timer (${isServer ? 'SERVER' : 'LOCAL'})`);
+
+      if (isServer) {
+        // Server: Use Durable Object alarm
+        await ctx.ctx.storage.setAlarm(endsAt);
+      }
+      else {
+        // Local: Use setTimeout and dispatch directly
+        if (localTimerId) {
+          clearTimeout(localTimerId);
+        }
+
+        localTimerId = setTimeout(async () => {
+          logger.info('[TimerEffect] Local timer expired, dispatching TIMES_UP');
+
+          if (currentDispatch) {
+            await currentDispatch({ type: 'TIMES_UP' });
+          }
+          else {
+            logger.error('[TimerEffect] No dispatch function available in local mode!');
+          }
+
+          localTimerId = undefined;
+        }, turnDuration);
+      }
+
+      // Return action to update state with endsAt timestamp
+      return {
+        type: 'START_TURN_TIMER',
+        payload: { endsAt },
+      };
+    }
+
+    return null;
+  };
+}
+
+export function createFiveSecondsEffects(apiUrl: string, mode: 'local' | 'multiplayer' = 'multiplayer'): GameEffect[] {
+  if (mode === 'local') {
+    return [createTimerEffect()];
+  }
+  return [createFetchQuestionsEffect(apiUrl), createTimerEffect()];
 }

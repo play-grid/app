@@ -38,7 +38,7 @@ export function registerGame<
   TActionSchema extends z.ZodType<BaseAction>,
 >(
   definition: GameDefinition<TStateSchema, TActionSchema>,
-  effectHandlerFactory: EffectHandlerFactory = () => [],
+  effectHandlerFactory: EffectHandlerFactory = (_apiUrl, _mode) => [],
 ): void {
   const gameId = definition.meta.id;
 
@@ -96,6 +96,7 @@ export function getGameContract(gameId: string): any {
 export function createGameEffectHandlers(
   gameId: string,
   apiUrl: string,
+  mode?: 'local' | 'multiplayer',
 ): GameEffect[] {
   const registered = gameRegistry.get(gameId);
   if (!registered) {
@@ -103,8 +104,8 @@ export function createGameEffectHandlers(
     return [];
   }
 
-  const handlers = registered.effectHandlerFactory(apiUrl);
-  logger.debug(`Created ${handlers.length} effect handler(s) for game: ${gameId}`);
+  const handlers = registered.effectHandlerFactory(apiUrl, mode);
+  logger.debug(`Created ${handlers.length} effect handler(s) for game: ${gameId} in ${mode} mode`);
   return handlers;
 }
 

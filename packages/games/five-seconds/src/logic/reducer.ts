@@ -8,9 +8,11 @@ import {
   setQuestion,
   setTurnPhase,
   startTurn,
+  startTurnTimer,
   startVoting,
   submitVote,
   tallyVotes,
+  timesUp,
 } from './actions';
 
 export function fiveSecondsGameReducer(
@@ -64,6 +66,16 @@ export function fiveSecondsGameReducer(
     case 'TALLY_VOTES':
       return produce(state, (draft) => {
         tallyVotes(draft, action.payload);
+      });
+
+    case 'START_TURN_TIMER':
+      return produce(state, (draft) => {
+        startTurnTimer(draft, action.payload);
+      });
+
+    case 'TIMES_UP':
+      return produce(state, (draft) => {
+        timesUp(draft);
       });
 
     default:

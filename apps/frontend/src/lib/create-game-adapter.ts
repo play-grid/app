@@ -1,6 +1,7 @@
 import type { BaseAction, BaseGameState, GameDefinition } from '@guess-logo/game-core';
 import type z from 'zod';
 import {
+  createGameEffectHandlers,
   createLocalAdapter,
   createNativeWSClient,
 } from '@guess-logo/game-core';
@@ -23,7 +24,13 @@ export function createGameAdapter<
   type State = z.infer<TStateSchema>;
   type Action = z.infer<TActionSchema>;
 
+  const apiHost = import.meta.env.DEV ? 'localhost:8787' : window.location.host;
+  const httpProtocol = window.location.protocol;
+  const apiUrl = `${httpProtocol}//${apiHost}`;
+
   if (options.mode === 'local') {
+    const effects = createGameEffectHandlers(definition.meta.id, apiUrl, 'local');
+
     return createLocalAdapter<State, Action>(
       options.initialState,
       definition.reducer as (state: State, action: Action) => State,
@@ -32,13 +39,14 @@ export function createGameAdapter<
         name: options.persistenceKey ?? 'game-core:local',
         storage: createJSONStorage(() => localStorage),
       },
+      effects,
+      apiUrl,
     );
   }
 
   if (options.mode === 'multiplayer' && options.roomId && options.playerId && options.credentials) {
-    const apiHost = import.meta.env.DEV ? 'localhost:8787' : window.location.host;
-    const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
-    const wsUrl = `${protocol}://${apiHost}/api/game-room/${options.roomId}/ws?playerId=${encodeURIComponent(options.playerId)}&credentials=${encodeURIComponent(options.credentials)}`;
+    const wsProtocol = httpProtocol === 'https:' ? 'wss' : 'ws';
+    const wsUrl = `${wsProtocol}://${apiHost}/api/game-room/${options.roomId}/ws?playerId=${encodeURIComponent(options.playerId)}&credentials=${encodeURIComponent(options.credentials)}`;
 
     return createNativeWSClient<TStateSchema, TActionSchema>({
       websocketUrl: wsUrl,

@@ -47,7 +47,6 @@ export class GameSessionObject extends DurableObject<AppEnv['Bindings']> {
 
   async fetch(request: Request): Promise<Response> {
     const url = new URL(request.url);
-
     if (url.pathname.endsWith('/ws')) {
       return this.handleWebSocketUpgrade(request);
     }
@@ -69,6 +68,14 @@ export class GameSessionObject extends DurableObject<AppEnv['Bindings']> {
     }
 
     return new Response('Not found', { status: 404 });
+  }
+
+  async alarm() {
+    logger.debug('[GameSessionObject] Alarm triggered, dispatching TIMES_UP');
+    await this.ensureInitialized();
+    if (this.manager) {
+      await this.manager.dispatchAction({ type: 'TIMES_UP' });
+    }
   }
 
   /**
@@ -112,11 +119,9 @@ export class GameSessionObject extends DurableObject<AppEnv['Bindings']> {
 
     logger.debug(!!savedState, '[GameSessionObject] Rehydrating... got savedState');
 
-    // Get the API URL from environment (you'll need to pass this through)
     const apiUrl = this.env?.API_URL || 'http://localhost:8787';
 
-    // Create effect handlers for this game
-    const effectHandlers = createGameEffectHandlers(metadata.gameType, apiUrl);
+    const effectHandlers = createGameEffectHandlers(metadata.gameType, apiUrl, 'multiplayer');
     logger.debug(
       `[GameSessionObject] Created ${effectHandlers.length} effect handler(s) for ${metadata.gameType}`,
     );

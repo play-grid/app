@@ -410,21 +410,11 @@ export function updateSettings<T extends BaseGameState>(
 }
 
 export function startGame<T extends BaseGameState>(state: T): T {
-  const playerIds = Object.keys(state.players);
-
-  return {
+  return initTurnState({
     ...state,
     phase: 'playing',
     startedAt: Date.now(),
-    turnState:
-      playerIds.length > 0
-        ? {
-            currentPlayerId: playerIds[0],
-            turnIndex: 0,
-            roundNumber: 1,
-          }
-        : undefined,
-  };
+  }, { initialPhase: 'pre-turn' });
 }
 
 export function endGame<T extends BaseGameState>(state: T): T {

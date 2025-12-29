@@ -5,6 +5,7 @@ import type {
   LoadQuestionsAction,
   SetGameTurnPhaseAction,
   SetQuestionAction,
+  StartTurnTimerAction,
   StartVotingAction,
   SubmitVoteAction,
   TallyVotesAction,
@@ -57,6 +58,7 @@ export function startVoting(
     voters: payload.voters,
     currentVoterIndex: 0,
   };
+  draft.turnTimerEndsAt = null;
 }
 
 export function submitVote(
@@ -141,4 +143,25 @@ export function nextTurn(draft: Draft<FiveSecondsGameState>): void {
   turnState.phase = 'pre-turn';
 
   draft.currentQuestion = null;
+  draft.turnTimerEndsAt = null;
+}
+
+export function startTurnTimer(
+  draft: Draft<FiveSecondsGameState>,
+  payload: StartTurnTimerAction['payload'],
+): void {
+  draft.turnTimerEndsAt = payload.endsAt;
+}
+
+export function timesUp(draft: Draft<FiveSecondsGameState>): void {
+  if (draft.turnState?.phase !== 'answering') {
+    return;
+  }
+
+  // Timer is up, automatically start the voting process
+  const voterIds = Object.keys(draft.players).filter(
+    pId => pId !== draft.turnState?.currentPlayerId,
+  );
+
+  startVoting(draft, { voters: voterIds });
 }
