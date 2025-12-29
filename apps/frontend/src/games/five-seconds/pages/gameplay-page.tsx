@@ -22,7 +22,6 @@ import {
 import { Spinner } from '../components/ui/spinner';
 import { VotingView } from '../components/voting-view';
 import { useQuestion } from '../hooks/use-question';
-import { useTimer } from '../hooks/use-timer';
 
 export function GameplayPage() {
   const state = useFiveSecondsState();
@@ -37,7 +36,6 @@ export function GameplayPage() {
   const {
     nextTurn,
     endGame,
-    startVoting,
     startTurn,
     submitVote,
     tallyVotes,
@@ -48,7 +46,6 @@ export function GameplayPage() {
 
   const { t } = useTranslation();
   const hasProcessedVotingRef = useRef(false);
-  const hasProcessedTimerRef = useRef(false);
   const [isResetConfirmOpen, setIsResetConfirmOpen] = useState(false);
 
   const {
@@ -77,11 +74,21 @@ export function GameplayPage() {
   };
 
   const currentPlayer = players[turnState?.currentPlayerId || ''];
+  const [timeLeft, setTimeLeft] = useState(settings.timePerTurn);
 
-  const { timeLeft, start: startTimer, reset: resetTimer, isRunning } = useTimer({
-    initialTime: settings.timePerTurn,
-    onComplete: () => {},
-  });
+  useEffect(() => {
+    if (state.turnTimerEndsAt) {
+      const interval = setInterval(() => {
+        const remaining = Math.max(0, Math.ceil((state.turnTimerEndsAt! - Date.now()) / 1000));
+        setTimeLeft(remaining);
+      }, 500);
+
+      return () => clearInterval(interval);
+    }
+    else {
+      setTimeLeft(settings.timePerTurn);
+    }
+  }, [state.turnTimerEndsAt, settings.timePerTurn]);
 
   const gamePhase = useMemo(() => {
     if (votingState?.isVoting)
@@ -110,32 +117,6 @@ export function GameplayPage() {
   }, [turnState, settings.roundsToWin, endGame, resetVoting, nextTurn]);
 
   useEffect(() => {
-    if (turnState?.phase === 'answering' && !isRunning) {
-      hasProcessedTimerRef.current = false;
-      resetTimer(settings.timePerTurn);
-      startTimer();
-    }
-  }, [turnState?.phase, isRunning, resetTimer, startTimer, settings.timePerTurn]);
-
-  useEffect(() => {
-    if (timeLeft <= 0 && !isRunning && turnState?.phase === 'answering' && !hasProcessedTimerRef.current) {
-      hasProcessedTimerRef.current = true;
-
-      const handleTimerExpire = async () => {
-        if (currentPlayer) {
-          const voterIds = Object.values(players)
-            .filter(p => p.id !== currentPlayer.id)
-            .map(p => p.id);
-
-          await startVoting(voterIds);
-        }
-      };
-
-      handleTimerExpire();
-    }
-  }, [timeLeft, isRunning, turnState?.phase, currentPlayer?.id, players, startVoting]);
-
-  useEffect(() => {
     if (isVotingFinished && currentPlayer && !hasProcessedVotingRef.current) {
       hasProcessedVotingRef.current = true;
 
@@ -157,7 +138,6 @@ export function GameplayPage() {
   }, [isVotingFinished, currentPlayer?.id, tallyVotes, handleNextTurn]);
 
   const handleStartTurn = useCallback(async () => {
-    hasProcessedTimerRef.current = false;
     await startTurn();
   }, [startTurn]);
 

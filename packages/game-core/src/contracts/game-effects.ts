@@ -6,10 +6,11 @@ export interface GameEffectContext {
   action: BaseAction;
   apiUrl: string;
   ctx: any;
+  dispatch?: (action: BaseAction) => Promise<void>;
 }
 
 export type GameEffect = (
   context: GameEffectContext,
 ) => Promise<BaseAction | null>;
 
-export type EffectHandlerFactory = (apiUrl: string) => GameEffect[];
+export type EffectHandlerFactory = (apiUrl: string, mode?: 'local' | 'multiplayer') => GameEffect[];
