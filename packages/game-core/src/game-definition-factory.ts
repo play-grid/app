@@ -1,5 +1,5 @@
 import type { z } from 'zod';
-import type { BaseAction, GameDefinition, GameMeta } from './contracts/game-definition';
+import type { ActionValidator, BaseAction, GameDefinition, GameMeta } from './contracts/game-definition';
 import { gameReducer } from './game-logic/reducer';
 import { composeReducers } from './utils/reducer-utils';
 
@@ -16,6 +16,7 @@ export function createGameDefinition<
       state: z.infer<TStateSchema>,
       action: z.infer<TActionSchema>,
     ) => z.infer<TStateSchema>;
+    validator?: ActionValidator;
   },
 ): GameDefinition<TStateSchema, TActionSchema> {
   const composedReducer = composeReducers(config.customReducer, gameReducer);
@@ -26,5 +27,6 @@ export function createGameDefinition<
     actionSchema: config.actionSchema,
     initialState: config.initialState,
     reducer: composedReducer,
+    validator: config.validator,
   };
 }

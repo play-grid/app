@@ -40,6 +40,7 @@ export class GameSessionObject extends DurableObject<AppEnv['Bindings']> {
   private manager: GameSessionManager | null = null;
   private router: GameSessionRouter | null = null;
   private metadata: GameSessionMetadata | null = null;
+  private playerIds = new Map<WebSocket, string>();
 
   constructor(ctx: DurableObjectState, env: AppEnv['Bindings']) {
     super(ctx, env);
@@ -140,14 +141,21 @@ export class GameSessionObject extends DurableObject<AppEnv['Bindings']> {
     return true;
   }
 
-  private async handleWebSocketUpgrade(_request: Request): Promise<Response> {
+  private async handleWebSocketUpgrade(request: Request): Promise<Response> {
     const success = await this.ensureInitialized();
     if (!success) {
       return new Response('Room not initialized', { status: 503 });
     }
 
+    const url = new URL(request.url);
+    const playerId = url.searchParams.get('playerId');
+    if (!playerId) {
+      return new Response('Missing playerId', { status: 400 });
+    }
+
     const { 0: client, 1: server } = new WebSocketPair();
     this.ctx.acceptWebSocket(server);
+    this.playerIds.set(server, playerId);
 
     return new Response(null, {
       status: 101,
@@ -162,7 +170,8 @@ export class GameSessionObject extends DurableObject<AppEnv['Bindings']> {
       return;
     }
 
-    await this.router!.handleMessage(ws, message);
+    const playerId = this.playerIds.get(ws);
+    await this.router!.handleMessage(ws, message, playerId);
   }
 
   async webSocketOpen(ws: WebSocket): Promise<void> {
@@ -178,8 +187,8 @@ export class GameSessionObject extends DurableObject<AppEnv['Bindings']> {
     ws.send(message);
   }
 
-  async webSocketClose(): Promise<void> {
-    // Cleanup logic if needed
+  async webSocketClose(ws: WebSocket): Promise<void> {
+    this.playerIds.delete(ws);
   }
 
   /**

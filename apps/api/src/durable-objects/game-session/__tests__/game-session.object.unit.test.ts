@@ -394,7 +394,7 @@ describe('gameSessionObject', () => {
 
         // Try to upgrade - just verify acceptWebSocket is called
         // Don't actually create Response with 101 status in test environment
-        const wsRequest = new Request('http://test.com/ws', {
+        const wsRequest = new Request('http://test.com/ws?playerId=test-player', {
           headers: {
             Upgrade: 'websocket',
           },
@@ -421,6 +421,30 @@ describe('gameSessionObject', () => {
         const response = await durableObject.fetch(wsRequest);
 
         expect(response.status).toBe(503);
+      });
+
+      it('should reject WebSocket upgrade when playerId is missing', async () => {
+        // Initialize first
+        const initRequest = new Request('http://test.com/init', {
+          method: 'POST',
+          body: JSON.stringify({
+            roomId: 'room-123',
+            gameType: 'five-seconds',
+            maxPlayers: 4,
+            isPrivate: false,
+          }),
+        });
+        await durableObject.fetch(initRequest);
+
+        const wsRequest = new Request('http://test.com/ws', {
+          headers: {
+            Upgrade: 'websocket',
+          },
+        });
+        const response = await durableObject.fetch(wsRequest);
+
+        expect(response.status).toBe(400);
+        expect(mockCtx.acceptWebSocket).not.toHaveBeenCalled();
       });
     });
 

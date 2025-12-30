@@ -151,6 +151,66 @@ describe('gameSessionManager', () => {
       // State should be rolled back to original
       expect(manager.getState()).toEqual(oldState);
     });
+
+    it('should call game validator and reject invalid actions', async () => {
+      const mockValidator = vi.fn().mockReturnValue({
+        valid: false,
+        reason: 'Test validation failure',
+      });
+
+      mockGameDefinition.validator = mockValidator;
+
+      const action = {
+        type: 'ADD_PLAYER',
+        payload: { id: 'p1', name: 'Player 1' },
+      };
+
+      await expect(
+        manager.dispatchAction(action, 'player123'),
+      ).rejects.toThrow('Action validation failed: Test validation failure');
+
+      expect(mockValidator).toHaveBeenCalledWith({
+        state: expect.any(Object),
+        action: expect.objectContaining({ type: 'ADD_PLAYER' }),
+        playerId: 'player123',
+      });
+    });
+
+    it('should call game validator and allow valid actions', async () => {
+      const mockValidator = vi.fn().mockReturnValue({ valid: true });
+
+      mockGameDefinition.validator = mockValidator;
+
+      const action = {
+        type: 'ADD_PLAYER',
+        payload: { id: 'p1', name: 'Player 1' },
+      };
+
+      await manager.dispatchAction(action, 'player123');
+
+      expect(mockValidator).toHaveBeenCalledWith({
+        state: expect.any(Object),
+        action: expect.objectContaining({ type: 'ADD_PLAYER' }),
+        playerId: 'player123',
+      });
+
+      // Should have updated state
+      expect(manager.getState().players.p1).toBeDefined();
+    });
+
+    it('should skip validator if not defined', async () => {
+      mockGameDefinition.validator = undefined;
+
+      const action = {
+        type: 'ADD_PLAYER',
+        payload: { id: 'p1', name: 'Player 1' },
+      };
+
+      await manager.dispatchAction(action);
+
+      // Should succeed without validation
+      expect(manager.getState().players.p1).toBeDefined();
+    });
   });
 
   describe('executeEffects', () => {

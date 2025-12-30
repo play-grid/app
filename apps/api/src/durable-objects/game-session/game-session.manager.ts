@@ -71,7 +71,7 @@ export class GameSessionManager {
    *
    * @throws Error if validation fails or state is invalid
    */
-  async dispatchAction(action: any, depth = 0): Promise<void> {
+  async dispatchAction(action: any, playerId?: string, depth = 0): Promise<void> {
     if (depth > MAX_DISPATCH_DEPTH) {
       throw new Error('Max dispatch depth exceeded, possible infinite loop');
     }
@@ -82,6 +82,21 @@ export class GameSessionManager {
     // Validate the action
     const validatedAction = this.validateAction(action);
     logger.debug(validatedAction, '[GameSessionManager] Action payload (validated and parsed):');
+
+    // Run game-specific validation
+    if (this.gameDefinition.validator) {
+      const validationResult = this.gameDefinition.validator({
+        state: this.currentState,
+        action: validatedAction,
+        playerId,
+      });
+
+      if (!validationResult.valid) {
+        throw new Error(
+          `Action validation failed: ${validationResult.reason || 'Unknown reason'}`,
+        );
+      }
+    }
 
     // Run the pure reducer
     const oldState = this.currentState;
@@ -240,6 +255,8 @@ export class GameSessionManager {
       action,
       apiUrl: this.apiUrl,
       ctx: this.ctx,
+      dispatch: (followUpAction: any) =>
+        this.dispatchAction(followUpAction, undefined, depth + 1),
     };
 
     logger.debug(`[GameSessionManager] Effect context created:`, {
@@ -303,7 +320,7 @@ export class GameSessionManager {
 
     // Dispatch all collected follow-up actions
     for (const followUpAction of followUpActions) {
-      await this.dispatchAction(followUpAction, depth + 1);
+      await this.dispatchAction(followUpAction, undefined, depth + 1);
     }
   }
 

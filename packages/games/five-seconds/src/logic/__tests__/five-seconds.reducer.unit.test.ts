@@ -1,7 +1,7 @@
-import type { FiveSecondsGameState } from './schema';
+import type { FiveSecondsGameState } from '../schema';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { FIVE_SECONDS_CUSTOM_STATE, FIVE_SECONDS_INITIAL_SETTINGS } from './initial-state';
-import { fiveSecondsGameReducer } from './reducer';
+import { FIVE_SECONDS_CUSTOM_STATE, FIVE_SECONDS_INITIAL_SETTINGS } from '../initial-state';
+import { fiveSecondsGameReducer } from '../reducer';
 
 describe('five Seconds Game Reducer', () => {
   let initialState: FiveSecondsGameState;
@@ -26,6 +26,7 @@ describe('five Seconds Game Reducer', () => {
         phase: 'pre-turn',
         skipsRemaining: 0,
       },
+      turnTimerEndsAt: null,
       ...FIVE_SECONDS_CUSTOM_STATE,
       questions: [],
       currentQuestion: null,

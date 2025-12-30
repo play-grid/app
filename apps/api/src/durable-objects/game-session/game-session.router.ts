@@ -10,7 +10,7 @@ export class GameSessionRouter {
     private manager: GameSessionManager,
   ) {}
 
-  async handleMessage(ws: WebSocket, rawMessage: string | ArrayBuffer) {
+  async handleMessage(ws: WebSocket, rawMessage: string | ArrayBuffer, _playerId?: string) {
     try {
       const data = JSON.parse(typeof rawMessage === 'string' ? rawMessage : rawMessage.toString());
 
@@ -20,7 +20,7 @@ export class GameSessionRouter {
       }
       switch (data.type) {
         case 'dispatchAction':
-          this.handleDispatchAction(ws, data.payload);
+          this.handleDispatchAction(ws, data.payload, _playerId);
           break;
 
         case 'syncState':
@@ -44,10 +44,10 @@ export class GameSessionRouter {
     }
   }
 
-  private handleDispatchAction(ws: WebSocket, payload: any) {
+  private handleDispatchAction(ws: WebSocket, payload: any, playerId?: string) {
     try {
       // The manager validates the specific action schema
-      this.manager.dispatchAction(payload.action);
+      this.manager.dispatchAction(payload.action, playerId);
 
       // Optional: Send acknowledgement
       ws.send(JSON.stringify({

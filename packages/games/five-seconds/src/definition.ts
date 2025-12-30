@@ -2,6 +2,7 @@ import { createGameDefinition, registerGame } from '@guess-logo/game-core';
 import { createFiveSecondsEffects } from './logic/effect-handlers';
 import { fiveSecondsGameReducer } from './logic/reducer';
 import { FiveSecondsActionSchema, FiveSecondsGameStateSchema } from './logic/schema';
+import { validateFiveSecondsAction } from './logic/validator';
 
 export const fiveSecondsGame = createGameDefinition({
   meta: {
@@ -32,7 +33,7 @@ export const fiveSecondsGame = createGameDefinition({
     questions: [],
     turnTimerEndsAt: null,
   },
-
+  validator: validateFiveSecondsAction,
   customReducer: fiveSecondsGameReducer,
 });
 

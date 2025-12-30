@@ -1,1 +1,0 @@
-ALTER TABLE `five_seconds_questions` ADD `deletedAt` integer;

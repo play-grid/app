@@ -66,7 +66,7 @@ CREATE TABLE `verifications` (
 );
 --> statement-breakpoint
 CREATE TABLE `five_seconds_categories` (
-	`id` text PRIMARY KEY NOT NULL,
+	`id` text(24) PRIMARY KEY NOT NULL,
 	`name_en` text DEFAULT '' NOT NULL,
 	`name_ar` text DEFAULT '' NOT NULL,
 	`createdAt` integer NOT NULL,
@@ -76,7 +76,7 @@ CREATE TABLE `five_seconds_categories` (
 CREATE UNIQUE INDEX `category_name_en_idx` ON `five_seconds_categories` (`name_en`);--> statement-breakpoint
 CREATE UNIQUE INDEX `category_name_ar_idx` ON `five_seconds_categories` (`name_ar`);--> statement-breakpoint
 CREATE TABLE `five_seconds_feedback` (
-	`id` text PRIMARY KEY NOT NULL,
+	`id` text(24) PRIMARY KEY NOT NULL,
 	`question_id` text NOT NULL,
 	`type` text NOT NULL,
 	`comment` text,
@@ -87,18 +87,17 @@ CREATE TABLE `five_seconds_feedback` (
 );
 --> statement-breakpoint
 CREATE TABLE `five_seconds_questions` (
-	`id` text PRIMARY KEY NOT NULL,
-	`question` text NOT NULL,
-	`example_answers` text,
-	`category_id` text NOT NULL,
+	`id` text(24) PRIMARY KEY NOT NULL,
+	`text` text NOT NULL,
 	`difficulty` text NOT NULL,
-	`metadata` text,
+	`category_id` text NOT NULL,
+	`deletedAt` integer,
 	`createdAt` integer NOT NULL,
 	`updatedAt` integer NOT NULL,
 	FOREIGN KEY (`category_id`) REFERENCES `five_seconds_categories`(`id`) ON UPDATE no action ON DELETE no action
 );
 --> statement-breakpoint
-CREATE UNIQUE INDEX `question_idx` ON `five_seconds_questions` (`question`);--> statement-breakpoint
+CREATE UNIQUE INDEX `question_text_idx` ON `five_seconds_questions` (`text`);--> statement-breakpoint
 CREATE TABLE `custom_list_items` (
 	`id` text(24) PRIMARY KEY NOT NULL,
 	`list_id` text NOT NULL,
