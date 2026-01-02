@@ -24,6 +24,7 @@ function getNextUnseenQuestion(state: FiveSecondsGameState) {
 
 export function createFetchQuestionsEffect(apiUrl: string): GameEffect {
   const client = hcWithType(apiUrl);
+  let isFetching = false;
 
   return async (
     ctx: GameEffectContext,
@@ -55,47 +56,82 @@ export function createFetchQuestionsEffect(apiUrl: string): GameEffect {
         return null;
       }
 
-      logger.info(`[FetchQuestionsEffect] Fetching ${questionsNeeded} questions from API`);
-
-      const res = await client.api.games['five-seconds'].questions.batch.$get({
-        query: {
-          count: questionsNeeded.toString(),
-          categoryIds: gameState.settings.categoryIds,
-          difficulty: gameState.settings.difficulty,
-          excludeIds: gameState.seenQuestionIds,
-          timePerTurn: gameState.settings.timePerTurn.toString(),
-        },
-      });
-
-      if (!res.ok) {
-        throw new Error(`API error: ${res.status}`);
+      if (isFetching) {
+        logger.warn('[FetchQuestionsEffect] Fetch already in progress, skipping');
+        return null;
       }
 
-      const data = await res.json();
+      try {
+        isFetching = true;
+        logger.info(`[FetchQuestionsEffect] Fetching ${questionsNeeded} questions from API`);
 
-      if (!data.questions || data.questions.length === 0) {
-        throw new Error('No questions available');
+        const res = await client.api.games['five-seconds'].questions.batch.$get({
+          query: {
+            count: questionsNeeded.toString(),
+            categoryIds: gameState.settings.categoryIds,
+            difficulty: gameState.settings.difficulty,
+            excludeIds: gameState.seenQuestionIds,
+            timePerTurn: gameState.settings.timePerTurn.toString(),
+          },
+        });
+
+        if (!res.ok) {
+          const errorText = await res.text().catch(() => `HTTP ${res.status}`);
+          logger.error(`[FetchQuestionsEffect] API error: ${res.status} - ${errorText}`);
+
+          return {
+            type: 'FETCH_QUESTIONS_ERROR',
+            payload: {
+              message: 'Unable to load questions from server. Please check your connection and try again.',
+              canRetry: true,
+              suggestSettingsChange: false,
+            },
+          };
+        }
+
+        const data = await res.json();
+
+        if (!data.questions || data.questions.length === 0) {
+          logger.warn('[FetchQuestionsEffect] No questions available matching current filters');
+          return {
+            type: 'FETCH_QUESTIONS_ERROR',
+            payload: {
+              message: 'No questions available with the current settings. Try changing difficulty or categories.',
+              canRetry: true,
+              suggestSettingsChange: true,
+            },
+          };
+        }
+
+        return {
+          type: 'LOAD_QUESTIONS',
+          payload: {
+            questions: data.questions.map((q: any) => ({
+              id: q.id,
+              text: q.text,
+              difficulty: q.difficulty,
+              categoryId: q.categoryId,
+            })),
+          },
+        };
       }
-
-      return {
-        type: 'LOAD_QUESTIONS',
-        payload: {
-          questions: data.questions.map((q: any) => ({
-            id: q.id,
-            text: q.text,
-            difficulty: q.difficulty,
-            categoryId: q.categoryId,
-          })),
-        },
-      };
+      finally {
+        isFetching = false;
+      }
     }
     catch (error) {
-      logger.error('[FetchQuestionsEffect] Error:', error);
+      isFetching = false;
+      logger.error('[FetchQuestionsEffect] Unexpected error:', error);
+      const isNetworkError = error instanceof TypeError && error.message.includes('fetch');
 
       return {
         type: 'FETCH_QUESTIONS_ERROR',
         payload: {
-          error: error instanceof Error ? error.message : 'Unknown error',
+          message: isNetworkError
+            ? 'Network connection failed. Please check your internet connection and try again.'
+            : 'An unexpected error occurred while loading questions. Please try again.',
+          canRetry: true,
+          suggestSettingsChange: false,
         },
       };
     }

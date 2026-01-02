@@ -21,6 +21,14 @@ export const VotingStateSchema = z.object({
   currentVoterIndex: z.number(),
 });
 
+export const QuestionErrorSchema = z.object({
+  message: z.string(),
+  canRetry: z.boolean().default(true),
+  suggestSettingsChange: z.boolean().default(false),
+});
+
+export type QuestionError = z.infer<typeof QuestionErrorSchema>;
+
 export const FiveSecondsGameStateSchema = BaseGameStateSchema.extend({
   settings: FiveSecondsGameSettingsSchema,
   players: z.record(z.string(), PlayerSchema),
@@ -29,6 +37,7 @@ export const FiveSecondsGameStateSchema = BaseGameStateSchema.extend({
   currentQuestion: baseQuestionSchema.nullable(),
   questions: z.array(baseQuestionSchema).default([]),
   turnTimerEndsAt: z.number().nullable().default(null),
+  questionError: QuestionErrorSchema.nullable().default(null),
 });
 
 // GAME ACTIONS
@@ -102,9 +111,11 @@ export const LoadQuestionsActionSchema = z.object({
 
 export const FetchQuestionsErrorActionSchema = z.object({
   type: z.literal('FETCH_QUESTIONS_ERROR'),
-  payload: z.object({
-    error: z.string(),
-  }),
+  payload: QuestionErrorSchema,
+});
+
+export const ClearQuestionErrorActionSchema = z.object({
+  type: z.literal('CLEAR_QUESTION_ERROR'),
 });
 
 // UNION SCHEMAS
@@ -119,6 +130,7 @@ export const FiveSecondsCustomActionSchema = z.discriminatedUnion('type', [
   SetQuestionActionSchema,
   LoadQuestionsActionSchema,
   FetchQuestionsErrorActionSchema,
+  ClearQuestionErrorActionSchema,
   StartTurnActionSchema,
   StartTurnTimerActionSchema,
   TimesUpActionSchema,

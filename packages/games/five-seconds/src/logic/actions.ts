@@ -32,12 +32,11 @@ export function loadQuestions(
   draft: Draft<FiveSecondsGameState>,
   payload: LoadQuestionsAction['payload'],
 ): void {
-  // Add questions to buffer
   draft.questions.push(...payload.questions);
 
   if (!draft.currentQuestion && payload.questions.length > 0) {
     draft.currentQuestion = payload.questions[0];
-    // Add to seen IDs
+
     if (!draft.seenQuestionIds.includes(payload.questions[0].id)) {
       draft.seenQuestionIds.push(payload.questions[0].id);
     }
@@ -101,6 +100,29 @@ export function tallyVotes(
   }
 
   draft.votingState = null;
+
+  const { turnState } = draft;
+  if (!turnState)
+    return;
+
+  const { playerOrder, currentPlayerIndex } = turnState;
+  if (playerOrder.length === 0)
+    return;
+
+  const nextIndex = (currentPlayerIndex + 1) % playerOrder.length;
+
+  turnState.currentPlayerIndex = nextIndex;
+  turnState.currentPlayerId = playerOrder[nextIndex];
+
+  if (nextIndex === 0) {
+    turnState.roundNumber += 1;
+  }
+
+  turnState.turnNumber += 1;
+  turnState.phase = 'pre-turn';
+
+  draft.currentQuestion = null;
+  draft.turnTimerEndsAt = null;
 }
 
 export function startTurn(draft: Draft<FiveSecondsGameState>): void {
@@ -125,12 +147,18 @@ export function setTurnPhase(
   }
 }
 
+/**
+ * FIX: This should rarely be called directly now
+ */
 export function nextTurn(draft: Draft<FiveSecondsGameState>): void {
   const { turnState } = draft;
   if (!turnState)
     return;
 
   const { playerOrder, currentPlayerIndex } = turnState;
+  if (playerOrder.length === 0)
+    return;
+
   const nextIndex = (currentPlayerIndex + 1) % playerOrder.length;
 
   turnState.currentPlayerIndex = nextIndex;
@@ -139,6 +167,7 @@ export function nextTurn(draft: Draft<FiveSecondsGameState>): void {
   if (nextIndex === 0) {
     turnState.roundNumber += 1;
   }
+
   turnState.turnNumber += 1;
   turnState.phase = 'pre-turn';
 
@@ -158,7 +187,6 @@ export function timesUp(draft: Draft<FiveSecondsGameState>): void {
     return;
   }
 
-  // Timer is up, automatically start the voting process
   const voterIds = Object.keys(draft.players).filter(
     pId => pId !== draft.turnState?.currentPlayerId,
   );

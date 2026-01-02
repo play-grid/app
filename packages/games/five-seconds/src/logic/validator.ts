@@ -71,15 +71,14 @@ export function validateFiveSecondsAction(
       break;
 
     case 'NEXT_TURN':
-      // Only allow after voting is complete (or in pre-turn for skip)
-      if (phase === 'voting' && state.votingState) {
-        const isComplete = state.votingState.currentVoterIndex >= state.votingState.voters.length;
-        if (!isComplete) {
-          return {
-            valid: false,
-            reason: 'Cannot advance turn, voting not complete',
-          };
-        }
+      // FIX: NEXT_TURN should rarely be called directly by clients
+      // It's now handled internally by TALLY_VOTES
+      // Only allow in specific phases (like pre-turn for skip functionality)
+      if (phase !== 'pre-turn') {
+        return {
+          valid: false,
+          reason: 'NEXT_TURN is handled automatically by TALLY_VOTES. Only allowed in pre-turn phase for special cases.',
+        };
       }
       break;
 
@@ -99,6 +98,8 @@ export function validateFiveSecondsAction(
     case 'LOAD_QUESTIONS':
     case 'SET_QUESTION':
     case 'START_TURN_TIMER':
+    case 'FETCH_QUESTIONS_ERROR':
+    case 'CLEAR_QUESTION_ERROR':
       // These come from effects, not user input
       break;
 

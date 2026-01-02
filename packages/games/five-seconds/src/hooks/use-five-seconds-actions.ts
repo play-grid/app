@@ -8,10 +8,11 @@ export function useFiveSecondsActions() {
 
   const setGameTurnPhase = useCallback(
     async (phase: string) => {
-      await dispatch({ type: 'SET_GAME_TURN_PHASE', payload: { phase } }); // ← Updated
+      await dispatch({ type: 'SET_GAME_TURN_PHASE', payload: { phase } });
     },
     [dispatch],
   );
+
   const fetchQuestionMultiplayer = useCallback(async () => {
     await dispatch({ type: 'FETCH_QUESTION' });
   }, [dispatch]);
@@ -54,27 +55,14 @@ export function useFiveSecondsActions() {
     await dispatch({ type: 'TALLY_VOTES', payload: { currentPlayerId } });
   }, [dispatch]);
 
-  const resetVoting = useCallback(async () => {
-    await dispatch({ type: 'RESET_VOTING' });
-  }, [dispatch]);
-
-  const nextTurn = useCallback(
-    async () => {
-      await dispatch({ type: 'NEXT_TURN' });
-    },
-    [dispatch],
-  );
-
   return {
     ...coreActions,
     setGameTurnPhase,
-    nextTurn,
     fetchQuestionMultiplayer,
     startTurn,
     addSeenQuestionId,
     startVoting,
     submitVote,
     tallyVotes,
-    resetVoting,
   };
 }

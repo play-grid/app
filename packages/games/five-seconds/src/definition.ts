@@ -32,6 +32,7 @@ export const fiveSecondsGame = createGameDefinition({
     currentQuestion: null,
     questions: [],
     turnTimerEndsAt: null,
+    questionError: null,
   },
   validator: validateFiveSecondsAction,
   customReducer: fiveSecondsGameReducer,

@@ -38,6 +38,7 @@ export function fiveSecondsGameReducer(
     case 'LOAD_QUESTIONS':
       return produce(state, (draft) => {
         loadQuestions(draft, action.payload);
+        draft.questionError = null;
       });
 
     case 'START_TURN':
@@ -76,6 +77,17 @@ export function fiveSecondsGameReducer(
     case 'TIMES_UP':
       return produce(state, (draft) => {
         timesUp(draft);
+      });
+
+    case 'FETCH_QUESTIONS_ERROR':
+      return produce(state, (draft) => {
+        draft.questionError = action.payload;
+        draft.currentQuestion = null;
+      });
+
+    case 'CLEAR_QUESTION_ERROR':
+      return produce(state, (draft) => {
+        draft.questionError = null;
       });
 
     default:

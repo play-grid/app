@@ -31,6 +31,7 @@ describe('validateFiveSecondsAction', () => {
       phase: 'pre-turn',
       skipsRemaining: 0,
     },
+    questionError: null,
     createdAt: Date.now(),
     startedAt: Date.now(),
     ...overrides,
@@ -197,17 +198,11 @@ describe('validateFiveSecondsAction', () => {
   });
 
   describe('next turn validation', () => {
-    it('should allow NEXT_TURN when voting is complete', () => {
+    it('should allow NEXT_TURN in pre-turn phase', () => {
       const state = mockState({
         turnState: {
           ...mockState().turnState!,
-          phase: 'voting',
-        },
-        votingState: {
-          isVoting: true,
-          votes: [{ playerId: 'p2', isValid: true }],
-          voters: ['p2'],
-          currentVoterIndex: 1, // Complete
+          phase: 'pre-turn',
         },
       });
       const result = validateFiveSecondsAction({
@@ -218,7 +213,7 @@ describe('validateFiveSecondsAction', () => {
       expect(result.valid).toBe(true);
     });
 
-    it('should reject NEXT_TURN when voting is not complete', () => {
+    it('should reject NEXT_TURN outside pre-turn phase', () => {
       const state = mockState({
         turnState: {
           ...mockState().turnState!,
@@ -228,7 +223,7 @@ describe('validateFiveSecondsAction', () => {
           isVoting: true,
           votes: [],
           voters: ['p2'],
-          currentVoterIndex: 0, // Not complete
+          currentVoterIndex: 0,
         },
       });
       const result = validateFiveSecondsAction({
@@ -237,7 +232,7 @@ describe('validateFiveSecondsAction', () => {
         playerId: 'p1',
       });
       expect(result.valid).toBe(false);
-      expect(result.reason).toContain('Cannot advance turn, voting not complete');
+      expect(result.reason).toContain('NEXT_TURN is handled automatically by TALLY_VOTES. Only allowed in pre-turn phase for special cases.');
     });
   });
 
