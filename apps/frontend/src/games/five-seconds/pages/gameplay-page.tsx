@@ -31,15 +31,14 @@ export function GameplayPage() {
     turnState,
     votingState,
     seenQuestionIds,
+    questionError,
   } = state;
 
   const {
-    nextTurn,
     endGame,
     startTurn,
     submitVote,
     tallyVotes,
-    resetVoting,
     resetGame,
     setPhase,
   } = useFiveSecondsActions();
@@ -102,28 +101,22 @@ export function GameplayPage() {
   const currentVoterId = votingState && votingState.voters[votingState.currentVoterIndex];
   const currentVoter = players[currentVoterId || ''];
 
-  const handleNextTurn = useCallback(async () => {
-    if (
-      turnState
-      && turnState.roundNumber >= settings.roundsToWin
-      && turnState.currentPlayerIndex === turnState.playerOrder.length - 1
-    ) {
-      await endGame();
-      return;
-    }
-
-    await resetVoting();
-    await nextTurn();
-  }, [turnState, settings.roundsToWin, endGame, resetVoting, nextTurn]);
-
   useEffect(() => {
     if (isVotingFinished && currentPlayer && !hasProcessedVotingRef.current) {
       hasProcessedVotingRef.current = true;
 
       const processVotingEnd = async () => {
         try {
+          if (
+            turnState
+            && turnState.roundNumber >= settings.roundsToWin
+            && turnState.currentPlayerIndex === turnState.playerOrder.length - 1
+          ) {
+            await endGame();
+            return;
+          }
+
           await tallyVotes(currentPlayer.id);
-          await handleNextTurn();
         }
         catch (err) {
           console.error('Error processing voting end:', err);
@@ -135,7 +128,14 @@ export function GameplayPage() {
 
       processVotingEnd();
     }
-  }, [isVotingFinished, currentPlayer?.id, tallyVotes, handleNextTurn]);
+  }, [
+    isVotingFinished,
+    currentPlayer?.id,
+    turnState,
+    settings.roundsToWin,
+    tallyVotes,
+    endGame,
+  ]);
 
   const handleStartTurn = useCallback(async () => {
     await startTurn();
@@ -220,55 +220,87 @@ export function GameplayPage() {
                     <Spinner />
                   </div>
                 )
-              : error
+              : questionError
                 ? (
                     <div className="text-center space-y-4">
                       <p className="text-lg font-semibold text-destructive">
-                        {t('common.error')}
+                        {t('fiveSecondsGame.gameplay.questionsLoadingError')}
                       </p>
                       <p className="text-sm text-muted-foreground">
-                        {error}
+                        {questionError.message}
                       </p>
-                      {error
-                        ? (
-                            <Button
-                              variant="default"
-                              onClick={() => setPhase('lobby')}
-                            >
-                              {t('fiveSecondsGame.gameplay.backToLobby')}
-                            </Button>
-                          )
-                        : (
-                            <Button
-                              variant="default"
-                              onClick={() => fetchQuestion()}
-                            >
-                              {t('common.retry')}
-                            </Button>
-                          )}
+                      <div className="space-y-2">
+                        {questionError.canRetry && (
+                          <Button
+                            variant="default"
+                            onClick={() => window.location.reload()}
+                          >
+                            {t('common.retry')}
+                          </Button>
+                        )}
+                        {questionError.suggestSettingsChange && (
+                          <p className="text-xs text-muted-foreground">
+                            {t('fiveSecondsGame.gameplay.tryChangingSettings')}
+                          </p>
+                        )}
+                        <Button
+                          variant="outline"
+                          onClick={() => setPhase('lobby')}
+                        >
+                          {t('fiveSecondsGame.gameplay.backToLobby')}
+                        </Button>
+                      </div>
                     </div>
                   )
-                : gamePhase === 'pre-turn' && question && isValidQuestion(question)
-                  ? <PreTurnView currentPlayerName={currentPlayer?.name || ''} onStartTurn={handleStartTurn} />
-                  : gamePhase === 'voting' && !isVotingFinished && question && isValidQuestion(question) && votingState
-                    ? (
-                        <VotingView
-                          votingState={votingState}
-                          currentVoter={currentVoter}
-                          currentPlayer={currentPlayer}
-                          currentQuestion={question}
-                          onVote={handleVote}
-                        />
-                      )
-                    : gamePhase === 'answering' && question && isValidQuestion(question)
+                : error
+                  ? (
+                      <div className="text-center space-y-4">
+                        <p className="text-lg font-semibold text-destructive">
+                          {t('common.error')}
+                        </p>
+                        <p className="text-sm text-muted-foreground">
+                          {error}
+                        </p>
+                        {error
+                          ? (
+                              <Button
+                                variant="default"
+                                onClick={() => setPhase('lobby')}
+                              >
+                                {t('fiveSecondsGame.gameplay.backToLobby')}
+                              </Button>
+                            )
+                          : (
+                              <Button
+                                variant="default"
+                                onClick={() => fetchQuestion()}
+                              >
+                                {t('common.retry')}
+                              </Button>
+                            )}
+                      </div>
+                    )
+                  : gamePhase === 'pre-turn' && question && isValidQuestion(question)
+                    ? <PreTurnView currentPlayerName={currentPlayer?.name || ''} onStartTurn={handleStartTurn} />
+                    : gamePhase === 'voting' && !isVotingFinished && question && isValidQuestion(question) && votingState
                       ? (
-                          <AnsweringView
-                            timeLeft={timeLeft}
-                            totalTime={settings.timePerTurn}
+                          <VotingView
+                            votingState={votingState}
+                            currentVoter={currentVoter}
+                            currentPlayer={currentPlayer}
                             currentQuestion={question}
+                            onVote={handleVote}
                           />
                         )
-                      : null}
+                      : gamePhase === 'answering' && question && isValidQuestion(question)
+                        ? (
+                            <AnsweringView
+                              timeLeft={timeLeft}
+                              totalTime={settings.timePerTurn}
+                              currentQuestion={question}
+                            />
+                          )
+                        : null}
           </Card>
         </div>
       </div>

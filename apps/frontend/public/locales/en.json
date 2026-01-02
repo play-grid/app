@@ -245,16 +245,21 @@
       "startTurn": "Start Turn",
       "round": "Round {{number}}",
       "pleaseVote": "{{name}}, please vote!",
+      "waitingForVote": "Waiting for {{name}} to vote...",
       "wasAnswerValid": "Was {{name}}'s answer valid?",
       "votes": "Votes: {{count}} / {{total}}",
       "valid": "Valid",
       "invalid": "Invalid",
+      "waitingForOthersToVote": "Waiting for others to vote...",
+      "yourVoteWillComeNext": "Your vote will come next!",
       "resetGame": "Reset Game",
       "resetConfirmTitle": "Are you sure you want to reset?",
       "resetConfirmDescription": "This will permanently end the current game and return you to the lobby. All scores will be lost.",
       "nameThree": "Name 3",
       "noMoreQuestions": "Sorry, there are no more questions matching your settings change them to play more questions.",
-      "backToLobby": "Back to Lobby"
+      "backToLobby": "Back to Lobby",
+      "questionsLoadingError": "Unable to Load Questions",
+      "tryChangingSettings": "Try changing difficulty or categories in game settings"
     },
     "results": {
       "wins": "{{name}} Wins!",
