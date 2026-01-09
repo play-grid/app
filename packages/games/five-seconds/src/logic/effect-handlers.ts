@@ -22,6 +22,12 @@ function getNextUnseenQuestion(state: FiveSecondsGameState) {
   return state.questions.find(q => !state.seenQuestionIds.includes(q.id));
 }
 
+function isErrorResponse(
+  data: any,
+): data is Extract<any, { code: 'NO_QUESTIONS_FOUND' }> {
+  return 'code' in data && data.code === 'NO_QUESTIONS_FOUND';
+}
+
 export function createFetchQuestionsEffect(apiUrl: string): GameEffect {
   const client = hcWithType(apiUrl);
   let isFetching = false;
@@ -31,92 +37,162 @@ export function createFetchQuestionsEffect(apiUrl: string): GameEffect {
   ): Promise<LoadQuestionsAction | SetQuestionAction | FetchQuestionsErrorAction | null> => {
     const action = ctx.action as FiveSecondsAction;
     const gameState = ctx.state as FiveSecondsGameState;
+    const isServer = !!ctx.ctx?.storage;
 
-    const triggerActions = ['FETCH_QUESTION', 'START_GAME', 'START_TURN', 'NEXT_TURN'];
+    const triggerActions = ['FETCH_QUESTION', 'START_GAME', 'START_TURN', 'NEXT_TURN', 'TALLY_VOTES'];
 
     if (!triggerActions.includes(action.type)) {
       return null;
     }
 
     try {
-      if (!gameState.currentQuestion) {
-        const nextQuestion = getNextUnseenQuestion(gameState);
-        if (nextQuestion) {
-          logger.info(`[FetchQuestionsEffect] Current question missing, pulling from buffer: ${nextQuestion.id}`);
+      if (isServer) {
+        if (!gameState.currentQuestion) {
+          const nextQuestion = getNextUnseenQuestion(gameState);
+          if (nextQuestion) {
+            logger.info(`[FetchQuestionsEffect] Current question missing, pulling from buffer: ${nextQuestion.id}`);
+            return {
+              type: 'SET_QUESTION',
+              payload: { question: nextQuestion },
+            };
+          }
+        }
+        const questionsNeeded = getQuestionsNeeded(gameState);
+
+        if (questionsNeeded === 0) {
+          return null;
+        }
+
+        if (isFetching) {
+          logger.warn('[FetchQuestionsEffect] Fetch already in progress, skipping');
+          return null;
+        }
+
+        try {
+          isFetching = true;
+          logger.info(`[FetchQuestionsEffect] Fetching ${questionsNeeded} questions from API`);
+
+          const res = await client.api.games['five-seconds'].questions.batch.$get({
+            query: {
+              count: questionsNeeded.toString(),
+              categoryIds: gameState.settings.categoryIds,
+              difficulty: gameState.settings.difficulty,
+              excludeIds: gameState.seenQuestionIds,
+              timePerTurn: gameState.settings.timePerTurn.toString(),
+            },
+          });
+
+          if (!res.ok) {
+            const errorText = await res.text().catch(() => `HTTP ${res.status}`);
+            logger.error(`[FetchQuestionsEffect] API error: ${res.status} - ${errorText}`);
+
+            return {
+              type: 'FETCH_QUESTIONS_ERROR',
+              payload: {
+                message: 'Unable to load questions from server. Please check your connection and try again.',
+                canRetry: true,
+                suggestSettingsChange: false,
+              },
+            };
+          }
+
+          const data = await res.json();
+
+          if (!data.questions || data.questions.length === 0) {
+            logger.warn('[FetchQuestionsEffect] No questions available matching current filters');
+            return {
+              type: 'FETCH_QUESTIONS_ERROR',
+              payload: {
+                message: 'No questions available with the current settings. Try changing difficulty or categories.',
+                canRetry: true,
+                suggestSettingsChange: true,
+              },
+            };
+          }
+
+          return {
+            type: 'LOAD_QUESTIONS',
+            payload: {
+              questions: data.questions.map((q: any) => ({
+                id: q.id,
+                text: q.text,
+                difficulty: q.difficulty,
+                categoryId: q.categoryId,
+              })),
+            },
+          };
+        }
+        finally {
+          isFetching = false;
+        }
+      }
+      else {
+        if (gameState.currentQuestion) {
+          return null;
+        }
+
+        if (isFetching) {
+          logger.warn('[FetchQuestionsEffect] Fetch already in progress, skipping');
+          return null;
+        }
+
+        try {
+          isFetching = true;
+          logger.info('[FetchQuestionsEffect] Fetching single question from API');
+
+          const res = await client.api.games['five-seconds'].questions.random.$get({
+            query: {
+              categoryIds: gameState.settings.categoryIds,
+              difficulty: gameState.settings.difficulty,
+              excludeIds: gameState.seenQuestionIds,
+              timePerTurn: gameState.settings.timePerTurn,
+            },
+          });
+
+          if (!res.ok) {
+            const errorText = await res.text().catch(() => `HTTP ${res.status}`);
+            logger.error(`[FetchQuestionsEffect] API error: ${res.status} - ${errorText}`);
+
+            return {
+              type: 'FETCH_QUESTIONS_ERROR',
+              payload: {
+                message: 'Unable to load questions from server. Please check your connection and try again.',
+                canRetry: true,
+                suggestSettingsChange: false,
+              },
+            };
+          }
+
+          const data = await res.json();
+
+          if (isErrorResponse(data)) {
+            logger.warn('[FetchQuestionsEffect] No questions available matching current filters');
+            return {
+              type: 'FETCH_QUESTIONS_ERROR',
+              payload: {
+                message: (data as any).message,
+                canRetry: true,
+                suggestSettingsChange: true,
+              },
+            };
+          }
+
+          const questionData = data as any;
+          const question = {
+            id: questionData.id,
+            text: questionData.text,
+            difficulty: questionData.difficulty,
+            categoryId: questionData.categoryId,
+          };
+
           return {
             type: 'SET_QUESTION',
-            payload: { question: nextQuestion },
+            payload: { question },
           };
         }
-      }
-
-      const questionsNeeded = getQuestionsNeeded(gameState);
-
-      if (questionsNeeded === 0) {
-        return null;
-      }
-
-      if (isFetching) {
-        logger.warn('[FetchQuestionsEffect] Fetch already in progress, skipping');
-        return null;
-      }
-
-      try {
-        isFetching = true;
-        logger.info(`[FetchQuestionsEffect] Fetching ${questionsNeeded} questions from API`);
-
-        const res = await client.api.games['five-seconds'].questions.batch.$get({
-          query: {
-            count: questionsNeeded.toString(),
-            categoryIds: gameState.settings.categoryIds,
-            difficulty: gameState.settings.difficulty,
-            excludeIds: gameState.seenQuestionIds,
-            timePerTurn: gameState.settings.timePerTurn.toString(),
-          },
-        });
-
-        if (!res.ok) {
-          const errorText = await res.text().catch(() => `HTTP ${res.status}`);
-          logger.error(`[FetchQuestionsEffect] API error: ${res.status} - ${errorText}`);
-
-          return {
-            type: 'FETCH_QUESTIONS_ERROR',
-            payload: {
-              message: 'Unable to load questions from server. Please check your connection and try again.',
-              canRetry: true,
-              suggestSettingsChange: false,
-            },
-          };
+        finally {
+          isFetching = false;
         }
-
-        const data = await res.json();
-
-        if (!data.questions || data.questions.length === 0) {
-          logger.warn('[FetchQuestionsEffect] No questions available matching current filters');
-          return {
-            type: 'FETCH_QUESTIONS_ERROR',
-            payload: {
-              message: 'No questions available with the current settings. Try changing difficulty or categories.',
-              canRetry: true,
-              suggestSettingsChange: true,
-            },
-          };
-        }
-
-        return {
-          type: 'LOAD_QUESTIONS',
-          payload: {
-            questions: data.questions.map((q: any) => ({
-              id: q.id,
-              text: q.text,
-              difficulty: q.difficulty,
-              categoryId: q.categoryId,
-            })),
-          },
-        };
-      }
-      finally {
-        isFetching = false;
       }
     }
     catch (error) {
@@ -148,8 +224,7 @@ export function createTimerEffect(): GameEffect {
     const gameState = ctx.state as FiveSecondsGameState;
     const isServer = !!ctx.ctx?.storage;
 
-    // Stop timer actions
-    const stopTimerActions = ['START_VOTING', 'NEXT_TURN', 'END_GAME', 'RESET_GAME'];
+    const stopTimerActions = ['START_VOTING', 'NEXT_TURN', 'END_GAME', 'RESET_GAME', 'TALLY_VOTES'];
     if (stopTimerActions.includes(action.type)) {
       logger.info(`[TimerEffect] Stopping timer due to: ${action.type}`);
 
@@ -207,9 +282,6 @@ export function createTimerEffect(): GameEffect {
   };
 }
 
-export function createFiveSecondsEffects(apiUrl: string, mode: 'local' | 'multiplayer' = 'multiplayer'): GameEffect[] {
-  if (mode === 'local') {
-    return [createTimerEffect()];
-  }
+export function createFiveSecondsEffects(apiUrl: string): GameEffect[] {
   return [createFetchQuestionsEffect(apiUrl), createTimerEffect()];
 }

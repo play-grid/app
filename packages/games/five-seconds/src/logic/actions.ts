@@ -10,6 +10,7 @@ import type {
   SubmitVoteAction,
   TallyVotesAction,
 } from './schema';
+import { logger } from '../logger';
 
 export function addSeenQuestionId(
   draft: Draft<FiveSecondsGameState>,
@@ -26,6 +27,7 @@ export function setQuestion(
   if (!draft.seenQuestionIds.includes(payload.question.id)) {
     draft.seenQuestionIds.push(payload.question.id);
   }
+  logger.debug(`[FiveSeconds] Current question set: ${payload.question.id} - "${payload.question.text}"`);
 }
 
 export function loadQuestions(
@@ -114,6 +116,9 @@ export function tallyVotes(
   turnState.currentPlayerIndex = nextIndex;
   turnState.currentPlayerId = playerOrder[nextIndex];
 
+  const newPlayer = draft.players[playerOrder[nextIndex]];
+  logger.debug(`[FiveSeconds] Turn moved to player: ${playerOrder[nextIndex]} (${newPlayer?.name || 'Unknown'})`);
+
   if (nextIndex === 0) {
     turnState.roundNumber += 1;
   }
@@ -135,6 +140,7 @@ export function startTurn(draft: Draft<FiveSecondsGameState>): void {
 
   if (currentPlayer) {
     draft.turnState.phase = 'answering';
+    logger.debug(`[FiveSeconds] Turn started for player: ${currentPlayerId} (${currentPlayer.name})`);
   }
 }
 
@@ -163,6 +169,9 @@ export function nextTurn(draft: Draft<FiveSecondsGameState>): void {
 
   turnState.currentPlayerIndex = nextIndex;
   turnState.currentPlayerId = playerOrder[nextIndex];
+
+  const newPlayer = draft.players[playerOrder[nextIndex]];
+  logger.debug(`[FiveSeconds] Turn moved to player: ${playerOrder[nextIndex]} (${newPlayer?.name || 'Unknown'})`);
 
   if (nextIndex === 0) {
     turnState.roundNumber += 1;

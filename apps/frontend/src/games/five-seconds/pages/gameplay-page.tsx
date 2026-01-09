@@ -30,7 +30,6 @@ export function GameplayPage() {
     settings,
     turnState,
     votingState,
-    seenQuestionIds,
     questionError,
   } = state;
 
@@ -52,13 +51,7 @@ export function GameplayPage() {
     error,
     isLoading,
     fetchQuestion,
-  } = useQuestion({
-    categoryIds: settings.categoryIds,
-    difficulty: settings.difficulty,
-    excludeIds: seenQuestionIds,
-    timePerTurn: settings.timePerTurn,
-    enabled: state.phase !== 'lobby',
-  });
+  } = useQuestion();
 
   const isValidQuestion = (
     q: unknown,
