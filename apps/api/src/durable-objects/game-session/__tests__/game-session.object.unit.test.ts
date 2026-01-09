@@ -70,8 +70,8 @@ describe('gameSessionObject', () => {
             gameType: 'five-seconds',
             maxPlayers: 4,
             isPrivate: false,
-            createdBy: 'user-1',
-            hostPlayerName: 'Host Player',
+            createdBy: 'test-player',
+            hostPlayerName: 'Test Player',
           }),
         });
 
@@ -388,6 +388,8 @@ describe('gameSessionObject', () => {
             gameType: 'five-seconds',
             maxPlayers: 4,
             isPrivate: false,
+            createdBy: 'test-player',
+            hostPlayerName: 'Test Player',
           }),
         });
         await durableObject.fetch(initRequest);
@@ -636,6 +638,8 @@ describe('gameSessionObject', () => {
           gameType: 'five-seconds',
           maxPlayers: 4,
           isPrivate: false,
+          createdBy: 'test-player',
+          hostPlayerName: 'Test Player',
         }),
       });
       await durableObject.fetch(initRequest);
@@ -652,6 +656,70 @@ describe('gameSessionObject', () => {
         expect(expiresAt).toBeGreaterThan(now);
         expect(expiresAt).toBeLessThanOrEqual(now + fiveMinutes + 1000); // Allow 1s tolerance
       }
+    });
+  });
+
+  describe('security: Ghost Player Prevention', () => {
+    it('should REJECT WebSocket connection if player is not in game state', async () => {
+    // 1. Initialize Game
+      const initRequest = new Request('http://test.com/init', {
+        method: 'POST',
+        body: JSON.stringify({
+          roomId: 'room-123',
+          gameType: 'five-seconds',
+          maxPlayers: 4,
+          isPrivate: false,
+          createdBy: 'test-player',
+          hostPlayerName: 'Test Player',
+        }),
+      });
+      await durableObject.fetch(initRequest);
+
+      // 2. Attempt WS Upgrade with a random ID (Ghost)
+      const ghostId = 'i-do-not-exist';
+      const wsRequest = new Request(`http://test.com/ws?playerId=${ghostId}`, {
+        headers: { Upgrade: 'websocket' },
+      });
+
+      // 3. This should return 403 BEFORE reaching the 101 status code
+      const response = await durableObject.fetch(wsRequest);
+
+      expect(response.status).toBe(403);
+    });
+
+    it('should upgrade to WebSocket when session is initialized and player exists', async () => {
+      // 1. Initialize with a specific host player
+      const hostId = 'test-player';
+      const initRequest = new Request('http://test.com/init', {
+        method: 'POST',
+        body: JSON.stringify({
+          roomId: 'room-123',
+          gameType: 'five-seconds',
+          maxPlayers: 4,
+          isPrivate: false,
+          createdBy: hostId, // Ensure this ID is used
+          hostPlayerName: 'Host Player',
+        }),
+      });
+      await durableObject.fetch(initRequest);
+
+      // 2. Try to upgrade with the VALID player ID
+      const wsRequest = new Request(`http://test.com/ws?playerId=${hostId}`, {
+        headers: {
+          Upgrade: 'websocket',
+        },
+      });
+
+      // 3. Handle the Node/Vitest RangeError for status 101
+      try {
+        await durableObject.fetch(wsRequest);
+      }
+      catch {
+        // RangeError is expected in Node/Vitest for status 101
+      }
+
+      // 4. Verify WebSocket was accepted
+      expect(mockCtx.acceptWebSocket).toHaveBeenCalled();
     });
   });
 });

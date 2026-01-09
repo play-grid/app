@@ -27,7 +27,7 @@ export interface GameSessionMetadata {
  *
  * Responsibilities:
  * 1. Initialize game sessions
- * 2. Manage WebSocket connections
+ * 2. Manage WebSocket connections (ONE per player)
  * 3. Delegate game logic to GameSessionManager
  * 4. Handle player join/leave
  * 5. Persist and rehydrate sessions
@@ -40,10 +40,15 @@ export class GameSessionObject extends DurableObject<AppEnv['Bindings']> {
   private manager: GameSessionManager | null = null;
   private router: GameSessionRouter | null = null;
   private metadata: GameSessionMetadata | null = null;
-  private playerIds = new Map<WebSocket, string>();
+
+  // FIX: Connection tracking - these are NOT reset during rehydration
+  // because they're instance variables that persist as long as the DO is in memory
+  private playerIds = new Map<WebSocket, string>(); // WS → playerId
+  private playerConnections = new Map<string, WebSocket>(); // playerId → WS (ONE per player)
 
   constructor(ctx: DurableObjectState, env: AppEnv['Bindings']) {
     super(ctx, env);
+    logger.info('[GameSessionObject] Constructor called - new instance created');
   }
 
   async fetch(request: Request): Promise<Response> {
@@ -82,20 +87,27 @@ export class GameSessionObject extends DurableObject<AppEnv['Bindings']> {
   /**
    * Ensure the session is initialized before processing requests
    * Rehydrates from storage if necessary
+   *
+   * IMPORTANT: This does NOT reset WebSocket connection tracking!
+   * Connection Maps persist in memory as long as the DO instance is alive.
    */
   private async ensureInitialized(): Promise<boolean> {
     if (this.manager && this.router) {
+      logger.debug('[GameSessionObject] Already initialized, skipping rehydration');
       return true;
     }
+    logger.debug('[GameSessionObject] Not initialized, starting rehydration...');
     return this.rehydrate();
   }
 
   /**
    * Rehydrate the game session from durable storage
    * Called when the Durable Object wakes up from hibernation
+   *
+   * NOTE: This only rehydrates game state and manager, NOT WebSocket connections
    */
   private async rehydrate(): Promise<boolean> {
-    logger.debug('[GameSessionObject] Rehydrating...');
+    logger.debug('[GameSessionObject] Rehydrating game state...');
 
     const metadata = await this.ctx.storage.get<GameSessionMetadata>('metadata');
     logger.debug(metadata, '[GameSessionObject] Rehydrating... got metadata');
@@ -138,6 +150,9 @@ export class GameSessionObject extends DurableObject<AppEnv['Bindings']> {
     this.router = createGameSessionRouter(this.manager);
 
     logger.debug('[GameSessionObject] Rehydration complete.');
+    logger.info(
+      `[GameSessionObject] Active WebSocket connections: ${this.playerConnections.size}`,
+    );
     return true;
   }
 
@@ -153,9 +168,50 @@ export class GameSessionObject extends DurableObject<AppEnv['Bindings']> {
       return new Response('Missing playerId', { status: 400 });
     }
 
+    // PREVENT GHOST PLAYERS: Verify the player exists in the current state
+    const state = this.manager!.getState();
+    if (!state.players[playerId]) {
+      logger.warn(
+        `[GameSessionObject] Rejected ghost player connection: ${playerId} (not in game state)`,
+      );
+      logger.warn(
+        `[GameSessionObject] Current players in state: ${Object.keys(state.players).join(', ')}`,
+      );
+      return new Response('Player not in game session', { status: 403 });
+    }
+
+    // FIX: Close old connection for this player if exists
+    const existingWs = this.playerConnections.get(playerId);
+    if (existingWs) {
+      logger.info(
+        `[GameSessionObject] Player ${playerId} reconnecting - closing old connection`,
+      );
+      try {
+        existingWs.close(1000, 'New connection established');
+      }
+      catch (e) {
+        logger.warn(`[GameSessionObject] Error closing old connection: ${e}`);
+      }
+      // Clean up old mappings
+      this.playerIds.delete(existingWs);
+    }
+
     const { 0: client, 1: server } = new WebSocketPair();
     this.ctx.acceptWebSocket(server);
+
+    // Track both directions
     this.playerIds.set(server, playerId);
+    this.playerConnections.set(playerId, server);
+
+    logger.info(
+      `[GameSessionObject] ✅ WebSocket connected for player: ${playerId}`,
+    );
+    logger.info(
+      `[GameSessionObject] 📊 Total active connections: ${this.playerConnections.size}/${Object.keys(state.players).length} players`,
+    );
+    logger.debug(
+      `[GameSessionObject] Connected players: ${Array.from(this.playerConnections.keys()).join(', ')}`,
+    );
 
     return new Response(null, {
       status: 101,
@@ -180,6 +236,10 @@ export class GameSessionObject extends DurableObject<AppEnv['Bindings']> {
       ws.close(1008, 'Room session not found');
       return;
     }
+
+    const playerId = this.playerIds.get(ws);
+    logger.debug(`[GameSessionObject] WebSocket opened for player: ${playerId}`);
+
     const message = JSON.stringify({
       type: 'onStateUpdate',
       payload: this.manager!.getState(),
@@ -188,7 +248,24 @@ export class GameSessionObject extends DurableObject<AppEnv['Bindings']> {
   }
 
   async webSocketClose(ws: WebSocket): Promise<void> {
+    const playerId = this.playerIds.get(ws);
     this.playerIds.delete(ws);
+
+    // Only remove from playerConnections if this is the current connection
+    if (playerId && this.playerConnections.get(playerId) === ws) {
+      this.playerConnections.delete(playerId);
+      logger.info(
+        `[GameSessionObject] ❌ WebSocket disconnected for player: ${playerId}`,
+      );
+      logger.info(
+        `[GameSessionObject] 📊 Remaining connections: ${this.playerConnections.size}`,
+      );
+    }
+    else if (playerId) {
+      logger.debug(
+        `[GameSessionObject] Closed old/stale connection for player: ${playerId}`,
+      );
+    }
   }
 
   /**

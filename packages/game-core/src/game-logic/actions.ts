@@ -427,6 +427,8 @@ export function endGame<T extends BaseGameState>(state: T): T {
 
 export function resetGame<T extends BaseGameState>(state: T): T {
   const stateToPreserve = {
+    players: state.players,
+    hostId: state.hostId,
     settings: state.settings,
   };
 
@@ -435,7 +437,6 @@ export function resetGame<T extends BaseGameState>(state: T): T {
     ...stateToPreserve,
     phase: 'lobby',
     players: {} as T['players'],
-    hostId: '',
     turnState: undefined,
     startedAt: undefined,
     endedAt: undefined,
