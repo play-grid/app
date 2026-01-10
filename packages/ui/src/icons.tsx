@@ -21,9 +21,11 @@ export const FlagIcon = (props: IconProps) => <AppIcon icon="solar:flag-2-bold-d
 export const VideoIcon = (props: IconProps) => <AppIcon icon="solar:video-frame-line-duotone" {...props} />;
 export const BasketballIcon = (props: IconProps) => <AppIcon icon="solar:basketball-line-duotone" {...props} />;
 export const PlusIcon = (props: IconProps) => <AppIcon icon="mingcute:add-fill" {...props} />;
+export const TrashIcon = (props: IconProps) => <AppIcon icon="solar:trash" {...props} />;
 export const RestartIcon = (props: IconProps) => <AppIcon icon="solar:restart-line-duotone" {...props} />;
 export const RefreshIcon = (props: IconProps) => <AppIcon icon="solar:refresh-line-duotone" {...props} />;
 export const ArrowLeftIcon = (props: IconProps) => <AppIcon icon="solar:arrow-left-line-duotone" {...props} />;
 export const ArrowRightIcon = (props: IconProps) => <AppIcon icon="solar:arrow-right-line-duotone" {...props} />;
 export const AltArrowLeftIcon = (props: IconProps) => <AppIcon icon="solar:alt-arrow-left-line-duotone" {...props} />;
 export const AltArrowRightIcon = (props: IconProps) => <AppIcon icon="solar:alt-arrow-right-line-duotone" {...props} />;
+export const UploadIcon = (props: IconProps) => <AppIcon icon="solar:upload-minimalistic-bold-duotone" {...props} />;

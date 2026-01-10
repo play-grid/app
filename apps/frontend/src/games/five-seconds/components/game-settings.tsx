@@ -21,6 +21,7 @@ import { logger } from '@/utils/logger';
 import { useCategories } from '../hooks/use-categories';
 import { getCategoryById } from '../services/category.service';
 import { getLocalizedCategoryName } from '../utils/category-utils';
+import { BulkImportDialog } from './bulk-import-dialog';
 import { Button } from './ui/button';
 import { Label } from './ui/label';
 import {
@@ -169,6 +170,10 @@ export function GameSettings() {
             ))}
           </div>
         </div>
+      </div>
+      {/* Bulk Import */}
+      <div className="pt-4 border-t">
+        <BulkImportDialog />
       </div>
     </div>
   );
