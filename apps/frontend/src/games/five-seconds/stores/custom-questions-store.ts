@@ -5,9 +5,12 @@ import { immer } from 'zustand/middleware/immer';
 
 interface CustomQuestionsState {
   customQuestions: Question[];
+  customCategories: string[];
   addQuestions: (questions: Question[]) => void;
   updateQuestion: (id: string, updates: Partial<Question>) => void;
   removeQuestion: (id: string) => void;
+  addCustomCategory: (category: string) => void;
+  removeCustomCategory: (category: string) => void;
   clearAll: () => void;
 }
 
@@ -15,6 +18,7 @@ export const useCustomQuestionsStore = create<CustomQuestionsState>()(
   persist(
     immer(set => ({
       customQuestions: [],
+      customCategories: [],
       addQuestions: questions =>
         set((state) => {
           // Avoid duplicates by text
@@ -33,9 +37,20 @@ export const useCustomQuestionsStore = create<CustomQuestionsState>()(
         set((state) => {
           state.customQuestions = state.customQuestions.filter(q => q.id !== id);
         }),
+      addCustomCategory: category =>
+        set((state) => {
+          if (!state.customCategories.includes(category.trim())) {
+            state.customCategories.push(category.trim());
+          }
+        }),
+      removeCustomCategory: category =>
+        set((state) => {
+          state.customCategories = state.customCategories.filter(c => c !== category);
+        }),
       clearAll: () =>
         set((state) => {
           state.customQuestions = [];
+          state.customCategories = [];
         }),
     })),
     {

@@ -4,7 +4,7 @@ import {
   useFiveSecondsActions,
   useFiveSecondsState,
 } from '@guess-logo/five-seconds';
-import { ClockIcon, TrophyIcon } from '@guess-logo/ui/icons';
+import { ClockIcon, TrophyIcon, UploadIcon } from '@guess-logo/ui/icons';
 import { useQueryClient } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -22,6 +22,7 @@ import { useCategories } from '../hooks/use-categories';
 import { getCategoryById } from '../services/category.service';
 import { getLocalizedCategoryName } from '../utils/category-utils';
 import { BulkImportDialog } from './bulk-import-dialog';
+import { CustomQuestionsList } from './custom-questions-list';
 import { Button } from './ui/button';
 import { Label } from './ui/label';
 import {
@@ -171,10 +172,19 @@ export function GameSettings() {
           </div>
         </div>
       </div>
+
       {/* Bulk Import */}
       <div className="pt-4 border-t">
-        <BulkImportDialog />
+        <BulkImportDialog>
+          <Button className="w-full" variant="outline">
+            <UploadIcon className="w-4 h-4 mr-2" />
+            {t('fiveSecondsGame.bulkImport.title')}
+          </Button>
+        </BulkImportDialog>
       </div>
+
+      {/* Custom Questions */}
+      <CustomQuestionsList />
     </div>
   );
 

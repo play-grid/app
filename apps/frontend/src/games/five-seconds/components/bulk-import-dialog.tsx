@@ -1,12 +1,12 @@
+import type { Difficulty } from '@guess-logo/five-seconds';
 import { difficultySchema } from '@guess-logo/five-seconds';
-import { UploadIcon } from '@guess-logo/ui/icons';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { toast } from 'sonner';
-import { useCategories } from '../hooks/use-categories';
 import { useCustomQuestionsStore } from '../stores/custom-questions-store';
-import { getLocalizedCategoryName } from '../utils/category-utils';
+import { CategoryCombobox } from './category-combobox';
+import { CustomQuestionsList } from './custom-questions-list';
 import { Button } from './ui/button';
 
 import {
@@ -35,20 +35,20 @@ interface BulkImportDialogProps {
 interface ParsedQuestion {
   text: string;
   categoryId: string;
-  difficulty: 'easy' | 'medium' | 'hard';
+  difficulty: Difficulty;
 }
 
 export function BulkImportDialog({ children }: BulkImportDialogProps) {
-  const { t, i18n } = useTranslation();
-  const { data: categories } = useCategories();
+  const { t } = useTranslation();
 
   const [isOpen, setIsOpen] = useState(false);
   const [bulkText, setBulkText] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [selectedDifficulty, setSelectedDifficulty] = useState<'easy' | 'medium' | 'hard'>('medium');
+  const [hasImported, setHasImported] = useState(false);
 
   const parsedQuestions = parseBulkText(bulkText);
-  const addQuestions = useCustomQuestionsStore(state => state.addQuestions);
+  const { addQuestions } = useCustomQuestionsStore();
 
   const handleImport = () => {
     if (!selectedCategory) {
@@ -83,21 +83,24 @@ export function BulkImportDialog({ children }: BulkImportDialogProps) {
       }),
     });
 
-    setIsOpen(false);
+    setHasImported(true);
     setBulkText('');
-    setSelectedCategory('');
-    setSelectedDifficulty('medium');
+  };
+
+  const handleOpenChange = (open: boolean) => {
+    setIsOpen(open);
+    if (!open) {
+      setHasImported(false);
+      setBulkText('');
+      setSelectedCategory('');
+      setSelectedDifficulty('medium');
+    }
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+    <Dialog open={isOpen} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
-        {children || (
-          <Button variant="outline" size="sm">
-            <UploadIcon className="w-4 h-4 mr-2" />
-            {t('fiveSecondsGame.bulkImport.title')}
-          </Button>
-        )}
+        {children}
       </DialogTrigger>
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
@@ -116,7 +119,8 @@ export function BulkImportDialog({ children }: BulkImportDialogProps) {
               placeholder={t('fiveSecondsGame.bulkImport.placeholder')}
               value={bulkText}
               onChange={e => setBulkText(e.target.value)}
-              className="min-h-30"
+              maxLength={5000}
+              className="min-h-30 resize-none max-w-full wrap-break-word whitespace-pre-wrap field-sizing-fixed"
             />
             <p className="text-sm text-muted-foreground">
               {t('fiveSecondsGame.bulkImport.hint')}
@@ -127,18 +131,11 @@ export function BulkImportDialog({ children }: BulkImportDialogProps) {
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label>{t('fiveSecondsGame.bulkImport.category')}</Label>
-              <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-                <SelectTrigger>
-                  <SelectValue placeholder={t('fiveSecondsGame.bulkImport.selectCategory')} />
-                </SelectTrigger>
-                <SelectContent>
-                  {categories?.map(cat => (
-                    <SelectItem key={cat.id} value={cat.id}>
-                      {getLocalizedCategoryName(cat, i18n.language.startsWith('ar') ? 'ar' : 'en')}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <CategoryCombobox
+                value={selectedCategory}
+                onChange={setSelectedCategory}
+                placeholder={t('fiveSecondsGame.bulkImport.selectCategory')}
+              />
             </div>
 
             <div className="space-y-2">
@@ -165,7 +162,7 @@ export function BulkImportDialog({ children }: BulkImportDialogProps) {
           {parsedQuestions.length > 0 && (
             <div className="space-y-2">
               <Label>{t('fiveSecondsGame.bulkImport.preview')}</Label>
-              <div className="border rounded-md p-3 max-h-40 overflow-y-auto bg-muted/50">
+              <div className="border p-3 max-h-40 overflow-y-auto bg-muted/50">
                 <div className="text-sm space-y-1">
                   {parsedQuestions.slice(0, 10).map((question, index) => (
                     // eslint-disable-next-line react/no-array-index-key
@@ -189,6 +186,7 @@ export function BulkImportDialog({ children }: BulkImportDialogProps) {
               </p>
             </div>
           )}
+          {hasImported && <CustomQuestionsList />}
         </div>
 
         <DialogFooter>
@@ -196,7 +194,7 @@ export function BulkImportDialog({ children }: BulkImportDialogProps) {
             variant="outline"
             onClick={() => setIsOpen(false)}
           >
-            {t('cancel')}
+            {t('common.cancel')}
           </Button>
           <Button
             onClick={handleImport}
