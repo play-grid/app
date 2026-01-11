@@ -38,6 +38,7 @@
     "@radix-ui/react-separator": "catalog:frontend",
     "@radix-ui/react-slider": "catalog:frontend",
     "@radix-ui/react-slot": "catalog:frontend",
+    "@radix-ui/react-switch": "catalog:frontend",
     "@radix-ui/react-tabs": "catalog:frontend",
     "@radix-ui/react-tooltip": "catalog:frontend",
     "@redux-devtools/extension": "catalog:frontend",

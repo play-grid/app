@@ -162,10 +162,7 @@ export function BulkImportDialog({ children }: BulkImportDialogProps) {
             <Label htmlFor="bulk-text">{t('fiveSecondsGame.bulkImport.pasteText')}</Label>
             <Textarea
               id="bulk-text"
-              placeholder="[Sports|Easy] Name 3 football teams
-[Movies|Hard] Name 3 Oscar winners
-Name 3 fruits
-Name 3 countries"
+              placeholder={t('fiveSecondsGame.bulkImport.placeholder')}
               value={bulkText}
               onChange={e => setBulkText(e.target.value)}
               maxLength={5000}

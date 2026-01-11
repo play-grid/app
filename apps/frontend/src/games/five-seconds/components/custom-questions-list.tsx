@@ -52,7 +52,6 @@ export function CustomQuestionsList() {
                   <CategoryCombobox
                     value={question.categoryId}
                     onChange={value => updateQuestion(question.id, { categoryId: value })}
-                    placeholder="Select category"
                   />
                 </div>
               </div>
@@ -63,7 +62,7 @@ export function CustomQuestionsList() {
                 className="w-full"
               >
                 <TrashIcon className="w-4 h-4 mr-2" />
-                {t('delete')}
+                {t('common.delete')}
               </Button>
             </CardContent>
           </Card>

@@ -26,6 +26,8 @@ export const fiveSecondsGame = createGameDefinition({
       difficulty: 'easy',
       timePerTurn: 5,
       roundsToWin: 5,
+      useCustomQuestions: false,
+      customCategoryIds: [],
     },
     votingState: null,
     seenQuestionIds: [],

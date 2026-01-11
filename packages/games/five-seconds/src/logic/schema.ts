@@ -12,6 +12,8 @@ export const FiveSecondsGameSettingsSchema = z.object({
   difficulty: difficultySchema,
   timePerTurn: z.number(),
   roundsToWin: z.number(),
+  useCustomQuestions: z.boolean().default(false),
+  customCategoryIds: z.array(z.string()).optional(),
 });
 
 export const VotingStateSchema = z.object({

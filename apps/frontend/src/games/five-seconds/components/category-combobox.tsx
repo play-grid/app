@@ -16,21 +16,34 @@ interface CategoryComboboxProps {
   value?: string;
   onChange: (value: string) => void;
   placeholder?: string;
+  categories?: string[];
 }
 
-export function CategoryCombobox({ value, onChange, placeholder = 'Select category...' }: CategoryComboboxProps) {
-  const { customCategories, addCustomCategory } = useCustomQuestionsStore();
+export function CategoryCombobox({ value, onChange, placeholder, categories }: CategoryComboboxProps) {
+  const { customCategories: defaultCategories, addCustomCategory } = useCustomQuestionsStore();
+  const displayCategories = categories || defaultCategories;
   const [isCreating, setIsCreating] = useState(false);
   const [newCategory, setNewCategory] = useState('');
   const { t } = useTranslation();
+  const defaultPlaceholder = t('fiveSecondsGame.categoryCombobox.selectCategory');
+  const finalPlaceholder = placeholder || defaultPlaceholder;
 
   const handleCreate = () => {
     const trimmed = newCategory.trim();
-    if (trimmed && !customCategories.includes(trimmed)) {
-      addCustomCategory(trimmed);
-      onChange(trimmed);
-      setNewCategory('');
-      setIsCreating(false);
+    if (trimmed && !displayCategories.includes(trimmed)) {
+      if (categories) {
+        // If categories prop provided, just select it (no add to store)
+        onChange(trimmed);
+        setNewCategory('');
+        setIsCreating(false);
+      }
+      else {
+        // Default behavior: add to custom categories
+        addCustomCategory(trimmed);
+        onChange(trimmed);
+        setNewCategory('');
+        setIsCreating(false);
+      }
     }
   };
 
@@ -50,7 +63,7 @@ export function CategoryCombobox({ value, onChange, placeholder = 'Select catego
       <div className="flex flex-col gap-2">
         <Input
           autoFocus
-          placeholder="Enter category name..."
+          placeholder={t('fiveSecondsGame.categoryCombobox.enterCategoryName')}
           value={newCategory}
           onChange={e => setNewCategory(e.target.value)}
           onKeyDown={handleKeyDown}
@@ -83,18 +96,18 @@ export function CategoryCombobox({ value, onChange, placeholder = 'Select catego
   return (
     <div className="flex gap-2">
       <Select value={value} onValueChange={onChange}>
-        <SelectTrigger className="flex-1">
-          <SelectValue placeholder={placeholder} />
+        <SelectTrigger className="flex-1 h-8">
+          <SelectValue placeholder={finalPlaceholder} />
         </SelectTrigger>
         <SelectContent className="max-h-72">
-          {customCategories.length === 0
+          {displayCategories.length === 0
             ? (
                 <div className="px-2 py-1.5 text-sm text-muted-foreground">
-                  {t('NoCategoriesYet')}
+                  {t('fiveSecondsGame.categoryCombobox.noCategoriesYet')}
                 </div>
               )
             : (
-                customCategories.map(cat => (
+                displayCategories.map(cat => (
                   <SelectItem key={cat} value={cat}>
                     {cat}
                   </SelectItem>

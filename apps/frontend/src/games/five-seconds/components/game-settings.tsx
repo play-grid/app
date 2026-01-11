@@ -20,6 +20,7 @@ import { logger } from '@/utils/logger';
 
 import { useCategories } from '../hooks/use-categories';
 import { getCategoryById } from '../services/category.service';
+import { useCustomQuestionsStore } from '../stores/custom-questions-store';
 import { getLocalizedCategoryName } from '../utils/category-utils';
 import { BulkImportDialog } from './bulk-import-dialog';
 import { CustomQuestionsList } from './custom-questions-list';
@@ -32,6 +33,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from './ui/select';
+import { Switch } from './ui/switch';
 
 export function GameSettings() {
   const { t, i18n } = useTranslation();
@@ -40,6 +42,7 @@ export function GameSettings() {
   const { players, settings } = useFiveSecondsState();
   const { updateSettings } = useFiveSecondsActions();
   const { data: categories } = useCategories();
+  const { customCategories } = useCustomQuestionsStore();
 
   const permissions = useRoomPermissions(players);
   const canEdit = permissions.canEditSettings;
@@ -47,7 +50,7 @@ export function GameSettings() {
   const language = (i18n.language.startsWith('ar') ? 'ar' : 'en'
   ) as SupportedLanguage;
 
-  const handleCategoryChange = async (categoryId: string) => {
+  const handleServerCategoryChange = async (categoryId: string) => {
     if (!settings.categoryIds)
       return;
 
@@ -70,16 +73,27 @@ export function GameSettings() {
     }
   };
 
+  const handleCustomCategoryChange = (categoryId: string) => {
+    const currentIds = settings.customCategoryIds || [];
+    const newCategoryIds = currentIds.includes(categoryId)
+      ? currentIds.filter(id => id !== categoryId)
+      : [...currentIds, categoryId];
+
+    updateSettings({ customCategoryIds: newCategoryIds });
+  };
+
   useEffect(() => {
-    settings.categoryIds?.forEach((id) => {
-      queryClient.prefetchQuery({
-        queryKey: ['categories', id],
-        queryFn: () => getCategoryById({ id }),
-        staleTime: 10 * 60 * 1000,
-        gcTime: 20 * 60 * 1000,
+    if (!settings.useCustomQuestions) {
+      settings.categoryIds?.forEach((id) => {
+        queryClient.prefetchQuery({
+          queryKey: ['categories', id],
+          queryFn: () => getCategoryById({ id }),
+          staleTime: 10 * 60 * 1000,
+          gcTime: 20 * 60 * 1000,
+        });
       });
-    });
-  }, [settings.categoryIds, queryClient]);
+    }
+  }, [settings.categoryIds, settings.useCustomQuestions, queryClient]);
 
   const content = (
     <div
@@ -87,6 +101,24 @@ export function GameSettings() {
         'opacity-50': !canEdit,
       })}
     >
+      {/* Use Custom Questions Toggle */}
+      <div className="space-y-2">
+        <div className="flex items-center space-x-2">
+          <Switch
+            id="use-custom-questions"
+            checked={settings.useCustomQuestions || false}
+            onCheckedChange={(checked: boolean) => updateSettings({
+              useCustomQuestions: checked,
+              categoryIds: checked ? [] : settings.categoryIds,
+              customCategoryIds: checked ? settings.customCategoryIds : [],
+            })}
+          />
+          <Label htmlFor="use-custom-questions">
+            {t('fiveSecondsGame.lobby.useCustomQuestions')}
+          </Label>
+        </div>
+      </div>
+
       {/* Difficulty */}
       <div className="space-y-2">
         <Label>{t('fiveSecondsGame.lobby.difficulty')}</Label>
@@ -109,23 +141,50 @@ export function GameSettings() {
       </div>
 
       {/* Categories */}
-      <div className="space-y-2">
-        <Label>{t('fiveSecondsGame.lobby.categories')}</Label>
-        <div className="flex flex-wrap gap-2">
-          {categories?.map(cat => (
-            <Button
-              key={cat.id}
-              variant={
-                settings.categoryIds?.includes(cat.id) ? 'default' : 'outline'
-              }
-              size="sm"
-              onClick={() => handleCategoryChange(cat.id)}
-            >
-              {getLocalizedCategoryName(cat, language)}
-            </Button>
-          ))}
-        </div>
-      </div>
+      {settings.useCustomQuestions
+        ? (
+            <div className="space-y-2">
+              <Label>{t('fiveSecondsGame.lobby.customCategories')}</Label>
+              <div className="flex flex-wrap gap-2">
+                {customCategories.map(cat => (
+                  <Button
+                    key={cat}
+                    variant={
+                      settings.customCategoryIds?.includes(cat) ? 'default' : 'outline'
+                    }
+                    size="sm"
+                    onClick={() => handleCustomCategoryChange(cat)}
+                  >
+                    {cat}
+                  </Button>
+                ))}
+              </div>
+              {customCategories.length === 0 && (
+                <p className="text-sm text-muted-foreground">
+                  {t('fiveSecondsGame.lobby.noCustomCategories')}
+                </p>
+              )}
+            </div>
+          )
+        : (
+            <div className="space-y-2">
+              <Label>{t('fiveSecondsGame.lobby.categories')}</Label>
+              <div className="flex flex-wrap gap-2">
+                {categories?.map(cat => (
+                  <Button
+                    key={cat.id}
+                    variant={
+                      settings.categoryIds?.includes(cat.id) ? 'default' : 'outline'
+                    }
+                    size="sm"
+                    onClick={() => handleServerCategoryChange(cat.id)}
+                  >
+                    {getLocalizedCategoryName(cat, language)}
+                  </Button>
+                ))}
+              </div>
+            </div>
+          )}
 
       {/* Time Per Turn */}
       <div className="space-y-3">
