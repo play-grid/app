@@ -21,7 +21,6 @@ export const useCustomQuestionsStore = create<CustomQuestionsState>()(
       customCategories: [],
       addQuestions: questions =>
         set((state) => {
-          // Avoid duplicates by text
           const existingTexts = new Set(state.customQuestions.map(q => q.text));
           const newQuestions = questions.filter(q => !existingTexts.has(q.text));
           state.customQuestions.push(...newQuestions);
@@ -55,6 +54,10 @@ export const useCustomQuestionsStore = create<CustomQuestionsState>()(
     })),
     {
       name: 'custom-questions',
+      partialize: state => ({
+        customQuestions: state.customQuestions,
+        customCategories: state.customCategories,
+      }),
     },
   ),
 );

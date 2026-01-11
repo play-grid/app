@@ -58,6 +58,7 @@ export function useFiveSecondsActions() {
   return {
     ...coreActions,
     setGameTurnPhase,
+    dispatch,
     fetchQuestionMultiplayer,
     startTurn,
     addSeenQuestionId,

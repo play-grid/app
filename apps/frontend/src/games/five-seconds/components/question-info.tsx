@@ -1,10 +1,12 @@
 import type { Question } from '@guess-logo/five-seconds';
 import type { SupportedLanguage } from '@guess-logo/shared/types';
+import { useFiveSecondsState } from '@guess-logo/five-seconds';
 import { Info } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import client from '@/lib/hono-client';
 import { useCategory } from '../hooks/use-category';
+import { useCustomQuestionsStore } from '../stores/custom-questions-store';
 import { getLocalizedCategoryName } from '../utils/category-utils';
 import { FeedbackForm } from './feedback-form';
 import { Badge } from './ui/badge';
@@ -19,9 +21,13 @@ export function QuestionInfo({ currentQuestion }: { currentQuestion: Question })
   const { t, i18n } = useTranslation();
   const language = (i18n.language.startsWith('ar') ? 'ar' : 'en') as SupportedLanguage;
 
+  const { settings } = useFiveSecondsState();
+  const { customCategories } = useCustomQuestionsStore();
+  const isCustomCategory = settings.useCustomQuestions && customCategories.includes(categoryId);
+
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const { data: category, isLoading } = useCategory(
-    categoryId,
+    isCustomCategory ? '' : categoryId,
   );
 
   const prefetchFeedbackTypes = async () => {
@@ -43,33 +49,46 @@ export function QuestionInfo({ currentQuestion }: { currentQuestion: Question })
     <div className="text-center space-y-4">
       <div className="flex items-center justify-center gap-2 flex-wrap">
         <Badge variant="secondary" className="text-sm">
-          {isLoading
+          {isCustomCategory
             ? (
-                <Spinner className="inline w-3 h-3" />
-              )
-            : (
                 <>
-                  {category && getLocalizedCategoryName(category, language)}
+                  {categoryId}
                   {' '}
                   •
                   {' '}
                   {t(`${currentQuestion.difficulty}`)}
                 </>
-              )}
+              )
+            : isLoading
+              ? (
+                  <Spinner className="inline w-3 h-3" />
+                )
+              : (
+                  <>
+                    {category && getLocalizedCategoryName(category, language)}
+                    {' '}
+                    •
+                    {' '}
+                    {t(`${currentQuestion.difficulty}`)}
+                  </>
+                )}
         </Badge>
-        <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
-          <PopoverTrigger asChild>
-            <Button variant="outline" size="sm" onMouseOver={prefetchFeedbackTypes}>
-              <Info className="w-4 h-4" />
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent>
-            <FeedbackForm
-              questionId={currentQuestion.id}
-              onSuccess={() => setIsPopoverOpen(false)}
-            />
-          </PopoverContent>
-        </Popover>
+        {!isCustomCategory
+          && (
+            <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
+              <PopoverTrigger asChild>
+                <Button variant="outline" size="sm" onMouseOver={prefetchFeedbackTypes}>
+                  <Info className="w-4 h-4" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent>
+                <FeedbackForm
+                  questionId={currentQuestion.id}
+                  onSuccess={() => setIsPopoverOpen(false)}
+                />
+              </PopoverContent>
+            </Popover>
+          )}
       </div>
       <h3 className="text-3xl md:text-4xl font-bold text-balance">
         {t('fiveSecondsGame.gameplay.nameThree')}

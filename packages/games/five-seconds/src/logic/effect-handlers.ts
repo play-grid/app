@@ -127,6 +127,11 @@ export function createFetchQuestionsEffect(apiUrl: string): GameEffect {
         }
       }
       else {
+        // For local mode with custom questions, skip API fetch (handled by useQuestion hook)
+        if (gameState.settings.useCustomQuestions) {
+          return null;
+        }
+
         if (gameState.currentQuestion) {
           return null;
         }
