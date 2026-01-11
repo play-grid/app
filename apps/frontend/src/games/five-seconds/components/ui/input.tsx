@@ -12,7 +12,6 @@ export function Input({
         'bg-popover text-foreground placeholder:text-muted-foreground',
         'border-none shadow-md focus:translate-y-px',
         'pixel-font-sm',
-
         className,
       )}
       {...props}
