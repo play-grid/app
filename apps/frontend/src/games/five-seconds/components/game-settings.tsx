@@ -232,18 +232,30 @@ export function GameSettings() {
         </div>
       </div>
 
-      {/* Bulk Import */}
-      <div className="pt-4 border-t">
-        <BulkImportDialog>
-          <Button className="w-full" variant="outline">
-            <UploadIcon className="w-4 h-4 mr-2" />
-            {t('fiveSecondsGame.bulkImport.title')}
-          </Button>
-        </BulkImportDialog>
-      </div>
+      {settings.useCustomQuestions
+        ? (
+            <>
+              {/* Bulk Import */}
+              <div className="pt-4 border-t">
+                <BulkImportDialog>
+                  <Button className="w-full" variant="outline">
+                    <UploadIcon className="w-4 h-4 mr-2" />
+                    {t('fiveSecondsGame.bulkImport.title')}
+                  </Button>
+                </BulkImportDialog>
+              </div>
 
-      {/* Custom Questions */}
-      <CustomQuestionsList />
+              {/* Custom Questions */}
+              <CustomQuestionsList />
+            </>
+          )
+        : (
+            <div className="pt-4 border-t">
+              <p className="text-sm text-muted-foreground">
+                {t('fiveSecondsGame.lobby.customModeDisabled')}
+              </p>
+            </div>
+          )}
     </div>
   );
 

@@ -228,6 +228,7 @@
       "customCategories": "الفئات المخصصة",
       "useCustomQuestions": "استخدام الأسئلة المخصصة",
       "noCustomCategories": "لا توجد فئات مخصصة متاحة. قم باستيراد الأسئلة أولاً.",
+      "customModeDisabled": "فعل 'استخدام الأسئلة المخصصة' أعلاه لاستيراد وإدارة أسئلتك الخاصة.",
       "difficulty": "الصعوبة",
       "timePerTurn": "الوقت لكل دور",
       "timeUnit": "{{time}} ثانية",

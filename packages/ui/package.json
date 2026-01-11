@@ -25,6 +25,7 @@
     "./tabs": "./src/tabs.tsx",
     "./tooltip": "./src/tooltip.tsx",
     "./switch": "./src/switch.tsx",
+    "./alert": "./src/alert.tsx",
     "./utils": "./src/utils/types.ts"
   },
   "scripts": {

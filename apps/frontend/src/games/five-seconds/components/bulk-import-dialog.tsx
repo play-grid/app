@@ -5,11 +5,11 @@ import { useState } from 'react';
 
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
-import { Alert, AlertDescription } from '@/components/ui/alert';
 import { useCustomQuestionsStore } from '../stores/custom-questions-store';
 import { CategoryCombobox } from './category-combobox';
-
 import { CustomQuestionsList } from './custom-questions-list';
+
+import { Alert, AlertDescription } from './ui/alert';
 import { Button } from './ui/button';
 import {
   Dialog,
@@ -20,6 +20,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from './ui/dialog';
+
 import { Label } from './ui/label';
 import {
   Select,
@@ -134,12 +135,12 @@ export function BulkImportDialog({ children }: BulkImportDialogProps) {
 
         <div className="space-y-6">
           {/* Format Helper */}
-          <Alert>
+          <Alert className="">
             <Info className="h-4 w-4" />
             <AlertDescription className="text-sm">
+              <p className="font-medium mx-2">{t('fiveSecondsGame.bulkImport.smartFormat')}</p>
               <div className="space-y-1">
-                <p className="font-medium">{t('fiveSecondsGame.bulkImport.smartFormat')}</p>
-                <code className="text-xs block bg-muted p-2 rounded mt-1">
+                <code className="text-xs block bg-muted p-2 mt-1">
                   {t('fiveSecondsGame.bulkImport.formatExample1')}
                   <br />
                   {t('fiveSecondsGame.bulkImport.formatExample2')}

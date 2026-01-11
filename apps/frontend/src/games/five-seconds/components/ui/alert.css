@@ -1,0 +1,36 @@
+.pixel__alert {
+  position: relative;
+  /* Basic pixel border */
+  border: 2px solid black;
+  margin-bottom: 4px;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    pointer-events: none;
+  }
+}
+
+.pixel-default__alert {
+  &::after {
+    border-right: 4px solid color-mix(in hsl, var(--card-foreground) 20%, transparent);
+    border-bottom: 4px solid color-mix(in hsl, var(--card-foreground) 20%, transparent);
+  }
+}
+
+.pixel-destructive__alert {
+  border-color: var(--destructive);
+  &::after {
+    border-right: 4px solid color-mix(in hsl, var(--destructive) 40%, black);
+    border-bottom: 4px solid color-mix(in hsl, var(--destructive) 40%, black);
+  }
+}
+
+.pixel-warning__alert {
+  border-color: var(--urgency);
+  &::after {
+    border-right: 4px solid color-mix(in hsl, var(--urgency) 40%, black);
+    border-bottom: 4px solid color-mix(in hsl, var(--urgency) 40%, black);
+  }
+}
