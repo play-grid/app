@@ -307,7 +307,18 @@
         "result": "Imported {{imported}} questions, skipped {{skipped}} duplicates",
         "error": "Import failed",
         "noQuestions": "Please enter at least one valid question",
-        "selectCategoryAlert": "Please select a category first"
+        "selectCategoryAlert": "Please select a category first",
+        "smartFormat": "Smart Format",
+        "formatExample1": "[Category|Difficulty] Question text",
+        "formatExample2": "[Movies|Easy] Name 3 animated films",
+        "formatExample3": "[Sports|Hard] Name 3 Olympic sports",
+        "formatExample4": "[Geography] Name 3 continents",
+        "formatExample5": "Name 3 programming languages",
+        "difficultyOptions": "Difficulty options: Easy, Medium, Hard (or Arabic: سهل, وسط, صعب)",
+        "defaultSettings": "Default Settings",
+        "tagsCount": "{{withTags}} with tags, {{withDefaults}} with defaults",
+        "noCategory": "No category",
+        "importSummary": "Imported {{count}} questions ({{withTags}} with tags, {{withDefaults}} with defaults)"
       },
       "customQuestions": {
         "title": "Custom Questions"

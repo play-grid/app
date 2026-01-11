@@ -86,7 +86,7 @@ export function CategoryCombobox({ value, onChange, placeholder = 'Select catego
         <SelectTrigger className="flex-1">
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
-        <SelectContent>
+        <SelectContent className="max-h-72">
           {customCategories.length === 0
             ? (
                 <div className="px-2 py-1.5 text-sm text-muted-foreground">

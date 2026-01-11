@@ -307,7 +307,18 @@
         "result": "تم استيراد {{imported}} أسئلة، تم تخطي {{skipped}} مكررة",
         "error": "فشل الاستيراد",
         "noQuestions": "الرجاء إدخال سؤال صحيح واحد على الأقل",
-        "selectCategoryAlert": "الرجاء اختيار فئة أولاً"
+        "selectCategoryAlert": "الرجاء اختيار فئة أولاً",
+        "smartFormat": "التنسيق الذكي",
+        "formatExample1": "[الفئة|الصعوبة] نص السؤال",
+        "formatExample2": "[أفلام|سهل] عدد 3 أفلام متحركة",
+        "formatExample3": "[رياضة|صعب] عدد 3 رياضات أولمبية",
+        "formatExample4": "[جغرافيا] عدد 3 قارات",
+        "formatExample5": "عد 3 لغات برمجة",
+        "difficultyOptions": "خيارات الصعوبة: سهل، وسط، صعب (أو إنجليزي: Easy, Medium, Hard)",
+        "defaultSettings": "الإعدادات الافتراضية",
+        "tagsCount": "{{withTags}} مع علامات، {{withDefaults}} مع الافتراضيات",
+        "noCategory": "لا توجد فئة",
+        "importSummary": "تم استيراد {{count}} أسئلة ({{withTags}} مع علامات، {{withDefaults}} مع الافتراضيات)"
       },
       "customQuestions": {
         "title": "الأسئلة المخصصة"

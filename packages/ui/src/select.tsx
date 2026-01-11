@@ -41,7 +41,7 @@ export function SelectContent({ ref, children, className, position = 'popper', .
         {...props}
       >
         <SelectPrimitive.Viewport
-          className={cn('p-1', position === 'popper' && 'min-w-[var(--radix-select-trigger-width)]')}
+          className={cn('p-1 overflow-y-scroll', position === 'popper' && 'min-w-[var(--radix-select-trigger-width)]')}
         >
           {children}
         </SelectPrimitive.Viewport>

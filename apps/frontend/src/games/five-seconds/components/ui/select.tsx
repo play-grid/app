@@ -40,8 +40,8 @@ export function SelectContent({ className, children, position = 'popper', ...pro
   return (
     <PrimitiveSelectContent
       className={cn(
-        'bg-popover text-popover-foreground border-none',
-        'shadow-lg mt-2',
+        'bg-popover text-popover-foreground border-none shadow-lg mt-2',
+        'max-h-96',
         className,
       )}
       position={position}
