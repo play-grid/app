@@ -6,7 +6,7 @@ import type { GameAction } from '../../game-logic/schema/actions.types';
 import type { BaseGameState as GameState } from '../../game-logic/schema/state.types';
 import type { GameAdapter, StateListener, Unsubscribe } from '../types';
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { devtools, persist } from 'zustand/middleware';
 import { gameReducer } from '../../game-logic/reducer';
 
 export interface GameStore<TState = GameState, TAction = GameAction> {
@@ -69,16 +69,21 @@ export function createLocalAdapter<
 
   if (enabled) {
     store = create<GameStore<TState, TAction>>()(
-      persist(initializer, {
-        name: name ?? 'game-core:local',
-        storage,
-        version,
-        migrate,
-      } as PersistOptions<GameStore<TState, TAction>, any>),
+      devtools(
+        persist(initializer, {
+          name: name ?? 'game-core:local',
+          storage,
+          version,
+          migrate,
+        } as PersistOptions<GameStore<TState, TAction>, any>),
+        { name: name ?? 'game-core:local' },
+      ),
     );
   }
   else {
-    store = create<GameStore<TState, TAction>>(initializer);
+    store = create<GameStore<TState, TAction>>()(
+      devtools(initializer, { name: 'game-core:local' }),
+    );
   }
 
   return {

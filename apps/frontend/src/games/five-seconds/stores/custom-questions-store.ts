@@ -2,6 +2,7 @@ import type { Question } from '@guess-logo/five-seconds';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
+import { createIndexedDBStorage } from '@/lib/zustand-indexeddb';
 
 interface CustomQuestionsState {
   customQuestions: Question[];
@@ -54,6 +55,7 @@ export const useCustomQuestionsStore = create<CustomQuestionsState>()(
     })),
     {
       name: 'custom-questions',
+      storage: createIndexedDBStorage('custom-questions', 'refs'),
       partialize: state => ({
         customQuestions: state.customQuestions,
         customCategories: state.customCategories,
