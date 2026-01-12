@@ -78,6 +78,9 @@ export function GameplayPage() {
       return () => clearInterval(interval);
     }
     else {
+      // Safe state synchronization: `timeLeft` is not a dependency of this effect,
+      // so this update cannot cause a feedback loop or re-run.
+      // eslint-disable-next-line react-hooks-extra/no-direct-set-state-in-use-effect
       setTimeLeft(settings.timePerTurn);
     }
   }, [state.turnTimerEndsAt, settings.timePerTurn]);
@@ -213,7 +216,7 @@ export function GameplayPage() {
                     <Spinner />
                   </div>
                 )
-              : questionError
+              : questionError && !question
                 ? (
                     <div className="text-center space-y-4">
                       <p className="text-lg font-semibold text-destructive">

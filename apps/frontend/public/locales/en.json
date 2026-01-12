@@ -229,6 +229,7 @@
       "useCustomQuestions": "Use Custom Questions",
       "noCustomCategories": "No custom categories available. Import questions first.",
       "customModeDisabled": "Enable 'Use Custom Questions' above to import and manage your own questions.",
+      "selectAtLeastOneCategory": "Please select at least one category.",
       "difficulty": "Difficulty",
       "timePerTurn": "Time Per Turn",
       "timeUnit": "{{time}} seconds",

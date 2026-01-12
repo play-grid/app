@@ -164,6 +164,11 @@ export function GameSettings() {
                   {t('fiveSecondsGame.lobby.noCustomCategories')}
                 </p>
               )}
+              {customCategories.length > 0 && (settings.customCategoryIds?.length || 0) === 0 && (
+                <p className="text-red-500 text-sm">
+                  {t('fiveSecondsGame.lobby.selectAtLeastOneCategory')}
+                </p>
+              )}
             </div>
           )
         : (
@@ -183,6 +188,11 @@ export function GameSettings() {
                   </Button>
                 ))}
               </div>
+              {(settings.categoryIds?.length || 0) === 0 && (
+                <p className="text-red-500 text-sm">
+                  {t('fiveSecondsGame.lobby.selectAtLeastOneCategory')}
+                </p>
+              )}
             </div>
           )}
 

@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import { useCustomQuestionsStore } from '../stores/custom-questions-store';
+import { normalizeDifficulty } from '../utils/difficulty-utils';
 import { CategoryCombobox } from './category-combobox';
 import { CustomQuestionsList } from './custom-questions-list';
 
@@ -296,15 +297,6 @@ export function BulkImportDialog({ children }: BulkImportDialogProps) {
 
 function parseBulkText(text: string, _defaultCategory: string, defaultDifficulty: Difficulty): ParsedQuestion[] {
   const lines = text.split('\n').map(line => line.trim()).filter(line => line.length >= 5);
-  const difficultyMap: Record<string, Difficulty> = {
-    easy: 'easy',
-    medium: 'medium',
-    hard: 'hard',
-
-    سهل: 'easy',
-    وسط: 'medium',
-    صعب: 'hard',
-  };
 
   return lines.map((line) => {
     const inlineMatch = line.match(/^\[([^\]]+)\](.+)$/);
@@ -314,9 +306,9 @@ function parseBulkText(text: string, _defaultCategory: string, defaultDifficulty
       const parts = tags.split('|').map(p => p.trim());
 
       const category = parts[0] || '';
-      const difficultyInput = parts[1]?.toLowerCase().trim();
+      const difficultyInput = parts[1];
 
-      const mappedDifficulty = difficultyInput ? difficultyMap[difficultyInput] : undefined;
+      const mappedDifficulty = difficultyInput ? normalizeDifficulty(difficultyInput) : undefined;
       const validDifficulty = mappedDifficulty || defaultDifficulty;
 
       return {
@@ -324,7 +316,7 @@ function parseBulkText(text: string, _defaultCategory: string, defaultDifficulty
         categoryId: category,
         difficulty: validDifficulty,
         hasInlineCategory: !!category,
-        hasInlineDifficulty: !!parts[1] && !!mappedDifficulty,
+        hasInlineDifficulty: !!parts[1] && mappedDifficulty !== defaultDifficulty,
       };
     }
 

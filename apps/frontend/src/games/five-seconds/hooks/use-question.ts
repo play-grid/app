@@ -3,6 +3,7 @@ import { useFiveSecondsActions, useFiveSecondsState } from '@guess-logo/five-sec
 import { useDispatch } from '@guess-logo/game-core';
 import { useCallback, useEffect } from 'react';
 import { useCustomQuestionsStore } from '../stores/custom-questions-store';
+import { normalizeDifficulty } from '../utils/difficulty-utils';
 
 function getFilteredCustomQuestions(
   allQuestions: any[],
@@ -10,14 +11,16 @@ function getFilteredCustomQuestions(
   difficulty: string,
   excludeIds: string[],
 ) {
-  const filtered = allQuestions
-    .filter(q =>
-      categoryIds.includes(q.categoryId)
-      && q.difficulty === difficulty
-      && !excludeIds.includes(q.id),
-    )
-    .sort(() => Math.random() - 0.5);
+  const normalizedSelectedCategories = categoryIds.map(c => c.trim().toLowerCase());
+  const normalizedDifficulty = difficulty.trim().toLowerCase();
 
+  const filtered = allQuestions
+    .filter((q) => {
+      const qCat = q.categoryId.trim().toLowerCase();
+      const qDiff = normalizeDifficulty(q.difficulty);
+      return normalizedSelectedCategories.includes(qCat) && qDiff === normalizedDifficulty && !excludeIds.includes(q.id);
+    })
+    .sort(() => Math.random() - 0.5);
   return filtered;
 }
 
