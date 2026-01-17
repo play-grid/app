@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { Badge } from '@/components/ui/badge';
+import { Badge } from './ui/badge';
 
 interface RoundInfoProps {
   roundNumber: number;
