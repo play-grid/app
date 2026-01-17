@@ -1,4 +1,8 @@
+// eslint-disable-next-line antfu/no-import-node-modules-by-path
+import type { PostHogConfig } from '../../../node_modules/.pnpm/posthog-js@1.321.2/node_modules/posthog-js';
 import { AuthUIProvider } from '@daveyplate/better-auth-ui';
+import { PostHogProvider } from '@posthog/react';
+
 import { useTranslation } from 'react-i18next';
 import {
   BrowserRouter,
@@ -14,6 +18,7 @@ import QueryProvider from '@/context/api-provider';
 import { LanguageRouter } from '@/i18n/language-router';
 import { authClient } from '@/lib/auth-client';
 import App from './app';
+import { env } from './env';
 import authAr from './i18n/auth-ar.json';
 import '@/i18n/config';
 import './index.css';
@@ -66,11 +71,23 @@ function AppProviders() {
     </QueryProvider>
   );
 }
+const options: Partial<PostHogConfig> = {
+  api_host: env.VITE_PUBLIC_POSTHOG_HOST,
+  defaults: '2025-05-24',
+  capture_exceptions: true,
+  debug: import.meta.env.MODE === 'development',
+
+};
 
 export default function Root() {
   return (
-    <BrowserRouter>
-      <AppProviders />
-    </BrowserRouter>
+    <PostHogProvider
+      apiKey={env.VITE_PUBLIC_POSTHOG_KEY}
+      options={options}
+    >
+      <BrowserRouter>
+        <AppProviders />
+      </BrowserRouter>
+    </PostHogProvider>
   );
 }
