@@ -23,7 +23,6 @@ import { getCategoryById } from '../services/category.service';
 import { useCustomQuestionsStore } from '../stores/custom-questions-store';
 import { getLocalizedCategoryName } from '../utils/category-utils';
 import { BulkImportDialog } from './bulk-import-dialog';
-import { CustomQuestionsList } from './custom-questions-list';
 import { Button } from './ui/button';
 import { Label } from './ui/label';
 import {
@@ -250,13 +249,15 @@ export function GameSettings() {
                 <BulkImportDialog>
                   <Button className="w-full" variant="outline">
                     <UploadIcon className="w-4 h-4 mr-2" />
-                    {t('fiveSecondsGame.bulkImport.title')}
+                    {customCategories.length === 0
+                      ? t('fiveSecondsGame.bulkImport.title')
+                      : t('fiveSecondsGame.bulkImport.button')}
                   </Button>
                 </BulkImportDialog>
               </div>
 
               {/* Custom Questions */}
-              <CustomQuestionsList />
+              {/* <CustomQuestionsList /> */}
             </>
           )
         : (
