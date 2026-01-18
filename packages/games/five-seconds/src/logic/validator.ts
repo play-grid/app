@@ -1,5 +1,6 @@
 import type { ValidationContext, ValidationResult } from '@guess-logo/game-core';
 import type { FiveSecondsGameState } from './schema';
+import { ENABLE_CUSTOM_QUESTIONS_FEATURE } from '../definition';
 
 export function validateFiveSecondsAction(
   ctx: ValidationContext,
@@ -86,6 +87,15 @@ export function validateFiveSecondsAction(
     case 'ADD_PLAYER':
     case 'REMOVE_PLAYER':
     case 'UPDATE_SETTINGS':
+      // Prevent enabling custom questions when feature is disabled
+      if (!ENABLE_CUSTOM_QUESTIONS_FEATURE && (action.payload as any)?.useCustomQuestions === true) {
+        return {
+          valid: false,
+          reason: 'Custom questions feature is disabled',
+        };
+      }
+      // These are always allowed (host permissions checked elsewhere if needed)
+      break;
     case 'START_GAME':
     case 'END_GAME':
     case 'RESET_GAME':

@@ -1,6 +1,7 @@
 import type { SupportedLanguage } from '@guess-logo/shared/types';
 import {
   difficultySchema,
+  ENABLE_CUSTOM_QUESTIONS_FEATURE,
   useFiveSecondsActions,
   useFiveSecondsState,
 } from '@guess-logo/five-seconds';
@@ -100,23 +101,25 @@ export function GameSettings() {
         'opacity-50': !canEdit,
       })}
     >
-      {/* Use Custom Questions Toggle */}
-      <div className="space-y-2">
-        <div className="flex items-center space-x-2">
-          <Switch
-            id="use-custom-questions"
-            checked={settings.useCustomQuestions || false}
-            onCheckedChange={(checked: boolean) => updateSettings({
-              useCustomQuestions: checked,
-              categoryIds: checked ? [] : settings.categoryIds,
-              customCategoryIds: checked ? settings.customCategoryIds : [],
-            })}
-          />
-          <Label htmlFor="use-custom-questions">
-            {t('fiveSecondsGame.lobby.useCustomQuestions')}
-          </Label>
+      {/* Use Custom Questions Toggle - Only show if feature is enabled */}
+      {ENABLE_CUSTOM_QUESTIONS_FEATURE && (
+        <div className="space-y-2">
+          <div className="flex items-center space-x-2">
+            <Switch
+              id="use-custom-questions"
+              checked={settings.useCustomQuestions || false}
+              onCheckedChange={(checked: boolean) => updateSettings({
+                useCustomQuestions: checked,
+                categoryIds: checked ? [] : settings.categoryIds,
+                customCategoryIds: checked ? settings.customCategoryIds : [],
+              })}
+            />
+            <Label htmlFor="use-custom-questions">
+              {t('fiveSecondsGame.lobby.useCustomQuestions')}
+            </Label>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Difficulty */}
       <div className="space-y-2">
@@ -140,7 +143,7 @@ export function GameSettings() {
       </div>
 
       {/* Categories */}
-      {settings.useCustomQuestions
+      {ENABLE_CUSTOM_QUESTIONS_FEATURE && settings.useCustomQuestions
         ? (
             <div className="space-y-2">
               <Label>{t('fiveSecondsGame.lobby.customCategories')}</Label>
@@ -241,7 +244,7 @@ export function GameSettings() {
         </div>
       </div>
 
-      {settings.useCustomQuestions
+      {ENABLE_CUSTOM_QUESTIONS_FEATURE && settings.useCustomQuestions
         ? (
             <>
               {/* Bulk Import */}
@@ -260,13 +263,15 @@ export function GameSettings() {
               {/* <CustomQuestionsList /> */}
             </>
           )
-        : (
-            <div className="pt-4 border-t">
-              <p className="text-sm text-muted-foreground">
-                {t('fiveSecondsGame.lobby.customModeDisabled')}
-              </p>
-            </div>
-          )}
+        : ENABLE_CUSTOM_QUESTIONS_FEATURE
+          ? (
+              <div className="pt-4 border-t">
+                <p className="text-sm text-muted-foreground">
+                  {t('fiveSecondsGame.lobby.customModeDisabled')}
+                </p>
+              </div>
+            )
+          : null}
     </div>
   );
 

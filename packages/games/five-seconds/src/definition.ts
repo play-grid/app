@@ -4,6 +4,9 @@ import { fiveSecondsGameReducer } from './logic/reducer';
 import { FiveSecondsActionSchema, FiveSecondsGameStateSchema } from './logic/schema';
 import { validateFiveSecondsAction } from './logic/validator';
 
+// Feature flag to disable custom questions functionality entirely
+export const ENABLE_CUSTOM_QUESTIONS_FEATURE = false;
+
 export const fiveSecondsGame = createGameDefinition({
   meta: {
     id: 'five-seconds',
