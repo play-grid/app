@@ -12,6 +12,8 @@ export const EnvSchema = z.object({
   CLOUDFLARE_D1_TOKEN: z.string(),
   CLOUDFLARE_DATABASE_ID: z.string(),
   LOG_LEVEL: z.enum(['fatal', 'error', 'warn', 'info', 'debug', 'trace', 'silent']),
+  POSTHOG_HOST: z.string(),
+  POSTHOG_PUBLIC_KEY: z.string(),
   // BETTER_AUTH_URL: z.string(),
   BETTER_AUTH_SECRET: z.string(),
   APP_NAME: z.string(),
@@ -32,6 +34,8 @@ export function validateEnv(envVars: Record<string, unknown>): Env {
       CLOUDFLARE_KV_API_TOKEN: 'mock_cloudflare_kv_api_token',
       CLOUDFLARE_D1_TOKEN: 'mock_cloudflare_d1_token',
       CLOUDFLARE_DATABASE_ID: 'mock_cloudflare_database_id',
+      POSTHOG_HOST: 'mock_POSTHOG_HOST',
+      POSTHOG_PUBLIC_KEY: 'mock_POSTHOG_PUBLIC_KEY',
       BETTER_AUTH_SECRET: 'mock_better_auth_secret',
       APP_NAME: 'mock_app_name',
     };

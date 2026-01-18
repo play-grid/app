@@ -5,10 +5,12 @@ import { cache } from 'hono/cache';
 import { cors } from 'hono/cors';
 import { etag } from 'hono/etag';
 
-import { notFound, onError } from 'stoker/middlewares';
+import { notFound } from 'stoker/middlewares';
 
 import { validateEnv } from '@/env';
+import { posthogErrorHandler } from '@/middlewares/on-error';
 import { pinoLogger } from '@/middlewares/pino-logger';
+import { posthogMiddleware } from '@/middlewares/posthog-middleware';
 import rateLimiterMiddleware from '@/middlewares/rate-limter';
 import { logger } from '@/utils/logger';
 import { isAllowedOrigin } from '@/utils/origin';
@@ -79,8 +81,9 @@ export default function createApp(): AppOpenAPI {
     }
     return etag()(c, next);
   });
-  app.use('*', (c, next) => rateLimiterMiddleware(c)(c, next));
 
+  app.use('*', (c, next) => rateLimiterMiddleware(c)(c, next));
+  app.use('*', posthogMiddleware);
   app.use('*', async (c, next) => {
     const auth = createAuth(c);
     const session = await auth.api.getSession({ headers: c.req.raw.headers });
@@ -97,9 +100,8 @@ export default function createApp(): AppOpenAPI {
     c.set('session', session.session);
     await next();
   });
-
   app.notFound(notFound);
-  app.onError(onError);
+  app.onError(posthogErrorHandler);
   app.use(pinoLogger());
 
   return app.basePath(BASE_PATH);

@@ -42,13 +42,15 @@
   },
   "typesVersions": {
     "*": {
-      "routes": ["./dist/routes/index.d.ts"]
+      "routes": [
+        "./dist/routes/index.d.ts"
+      ]
     }
   },
   "dependencies": {
     "@guess-logo/five-seconds": "workspace:*",
-    "@guess-logo/guess-logo": "workspace:*",
     "@guess-logo/game-core": "workspace:*",
+    "@guess-logo/guess-logo": "workspace:*",
     "@guess-logo/shared": "workspace:*",
     "@hono-rate-limiter/cloudflare": "^0.2.2",
     "@hono/zod-openapi": "^1.1.0",
@@ -63,6 +65,7 @@
     "hono-pino": "^0.10.3",
     "hono-rate-limiter": "^0.4.2",
     "nanoid": "^5.1.6",
+    "posthog-node": "^5.21.1",
     "stoker": "^2.0.1",
     "tmdb-ts": "^2.0.2",
     "zod": "catalog:"
