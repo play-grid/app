@@ -10,6 +10,7 @@ export const ENABLE_CUSTOM_QUESTIONS_FEATURE = false;
 export const fiveSecondsGame = createGameDefinition({
   meta: {
     id: 'five-seconds',
+    version: '1.0.0',
     name: { en: 'Five Seconds', ar: 'خمس ثواني' },
     description: { en: 'Answer questions as fast as you can in five seconds!', ar: 'أجب على الأسئلة بأسرع ما يمكن في خمس ثوانٍ!' },
     minPlayers: 2,

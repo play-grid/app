@@ -3,6 +3,7 @@ import { localeRecordSchema } from './i18n';
 
 export const BaseGameMetaSchema = z.object({
   id: z.string(),
+  version: z.string().regex(/^\d+\.\d+\.\d+$/).default('1.0.0'),
   minPlayers: z.number().int().min(1),
   maxPlayers: z.number().int().min(1),
   imageUrl: z.url().optional(),

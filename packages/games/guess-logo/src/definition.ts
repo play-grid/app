@@ -5,6 +5,7 @@ import { GuessLogoActionSchema, GuessLogoGameStateSchema } from './logic/schema'
 export const guessLogoGame = createGameDefinition({
   meta: {
     id: 'guess-logo',
+    version: '1.0.0',
     name: { en: 'Guess the Logo', ar: 'خمن الشعار' },
     description: { en: 'Guess the logos of famous companies and brands!', ar: 'خمن شعارات الشركات والعلامات التجارية الشهيرة!' },
     minPlayers: 2,

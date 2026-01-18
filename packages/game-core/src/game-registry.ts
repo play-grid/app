@@ -57,7 +57,7 @@ export function registerGame<
     effectHandlerFactory,
   });
 
-  logger.info(`✅ Game registered: ${gameId}`);
+  logger.info(`✅ Game registered: ${gameId} v${definition.meta.version}`);
 }
 
 /**
