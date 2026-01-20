@@ -1,6 +1,7 @@
-import type { Player } from '@guess-logo/game-core';
 import type { ListMetadata, LogoSetKey } from '@guess-logo/guess-logo';
 import type { GridConfiguration } from '../lib/grid-configurations';
+import type { Player } from '../stores/game-state-store';
+import { GridIcon, RefreshIcon, RestartIcon, TrophyIcon } from '@guess-logo/ui/icons';
 import { useTranslation } from 'react-i18next';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -17,7 +18,6 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { GridIcon, RefreshIcon, RestartIcon, TrophyIcon } from '../../../components/ui/icons';
 import { SportsListSelector } from './sports-list-selector';
 
 interface GameHeaderProps {

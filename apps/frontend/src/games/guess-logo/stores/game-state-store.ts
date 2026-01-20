@@ -1,16 +1,45 @@
 import type {
-  LogoItem,
-  LogoSetKey,
-  Player,
-  SharedGameState,
   SupportedLanguage,
 } from '@guess-logo/shared/types';
+import type { LogoSetKey } from '../lib/logo-data';
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
-import { logger } from '@/utils/logger';
 import { fetchLogos } from '../services/logo-query-service';
 import { fetchLogoLists } from '../services/unified-logo-service';
+
+export interface LogoCountryData {
+  name: string;
+  region: string;
+  currency: string;
+}
+
+export interface SharedGameState {
+  selectedSet: LogoSetKey;
+  selectedList: string;
+  selectedGrid: string;
+  playerA: Player;
+  playerB: Player;
+  currentPlayer: 'A' | 'B';
+  gameStarted: boolean;
+  gameInitialized: boolean;
+}
+export interface LogoItem {
+  id: string | number;
+  name: string;
+  originalName?: string;
+  imageUrl: string;
+  eliminated: boolean;
+  countryData?: LogoCountryData;
+  type?: string;
+}
+export interface Player {
+  id: string;
+  name: string;
+  logos: LogoItem[];
+  winner: LogoItem | null;
+  activeCount: number;
+}
 
 export interface GameState extends SharedGameState {
   // Game Status
@@ -43,8 +72,8 @@ export interface GameState extends SharedGameState {
   startNewGame: () => void;
 
   // Logo Management
-  togglePlayerALogo: (logoId: number) => void;
-  togglePlayerBLogo: (logoId: number) => void;
+  togglePlayerALogo: (logoId: string | number) => void;
+  togglePlayerBLogo: (logoId: string | number) => void;
 
   // Computed helpers
   getPlayerStats: (logos: LogoItem[]) => { activeCount: number; winner: LogoItem | null };
@@ -126,10 +155,11 @@ export const useGameStore = create<GameState>()(
             const logos: LogoItem[] = fetchedLogos.map(logo => ({
               id: logo.id,
               name: logo.name,
-              originalName: logo.originalName,
+              originalName: 'originalName' in logo ? logo.originalName : undefined,
               imageUrl: logo.imageUrl,
               eliminated: false,
-              countryData: logo.countryData,
+              countryData: 'countryData' in logo ? logo.countryData : undefined,
+              type: logo.type,
             }));
 
             // Instead of calling initializeGame from within set callback,
@@ -160,7 +190,7 @@ export const useGameStore = create<GameState>()(
             });
           }
           catch (error) {
-            logger.error(error, 'Failed to update logos for list');
+            console.error('Failed to update logos for list', error);
             set({ error: (error as Error).message || 'Failed to fetch logos.' });
           }
           finally {
@@ -197,7 +227,7 @@ export const useGameStore = create<GameState>()(
             }
           }
           catch (error) {
-            logger.error(error, 'Failed to update selected set');
+            console.error('Failed to update selected set', error);
             set({ error: (error as Error).message || 'Failed to fetch logo lists.' });
           }
           finally {
@@ -251,10 +281,11 @@ export const useGameStore = create<GameState>()(
             const newLogos: LogoItem[] = fetchedLogos.map(logo => ({
               id: logo.id,
               name: logo.name,
-              originalName: logo.originalName,
+              originalName: 'originalName' in logo ? logo.originalName : undefined,
               imageUrl: logo.imageUrl,
               eliminated: false,
-              countryData: logo.countryData,
+              countryData: 'countryData' in logo ? logo.countryData : undefined,
+              type: logo.type,
             }));
 
             set((s) => {
@@ -272,7 +303,7 @@ export const useGameStore = create<GameState>()(
             });
           }
           catch (error) {
-            logger.error(error, 'Failed to shuffle logos');
+            console.error('Failed to shuffle logos', error);
           }
           finally {
             set({ isUpdatingLogos: false });

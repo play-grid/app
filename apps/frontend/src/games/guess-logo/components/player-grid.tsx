@@ -1,11 +1,11 @@
-import type { Player } from '@guess-logo/shared/types';
+import type { Player } from '../stores/game-state-store';
 import { Badge } from '@/components/ui/badge';
 import { useGameStore } from '../stores/game-state-store';
 import { LogoItemComponent } from './logo-item';
 
 interface PlayerGridProps {
   player: Player;
-  onToggleLogo: (logoId: number) => void;
+  onToggleLogo: (logoId: string | number) => void;
 }
 
 export function PlayerGrid({ player, onToggleLogo }: PlayerGridProps) {

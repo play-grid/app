@@ -221,41 +221,41 @@
     font-family: var(--font-sans-ar);
   }
 
-    .font-ar-serif {
-      font-family: var(--font-serif-ar);
-    }
+  .font-ar-serif {
+    font-family: var(--font-serif-ar);
   }
-  
-  @utility pixel-destructive {
-    background-color: var(--destructive);
-    color: var(--destructive-foreground);
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    
+}
+
+@utility pixel-destructive {
+  background-color: var(--destructive);
+  color: var(--destructive-foreground);
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    border-right: 4px solid color-mix(in hsl, var(--destructive) 70%, rgb(77, 77, 77));
+    border-bottom: 4px solid color-mix(in hsl, var(--destructive) 70%, rgb(77, 77, 77));
+  }
+
+  &:hover {
+    background-color: color-mix(in hsl, var(--destructive) 90%, rgb(77, 77, 77));
+  }
+
+  &:active {
+    background-color: color-mix(in hsl, var(--destructive) 70%, rgb(77, 77, 77));
+    transform: translateY(1px);
     &::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      border-right: 4px solid color-mix(in hsl, var(--destructive) 70%, rgb(77, 77, 77));
-      border-bottom: 4px solid color-mix(in hsl, var(--destructive) 70%, rgb(77, 77, 77));
-    }
-  
-    &:hover {
-      background-color: color-mix(in hsl, var(--destructive) 90%, rgb(77, 77, 77));
-    }
-  
-    &:active {
-      background-color: color-mix(in hsl, var(--destructive) 70%, rgb(77, 77, 77));
-      transform: translateY(1px);
-      &::after {
-          border-right-width: 2px;
-          border-bottom-width: 2px;
-      }
+      border-right-width: 2px;
+      border-bottom-width: 2px;
     }
   }
+}
 
 @theme {
   --ease-snappy: cubic-bezier(0.2, 0.4, 0.1, 0.95);

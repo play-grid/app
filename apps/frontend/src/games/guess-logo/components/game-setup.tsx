@@ -1,5 +1,5 @@
-import type { Player } from '@guess-logo/game-core';
 import type { LogoSetKey } from '../lib/logo-data';
+import type { Player } from '../stores/game-state-store';
 import {
   BasketballIcon,
   BuildingsIcon,
@@ -20,7 +20,6 @@ import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { RoomDialog } from '@/features/room/room-dialog';
 import { logger } from '@/utils/logger';
 import { gridConfigurations } from '../lib/grid-configurations';
 import { fetchLogoLists, fetchLogos } from '../services/unified-logo-service';
@@ -35,8 +34,6 @@ interface GameSetupProps {
   onPlayerANameChange: (name: string) => void;
   onPlayerBNameChange: (name: string) => void;
   onStartGame: () => void;
-  onRoomCreated: (roomId: string) => void;
-  onRoomJoined: (roomId: string) => void;
   canStart: boolean;
   isUpdating: boolean;
 }
@@ -278,7 +275,7 @@ export function GameSetup({
             {t('start-game')}
           </Button>
 
-          <RoomDialog
+          {/* <RoomDialog
             gameType="guess-logo"
             gameSettings={{
               selectedSet,
@@ -310,7 +307,7 @@ export function GameSetup({
                 </div>
               </div>
             )}
-          />
+          /> */}
         </div>
         {attemptedStart && (!playerAValidation.success || !playerBValidation.success) && (
           <p className="text-sm text-red-500 mt-2">{t('enter-valid-player-names-to-continue')}</p>

@@ -5,7 +5,6 @@ import { immer } from 'zustand/middleware/immer';
 export interface UIState {
   // Game Setup UI
   attemptedStart: boolean;
-  playOnlineBtn: boolean;
 
   // Loading states
   isLoading: boolean;
@@ -20,7 +19,6 @@ export interface UIState {
 
   // Actions
   setAttemptedStart: (attempted: boolean) => void;
-  setPlayOnlineBtn: (disabled: boolean) => void;
   setIsLoading: (loading: boolean) => void;
   setLoadAttempted: (attempted: boolean) => void;
   setShowResumeOption: (show: boolean) => void;
@@ -37,7 +35,6 @@ export const useUIStore = create<UIState>()(
     immer(set => ({
       // Initial state
       attemptedStart: false,
-      playOnlineBtn: false,
       isLoading: false,
       loadAttempted: false,
       showResumeOption: false,
@@ -48,11 +45,6 @@ export const useUIStore = create<UIState>()(
       setAttemptedStart: attemptedStart =>
         set((state) => {
           state.attemptedStart = attemptedStart;
-        }),
-
-      setPlayOnlineBtn: playOnlineBtn =>
-        set((state) => {
-          state.playOnlineBtn = playOnlineBtn;
         }),
 
       setIsLoading: isLoading =>
@@ -84,7 +76,6 @@ export const useUIStore = create<UIState>()(
       resetSetupUI: () =>
         set((state) => {
           state.attemptedStart = false;
-          state.playOnlineBtn = false;
           state.error = null;
         }),
 

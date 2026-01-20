@@ -48,7 +48,6 @@ export function ThemeProvider({
     root.classList.add(theme);
   }, [theme]);
 
-  // eslint-disable-next-line react/no-unstable-context-value
   const value = {
     theme,
     setTheme: (theme: Theme) => {

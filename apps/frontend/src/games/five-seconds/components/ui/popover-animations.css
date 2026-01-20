@@ -1,12 +1,10 @@
-
-[data-slot="popover-content"] {
+[data-slot='popover-content'] {
   animation: pixelPopoverAppear 180ms steps(5, end);
 }
 
-[data-slot="popover-content"][data-state="closed"] {
+[data-slot='popover-content'][data-state='closed'] {
   animation: pixelPopoverDisappear 140ms steps(4, end) forwards;
 }
-
 
 @keyframes pixelPopoverAppear {
   0% {
@@ -52,19 +50,19 @@
 }
 
 /* ===== Side-specific animations ===== */
-[data-slot="popover-content"][data-side="bottom"] {
+[data-slot='popover-content'][data-side='bottom'] {
   animation: pixelPopoverAppearBottom 180ms steps(5, end);
 }
 
-[data-slot="popover-content"][data-side="top"] {
+[data-slot='popover-content'][data-side='top'] {
   animation: pixelPopoverAppearTop 180ms steps(5, end);
 }
 
-[data-slot="popover-content"][data-side="left"] {
+[data-slot='popover-content'][data-side='left'] {
   animation: pixelPopoverAppearLeft 180ms steps(5, end);
 }
 
-[data-slot="popover-content"][data-side="right"] {
+[data-slot='popover-content'][data-side='right'] {
   animation: pixelPopoverAppearRight 180ms steps(5, end);
 }
 

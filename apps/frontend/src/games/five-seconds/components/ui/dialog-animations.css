@@ -1,6 +1,5 @@
 /* TODO : ,STILL NOT FINISHED */
 
-
 /*
    Pixel Dialog Animations
    Philosophy:
@@ -11,7 +10,7 @@
    Overlay
 */
 
-[data-slot="dialog-overlay"] {
+[data-slot='dialog-overlay'] {
   animation: pixel-overlay-in 80ms steps(1);
 }
 
@@ -27,7 +26,7 @@
 /*   Dialog Content – Open
 */
 
-[data-slot="dialog-content"] {
+[data-slot='dialog-content'] {
   animation: pixel-content-pop 120ms steps(1);
 }
 
@@ -45,7 +44,7 @@
 /*   Dialog Content – Close
 */
 
-[data-slot="dialog-content"][data-state="closed"] {
+[data-slot='dialog-content'][data-state='closed'] {
   animation: pixel-content-kill 90ms steps(1) forwards;
 }
 
