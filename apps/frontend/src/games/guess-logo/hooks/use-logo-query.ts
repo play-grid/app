@@ -1,10 +1,11 @@
-import type { LogoContent, LogoSetKey } from '@guess-logo/guess-logo';
+import type { LogoSetKey } from '@guess-logo/guess-logo';
 import type { SupportedLanguage } from '@guess-logo/shared/types';
+import type { LogoItem } from '../stores/game-state-store';
 import { useQuery } from '@tanstack/react-query';
 import { fetchLogos } from '../services/logo-query-service';
 
 export function useLogoQuery(
-  logoItems: LogoContent[],
+  logoItems: LogoItem[],
   logoSet: LogoSetKey,
   language: SupportedLanguage,
   listId: string,

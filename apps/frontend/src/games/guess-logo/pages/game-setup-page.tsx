@@ -88,7 +88,7 @@ export default function GameSetupPage() {
     clearGameState();
     resetGame();
 
-    navigate(`/game/${selectedSet}/${selectedList}/${selectedGrid}/${encodedPlayerA}/${encodedPlayerB}`);
+    navigate(`/${selectedSet}/${selectedList}/${selectedGrid}/${encodedPlayerA}/${encodedPlayerB}`);
   };
 
   const handleResumeGame = () => {
@@ -97,7 +97,7 @@ export default function GameSetupPage() {
       const encodedPlayerB = encodeURIComponent(savedGameInfo.playerB);
 
       navigate(
-        `/game/${savedGameInfo.selectedSet}/${savedGameInfo.selectedList}/${savedGameInfo.selectedGrid}/${encodedPlayerA}/${encodedPlayerB}`,
+        `/${savedGameInfo.selectedSet}/${savedGameInfo.selectedList}/${savedGameInfo.selectedGrid}/${encodedPlayerA}/${encodedPlayerB}`,
       );
     }
   };

@@ -3,7 +3,6 @@ import type { FooterAttribution, FooterLogoSet } from '../lib/footer-attribution
 import type { LogoSetKey } from '../lib/logo-data';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
 import { useGameNavigation } from '@/hooks/use-game-navigation';
@@ -11,6 +10,10 @@ import { GameHeader } from '../components/game-header';
 import { GameInstructions } from '../components/game-instructions';
 import { GridSizeSlider } from '../components/grid-size-slider';
 import { PlayerGrid } from '../components/player-grid';
+import { useGameError } from '../hooks/use-game-error';
+import { useGameRoomPersistence } from '../hooks/use-game-room-persistence';
+import { useGameRouteParams } from '../hooks/use-game-route-params';
+import { useGameUI } from '../hooks/use-game-ui';
 import { useLogoListChanger } from '../hooks/use-logo-list-changer';
 import { useLogoListsQuery } from '../hooks/use-logo-lists-query';
 import { footerAttribution } from '../lib/footer-attribution';
@@ -22,97 +25,71 @@ export default function GamePlayPage() {
   const { t, i18n } = useTranslation();
   const { changeLogoList } = useLogoListChanger();
 
-  const params = useParams<{
-    logoSet: string;
-    listId: string;
-    gridSize: string;
-    playerA: string;
-    playerB: string;
-  }>();
+  const routeParams = useGameRouteParams({ enabled: true });
+  const { loadAttempted, clearGameState } = useGameRoomPersistence({
+    ...routeParams,
+    enabled: true,
+  });
 
-  const logoSet = params.logoSet || 'companies';
-  const listId = decodeURIComponent(params.listId || 'companies');
-  const gridSize = params.gridSize || '8x6';
-
-  const loadAttempted = true; // Always loaded for local
-
+  // Game store
   const {
+    resetGame,
+    clearError,
+    currentPlayer,
     playerA,
     playerB,
-    currentPlayer,
-    resetGame,
-    // startNewGame,
+    switchTurn,
+    updateLogosForList,
+    shuffleLogos,
+    listIsEmpty,
+    isUpdatingLogos,
     togglePlayerALogo,
     togglePlayerBLogo,
-    switchTurn,
     selectedList,
-    updateLogosForList,
-    isUpdatingLogos,
-    shuffleLogos,
     error: storeError,
-    clearError,
-    listIsEmpty,
   } = useGameStore();
 
-  const { data: availableLists } = useLogoListsQuery(logoSet as LogoSetKey, true);
+  const logoSet = routeParams.logoSet || 'companies';
+  const gridSize = routeParams.gridSize || '8x6';
 
+  // Grid configuration
   const gridConfig = getGridConfiguration(gridSize);
 
-  // Validate list exists
-  const isValidList = availableLists ? availableLists.some(list => list.id === listId) : true; // Assume valid if not loaded yet
-  const isValidRoute = Boolean(logoSet) && ['companies', 'countries', 'movies', 'sports'].includes(logoSet) && isValidList;
-
-  const gameError = {
-    error: !isValidRoute ? 'Invalid logo set or list' : storeError,
-    hasError: !isValidRoute || Boolean(storeError),
-  };
-
   useEffect(() => {
-    if (!isValidRoute) {
-      navigate('/', { replace: true });
-      return;
-    }
-
-    if (loadAttempted && isValidList) {
+    if (loadAttempted) {
       updateLogosForList(
-        listId,
-        logoSet as LogoSetKey,
+        routeParams.listId,
+        routeParams.logoSet,
         i18n.language as any,
         gridConfig.totalLogos,
       );
     }
   }, [
     loadAttempted,
-    listId,
-    logoSet,
+    routeParams.listId,
+    routeParams.logoSet,
     i18n.language,
     updateLogosForList,
     gridConfig.totalLogos,
-    isValidList,
-    isValidRoute,
-    navigate,
   ]);
-
-  // --- UI Logic --- //
-  const showLoading = isUpdatingLogos && isValidRoute;
-  const loadingMessage = t('loading-logos');
-  const showError = gameError.hasError || !isValidRoute;
-  const errorMessage = gameError.error || t('error');
+  // Logo lists query for available lists
+  const { data: availableLists } = useLogoListsQuery(logoSet as LogoSetKey);
 
   const handleResetGame = () => {
+    clearGameState();
     resetGame();
     clearError();
     navigate('/');
   };
+  const gameError = useGameError({
+    fetchError: storeError ? new Error(storeError) : null,
+    isValidRoute: routeParams.isValidRoute,
+  });
 
-  // const handleStartNewGame = () => {
-  //   clearGameState();
-  //   navigate(
-  //     `/game/${routeParams.logoSet}/${routeParams.listId}/${routeParams.gridSize}/${encodeURIComponent(routeParams.playerAName)}/${encodeURIComponent(routeParams.playerBName)}`,
-  //     { replace: true },
-  //   );
-  //   startNewGame();
-  // };
+  const { showLoading, loadingMessage, showError, errorMessage } = useGameUI({
+    isLocalLoading: isUpdatingLogos,
+    error: gameError.hasError ? new Error(gameError.error || '') : null,
+  });
 
   if (showLoading) {
     return (
@@ -154,9 +131,8 @@ export default function GamePlayPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="max-w-[1800px] mx-auto px-4 py-6 space-y-8">
+      <div className="max-w-450 mx-auto px-4 py-6 space-y-8">
         {/* Game Header */}
-
         <GameHeader
           selectedSet={logoSet as LogoSetKey}
           currentPlayer={currentPlayer}
@@ -168,7 +144,6 @@ export default function GamePlayPage() {
           onListChange={changeLogoList}
           onSwitchTurn={switchTurn}
           onResetGame={handleResetGame}
-          // onStartNewGame={handleStartNewGame}
           onShuffle={() => { shuffleLogos(i18n.language as SupportedLanguage); }}
         />
 
