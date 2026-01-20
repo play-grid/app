@@ -1,27 +1,30 @@
-import type { LogoContent, sportRegion } from '@guess-logo/guess-logo';
+import type { LocaleRecord, SupportedLanguage } from '@guess-logo/shared/types';
 
-import type { SupportedLanguage } from '@guess-logo/shared/types';
+import type { LogoItem } from '../../stores/game-state-store';
+
 import client from '@/lib/hono-client';
 
 export interface CustomSportList {
   id: string;
-  name: string;
+  name: LocaleRecord;
   slug: string;
 }
 
 export interface SportCountry {
   id: string;
-  name: {
-    en: string;
-    ar?: string;
-  };
+  name: LocaleRecord;
   flag: string;
+  logosCount: number;
 }
 
+export interface SportRegion {
+  id: string;
+  name: LocaleRecord;
+}
 /**
  * Fetch all sport regions (top-level hierarchy)
  */
-export async function fetchSportRegions(): Promise<sportRegion[]> {
+export async function fetchSportRegions(): Promise<SportRegion[]> {
   const res = await client.api.games['guess-logo'].sports.$get();
 
   if (!res.ok) {
@@ -31,11 +34,16 @@ export async function fetchSportRegions(): Promise<sportRegion[]> {
   return res.json();
 }
 
+export interface SportLeague {
+  id: string;
+  name: LocaleRecord;
+}
+
 /**
  * Fetch leagues within a specific region
  * @param regionName The English name of the region (e.g., 'europe')
  */
-export async function fetchSportLeagues(regionName: string): Promise<sportRegion[]> {
+export async function fetchSportLeagues(regionName: string): Promise<SportLeague[]> {
   const res = await client.api.games['guess-logo'].sports[':region'].$get({
     // Use the region NAME in the URL param
     param: { region: regionName },
@@ -81,7 +89,7 @@ export async function fetchSportTeams(
     throw new Error(`Failed to fetch teams for league: ${leagueId} in region: ${regionName}`);
   }
 
-  return (await res.json()) as LogoContent[];
+  return (await res.json()) as LogoItem[];
 }
 
 /**
@@ -113,7 +121,7 @@ export async function fetchAllSportTeamsInRegion(
     throw new Error(`Failed to fetch all teams in region: ${regionName}`);
   }
 
-  return (await res.json()) as LogoContent[];
+  return (await res.json()) as LogoItem[];
 }
 
 /**
@@ -144,7 +152,7 @@ export async function fetchAllSportTeamsInCountry(
     throw new Error(`Failed to fetch teams in country: ${countryId}`);
   }
 
-  return (await res.json()) as LogoContent[];
+  return (await res.json()) as LogoItem[];
 }
 
 /**
@@ -175,7 +183,7 @@ export async function fetchSportTeamsInCustomList(
     throw new Error(`Failed to fetch teams in custom list: ${listSlug}`);
   }
 
-  return (await res.json()) as LogoContent[];
+  return (await res.json()) as LogoItem[];
 }
 
 /**

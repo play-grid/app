@@ -1,6 +1,7 @@
-import type { ListMetadata, LogoSetKey } from '@guess-logo/guess-logo';
 import type { GridConfiguration } from '../lib/grid-configurations';
+import type { LogoSetKey } from '../lib/logo-data';
 import type { Player } from '../stores/game-state-store';
+import type { LogoListMetadata } from './sports-list-selector';
 import { GridIcon, RefreshIcon, RestartIcon, TrophyIcon } from '@guess-logo/ui/icons';
 import { useTranslation } from 'react-i18next';
 import { Badge } from '@/components/ui/badge';
@@ -26,7 +27,7 @@ interface GameHeaderProps {
   playerA: Player;
   playerB: Player;
   gridConfig: GridConfiguration;
-  availableLists: ListMetadata[];
+  availableLists: LogoListMetadata[];
   onSwitchTurn: () => void;
   onResetGame: () => void;
   onStartNewGame?: () => void;

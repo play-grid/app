@@ -1,5 +1,7 @@
-import type { ListMetadata, LogoContent, LogoSetKey } from '@guess-logo/guess-logo';
 import type { SupportedLanguage } from '@guess-logo/shared/types';
+import type { LogoListMetadata } from '../components/sports-list-selector';
+import type { LogoSetKey } from '../lib/logo-data';
+import type { LogoItem } from '../stores/game-state-store';
 import client from '@/lib/hono-client';
 import { parseSportsListIdOrThrow, serializeSportsListId } from '../types/sports-list-types';
 import {
@@ -23,7 +25,7 @@ function isSportsSet(logoSet: LogoSetKey): boolean {
  * For sports: returns regions as lists
  * For others: returns the normal list structure
  */
-export async function fetchLogoLists(logoSet: LogoSetKey): Promise<ListMetadata[]> {
+export async function fetchLogoLists(logoSet: LogoSetKey): Promise<LogoListMetadata[]> {
   if (isSportsSet(logoSet)) {
     // For sports, fetch regions and format them as lists
     const regions = await fetchSportRegions();
@@ -33,7 +35,6 @@ export async function fetchLogoLists(logoSet: LogoSetKey): Promise<ListMetadata[
         regionName: region.name.en.toLowerCase(),
       }),
       name: region.name,
-      logosCount: region.teamsCount,
     }));
   }
 
@@ -56,7 +57,7 @@ export async function fetchLogoLists(logoSet: LogoSetKey): Promise<ListMetadata[
 export async function fetchNestedLists(
   logoSet: LogoSetKey,
   parentListId: string,
-): Promise<ListMetadata[]> {
+): Promise<LogoListMetadata[]> {
   if (!isSportsSet(logoSet)) {
     throw new Error('Nested lists are only supported for sports');
   }
@@ -72,7 +73,6 @@ export async function fetchNestedLists(
         leagueId: league.id,
       }),
       name: league.name,
-      logosCount: league.logosCount,
     }));
   }
 
@@ -89,7 +89,7 @@ export async function fetchLogos(
   language: SupportedLanguage,
   count: number,
   shuffle = false,
-): Promise<LogoContent[]> {
+): Promise<LogoItem[]> {
   if (isSportsSet(logoSet)) {
     const parsed = parseSportsListIdOrThrow(listId);
 
@@ -132,7 +132,7 @@ export async function fetchLogos(
     throw new Error('Failed to fetch logos');
   }
 
-  return (await res.json()) as LogoContent[];
+  return (await res.json()) as LogoItem[];
 }
 
 /**

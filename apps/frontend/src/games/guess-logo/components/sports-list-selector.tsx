@@ -1,4 +1,4 @@
-import type { LogoListMetadata } from '@guess-logo/shared/types';
+import type { SupportedLanguage } from '@guess-logo/shared/types';
 import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import {
@@ -11,10 +11,20 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Spinner } from '@/components/ui/spinner';
+import { getLocalizedName } from '@/utils/language-utils';
 import { useNestedListsQuery } from '../hooks/use-nested-lists-query';
 import { useSportsSelection } from '../hooks/use-sports-selection';
 import { fetchAvailableCountries, fetchCustomSportLists } from '../services/sports/sports-service';
 import { parseSportsListId, serializeSportsListId } from '../types/sports-list-types';
+
+export type LocaleRecord = {
+  [key in SupportedLanguage]: string;
+};
+
+export interface LogoListMetadata {
+  id: string;
+  name: LocaleRecord;
+}
 
 interface SportsListSelectorProps {
   regions: LogoListMetadata[];
@@ -33,6 +43,7 @@ export function SportsListSelector({
 }: SportsListSelectorProps) {
   const { i18n, t } = useTranslation();
   const { state } = useSportsSelection(selectedListId);
+  const lang = i18n.language as SupportedLanguage;
 
   const { data: countries = [], isLoading: isLoadingCountries } = useQuery({
     queryKey: ['available-countries'],
@@ -106,9 +117,8 @@ export function SportsListSelector({
 
   return (
     <div className={`flex items-center gap-2 ${className}`}>
-
       <Select value={state.type} onValueChange={handleTypeChange}>
-        <SelectTrigger className="w-[160px]">
+        <SelectTrigger className="w-40">
           <SelectValue />
         </SelectTrigger>
         <SelectContent>
@@ -132,12 +142,11 @@ export function SportsListSelector({
       {state.type === 'region' && (
         <>
           <Select value={state.regionName || '__none__'} onValueChange={handleRegionChange}>
-            <SelectTrigger className="w-[160px]">
+            <SelectTrigger className="w-40">
               <SelectValue placeholder={t('games.guessLogo.select-region', 'Select region')} />
             </SelectTrigger>
             <SelectContent>
               {regions.map((region) => {
-                const regionName = region.name[i18n.language as keyof typeof region.name];
                 const parsed = parseSportsListId(region.id);
                 const regionKey
                   = parsed.success && parsed.data.type === 'region'
@@ -145,11 +154,7 @@ export function SportsListSelector({
                     : `unknown-${region.id}`;
                 return (
                   <SelectItem key={region.id} value={regionKey}>
-                    {regionName}
-                    {' '}
-                    (
-                    {region.teamsCount}
-                    )
+                    {getLocalizedName(region.name, lang)}
                   </SelectItem>
                 );
               })}
@@ -161,7 +166,7 @@ export function SportsListSelector({
               value={state.leagueId || `__all__`}
               onValueChange={handleLeagueChange}
             >
-              <SelectTrigger className="w-[160px]">
+              <SelectTrigger className="w-40">
                 <SelectValue placeholder={t('games.guessLogo.all-teams', 'All teams')} />
               </SelectTrigger>
               <SelectContent>
@@ -183,7 +188,7 @@ export function SportsListSelector({
                         </div>
                       )
                     : leagues.map((league) => {
-                        const leagueName = league.name[i18n.language as keyof typeof league.name];
+                        const lName = getLocalizedName(league.name, lang);
                         const parsed = parseSportsListId(league.id);
                         const leagueKey
                           = parsed.success && parsed.data.type === 'league'
@@ -192,12 +197,7 @@ export function SportsListSelector({
                         return (
                           <SelectItem className="break-normal text-md" key={league.id} value={leagueKey}>
                             🏆
-                            {' '}
-                            {leagueName}
-                            {' '}
-                            (
-                            {league.teamsCount}
-                            )
+                            {lName}
                           </SelectItem>
                         );
                       })}
@@ -210,7 +210,7 @@ export function SportsListSelector({
 
       {state.type === 'country' && (
         <Select value={state.countryId || '__none__'} onValueChange={handleCountryChange}>
-          <SelectTrigger className="w-[160px]">
+          <SelectTrigger className="w-40">
             <SelectValue placeholder={t('games.guessLogo.select-country')} />
           </SelectTrigger>
           <SelectContent>
@@ -225,17 +225,11 @@ export function SportsListSelector({
                   </div>
                 )
               : countries.map((country) => {
-                  const countryName
-                    = country.name[i18n.language as keyof typeof country.name] || country.name.en;
                   return (
                     <SelectItem key={country.id} value={country.id}>
                       {country.flag}
                       {' '}
-                      {countryName}
-                      {' '}
-                      (
-                      {country.teamsCount}
-                      )
+                      {getLocalizedName(country.name, lang)}
                     </SelectItem>
                   );
                 })}
@@ -245,17 +239,13 @@ export function SportsListSelector({
 
       {state.type === 'custom' && (
         <Select value={state.customSlug || '__none__'} onValueChange={handleCustomChange}>
-          <SelectTrigger className="w-[160px]">
+          <SelectTrigger className="w-40">
             <SelectValue placeholder={t('games.guessLogo.select-list')} />
           </SelectTrigger>
           <SelectContent>
             {customLists.map(list => (
               <SelectItem key={list.id} value={list.slug}>
-                {list.name}
-                {' '}
-                (
-                {list.teamsCount}
-                )
+                {getLocalizedName(list.name, lang)}
               </SelectItem>
             ))}
           </SelectContent>

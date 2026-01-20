@@ -197,7 +197,9 @@ export const getAvailableCountries = createRoute({
   tags,
   responses: {
     [HttpStatusCodes.OK]: jsonContent(
-      z.array(ListMetadataSchema),
+      z.array(ListMetadataSchema.extend({
+        flag: z.string(),
+      })),
       'Successfully retrieved available countries',
     ),
     [HttpStatusCodes.INTERNAL_SERVER_ERROR]: jsonContent(
