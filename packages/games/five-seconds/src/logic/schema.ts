@@ -11,7 +11,7 @@ export const FiveSecondsGameSettingsSchema = z.object({
   categoryIds: z.array(z.string()),
   difficulty: difficultySchema,
   timePerTurn: z.number(),
-  roundsToWin: z.number(),
+  pointsToWin: z.number(),
   useCustomQuestions: z.boolean().default(false),
   customCategoryIds: z.array(z.string()).optional(),
 });

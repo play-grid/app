@@ -5,7 +5,7 @@ export const FIVE_SECONDS_INITIAL_SETTINGS: FiveSecondsGameSettings = {
   categoryIds: ['cat_general_v1'],
   difficulty: difficultySchema.enum.easy,
   timePerTurn: 5,
-  roundsToWin: 5,
+  pointsToWin: 10,
   useCustomQuestions: false,
   customCategoryIds: [],
 };
