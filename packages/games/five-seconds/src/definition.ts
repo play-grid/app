@@ -13,6 +13,7 @@ export const fiveSecondsGame = createGameDefinition({
     version: '1.0.0',
     name: { en: 'Five Seconds', ar: 'خمس ثواني' },
     description: { en: 'Answer questions as fast as you can in five seconds!', ar: 'أجب على الأسئلة بأسرع ما يمكن في خمس ثوانٍ!' },
+    imageUrl: 'https://pub-9df3c09e2c264f328b6770ef318b615e.r2.dev/games/5s-bg.jpg',
     minPlayers: 2,
     maxPlayers: 4,
   },

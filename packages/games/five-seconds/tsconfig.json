@@ -2,7 +2,7 @@
   "extends": "../../../tsconfig.json",
   "compilerOptions": {
     "jsx": "react-jsx",
-    "types": ["react", "node"],
+    "types": ["react"],
     "isolatedModules": true,
     "allowSyntheticDefaultImports": true
   },
