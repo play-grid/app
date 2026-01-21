@@ -11,7 +11,7 @@ import { validateEnv } from '@/env';
 import { posthogErrorHandler } from '@/middlewares/on-error';
 import { pinoLogger } from '@/middlewares/pino-logger';
 import { posthogMiddleware } from '@/middlewares/posthog-middleware';
-import rateLimiterMiddleware from '@/middlewares/rate-limter';
+import { rateLimit } from '@/middlewares/rate-limter';
 import { logger } from '@/utils/logger';
 import { isAllowedOrigin } from '@/utils/origin';
 import { createAuth } from '../auth';
@@ -82,7 +82,17 @@ export default function createApp(): AppOpenAPI {
     return etag()(c, next);
   });
 
-  app.use('*', (c, next) => rateLimiterMiddleware(c)(c, next));
+  app.use('*', rateLimit({
+    rateLimiter: c => c.env.RATE_LIMITER,
+    getRateLimitKey: async (c) => {
+      const auth = createAuth(c);
+      const session = await auth.api.getSession({ headers: c.req.raw.headers });
+      const ip = c.req.header('cf-connecting-ip') ?? c.req.header('x-forwarded-for') ?? 'anonymous';
+      const userPart = session ? session.user.id : 'anon';
+      return `${userPart}:${ip}`;
+    },
+  }));
+
   app.use('*', posthogMiddleware);
   app.use('*', async (c, next) => {
     const auth = createAuth(c);
