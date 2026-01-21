@@ -1,4 +1,4 @@
-import type { SportRegionId } from '../../types/sport';
+import type { SportRegionId } from '@guess-logo/shared/types';
 
 // Lazy loader with strict typing
 export async function loadRegion(region: SportRegionId): Promise<any[]> {

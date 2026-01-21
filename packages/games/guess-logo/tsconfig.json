@@ -4,7 +4,8 @@
     "jsx": "react-jsx",
     "types": ["react"],
     "isolatedModules": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true
   },
-  "include": ["src", "index.ts"]
+  "include": ["src/**/*", "index.ts", "**/*.json"]
 }

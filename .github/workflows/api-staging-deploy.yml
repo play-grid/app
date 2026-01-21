@@ -3,11 +3,11 @@ name: Deploy API to Staging
 on:
   push:
     branches:
-      - develop
+      - main
     paths:
       - 'apps/api/**'
       - 'packages/**'
-      - '.github/workflows/api-deploy-staging.yml'
+      - '.github/workflows/api-staging-deploy.yml'
   workflow_dispatch:
 
 concurrency:
@@ -21,7 +21,7 @@ permissions:
 jobs:
   deploy:
     name: Deploy API to Cloudflare Workers Staging
-    runs-on: ubuntu-latest
+    runs-on: blacksmith-2vcpu-ubuntu-2404
     
     steps:
       - name: Checkout repository
@@ -33,28 +33,30 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '23'
+          node-version: '22.22.0'
           cache: 'pnpm'
       
-      # Install from root to get all workspace dependencies
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
       
-      # Build workspace dependencies first
-      - name: Build workspace packages
-        run: pnpm --filter=@guess-logo/game-core build
+      # Use Turbo to build dependencies (mimics local environment)
+      - name: Build dependencies
+        run: pnpm turbo build --filter=@guess-logo/api^...
+      
+      # Use Turbo for consistent execution
+      - name: Run linter
+        run: pnpm turbo lint --filter=@guess-logo/api
       
       - name: Run type check
-        run: pnpm --filter=@guess-logo/api check-types
+        run: pnpm turbo check-types --filter=@guess-logo/api
       
-      - name: Run linter
-        run: pnpm --filter=@guess-logo/api lint
-        continue-on-error: true
+      - name: Run unit tests
+        run: pnpm --filter @guess-logo/api test:unit
       
-      - name: Build API
-        run: pnpm --filter=@guess-logo/api build
+      - name: Run integration tests
+        run: pnpm --filter @guess-logo/api test:integration
       
-      - name: Deploy to Cloudflare Workers
+      - name: Deploy to Cloudflare Workers (Staging)
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
@@ -62,18 +64,19 @@ jobs:
           workingDirectory: apps/api
           command: deploy --env staging
       
-      - name: Deployment summary
+      - name: Create deployment summary
         if: success()
         run: |
           echo "## ✅ Staging Deployment Successful" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "API deployed to Cloudflare Workers (staging)" >> $GITHUB_STEP_SUMMARY
+          echo "API deployed successfully to Cloudflare Workers Staging" >> $GITHUB_STEP_SUMMARY
           echo "- **Commit**: ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
           echo "- **Branch**: ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
-          echo "- **Triggered by**: ${{ github.actor}}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Triggered by**: ${{ github.actor }}" >> $GITHUB_STEP_SUMMARY
       
       - name: Deployment failed
         if: failure()
         run: |
           echo "## ❌ Staging Deployment Failed" >> $GITHUB_STEP_SUMMARY
-          echo "Please check the logs above for=details." >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Please check the logs above for details." >> $GITHUB_STEP_SUMMARY
