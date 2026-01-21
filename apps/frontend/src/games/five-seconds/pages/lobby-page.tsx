@@ -1,21 +1,22 @@
-import type { Room } from '@guess-logo/shared/schemas';
+// import type { Room } from '@guess-logo/shared/schemas';
 import {
   FIVE_SECONDS_GAME_OPTIONS,
   useFiveSecondsActions,
   useFiveSecondsState,
 } from '@guess-logo/five-seconds';
-import { Earth, Info, Play, Settings, Zap } from 'lucide-react';
+// import { Zap } from 'lucide-react';
+import { Info, Play, Settings } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
-  useNavigate,
+  // useNavigate,
   useSearchParams,
 } from 'react-router-dom';
 import BackButton from '@/components/back-button';
 import { RoomHeader } from '@/features/room/room-stats-header';
-import { useClearSession } from '@/features/room/use-session-cleanup';
+// import { useClearSession } from '@/features/room/use-session-cleanup';
 import { GameInstructions } from '../components/game-instructions';
-import { GameRoomModal } from '../components/game-room-modal';
+// import { GameRoomModal } from '../components/game-room-modal';
 import { GameSettings } from '../components/game-settings';
 import { PlayerList } from '../components/player-list';
 import { Button } from '../components/ui/button';
@@ -26,13 +27,15 @@ import { useUrlSyncedSettingsOnly } from '../hooks/use-url-synced-settings';
 const FIRST_VISIT_KEY = 'FIVE_SECONDS_FIRST_VISIT';
 
 export function FiveSecondsLobby() {
-  const { t, i18n } = useTranslation();
-  const navigate = useNavigate();
-  const { players, settings } = useFiveSecondsState();
+  const { t } = useTranslation();
+  // const { i18n } = useTranslation();
+  // const navigate = useNavigate();
+  // const { settings } = useFiveSecondsState();
+  const { players } = useFiveSecondsState();
   const { startGame } = useFiveSecondsActions();
   useUrlSyncedSettingsOnly();
   const [searchParams] = useSearchParams();
-  const clearSession = useClearSession();
+  // const clearSession = useClearSession();
 
   const mode = searchParams.get('mode') || 'local';
   const roomId = searchParams.get('room');
@@ -54,24 +57,24 @@ export function FiveSecondsLobby() {
     );
   };
 
-  const handleRoomCreated = (room: Room) => {
-    navigate(
-      `/${i18n.language}/five-seconds?mode=multiplayer&room=${room.id}&host=true`,
-      { replace: true },
-    );
-  };
+  // const handleRoomCreated = (room: Room) => {
+  //   navigate(
+  //     `/${i18n.language}/five-seconds?mode=multiplayer&room=${room.id}&host=true`,
+  //     { replace: true },
+  //   );
+  // };
 
-  const handleRoomJoined = (room: Room) => {
-    navigate(`/${i18n.language}/five-seconds?mode=multiplayer&room=${room.id}`, {
-      replace: true,
-    });
-  };
+  // const handleRoomJoined = (room: Room) => {
+  //   navigate(`/${i18n.language}/five-seconds?mode=multiplayer&room=${room.id}`, {
+  //     replace: true,
+  //   });
+  // };
 
-  const switchToLocalMode = () => {
-    clearSession();
-    localStorage.removeItem('five-seconds-game:v1');
-    window.location.assign(`/${i18n.language}/five-seconds?mode=local`);
-  };
+  // const switchToLocalMode = () => {
+  //   clearSession();
+  //   localStorage.removeItem('five-seconds-game:v1');
+  //   window.location.assign(`/${i18n.language}/five-seconds?mode=local`);
+  // };
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-4 md:p-8">
@@ -105,7 +108,7 @@ export function FiveSecondsLobby() {
               </DialogContent>
             </Dialog>
 
-            {mode === 'local'
+            {/* {mode === 'local'
               ? (
                   <GameRoomModal
                     trigger={(
@@ -125,7 +128,7 @@ export function FiveSecondsLobby() {
                     <Zap className="h-5 w-5" />
                     {t('play-local')}
                   </Button>
-                )}
+                )} */}
           </div>
         </div>
 

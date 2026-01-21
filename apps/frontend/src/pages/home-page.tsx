@@ -1,4 +1,4 @@
-import { UserButton } from '@daveyplate/better-auth-ui';
+// import { UserButton } from '@daveyplate/better-auth-ui';
 import { useQuery } from '@tanstack/react-query';
 import { GameCard, SkeletonGameCard } from '@/components/game-card';
 import SiteCustomizations from '@/components/site-about';
@@ -26,7 +26,7 @@ function HomePage() {
   return (
     <div className="min-h-208 bg-background text-foreground flex flex-col items-center p-4">
       <div className="w-full flex justify-between items-center px-4">
-        <UserButton size="icon" className="size-10" />
+        {/* <UserButton size="icon" className="size-10" /> */}
         <SiteCustomizations />
       </div>
 
