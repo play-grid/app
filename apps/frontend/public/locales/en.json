@@ -294,6 +294,7 @@
     },
     "howToPlay": "How to Play",
     "instructions": {
+      "description": "Learn the rules of Five Seconds: a fast-paced word game where you name 3 things in a category within 5 seconds!",
       "rule1": "When it's your turn, you have exactly 5 seconds to say 3 things that match the category shown on screen.",
       "rule2": "Speak your answers out loud - don't write them! Think fast and say the first things that come to mind.",
       "rule3": "After time's up, other players vote on whether your answers were valid. Get majority votes to earn one point and build your winning streak.",
