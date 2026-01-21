@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import packageJson from '@/../package.json';
 import BackButton from '@/components/back-button';
+import { PageContainer } from '@/components/page-container';
 import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
 
@@ -10,7 +11,7 @@ export default function AboutPage() {
   const { t } = useTranslation();
 
   return (
-    <div className="max-w-3xl mx-auto space-y-8 py-6">
+    <PageContainer maxWidth="4xl" className="space-y-8">
       {/* Header Section */}
       <div className="space-y-2">
         <BackButton />
@@ -64,6 +65,6 @@ export default function AboutPage() {
           🚀
         </p>
       </div>
-    </div>
+    </PageContainer>
   );
 }

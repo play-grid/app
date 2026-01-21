@@ -1,10 +1,11 @@
 import { useTranslation } from 'react-i18next';
+import { PageContainer } from '@/components/page-container';
 
 export default function PrivacyPage() {
   const { t } = useTranslation();
 
   return (
-    <div className="container mx-auto max-w-3xl py-8 p-4">
+    <PageContainer maxWidth="3xl">
       <h1 className="mb-6 text-3xl font-bold">{t('privacy.title')}</h1>
       <div className="prose prose-lg dark:prose-invert max-w-none space-y-6">
 
@@ -40,7 +41,7 @@ export default function PrivacyPage() {
         {' '}
         <p className="text-sm text-muted-foreground">{t('privacy.lastUpdate')}</p>
       </div>
-    </div>
+    </PageContainer>
 
   );
 }
