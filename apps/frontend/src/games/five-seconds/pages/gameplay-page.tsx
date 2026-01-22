@@ -103,11 +103,9 @@ export function GameplayPage() {
 
       const processVotingEnd = async () => {
         try {
-          if (
-            turnState
-            && turnState.roundNumber >= settings.roundsToWin
-            && turnState.currentPlayerIndex === turnState.playerOrder.length - 1
-          ) {
+          // Check if any player has reached the points to win
+          const maxScore = Math.max(...Object.values(players).map(p => p.score));
+          if (maxScore >= settings.pointsToWin) {
             await endGame();
             return;
           }
@@ -124,14 +122,7 @@ export function GameplayPage() {
 
       processVotingEnd();
     }
-  }, [
-    isVotingFinished,
-    currentPlayer?.id,
-    turnState,
-    settings.roundsToWin,
-    tallyVotes,
-    endGame,
-  ]);
+  }, [isVotingFinished, currentPlayer.id, turnState, tallyVotes, endGame, currentPlayer, players, settings.pointsToWin]);
 
   const handleStartTurn = useCallback(async () => {
     await startTurn();
