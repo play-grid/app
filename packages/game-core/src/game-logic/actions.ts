@@ -426,17 +426,12 @@ export function endGame<T extends BaseGameState>(state: T): T {
 }
 
 export function resetGame<T extends BaseGameState>(state: T): T {
-  const stateToPreserve = {
+  return {
+    ...state,
+    phase: 'lobby',
     players: state.players,
     hostId: state.hostId,
     settings: state.settings,
-  };
-
-  return {
-    ...state,
-    ...stateToPreserve,
-    phase: 'lobby',
-    players: {} as T['players'],
     turnState: undefined,
     startedAt: undefined,
     endedAt: undefined,

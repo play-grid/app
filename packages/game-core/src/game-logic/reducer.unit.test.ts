@@ -126,19 +126,25 @@ describe('game Reducer & Actions Logic', () => {
       expect(nextState.turnState?.currentPlayerId).toBe('p2');
     });
 
-    it('should handle RESET_GAME by clearing players but preserving settings', () => {
+    it('should handle RESET_GAME by preserving players but resetting game state', () => {
       const stateWithData: BaseGameState = {
         ...initialState,
-        players: { p1: { id: 'p1' } as any },
+        players: { p1: { id: 'p1', name: 'Player 1', isHost: true, isReady: true, score: 5 } as any },
         settings: { difficulty: 'hard' },
         phase: 'playing',
       };
 
       const nextState = gameReducer(stateWithData, { type: 'RESET_GAME' as const });
 
-      expect(Object.keys(nextState.players).length).toBe(0);
+      expect(Object.keys(nextState.players).length).toBe(1);
+      expect(nextState.players.p1.id).toBe('p1');
+      expect(nextState.players.p1.name).toBe('Player 1');
+      expect(nextState.players.p1.isHost).toBe(true);
       expect(nextState.phase).toBe('lobby');
       expect(nextState.settings.difficulty).toBe('hard');
+      expect(nextState.turnState).toBeUndefined();
+      expect(nextState.startedAt).toBeUndefined();
+      expect(nextState.endedAt).toBeUndefined();
     });
   });
 });
