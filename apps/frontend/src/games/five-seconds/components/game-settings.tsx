@@ -228,7 +228,7 @@ export function GameSettings() {
         <div className="flex items-center gap-4">
           <TrophyIcon className="w-5 h-5" />
           <div className="flex gap-2 flex-1">
-            {[10, 15, 20].map(points => (
+            {[5, 10, 15, 20].map(points => (
               <Button
                 key={points}
                 variant={

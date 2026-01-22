@@ -295,7 +295,9 @@
       "secondPlace": "2nd Place",
       "thirdPlace": "3rd Place",
       "nthPlace": "{{ordinal}}th Place",
-      "playAgain": "Play Again"
+      "playAgain": "Play Again",
+      "gameOver":"GAME OVER",
+      "winner":"WINNER"
     },
     "howToPlay": "How to Play",
     "instructions": {

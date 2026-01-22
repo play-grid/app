@@ -295,7 +295,9 @@
       "secondPlace": "المركز الثاني",
       "thirdPlace": "المركز الثالث",
       "nthPlace": "المركز الـ{{ordinal}}",
-      "playAgain": "العب مرة أخرى"
+      "playAgain": "العب مرة أخرى",
+      "gameOver":"انتهت اللعبه",
+      "winner":"الفائز"
     },
     "howToPlay": "كيف تلعب",
     "instructions": {
