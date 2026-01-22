@@ -550,7 +550,7 @@ describe('gameSessionObject', () => {
           categoryIds: [], // Required array
           difficulty: 'medium', // Must be one of: easy, medium, hard, all
           timePerTurn: 30, // Required number
-          roundsToWin: 3, // Required number
+          pointsToWin: 10, // Required number
         },
         createdAt: Date.now(),
         votingState: {

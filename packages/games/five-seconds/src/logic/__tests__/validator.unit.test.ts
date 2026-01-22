@@ -14,7 +14,7 @@ describe('validateFiveSecondsAction', () => {
       categoryIds: ['cat_general_v1'],
       difficulty: 'easy',
       timePerTurn: 5,
-      roundsToWin: 5,
+      pointsToWin: 10,
     },
     votingState: null,
     seenQuestionIds: [],
