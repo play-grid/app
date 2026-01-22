@@ -5,13 +5,14 @@ import {
   useFiveSecondsState,
 } from '@guess-logo/five-seconds';
 // import { Zap } from 'lucide-react';
-import { Info, Play, Settings } from 'lucide-react';
+import { Earth, Info, Play, Settings } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   // useNavigate,
   useSearchParams,
 } from 'react-router-dom';
+import { toast } from 'sonner';
 import BackButton from '@/components/back-button';
 import { RoomHeader } from '@/features/room/room-stats-header';
 // import { useClearSession } from '@/features/room/use-session-cleanup';
@@ -129,6 +130,10 @@ export function FiveSecondsLobby() {
                     {t('play-local')}
                   </Button>
                 )} */}
+            <Button onClick={() => toast.info(t('soon'))} variant="default" size="lg" className="gap-2">
+              <Earth className="h-5 w-5" />
+              {t('play-online')}
+            </Button>
           </div>
         </div>
 

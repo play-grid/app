@@ -52,7 +52,9 @@
     "p3": "Free Now: Everything is free in the beta version. We want you to try and enjoy before anything else.",
     "p4": "No restrictions, no annoying ads.",
     "subtitle2": "For Developers",
-    "p5": "If you're interested in what happens behind the scenes, we share our experience in building this platform, and how we combine high performance, efficiency, and innovative technologies like state management, caching, and real-time multiplayer gameplay. All to ensure a smooth and scalable experience, while benefiting from technical learning and experimentation."
+    "p5": "This project is influenced by and supports open-source software, and I believe in its value and therefore support it. Soon, the game core I built myself will be open source as js library + If you're interested in what's happening behind the scenes, I share my journey in building this platform and how I balance performance and efficiency, and how I use modern technologies like state management, caching, and real-time multiplayer gameplay. The goal is always to deliver a seamless and scalable experience with room for experimentation and continuous technical learning.",
+    "p6":"Open-source software used in the platform",
+    "p62":"View full license information →"
   },
   "back-to-setup": "Back to Setup",
   "choose-grid-size": "Choose grid size:",

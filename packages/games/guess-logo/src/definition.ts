@@ -10,6 +10,7 @@ export const guessLogoGame = createGameDefinition({
     description: { en: 'Guess the logos of famous companies and brands!', ar: 'خمن شعارات الشركات والعلامات التجارية الشهيرة!' },
     minPlayers: 2,
     maxPlayers: 2,
+    imageUrl: 'https://pub-9df3c09e2c264f328b6770ef318b615e.r2.dev/games/guess-logo-game-img.png',
   },
 
   stateSchema: GuessLogoGameStateSchema,

@@ -25,14 +25,25 @@ export default function AboutPage() {
       {/* Main Content Grid */}
       <div className="grid gap-6">
         <p>{t('about.p1')}</p>
-
         <h2 className="mt-8 mb-3 text-2xl font-bold">{t('about.subtitle1')}</h2>
         <li>{t('about.p2')}</li>
         <li>{t('about.p3')}</li>
         <li>{t('about.p4')}</li>
         <h2 className="mt-8 mb-3 text-2xl font-bold">{t('about.subtitle2')}</h2>
         <li>{t('about.p5')}</li>
-
+        <div>
+          <h2 className="text-sm font-medium text-muted-foreground mb-1">
+            {t('about.p6')}
+          </h2>
+          <a
+            href="https://pub-9df3c09e2c264f328b6770ef318b615e.r2.dev/LICENSES.md"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-primary underline"
+          >
+            {t('about.p62')}
+          </a>
+        </div>
         <div>
           <h2 className="text-sm font-medium text-muted-foreground mb-1">
             {t('about.developer_label')}
@@ -49,7 +60,6 @@ export default function AboutPage() {
             </p>
           </a>
         </div>
-
       </div>
       {/* Version Info */}
       <div className={cn(
