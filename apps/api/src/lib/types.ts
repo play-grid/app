@@ -11,8 +11,8 @@ import type { Env } from '@/env';
 export interface CloudflareBindings {
   ASSETS: Fetcher;
   LOGO_CACHE: KVNamespace;
-  RATE_LIMIT: KVNamespace;
   QUESTIONS: KVNamespace;
+  PLAY_GRID_BUCKET: R2Bucket;
   Variables: {
     userId?: string;
     user?: User;
