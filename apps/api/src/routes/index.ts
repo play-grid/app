@@ -4,6 +4,7 @@ import createRouter from '@/lib/create-router';
 import { BASE_PATH } from '../lib/constants';
 import { adminRoutes } from './admin';
 import auth from './auth/auth.index';
+import banners from './banners/banners.index';
 import gameRoom from './game-room/game-room.index';
 import { gamesRoutes } from './games';
 import health from './health/health.index';
@@ -15,6 +16,7 @@ export function registerRoutes(app: AppOpenAPI) {
     .route('/', auth)
     .route('/', health)
     .route('/', gameRoom)
+    .route('/banners', banners)
     .route('/games', gamesRoutes)
     .route('/admin', adminRoutes);
 }
