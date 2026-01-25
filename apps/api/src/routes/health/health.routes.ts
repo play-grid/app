@@ -21,7 +21,7 @@ export const healthSchema = z.object({
 // Create the route definition for OpenAPI + Hono
 export const health = createRoute({
   method: 'get',
-  path: '/health',
+  path: '/',
   tags,
   responses: {
     [HttpStatusCodes.OK]: jsonContent(

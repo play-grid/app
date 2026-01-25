@@ -13,9 +13,9 @@ import index from './index.route';
 export function registerRoutes(app: AppOpenAPI) {
   return app
     .route('/', index)
-    .route('/', auth)
-    .route('/', health)
-    .route('/', gameRoom)
+    .route('/auth', auth)
+    .route('/health', health)
+    .route('/game-room', gameRoom)
     .route('/banners', banners)
     .route('/games', gamesRoutes)
     .route('/admin', adminRoutes);

@@ -16,7 +16,7 @@ import {
 const tags = ['GameRoom'];
 
 export const create = createRoute({
-  path: '/game-room',
+  path: '/',
   method: 'post',
   request: {
     body: jsonContentRequired(
@@ -46,7 +46,7 @@ export const create = createRoute({
 });
 
 export const join = createRoute({
-  path: '/game-room/{id}/join',
+  path: '/{id}/join',
   method: 'post',
   request: {
     params: z.object({ id: z.string() }),
@@ -81,7 +81,7 @@ export const join = createRoute({
 });
 
 export const websocketUpgrade = createRoute({
-  path: '/game-room/{id}/ws',
+  path: '/{id}/ws',
   method: 'get',
   request: {
     params: z.object({ id: z.string() }),
@@ -109,7 +109,7 @@ export const websocketUpgrade = createRoute({
 });
 
 export const getRoomStats = createRoute({
-  path: '/game-room/{id}/stats',
+  path: '/{id}/stats',
   method: 'get',
   request: {
     params: z.object({

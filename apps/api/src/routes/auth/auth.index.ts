@@ -10,6 +10,6 @@ async function handleAuth(c: Context<AppEnv>) {
   return auth.handler(c.req.raw);
 }
 
-authRoutes.on(['POST', 'GET'], '/auth/*', handleAuth);
+authRoutes.on(['POST', 'GET'], '/*', handleAuth);
 
 export default authRoutes;

@@ -5,8 +5,9 @@
     "outDir": "./dist",
     "declaration": true,
     "emitDeclarationOnly": true,
-    "noEmit": false
+    "noEmit": false,
+    "rootDir": "src"
   },
-  "include": ["src/**/*", "durable-objects/**/*", "lib/**/*", "routes/**/*", "games.ts"],
-  "exclude": ["node_modules", "dist", ".wrangler","**/*.test.ts", "../../packages/**/*", "**/*.d.ts", "src/games.ts", "../../packages/api-client/**/*"]
+  "include": ["src"],
+  "exclude": ["node_modules", "dist", ".wrangler","**/*.test.ts"]
 }
