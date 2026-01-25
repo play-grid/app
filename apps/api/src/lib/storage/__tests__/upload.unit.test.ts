@@ -3,14 +3,6 @@ import { TestR2Bucket } from 'cloudflare-test-utils';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { dataUrlToFile, uploadFile } from '../upload';
 
-// ...
-
-const mockBucket = new TestR2Bucket();
-
-const mockEnv = {
-  PLAY_GRID_BUCKET: mockBucket,
-};
-
 // Helper to create mock File
 function createMockFile(name: string, type: string, size: number = 1024): File {
   const content = new Uint8Array(size);
@@ -18,9 +10,14 @@ function createMockFile(name: string, type: string, size: number = 1024): File {
 }
 
 describe('uploadFile', () => {
+  let mockBucket: TestR2Bucket;
+  let mockEnv: { PLAY_GRID_BUCKET: TestR2Bucket };
+
   beforeEach(() => {
     vi.clearAllMocks();
+    mockBucket = new TestR2Bucket();
     mockBucket.put.mockResolvedValue(undefined);
+    mockEnv = { PLAY_GRID_BUCKET: mockBucket };
   });
 
   describe('successful uploads', () => {
