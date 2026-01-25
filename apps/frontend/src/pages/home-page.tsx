@@ -1,6 +1,6 @@
 // import { UserButton } from '@daveyplate/better-auth-ui';
 import { useQuery } from '@tanstack/react-query';
-import { Banner } from '@/components/banner';
+import { BannersCarousel } from '@/components/banner';
 import { GameCard, SkeletonGameCard } from '@/components/game-card';
 import SiteCustomizations from '@/components/site-about';
 
@@ -33,18 +33,9 @@ function HomePage() {
       </div>
 
       {/* Banners Section */}
-      {banners.length > 0 && (
-        <div className="w-full max-w-6xl mt-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {banners.map(banner => (
-              <Banner
-                key={banner.id}
-                banner={banner}
-              />
-            ))}
-          </div>
-        </div>
-      )}
+      <div className="w-full max-w-6xl mt-6">
+        <BannersCarousel banners={banners} />
+      </div>
 
       <main className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl w-full mt-5">
         {isLoading

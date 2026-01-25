@@ -1,10 +1,19 @@
 import type { DisplayBanner } from '@/hooks/use-banners';
+import * as React from 'react';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselDots,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from '@/components/ui/carousel';
 
-interface BannerProps {
-  banner: DisplayBanner;
+interface BannersCarouselProps {
+  banners: DisplayBanner[];
 }
-// TEMP
-export function Banner({ banner }: BannerProps) {
+
+const InternalBanner: React.FC<{ banner: DisplayBanner }> = ({ banner }) => {
   const content = (
     <div className="bg-card rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
       {banner.imageUrl && (
@@ -31,4 +40,32 @@ export function Banner({ banner }: BannerProps) {
   }
 
   return content;
+};
+
+export function BannersCarousel({ banners }: BannersCarouselProps) {
+  if (!banners || banners.length === 0) {
+    return null;
+  }
+
+  return (
+    <Carousel
+      opts={{
+        align: 'start',
+        loop: true,
+      }}
+      className="w-full"
+    >
+      <CarouselContent>
+        {banners.map(banner => (
+          <CarouselItem key={banner.id}>
+            <InternalBanner banner={banner} />
+          </CarouselItem>
+        ))}
+      </CarouselContent>
+      <CarouselPrevious />
+      <CarouselDots />
+
+      <CarouselNext />
+    </Carousel>
+  );
 }
