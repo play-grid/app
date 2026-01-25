@@ -1,13 +1,13 @@
 // import { UserButton } from '@daveyplate/better-auth-ui';
 import { useQuery } from '@tanstack/react-query';
+import { Banner } from '@/components/banner';
 import { GameCard, SkeletonGameCard } from '@/components/game-card';
 import SiteCustomizations from '@/components/site-about';
 
-import { useGameNavigation } from '@/hooks/use-game-navigation';
+import { useBanners } from '@/hooks/use-banners';
 import client from '@/lib/hono-client';
 
 function HomePage() {
-  const { currentLanguage } = useGameNavigation();
   const { data: games = [], isLoading } = useQuery({
     queryKey: ['games'],
     queryFn: async () => {
@@ -18,6 +18,8 @@ function HomePage() {
       return data;
     },
   });
+
+  const { data: banners = [] } = useBanners();
 
   const skeletonCards = Array.from({ length: 2 }, (_, i) => (
     <SkeletonGameCard key={i} />
@@ -30,6 +32,20 @@ function HomePage() {
         <SiteCustomizations />
       </div>
 
+      {/* Banners Section */}
+      {banners.length > 0 && (
+        <div className="w-full max-w-6xl mt-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {banners.map(banner => (
+              <Banner
+                key={banner.id}
+                banner={banner}
+              />
+            ))}
+          </div>
+        </div>
+      )}
+
       <main className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl w-full mt-5">
         {isLoading
           ? (
@@ -41,7 +57,6 @@ function HomePage() {
                 <GameCard
                   key={game.id}
                   game={game}
-                  currentLanguage={currentLanguage}
                 />
               ))
             )}

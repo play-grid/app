@@ -40,3 +40,51 @@ export function getLocalizedName<T extends Record<string, any>>(
 
   return nameObj[language as keyof T] || nameObj.en || Object.values(nameObj)[0] || '';
 }
+
+type LocalizedBaseKeys<T> = {
+  [K in keyof T]: K extends `${infer Base}${'En' | 'Ar'}` ? Base : never
+}[keyof T];
+
+type AnyRecord = Record<string, unknown>;
+
+const LANGUAGE_SUFFIX_MAP: Record<SupportedLanguage, string> = {
+  en: 'En',
+  ar: 'Ar',
+};
+
+export function getLocalizedField<
+  T extends AnyRecord,
+>(
+  row: T,
+  baseKey: LocalizedBaseKeys<T>,
+  language: SupportedLanguage,
+  options?: {
+    fallbackLanguage?: SupportedLanguage;
+    defaultValue?: string;
+  },
+): string {
+  if (!row)
+    return options?.defaultValue ?? '';
+
+  const suffix = LANGUAGE_SUFFIX_MAP[language];
+  const key = `${baseKey}${suffix}` as keyof T;
+
+  const value = row[key];
+
+  if (typeof value === 'string' && value.trim() !== '') {
+    return value;
+  }
+
+  // Fallback language (default: en)
+  const fallbackLang = options?.fallbackLanguage ?? 'en';
+  const fallbackSuffix = LANGUAGE_SUFFIX_MAP[fallbackLang];
+  const fallbackKey = `${baseKey}${fallbackSuffix}` as keyof T;
+
+  const fallbackValue = row[fallbackKey];
+
+  if (typeof fallbackValue === 'string') {
+    return fallbackValue;
+  }
+
+  return options?.defaultValue ?? '';
+}

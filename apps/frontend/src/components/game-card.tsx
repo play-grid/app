@@ -1,19 +1,19 @@
 import type { GameMeta } from '@guess-logo/game-core';
-import type { SupportedLanguage } from '@guess-logo/shared/types';
 import { ChevronRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { useGameNavigation } from '@/hooks/use-game-navigation';
 import { Button } from './ui/button';
 import { Skeleton } from './ui/skeleton';
 
 interface GameCardProps {
   game: GameMeta;
-  currentLanguage: SupportedLanguage;
   onPlay?: (gameId: string) => void;
 }
 
-export function GameCard({ game, currentLanguage, onPlay }: GameCardProps) {
+export function GameCard({ game, onPlay }: GameCardProps) {
+  const { currentLanguage } = useGameNavigation();
   const localizedName = game.name[currentLanguage] || game.name.en;
   const { t } = useTranslation();
   const handleClick = () => {
