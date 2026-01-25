@@ -8,6 +8,7 @@ workers_dev = true
 ALLOWED_ORIGINS = "http://localhost:5173,http://localhost:4173,https://guess-logo.pages.dev,https://games.mohdalaa.com"
 API_URL = "http://localhost:8787"
 LOG_LEVEL = "debug"
+R2_PUBLIC_URL = "https://pub-9df3c09e2c264f328b6770ef318b615e.r2.dev"
 
 [[ratelimits]]
 name = "RATE_LIMITER"

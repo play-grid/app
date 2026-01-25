@@ -11,12 +11,16 @@ export const EnvSchema = z.object({
   CLOUDFLARE_KV_API_TOKEN: z.string(),
   CLOUDFLARE_D1_TOKEN: z.string(),
   CLOUDFLARE_DATABASE_ID: z.string(),
+  CLOUDFLARE_R2_TOKEN: z.string(),
+  CLOUDFLARE_R2_ACCESS_KEY_ID: z.string(),
+  CLOUDFLARE_R2_SECRET_ACCESS_KEY: z.string(),
   LOG_LEVEL: z.enum(['fatal', 'error', 'warn', 'info', 'debug', 'trace', 'silent']),
   POSTHOG_HOST: z.string(),
   POSTHOG_PUBLIC_KEY: z.string(),
   // BETTER_AUTH_URL: z.string(),
   BETTER_AUTH_SECRET: z.string(),
   APP_NAME: z.string(),
+  R2_PUBLIC_URL: z.string(),
 });
 
 export type Env = z.infer<typeof EnvSchema>;
@@ -33,11 +37,15 @@ export function validateEnv(envVars: Record<string, unknown>): Env {
       LOG_LEVEL: 'debug',
       CLOUDFLARE_KV_API_TOKEN: 'mock_cloudflare_kv_api_token',
       CLOUDFLARE_D1_TOKEN: 'mock_cloudflare_d1_token',
+      CLOUDFLARE_R2_TOKEN: 'mock_cloudflare_r2_token',
+      CLOUDFLARE_R2_ACCESS_KEY_ID: 'mock_cloudflare_r2_ACCESS_KEY_ID',
+      CLOUDFLARE_R2_SECRET_ACCESS_KEY: 'mock_cloudflare_r2_SECRET_ACCESS_KEY',
       CLOUDFLARE_DATABASE_ID: 'mock_cloudflare_database_id',
       POSTHOG_HOST: 'mock_POSTHOG_HOST',
       POSTHOG_PUBLIC_KEY: 'mock_POSTHOG_PUBLIC_KEY',
       BETTER_AUTH_SECRET: 'mock_better_auth_secret',
       APP_NAME: 'mock_app_name',
+      R2_PUBLIC_URL: 'https://test-public-url.com',
     };
   }
 

@@ -67,7 +67,7 @@ const CATEGORY_CONFIGS: Record<UploadOptions['category'], Omit<UploadOptions, 'c
 export async function uploadFile(
   file: File,
   options: UploadOptions,
-  env: Pick<AppEnv['Bindings'], 'PLAY_GRID_BUCKET'>,
+  env: Pick<AppEnv['Bindings'], 'PLAY_GRID_BUCKET' | 'R2_PUBLIC_URL'>,
 ): Promise<UploadResult> {
   const config = CATEGORY_CONFIGS[options.category];
 
@@ -106,8 +106,8 @@ export async function uploadFile(
       },
     });
 
-    // Generate public URL
-    const url = `https://pub-9df3c09e2c264f328b6770ef318b615e.r2.dev/${key}`;
+    // Generate public URL using environment variable
+    const url = `${env.R2_PUBLIC_URL}/${key}`;
 
     return {
       url,

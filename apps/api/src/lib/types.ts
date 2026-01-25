@@ -23,6 +23,7 @@ export interface CloudflareBindings {
   GAME_HUB_DB: D1Database;
   ALLOWED_ORIGINS: string;
   API_URL: string;
+  R2_PUBLIC_URL: string;
 }
 
 export type FullBindings = Env & CloudflareBindings;

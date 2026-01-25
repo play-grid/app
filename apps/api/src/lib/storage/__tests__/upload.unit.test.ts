@@ -11,13 +11,13 @@ function createMockFile(name: string, type: string, size: number = 1024): File {
 
 describe('uploadFile', () => {
   let mockBucket: TestR2Bucket;
-  let mockEnv: { PLAY_GRID_BUCKET: TestR2Bucket };
+  let mockEnv: { PLAY_GRID_BUCKET: TestR2Bucket; R2_PUBLIC_URL: string };
 
   beforeEach(() => {
     vi.clearAllMocks();
     mockBucket = new TestR2Bucket();
     mockBucket.put.mockResolvedValue(undefined);
-    mockEnv = { PLAY_GRID_BUCKET: mockBucket };
+    mockEnv = { PLAY_GRID_BUCKET: mockBucket, R2_PUBLIC_URL: 'https://pub-9df3c09e2c264f328b6770ef318b615e.r2.dev' };
   });
 
   describe('successful uploads', () => {
