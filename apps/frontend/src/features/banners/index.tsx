@@ -1,4 +1,4 @@
-import type { DisplayBanner } from '@/hooks/use-banners';
+import type { DisplayBanner } from './use-banners';
 import * as React from 'react';
 import {
   Carousel,
@@ -8,6 +8,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel';
+import { getBannerFeatureFlag } from './use-banners';
 
 interface BannersCarouselProps {
   banners: DisplayBanner[];
@@ -43,7 +44,8 @@ const InternalBanner: React.FC<{ banner: DisplayBanner }> = ({ banner }) => {
 };
 
 export function BannersCarousel({ banners }: BannersCarouselProps) {
-  if (!banners || banners.length === 0) {
+  const { showBanners } = getBannerFeatureFlag();
+  if (!showBanners || !banners || banners.length === 0) {
     return null;
   }
 

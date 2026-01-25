@@ -1,10 +1,10 @@
 // import { UserButton } from '@daveyplate/better-auth-ui';
 import { useQuery } from '@tanstack/react-query';
-import { BannersCarousel } from '@/components/banner';
 import { GameCard, SkeletonGameCard } from '@/components/game-card';
 import SiteCustomizations from '@/components/site-about';
+import { BannersCarousel } from '@/features/banners';
 
-import { useBanners } from '@/hooks/use-banners';
+import { getBannerFeatureFlag, useBanners } from '@/features/banners/use-banners';
 import client from '@/lib/hono-client';
 
 function HomePage() {
@@ -20,6 +20,7 @@ function HomePage() {
   });
 
   const { data: banners = [] } = useBanners();
+  const { showBanners } = getBannerFeatureFlag();
 
   const skeletonCards = Array.from({ length: 2 }, (_, i) => (
     <SkeletonGameCard key={i} />
@@ -34,7 +35,7 @@ function HomePage() {
 
       {/* Banners Section */}
       <div className="w-full max-w-6xl mt-6">
-        <BannersCarousel banners={banners} />
+        {showBanners && <BannersCarousel banners={banners} />}
       </div>
 
       <main className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl w-full mt-5">

@@ -1,9 +1,10 @@
 import type { InferResponseType } from 'hono/client';
 import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
+import { useGameNavigation } from '@/hooks/use-game-navigation';
 import client from '@/lib/hono-client';
 import { getLocalizedField } from '@/utils/language-utils';
-import { useGameNavigation } from './use-game-navigation';
+import { FEATURE_FLAGS } from '../../lib/constants';
 
 type BannersResponse = InferResponseType<typeof client.api.banners.$get>;
 
@@ -37,3 +38,9 @@ export function useBanners() {
 }
 
 export type DisplayBanner = NonNullable<ReturnType<typeof useBanners>['data']>[number];
+
+export function getBannerFeatureFlag() {
+  return {
+    showBanners: FEATURE_FLAGS.SHOW_BANNERS,
+  };
+}
