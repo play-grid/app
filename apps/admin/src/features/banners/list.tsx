@@ -6,6 +6,7 @@ import {
   CreateButton,
   ColumnsButton,
   ExportButton,
+  ImageField,
 } from "@/components/admin";
 import { useRecordContext } from "ra-core";
 
@@ -32,8 +33,11 @@ const BooleanDisplay = ({ source }: { source: string }) => {
 };
 
 export const ListBanners = () => (
-  <List actions={<BannersActions />}>
+   <List actions={<BannersActions />}>
     <DataTable>
+      <DataTable.Col label="Image" source="imageUrl">
+        <ImageField source="imageUrl" imageClassName="h-10 w-20" />
+      </DataTable.Col>
       <DataTable.Col label="Title (EN)" source="titleEn" />
       <DataTable.Col label="Title (AR)" source="titleAr" />
       <DataTable.Col label="Active" source="isActive">

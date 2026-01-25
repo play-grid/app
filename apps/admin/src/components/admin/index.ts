@@ -30,6 +30,7 @@ export * from './export-button';
 export * from './field-toggle';
 export * from './file-field';
 export * from './file-input';
+export * from './image-field';
 export * from './filter-form';
 export * from './form';
 export * from './layout';

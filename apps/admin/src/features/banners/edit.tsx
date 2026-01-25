@@ -5,7 +5,7 @@ import {
   NumberInput,
   DateTimeInput,
   FileInput,
-  FileField,
+  ImageField,
 } from "@/components/admin";
 import { BooleanInput } from "@/components/admin/boolean-input";
 import { required } from "ra-core";
@@ -52,7 +52,7 @@ export const EditBanner = () => (
          multiple={false}
          format={formatImageUrl}
        >
-         <FileField source="src" title="title" />
+         <ImageField source="src" title="title" />
        </FileInput>
       <TextInput source="linkUrl" label="Link URL" />
       <BooleanInput source="isActive" label="Active" />
