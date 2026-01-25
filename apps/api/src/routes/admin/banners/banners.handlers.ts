@@ -13,27 +13,38 @@ import { z } from 'zod';
 import { getDB } from '@/db';
 import { banners } from '@/db/schema';
 import { dataUrlToFile, uploadFile } from '@/lib/storage/upload';
+import { logger } from '@/utils/logger';
 import { createBannerFormSchema, updateBannerFormSchema } from './banners.schemas';
 
 /**
  * Validates and uploads an image from either File or data URL
  */
 async function handleImageUpload(
-  imageFile: File | null | undefined,
-  imageUrl: string | null | undefined,
+  imageFile: File | undefined,
+  imageUrl: string | undefined,
   env: any,
 ): Promise<string | null> {
+  logger.debug('handleImageUpload - input:', { imageFile, imageUrl });
+
+  logger.debug('handleImageUpload - input:', { imageFile, imageUrl });
+
   if (imageFile) {
     const result = await uploadFile(imageFile, { category: 'banner' }, env);
+    logger.debug('handleImageUpload - uploaded file url:', result.url);
+    logger.debug('handleImageUpload - uploaded file url:', result.url);
     return result.url;
   }
 
   if (imageUrl?.startsWith('data:')) {
     const file = await dataUrlToFile(imageUrl, 'banner-image.jpg');
     const result = await uploadFile(file, { category: 'banner' }, env);
+    logger.debug('handleImageUpload - dataUrl converted and uploaded url:', result.url);
+    logger.debug('handleImageUpload - dataUrl converted and uploaded url:', result.url);
     return result.url;
   }
 
+  logger.debug('handleImageUpload - returning original imageUrl:', imageUrl);
+  logger.debug('handleImageUpload - returning original imageUrl:', imageUrl);
   return imageUrl || null;
 }
 
@@ -41,23 +52,49 @@ async function handleImageUpload(
  * Helper to safely parse FormData into typed object with Zod validation
  */
 function parseFormData(formData: FormData, isUpdate = false) {
-  const raw = {
-    titleEn: formData.get('titleEn') as string | null,
-    titleAr: formData.get('titleAr') as string | null,
-    descriptionEn: formData.get('descriptionEn') as string | null,
-    descriptionAr: formData.get('descriptionAr') as string | null,
-    imageUrl: formData.get('imageUrl') as string | null,
-    imageFile: formData.get('imageFile') as File | null,
-    linkUrl: formData.get('linkUrl') as string | null,
-    isActive: formData.get('isActive') === 'true',
-    position: Number.parseInt(formData.get('position') as string) || 0,
-    startDate: formData.get('startDate') as string | null,
-    endDate: formData.get('endDate') as string | null,
+  logger.debug('parseFormData - raw formData entries:', Array.from(formData.entries()));
+
+  const raw: any = {};
+
+  // Helper to extract string fields
+  const getString = (key: string) => {
+    const val = formData.get(key);
+    if (val === null)
+      return undefined;
+    const s = val as string;
+    return s === '' || s === 'null' ? null : s;
   };
+
+  const stringFields = ['titleEn', 'titleAr', 'descriptionEn', 'descriptionAr', 'imageUrl', 'linkUrl', 'startDate', 'endDate'];
+  for (const field of stringFields) {
+    if (formData.has(field)) {
+      raw[field] = getString(field);
+    }
+  }
+
+  if (formData.has('isActive')) {
+    raw.isActive = formData.get('isActive') === 'true' || formData.get('isActive') === '1';
+  }
+
+  if (formData.has('position')) {
+    const pos = formData.get('position');
+    raw.position = pos !== null ? Number.parseInt(pos as string) : undefined;
+  }
+
+  if (formData.has('imageFile')) {
+    const file = formData.get('imageFile');
+    if (file instanceof File) {
+      raw.imageFile = file;
+    }
+  }
+
+  logger.debug('parseFormData - raw object before Zod:', raw);
 
   // Validate with Zod
   const schema = isUpdate ? updateBannerFormSchema : createBannerFormSchema;
-  return schema.parse(raw);
+  const parsed = schema.parse(raw);
+  logger.debug('parseFormData - parsed object after Zod:', parsed);
+  return parsed;
 }
 
 export const listBannersHandler: AppRouteHandler<ListBannersRoute> = async (c) => {
@@ -109,6 +146,8 @@ export const createBannerHandler: AppRouteHandler<CreateBannerRoute> = async (c)
 
   try {
     const formData = await c.req.formData();
+    logger.debug('createBannerHandler - received formData:', Array.from(formData.entries()));
+    logger.debug('createBannerHandler - received formData:', Array.from(formData.entries()));
     const input = parseFormData(formData, false);
 
     const imageUrl = await handleImageUpload(input.imageFile, input.imageUrl, c.env);
@@ -135,7 +174,8 @@ export const createBannerHandler: AppRouteHandler<CreateBannerRoute> = async (c)
     return c.json(result, HttpStatusCodes.CREATED);
   }
   catch (error) {
-    console.error('Failed to create banner:', error);
+    logger.error('Failed to create banner:', error);
+    logger.error('Failed to create banner:', error);
 
     // Zod validation errors
     if (error instanceof z.ZodError) {
@@ -198,7 +238,8 @@ export const updateBannerHandler: AppRouteHandler<UpdateBannerRoute> = async (c)
     return c.json(result, HttpStatusCodes.OK);
   }
   catch (error) {
-    console.error('Failed to update banner:', error);
+    logger.error('Failed to update banner:', error);
+    logger.error('Failed to update banner:', error);
 
     if (error instanceof z.ZodError) {
       return c.json(

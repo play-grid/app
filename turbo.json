@@ -14,7 +14,8 @@
     },
     "check-types": {
       "dependsOn": ["^check-types"],
-      "outputs": []
+      "outputs": [],
+      "cache":true
     },
     "dev": {
       "cache": false,

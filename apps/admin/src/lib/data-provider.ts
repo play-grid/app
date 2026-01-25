@@ -5,7 +5,7 @@ const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8787';
 
 const client = hcWithType(API_URL);
 
-type ResourceType = 'questions' | 'question-feedback' | 'categories';
+type ResourceType = 'questions' | 'question-feedback' | 'categories' | 'banners';
 
 const routeMap: Record<
   ResourceType,
@@ -26,6 +26,13 @@ const routeMap: Record<
   },
   'question-feedback': {
     getList: () => (client.api.admin)['question-feedback'].$get,
+  },
+  banners: {
+    getList: () => client.api.admin.banners.$get,
+    getOne: () => (client.api.admin).banners[':id'].$get,
+    create: () => (client.api.admin).banners.$post,
+    update: () => (client.api.admin).banners[':id'].$patch,
+    delete: () => (client.api.admin).banners[':id'].$delete,
   },
   categories: {
     getList: () => (client.api.admin).categories.$get,
@@ -143,9 +150,30 @@ async function createHandler(
       throw new Error(`Resource "${resource}" create endpoint not configured`);
     }
 
-    const response = await endpoint({
-      json: params.data,
-    });
+    let response: Response;
+
+    if (resource === 'banners') {
+      // For banners, send as object to hc, which will handle FormData conversion
+      const formPayload: Record<string, any> = {};
+      Object.entries(params.data).forEach(([key, value]) => {
+        if (value !== null && value !== undefined) {
+          if (value.rawFile instanceof File) {
+            // Handle file uploads
+            formPayload[key] = value.rawFile;
+          } else {
+            formPayload[key] = value;
+          }
+        }
+      });
+
+      response = await endpoint({
+        form: formPayload,
+      });
+    } else {
+      response = await endpoint({
+        json: params.data,
+      });
+    }
 
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
@@ -179,10 +207,32 @@ async function updateHandler(
       throw new Error(`Resource "${resource}" update endpoint not configured`);
     }
 
-    const response = await endpoint({
-      param: { id: params.id.toString() },
-      json: params.data,
-    });
+    let response: Response;
+
+    if (resource === 'banners') {
+      // For banners, send as object to hc, which will handle FormData conversion
+      const formPayload: Record<string, any> = {};
+      Object.entries(params.data).forEach(([key, value]) => {
+        if (value !== null && value !== undefined) {
+          if (value.rawFile instanceof File) {
+            // Handle file uploads
+            formPayload[key] = value.rawFile;
+          } else {
+            formPayload[key] = value;
+          }
+        }
+      });
+
+      response = await endpoint({
+        param: { id: params.id.toString() },
+        form: formPayload,
+      });
+    } else {
+      response = await endpoint({
+        param: { id: params.id.toString() },
+        json: params.data,
+      });
+    }
 
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
