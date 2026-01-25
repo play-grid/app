@@ -21,6 +21,7 @@ import { GameInstructions } from '../components/game-instructions';
 import { GameRoomModal } from '../components/game-room-modal';
 import { GameSettings } from '../components/game-settings';
 import { PlayerList } from '../components/player-list';
+import { SoundControls } from '../components/sound-controls';
 import { Button } from '../components/ui/button';
 import { Card } from '../components/ui/card';
 import { Dialog, DialogContent, DialogTrigger } from '../components/ui/dialog';
@@ -99,8 +100,11 @@ export function FiveSecondsLobby() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-4 md:p-8">
       <div className="w-full max-w-6xl space-y-8">
-        {/* Back Button */}
-        <BackButton />
+        {/* Navigation & Controls */}
+        <div className="flex justify-between items-center w-full">
+          <BackButton />
+          <SoundControls />
+        </div>
 
         {/* Header */}
         <div className="text-center space-y-4">

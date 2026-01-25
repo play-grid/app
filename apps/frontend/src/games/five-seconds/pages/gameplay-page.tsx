@@ -9,6 +9,7 @@ import { PlayerScores } from '../components/player-scores';
 import { PreTurnView } from '../components/pre-turn-view';
 import { ReadingView } from '../components/reading-view';
 import { RoundInfo } from '../components/round-info';
+import { SoundControls } from '../components/sound-controls';
 import { Button } from '../components/ui/button';
 import { Card } from '../components/ui/card';
 import {
@@ -23,6 +24,7 @@ import {
 } from '../components/ui/dialog';
 import { Spinner } from '../components/ui/spinner';
 import { VotingView } from '../components/voting-view';
+import { useFiveSecondsSounds } from '../hooks/use-five-seconds-sounds';
 import { useQuestion } from '../hooks/use-question';
 
 export function GameplayPage() {
@@ -46,6 +48,7 @@ export function GameplayPage() {
   } = useFiveSecondsActions();
 
   const { t } = useTranslation();
+  const { playSuccess } = useFiveSecondsSounds();
   const { trackTurnStart, trackTurnComplete, trackVoteSubmit, trackGameComplete, trackGameReset } = useAnalytics();
   const hasProcessedVotingRef = useRef(false);
   const [isResetConfirmOpen, setIsResetConfirmOpen] = useState(false);
@@ -118,6 +121,7 @@ export function GameplayPage() {
 
           const maxScore = Math.max(...Object.values(players).map(p => p.score));
           if (maxScore >= settings.pointsToWin) {
+            playSuccess(); // Win sound!
             trackGameComplete({
               game_id: 'five-seconds',
               winner_id: currentPlayer.id,
@@ -140,7 +144,7 @@ export function GameplayPage() {
 
       processVotingEnd();
     }
-  }, [isVotingFinished, currentPlayer, turnState, tallyVotes, endGame, players, settings.pointsToWin, trackTurnComplete, trackGameComplete]);
+  }, [isVotingFinished, currentPlayer, turnState, tallyVotes, endGame, players, settings.pointsToWin, playSuccess, trackTurnComplete, trackGameComplete]);
 
   const handleStartTurn = useCallback(async () => {
     trackTurnStart({
@@ -176,54 +180,58 @@ export function GameplayPage() {
   return (
     <div className="min-h-screen flex flex-col p-4 md:p-8">
       <div className="w-full max-w-4xl mx-auto mb-6">
-        <div className="flex justify-start gap-2">
-          {error && (
-            <Button
-              variant="outline"
-              size="sm"
-              className="gap-2"
-              onClick={() => setPhase('lobby')}
-              aria-label={t('common.back')}
-            >
-              <ArrowLeft className="w-4 h-4" />
-              <span className="hidden sm:inline">{t('common.back')}</span>
-            </Button>
-          )}
-
-          <Dialog open={isResetConfirmOpen} onOpenChange={setIsResetConfirmOpen}>
-            <DialogTrigger asChild>
+        <div className="flex justify-between items-center">
+          <div className="flex gap-2">
+            {error && (
               <Button
                 variant="outline"
                 size="sm"
                 className="gap-2"
-                aria-label={t('fiveSecondsGame.gameplay.resetGame')}
+                onClick={() => setPhase('lobby')}
+                aria-label={t('common.back')}
               >
-                <RotateCcw className="w-4 h-4" />
-                <span className="hidden sm:inline">
-                  {t('fiveSecondsGame.gameplay.resetGame')}
-                </span>
+                <ArrowLeft className="w-4 h-4" />
+                <span className="hidden sm:inline">{t('common.back')}</span>
               </Button>
-            </DialogTrigger>
+            )}
 
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>
-                  {t('fiveSecondsGame.gameplay.resetConfirmTitle')}
-                </DialogTitle>
-                <DialogDescription>
-                  {t('fiveSecondsGame.gameplay.resetConfirmDescription')}
-                </DialogDescription>
-              </DialogHeader>
-              <DialogFooter>
-                <DialogClose asChild>
-                  <Button variant="outline">{t('common.cancel')}</Button>
-                </DialogClose>
-                <Button variant="destructive" onClick={handleResetGame}>
-                  {t('fiveSecondsGame.gameplay.resetGame')}
+            <Dialog open={isResetConfirmOpen} onOpenChange={setIsResetConfirmOpen}>
+              <DialogTrigger asChild>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="gap-2"
+                  aria-label={t('fiveSecondsGame.gameplay.resetGame')}
+                >
+                  <RotateCcw className="w-4 h-4" />
+                  <span className="hidden sm:inline">
+                    {t('fiveSecondsGame.gameplay.resetGame')}
+                  </span>
                 </Button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
+              </DialogTrigger>
+
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>
+                    {t('fiveSecondsGame.gameplay.resetConfirmTitle')}
+                  </DialogTitle>
+                  <DialogDescription>
+                    {t('fiveSecondsGame.gameplay.resetConfirmDescription')}
+                  </DialogDescription>
+                </DialogHeader>
+                <DialogFooter>
+                  <DialogClose asChild>
+                    <Button variant="outline">{t('common.cancel')}</Button>
+                  </DialogClose>
+                  <Button variant="destructive" onClick={handleResetGame}>
+                    {t('fiveSecondsGame.gameplay.resetGame')}
+                  </Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
+          </div>
+
+          <SoundControls />
         </div>
       </div>
 
@@ -270,7 +278,7 @@ export function GameplayPage() {
                           variant="outline"
                           onClick={() => setPhase('lobby')}
                         >
-                          {t('fiveSecondsGame.gameplay.backToLobby')}
+                          {t('fiveSecondsGame.lobby.backToLobby')}
                         </Button>
                       </div>
                     </div>
@@ -290,7 +298,7 @@ export function GameplayPage() {
                                 variant="default"
                                 onClick={() => setPhase('lobby')}
                               >
-                                {t('fiveSecondsGame.gameplay.backToLobby')}
+                                {t('fiveSecondsGame.lobby.backToLobby')}
                               </Button>
                             )
                           : (

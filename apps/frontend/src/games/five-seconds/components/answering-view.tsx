@@ -1,5 +1,7 @@
 import type { Question } from '@guess-logo/five-seconds';
 import { Timer } from 'lucide-react';
+import { useEffect } from 'react';
+import { useFiveSecondsSounds } from '../hooks/use-five-seconds-sounds';
 import { QuestionInfo } from './question-info';
 import { Progress } from './ui/progress';
 
@@ -10,7 +12,18 @@ interface AnsweringViewProps {
 }
 
 export function AnsweringView({ timeLeft, totalTime, currentQuestion }: AnsweringViewProps) {
+  const { playTick, playBuzzer } = useFiveSecondsSounds();
   const progressPercentage = (timeLeft / totalTime) * 100;
+
+  useEffect(() => {
+    if (timeLeft > 0) {
+      playTick();
+    }
+    else if (timeLeft === 0) {
+      playBuzzer();
+    }
+  }, [timeLeft, playTick, playBuzzer]);
+
   return (
     <div className="space-y-8">
       <div className="space-y-4">

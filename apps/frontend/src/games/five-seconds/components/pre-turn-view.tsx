@@ -1,5 +1,6 @@
 import { ArrowRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { useFiveSecondsSounds } from '../hooks/use-five-seconds-sounds';
 import { Button } from './ui/button';
 
 interface PreTurnViewProps {
@@ -10,6 +11,13 @@ interface PreTurnViewProps {
 
 export function PreTurnView({ currentPlayerName, onStartTurn, isCurrentUserTurn }: PreTurnViewProps) {
   const { t } = useTranslation();
+  const { playStart } = useFiveSecondsSounds();
+
+  const handleStart = () => {
+    playStart();
+    onStartTurn();
+  };
+
   return (
     <div className="text-center space-y-6">
       <div className="space-y-2">
@@ -23,7 +31,7 @@ export function PreTurnView({ currentPlayerName, onStartTurn, isCurrentUserTurn 
         </p>
       </div>
       {isCurrentUserTurn && (
-        <Button size="lg" onClick={onStartTurn} className="text-xl px-8 py-6">
+        <Button size="lg" onClick={handleStart} className="text-xl px-8 py-6">
           {t('fiveSecondsGame.gameplay.startTurn')}
           <ArrowRight className="w-6 h-6 ml-2" />
         </Button>

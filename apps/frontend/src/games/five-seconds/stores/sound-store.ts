@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-interface PlayerPenalization {
+interface SoundState {
   isSoundEnabled: boolean;
   isMusicEnabled: boolean;
   toggleSound: () => void;
@@ -10,7 +10,7 @@ interface PlayerPenalization {
   setMusicEnabled: (enabled: boolean) => void;
 }
 
-export const usePlayerPenalization = create<PlayerPenalization>()(
+export const useSoundStore = create<SoundState>()(
   persist(
     set => ({
       isSoundEnabled: true,
@@ -21,7 +21,7 @@ export const usePlayerPenalization = create<PlayerPenalization>()(
       setMusicEnabled: (enabled: boolean) => set({ isMusicEnabled: enabled }),
     }),
     {
-      name: 'five-seconds-player-settings',
+      name: 'five-seconds-sound-settings',
     },
   ),
 );
