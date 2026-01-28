@@ -12,6 +12,7 @@ export const env = createEnv({
     VITE_SERVER_PORT: z.coerce.number().default(5173),
     VITE_PUBLIC_POSTHOG_KEY: z.string(),
     VITE_PUBLIC_POSTHOG_HOST: z.url(),
+    VITE_BUCKET_URL: z.url(),
   },
 
   /**

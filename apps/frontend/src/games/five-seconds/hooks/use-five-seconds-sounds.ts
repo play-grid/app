@@ -1,14 +1,16 @@
 import useSound from 'use-sound';
+import { env } from '@/env';
 import { useSoundStore } from '../stores/sound-store';
 
+const URL = `${env.VITE_BUCKET_URL}/sounds/fiveSeconds`;
+
 const SOUNDS = {
-  // Using stable Amazon S3 assets from FreeCodeCamp for reliability (CORS friendly)
-  TICK: 'https://s3.amazonaws.com/freecodecamp/drums/Heater-2.mp3',
-  BUZZER: 'https://s3.amazonaws.com/freecodecamp/drums/Give_us_a_light.mp3',
-  SUCCESS: 'https://s3.amazonaws.com/freecodecamp/drums/Heater-1.mp3',
-  FAILURE: 'https://s3.amazonaws.com/freecodecamp/drums/Heater-6.mp3',
-  START: 'https://s3.amazonaws.com/freecodecamp/drums/Bld_H1.mp3',
-  MUSIC: 'https://cdn.pixabay.com/audio/2022/01/18/audio_d0a13f69d2.mp3',
+  TICK: `${URL}/button-ui-tick.aac`,
+  BUZZER: `${URL}/anxiety-ticks-247694.aac`,
+  SUCCESS: `${URL}/postive.aac`,
+  FAILURE: `${URL}/vote-down.aac`,
+  START: `${URL}/Bld_H1.mp3`,
+  MUSIC: `https://cdn.pixabay.com/audio/2022/01/18/audio_d0a13f69d2.mp3`,
 };
 
 export function useFiveSecondsSounds() {
