@@ -41,7 +41,7 @@
   },
   "about": {
     "author_name": "Mohammed Alaa",
-    "app_info_title": "About the Game",
+    "app_info_title": "About The Platform",
     "developer_label": "Made with love and care 🩵 by",
     "fun_fact_title": "Did you know? 🤔",
     "fun_fact_content": "This game was built using React and tailwindcss✨",
@@ -52,7 +52,7 @@
     "p3": "Free Now: Everything is free in the beta version. We want you to try and enjoy before anything else.",
     "p4": "No restrictions, no annoying ads.",
     "subtitle2": "For Developers",
-    "p5": "This project is influenced by and supports open-source software, and I believe in its value and therefore support it. Soon, the game core I built myself will be open source as js library + If you're interested in what's happening behind the scenes, I share my journey in building this platform and how I balance performance and efficiency, and how I use modern technologies like state management, caching, and real-time multiplayer gameplay. The goal is always to deliver a seamless and scalable experience with room for experimentation and continuous technical learning.",
+    "p5": "This project is influenced by and supports open-source software, and I believe in its value and therefore support it. Soon, the game core that used in all games I built myself will be open sourced as js agnostic library + If you're interested in what's happening behind the scenes, I share my journey in building this platform and how I balance performance and efficiency, and how I use modern technologies like state management, caching, and real-time multiplayer gameplay. The goal is always to deliver a seamless and scalable experience with room for experimentation and continuous technical learning.",
     "p6":"Open-source software used in the platform",
     "p62":"View full license information →"
   },
