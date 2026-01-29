@@ -1,0 +1,87 @@
+@font-face {
+  font-family: 'Amiri';
+  font-style: normal;
+  font-weight: 400;
+  src: url('/assets/fonts/Amiri/Amiri-Regular.ttf') format('truetype');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Amiri';
+  font-style: italic;
+  font-weight: 400;
+  src: url('/assets/fonts/Amiri/Amiri-Italic.ttf') format('truetype');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Amiri';
+  font-style: normal;
+  font-weight: 700;
+  src: url('/assets/fonts/Amiri/Amiri-Bold.ttf') format('truetype');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Amiri';
+  font-style: italic;
+  font-weight: 700;
+  src: url('/assets/fonts/Amiri/Amiri-BoldItalic.ttf') format('truetype');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Geist';
+  font-style: normal;
+  font-weight: 100 900;
+  src: url('/assets/fonts/Geist/Geist-VariableFont_wght.ttf') format('truetype');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Playfair';
+  font-style: normal;
+  font-weight: 400 900;
+  src: url('/assets/fonts/Playfair/Playfair-VariableFont_opsz,wdth,wght.ttf') format('truetype');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Playfair';
+  font-style: italic;
+  font-weight: 400 900;
+  src: url('/assets/fonts/Playfair/Playfair-Italic-VariableFont_opsz,wdth,wght.ttf') format('truetype');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Rubik';
+  font-style: normal;
+  font-weight: 300 900;
+  src: url('/assets/fonts/Rubik/Rubik-VariableFont_wght.ttf') format('truetype');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Rubik';
+  font-style: italic;
+  font-weight: 300 900;
+  src: url('/assets/fonts/Rubik/Rubik-Italic-VariableFont_wght.ttf') format('truetype');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PixelAE';
+  font-style: normal;
+  font-weight: 400;
+  src: url('/assets/fonts/PixelAE-Regular.woff2') format('woff2');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PixelAE';
+  font-style: normal;
+  font-weight: 700;
+  src: url('/assets/fonts/PixelAE-Bold.woff2') format('woff2');
+  font-display: swap;
+}
