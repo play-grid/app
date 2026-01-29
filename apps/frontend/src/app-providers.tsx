@@ -1,5 +1,4 @@
-// eslint-disable-next-line antfu/no-import-node-modules-by-path
-import type { PostHogConfig } from '../../../node_modules/.pnpm/posthog-js@1.321.2/node_modules/posthog-js';
+// import type { PostHogConfig } from '../../../node_modules/.pnpm/posthog-js@1.321.2/node_modules/posthog-js';
 import { AuthUIProvider } from '@daveyplate/better-auth-ui';
 import { PostHogProvider } from '@posthog/react';
 
@@ -10,6 +9,7 @@ import {
   redirect,
   useNavigate,
 } from 'react-router-dom';
+import { MobileWarningNotifier } from '@/components/mobile-warning-notifier';
 import { NetworkStatusNotifier } from '@/components/network-status-notifier';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from '@/components/ui/sonner';
@@ -61,6 +61,7 @@ function AppProviders() {
                 }}
               >
                 <Toaster richColors />
+                <MobileWarningNotifier />
                 <NetworkStatusNotifier />
                 <App />
               </AuthUIProvider>
@@ -71,12 +72,11 @@ function AppProviders() {
     </QueryProvider>
   );
 }
-const options: Partial<PostHogConfig> = {
+const options: Partial<any> = {
   api_host: env.VITE_PUBLIC_POSTHOG_HOST,
   defaults: '2025-05-24',
   capture_exceptions: true,
   debug: import.meta.env.MODE === 'development',
-
 };
 
 export default function Root() {

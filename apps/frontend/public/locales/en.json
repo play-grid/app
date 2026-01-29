@@ -146,6 +146,8 @@
     "network": {
       "offline": "Check your connection and try again"
     },
+    "mobileWarning": "This website is not optimized for mobile experience. For the best experience, please use iPad, laptop, or desktop.",
+    "dismiss": "Dismiss",
     "switchMode": "Switch Mode"
   },
   "customizations": {
