@@ -1,8 +1,8 @@
 import { AlertCircle, Globe, Zap } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { CopyButton } from '@/components/copy-button';
 import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
-import { CopyButton } from './copy-button';
 import { useRoomStats } from './use-room';
 
 interface RoomStatsHeaderProps {

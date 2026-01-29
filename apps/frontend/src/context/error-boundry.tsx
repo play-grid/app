@@ -3,6 +3,7 @@ import { Mail, RefreshCw, RotateCcw, TriangleAlert } from 'lucide-react';
 import posthog from 'posthog-js';
 import { ErrorBoundary } from 'react-error-boundary';
 import { useTranslation } from 'react-i18next';
+import { CopyButton } from '@/components/copy-button';
 import { Button } from '@/components/ui/button';
 import { logger } from '@/utils/logger';
 
@@ -14,10 +15,9 @@ function generateErrorId(): string {
   return `ERR-${crypto.randomUUID().slice(0, 8).toUpperCase()}`;
 }
 
-function ErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
+function ErrorFallback({ error, errorId, resetErrorBoundary }: FallbackProps & { errorId: string }) {
   const { t } = useTranslation();
   const isProduction = import.meta.env.MODE === 'production';
-  const errorId = generateErrorId();
 
   const supportEmail = 'play-grid@mohdalaa.com';
   const handleReportIssue = (): void => {
@@ -31,15 +31,14 @@ function ErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
     window.location.reload();
   };
 
-  logger.error({ error, errorId }, 'Uncaught error:');
-
-  if (import.meta.env.PROD) {
-    posthog.captureException(error, {
-      errorId,
-      timestamp: new Date().toISOString(),
-      url: window.location.href,
-    });
-  }
+  const getErrorInfo = (): string => {
+    return `Error ID: ${errorId}
+      Message: ${error?.message ?? 'Unknown error'}
+      Stack: ${error?.stack ?? 'No stack trace available'}
+      URL: ${window.location.href}
+      Timestamp: ${new Date().toISOString()}
+      User Agent: ${navigator.userAgent}`;
+  };
 
   return (
     <div className="flex items-center justify-center min-h-[50vh] w-full bg-background p-4">
@@ -82,9 +81,12 @@ function ErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
         {!isProduction && error && (
           <div className="w-full max-w-sm">
             <div className="rounded-lg border border-accent bg-accent/30 p-4">
-              <p className="text-xs uppercase tracking-wider font-semibold text-accent-foreground mb-2">
-                {t('errorBoundary.errorDetails')}
-              </p>
+              <div className="flex items-center justify-between mb-2">
+                <p className="text-xs uppercase tracking-wider font-semibold text-accent-foreground">
+                  {t('errorBoundary.errorDetails')}
+                </p>
+                <CopyButton text={error.message} size="icon" variant="ghost" className="h-8 w-8" />
+              </div>
               <p className="text-sm text-accent-foreground font-mono wrap-break-word">
                 {error.message}
               </p>
@@ -117,6 +119,15 @@ function ErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
             </Button>
           </div>
 
+          {!isProduction && (
+            <CopyButton
+              text={getErrorInfo()}
+              size="lg"
+              variant="secondary"
+              className="w-full"
+            />
+          )}
+
           <Button
             variant="ghost"
             onClick={handleReportIssue}
@@ -133,8 +144,25 @@ function ErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
 }
 
 export default function ErrorBoundaryWrapper({ children }: ErrorBoundaryProps) {
+  const errorId = generateErrorId();
+
+  const handleError = (error: Error) => {
+    logger.error({ error, errorId }, 'Uncaught error:');
+
+    if (import.meta.env.PROD) {
+      posthog.captureException(error, {
+        errorId,
+        timestamp: new Date().toISOString(),
+        url: window.location.href,
+      });
+    }
+  };
+
   return (
-    <ErrorBoundary FallbackComponent={ErrorFallback}>
+    <ErrorBoundary
+      FallbackComponent={props => <ErrorFallback {...props} errorId={errorId} />}
+      onError={handleError}
+    >
       {children}
     </ErrorBoundary>
   );
