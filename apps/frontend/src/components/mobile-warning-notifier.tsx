@@ -1,19 +1,20 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
+import { getUserPreferences, setUserPreferences } from '@/lib/user-preferences';
 
 export function MobileWarningNotifier() {
   const { t } = useTranslation();
   const [isMobile, setIsMobile] = useState<boolean>(window.innerWidth < 1024);
-  const hasShownToastRef = useRef<boolean>(false);
+  const [hasDismissed, setHasDismissed] = useState<boolean>(() => {
+    const prefs = getUserPreferences();
+    return prefs.mobileWarningDismissed ?? false;
+  });
 
   useEffect(() => {
     const handleResize = () => {
       const mobile = window.innerWidth < 1024;
       setIsMobile(mobile);
-      if (!mobile) {
-        hasShownToastRef.current = false;
-      }
     };
 
     window.addEventListener('resize', handleResize);
@@ -24,19 +25,20 @@ export function MobileWarningNotifier() {
   }, []);
 
   useEffect(() => {
-    if (isMobile && !hasShownToastRef.current) {
+    if (isMobile && !hasDismissed) {
       toast.warning(t('common.mobileWarning'), {
         duration: Infinity,
+        actionButtonStyle: { backgroundColor: '#F3CF58' },
         action: {
           label: t('common.dismiss'),
           onClick: () => {
-            hasShownToastRef.current = true;
+            setUserPreferences('mobileWarningDismissed', true);
+            setHasDismissed(true);
           },
         },
       });
-      hasShownToastRef.current = true;
     }
-  }, [isMobile, t]);
+  }, [isMobile, hasDismissed, t]);
 
   return null;
 }
