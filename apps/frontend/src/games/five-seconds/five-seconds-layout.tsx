@@ -2,8 +2,8 @@ import { difficultySchema, fiveSecondsGame, FiveSecondsGameStateSchema } from '@
 import { AdapterProvider } from '@guess-logo/game-core';
 import { useEffect, useMemo } from 'react';
 import { Outlet, useSearchParams } from 'react-router-dom';
+import { useGameTheme } from '@/context/game-theme-context';
 import { useRoomSession } from '@/features/room/room-store';
-import { useIsDarkTheme } from '@/hooks/use-is-dark-theme';
 import { destroyAdapter, getOrCreateAdapter } from '@/lib/adapter-instance';
 import './index.css';
 
@@ -87,18 +87,12 @@ export function FiveSecondsLayout() {
     };
   }, []);
 
-  const isDark = useIsDarkTheme();
+  const { setGameTheme } = useGameTheme();
 
   useEffect(() => {
-    const themeClasses = ['fiveSeconds'];
-    if (isDark) {
-      themeClasses.push('dark');
-    }
-    document.body.classList.add(...themeClasses);
-    return () => {
-      document.body.classList.remove(...themeClasses);
-    };
-  }, [isDark]);
+    setGameTheme('five-seconds');
+    return () => setGameTheme('platform');
+  }, [setGameTheme]);
 
   return (
     <AdapterProvider adapter={adapter}>

@@ -18,6 +18,7 @@ import QueryProvider from '@/context/api-provider';
 import { LanguageRouter } from '@/i18n/language-router';
 import { authClient } from '@/lib/auth-client';
 import App from './app';
+import { GameThemeProvider } from './context/game-theme-context';
 import { env } from './env';
 import authAr from './i18n/auth-ar.json';
 import '@/i18n/config';
@@ -41,33 +42,35 @@ function AppProviders() {
   return (
     <QueryProvider>
       <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
-        <TooltipProvider>
-          <div className="bg-background text-primary min-h-screen">
-            <LanguageRouter>
-              <AuthUIProvider
-                authClient={authClient}
-                navigate={navigate}
-                replace={href => redirect(href)}
-                Link={ReactRouterLink}
-                localization={i18n.language === 'ar' ? authAr : undefined}
-                basePath=""
-                viewPaths={{
-                  SIGN_IN: 'login',
-                  SIGN_OUT: 'logout',
-                  SIGN_UP: 'register',
-                  FORGOT_PASSWORD: 'forgot',
-                  RESET_PASSWORD: 'reset',
-                  MAGIC_LINK: 'magic',
-                }}
-              >
-                <Toaster richColors />
-                <MobileWarningNotifier />
-                <NetworkStatusNotifier />
-                <App />
-              </AuthUIProvider>
-            </LanguageRouter>
-          </div>
-        </TooltipProvider>
+        <GameThemeProvider defaultTheme="platform">
+          <TooltipProvider>
+            <div className="bg-background text-primary min-h-screen">
+              <LanguageRouter>
+                <AuthUIProvider
+                  authClient={authClient}
+                  navigate={navigate}
+                  replace={href => redirect(href)}
+                  Link={ReactRouterLink}
+                  localization={i18n.language === 'ar' ? authAr : undefined}
+                  basePath=""
+                  viewPaths={{
+                    SIGN_IN: 'login',
+                    SIGN_OUT: 'logout',
+                    SIGN_UP: 'register',
+                    FORGOT_PASSWORD: 'forgot',
+                    RESET_PASSWORD: 'reset',
+                    MAGIC_LINK: 'magic',
+                  }}
+                >
+                  <Toaster richColors />
+                  <MobileWarningNotifier />
+                  <NetworkStatusNotifier />
+                  <App />
+                </AuthUIProvider>
+              </LanguageRouter>
+            </div>
+          </TooltipProvider>
+        </GameThemeProvider>
       </ThemeProvider>
     </QueryProvider>
   );

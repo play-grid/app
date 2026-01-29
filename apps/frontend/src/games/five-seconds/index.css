@@ -12,7 +12,7 @@
   font-style: normal;
 }
 
-.fiveSeconds {
+.theme-five-seconds {
   --font-sans-en: 'PixelAE', sans-serif;
   --font-sans-ar: 'PixelAE', sans-serif;
   --font-family-sans: var(--font-sans-en);
@@ -97,7 +97,7 @@
 
 /*
 TODO:NOT supported now
-.fiveSeconds.dark {
+.theme-five-seconds.dark {
 
   --background: #322c21;
   --foreground: #cec4a9;
