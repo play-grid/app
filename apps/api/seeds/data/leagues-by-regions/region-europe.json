@@ -1574,14 +1574,14 @@
   },
   {
     "id": 695,
-    "name": "U18 Premier League - North",
+    "name": " Premier League - North",
     "country": "England",
     "logo": "https://media.api-sports.io/football/leagues/695.png",
     "teams": [
       {
         "id": 15375,
         "code": null,
-        "name": "Blackburn Rovers U18",
+        "name": "Blackburn Rovers ",
         "country": "England",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/15375.png",
@@ -1590,7 +1590,7 @@
       {
         "id": 15377,
         "code": null,
-        "name": "Derby County U18",
+        "name": "Derby County ",
         "country": "England",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/15377.png",
@@ -1599,7 +1599,7 @@
       {
         "id": 15378,
         "code": null,
-        "name": "Everton U18",
+        "name": "Everton ",
         "country": "England",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/15378.png",
@@ -1608,7 +1608,7 @@
       {
         "id": 15379,
         "code": null,
-        "name": "Leeds United U18",
+        "name": "Leeds United ",
         "country": "England",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/15379.png",
@@ -1617,7 +1617,7 @@
       {
         "id": 15380,
         "code": null,
-        "name": "Liverpool U18",
+        "name": "Liverpool ",
         "country": "England",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/15380.png",
@@ -1626,7 +1626,7 @@
       {
         "id": 15381,
         "code": null,
-        "name": "Manchester City U18",
+        "name": "Manchester City ",
         "country": "England",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/15381.png",
@@ -1635,7 +1635,7 @@
       {
         "id": 15382,
         "code": null,
-        "name": "Manchester United U18",
+        "name": "Manchester United ",
         "country": "England",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/15382.png",
@@ -1644,7 +1644,7 @@
       {
         "id": 15383,
         "code": null,
-        "name": "Middlesbrough U18",
+        "name": "Middlesbrough ",
         "country": "England",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/15383.png",
@@ -1653,7 +1653,7 @@
       {
         "id": 15384,
         "code": null,
-        "name": "Newcastle United U18",
+        "name": "Newcastle United ",
         "country": "England",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/15384.png",
@@ -1662,7 +1662,7 @@
       {
         "id": 15385,
         "code": null,
-        "name": "Stoke City U18",
+        "name": "Stoke City ",
         "country": "England",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/15385.png",
@@ -1671,7 +1671,7 @@
       {
         "id": 15386,
         "code": null,
-        "name": "Sunderland U18",
+        "name": "Sunderland ",
         "country": "England",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/15386.png",
@@ -1680,7 +1680,7 @@
       {
         "id": 15387,
         "code": null,
-        "name": "Wolves U18",
+        "name": "Wolves ",
         "country": "England",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/15387.png",
@@ -1689,7 +1689,7 @@
       {
         "id": 17426,
         "code": null,
-        "name": "Nottingham Forest U18",
+        "name": "Nottingham Forest ",
         "country": "England",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/17426.png",
@@ -1699,14 +1699,14 @@
   },
   {
     "id": 696,
-    "name": "U18 Premier League - South",
+    "name": " Premier League - South",
     "country": "England",
     "logo": "https://media.api-sports.io/football/leagues/696.png",
     "teams": [
       {
         "id": 15388,
         "code": null,
-        "name": "Arsenal U18",
+        "name": "Arsenal ",
         "country": "England",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/15388.png",
@@ -1715,7 +1715,7 @@
       {
         "id": 15389,
         "code": null,
-        "name": "Aston Villa U18",
+        "name": "Aston Villa ",
         "country": "England",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/15389.png",
@@ -1724,7 +1724,7 @@
       {
         "id": 15390,
         "code": null,
-        "name": "Brighton U18",
+        "name": "Brighton ",
         "country": "England",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/15390.png",
@@ -1733,7 +1733,7 @@
       {
         "id": 15391,
         "code": null,
-        "name": "Chelsea U18",
+        "name": "Chelsea ",
         "country": "England",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/15391.png",
@@ -1742,7 +1742,7 @@
       {
         "id": 15392,
         "code": null,
-        "name": "Crystal Palace U18",
+        "name": "Crystal Palace ",
         "country": "England",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/15392.png",
@@ -1751,7 +1751,7 @@
       {
         "id": 15393,
         "code": null,
-        "name": "Fulham U18",
+        "name": "Fulham ",
         "country": "England",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/15393.png",
@@ -1760,7 +1760,7 @@
       {
         "id": 15394,
         "code": null,
-        "name": "Leicester City U18",
+        "name": "Leicester City ",
         "country": "England",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/15394.png",
@@ -1769,7 +1769,7 @@
       {
         "id": 15395,
         "code": null,
-        "name": "Norwich City U18",
+        "name": "Norwich City ",
         "country": "England",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/15395.png",
@@ -1778,7 +1778,7 @@
       {
         "id": 15396,
         "code": null,
-        "name": "Reading U18",
+        "name": "Reading ",
         "country": "England",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/15396.png",
@@ -1787,7 +1787,7 @@
       {
         "id": 15397,
         "code": null,
-        "name": "Southampton U18",
+        "name": "Southampton ",
         "country": "England",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/15397.png",
@@ -1796,7 +1796,7 @@
       {
         "id": 15398,
         "code": null,
-        "name": "Tottenham Hotspur U18",
+        "name": "Tottenham Hotspur ",
         "country": "England",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/15398.png",
@@ -1805,7 +1805,7 @@
       {
         "id": 15399,
         "code": null,
-        "name": "West Bromwich Albion U18",
+        "name": "West Bromwich Albion ",
         "country": "England",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/15399.png",
@@ -1814,7 +1814,7 @@
       {
         "id": 15400,
         "code": null,
-        "name": "West Ham United U18",
+        "name": "West Ham United ",
         "country": "England",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/15400.png",
@@ -1901,15 +1901,6 @@
         "leagueId": 697
       },
       {
-        "id": 4898,
-        "code": null,
-        "name": "Manchester United W",
-        "country": "England",
-        "national": false,
-        "logo": "https://media.api-sports.io/football/teams/4898.png",
-        "leagueId": 697
-      },
-      {
         "id": 4899,
         "code": null,
         "name": "Tottenham Hotspur W",
@@ -1930,7 +1921,7 @@
       {
         "id": 15404,
         "code": null,
-        "name": "Leicester City WFC",
+        "name": "Leicester City ",
         "country": "England",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/15404.png",
@@ -2063,7 +2054,7 @@
       {
         "id": 7189,
         "code": "ARS",
-        "name": "Arsenal U21",
+        "name": "Arsenal",
         "country": "England",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/7189.png",
@@ -2072,7 +2063,7 @@
       {
         "id": 7190,
         "code": "AST",
-        "name": "Aston Villa U21",
+        "name": "Aston Villa",
         "country": "England",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/7190.png",
@@ -2081,7 +2072,7 @@
       {
         "id": 7191,
         "code": null,
-        "name": "Brighton U21",
+        "name": "Brighton",
         "country": "England",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/7191.png",
@@ -2090,7 +2081,7 @@
       {
         "id": 7192,
         "code": "CHE",
-        "name": "Chelsea U21",
+        "name": "Chelsea",
         "country": "England",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/7192.png",
@@ -2099,7 +2090,7 @@
       {
         "id": 7193,
         "code": "EVE",
-        "name": "Everton U21",
+        "name": "Everton",
         "country": "England",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/7193.png",
@@ -2108,7 +2099,7 @@
       {
         "id": 7194,
         "code": "FUL",
-        "name": "Fulham U21",
+        "name": "Fulham",
         "country": "England",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/7194.png",
@@ -2117,7 +2108,7 @@
       {
         "id": 7195,
         "code": "LEI",
-        "name": "Leicester City U21",
+        "name": "Leicester City",
         "country": "England",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/7195.png",
@@ -2126,7 +2117,7 @@
       {
         "id": 7196,
         "code": "LIV",
-        "name": "Liverpool U21",
+        "name": "Liverpool",
         "country": "England",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/7196.png",
@@ -2135,7 +2126,7 @@
       {
         "id": 7197,
         "code": "MAC",
-        "name": "Manchester City U21",
+        "name": "Manchester City",
         "country": "England",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/7197.png",
@@ -2144,7 +2135,7 @@
       {
         "id": 7198,
         "code": "MUN",
-        "name": "Manchester United U21",
+        "name": "Manchester United",
         "country": "England",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/7198.png",
@@ -2153,7 +2144,7 @@
       {
         "id": 7199,
         "code": null,
-        "name": "Newcastle United U21",
+        "name": "Newcastle United",
         "country": "England",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/7199.png",
@@ -2162,7 +2153,7 @@
       {
         "id": 7200,
         "code": "NOR",
-        "name": "Norwich City U21",
+        "name": "Norwich City",
         "country": "England",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/7200.png",
@@ -2171,7 +2162,7 @@
       {
         "id": 7201,
         "code": "SOU",
-        "name": "Southampton U21",
+        "name": "Southampton",
         "country": "England",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/7201.png",
@@ -2180,7 +2171,7 @@
       {
         "id": 7202,
         "code": "TOT",
-        "name": "Tottenham Hotspur U21",
+        "name": "Tottenham Hotspur",
         "country": "England",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/7202.png",
@@ -2189,7 +2180,7 @@
       {
         "id": 7203,
         "code": "WES",
-        "name": "West Ham United U21",
+        "name": "West Ham United",
         "country": "England",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/7203.png",
@@ -2198,7 +2189,7 @@
       {
         "id": 7204,
         "code": "WOL",
-        "name": "Wolves U21",
+        "name": "Wolves",
         "country": "England",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/7204.png",
@@ -2207,7 +2198,7 @@
       {
         "id": 11910,
         "code": "MID",
-        "name": "Middlesbrough U21",
+        "name": "Middlesbrough",
         "country": "England",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/11910.png",
@@ -2216,7 +2207,7 @@
       {
         "id": 11911,
         "code": "STO",
-        "name": "Stoke City U21",
+        "name": "Stoke City",
         "country": "England",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/11911.png",
@@ -2225,7 +2216,7 @@
       {
         "id": 11913,
         "code": "WES",
-        "name": "West Bromwich Albion U21",
+        "name": "West Bromwich Albion",
         "country": "England",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/11913.png",
@@ -2234,7 +2225,7 @@
       {
         "id": 11914,
         "code": "REA",
-        "name": "Reading U21",
+        "name": "Reading",
         "country": "England",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/11914.png",
@@ -2243,7 +2234,7 @@
       {
         "id": 11915,
         "code": "SUN",
-        "name": "Sunderland U21",
+        "name": "Sunderland",
         "country": "England",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/11915.png",
@@ -2252,7 +2243,7 @@
       {
         "id": 14430,
         "code": null,
-        "name": "Leeds United U21",
+        "name": "Leeds United",
         "country": "England",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/14430.png",
@@ -2261,7 +2252,7 @@
       {
         "id": 17000,
         "code": "CRY",
-        "name": "Crystal Palace U21",
+        "name": "Crystal Palace",
         "country": "England",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/17000.png",
@@ -2270,7 +2261,7 @@
       {
         "id": 19744,
         "code": null,
-        "name": "Blackburn Rovers U21",
+        "name": "Blackburn Rovers",
         "country": "England",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/19744.png",
@@ -2279,7 +2270,7 @@
       {
         "id": 19745,
         "code": null,
-        "name": "Derby County U21",
+        "name": "Derby County",
         "country": "England",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/19745.png",
@@ -2288,7 +2279,7 @@
       {
         "id": 19746,
         "code": null,
-        "name": "Nottingham Forest U21",
+        "name": "Nottingham Forest",
         "country": "England",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/19746.png",
@@ -2305,7 +2296,7 @@
       {
         "id": 11912,
         "code": null,
-        "name": "Swansea City U21",
+        "name": "Swansea City",
         "country": "England",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/11912.png",
@@ -2314,7 +2305,7 @@
       {
         "id": 20000,
         "code": null,
-        "name": "AFC Bournemouth U21",
+        "name": "AFC Bournemouth",
         "country": "England",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/20000.png",
@@ -2323,7 +2314,7 @@
       {
         "id": 20016,
         "code": null,
-        "name": "Cardiff City U21",
+        "name": "Cardiff City",
         "country": "England",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/20016.png",
@@ -2332,7 +2323,7 @@
       {
         "id": 20018,
         "code": null,
-        "name": "Peterborough United U21",
+        "name": "Peterborough United",
         "country": "England",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/20018.png",
@@ -2341,7 +2332,7 @@
       {
         "id": 20019,
         "code": null,
-        "name": "Watford U21",
+        "name": "Watford",
         "country": "England",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/20019.png",
@@ -2350,7 +2341,7 @@
       {
         "id": 20078,
         "code": null,
-        "name": "Birmingham City U21",
+        "name": "Birmingham City",
         "country": "England",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/20078.png",
@@ -2359,7 +2350,7 @@
       {
         "id": 20080,
         "code": null,
-        "name": "Bristol City U21",
+        "name": "Bristol City",
         "country": "England",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/20080.png",
@@ -2368,7 +2359,7 @@
       {
         "id": 20081,
         "code": null,
-        "name": "Burnley U21",
+        "name": "Burnley",
         "country": "England",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/20081.png",
@@ -2377,7 +2368,7 @@
       {
         "id": 20082,
         "code": null,
-        "name": "Charlton Athletic U21",
+        "name": "Charlton Athletic",
         "country": "England",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/20082.png",
@@ -2386,7 +2377,7 @@
       {
         "id": 20083,
         "code": null,
-        "name": "Colchester United U21",
+        "name": "Colchester United",
         "country": "England",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/20083.png",
@@ -2395,7 +2386,7 @@
       {
         "id": 20084,
         "code": null,
-        "name": "Hull City U21",
+        "name": "Hull City",
         "country": "England",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/20084.png",
@@ -2404,7 +2395,7 @@
       {
         "id": 20085,
         "code": null,
-        "name": "Queens Park Rangers U21",
+        "name": "Queens Park Rangers",
         "country": "England",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/20085.png",
@@ -2413,7 +2404,7 @@
       {
         "id": 20086,
         "code": null,
-        "name": "Sheffield United U21",
+        "name": "Sheffield United",
         "country": "England",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/20086.png",
@@ -2422,7 +2413,7 @@
       {
         "id": 20091,
         "code": null,
-        "name": "Barnsley U21",
+        "name": "Barnsley",
         "country": "England",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/20091.png",
@@ -2431,7 +2422,7 @@
       {
         "id": 20092,
         "code": null,
-        "name": "Coventry City U21",
+        "name": "Coventry City",
         "country": "England",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/20092.png",
@@ -2440,7 +2431,7 @@
       {
         "id": 20093,
         "code": null,
-        "name": "Crewe Alexandra U21",
+        "name": "Crewe Alexandra",
         "country": "England",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/20093.png",
@@ -2449,7 +2440,7 @@
       {
         "id": 20094,
         "code": null,
-        "name": "Ipswich Town U21",
+        "name": "Ipswich Town",
         "country": "England",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/20094.png",
@@ -2458,7 +2449,7 @@
       {
         "id": 20095,
         "code": null,
-        "name": "Millwall U21",
+        "name": "Millwall",
         "country": "England",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/20095.png",
@@ -2467,7 +2458,7 @@
       {
         "id": 20096,
         "code": null,
-        "name": "Sheffield Wednesday U21",
+        "name": "Sheffield Wednesday",
         "country": "England",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/20096.png",
@@ -2476,7 +2467,7 @@
       {
         "id": 20097,
         "code": null,
-        "name": "Wigan Athletic U21",
+        "name": "Wigan Athletic",
         "country": "England",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/20097.png",
@@ -2485,7 +2476,7 @@
       {
         "id": 22173,
         "code": null,
-        "name": "Fleetwood Town U21",
+        "name": "Fleetwood Town",
         "country": "England",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/22173.png",
@@ -2932,7 +2923,7 @@
       {
         "id": 497,
         "code": "ROM",
-        "name": "AS Roma",
+        "name": "Roma",
         "country": "Italy",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/497.png",
@@ -3070,15 +3061,6 @@
         "country": "Italy",
         "national": false,
         "logo": "https://media.api-sports.io/football/teams/7904.png",
-        "leagueId": 705
-      },
-      {
-        "id": 7966,
-        "code": "ROM",
-        "name": "Roma U19",
-        "country": "Italy",
-        "national": false,
-        "logo": "https://media.api-sports.io/football/teams/7966.png",
         "leagueId": 705
       },
       {
