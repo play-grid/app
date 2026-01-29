@@ -452,5 +452,16 @@
     "hostName": {
       "required": "Host name is required"
     }
+  },
+  "errorBoundary": {
+    "title": "Something went wrong",
+    "description": "We encountered an unexpected error. Please try again or contact support.",
+    "errorCode": "Error Code",
+    "tryAgain": "Try Again",
+    "reloadPage": "Reload Page",
+    "reportIssue": "Report Issue",
+    "errorDetails": "Error Details",
+    "showStackTrace": "Show Stack Trace",
+    "devMessage": "An error occurred"
   }
 }

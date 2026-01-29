@@ -6,6 +6,7 @@ import { FiveSecondsRoute } from '@/games/five-seconds/five-seconds-route';
 import { GuessLogoSkeleton } from '@/games/guess-logo/components/guess-logo-skeleton';
 import { Footer } from './components/footer';
 import { Navbar } from './components/navbar';
+import ErrorBoundary from './context/error-boundry';
 import { LanguageLayout } from './i18n/language-layout';
 import { LanguageRouter } from './i18n/language-router';
 import AboutPage from './pages/about-page';
@@ -45,46 +46,46 @@ export default function App() {
 export function LanguageRoutes() {
   const location = useLocation();
 
-  const isNavAndFooterVisible
-    = !location.pathname.includes('/guess-logo') && !location.pathname.includes('/five-seconds');
+  const isNavAndFooterVisible = !location.pathname.includes('/guess-logo') && !location.pathname.includes('/five-seconds');
   return (
     <>
       {isNavAndFooterVisible && <Navbar className="mb-3" />}
-      <Routes>
-        {/* Home page for language prefix */}
+      <ErrorBoundary>
+        <Routes>
+          {/* Home page for language prefix */}
+          <Route path="/" element={<HomePage />} />
 
-        <Route path="/" element={<HomePage />} />
+          {/* About page */}
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/legal" element={<LegalPage />} />
+          <Route path="/privacy" element={<PrivacyPage />} />
+          <Route path="/:pathname" element={<AuthPage />} />
+          <Route path="/account/:pathname" element={<AccountPage />} />
 
-        {/* About page */}
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="/legal" element={<LegalPage />} />
-        <Route path="/privacy" element={<PrivacyPage />} />
-        <Route path="/:pathname" element={<AuthPage />} />
-        <Route path="/account/:pathname" element={<AccountPage />} />
-
-        {/* Game-specific routes */}
-        <Route
-          path="/guess-logo/*"
-          element={(
-            <Suspense fallback={<GuessLogoSkeleton />}>
-              <GuessLogoRoutes />
-            </Suspense>
-          )}
-        />
-        <Route path="/five-seconds" element={<FiveSecondsRoute />}>
+          {/* Game-specific routes */}
           <Route
-            index
+            path="/guess-logo/*"
             element={(
-              <Suspense fallback={<FiveSecondsSkeleton />}>
-                <FiveSecondsRoutes />
+              <Suspense fallback={<GuessLogoSkeleton />}>
+                <GuessLogoRoutes />
               </Suspense>
             )}
           />
-        </Route>
+          <Route path="/five-seconds" element={<FiveSecondsRoute />}>
+            <Route
+              index
+              element={(
+                <Suspense fallback={<FiveSecondsSkeleton />}>
+                  <FiveSecondsRoutes />
+                </Suspense>
+              )}
+            />
+          </Route>
 
-        {/* Fallback: Not Found */}
-        <Route path="*" element={<NotFoundPage />} />
-      </Routes>
+          {/* Fallback: Not Found */}
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </ErrorBoundary>
       {isNavAndFooterVisible && <Footer />}
     </>
   );
