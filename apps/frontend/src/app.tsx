@@ -1,10 +1,11 @@
 import { SUPPORTED_LANGUAGES } from '@guess-logo/shared/types';
 import { lazy, Suspense } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
+import { FiveSecondsSkeleton } from '@/games/five-seconds/components/five-seconds-skeleton';
+import { FiveSecondsRoute } from '@/games/five-seconds/five-seconds-route';
+import { GuessLogoSkeleton } from '@/games/guess-logo/components/guess-logo-skeleton';
 import { Footer } from './components/footer';
 import { Navbar } from './components/navbar';
-import { FiveSecondsSkeleton } from './games/five-seconds/components/five-seconds-skeleton';
-import { GuessLogoSkeleton } from './games/guess-logo/components/guess-logo-skeleton';
 import { LanguageLayout } from './i18n/language-layout';
 import { LanguageRouter } from './i18n/language-router';
 import AboutPage from './pages/about-page';
@@ -70,14 +71,16 @@ export function LanguageRoutes() {
             </Suspense>
           )}
         />
-        <Route
-          path="/five-seconds/*"
-          element={(
-            <Suspense fallback={<FiveSecondsSkeleton />}>
-              <FiveSecondsRoutes />
-            </Suspense>
-          )}
-        />
+        <Route path="/five-seconds" element={<FiveSecondsRoute />}>
+          <Route
+            index
+            element={(
+              <Suspense fallback={<FiveSecondsSkeleton />}>
+                <FiveSecondsRoutes />
+              </Suspense>
+            )}
+          />
+        </Route>
 
         {/* Fallback: Not Found */}
         <Route path="*" element={<NotFoundPage />} />
