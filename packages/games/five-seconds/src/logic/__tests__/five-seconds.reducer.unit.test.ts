@@ -118,4 +118,104 @@ describe('five Seconds Game Reducer', () => {
       expect(state.turnState?.turnNumber).toBe(1);
     });
   });
+
+  describe('ephemeral State Clearing', () => {
+    const stateWithEphemeralData: FiveSecondsGameState = {
+      phase: 'playing',
+      hostId: 'p1',
+      createdAt: Date.now(),
+      settings: FIVE_SECONDS_INITIAL_SETTINGS,
+      players: {
+        p1: { id: 'p1', name: 'Mohammed', isHost: true, isReady: true, score: 0 },
+        p2: { id: 'p2', name: 'Abdullah', isHost: false, isReady: true, score: 0 },
+      },
+      turnState: {
+        playerOrder: ['p1', 'p2'],
+        currentPlayerIndex: 0,
+        currentPlayerId: 'p1',
+        direction: 'forward',
+        roundNumber: 1,
+        turnNumber: 0,
+        phase: 'pre-turn',
+        skipsRemaining: 0,
+      },
+      turnTimerEndsAt: Date.now() + 5000,
+      seenQuestionIds: ['q1', 'q2', 'q3'],
+      currentQuestion: { id: 'q4', text: 'Test question', difficulty: 'medium', categoryId: 'cat1' },
+      questions: [
+        { id: 'q5', text: 'Buffer question 1', difficulty: 'easy', categoryId: 'cat1' },
+        { id: 'q6', text: 'Buffer question 2', difficulty: 'hard', categoryId: 'cat2' },
+      ],
+      questionError: { message: 'No questions available', canRetry: true, suggestSettingsChange: true },
+      votingState: {
+        isVoting: true,
+        votes: [{ playerId: 'p2', isValid: true }],
+        voters: ['p2'],
+        currentVoterIndex: 0,
+      },
+    };
+
+    it('should clear ephemeral state on START_GAME', () => {
+      const state = fiveSecondsGameReducer(stateWithEphemeralData, { type: 'START_GAME' });
+
+      expect(state.currentQuestion).toBeNull();
+      expect(state.questions).toEqual([]);
+      expect(state.questionError).toBeNull();
+      expect(state.turnTimerEndsAt).toBeNull();
+      expect(state.votingState).toBeNull();
+      expect(state.seenQuestionIds).toEqual(['q1', 'q2', 'q3']);
+      expect(state.phase).toBe('playing');
+    });
+
+    it('should clear ephemeral state on END_GAME', () => {
+      const state = fiveSecondsGameReducer(stateWithEphemeralData, { type: 'END_GAME' });
+
+      expect(state.currentQuestion).toBeNull();
+      expect(state.questions).toEqual([]);
+      expect(state.questionError).toBeNull();
+      expect(state.turnTimerEndsAt).toBeNull();
+      expect(state.votingState).toBeNull();
+      expect(state.seenQuestionIds).toEqual(['q1', 'q2', 'q3']);
+    });
+
+    it('should clear ephemeral state on SET_PHASE to lobby', () => {
+      const state = fiveSecondsGameReducer(stateWithEphemeralData, {
+        type: 'SET_PHASE',
+        payload: 'lobby',
+      });
+
+      expect(state.phase).toBe('lobby');
+      expect(state.currentQuestion).toBeNull();
+      expect(state.questions).toEqual([]);
+      expect(state.questionError).toBeNull();
+      expect(state.turnTimerEndsAt).toBeNull();
+      expect(state.votingState).toBeNull();
+      expect(state.seenQuestionIds).toEqual(['q1', 'q2', 'q3']);
+    });
+
+    it('should clear ephemeral state on SET_PHASE to results', () => {
+      const state = fiveSecondsGameReducer(stateWithEphemeralData, {
+        type: 'SET_PHASE',
+        payload: 'results',
+      });
+
+      expect(state.phase).toBe('results');
+      expect(state.currentQuestion).toBeNull();
+      expect(state.questions).toEqual([]);
+      expect(state.questionError).toBeNull();
+      expect(state.turnTimerEndsAt).toBeNull();
+      expect(state.votingState).toBeNull();
+      expect(state.seenQuestionIds).toEqual(['q1', 'q2', 'q3']);
+    });
+
+    it('should clear questionError on UPDATE_SETTINGS', () => {
+      const state = fiveSecondsGameReducer(stateWithEphemeralData, {
+        type: 'UPDATE_SETTINGS',
+        payload: { difficulty: 'hard' },
+      });
+
+      expect(state.questionError).toBeNull();
+      expect(state.settings.difficulty).toBe('hard');
+    });
+  });
 });

@@ -1,3 +1,4 @@
+import type z from 'zod';
 import { difficultySchema, fiveSecondsGame, FiveSecondsGameStateSchema } from '@guess-logo/five-seconds';
 import { AdapterProvider } from '@guess-logo/game-core';
 import { useEffect, useMemo } from 'react';
@@ -76,6 +77,10 @@ export function FiveSecondsLayout() {
         mode: 'local',
         initialState: validatedInitialState,
         persistenceKey: 'five-seconds-game:v1',
+        partialize: (state: { state: z.infer<typeof FiveSecondsGameStateSchema> }) => {
+          const { questionError, turnTimerEndsAt, ...stateToPersist } = state.state;
+          return { state: stateToPersist };
+        },
       },
       identifier,
     );

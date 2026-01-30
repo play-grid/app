@@ -2,6 +2,8 @@ import type { FiveSecondsAction, FiveSecondsGameState } from './schema';
 import { produce } from 'immer';
 import {
   addSeenQuestionId,
+  clearEphemeralState,
+  clearQuestionError,
   loadQuestions,
   nextTurn,
   resetVoting,
@@ -20,6 +22,12 @@ export function fiveSecondsGameReducer(
   action: FiveSecondsAction,
 ): FiveSecondsGameState {
   switch (action.type) {
+    case 'START_GAME':
+      return produce(state, clearEphemeralState);
+
+    case 'END_GAME':
+      return produce(state, clearEphemeralState);
+
     case 'ADD_SEEN_QUESTION_ID':
       return produce(state, (draft) => {
         addSeenQuestionId(draft, action.payload);
@@ -38,7 +46,7 @@ export function fiveSecondsGameReducer(
     case 'LOAD_QUESTIONS':
       return produce(state, (draft) => {
         loadQuestions(draft, action.payload);
-        draft.questionError = null;
+        clearQuestionError(draft);
       });
 
     case 'START_TURN':
@@ -86,9 +94,31 @@ export function fiveSecondsGameReducer(
       });
 
     case 'CLEAR_QUESTION_ERROR':
+      return produce(state, clearQuestionError);
+
+    case 'UPDATE_SETTINGS':
       return produce(state, (draft) => {
-        draft.questionError = null;
+        draft.settings = {
+          ...draft.settings,
+          ...action.payload,
+        };
+        clearQuestionError(draft);
       });
+
+    case 'SET_PHASE':
+      if (action.payload === 'lobby') {
+        return produce(state, (draft) => {
+          draft.phase = 'lobby';
+          clearEphemeralState(draft);
+        });
+      }
+      if (action.payload === 'results') {
+        return produce(state, (draft) => {
+          draft.phase = 'results';
+          clearEphemeralState(draft);
+        });
+      }
+      return state;
 
     default:
       return state;

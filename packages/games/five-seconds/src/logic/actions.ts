@@ -202,3 +202,15 @@ export function timesUp(draft: Draft<FiveSecondsGameState>): void {
 
   startVoting(draft, { voters: voterIds });
 }
+
+export function clearEphemeralState(draft: Draft<FiveSecondsGameState>): void {
+  draft.currentQuestion = null;
+  draft.questions = [];
+  draft.questionError = null;
+  draft.turnTimerEndsAt = null;
+  draft.votingState = null;
+}
+
+export function clearQuestionError(draft: Draft<FiveSecondsGameState>): void {
+  draft.questionError = null;
+}
