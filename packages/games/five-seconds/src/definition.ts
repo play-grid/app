@@ -28,7 +28,7 @@ export const fiveSecondsGame = createGameDefinition({
     createdAt: Date.now(),
     settings: {
       categoryIds: [],
-      difficulty: 'medium',
+      difficulty: 'all',
       timePerTurn: 5,
       pointsToWin: 10,
       useCustomQuestions: false,

@@ -72,15 +72,15 @@ export function createFetchQuestionsEffect(apiUrl: string): GameEffect {
           isFetching = true;
           logger.info(`[FetchQuestionsEffect] Fetching ${questionsNeeded} questions from API`);
 
-          const res = await client.api.games['five-seconds'].questions.batch.$get({
-            query: {
-              count: questionsNeeded.toString(),
-              categoryIds: gameState.settings.categoryIds,
-              difficulty: gameState.settings.difficulty,
-              excludeIds: gameState.seenQuestionIds,
-              timePerTurn: gameState.settings.timePerTurn.toString(),
-            },
-          });
+          const query = {
+            count: questionsNeeded.toString(),
+            categoryIds: gameState.settings.categoryIds,
+            excludeIds: gameState.seenQuestionIds,
+            timePerTurn: gameState.settings.timePerTurn.toString(),
+            difficulty: gameState.settings.difficulty === 'all' ? undefined : gameState.settings.difficulty,
+          };
+
+          const res = await client.api.games['five-seconds'].questions.batch.$get({ query });
 
           if (!res.ok) {
             const errorText = await res.text().catch(() => `HTTP ${res.status}`);
@@ -145,14 +145,14 @@ export function createFetchQuestionsEffect(apiUrl: string): GameEffect {
           isFetching = true;
           logger.info('[FetchQuestionsEffect] Fetching single question from API');
 
-          const res = await client.api.games['five-seconds'].questions.random.$get({
-            query: {
-              categoryIds: gameState.settings.categoryIds,
-              difficulty: gameState.settings.difficulty,
-              excludeIds: gameState.seenQuestionIds,
-              timePerTurn: gameState.settings.timePerTurn,
-            },
-          });
+          const query = {
+            categoryIds: gameState.settings.categoryIds,
+            excludeIds: gameState.seenQuestionIds,
+            timePerTurn: gameState.settings.timePerTurn,
+            difficulty: gameState.settings.difficulty === 'all' ? undefined : gameState.settings.difficulty,
+          };
+
+          const res = await client.api.games['five-seconds'].questions.random.$get({ query });
 
           if (!res.ok) {
             const errorText = await res.text().catch(() => `HTTP ${res.status}`);
