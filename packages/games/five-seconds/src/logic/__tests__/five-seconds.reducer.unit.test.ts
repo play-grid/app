@@ -218,4 +218,58 @@ describe('five Seconds Game Reducer', () => {
       expect(state.settings.difficulty).toBe('hard');
     });
   });
+
+  describe('seenQuestionIds LRU Cap', () => {
+    it('should cap seenQuestionIds at 400 items', () => {
+      const stateWith400Questions: FiveSecondsGameState = {
+        ...initialState,
+        seenQuestionIds: Array.from({ length: 400 }, (_, i) => `q${i}`),
+      };
+
+      const state = fiveSecondsGameReducer(stateWith400Questions, {
+        type: 'ADD_SEEN_QUESTION_ID',
+        payload: { id: 'q401' },
+      });
+
+      expect(state.seenQuestionIds).toHaveLength(400);
+      expect(state.seenQuestionIds).not.toContain('q0');
+      expect(state.seenQuestionIds).toContain('q401');
+      expect(state.seenQuestionIds).toContain('q1');
+    });
+
+    it('should keep newest questions when cap is reached', () => {
+      const stateWith401Questions: FiveSecondsGameState = {
+        ...initialState,
+        seenQuestionIds: Array.from({ length: 401 }, (_, i) => `q${i}`),
+      };
+
+      const state = fiveSecondsGameReducer(stateWith401Questions, {
+        type: 'ADD_SEEN_QUESTION_ID',
+        payload: { id: 'q402' },
+      });
+
+      expect(state.seenQuestionIds).toHaveLength(400);
+      expect(state.seenQuestionIds[0]).toBe('q2');
+      expect(state.seenQuestionIds[399]).toBe('q402');
+      expect(state.seenQuestionIds).not.toContain('q0');
+      expect(state.seenQuestionIds).not.toContain('q1');
+    });
+
+    it('should cap when setting question directly', () => {
+      const stateWith400Questions: FiveSecondsGameState = {
+        ...initialState,
+        seenQuestionIds: Array.from({ length: 400 }, (_, i) => `q${i}`),
+        currentQuestion: null,
+      };
+
+      const state = fiveSecondsGameReducer(stateWith400Questions, {
+        type: 'SET_QUESTION',
+        payload: { question: { id: 'q401', text: 'New question', difficulty: 'medium', categoryId: 'cat1' } as any },
+      });
+
+      expect(state.seenQuestionIds).toHaveLength(400);
+      expect(state.seenQuestionIds).not.toContain('q0');
+      expect(state.seenQuestionIds).toContain('q401');
+    });
+  });
 });

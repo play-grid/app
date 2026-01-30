@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 export const difficultySchema = z.enum(['all', 'easy', 'medium', 'hard']);
+export const DBDifficultySchema = z.enum(['easy', 'medium', 'hard']);
 
 // Base schema (the source of truth)
 export const categoryBaseSchema = z.object({
@@ -24,5 +25,6 @@ export const questionWithCategorySchema = baseQuestionSchema.extend({
 });
 
 export type Difficulty = z.infer<typeof difficultySchema>;
+export type DBdifficulty = z.infer<typeof DBDifficultySchema>;
 export type Question = z.infer<typeof baseQuestionSchema>;
 export type QuestionWithCategory = z.infer<typeof questionWithCategorySchema>;

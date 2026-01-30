@@ -1,4 +1,4 @@
-import type { Difficulty } from '@guess-logo/five-seconds';
+import type { DBdifficulty } from '@guess-logo/five-seconds';
 import type {
   CreateQuestionsRoute,
   DeleteQuestionsRoute,
@@ -20,14 +20,6 @@ import {
 // Use this as a function to ensure fresh evaluation
 const notDeleted = () => isNull(fiveSecondsQuestions.deletedAt);
 
-// Helper function to cast difficulty
-function castDifficulty(val: string): Difficulty {
-  if (['easy', 'medium', 'hard'].includes(val)) {
-    return val as Difficulty;
-  }
-  return 'easy';
-}
-
 // List Questions Handler
 export const listQuestionsHandler: AppRouteHandler<
   ListQuestionsRoute
@@ -44,7 +36,7 @@ export const listQuestionsHandler: AppRouteHandler<
   // IMPORTANT: Add notDeleted condition FIRST
   whereConditions.push(notDeleted());
 
-  if (difficulty) {
+  if (difficulty && difficulty !== 'all') {
     whereConditions.push(eq(fiveSecondsQuestions.difficulty, difficulty));
   }
 
@@ -121,7 +113,7 @@ export const listQuestionsHandler: AppRouteHandler<
 
   const questions = rawQuestions.map(q => ({
     ...q,
-    difficulty: castDifficulty(q.difficulty),
+    difficulty: q.difficulty as DBdifficulty,
     categoryNameEn: q.categoryNameEn ?? undefined,
     categoryNameAr: q.categoryNameAr ?? undefined,
   }));
@@ -186,7 +178,7 @@ export const getQuestionsByIdHandler: AppRouteHandler<
 
   const question = {
     ...rawQuestion,
-    difficulty: castDifficulty(rawQuestion.difficulty),
+    difficulty: rawQuestion.difficulty as DBdifficulty,
     categoryNameEn: rawQuestion.categoryNameEn ?? undefined,
     categoryNameAr: rawQuestion.categoryNameAr ?? undefined,
   };
@@ -234,7 +226,7 @@ export const createQuestionsHandler: AppRouteHandler<
       .insert(fiveSecondsQuestions)
       .values({
         text: input.text,
-        difficulty: input.difficulty,
+        difficulty: input.difficulty as DBdifficulty,
         categoryId: input.categoryId,
       })
       .returning();
@@ -278,7 +270,7 @@ export const createQuestionsHandler: AppRouteHandler<
 
     const question = {
       ...rawQuestion!,
-      difficulty: castDifficulty(rawQuestion!.difficulty),
+      difficulty: rawQuestion!.difficulty as DBdifficulty,
       categoryNameEn: rawQuestion!.categoryNameEn ?? undefined,
       categoryNameAr: rawQuestion!.categoryNameAr ?? undefined,
     };
@@ -365,7 +357,7 @@ export const updateQuestionsHandler: AppRouteHandler<
     if (input.text !== undefined)
       updateData.text = input.text;
     if (input.difficulty !== undefined)
-      updateData.difficulty = input.difficulty;
+      updateData.difficulty = input.difficulty as DBdifficulty;
     if (input.categoryId !== undefined)
       updateData.categoryId = input.categoryId;
 
@@ -414,7 +406,7 @@ export const updateQuestionsHandler: AppRouteHandler<
 
     const question = {
       ...rawQuestion!,
-      difficulty: castDifficulty(rawQuestion!.difficulty),
+      difficulty: rawQuestion!.difficulty as DBdifficulty,
       categoryNameEn: rawQuestion!.categoryNameEn ?? undefined,
       categoryNameAr: rawQuestion!.categoryNameAr ?? undefined,
     };
@@ -481,7 +473,7 @@ export const deleteQuestionsHandler: AppRouteHandler<
     return c.json({
       id: result.id,
       text: result.text,
-      difficulty: castDifficulty(result.difficulty),
+      difficulty: result.difficulty as DBdifficulty,
       categoryId: result.categoryId,
       deletedAt: result.deletedAt,
       createdAt: result.createdAt,

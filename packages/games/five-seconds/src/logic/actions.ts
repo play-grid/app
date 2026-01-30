@@ -12,11 +12,22 @@ import type {
 } from './schema';
 import { logger } from '../logger';
 
+const MAX_SEEN_QUESTIONS = 400;
+
+function capSeenQuestions(ids: string[]): void {
+  if (ids.length > MAX_SEEN_QUESTIONS) {
+    const toRemove = ids.length - MAX_SEEN_QUESTIONS;
+    ids.splice(0, toRemove);
+    logger.debug(`[FiveSeconds] Seen questions capped at ${MAX_SEEN_QUESTIONS} (removed ${toRemove} oldest)`);
+  }
+}
+
 export function addSeenQuestionId(
   draft: Draft<FiveSecondsGameState>,
   payload: AddSeenQuestionIdAction['payload'],
 ): void {
   draft.seenQuestionIds.push(payload.id);
+  capSeenQuestions(draft.seenQuestionIds);
 }
 
 export function setQuestion(
@@ -26,6 +37,7 @@ export function setQuestion(
   draft.currentQuestion = payload.question;
   if (!draft.seenQuestionIds.includes(payload.question.id)) {
     draft.seenQuestionIds.push(payload.question.id);
+    capSeenQuestions(draft.seenQuestionIds);
   }
   logger.debug(`[FiveSeconds] Current question set: ${payload.question.id} - "${payload.question.text}"`);
 }
@@ -41,6 +53,7 @@ export function loadQuestions(
 
     if (!draft.seenQuestionIds.includes(payload.questions[0].id)) {
       draft.seenQuestionIds.push(payload.questions[0].id);
+      capSeenQuestions(draft.seenQuestionIds);
     }
   }
 }
