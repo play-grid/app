@@ -23,6 +23,7 @@ export interface LocalAdapterPersistOptions<TState, TAction = GameAction> {
     persistedState: unknown,
     version: number,
   ) => Promise<GameStore<TState, TAction>> | GameStore<TState, TAction>;
+  partialize?: (state: GameStore<TState, TAction>) => Partial<GameStore<TState, TAction>>;
 }
 
 export function createLocalAdapter<
@@ -35,7 +36,7 @@ export function createLocalAdapter<
   effects: GameEffect[] = [],
   apiUrl: string = '',
 ): GameAdapter<TState, TAction> {
-  const { enabled, name, storage, version, migrate } = persistOptions ?? {};
+  const { enabled, name, storage, version, migrate, partialize } = persistOptions ?? {};
 
   const initializer = (set: any, get: any): GameStore<TState, TAction> => {
     const dispatchFn = async (action: TAction) => {
@@ -75,6 +76,7 @@ export function createLocalAdapter<
           storage,
           version,
           migrate,
+          partialize,
         } as PersistOptions<GameStore<TState, TAction>, any>),
         { name: name ?? 'game-core:local' },
       ),

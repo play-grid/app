@@ -19,6 +19,7 @@ export function createGameAdapter<
     credentials?: string;
     initialState: z.infer<TStateSchema>;
     persistenceKey?: string;
+    partialize?: (state: { state: z.infer<TStateSchema> }) => Partial<{ state: z.infer<TStateSchema> }>;
   },
 ) {
   type State = z.infer<TStateSchema>;
@@ -38,6 +39,7 @@ export function createGameAdapter<
         enabled: true,
         name: options.persistenceKey ?? 'game-core:local',
         storage: createJSONStorage(() => localStorage),
+        partialize: options.partialize,
       },
       effects,
       apiUrl,
