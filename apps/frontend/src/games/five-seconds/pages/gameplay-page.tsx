@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { AnsweringView } from '../components/answering-view';
 import { PlayerScores } from '../components/player-scores';
 import { PreTurnView } from '../components/pre-turn-view';
+import { ReadingView } from '../components/reading-view';
 
 import { RoundInfo } from '../components/round-info';
 import { Button } from '../components/ui/button';
@@ -90,6 +91,8 @@ export function GameplayPage() {
       return 'voting';
     if (turnState?.phase === 'answering')
       return 'answering';
+    if (turnState?.phase === 'reading')
+      return 'reading';
     return 'pre-turn';
   }, [votingState?.isVoting, turnState?.phase]);
 
@@ -269,25 +272,27 @@ export function GameplayPage() {
                     )
                   : gamePhase === 'pre-turn' && question && isValidQuestion(question)
                     ? <PreTurnView currentPlayerName={currentPlayer?.name || ''} onStartTurn={handleStartTurn} />
-                    : gamePhase === 'voting' && !isVotingFinished && question && isValidQuestion(question) && votingState
-                      ? (
-                          <VotingView
-                            votingState={votingState}
-                            currentVoter={currentVoter}
-                            currentPlayer={currentPlayer}
-                            currentQuestion={question}
-                            onVote={handleVote}
-                          />
-                        )
-                      : gamePhase === 'answering' && question && isValidQuestion(question)
+                    : gamePhase === 'reading' && question && isValidQuestion(question)
+                      ? <ReadingView currentQuestion={question} />
+                      : gamePhase === 'voting' && !isVotingFinished && question && isValidQuestion(question) && votingState
                         ? (
-                            <AnsweringView
-                              timeLeft={timeLeft}
-                              totalTime={settings.timePerTurn}
+                            <VotingView
+                              votingState={votingState}
+                              currentVoter={currentVoter}
+                              currentPlayer={currentPlayer}
                               currentQuestion={question}
+                              onVote={handleVote}
                             />
                           )
-                        : null}
+                        : gamePhase === 'answering' && question && isValidQuestion(question)
+                          ? (
+                              <AnsweringView
+                                timeLeft={timeLeft}
+                                totalTime={settings.timePerTurn}
+                                currentQuestion={question}
+                              />
+                          )
+                          : null}
           </Card>
         </div>
       </div>

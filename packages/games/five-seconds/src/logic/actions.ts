@@ -5,6 +5,7 @@ import type {
   LoadQuestionsAction,
   SetGameTurnPhaseAction,
   SetQuestionAction,
+  StartReadingTimerAction,
   StartTurnTimerAction,
   StartVotingAction,
   SubmitVoteAction,
@@ -152,8 +153,35 @@ export function startTurn(draft: Draft<FiveSecondsGameState>): void {
   const currentPlayer = draft.players[currentPlayerId];
 
   if (currentPlayer) {
+    draft.turnState.phase = 'reading';
+
+    if (draft.currentQuestion) {
+      const charsPerSecond = 10;
+      const readingTime = Math.max(2, Math.ceil(draft.currentQuestion.text.length / charsPerSecond));
+      draft.readingTime = readingTime;
+      draft.readingTimerEndsAt = null;
+      draft.turnTimerEndsAt = null;
+      logger.debug(`[FiveSeconds] Turn started for player: ${currentPlayerId} (${currentPlayer.name}), reading time: ${readingTime}s`);
+    } else {
+      draft.readingTime = 2;
+      draft.readingTimerEndsAt = null;
+      logger.debug(`[FiveSeconds] Turn started for player: ${currentPlayerId} (${currentPlayer.name}), no question found`);
+    }
+  }
+}
+
+export function startAnswering(draft: Draft<FiveSecondsGameState>): void {
+  if (!draft.turnState) {
+    return;
+  }
+
+  const currentPlayerId = draft.turnState.currentPlayerId;
+  const currentPlayer = draft.players[currentPlayerId];
+
+  if (currentPlayer) {
     draft.turnState.phase = 'answering';
-    logger.debug(`[FiveSeconds] Turn started for player: ${currentPlayerId} (${currentPlayer.name})`);
+    draft.readingTimerEndsAt = null;
+    logger.debug(`[FiveSeconds] Answering phase started for player: ${currentPlayerId} (${currentPlayer.name})`);
   }
 }
 
@@ -195,6 +223,8 @@ export function nextTurn(draft: Draft<FiveSecondsGameState>): void {
 
   draft.currentQuestion = null;
   draft.turnTimerEndsAt = null;
+  draft.readingTime = 0;
+  draft.readingTimerEndsAt = null;
 }
 
 export function startTurnTimer(
@@ -202,6 +232,13 @@ export function startTurnTimer(
   payload: StartTurnTimerAction['payload'],
 ): void {
   draft.turnTimerEndsAt = payload.endsAt;
+}
+
+export function startReadingTimer(
+  draft: Draft<FiveSecondsGameState>,
+  payload: StartReadingTimerAction['payload'],
+): void {
+  draft.readingTimerEndsAt = payload.endsAt;
 }
 
 export function timesUp(draft: Draft<FiveSecondsGameState>): void {
@@ -221,6 +258,8 @@ export function clearEphemeralState(draft: Draft<FiveSecondsGameState>): void {
   draft.questions = [];
   draft.questionError = null;
   draft.turnTimerEndsAt = null;
+  draft.readingTime = 0;
+  draft.readingTimerEndsAt = null;
   draft.votingState = null;
 }
 

@@ -9,6 +9,8 @@ import {
   resetVoting,
   setQuestion,
   setTurnPhase,
+  startAnswering,
+  startReadingTimer,
   startTurn,
   startTurnTimer,
   startVoting,
@@ -53,6 +55,10 @@ export function fiveSecondsGameReducer(
       return produce(state, (draft) => {
         startTurn(draft);
       });
+    case 'START_ANSWERING':
+      return produce(state, (draft) => {
+        startAnswering(draft);
+      });
     case 'SET_GAME_TURN_PHASE':
       return produce(state, (draft) => {
         setTurnPhase(draft, action.payload);
@@ -80,6 +86,10 @@ export function fiveSecondsGameReducer(
     case 'START_TURN_TIMER':
       return produce(state, (draft) => {
         startTurnTimer(draft, action.payload);
+      });
+    case 'START_READING_TIMER':
+      return produce(state, (draft) => {
+        startReadingTimer(draft, action.payload);
       });
 
     case 'TIMES_UP':

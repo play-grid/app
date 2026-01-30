@@ -13,12 +13,6 @@ import {
 } from '../five-seconds.tables';
 import { questionResponseSchema } from './questions.schemas';
 
-function calculateReadingTime(text: string): number {
-  const charsPerSecond = 10;
-  const seconds = Math.ceil(text.length / charsPerSecond);
-  return Math.max(2, seconds);
-}
-
 function getDifficultyFilter(
   difficulty?: 'easy' | 'medium' | 'hard' | 'all',
 ): 'easy' | 'medium' | 'hard' | undefined {
@@ -36,7 +30,6 @@ export const getRandomQuestion: AppRouteHandler<GetRandomQuestionRoute> = async 
     difficulty,
     categoryIds = [],
     excludeIds = [],
-    timePerTurn,
   } = c.req.valid('query');
 
   const filters: any[] = [];
@@ -81,10 +74,6 @@ export const getRandomQuestion: AppRouteHandler<GetRandomQuestionRoute> = async 
   c.header('Pragma', 'no-cache');
   c.header('Expires', '0');
 
-  const readingTime = calculateReadingTime(
-    random.five_seconds_questions.text,
-  );
-
   const response = questionResponseSchema.parse({
     id: random.five_seconds_questions.id,
     text: random.five_seconds_questions.text,
@@ -93,7 +82,6 @@ export const getRandomQuestion: AppRouteHandler<GetRandomQuestionRoute> = async 
     deletedAt: random.five_seconds_questions.deletedAt,
     createdAt: random.five_seconds_questions.createdAt,
     updatedAt: random.five_seconds_questions.updatedAt,
-    totalTime: timePerTurn + readingTime,
   });
 
   return c.json(response, HttpStatusCodes.OK);
@@ -108,7 +96,6 @@ export const getBatchQuestions: AppRouteHandler<GetBatchQuestionsRoute> = async 
     difficulty,
     categoryIds = [],
     excludeIds = [],
-    timePerTurn,
   } = c.req.valid('query');
 
   const filters: any[] = [];
@@ -140,8 +127,6 @@ export const getBatchQuestions: AppRouteHandler<GetBatchQuestionsRoute> = async 
     .limit(count);
 
   const parsed = questions.map((q) => {
-    const readingTime = calculateReadingTime(q.five_seconds_questions.text);
-
     return questionResponseSchema.parse({
       id: q.five_seconds_questions.id,
       text: q.five_seconds_questions.text,
@@ -150,7 +135,6 @@ export const getBatchQuestions: AppRouteHandler<GetBatchQuestionsRoute> = async 
       deletedAt: q.five_seconds_questions.deletedAt,
       createdAt: q.five_seconds_questions.createdAt,
       updatedAt: q.five_seconds_questions.updatedAt,
-      totalTime: timePerTurn + readingTime,
     });
   });
 

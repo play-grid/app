@@ -39,6 +39,8 @@ export const FiveSecondsGameStateSchema = BaseGameStateSchema.extend({
   currentQuestion: baseQuestionSchema.nullable(),
   questions: z.array(baseQuestionSchema).default([]),
   turnTimerEndsAt: z.number().nullable().default(null),
+  readingTime: z.number().default(0),
+  readingTimerEndsAt: z.number().nullable().default(null),
   questionError: QuestionErrorSchema.nullable().default(null),
 });
 
@@ -56,6 +58,10 @@ export const AddSeenQuestionIdActionSchema = z.object({
 });
 export const StartTurnActionSchema = z.object({
   type: z.literal('START_TURN'),
+});
+
+export const StartAnsweringActionSchema = z.object({
+  type: z.literal('START_ANSWERING'),
 });
 
 export const StartVotingActionSchema = z.object({
@@ -81,6 +87,13 @@ export const ResetVotingActionSchema = z.object({
 
 export const StartTurnTimerActionSchema = z.object({
   type: z.literal('START_TURN_TIMER'),
+  payload: z.object({
+    endsAt: z.number().nullable(),
+  }),
+});
+
+export const StartReadingTimerActionSchema = z.object({
+  type: z.literal('START_READING_TIMER'),
   payload: z.object({
     endsAt: z.number().nullable(),
   }),
@@ -124,6 +137,7 @@ export const ClearQuestionErrorActionSchema = z.object({
 export const FiveSecondsCustomActionSchema = z.discriminatedUnion('type', [
   SetGameTurnPhaseActionSchema,
   AddSeenQuestionIdActionSchema,
+  StartAnsweringActionSchema,
   StartVotingActionSchema,
   SubmitVoteActionSchema,
   TallyVotesActionSchema,
@@ -135,6 +149,7 @@ export const FiveSecondsCustomActionSchema = z.discriminatedUnion('type', [
   ClearQuestionErrorActionSchema,
   StartTurnActionSchema,
   StartTurnTimerActionSchema,
+  StartReadingTimerActionSchema,
   TimesUpActionSchema,
 ]);
 
@@ -155,6 +170,7 @@ export type FiveSecondsAction = z.infer<typeof FiveSecondsActionSchema>;
 export type AddSeenQuestionIdAction = z.infer<
   typeof AddSeenQuestionIdActionSchema
 >;
+export type StartAnsweringAction = z.infer<typeof StartAnsweringActionSchema>;
 export type StartVotingAction = z.infer<typeof StartVotingActionSchema>;
 export type StartTurnAction = z.infer<typeof StartTurnActionSchema>;
 export type SetGameTurnPhaseAction = z.infer<typeof SetGameTurnPhaseActionSchema>;
@@ -166,4 +182,5 @@ export type FetchQuestionsErrorAction = z.infer<
   typeof FetchQuestionsErrorActionSchema
 >;
 export type StartTurnTimerAction = z.infer<typeof StartTurnTimerActionSchema>;
+export type StartReadingTimerAction = z.infer<typeof StartReadingTimerActionSchema>;
 export type TimesUpAction = z.infer<typeof TimesUpActionSchema>;

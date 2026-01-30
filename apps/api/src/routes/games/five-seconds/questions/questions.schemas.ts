@@ -26,9 +26,7 @@ export const getBatchQuestionsQuerySchema = z.object({
   timePerTurn: z.coerce.number().int().positive(),
 });
 
-export const questionResponseSchema = baseQuestionSchema.extend({
-  totalTime: z.number().int().positive(),
-});
+export const questionResponseSchema = baseQuestionSchema;
 
 export type QuestionResponse = z.infer<typeof questionResponseSchema>;
 export type GetRandomQuestionQuery = z.infer<typeof getRandomQuestionQuerySchema>;

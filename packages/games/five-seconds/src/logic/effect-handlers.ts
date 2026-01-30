@@ -5,6 +5,7 @@ import type {
   FiveSecondsGameState,
   LoadQuestionsAction,
   SetQuestionAction,
+  StartReadingTimerAction,
   StartTurnTimerAction,
 } from './schema';
 import hcWithType from '@guess-logo/api-client';
@@ -224,7 +225,7 @@ export function createTimerEffect(): GameEffect {
 
   return async (
     ctx: GameEffectContext,
-  ): Promise<StartTurnTimerAction | null> => {
+  ): Promise<StartTurnTimerAction | StartReadingTimerAction | null> => {
     const action = ctx.action as FiveSecondsAction;
     const gameState = ctx.state as FiveSecondsGameState;
     const isServer = !!ctx.ctx?.storage;
@@ -244,26 +245,60 @@ export function createTimerEffect(): GameEffect {
       return null;
     }
 
-    // Start timer on START_TURN
+    // Start reading timer on START_TURN
     if (action.type === 'START_TURN') {
-      const turnDuration = gameState.settings.timePerTurn * 1000;
-      const endsAt = Date.now() + turnDuration;
+      const readingDuration = gameState.readingTime * 1000;
+      const endsAt = Date.now() + readingDuration;
       const currentDispatch = ctx.dispatch;
 
-      logger.info(`[TimerEffect] Starting ${turnDuration}ms timer (${isServer ? 'SERVER' : 'LOCAL'})`);
+      logger.info(`[TimerEffect] Starting reading timer for ${readingDuration}ms (${isServer ? 'SERVER' : 'LOCAL'})`);
 
       if (isServer) {
-        // Server: Use Durable Object alarm
         await ctx.ctx.storage.setAlarm(endsAt);
       }
       else {
-        // Local: Use setTimeout and dispatch directly
         if (localTimerId) {
           clearTimeout(localTimerId);
         }
 
         localTimerId = setTimeout(async () => {
-          logger.info('[TimerEffect] Local timer expired, dispatching TIMES_UP');
+          logger.info('[TimerEffect] Reading timer expired, dispatching START_ANSWERING');
+
+          if (currentDispatch) {
+            await currentDispatch({ type: 'START_ANSWERING' });
+          }
+          else {
+            logger.error('[TimerEffect] No dispatch function available in local mode!');
+          }
+
+          localTimerId = undefined;
+        }, readingDuration);
+      }
+
+      return {
+        type: 'START_READING_TIMER',
+        payload: { endsAt },
+      };
+    }
+
+    // Start answering timer on START_ANSWERING
+    if (action.type === 'START_ANSWERING') {
+      const turnDuration = gameState.settings.timePerTurn * 1000;
+      const endsAt = Date.now() + turnDuration;
+      const currentDispatch = ctx.dispatch;
+
+      logger.info(`[TimerEffect] Starting answering timer for ${turnDuration}ms (${isServer ? 'SERVER' : 'LOCAL'})`);
+
+      if (isServer) {
+        await ctx.ctx.storage.setAlarm(endsAt);
+      }
+      else {
+        if (localTimerId) {
+          clearTimeout(localTimerId);
+        }
+
+        localTimerId = setTimeout(async () => {
+          logger.info('[TimerEffect] Answering timer expired, dispatching TIMES_UP');
 
           if (currentDispatch) {
             await currentDispatch({ type: 'TIMES_UP' });
@@ -276,7 +311,6 @@ export function createTimerEffect(): GameEffect {
         }, turnDuration);
       }
 
-      // Return action to update state with endsAt timestamp
       return {
         type: 'START_TURN_TIMER',
         payload: { endsAt },

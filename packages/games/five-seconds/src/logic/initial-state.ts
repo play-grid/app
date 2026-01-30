@@ -21,4 +21,6 @@ export const FIVE_SECONDS_CUSTOM_STATE = {
   votingState: null as VotingState | null,
   seenQuestionIds: [] as string[],
   questionError: null,
+  readingTime: 0,
+  readingTimerEndsAt: null as number | null,
 };
