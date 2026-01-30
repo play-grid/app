@@ -277,6 +277,7 @@
       "votes": "الأصوات: {{count}} / {{total}}",
       "valid": "صحيح",
       "invalid": "غير صحيح",
+      "readingTime": "وقت للقراءة",
       "waitingForOthersToVote": "في انتظار تصويت الآخرين...",
       "yourVoteWillComeNext": "سيأتي دور تصويتك التالي!",
       "resetGame": "إعادة ضبط اللعبة",

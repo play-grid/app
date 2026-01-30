@@ -277,6 +277,7 @@
       "votes": "Votes: {{count}} / {{total}}",
       "valid": "Valid",
       "invalid": "Invalid",
+      "readingTime": "Reading Time",
       "waitingForOthersToVote": "Waiting for others to vote...",
       "yourVoteWillComeNext": "Your vote will come next!",
       "resetGame": "Reset Game",
