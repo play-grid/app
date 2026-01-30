@@ -144,7 +144,7 @@ export function FiveSecondsLobby() {
           {/* Settings Section */}
           <Card className="p-6 space-y-6 border-border">
             <div className="flex items-center gap-3">
-              <Settings className="w-6 h-6 text-primary" />
+              <Settings className="w-6 h-6 text-foreground" />
               <h2 className="text-2xl font-bold">
                 {t('fiveSecondsGame.lobby.gameSettings')}
               </h2>

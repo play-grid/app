@@ -1,11 +1,11 @@
 import type { FiveSecondsPlayer, Question, VotingState } from '@guess-logo/five-seconds';
 import { Clock, ThumbsDown, ThumbsUp, Users } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { Progress } from '@/components/ui/progress';
 import { useRoomSession } from '@/features/room/room-store';
 import { useGameMode } from '@/hooks/use-game-mode';
 import { QuestionInfo } from './question-info';
 import { Button } from './ui/button';
+import { Progress } from './ui/progress';
 
 interface VotingViewProps {
   votingState: VotingState;

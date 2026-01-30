@@ -1,29 +1,46 @@
 import { cn } from '@guess-logo/ui';
 import * as ProgressPrimitive from '@radix-ui/react-progress';
-
 import * as React from 'react';
 
-function Progress({
-  className,
-  value,
-  ...props
-}: React.ComponentProps<typeof ProgressPrimitive.Root>) {
+function getPercent(value: number | null | undefined, maxValue: number | undefined): number {
+  if (value == null || value <= 0)
+    return 0;
+  const max = maxValue ?? 100;
+  if (max <= 0)
+    return 0;
+  return Math.min(100, (value / max) * 100);
+}
+
+function Progress({ ref, className, value, max, children, ...props }: React.ComponentPropsWithoutRef<typeof ProgressPrimitive.Root> & { ref?: React.RefObject<React.ElementRef<typeof ProgressPrimitive.Root> | null> }) {
+  const percent = getPercent(value, max);
   return (
     <ProgressPrimitive.Root
-      data-slot="progress"
+      ref={ref}
       className={cn(
-        'bg-primary/20 relative h-2 w-full overflow-hidden rounded-full',
+        'relative h-2.5 w-full overflow-hidden bg-muted',
         className,
       )}
+      value={value}
+      max={max}
       {...props}
     >
-      <ProgressPrimitive.Indicator
-        data-slot="progress-indicator"
-        className="bg-primary h-full w-full flex-1 transition-all"
-        style={{ transform: `translateX(-${100 - (value || 0)}%)` }}
-      />
+      {children || (
+        <ProgressPrimitive.Indicator
+          className={cn(
+            'h-full w-full flex-1 bg-primary transition-transform',
+            'duration-500 ease-out',
+          )}
+          style={{
+
+            transform: `translateX(-${100 - percent}%)`,
+          }}
+        />
+      )}
     </ProgressPrimitive.Root>
   );
 }
+Progress.displayName = ProgressPrimitive.Root.displayName;
 
 export { Progress };
+
+export const ProgressIndicator = ProgressPrimitive.Indicator;

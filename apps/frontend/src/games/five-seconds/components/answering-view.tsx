@@ -1,7 +1,7 @@
 import type { Question } from '@guess-logo/five-seconds';
 import { Timer } from 'lucide-react';
-import { Progress } from '@/components/ui/progress';
 import { QuestionInfo } from './question-info';
+import { Progress } from './ui/progress';
 
 interface AnsweringViewProps {
   timeLeft: number;
@@ -15,7 +15,7 @@ export function AnsweringView({ timeLeft, totalTime, currentQuestion }: Answerin
     <div className="space-y-8">
       <div className="space-y-4">
         <div className="flex items-center justify-center gap-4">
-          <Timer className="w-8 h-8 text-accent" />
+          <Timer className="w-8 h-8 text-foreground" />
           <span className="text-6xl font-bold tabular-nums">{timeLeft}</span>
         </div>
         <Progress value={progressPercentage} className="h-3" />
