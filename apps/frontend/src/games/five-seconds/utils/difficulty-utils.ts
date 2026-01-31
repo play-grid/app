@@ -1,8 +1,8 @@
-import type { Difficulty } from '@guess-logo/five-seconds';
+import type { DBdifficulty } from '@guess-logo/five-seconds';
 
-export function normalizeDifficulty(diff: string): Difficulty {
+export function normalizeDifficulty(diff: string): DBdifficulty {
   const normalized = diff.toLowerCase().trim();
-  const map: Record<string, Difficulty> = {
+  const map: Record<string, DBdifficulty> = {
     سهل: 'easy',
     وسط: 'medium',
     صعب: 'hard',

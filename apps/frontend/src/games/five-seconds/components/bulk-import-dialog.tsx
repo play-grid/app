@@ -1,4 +1,4 @@
-import type { Difficulty } from '@guess-logo/five-seconds';
+import type { DBdifficulty } from '@guess-logo/five-seconds';
 import { difficultySchema } from '@guess-logo/five-seconds';
 import { X } from 'lucide-react';
 import { useState } from 'react';
@@ -41,7 +41,7 @@ interface BulkImportDialogProps {
 interface ParsedQuestion {
   text: string;
   categoryId: string;
-  difficulty: Difficulty;
+  difficulty: DBdifficulty;
   hasInlineCategory: boolean;
   hasInlineDifficulty: boolean;
 }
@@ -52,7 +52,7 @@ export function BulkImportDialog({ children }: BulkImportDialogProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [bulkText, setBulkText] = useState('');
   const [defaultCategory, setDefaultCategory] = useState<string>('');
-  const [defaultDifficulty, setDefaultDifficulty] = useState<Difficulty>('medium');
+  const [defaultDifficulty, setDefaultDifficulty] = useState<DBdifficulty>('medium');
   const [hasImported, setHasImported] = useState(false);
 
   const parsedQuestions = parseBulkText(bulkText, defaultCategory, defaultDifficulty);
@@ -224,13 +224,13 @@ export function BulkImportDialog({ children }: BulkImportDialogProps) {
                     <Label className="text-sm">{t('fiveSecondsGame.bulkImport.difficulty')}</Label>
                     <Select
                       value={defaultDifficulty}
-                      onValueChange={value => setDefaultDifficulty(value as Difficulty)}
+                      onValueChange={value => setDefaultDifficulty(value as DBdifficulty)}
                     >
                       <SelectTrigger>
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        {difficultySchema.options.map(diff => (
+                        {difficultySchema.options.filter(diff => diff !== 'all').map(diff => (
                           <SelectItem key={diff} value={diff}>
                             {t(diff.toLowerCase())}
                           </SelectItem>
@@ -290,7 +290,7 @@ export function BulkImportDialog({ children }: BulkImportDialogProps) {
                     : (
                         <div className="p-4 space-y-2">
                           {parsedQuestions.map((question, index) => {
-                            const difficultyColors = {
+                            const difficultyColors: Record<DBdifficulty, string> = {
                               easy: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900 dark:text-emerald-300',
                               medium: 'bg-amber-100 text-amber-700 dark:bg-amber-900 dark:text-amber-300',
                               hard: 'bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300',
@@ -315,11 +315,11 @@ export function BulkImportDialog({ children }: BulkImportDialogProps) {
                                       {question.categoryId || defaultCategory || t('fiveSecondsGame.bulkImport.noCategory')}
                                     </span>
                                     <span className={`text-xs px-2 py-0.5 ${question.hasInlineDifficulty
-                                      ? difficultyColors[question.difficulty || defaultDifficulty]
+                                      ? difficultyColors[question.difficulty]
                                       : 'bg-muted text-muted-foreground'
                                     }`}
                                     >
-                                      {t((question.difficulty || defaultDifficulty).toLowerCase())}
+                                      {t(question.difficulty.toLowerCase())}
                                     </span>
                                   </div>
                                 </div>
@@ -373,7 +373,7 @@ export function BulkImportDialog({ children }: BulkImportDialogProps) {
   );
 }
 
-function parseBulkText(text: string, _defaultCategory: string, defaultDifficulty: Difficulty): ParsedQuestion[] {
+function parseBulkText(text: string, _defaultCategory: string, defaultDifficulty: DBdifficulty): ParsedQuestion[] {
   const lines = text.split('\n').map(line => line.trim()).filter(line => line.length >= 5);
 
   return lines.map((line) => {

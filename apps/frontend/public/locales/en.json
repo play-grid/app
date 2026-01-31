@@ -306,18 +306,18 @@
     },
     "howToPlay": "How to Play",
     "instructions": {
-      "description": "Learn the rules of Five Seconds: a fast-paced word game where you name 3 things in a category within 5 seconds!",
-      "rule1": "When it's your turn, you have exactly 5 seconds to say 3 things that match the category shown on screen.",
-      "rule2": "Speak your answers out loud - don't write them! Think fast and say the first things that come to mind.",
-      "rule3": "After time's up, other players vote on whether your answers were valid. Get majority votes to earn one point and build your winning streak.",
-      "rule4": "Get a streak of 3 correct answers in a row to receive a random power-up! Use it wisely to help yourself or disrupt others.",
-      "rule5": "The winner is the player with the most points at the end. Remember: the game is about quick thinking, laughter, and friendly chaos!"
+      "description": "fiveSeonds is a fast-paced party game full of speed, laughter, and friendly chaos!",
+      "rule1": "When it's your turn, you have only 5 seconds to say 3 things that match the category on the screen.",
+      "rule2": "Say your answers out loud, don’t type them. Don’t overthink it, just say the first things that come to mind.",
+      "rule3": "After time’s up, the other players vote on your answers. Sometimes answers are clearly correct, and sometimes they’re weird or debatable. Voting exists because not every answer is obvious, and because players might disagree or even vote against you just to create tension and fun. If you get the majority of votes, you earn one point.",
+      "rule4": "If you win 3 rounds in a row, you receive a random special power that adds more excitement and challenge to the game.",
+      "rule5": "The winner is the player with the highest score at the end. Remember: the game is not only about correct answers, but about speed, interaction, and funny moments between players."
     },
       "bulkImport": {
         "title": "Import Questions",
         "description": "Paste multiple questions separated by new lines. All questions will use the selected category and difficulty.",
         "pasteText": "Paste your questions here",
-        "placeholder": "[Sports|Easy] Name 3 football teams\n[Movies|Hard] Name 3 Oscar winners\nName 3 fruits\nName 3 countries",
+        "placeholder2": "[Sports|Easy] Name 3 football teams\n[Movies|Hard] Name 3 Oscar winners\nName 3 fruits\nName 3 countries",
         "placeholder": "Name three fruits\nName three countries\nName three movies\n...",
         "hint": "Each line becomes one question. Minimum 5 characters per question.",
         "category": "Category for all questions",
