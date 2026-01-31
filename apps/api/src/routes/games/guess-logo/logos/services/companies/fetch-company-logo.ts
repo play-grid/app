@@ -81,7 +81,7 @@ export async function fetchCompanyLogo(
 
     // Store in cache before returning
     await env.LOGO_CACHE.put(cacheKey, JSON.stringify(result), {
-      expirationTtl: 86400 * 30, // 30 days
+      expirationTtl: 86400 * 90, // 90 days
     });
 
     return result;

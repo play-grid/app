@@ -66,7 +66,7 @@ export const getLogosBySetAndList: AppRouteHandler<GetLogosBySetAndListRoute> = 
       allLogos = await applyLogoOverrides(rawLogos, set, list, overrides);
 
       await c.env.LOGO_CACHE.put(cacheKey, JSON.stringify(allLogos), {
-        expirationTtl: 86400,
+        expirationTtl: 86400 * 7,
       });
     }
 
@@ -80,6 +80,7 @@ export const getLogosBySetAndList: AppRouteHandler<GetLogosBySetAndListRoute> = 
       processedLogos = allLogos.slice(0, countNum);
     }
 
+    c.header('Cache-Control', 'public, max-age=3600, s-maxage=86400');
     return c.json(processedLogos, HttpStatusCodes.OK);
   }
   catch (error) {
