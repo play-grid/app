@@ -1,5 +1,5 @@
 import type { SupportedLanguage } from '@guess-logo/shared/types';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import {
   Select,
@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/select';
 import { Spinner } from '@/components/ui/spinner';
 import { getLocalizedName } from '@/utils/language-utils';
-import { useNestedListsQuery } from '../hooks/use-nested-lists-query';
+import { nestedListsQueryOptions, useNestedListsQuery } from '../hooks/use-nested-lists-query';
 import { useSportsSelection } from '../hooks/use-sports-selection';
 import { fetchAvailableCountries, fetchCustomSportLists } from '../services/sports/sports-service';
 import { parseSportsListId, serializeSportsListId } from '../types/sports-list-types';
@@ -30,6 +30,7 @@ interface SportsListSelectorProps {
   regions: LogoListMetadata[];
   selectedListId: string;
   onListChange: (listId: string) => void;
+  onHoverList?: (listId: string) => void;
   className?: string;
 }
 
@@ -39,11 +40,27 @@ export function SportsListSelector({
   regions,
   selectedListId,
   onListChange,
+  onHoverList,
   className = '',
 }: SportsListSelectorProps) {
   const { i18n, t } = useTranslation();
   const { state } = useSportsSelection(selectedListId);
   const lang = i18n.language as SupportedLanguage;
+  const queryClient = useQueryClient();
+
+  const handleHover = (listId: string) => {
+    if (onHoverList && listId && listId !== selectedListId) {
+      onHoverList(listId);
+    }
+  };
+
+  const handleRegionHover = (regionKey: string) => {
+    const regionListId = serializeSportsListId({ type: 'region', regionName: regionKey });
+
+    queryClient.prefetchQuery(nestedListsQueryOptions('sports', regionListId, true)).catch(() => {});
+
+    handleHover(regionListId);
+  };
 
   const { data: countries = [], isLoading: isLoadingCountries } = useQuery({
     queryKey: ['available-countries'],
@@ -153,7 +170,11 @@ export function SportsListSelector({
                     ? parsed.data.regionName
                     : `unknown-${region.id}`;
                 return (
-                  <SelectItem key={region.id} value={regionKey}>
+                  <SelectItem
+                    key={region.id}
+                    value={regionKey}
+                    onMouseEnter={() => handleRegionHover(regionKey)}
+                  >
                     {getLocalizedName(region.name, lang)}
                   </SelectItem>
                 );
@@ -171,7 +192,7 @@ export function SportsListSelector({
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
-                  <SelectItem value="__all__">
+                  <SelectItem value="__all__" onMouseEnter={() => handleHover(regionListId)}>
                     🌐
                     {' '}
                     {t('games.guessLogo.all-teams')}
@@ -195,7 +216,12 @@ export function SportsListSelector({
                             ? parsed.data.leagueId
                             : `unknown-${league.id}`;
                         return (
-                          <SelectItem className="break-normal text-md" key={league.id} value={leagueKey}>
+                          <SelectItem
+                            className="break-normal text-md"
+                            key={league.id}
+                            value={leagueKey}
+                            onMouseEnter={() => handleHover(league.id)}
+                          >
                             🏆
                             {lName}
                           </SelectItem>
@@ -225,8 +251,13 @@ export function SportsListSelector({
                   </div>
                 )
               : countries.map((country) => {
+                  const countryListId = serializeSportsListId({ type: 'country', countryId: country.id });
                   return (
-                    <SelectItem key={country.id} value={country.id}>
+                    <SelectItem
+                      key={country.id}
+                      value={country.id}
+                      onMouseEnter={() => handleHover(countryListId)}
+                    >
                       {country.flag}
                       {' '}
                       {getLocalizedName(country.name, lang)}
@@ -243,11 +274,18 @@ export function SportsListSelector({
             <SelectValue placeholder={t('games.guessLogo.select-list')} />
           </SelectTrigger>
           <SelectContent>
-            {customLists.map(list => (
-              <SelectItem key={list.id} value={list.slug}>
-                {getLocalizedName(list.name, lang)}
-              </SelectItem>
-            ))}
+            {customLists.map((list) => {
+              const customListId = serializeSportsListId({ type: 'custom', listSlug: list.slug });
+              return (
+                <SelectItem
+                  key={list.id}
+                  value={list.slug}
+                  onMouseEnter={() => handleHover(customListId)}
+                >
+                  {getLocalizedName(list.name, lang)}
+                </SelectItem>
+              );
+            })}
           </SelectContent>
         </Select>
       )}

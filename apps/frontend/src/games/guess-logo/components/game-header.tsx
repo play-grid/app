@@ -3,6 +3,7 @@ import type { LogoSetKey } from '../lib/logo-data';
 import type { Player } from '../stores/game-state-store';
 import type { LogoListMetadata } from './sports-list-selector';
 import { GridIcon, RefreshIcon, RestartIcon, TrophyIcon } from '@guess-logo/ui/icons';
+import { useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -19,6 +20,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
+import { logoItemsQueryOptions } from '../hooks/use-logo-items';
 import { SportsListSelector } from './sports-list-selector';
 
 interface GameHeaderProps {
@@ -51,9 +53,20 @@ export function GameHeader({
   onShuffle,
 }: GameHeaderProps) {
   const { t, i18n } = useTranslation();
+  const queryClient = useQueryClient();
+  const language = i18n.language as 'en' | 'ar';
 
   const winner = playerA.winner || playerB.winner;
   const winningPlayer = playerA.winner ? playerA : playerB.winner ? playerB : null;
+
+  function prefetchLogos(listId: string) {
+    if (!listId || listId === selectedList)
+      return;
+
+    queryClient.prefetchQuery(
+      logoItemsQueryOptions(selectedSet, listId, language, gridConfig.totalLogos, false, true),
+    ).catch(() => {});
+  }
 
   return (
     <div className="mb-4 md:mb-6 space-y-3 md:space-y-4">
@@ -160,6 +173,7 @@ export function GameHeader({
                       regions={availableLists}
                       selectedListId={selectedList}
                       onListChange={onListChange}
+                      onHoverList={prefetchLogos}
                     />
                   </div>
                 )
@@ -170,7 +184,11 @@ export function GameHeader({
                     </SelectTrigger>
                     <SelectContent>
                       {availableLists.map(list => (
-                        <SelectItem key={list.id} value={list.id}>
+                        <SelectItem
+                          key={list.id}
+                          value={list.id}
+                          onMouseEnter={() => prefetchLogos(list.id)}
+                        >
                           {list.name[i18n.language as keyof typeof list.name]}
                         </SelectItem>
                       ))}
