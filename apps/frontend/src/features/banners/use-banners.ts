@@ -1,5 +1,6 @@
+import type { UseQueryOptions } from '@tanstack/react-query';
 import type { InferResponseType } from 'hono/client';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useMemo } from 'react';
 import { useGameNavigation } from '@/hooks/use-game-navigation';
 import client from '@/lib/hono-client';
@@ -8,16 +9,33 @@ import { FEATURE_FLAGS } from '../../lib/constants';
 
 type BannersResponse = InferResponseType<typeof client.api.banners.$get>;
 
-export function useBanners() {
-  const { currentLanguage } = useGameNavigation();
-
-  const query = useQuery({
+/**
+ * Query options factory for banners
+ * This ensures consistent query keys across the app
+ */
+export function bannersQueryOptions(): UseQueryOptions<BannersResponse> {
+  return {
     queryKey: ['banners'],
     queryFn: async () => {
       const res = await client.api.banners.$get();
       if (!res.ok)
         throw new Error('Failed to fetch banners');
       return res.json();
+    },
+    staleTime: 30 * 60 * 1000,
+    gcTime: 86400 * 7 * 1000,
+    refetchOnMount: false,
+  };
+}
+
+export function useBanners() {
+  const { currentLanguage } = useGameNavigation();
+  const queryClient = useQueryClient();
+
+  const query = useQuery({
+    ...bannersQueryOptions(),
+    queryFn: async () => {
+      return queryClient.ensureQueryData(bannersQueryOptions());
     },
   });
 

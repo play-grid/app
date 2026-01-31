@@ -1,23 +1,13 @@
 // import { UserButton } from '@daveyplate/better-auth-ui';
-import { useQuery } from '@tanstack/react-query';
 import { GameCard, SkeletonGameCard } from '@/components/game-card';
 import SiteCustomizations from '@/components/site-about';
 import { BannersCarousel } from '@/features/banners';
 
 import { getBannerFeatureFlag, useBanners } from '@/features/banners/use-banners';
-import client from '@/lib/hono-client';
+import { useGames } from '@/hooks/use-games';
 
 function HomePage() {
-  const { data: games = [], isLoading } = useQuery({
-    queryKey: ['games'],
-    queryFn: async () => {
-      const res = await client.api.games.$get();
-      if (!res.ok)
-        throw new Error('Failed to fetch games');
-      const data = await res.json();
-      return data;
-    },
-  });
+  const { data: games = [], isLoading } = useGames();
 
   const { data: banners = [] } = useBanners();
   const { showBanners } = getBannerFeatureFlag();
