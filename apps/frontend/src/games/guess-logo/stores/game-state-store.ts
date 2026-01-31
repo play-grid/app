@@ -6,7 +6,6 @@ import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 import { fetchLogos } from '../services/logo-query-service';
-import { fetchLogoLists } from '../services/unified-logo-service';
 
 export interface LogoCountryData {
   name: string;
@@ -49,7 +48,7 @@ export interface GameState extends SharedGameState {
   listIsEmpty: boolean;
 
   // Actions
-  updateSelectedSet: (set: LogoSetKey) => Promise<void>;
+  setGameLogos: (logos: LogoItem[]) => void;
   setSelectedSet: (set: LogoSetKey) => void;
   setSelectedList: (listId: string) => void;
   updateLogosForList: (
@@ -140,7 +139,7 @@ export const useGameStore = create<GameState>()(
               return;
             }
 
-            const fetchedLogos = await fetchLogos(logoSet, listId, language, count);
+            const fetchedLogos = await fetchLogos(logoSet, listId, language, count, false);
 
             if (fetchedLogos.length === 0) {
               set({
@@ -201,39 +200,14 @@ export const useGameStore = create<GameState>()(
         setSelectedSet: (selectedSet) => {
           set((state) => {
             state.selectedSet = selectedSet;
+            // Reset to empty string - will be populated when fetching lists
+            state.selectedList = '';
+            state.playerA.logos = [];
+            state.playerB.logos = [];
+            state.gameInitialized = false;
           });
         },
 
-        updateSelectedSet: async (selectedSet) => {
-          set({ isUpdatingList: true, error: null });
-          try {
-            const lists = await fetchLogoLists(selectedSet);
-            if (lists.length > 0) {
-              const defaultList = lists[0].id;
-              set((state) => {
-                state.selectedSet = selectedSet;
-                state.selectedList = defaultList;
-              });
-            }
-            else {
-              // Handle case with no lists
-              set((state) => {
-                state.selectedSet = selectedSet;
-                state.selectedList = ''; // or some indicator of no list
-                state.playerA.logos = [];
-                state.playerB.logos = [];
-                state.gameInitialized = false;
-              });
-            }
-          }
-          catch (error) {
-            console.error('Failed to update selected set', error);
-            set({ error: (error as Error).message || 'Failed to fetch logo lists.' });
-          }
-          finally {
-            set({ isUpdatingList: false });
-          }
-        },
         setSelectedList: selectedList =>
           set((state) => {
             state.selectedList = selectedList;
@@ -263,36 +237,69 @@ export const useGameStore = create<GameState>()(
             state.currentPlayer = player;
           }),
 
+        setGameLogos: (logos: LogoItem[]) =>
+          set((state) => {
+            const { getPlayerStats } = get();
+            const stats = getPlayerStats(logos);
+
+            state.playerA = {
+              ...state.playerA,
+              logos: [...logos],
+              ...stats,
+            };
+
+            state.playerB = {
+              ...state.playerB,
+              logos: [...logos],
+              ...stats,
+            };
+
+            state.gameStarted = true;
+            state.gameInitialized = true;
+          }),
+
         shuffleLogos: async (language) => {
           const state = get();
           if (!state.gameInitialized) {
             return;
           }
 
-          try {
-            const fetchedLogos = await fetchLogos(
-              state.selectedSet,
-              state.selectedList,
-              language,
-              state.playerA.logos.length,
-              true, // Request a shuffled list
-            );
+          set({ isUpdatingLogos: true });
 
-            const newLogos: LogoItem[] = fetchedLogos.map(logo => ({
-              id: logo.id,
+          try {
+            const queryClient = (window as any).__REACT_QUERY_CLIENT__;
+            if (!queryClient) {
+              throw new Error('Query client not available');
+            }
+
+            const currentCount = state.playerA.logos.length;
+            const allLogos = await queryClient.fetchQuery({
+              queryKey: ['logo-items', state.selectedSet, state.selectedList, language, 100],
+              queryFn: async () => {
+                const { fetchLogos } = await import('../services/logo-query-service');
+                return fetchLogos(state.selectedSet, state.selectedList, language, 100, false);
+              },
+              staleTime: 30 * 60 * 1000,
+            });
+
+            if (!allLogos || allLogos.length === 0) {
+              throw new Error('No logos available to shuffle');
+            }
+
+            const shuffled = [...allLogos].sort(() => Math.random() - 0.5);
+            const newLogos = shuffled.slice(0, currentCount).map((logo, index) => ({
+              id: index,
               name: logo.name,
-              originalName: 'originalName' in logo ? logo.originalName : undefined,
               imageUrl: logo.imageUrl,
               eliminated: false,
-              countryData: 'countryData' in logo ? logo.countryData : undefined,
+              countryData: logo.countryData,
               type: logo.type,
             }));
 
-            set((s) => {
-              const { getPlayerStats } = get();
-              const stats = getPlayerStats(newLogos);
+            const { getPlayerStats } = get();
+            const stats = getPlayerStats(newLogos);
 
-              // Both players get the same fresh shuffled logos
+            set((s) => {
               s.playerA.logos = [...newLogos];
               s.playerA.activeCount = stats.activeCount;
               s.playerA.winner = stats.winner;

@@ -1,9 +1,10 @@
 import type { UseQueryOptions } from '@tanstack/react-query';
+import type { LogoListMetadata } from '../components/sports-list-selector';
 import type { LogoSetKey } from '../lib/logo-data';
 import { useQuery } from '@tanstack/react-query';
 import { fetchLogoLists } from '../services/unified-logo-service';
 
-export function logoListsQueryOptions(logoSet: LogoSetKey, enabled = true): UseQueryOptions {
+export function logoListsQueryOptions(logoSet: LogoSetKey, enabled = true): UseQueryOptions<LogoListMetadata[]> {
   return {
     queryKey: ['logo-lists', logoSet],
     queryFn: () => fetchLogoLists(logoSet),
@@ -14,5 +15,5 @@ export function logoListsQueryOptions(logoSet: LogoSetKey, enabled = true): UseQ
 }
 
 export function useLogoListsQuery(logoSet: LogoSetKey, enabled = true) {
-  return useQuery(logoListsQueryOptions(logoSet, enabled));
+  return useQuery<LogoListMetadata[]>(logoListsQueryOptions(logoSet, enabled));
 }

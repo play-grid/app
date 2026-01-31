@@ -1,3 +1,4 @@
+import type { SupportedLanguage } from '@guess-logo/shared/types';
 import type { LogoSetKey } from '../lib/logo-data';
 import type { Player } from '../stores/game-state-store';
 import {
@@ -86,6 +87,8 @@ export function GameSetup({
 }: GameSetupProps) {
   const [attemptedStart, setAttemptedStart] = useState(false);
   const currentGrid = gridConfigurations.find(g => g.id === selectedGrid) || gridConfigurations[2];
+  const { i18n } = useTranslation();
+  const queryClient = useQueryClient();
 
   const playerAValidation = playerNameSchema.safeParse(playerA.name);
   const playerBValidation = playerNameSchema.safeParse(playerB.name);
@@ -104,35 +107,46 @@ export function GameSetup({
       onStartGame();
     }
   }
-  const queryClient = useQueryClient();
-  async function handleIconsSetChange(setId: LogoSetKey) {
-    onSetChange(setId);
-    // TODO: use tanstack query
 
-    try {
-    // 1. Fetch available lists
-      const lists = await fetchLogoLists(setId);
-      if (!Array.isArray(lists) || lists.length === 0) {
-        logger.warn(`No lists found for set: ${setId}`);
+  // Fixed prefetch function
+  function prefetchLogos(setId: LogoSetKey) {
+    const gridToUse = gridConfigurations.find(g => g.id === selectedGrid) || gridConfigurations[2];
+    const language = i18n.language as SupportedLanguage;
+
+    // Use queryClient.prefetchQuery instead of ensureQueryData for hover prefetching
+    // This won't block and handles errors silently
+    queryClient.prefetchQuery({
+      queryKey: ['logo-lists', setId],
+      queryFn: () => fetchLogoLists(setId),
+      staleTime: 60 * 60 * 1000, // 1 hour
+    }).then(() => {
+      // After lists are fetched, prefetch the first list's logos
+      const logoListsData = queryClient.getQueryData(['logo-lists', setId]) as any[];
+
+      if (!logoListsData || !Array.isArray(logoListsData) || logoListsData.length === 0) {
         return;
       }
 
-      // 2. Pick first available list ID
-      const firstListId = lists[0].id;
+      // Always use the first available list for prefetching
+      const firstListId = logoListsData[0].id;
 
-      // 3. Prefetch that list's logos
-      await queryClient.ensureQueryData({
-        queryKey: ['logo-items', setId, firstListId, 'en'],
-        queryFn: () => fetchLogos(setId, firstListId, 'en', 80, true),
-        staleTime: 10 * 60 * 1000,
+      // Prefetch the actual logos for the first list
+      return queryClient.prefetchQuery({
+        queryKey: ['logo-items', setId, firstListId, language, gridToUse.totalLogos],
+        queryFn: () => fetchLogos(setId, firstListId, language, gridToUse.totalLogos, false),
+        staleTime: 30 * 60 * 1000, // 30 minutes
       });
-    }
-    catch (err) {
-      logger.error(err, `Failed to prefetch logos for set ${setId}:`);
-    }
+    }).catch((err) => {
+      // Silently handle prefetch errors - they shouldn't break the UI
+      logger.debug(`Prefetch failed for set ${setId}:`, err);
+    });
   }
 
-  const { t } = useTranslation();
+  function handleIconsSetChange(setId: LogoSetKey) {
+    onSetChange(setId);
+  }
+
+  const t = i18n.t;
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
@@ -207,6 +221,7 @@ export function GameSetup({
                       isSelected ? 'border-primary bg-primary/5 shadow-lg' : 'border-border hover:border-primary/50'
                     }`}
                     onClick={() => handleIconsSetChange(set.id)}
+                    onMouseEnter={() => prefetchLogos(set.id)}
                   >
                     <div
                       className={`w-12 h-12 rounded-full ${set.color} flex items-center justify-center mx-auto mb-3`}
@@ -274,40 +289,6 @@ export function GameSetup({
           >
             {t('start-game')}
           </Button>
-
-          {/* <RoomDialog
-            gameType="guess-logo"
-            gameSettings={{
-              selectedSet,
-              selectedGrid,
-              selectedList,
-            }}
-            onRoomCreated={(room) => {
-              onRoomCreated(room.id);
-            }}
-            onRoomJoined={(room) => {
-              onRoomJoined(room.id);
-            }}
-            renderGameSettings={(
-              <div className="p-3 bg-muted rounded-lg">
-                <Label className="text-sm font-medium">{t('current-game-settings')}</Label>
-                <div className="text-sm text-muted-foreground mt-1">
-                  <p>
-                    {t('logo-set')}
-                    :
-                    {' '}
-                    {t(selectedSet)}
-                  </p>
-                  <p>
-                    {t('grid-size')}
-                    :
-                    {' '}
-                    {selectedGrid}
-                  </p>
-                </div>
-              </div>
-            )}
-          /> */}
         </div>
         {attemptedStart && (!playerAValidation.success || !playerBValidation.success) && (
           <p className="text-sm text-red-500 mt-2">{t('enter-valid-player-names-to-continue')}</p>

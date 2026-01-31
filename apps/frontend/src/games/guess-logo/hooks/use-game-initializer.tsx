@@ -1,12 +1,10 @@
 import type { SupportedLanguage } from '@guess-logo/shared/types';
 import type { LogoSetKey } from '../lib/logo-data';
-import type { LogoItem } from '../stores/game-state-store';
 import { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getGridConfiguration } from '../lib/grid-configurations';
 import { useGameStore } from '../stores/game-state-store';
 import { useLogoItems } from './use-logo-items';
-import { useLogoQuery } from './use-logo-query';
 
 export interface GameInitializerConfig {
   logoSet: LogoSetKey;
@@ -30,14 +28,13 @@ export function useGameInitializer(config: GameInitializerConfig): GameInitializ
     selectedList,
   } = useGameStore();
 
-  // Get configuration
   const gridConfig = getGridConfiguration(config.gridSize);
 
-  // Fetch logo items from the selected list
-  const { data: logoItems, isLoading: isLoadingItems, error: itemsError } = useLogoItems(
+  const { data: logoItems, isLoading, error } = useLogoItems(
     config.logoSet,
     selectedList,
     i18n.language as SupportedLanguage,
+    gridConfig.totalLogos,
     config.enabled,
   );
 
@@ -51,46 +48,28 @@ export function useGameInitializer(config: GameInitializerConfig): GameInitializ
     }));
   }, [logoItems, gridConfig]);
 
-  // Fetch logo images
-  const { data: fetchedLogos, isLoading: isLoadingLogos, error: logosError } = useLogoQuery(
-    logoItemsSliced,
-    config.logoSet,
-    i18n.language as SupportedLanguage,
-    selectedList,
-    config.enabled && logoItemsSliced.length > 0,
-  );
-
-  // Initialize game when logos are loaded
   useEffect(() => {
     if (
       config.enabled
-      && fetchedLogos
+      && logoItemsSliced.length > 0
       && !gameInitialized
       && config.loadAttempted
       && playerA.logos.length === 0
     ) {
-      const initialLogos: LogoItem[] = fetchedLogos.map((fetchedLogo, index) => ({
-        id: logoItemsSliced[index].id,
-        name: fetchedLogo.name,
-        imageUrl: fetchedLogo.imageUrl,
-        eliminated: false,
-      }));
-
-      initializeGame(initialLogos);
+      initializeGame(logoItemsSliced);
     }
   }, [
     config.enabled,
-    fetchedLogos,
+    logoItemsSliced,
     gameInitialized,
     config.loadAttempted,
     playerA.logos.length,
     initializeGame,
-    logoItemsSliced,
   ]);
 
   return {
-    isLoading: isLoadingItems || isLoadingLogos,
-    error: itemsError || logosError,
+    isLoading,
+    error,
     isInitialized: gameInitialized && config.loadAttempted,
   };
 }

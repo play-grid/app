@@ -1,7 +1,6 @@
 import type { SupportedLanguage } from '@guess-logo/shared/types';
 import type { FooterAttribution, FooterLogoSet } from '../lib/footer-attribution';
 import type { LogoSetKey } from '../lib/logo-data';
-import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
@@ -11,11 +10,13 @@ import { GameInstructions } from '../components/game-instructions';
 import { GridSizeSlider } from '../components/grid-size-slider';
 import { PlayerGrid } from '../components/player-grid';
 import { useGameError } from '../hooks/use-game-error';
+import { useGameInitializer } from '../hooks/use-game-initializer';
 import { useGameRoomPersistence } from '../hooks/use-game-room-persistence';
 import { useGameRouteParams } from '../hooks/use-game-route-params';
 import { useGameUI } from '../hooks/use-game-ui';
 import { useLogoListChanger } from '../hooks/use-logo-list-changer';
 import { useLogoListsQuery } from '../hooks/use-logo-lists-query';
+import { useShuffleLogos } from '../hooks/use-shuffle-logos';
 import { footerAttribution } from '../lib/footer-attribution';
 import { getGridConfiguration } from '../lib/grid-configurations';
 import { useGameStore } from '../stores/game-state-store';
@@ -31,63 +32,52 @@ export default function GamePlayPage() {
     enabled: true,
   });
 
-  // Game store
+  const { isLoading, error } = useGameInitializer({
+    logoSet: routeParams.logoSet || 'companies',
+    gridSize: routeParams.gridSize || '8x6',
+    loadAttempted,
+    enabled: true,
+  });
+
   const {
     resetGame,
-    clearError,
     currentPlayer,
     playerA,
     playerB,
     switchTurn,
-    updateLogosForList,
-    shuffleLogos,
     listIsEmpty,
-    isUpdatingLogos,
     togglePlayerALogo,
     togglePlayerBLogo,
     selectedList,
-    error: storeError,
   } = useGameStore();
 
   const logoSet = routeParams.logoSet || 'companies';
   const gridSize = routeParams.gridSize || '8x6';
 
-  // Grid configuration
   const gridConfig = getGridConfiguration(gridSize);
-
-  useEffect(() => {
-    if (loadAttempted) {
-      updateLogosForList(
-        routeParams.listId,
-        routeParams.logoSet,
-        i18n.language as any,
-        gridConfig.totalLogos,
-      );
-    }
-  }, [
-    loadAttempted,
-    routeParams.listId,
-    routeParams.logoSet,
-    i18n.language,
-    updateLogosForList,
-    gridConfig.totalLogos,
-  ]);
   // Logo lists query for available lists
   const { data: availableLists } = useLogoListsQuery(logoSet as LogoSetKey);
+
+  const { shuffleLogos: shuffleLogosHook } = useShuffleLogos(
+    logoSet,
+    selectedList,
+    i18n.language as SupportedLanguage,
+    gridConfig.totalLogos,
+    true,
+  );
 
   const handleResetGame = () => {
     clearGameState();
     resetGame();
-    clearError();
     navigate('/');
   };
   const gameError = useGameError({
-    fetchError: storeError ? new Error(storeError) : null,
+    fetchError: error,
     isValidRoute: routeParams.isValidRoute,
   });
 
   const { showLoading, loadingMessage, showError, errorMessage } = useGameUI({
-    isLocalLoading: isUpdatingLogos,
+    isLocalLoading: isLoading,
     error: gameError.hasError ? new Error(gameError.error || '') : null,
   });
 
@@ -144,7 +134,7 @@ export default function GamePlayPage() {
           onListChange={changeLogoList}
           onSwitchTurn={switchTurn}
           onResetGame={handleResetGame}
-          onShuffle={() => { shuffleLogos(i18n.language as SupportedLanguage); }}
+          onShuffle={shuffleLogosHook}
         />
 
         {/* Grid Size Control */}

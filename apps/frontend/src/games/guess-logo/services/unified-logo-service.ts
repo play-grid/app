@@ -90,7 +90,9 @@ export async function fetchLogos(
   count: number,
   shuffle = false,
 ): Promise<LogoItem[]> {
+  // IMPORTANT: Only parse sports list IDs for sports sets
   if (isSportsSet(logoSet)) {
+    // Parse the complex sports list ID
     const parsed = parseSportsListIdOrThrow(listId);
 
     switch (parsed.type) {
@@ -110,20 +112,17 @@ export async function fetchLogos(
   }
 
   // Regular logo sets - use the existing API
+  // For non-sports sets, listId is just a simple string like "companies", "countries", etc.
   const query: any = {
     language,
     count: count.toString(),
-    shuffle: shuffle ? 'true' : 'false',
+    shuffle: 'false', // Always false - shuffle client-side
   };
-
-  if (shuffle) {
-    query._cb = new Date().getTime().toString(); // Cache buster
-  }
 
   const res = await client.api.games['guess-logo'].logos[':set'][':list'].$get({
     param: {
       set: logoSet,
-      list: listId,
+      list: listId, // Simple string, not parsed
     },
     query,
   });
@@ -134,7 +133,6 @@ export async function fetchLogos(
 
   return (await res.json()) as LogoItem[];
 }
-
 /**
  * Check if a logo set supports nested lists
  */

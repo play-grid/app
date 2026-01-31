@@ -1,5 +1,7 @@
+import type { SupportedLanguage } from '@guess-logo/shared/types';
+import { useQueryClient } from '@tanstack/react-query';
 import { Play, Trash2 } from 'lucide-react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import BackButton from '@/components/back-button';
 import { Button } from '@/components/ui/button';
@@ -7,13 +9,37 @@ import { Card } from '@/components/ui/card';
 import { useGameNavigation } from '@/hooks/use-game-navigation';
 import { logger } from '@/utils/logger';
 import { GameSetup } from '../components/game-setup';
+import { logoItemsQueryOptions } from '../hooks/use-logo-items';
+import { logoListsQueryOptions } from '../hooks/use-logo-lists-query';
+import { getGridConfiguration } from '../lib/grid-configurations';
 import { useGameStore } from '../stores/game-state-store';
 import { usePersistenceStore } from '../stores/legacy-persistence-store';
 import { useUIStore } from '../stores/ui-state-store';
+import type { LogoSetKey } from '../lib/logo-data';
+import { parseSportsListId } from '../types/sports-list-types';
+
+  function isValidListId(listId: string, logoSet: LogoSetKey, availableLists: any[]): boolean {
+    if (!listId || !availableLists || availableLists.length === 0) {
+      return false;
+    }
+
+    // For sports, validate the format using parseSportsListId helper
+    if (logoSet === 'sports') {
+      const parsed = parseSportsListId(listId);
+      if (!parsed.success) {
+        return false;
+      }
+    }
+
+    // Check if list ID exists in available lists
+    return availableLists.some((list: any) => list.id === listId);
+  }
 
 export default function GameSetupPage() {
   const { navigate } = useGameNavigation('guess-logo');
-  const { t } = useTranslation();
+  const { i18n, t } = useTranslation();
+  const queryClient = useQueryClient();
+  const [isStarting, setIsStarting] = useState(false);
 
   // Zustand stores
   const {
@@ -23,7 +49,7 @@ export default function GameSetupPage() {
     playerA,
     playerB,
     isUpdatingList,
-    updateSelectedSet,
+    setSelectedSet,
     setSelectedGrid,
     setPlayerAName,
     setPlayerBName,
@@ -81,14 +107,64 @@ export default function GameSetupPage() {
   // Get logos for validation
   const canStart = true;
 
-  const handleStartGame = () => {
-    const encodedPlayerA = encodeURIComponent(playerA.name.trim() || 'Player A');
-    const encodedPlayerB = encodeURIComponent(playerB.name.trim() || 'Player B');
+  const handleStartGame = async () => {
+    try {
+      setIsStarting(true);
+      logger.info('Starting game with:', {
+        selectedSet,
+        selectedList,
+        selectedGrid,
+        playerA: playerA.name,
+        playerB: playerB.name,
+      });
 
-    clearGameState();
-    resetGame();
+      const encodedPlayerA = encodeURIComponent(playerA.name.trim() || 'Player A');
+      const encodedPlayerB = encodeURIComponent(playerB.name.trim() || 'Player B');
+      const language = i18n.language as SupportedLanguage;
+      const gridConfig = getGridConfiguration(selectedGrid);
 
-    navigate(`/${selectedSet}/${selectedList}/${selectedGrid}/${encodedPlayerA}/${encodedPlayerB}`);
+      logger.info('Clearing game state and resetting...');
+      clearGameState();
+      resetGame();
+
+      logger.info('Fetching logo lists...');
+      await queryClient.ensureQueryData(logoListsQueryOptions(selectedSet, true));
+
+      // Get available lists and validate the current list ID
+      const logoListsData = queryClient.getQueryData(['logo-lists', selectedSet]) as any[];
+      let listToUse = selectedList;
+
+      if (!logoListsData || !Array.isArray(logoListsData) || logoListsData.length === 0) {
+        throw new Error(`No lists available for ${selectedSet}`);
+      }
+
+      // Validate if current list ID is valid for the selected set
+      if (!isValidListId(selectedList, selectedSet, logoListsData)) {
+        logger.info(`Current list ID "${selectedList}" is invalid for ${selectedSet}, using first available list`);
+        listToUse = logoListsData[0].id;
+      }
+
+      logger.info('Fetching logo items...', {
+        selectedSet,
+        listToUse,
+        language,
+        totalLogos: gridConfig.totalLogos,
+      });
+      await queryClient.ensureQueryData(
+        logoItemsQueryOptions(selectedSet, listToUse, language, gridConfig.totalLogos, false, true),
+      );
+
+      const navigationPath = `/${selectedSet}/${listToUse}/${selectedGrid}/${encodedPlayerA}/${encodedPlayerB}`;
+      logger.info('Navigating to:', navigationPath);
+
+      navigate(navigationPath);
+    }
+    catch (error) {
+      logger.error(error, 'Failed to start game:');
+    }
+    finally {
+      setIsStarting(false);
+    }
   };
 
   const handleResumeGame = () => {
@@ -157,7 +233,7 @@ export default function GameSetupPage() {
         {/* Regular Game Setup */}
         <GameSetup
           selectedSet={selectedSet}
-          onSetChange={updateSelectedSet}
+          onSetChange={setSelectedSet}
           selectedGrid={selectedGrid}
           onGridChange={setSelectedGrid}
           playerA={playerA}
@@ -165,7 +241,7 @@ export default function GameSetupPage() {
           onPlayerANameChange={setPlayerAName}
           onPlayerBNameChange={setPlayerBName}
           canStart={canStart}
-          isUpdating={isUpdatingList}
+          isUpdating={isUpdatingList || isStarting}
           onStartGame={handleStartGame}
         />
       </div>
