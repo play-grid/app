@@ -10,8 +10,8 @@ export default function QueryProvider({ children }: { children: React.ReactNode 
       new QueryClient({
         defaultOptions: {
           queries: {
-            staleTime: 5 * 60 * 1000, // 5 minutes
-            gcTime: 10 * 60 * 1000, // 10 minutes
+            staleTime: 10 * 60 * 1000, // 10 minutes
+            gcTime: 86400 * 7 * 1000, // 7 days
           },
         },
       }),
@@ -33,7 +33,13 @@ export default function QueryProvider({ children }: { children: React.ReactNode 
   });
 
   return (
-    <PersistQueryClientProvider persistOptions={{ persister: localStoragePersister }} client={queryClient}>
+    <PersistQueryClientProvider
+      persistOptions={{
+        persister: localStoragePersister,
+        maxAge: 86400 * 7 * 1000,
+      }}
+      client={queryClient}
+    >
       {children}
     </PersistQueryClientProvider>
   );

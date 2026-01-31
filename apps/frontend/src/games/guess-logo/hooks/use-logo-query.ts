@@ -15,8 +15,8 @@ export function useLogoQuery(
     queryKey: ['logos', logoSet, listId, logoItems.length, language],
     queryFn: () => fetchLogos(logoSet, listId, language, logoItems.length),
     enabled: enabled && logoItems.length > 0,
-    staleTime: 10 * 60 * 1000, // 10 minutes
-    gcTime: 20 * 60 * 1000, // 20 minutes
+    staleTime: 30 * 60 * 1000, // 30 minutes
+    gcTime: 86400 * 7 * 1000, // 7 days
     refetchOnMount: false,
   });
 }
