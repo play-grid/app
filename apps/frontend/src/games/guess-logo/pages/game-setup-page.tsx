@@ -1,8 +1,10 @@
 import type { SupportedLanguage } from '@guess-logo/shared/types';
+import type { LogoSetKey } from '../lib/logo-data';
 import { useQueryClient } from '@tanstack/react-query';
 import { Play, Trash2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'sonner';
 import BackButton from '@/components/back-button';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -15,25 +17,24 @@ import { getGridConfiguration } from '../lib/grid-configurations';
 import { useGameStore } from '../stores/game-state-store';
 import { usePersistenceStore } from '../stores/legacy-persistence-store';
 import { useUIStore } from '../stores/ui-state-store';
-import type { LogoSetKey } from '../lib/logo-data';
 import { parseSportsListId } from '../types/sports-list-types';
 
-  function isValidListId(listId: string, logoSet: LogoSetKey, availableLists: any[]): boolean {
-    if (!listId || !availableLists || availableLists.length === 0) {
+function isValidListId(listId: string, logoSet: LogoSetKey, availableLists: any[]): boolean {
+  if (!listId || !availableLists || availableLists.length === 0) {
+    return false;
+  }
+
+  // For sports, validate the format using parseSportsListId helper
+  if (logoSet === 'sports') {
+    const parsed = parseSportsListId(listId);
+    if (!parsed.success) {
       return false;
     }
-
-    // For sports, validate the format using parseSportsListId helper
-    if (logoSet === 'sports') {
-      const parsed = parseSportsListId(listId);
-      if (!parsed.success) {
-        return false;
-      }
-    }
-
-    // Check if list ID exists in available lists
-    return availableLists.some((list: any) => list.id === listId);
   }
+
+  // Check if list ID exists in available lists
+  return availableLists.some((list: any) => list.id === listId);
+}
 
 export default function GameSetupPage() {
   const { navigate } = useGameNavigation('guess-logo');
@@ -161,6 +162,8 @@ export default function GameSetupPage() {
     }
     catch (error) {
       logger.error(error, 'Failed to start game:');
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      toast.error(t('failed-to-start-game'), { description: errorMessage });
     }
     finally {
       setIsStarting(false);
