@@ -1,0 +1,9 @@
+{
+  "extends": ["//"],
+  "tasks": {
+    "build": {
+      "outputs": ["dist/**/*.d.ts", "dist/routes/index.d.ts"],
+      "dependsOn": ["^build"]
+    }
+  }
+}

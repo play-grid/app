@@ -7,6 +7,6 @@
     "resolveJsonModule": true,
     "rootDir": ".",
   },
-  "include": ["src/**/*", "index.ts", "**/*.json"],
+  "include": ["src/**/*", "index.ts"],
   "exclude": ["dist", "node_modules", "**/*.test.ts", "**/*.spec.ts"]
 }

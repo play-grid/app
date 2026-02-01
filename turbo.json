@@ -1,10 +1,12 @@
 {
   "$schema": "https://turborepo.com/schema.json",
   "ui": "tui",
+  "globalEnv": ["NODE_ENV"],
+  "globalDependencies": [".env"],
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": ["dist/**"]
+      "outputs": ["dist/**/*.d.ts", "dist/**/*.js", ".next/**", "!.next/cache/**"]
     },
     "lint": {
       "outputs": []
