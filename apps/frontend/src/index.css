@@ -259,9 +259,11 @@
 
 @theme {
   --ease-snappy: cubic-bezier(0.2, 0.4, 0.1, 0.95);
+  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
 
   --animate-player-list-enter: player-list-enter 200ms var(--ease-snappy);
   --animate-player-list-exit: player-list-exit 300ms var(--ease-snappy);
+  --animate-game-card: game-card-enter 600ms var(--ease-snappy) forwards;
 
   @keyframes player-list-enter {
     from {
@@ -290,5 +292,61 @@
       margin-top: 0;
       margin-bottom: 0;
     }
+  }
+
+  @keyframes game-card-enter {
+    from {
+      opacity: 0;
+      transform: translateY(30px) scale(0.92);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+}
+
+.game-card-animate {
+  animation: var(--animate-game-card);
+  opacity: 0;
+}
+
+.games-list {
+  animation: games-list-appear 500ms var(--ease-snappy) forwards;
+}
+
+@keyframes games-list-appear {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Staggered animations for grid items */
+.games-list > *:nth-child(1) { animation-delay: 0ms; }
+.games-list > *:nth-child(2) { animation-delay: 100ms; }
+.games-list > *:nth-child(3) { animation-delay: 200ms; }
+.games-list > *:nth-child(4) { animation-delay: 300ms; }
+.games-list > *:nth-child(5) { animation-delay: 400ms; }
+.games-list > *:nth-child(6) { animation-delay: 500ms; }
+.games-list > *:nth-child(n+7) { animation-delay: 600ms; }
+
+.game-card-animate {
+  animation: var(--animate-game-card);
+  opacity: 0;
+}
+
+.games-list {
+  animation: games-list-appear 500ms var(--ease-snappy) forwards;
+}
+
+@keyframes games-list-appear {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }

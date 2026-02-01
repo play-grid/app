@@ -28,7 +28,7 @@ function HomePage() {
         {showBanners && <BannersCarousel banners={banners} />}
       </div>
 
-      <main className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl w-full mt-5">
+      <main className="games-list grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl w-full mt-5">
         {isLoading
           ? (
               skeletonCards
