@@ -7,7 +7,7 @@ import { getBannerFeatureFlag, useBanners } from '@/features/banners/use-banners
 import { useGames } from '@/hooks/use-games';
 
 function HomePage() {
-  const { data: games = [], isLoading } = useGames();
+  const { data: games, isLoading } = useGames();
 
   const { data: banners = [] } = useBanners();
   const { showBanners } = getBannerFeatureFlag();

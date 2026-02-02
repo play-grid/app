@@ -7,7 +7,7 @@ import {
 } from '@guess-logo/five-seconds';
 import { ClockIcon, TrophyIcon, UploadIcon } from '@guess-logo/ui/icons';
 import { useQueryClient } from '@tanstack/react-query';
-import { useEffect } from 'react';
+import { lazy, Suspense, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import {
@@ -23,8 +23,8 @@ import { useCategories } from '../hooks/use-categories';
 import { getCategoryById } from '../services/category.service';
 import { useCustomQuestionsStore } from '../stores/custom-questions-store';
 import { getLocalizedCategoryName } from '../utils/category-utils';
-import { BulkImportDialog } from './bulk-import-dialog';
 import { Button } from './ui/button';
+
 import { Label } from './ui/label';
 import {
   Select,
@@ -33,7 +33,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from './ui/select';
+import { Spinner } from './ui/spinner';
 import { Switch } from './ui/switch';
+
+const BulkImportDialog = lazy(() => import('./bulk-import-dialog').then(m => ({ default: m.BulkImportDialog })));
 
 export function GameSettings() {
   const { t, i18n } = useTranslation();
@@ -249,14 +252,22 @@ export function GameSettings() {
             <>
               {/* Bulk Import */}
               <div className="pt-4 border-t">
-                <BulkImportDialog>
-                  <Button className="w-full" variant="outline">
+                <Suspense fallback={(
+                  <Button className="w-full" variant="outline" disabled>
                     <UploadIcon className="w-4 h-4 mr-2" />
-                    {customCategories.length === 0
-                      ? t('fiveSecondsGame.bulkImport.title')
-                      : t('fiveSecondsGame.bulkImport.button')}
+                    <Spinner />
                   </Button>
-                </BulkImportDialog>
+                )}
+                >
+                  <BulkImportDialog>
+                    <Button className="w-full" variant="outline">
+                      <UploadIcon className="w-4 h-4 mr-2" />
+                      {customCategories.length === 0
+                        ? t('fiveSecondsGame.bulkImport.title')
+                        : t('fiveSecondsGame.bulkImport.button')}
+                    </Button>
+                  </BulkImportDialog>
+                </Suspense>
               </div>
 
               {/* Custom Questions */}
