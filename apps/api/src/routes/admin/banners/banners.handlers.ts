@@ -83,8 +83,8 @@ function parseFormData(formData: FormData, isUpdate = false) {
 
   if (formData.has('imageFile')) {
     const file = formData.get('imageFile');
-    if (file instanceof File) {
-      raw.imageFile = file;
+    if (file && typeof file !== 'string') {
+      raw.imageFile = file as File;
     }
   }
 

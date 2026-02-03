@@ -6,7 +6,9 @@
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": ["dist/**/*.d.ts", "dist/**/*.js", ".next/**", "!.next/cache/**"]
+      "outputs": ["dist/**/*.d.ts", "dist/**/*.js", ".next/**", "!.next/cache/**"],
+      "env": ["NODE_ENV"],
+      "inputs": ["$TURBO_DEFAULT$", "!apps/admin/**"]
     },
     "lint": {
       "outputs": []
