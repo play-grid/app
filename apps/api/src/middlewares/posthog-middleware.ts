@@ -1,3 +1,4 @@
+import type { Env } from '@/env';
 import { getCookie, setCookie } from 'hono/cookie';
 import { createMiddleware } from 'hono/factory';
 import { captureEvent } from './posthog';
@@ -24,7 +25,7 @@ export const posthogMiddleware = createMiddleware(async (c, next) => {
     distinctId = anonId;
   }
 
-  await captureEvent(c, {
+  await captureEvent(c, c.env as Env, {
     distinctId,
     event: '$pageview',
     properties: {
@@ -43,7 +44,7 @@ export const posthogMiddleware = createMiddleware(async (c, next) => {
 
   const durationMs = Date.now() - start;
 
-  await captureEvent(c, {
+  await captureEvent(c, c.env as Env, {
     distinctId,
     event: 'server_response',
     properties: {

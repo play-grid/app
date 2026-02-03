@@ -6,6 +6,7 @@ import {
   createNativeWSClient,
 } from '@guess-logo/game-core';
 import { createJSONStorage } from 'zustand/middleware';
+import { env } from '@/env';
 
 export function createGameAdapter<
   TStateSchema extends z.ZodType<BaseGameState>,
@@ -25,9 +26,9 @@ export function createGameAdapter<
   type State = z.infer<TStateSchema>;
   type Action = z.infer<TActionSchema>;
 
-  const apiHost = import.meta.env.DEV ? 'localhost:8787' : window.location.host;
-  const httpProtocol = window.location.protocol;
-  const apiUrl = `${httpProtocol}//${apiHost}`;
+  const apiUrl = env.VITE_API_URL;
+  const apiHost = new URL(apiUrl).host;
+  const httpProtocol = new URL(apiUrl).protocol;
 
   if (options.mode === 'local') {
     const effects = createGameEffectHandlers(definition.meta.id, apiUrl, 'local');

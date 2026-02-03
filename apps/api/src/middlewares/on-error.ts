@@ -1,11 +1,9 @@
 import type { ErrorHandler } from 'hono';
 import type { ContentfulStatusCode } from 'hono/utils/http-status';
+import type { Env } from '@/env';
 import { INTERNAL_SERVER_ERROR, OK } from 'stoker/http-status-codes';
 
-import { getNodeEnv } from '@/env';
 import { captureException } from './posthog';
-
-const isProd = getNodeEnv().NODE_ENV === 'production';
 
 export const posthogErrorHandler: ErrorHandler = async (err, c) => {
   const statusCode
@@ -14,8 +12,9 @@ export const posthogErrorHandler: ErrorHandler = async (err, c) => {
       : INTERNAL_SERVER_ERROR;
 
   const distinctId = c.get('user')?.id ?? `error-anon-${crypto.randomUUID().slice(0, 8)}`;
+  const isProd = c.env.NODE_ENV === 'production';
 
-  captureException(c, err, distinctId, {
+  captureException(c, c.env as Env, err, distinctId, {
     path: c.req.path,
     method: c.req.method,
     url: c.req.url,
