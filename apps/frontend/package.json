@@ -6,13 +6,15 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "build:staging": "VITE_API_URL=https://api.staging.playgrid.mohdalaa.com vite build",
     "lint": "eslint .",
     "lint:fix": "eslint --fix",
     "preview": "vite preview",
     "check-types": "tsc --noEmit",
     "cy:open": "cypress open",
     "test:e2e": "concurrently -k -s first \"pnpm --filter @guess-logo/frontend dev\" \"pnpm --filter @guess-logo/api dev\" \"wait-on http://localhost:${VITE_SERVER_PORT:-5173} http://localhost:8787/api/health && cypress run\"",
-    "deploy": "pnpm build && pnpm wrangler pages deploy dist"
+    "deploy": "pnpm build && pnpm wrangler pages deploy dist",
+    "deploy:staging": "pnpm build:staging && pnpm wrangler pages deploy --branch staging/prod  --project-name='playgrid-staging'"
   },
   "dependencies": {
     "@daveyplate/better-auth-tanstack": "^1.3.6",

@@ -1,0 +1,180 @@
+{
+	"name": "playgrid-api",
+	"main": "src/app.ts",
+	"compatibility_date": "2025-09-01",
+	"compatibility_flags": [
+		"nodejs_compat"
+	],
+	"workers_dev": true,
+	"vars": {
+ 		"ALLOWED_ORIGINS": "http://localhost:5173,http://localhost:4173,https://guess-logo.pages.dev,https://games.mohadalaa.com,https://playgrid.mohadalaa.com,https://staging.playgrid.mohdalaa.com",
+		"API_URL": "http://localhost:8787",
+		"LOG_LEVEL": "debug",
+		"R2_PUBLIC_URL": "https://pub-9df3c09e2c264f328b6770ef318b615e.r2.dev"
+	},
+	"env": {
+		"staging": {
+			"name": "playgrid-api-staging",
+			"durable_objects": {
+				"bindings": [
+					{
+						"name": "GAME_SESSION",
+						"class_name": "GameSessionObject"
+					}
+				]
+			},
+			"kv_namespaces": [
+				{
+					"binding": "LOGO_CACHE",
+					"id": "eb1698afccf64de8993284056aaa5598",
+					"preview_id": "beac11884fff4280a9ecad02adf2961c"
+				},
+				{
+					"binding": "QUESTIONS",
+					"id": "07bd0d479a8444139fc0b3584f9c28ae",
+					"preview_id": "07bd0d479a8444139fc0b3584f9c28ae"
+				}
+			],
+			"d1_databases": [
+				{
+					"binding": "GAME_HUB_DB",
+					"database_name": "game-hub-db-staging",
+					"database_id": "5cb8afa5-c590-4dd6-b994-abd84979e8b4",
+					"migrations_dir": "drizzle"
+				}
+			],
+			"r2_buckets": [
+				{
+					"binding": "PLAY_GRID_BUCKET",
+					"bucket_name": "guess-logo"
+				}
+			],
+			"ratelimits": [
+				{
+					"name": "RATE_LIMITER",
+					"namespace_id": "1001",
+					"simple": {
+						"limit": 25,
+						"period": 10
+					}
+				}
+			],
+			"vars": {
+				"ALLOWED_ORIGINS": "https://staging.guess-logo.pages.dev,https://games.mohadalaa.com",
+				"LOG_LEVEL": "info",
+				"NODE_ENV": "staging",
+				"R2_PUBLIC_URL": "https://pub-9df3c09e2c264f328b6770ef318b615e.r2.dev",
+				"API_URL": "https://api.staging.playgird.mohdalaa.com"
+			}
+		},
+		"production": {
+			"name": "playgrid-api-production",
+			"durable_objects": {
+				"bindings": [
+					{
+						"name": "GAME_SESSION",
+						"class_name": "GameSessionObject"
+					}
+				]
+			},
+			"kv_namespaces": [
+				{
+					"binding": "LOGO_CACHE",
+					"id": "eb1698afccf64de8993284056aaa5598",
+					"preview_id": "beac11884fff4280a9ecad02adf2961c"
+				},
+				{
+					"binding": "QUESTIONS",
+					"id": "07bd0d479a8444139fc0b3584f9c28ae",
+					"preview_id": "07bd0d479a8444139fc0b3584f9c28ae"
+				}
+			],
+			"d1_databases": [
+				{
+					"binding": "GAME_HUB_DB",
+					"database_name": "GAME_HUB_DB",
+					"database_id": "985b789d-4062-4f3f-9abb-0b9553650548",
+					"migrations_dir": "drizzle"
+				}
+			],
+			"r2_buckets": [
+				{
+					"binding": "PLAY_GRID_BUCKET",
+					"bucket_name": "guess-logo"
+				}
+			],
+			"ratelimits": [
+				{
+					"name": "RATE_LIMITER",
+					"namespace_id": "1001",
+					"simple": {
+						"limit": 25,
+						"period": 10
+					}
+				}
+			],
+			"vars": {
+				"ALLOWED_ORIGINS": "https://playgrid.mohadalaa.com",
+				"LOG_LEVEL": "warn",
+				"NODE_ENV": "production",
+				"R2_PUBLIC_URL": "https://pub-9df3c09e2c264f328b6770ef318b615e.r2.dev",
+				"API_URL": "https://api.playgrid.mohdalaa.com"
+			}
+		}
+	},
+	"durable_objects": {
+		"bindings": [
+			{
+				"name": "GAME_SESSION",
+				"class_name": "GameSessionObject"
+			}
+		]
+	},
+	"kv_namespaces": [
+		{
+			"binding": "LOGO_CACHE",
+			"id": "eb1698afccf64de8993284056aaa5598",
+			"preview_id": "beac11884fff4280a9ecad02adf2961c"
+		},
+		{
+			"binding": "QUESTIONS",
+			"id": "07bd0d479a8444139fc0b3584f9c28ae",
+			"preview_id": "07bd0d479a8444139fc0b3584f9c28ae"
+		}
+	],
+	"d1_databases": [
+		{
+			"binding": "GAME_HUB_DB",
+			"database_name": "GAME_HUB_DB",
+			"database_id": "985b789d-4062-4f3f-9abb-0b9553650548",
+			"migrations_dir": "drizzle"
+		}
+	],
+	"r2_buckets": [
+		{
+			"binding": "PLAY_GRID_BUCKET",
+			"bucket_name": "guess-logo"
+		}
+	],
+	"ratelimits": [
+		{
+			"name": "RATE_LIMITER",
+			"namespace_id": "1001",
+			"simple": {
+				"limit": 25,
+				"period": 10
+			}
+		}
+	],
+	"migrations": [
+		{
+			"tag": "v1",
+			"new_sqlite_classes": [
+				"GameSessionObject"
+			]
+		}
+	],
+	"observability": {
+		"enabled": true
+	}
+}
