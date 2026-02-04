@@ -1,6 +1,6 @@
 import type { Room } from '@guess-logo/shared/schemas';
 import type { CreateRoomPayload, CreateRoomResponse } from './room-service';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { queryOptions, useMutation, useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useRoomSession } from '@/features/room/room-store';
@@ -82,8 +82,8 @@ interface UseRoomStatsOptions {
   roomId?: Room['id'] | null;
 }
 
-export function useRoomStats({ mode, roomId }: UseRoomStatsOptions) {
-  const query = useQuery({
+export function roomStatsQueryOptions(mode: string, roomId?: Room['id'] | null) {
+  return queryOptions({
     queryKey: ['room', roomId],
     queryFn: () => getRoomById(roomId!),
     enabled: mode === 'multiplayer' && !!roomId,
@@ -91,6 +91,10 @@ export function useRoomStats({ mode, roomId }: UseRoomStatsOptions) {
     retryDelay: attemptIndex => Math.min(1000 * 2 ** attemptIndex, 10000),
     refetchInterval: 5000,
   });
+}
+
+export function useRoomStats({ mode, roomId }: UseRoomStatsOptions) {
+  const query = useQuery(roomStatsQueryOptions(mode, roomId));
 
   return {
     room: query.data,
