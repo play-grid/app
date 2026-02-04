@@ -14,7 +14,7 @@ const FALLBACK_GAMES: GameMeta[] = [
       en: 'Answer questions as fast as you can in five seconds!',
       ar: 'أجب على الأسئلة بأسرع ما يمكن في خمس ثوانٍ!',
     },
-    imageUrl: 'https://pub-9df3c09e2c264f328b6770ef318b615e.r2.dev/games/5s-bg.jpg',
+    imageUrl: '/assets/games/5s/5s-thumbnail.jpg',
     minPlayers: 2,
     maxPlayers: 4,
   },
@@ -31,7 +31,7 @@ const FALLBACK_GAMES: GameMeta[] = [
     },
     minPlayers: 2,
     maxPlayers: 2,
-    imageUrl: 'https://pub-9df3c09e2c264f328b6770ef318b615e.r2.dev/games/guess-logo-game-img.png',
+    imageUrl: '/assets/games/guess-logo/guess-logo-thumbnail.jpg',
   },
 ];
 export function gamesQueryOptions() {
