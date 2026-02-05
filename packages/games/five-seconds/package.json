@@ -12,10 +12,14 @@
   },
   "dependencies": {
     "@guess-logo/game-core": "workspace:*",
+    "@guess-logo/logger": "workspace:*",
     "@guess-logo/shared": "workspace:*",
     "react": "catalog:react19",
     "immer": "catalog:",
     "zod": "catalog:"
+  },
+  "peerDependencies": {
+    "@guess-logo/api-client": "workspace:*"
   },
   "devDependencies": {
     "@types/react": "catalog:react19",
