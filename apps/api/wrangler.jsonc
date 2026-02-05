@@ -7,6 +7,7 @@
 	],
 	"workers_dev": true,
 	"vars": {
+		"BETTER_AUTH_URL":"http://localhost:5173",
  		"ALLOWED_ORIGINS": "http://localhost:5173,http://localhost:4173,https://guess-logo.pages.dev,https://games.mohadalaa.com,https://playgrid.mohadalaa.com,https://staging.playgrid.mohdalaa.com",
 		"API_URL": "http://localhost:8787",
 		"LOG_LEVEL": "debug",
@@ -15,6 +16,12 @@
 	"env": {
 		"staging": {
 			"name": "playgrid-api-staging",
+			 "routes": [
+				{
+				"pattern":"api.staging.playgird.mohdalaa.com",
+      			"custom_domain": true
+				}
+			 ],
 			"durable_objects": {
 				"bindings": [
 					{
@@ -60,6 +67,7 @@
 				}
 			],
 			"vars": {
+				"BETTER_AUTH_URL":"https://staging.playgrid.mohadalaa.com",
 				"ALLOWED_ORIGINS": "https://staging.guess-logo.pages.dev,https://games.mohadalaa.com",
 				"LOG_LEVEL": "info",
 				"NODE_ENV": "staging",
@@ -69,6 +77,12 @@
 		},
 		"production": {
 			"name": "playgrid-api-production",
+			"routes": [
+				{
+				"pattern": "api.playgird.mohdalaa.com",
+      			"custom_domain": true
+				}
+			 ],
 			"durable_objects": {
 				"bindings": [
 					{
@@ -114,6 +128,7 @@
 				}
 			],
 			"vars": {
+				"BETTER_AUTH_URL":"https://playgrid.mohadalaa.com",
 				"ALLOWED_ORIGINS": "https://playgrid.mohadalaa.com",
 				"LOG_LEVEL": "warn",
 				"NODE_ENV": "production",
