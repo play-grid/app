@@ -130,6 +130,9 @@ importers:
       '@turbo/gen':
         specifier: ^2.7.1
         version: 2.7.6(@swc/core@1.15.10)(@types/node@24.10.1)(typescript@5.9.3)
+      '@types/node':
+        specifier: ^24.10.1
+        version: 24.10.1
       eslint:
         specifier: 'catalog:'
         version: 9.39.2(jiti@2.6.1)
@@ -811,9 +814,15 @@ importers:
 
   packages/games/five-seconds:
     dependencies:
+      '@guess-logo/api-client':
+        specifier: workspace:*
+        version: link:../../api-client
       '@guess-logo/game-core':
         specifier: workspace:*
         version: link:../../game-core
+      '@guess-logo/logger':
+        specifier: workspace:*
+        version: link:../../logger
       '@guess-logo/shared':
         specifier: workspace:*
         version: link:../../shared
@@ -12126,7 +12135,7 @@ snapshots:
   '@types/glob@7.2.0':
     dependencies:
       '@types/minimatch': 6.0.0
-      '@types/node': 22.19.7
+      '@types/node': 24.10.1
 
   '@types/inquirer@6.5.0':
     dependencies:
@@ -12190,7 +12199,7 @@ snapshots:
 
   '@types/through@0.0.33':
     dependencies:
-      '@types/node': 22.19.7
+      '@types/node': 24.10.1
 
   '@types/tinycolor2@1.4.6': {}
 

@@ -15,6 +15,7 @@
   },
   "devDependencies": {
     "@turbo/gen": "^2.7.1",
+    "@types/node": "^24.10.1",
     "eslint": "catalog:",
     "husky": "^9.1.7",
     "lint-staged": "^16.2.7",
