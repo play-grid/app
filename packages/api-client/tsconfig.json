@@ -2,7 +2,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@guess-logo/api/routes": ["../../apps/api/src/index.ts"] 
+      "@guess-logo/api/routes": ["../../apps/api/src/routes/index.ts"]
     }
   }
 }
