@@ -7,7 +7,9 @@
     ".":"./index.ts"
   },
   "dependencies": {
-    "@guess-logo/api": "workspace:*",
-    "hono":"catalog:"
+    "@guess-logo/api": "workspace:*"
+  },
+   "peerDependencies": {
+    "hono": "catalog:"
   }
 }

@@ -826,6 +826,9 @@ importers:
       '@guess-logo/shared':
         specifier: workspace:*
         version: link:../../shared
+      hono:
+        specifier: 'catalog:'
+        version: 4.11.5
       immer:
         specifier: 'catalog:'
         version: 10.2.0

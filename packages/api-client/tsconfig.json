@@ -1,8 +1,11 @@
 {
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "types": ["node"],
     "baseUrl": ".",
     "paths": {
       "@guess-logo/api/routes": ["../../apps/api/src/routes/index.ts"]
     }
-  }
+  },
+  "include": ["index.ts"]
 }

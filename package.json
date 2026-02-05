@@ -5,7 +5,7 @@
     "dev": "turbo run dev",
     "lint": "turbo run lint",
     "lint:fix": "turbo run lint:fix",
-    "build": "turbo run build",
+    "build": "pnpm --filter @guess-logo/game-core build && pnpm --filter @guess-logo/api build && turbo run build --filter='!@guess-logo/game-core' --filter='!@guess-logo/api'",
     "check-types": "turbo run check-types",
     "test:e2e": "pnpm --filter @guess-logo/frontend test:e2e",
     "deploy": "pnpm deploy:frontend && pnpm deploy:api",

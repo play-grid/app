@@ -1,7 +1,6 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-
     "outDir": "./dist",
     "declaration": true,
     "emitDeclarationOnly": true,
@@ -9,5 +8,5 @@
     "rootDir": "src"
   },
   "include": ["src"],
-  "exclude": ["node_modules", "dist", ".wrangler","**/*.test.ts"]
+  "exclude": ["node_modules", "dist", ".wrangler", "**/*.test.ts"]
 }

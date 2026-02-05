@@ -1,5 +1,7 @@
 /* eslint-disable perfectionist/sort-imports */
 import './games';
+import '@guess-logo/five-seconds';
+import '@guess-logo/guess-logo';
 import { registerRoutes } from '@/routes';
 import configureOpenAPI from './lib/configure-open-api';
 import createApp from './lib/create-app';

@@ -16,7 +16,8 @@
     "@guess-logo/shared": "workspace:*",
     "react": "catalog:react19",
     "immer": "catalog:",
-    "zod": "catalog:"
+    "zod": "catalog:",
+    "hono": "catalog:"
   },
   "peerDependencies": {
     "@guess-logo/api-client": "workspace:*"
