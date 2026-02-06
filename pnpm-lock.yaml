@@ -718,6 +718,9 @@ importers:
 
   packages/api-client:
     dependencies:
+      '@guess-logo/api':
+        specifier: workspace:*
+        version: link:../../apps/api
       hono:
         specifier: 'catalog:'
         version: 4.11.7
@@ -811,9 +814,6 @@ importers:
 
   packages/games/five-seconds:
     dependencies:
-      '@guess-logo/api-client':
-        specifier: workspace:*
-        version: link:../../api-client
       '@guess-logo/game-core':
         specifier: workspace:*
         version: link:../../game-core

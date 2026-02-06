@@ -7,5 +7,5 @@
       "@guess-logo/api/routes": ["../../apps/api/src/routes/index.ts"]
     }
   },
-  "include": ["index.ts"]
+  "include": ["src/**/*"]
 }

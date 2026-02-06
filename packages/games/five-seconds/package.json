@@ -19,9 +19,6 @@
     "zod": "catalog:",
     "hono": "catalog:"
   },
-  "peerDependencies": {
-    "@guess-logo/api-client": "workspace:*"
-  },
   "devDependencies": {
     "@types/react": "catalog:react19",
     "typescript": "catalog:"

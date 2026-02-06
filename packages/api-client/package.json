@@ -3,10 +3,11 @@
   "type": "module",
   "version": "0.1.0",
   "private": true,
-  "exports":{
-    ".":"./index.ts"
+  "exports": {
+    ".": "./src/index.ts"
   },
-   "peerDependencies": {
-    "hono": "catalog:"
+  "peerDependencies": {
+    "hono": "catalog:",
+    "@guess-logo/api": "workspace:*"
   }
 }

@@ -8,7 +8,6 @@ import type {
   StartReadingTimerAction,
   StartTurnTimerAction,
 } from './schema';
-import hcWithType from '@guess-logo/api-client';
 import { logger } from '../logger';
 
 function getQuestionsNeeded(state: FiveSecondsGameState): number {
@@ -30,7 +29,6 @@ function isErrorResponse(
 }
 
 export function createFetchQuestionsEffect(apiUrl: string): GameEffect {
-  const client = hcWithType(apiUrl);
   let isFetching = false;
 
   return async (
@@ -81,7 +79,17 @@ export function createFetchQuestionsEffect(apiUrl: string): GameEffect {
             difficulty: gameState.settings.difficulty === 'all' ? undefined : gameState.settings.difficulty,
           };
 
-          const res = await client.api.games['five-seconds'].questions.batch.$get({ query });
+          const url = new URL(`${apiUrl}/api/games/five-seconds/questions/batch`);
+          Object.entries(query).forEach(([key, value]) => {
+            if (value !== undefined) {
+              if (Array.isArray(value)) {
+                url.searchParams.set(key, value.join(','));
+              } else {
+                url.searchParams.set(key, String(value));
+              }
+            }
+          });
+          const res = await fetch(url.toString());
 
           if (!res.ok) {
             const errorText = await res.text().catch(() => `HTTP ${res.status}`);
@@ -153,7 +161,17 @@ export function createFetchQuestionsEffect(apiUrl: string): GameEffect {
             difficulty: gameState.settings.difficulty === 'all' ? undefined : gameState.settings.difficulty,
           };
 
-          const res = await client.api.games['five-seconds'].questions.random.$get({ query });
+          const url = new URL(`${apiUrl}/api/games/five-seconds/questions/random`);
+          Object.entries(query).forEach(([key, value]) => {
+            if (value !== undefined) {
+              if (Array.isArray(value)) {
+                url.searchParams.set(key, value.join(','));
+              } else {
+                url.searchParams.set(key, String(value));
+              }
+            }
+          });
+          const res = await fetch(url.toString());
 
           if (!res.ok) {
             const errorText = await res.text().catch(() => `HTTP ${res.status}`);

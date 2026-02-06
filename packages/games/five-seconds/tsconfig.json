@@ -6,10 +6,7 @@
     "lib": ["ESNext", "DOM"],
     "isolatedModules": true,
     "allowSyntheticDefaultImports": true,
-    "baseUrl": ".",
-    "paths": {
-      "@guess-logo/api/routes": ["../../apps/api/src/routes/index.ts"]
-    }
+    "baseUrl": "."
   },
   "include": ["src", "index.ts"]
 }
