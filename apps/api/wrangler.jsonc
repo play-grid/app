@@ -11,7 +11,7 @@
  		"ALLOWED_ORIGINS": "http://localhost:5173,http://localhost:4173,https://guess-logo.pages.dev,https://games.mohadalaa.com,https://playgrid.mohadalaa.com,https://staging.playgrid.mohdalaa.com",
 		"API_URL": "http://localhost:8787",
 		"LOG_LEVEL": "debug",
-		"R2_PUBLIC_URL": "https://pub-9df3c09e2c264f328b6770ef318b615e.r2.dev"
+		"R2_PUBLIC_URL": "https://r2.playgrid.mohdalaa.com"
 	},
 	"env": {
 		"staging": {
@@ -71,7 +71,7 @@
 				"ALLOWED_ORIGINS": "https://staging.guess-logo.pages.dev,https://games.mohadalaa.com",
 				"LOG_LEVEL": "info",
 				"NODE_ENV": "staging",
-				"R2_PUBLIC_URL": "https://pub-9df3c09e2c264f328b6770ef318b615e.r2.dev",
+				"R2_PUBLIC_URL": "https://r2.playgrid.mohdalaa.com",
 				"API_URL": "https://api.staging.playgird.mohdalaa.com"
 			}
 		},
@@ -128,11 +128,11 @@
 				}
 			],
 			"vars": {
-				"BETTER_AUTH_URL":"https://playgrid.mohadalaa.com",
-				"ALLOWED_ORIGINS": "https://playgrid.mohadalaa.com",
+				"BETTER_AUTH_URL":"https://playgrid.mohdalaa.com",
+				"ALLOWED_ORIGINS": "https://playgrid.mohdalaa.com",
 				"LOG_LEVEL": "warn",
 				"NODE_ENV": "production",
-				"R2_PUBLIC_URL": "https://pub-9df3c09e2c264f328b6770ef318b615e.r2.dev",
+				"R2_PUBLIC_URL": "https://r2.playgrid.mohdalaa.com",
 				"API_URL": "https://api.playgrid.mohdalaa.com"
 			}
 		}

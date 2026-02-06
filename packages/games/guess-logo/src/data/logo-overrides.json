@@ -3,9 +3,9 @@
   "sets": {
     "companies": {
       "saudi": {
-        "humain.ai": "https://pub-9df3c09e2c264f328b6770ef318b615e.r2.dev/logos/Humain-logo.png",
-        "Fitness Time": "https://pub-9df3c09e2c264f328b6770ef318b615e.r2.dev/logos/fitness-time.png",
-        "Shahid": "https://pub-9df3c09e2c264f328b6770ef318b615e.r2.dev/logos/shahid-logo.png"
+        "humain.ai": "https://r2.playgrid.mohdalaa.com/logos/Humain-logo.png",
+        "Fitness Time": "https://r2.playgrid.mohdalaa.com/logos/fitness-time.png",
+        "Shahid": "https://r2.playgrid.mohdalaa.com/logos/shahid-logo.png"
       }
     }
   }

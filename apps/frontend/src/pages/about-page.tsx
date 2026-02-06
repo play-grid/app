@@ -5,7 +5,7 @@ import { PageContainer } from '@/components/page-container';
 import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
 
-const AUTHOR_X_HANDLE = '_mohdalaa';
+// const AUTHOR_X_HANDLE = '_mohdalaa';
 
 export default function AboutPage() {
   const { t } = useTranslation();
@@ -36,7 +36,7 @@ export default function AboutPage() {
             {t('about.p6')}
           </h2>
           <a
-            href="https://pub-9df3c09e2c264f328b6770ef318b615e.r2.dev/LICENSES.md"
+            href="https://r2.playgrid.mohdalaa.com/LICENSES.md"
             target="_blank"
             rel="noopener noreferrer"
             className="text-primary underline"
@@ -49,7 +49,7 @@ export default function AboutPage() {
             {t('about.developer_label')}
           </h2>
           <a
-            href={`https://x.com/${AUTHOR_X_HANDLE}`}
+            href='https://mohdalaa.com/'
             target="_blank"
             rel="noopener noreferrer"
             className="cursor-pointer"
