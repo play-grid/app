@@ -1,0 +1,23 @@
+{
+  "name": "@guess-logo/api-contracts",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@guess-logo/api": "workspace:*"
+  },
+  "peerDependencies": {
+    "hono": "catalog:"
+  },
+  "devDependencies": {
+    "typescript": "catalog:"
+  }
+}

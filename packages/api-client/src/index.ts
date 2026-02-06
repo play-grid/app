@@ -1,10 +1,10 @@
-import type { router } from '@guess-logo/api/routes';
+import type { RouterType } from '@guess-logo/api-contracts';
 import { hc } from 'hono/client';
 
-export type Client = ReturnType<typeof hc<typeof router>>;
+export type Client = ReturnType<typeof hc<RouterType>>;
 
 export function hcWithType(...args: Parameters<typeof hc>): Client {
-  return hc<typeof router>(...args);
+  return hc<RouterType>(...args);
 }
 
 export default hcWithType;

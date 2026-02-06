@@ -718,12 +718,25 @@ importers:
 
   packages/api-client:
     dependencies:
+      '@guess-logo/api-contracts':
+        specifier: workspace:*
+        version: link:../api-contracts
+      hono:
+        specifier: 'catalog:'
+        version: 4.11.7
+
+  packages/api-contracts:
+    dependencies:
       '@guess-logo/api':
         specifier: workspace:*
         version: link:../../apps/api
       hono:
         specifier: 'catalog:'
         version: 4.11.7
+    devDependencies:
+      typescript:
+        specifier: 'catalog:'
+        version: 5.9.3
 
   packages/eslint-config:
     dependencies:
