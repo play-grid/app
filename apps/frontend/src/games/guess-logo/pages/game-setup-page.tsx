@@ -110,7 +110,7 @@ export default function GameSetupPage() {
   const handleStartGame = async () => {
     try {
       setIsStarting(true);
-      logger.info('Starting game with:', {
+      logger.debug('Starting game with:', {
         selectedSet,
         selectedList,
         selectedGrid,
@@ -123,11 +123,11 @@ export default function GameSetupPage() {
       const language = i18n.language as SupportedLanguage;
       const gridConfig = getGridConfiguration(selectedGrid);
 
-      logger.info('Clearing game state and resetting...');
+      logger.debug('Clearing game state and resetting...');
       clearGameState();
       resetGame();
 
-      logger.info('Fetching logo lists...');
+      logger.debug('Fetching logo lists...');
       await queryClient.ensureQueryData(logoListsQueryOptions(selectedSet, true));
 
       // Get available lists and validate the current list ID
@@ -140,11 +140,11 @@ export default function GameSetupPage() {
 
       // Validate if current list ID is valid for the selected set
       if (!isValidListId(selectedList, selectedSet, logoListsData)) {
-        logger.info(`Current list ID "${selectedList}" is invalid for ${selectedSet}, using first available list`);
+        logger.debug(`Current list ID "${selectedList}" is invalid for ${selectedSet}, using first available list`);
         listToUse = logoListsData[0].id;
       }
 
-      logger.info('Fetching logo items...', {
+      logger.debug('Fetching logo items...', {
         selectedSet,
         listToUse,
         language,
@@ -155,7 +155,7 @@ export default function GameSetupPage() {
       );
 
       const navigationPath = `/${selectedSet}/${listToUse}/${selectedGrid}/${encodedPlayerA}/${encodedPlayerB}`;
-      logger.info('Navigating to:', navigationPath);
+      logger.debug('Navigating to:', navigationPath);
 
       navigate(navigationPath);
     }
