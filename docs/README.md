@@ -5,7 +5,8 @@ This directory contains architecture documentation, architecture decision record
 ## 📚 Quick Navigation
 
 ### New? Start Here
-- **[System Context](SYSTEM_CONTEXT.md)** - High-level overview of Game Hub platform architecture and core concepts
+- **[Problem Statement](PROBLEM_STATEMENT.md)** - Overview of current architectural issues (start here for context)
+- **[System Context](SYSTEM_CONTEXT.md)** - High-level overview of PlayGrid platform architecture and core concepts
 - **[Quick Reference](architecture/quick-reference.md)** - Developer guide for common patterns and how to work with codebase
 - **[Architecture Overview v2](architecture/monorepo-structure-v2.md)** - Complete system architecture with dependency graph
 
@@ -41,10 +42,16 @@ This directory contains architecture documentation, architecture decision record
 - **Target**: v2 (clean layered architecture)
 
 ### Known Issues
-1. 🔴 Circular dependency: api-client → api/routes → api → five-seconds → api-client
+
+For detailed analysis of all architectural issues, see **[Problem Statement](PROBLEM_STATEMENT.md)**.
+
+**Summary:**
+1. 🔴 Circular dependencies across multiple packages
 2. 🔴 Path mappings point to source files instead of compiled output
-3. 🔴 Games import api-client directly (should use dependency injection)
-4. 🔴 API imports schemas from game packages (should use shared schemas)
+3. 🔴 Wrong direction coupling between layers
+4. 🔴 Mixed concerns in game packages
+5. 🔴 Inconsistent patterns between games
+6. 🔴 Multiple tsconfig files with overlapping configurations
 
 ### Target Architecture
 - 🟢 Clean layered: Applications → Packages → Shared

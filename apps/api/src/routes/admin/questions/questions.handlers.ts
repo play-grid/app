@@ -1,4 +1,4 @@
-import type { DBdifficulty } from '@guess-logo/five-seconds';
+import type { DBDifficulty } from '@guess-logo/five-seconds';
 import type {
   CreateQuestionsRoute,
   DeleteQuestionsRoute,
@@ -113,7 +113,7 @@ export const listQuestionsHandler: AppRouteHandler<
 
   const questions = rawQuestions.map(q => ({
     ...q,
-    difficulty: q.difficulty as DBdifficulty,
+    difficulty: q.difficulty as DBDifficulty,
     categoryNameEn: q.categoryNameEn ?? undefined,
     categoryNameAr: q.categoryNameAr ?? undefined,
   }));
@@ -178,7 +178,7 @@ export const getQuestionsByIdHandler: AppRouteHandler<
 
   const question = {
     ...rawQuestion,
-    difficulty: rawQuestion.difficulty as DBdifficulty,
+    difficulty: rawQuestion.difficulty as DBDifficulty,
     categoryNameEn: rawQuestion.categoryNameEn ?? undefined,
     categoryNameAr: rawQuestion.categoryNameAr ?? undefined,
   };
@@ -226,7 +226,7 @@ export const createQuestionsHandler: AppRouteHandler<
       .insert(fiveSecondsQuestions)
       .values({
         text: input.text,
-        difficulty: input.difficulty as DBdifficulty,
+        difficulty: input.difficulty as DBDifficulty,
         categoryId: input.categoryId,
       })
       .returning();
@@ -270,7 +270,7 @@ export const createQuestionsHandler: AppRouteHandler<
 
     const question = {
       ...rawQuestion!,
-      difficulty: rawQuestion!.difficulty as DBdifficulty,
+      difficulty: rawQuestion!.difficulty as DBDifficulty,
       categoryNameEn: rawQuestion!.categoryNameEn ?? undefined,
       categoryNameAr: rawQuestion!.categoryNameAr ?? undefined,
     };
@@ -357,7 +357,7 @@ export const updateQuestionsHandler: AppRouteHandler<
     if (input.text !== undefined)
       updateData.text = input.text;
     if (input.difficulty !== undefined)
-      updateData.difficulty = input.difficulty as DBdifficulty;
+      updateData.difficulty = input.difficulty as DBDifficulty;
     if (input.categoryId !== undefined)
       updateData.categoryId = input.categoryId;
 
@@ -406,7 +406,7 @@ export const updateQuestionsHandler: AppRouteHandler<
 
     const question = {
       ...rawQuestion!,
-      difficulty: rawQuestion!.difficulty as DBdifficulty,
+      difficulty: rawQuestion!.difficulty as DBDifficulty,
       categoryNameEn: rawQuestion!.categoryNameEn ?? undefined,
       categoryNameAr: rawQuestion!.categoryNameAr ?? undefined,
     };
@@ -473,7 +473,7 @@ export const deleteQuestionsHandler: AppRouteHandler<
     return c.json({
       id: result.id,
       text: result.text,
-      difficulty: result.difficulty as DBdifficulty,
+      difficulty: result.difficulty as DBDifficulty,
       categoryId: result.categoryId,
       deletedAt: result.deletedAt,
       createdAt: result.createdAt,

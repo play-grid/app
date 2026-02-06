@@ -1,4 +1,4 @@
-import { baseQuestionSchema } from '@guess-logo/five-seconds';
+import { baseQuestionSchema } from '@guess-logo/shared/schemas';
 import { z } from 'zod';
 
 const parseStringArray = z

@@ -1,8 +1,8 @@
+import { questionWithCategorySchema } from '@guess-logo/five-seconds';
 import {
   baseQuestionSchema,
   difficultySchema,
-  questionWithCategorySchema,
-} from '@guess-logo/five-seconds';
+} from '@guess-logo/shared/schemas';
 import { z } from 'zod';
 import { adminListQuerySchema, paginationSchema } from '../shared-schemas';
 

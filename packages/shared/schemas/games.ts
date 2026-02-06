@@ -23,3 +23,28 @@ export const LocalizedGameMetaSchema = BaseGameMetaSchema.extend({
 
 export type GameMeta = z.infer<typeof GameMetaSchema>;
 export type LocalizedGameMeta = z.infer<typeof LocalizedGameMetaSchema>;
+
+export const difficultySchema = z.enum(['all', 'easy', 'medium', 'hard']);
+export const DBDifficultySchema = z.enum(['easy', 'medium', 'hard']);
+
+export const categoryBaseSchema = z.object({
+  id: z.string(),
+  nameEn: z.string(),
+  nameAr: z.string(),
+});
+
+export const baseQuestionSchema = z.object({
+  id: z.string(),
+  text: z.string().min(5),
+
+  difficulty: difficultySchema,
+  categoryId: z.string(),
+  deletedAt: z.date().nullable().optional(),
+
+  createdAt: z.date().optional(),
+  updatedAt: z.date().optional(),
+});
+
+export type Difficulty = z.infer<typeof difficultySchema>;
+export type DBDifficulty = z.infer<typeof DBDifficultySchema>;
+export type Question = z.infer<typeof baseQuestionSchema>;

@@ -1,4 +1,4 @@
-import { categoryBaseSchema } from '@guess-logo/five-seconds';
+import { categoryBaseSchema } from '@guess-logo/shared/schemas';
 import z from 'zod';
 import { paginationSchema } from '../shared-schemas';
 
