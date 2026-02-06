@@ -2,18 +2,17 @@ import { cn } from '@guess-logo/ui';
 import * as SelectPrimitive from '@radix-ui/react-select';
 import { CheckIcon } from 'lucide-react';
 import * as React from 'react';
-import { useTranslation } from 'react-i18next';
 
 export const Select = SelectPrimitive.Root;
 export const SelectGroup = SelectPrimitive.Group;
 export const SelectValue = SelectPrimitive.Value;
 
 export function SelectTrigger({ ref, className, children, ...props }: React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger> & { ref?: React.RefObject<React.ComponentRef<typeof SelectPrimitive.Trigger> | null> }) {
-  const { i18n } = useTranslation();
+  
   return (
     <SelectPrimitive.Trigger
       ref={ref}
-      dir={i18n.dir()}
+      
       className={cn(
         'flex h-10 w-full items-center justify-between px-3 text-sm outline-none',
         className,
@@ -26,14 +25,12 @@ export function SelectTrigger({ ref, className, children, ...props }: React.Comp
 }
 
 export function SelectContent({ ref, children, className, position = 'popper', ...props }: React.ComponentPropsWithoutRef<typeof SelectPrimitive.Content> & { ref?: React.RefObject<React.ElementRef<typeof SelectPrimitive.Content> | null> }) {
-  const { i18n } = useTranslation();
-  const dir = typeof i18n.dir === 'function' ? i18n.dir() : document.documentElement.dir;
 
   return (
     <SelectPrimitive.Portal>
       <SelectPrimitive.Content
         ref={ref}
-        dir={dir}
+        
         position={position}
         className={cn(
           'relative z-50 min-w-32 overflow-hidden',

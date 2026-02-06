@@ -9,9 +9,6 @@ const SelectGroup = SelectPrimitive.Group;
 const SelectValue = SelectPrimitive.Value;
 
 function SelectTrigger({ ref, className, children, ...props }: React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger> & { ref?: React.RefObject<React.ElementRef<typeof SelectPrimitive.Trigger> | null> }) {
-  const { i18n } = useTranslation();
-  const isRTL = typeof i18n.dir === 'function' ? i18n.dir() === 'rtl' : document.documentElement.dir === 'rtl';
-
   return (
     <SelectPrimitive.Trigger
       ref={ref}
@@ -25,7 +22,7 @@ function SelectTrigger({ ref, className, children, ...props }: React.ComponentPr
       <SelectPrimitive.Icon asChild>
         <ChevronDown className={cn(
           'h-5 w-5 text-foreground transition-all duration-300 group-hover:text-primary group-data-[state=open]:rotate-180',
-          isRTL ? 'mr-2' : 'ml-2',
+          'rtl:mr-2 ltr:ml-2',
         )}
         />
       </SelectPrimitive.Icon>
@@ -61,22 +58,17 @@ function SelectScrollDownButton({ ref, className, ...props }: React.ComponentPro
 SelectScrollDownButton.displayName = SelectPrimitive.ScrollDownButton.displayName;
 
 function SelectContent({ ref, className, children, position = 'popper', ...props }: React.ComponentPropsWithoutRef<typeof SelectPrimitive.Content> & { ref?: React.RefObject<React.ElementRef<typeof SelectPrimitive.Content> | null> }) {
-  const { i18n } = useTranslation();
-  const isRTL = typeof i18n.dir === 'function' ? i18n.dir() === 'rtl' : document.documentElement.dir === 'rtl';
-
   return (
     <SelectPrimitive.Portal>
       <SelectPrimitive.Content
         ref={ref}
         className={cn(
           'relative z-50 max-h-96 min-w-32 overflow-hidden rounded-lg border border-border bg-popover/95 backdrop-blur-md text-foreground shadow-lg data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 glass-effect',
-          position === 'popper' && isRTL
-            ? 'data-[side=bottom]:translate-y-1 data-[side=left]:translate-x-1 data-[side=right]:-translate-x-1 data-[side=top]:-translate-y-1'
-            : 'data-[side=bottom]:translate-y-1 data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1 data-[side=top]:-translate-y-1',
+          position === 'popper' && 'data-[side=bottom]:translate-y-1 data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1 data-[side=top]:-translate-y-1',
           className,
         )}
         position={position}
-        align={isRTL ? 'end' : 'start'}
+        // align={isRTL ? 'end' : 'start'}
         {...props}
       >
         <SelectScrollUpButton />
@@ -97,15 +89,12 @@ function SelectContent({ ref, className, children, position = 'popper', ...props
 SelectContent.displayName = SelectPrimitive.Content.displayName;
 
 function SelectLabel({ ref, className, ...props }: React.ComponentPropsWithoutRef<typeof SelectPrimitive.Label> & { ref?: React.RefObject<React.ElementRef<typeof SelectPrimitive.Label> | null> }) {
-  const { i18n } = useTranslation();
-  const isRTL = typeof i18n.dir === 'function' ? i18n.dir() === 'rtl' : document.documentElement.dir === 'rtl';
-
   return (
     <SelectPrimitive.Label
       ref={ref}
       className={cn(
         'py-2 text-sm font-semibold text-foreground',
-        isRTL ? 'text-right pr-10 pl-3' : 'text-left pl-10 pr-3',
+        'rtl:text-right rtl:pr-10 text-left pl-10 ltr:pr-3',
         className,
       )}
       {...props}
@@ -115,9 +104,6 @@ function SelectLabel({ ref, className, ...props }: React.ComponentPropsWithoutRe
 SelectLabel.displayName = SelectPrimitive.Label.displayName;
 
 function SelectItem({ ref, className, children, ...props }: React.ComponentPropsWithoutRef<typeof SelectPrimitive.Item> & { ref?: React.RefObject<React.ElementRef<typeof SelectPrimitive.Item> | null> }) {
-  const { i18n } = useTranslation();
-  const isRTL = typeof i18n.dir === 'function' ? i18n.dir() === 'rtl' : document.documentElement.dir === 'rtl';
-
   return (
     <SelectPrimitive.Item
       ref={ref}
@@ -129,7 +115,7 @@ function SelectItem({ ref, className, children, ...props }: React.ComponentProps
     >
       <span className={cn(
         'absolute flex h-4 w-4 items-center justify-center',
-        isRTL ? 'left-3' : 'right-3',
+        'rtl:left-3 right-3',
       )}
       >
         <SelectPrimitive.ItemIndicator>

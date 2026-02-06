@@ -14,6 +14,10 @@ export default defineConfig(({ mode }) => {
         '@': path.resolve(__dirname, './src'),
       },
     },
+    build: {
+      sourcemap:  true,
+      minify: mode === 'production',
+    },
     server: {
       port: Number(env.VITE_SERVER_PORT) || 5173,
       proxy: {

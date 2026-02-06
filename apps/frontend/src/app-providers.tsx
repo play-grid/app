@@ -15,6 +15,7 @@ import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from '@/components/ui/sonner';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import QueryProvider from '@/context/api-provider';
+import { I18nReadyProvider } from '@/i18n/i18n-ready-provider';
 import { LanguageRouter } from '@/i18n/language-router';
 import { authClient } from '@/lib/auth-client';
 import App from './app';
@@ -89,7 +90,9 @@ export default function Root() {
       options={options}
     >
       <BrowserRouter>
-        <AppProviders />
+        <I18nReadyProvider>
+          <AppProviders />
+        </I18nReadyProvider>
       </BrowserRouter>
     </PostHogProvider>
   );

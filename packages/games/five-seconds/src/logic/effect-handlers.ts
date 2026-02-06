@@ -49,7 +49,7 @@ export function createFetchQuestionsEffect(apiUrl: string): GameEffect {
         if (!gameState.currentQuestion) {
           const nextQuestion = getNextUnseenQuestion(gameState);
           if (nextQuestion) {
-            logger.info(`[FetchQuestionsEffect] Current question missing, pulling from buffer: ${nextQuestion.id}`);
+            logger.debug(`[FetchQuestionsEffect] Current question missing, pulling from buffer: ${nextQuestion.id}`);
             return {
               type: 'SET_QUESTION',
               payload: { question: nextQuestion },
@@ -69,7 +69,7 @@ export function createFetchQuestionsEffect(apiUrl: string): GameEffect {
 
         try {
           isFetching = true;
-          logger.info(`[FetchQuestionsEffect] Fetching ${questionsNeeded} questions from API`);
+          logger.debug(`[FetchQuestionsEffect] Fetching ${questionsNeeded} questions from API`);
 
           const query = {
             count: questionsNeeded.toString(),
@@ -84,7 +84,8 @@ export function createFetchQuestionsEffect(apiUrl: string): GameEffect {
             if (value !== undefined) {
               if (Array.isArray(value)) {
                 url.searchParams.set(key, value.join(','));
-              } else {
+              }
+              else {
                 url.searchParams.set(key, String(value));
               }
             }
@@ -152,7 +153,7 @@ export function createFetchQuestionsEffect(apiUrl: string): GameEffect {
 
         try {
           isFetching = true;
-          logger.info('[FetchQuestionsEffect] Fetching single question from API');
+          logger.debug('[FetchQuestionsEffect] Fetching single question from API');
 
           const query = {
             categoryIds: gameState.settings.categoryIds,
@@ -166,7 +167,8 @@ export function createFetchQuestionsEffect(apiUrl: string): GameEffect {
             if (value !== undefined) {
               if (Array.isArray(value)) {
                 url.searchParams.set(key, value.join(','));
-              } else {
+              }
+              else {
                 url.searchParams.set(key, String(value));
               }
             }
@@ -250,7 +252,7 @@ export function createTimerEffect(): GameEffect {
 
     const stopTimerActions = ['START_VOTING', 'NEXT_TURN', 'END_GAME', 'RESET_GAME', 'TALLY_VOTES'];
     if (stopTimerActions.includes(action.type)) {
-      logger.info(`[TimerEffect] Stopping timer due to: ${action.type}`);
+      logger.debug(`[TimerEffect] Stopping timer due to: ${action.type}`);
 
       if (isServer) {
         await ctx.ctx.storage.deleteAlarm();
@@ -269,7 +271,7 @@ export function createTimerEffect(): GameEffect {
       const endsAt = Date.now() + readingDuration;
       const currentDispatch = ctx.dispatch;
 
-      logger.info(`[TimerEffect] Starting reading timer for ${readingDuration}ms (${isServer ? 'SERVER' : 'LOCAL'})`);
+      logger.debug(`[TimerEffect] Starting reading timer for ${readingDuration}ms (${isServer ? 'SERVER' : 'LOCAL'})`);
 
       if (isServer) {
         await ctx.ctx.storage.setAlarm(endsAt);
@@ -280,7 +282,7 @@ export function createTimerEffect(): GameEffect {
         }
 
         localTimerId = setTimeout(async () => {
-          logger.info('[TimerEffect] Reading timer expired, dispatching START_ANSWERING');
+          logger.debug('[TimerEffect] Reading timer expired, dispatching START_ANSWERING');
 
           if (currentDispatch) {
             await currentDispatch({ type: 'START_ANSWERING' });
@@ -305,7 +307,7 @@ export function createTimerEffect(): GameEffect {
       const endsAt = Date.now() + turnDuration;
       const currentDispatch = ctx.dispatch;
 
-      logger.info(`[TimerEffect] Starting answering timer for ${turnDuration}ms (${isServer ? 'SERVER' : 'LOCAL'})`);
+      logger.debug(`[TimerEffect] Starting answering timer for ${turnDuration}ms (${isServer ? 'SERVER' : 'LOCAL'})`);
 
       if (isServer) {
         await ctx.ctx.storage.setAlarm(endsAt);
@@ -316,7 +318,7 @@ export function createTimerEffect(): GameEffect {
         }
 
         localTimerId = setTimeout(async () => {
-          logger.info('[TimerEffect] Answering timer expired, dispatching TIMES_UP');
+          logger.debug('[TimerEffect] Answering timer expired, dispatching TIMES_UP');
 
           if (currentDispatch) {
             await currentDispatch({ type: 'TIMES_UP' });

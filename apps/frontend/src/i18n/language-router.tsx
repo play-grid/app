@@ -18,12 +18,14 @@ export function LanguageRouter({ children }: LanguageRouterProps) {
 
   // This effect handles the language change based on the URL
   useEffect(() => {
+    if (!i18nInstance) return;
+
     const pathSegments = location.pathname.split('/').filter(Boolean);
     const firstSegment = pathSegments[0];
 
     if (!firstSegment || !supported.includes(firstSegment)) {
       // No language prefix in the URL → redirect to use current i18n.language
-      const currentLang = i18nInstance.language;
+      const currentLang = i18nInstance.language || 'en';
       const newPath = `/${currentLang}${location.pathname === '/' ? '' : location.pathname}`;
       const fullUrl = `${newPath}${location.search}${location.hash}`;
       navigate(fullUrl, { replace: true });
@@ -36,10 +38,13 @@ export function LanguageRouter({ children }: LanguageRouterProps) {
 
   // Use useLayoutEffect to synchronously update the DOM's direction
   useLayoutEffect(() => {
-    document.documentElement.dir = i18nInstance.dir();
+    if (!i18nInstance) return;
+
+    const dir = typeof i18nInstance.dir === 'function' ? i18nInstance.dir() : 'ltr';
+    document.documentElement.dir = dir;
     // Also set the html lang attribute for accessibility
-    document.documentElement.lang = i18nInstance.language;
-  }, [i18nInstance, i18nInstance.language]);
+    document.documentElement.lang = i18nInstance.language || 'en';
+  }, [i18nInstance, i18nInstance?.language]);
 
   // Don't render children until we have a valid language in the URL
   const pathSegments = location.pathname.split('/').filter(Boolean);
