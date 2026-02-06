@@ -6,9 +6,6 @@
   "exports":{
     ".":"./index.ts"
   },
-  "dependencies": {
-    "@guess-logo/api": "workspace:*"
-  },
    "peerDependencies": {
     "hono": "catalog:"
   }
