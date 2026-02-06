@@ -92,7 +92,6 @@ export default function GameSetupPage() {
       }
     }
     catch (error) {
-      logger.error(error, 'Failed to load saved game state:');
     }
 
     setResumeCheckComplete(true);

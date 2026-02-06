@@ -12,17 +12,18 @@
   font-style: normal;
 }
 
-.theme-five-seconds {
+:root.theme-five-seconds {
   --font-sans-en: 'PixelAE', sans-serif;
   --font-sans-ar: 'PixelAE', sans-serif;
   --font-family-sans: var(--font-sans-en);
   font-family: var(--font-family-sans);
 
-  background: var(--background);
   /* --- Base --- */
   --font-size: 16px;
   --background: #cec4a9; /* Pale Oak */
   --foreground: #413c31; /* Charcoal Brown */
+
+  background: var(--background);
 
   /* --- Cards & Surfaces --- */
   --card: #dbe2cd; /* Light Muted Olive */
@@ -95,61 +96,7 @@
     0 calc(-3 * var(--box-shadow-width)) 0 0 var(--foreground);
 }
 
-/*
-TODO:NOT supported now
-.theme-five-seconds.dark {
 
-  --background: #322c21;
-  --foreground: #cec4a9;
-
-  --card: #413c31;
-  --card-foreground: #cec4a9;
-  --popover: #3a3428;
-  --popover-foreground: #cec4a9;
-
-  --primary: #9ead84;
-  --primary-foreground: #322c21;
-
-  --secondary: #4d4638;
-  --secondary-foreground: #cec4a9;
-
-  --muted: #413c31;
-  --muted-foreground: #9a958c;
-  --accent: #4d4638;
-  --accent-foreground: #cec4a9;
-
-  --success: #6d8b54;
-  --urgency: #a15a3a;
-  --destructive: #6e3232;
-  --destructive-foreground: #cec4a9;
-
-  --border: rgba(206, 196, 169, 0.1);
-  --input: #3a3428;
-  --ring: #9ead84;
-
-  --box-shadow-width: 4px;
-
-  --shadow-md:
-    calc(-1 * var(--box-shadow-width)) 0 0 0 var(--ring), var(--box-shadow-width) 0 0 0 var(--ring),
-    0 var(--box-shadow-width) 0 0 var(--ring), 0 calc(-1 * var(--box-shadow-width)) 0 0 var(--ring);
-
-  --shadow-lg:
-    calc(-1.5 * var(--box-shadow-width)) 0 0 0 var(--ring), calc(1.5 * var(--box-shadow-width)) 0 0 0 var(--ring),
-    0 calc(1.5 * var(--box-shadow-width)) 0 0 var(--ring), 0 calc(-1.5 * var(--box-shadow-width)) 0 0 var(--ring);
-
-  --shadow-xl:
-    calc(-1 * var(--box-shadow-width)) 0 0 0 var(--ring), var(--box-shadow-width) 0 0 0 var(--ring),
-    0 var(--box-shadow-width) 0 0 var(--ring), 0 calc(-1 * var(--box-shadow-width)) 0 0 var(--ring),
-    var(--box-shadow-width) var(--box-shadow-width) 0 0 var(--foreground);
-
-  --shadow-2xl:
-    calc(-2 * var(--box-shadow-width)) 0 0 0 var(--ring), calc(2 * var(--box-shadow-width)) 0 0 0 var(--ring),
-    0 calc(2 * var(--box-shadow-width)) 0 0 var(--ring), 0 calc(-2 * var(--box-shadow-width)) 0 0 var(--ring);
-
-  --shadow-destructive:
-    calc(-1 * var(--box-shadow-width)) 0 0 0 var(--destructive), var(--box-shadow-width) 0 0 0 var(--destructive),
-    0 var(--box-shadow-width) 0 0 var(--destructive), 0 calc(-1 * var(--box-shadow-width)) 0 0 var(--destructive);
-} */
 
 :lang(ar) .fiveSeconds {
   --font-family-sans: var(--font-sans-ar);

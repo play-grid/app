@@ -23,6 +23,12 @@ export function GameThemeProvider({
     const root = document.documentElement;
 
     root.classList.remove('theme-platform', 'theme-five-seconds', 'theme-guess-logo');
+
+    // Remove dark class for five-seconds theme (always light mode)
+    if (gameTheme === 'five-seconds') {
+      root.classList.remove('dark');
+    }
+
     root.classList.add(`theme-${gameTheme}`);
   }, [gameTheme]);
 

@@ -10,9 +10,9 @@ import { logger } from '@/utils/logger';
 if (!ENABLE_CUSTOM_QUESTIONS_FEATURE && typeof window !== 'undefined') {
   try {
     const request = indexedDB.deleteDatabase('custom-questions');
-    request.onsuccess = () => {
-      logger.info('Custom questions IndexedDB cleared (feature disabled)');
-    };
+    // request.onsuccess = () => {
+    //   // logger.info('Custom questions IndexedDB cleared (feature disabled)');
+    // };
     request.onerror = (event) => {
       logger.warn({ event }, 'Failed to clear custom questions IndexedDB');
     };

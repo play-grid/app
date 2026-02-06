@@ -3,6 +3,7 @@ import { lazy, Suspense } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { FiveSecondsSkeleton } from '@/games/five-seconds/components/five-seconds-skeleton';
 import { FiveSecondsRoute } from '@/games/five-seconds/five-seconds-route';
+import { FiveSecondsNotFound, FiveSecondsPageContent } from '@/games/five-seconds/routes';
 import { GuessLogoSkeleton } from '@/games/guess-logo/components/guess-logo-skeleton';
 import { Footer } from './components/footer';
 import { Navbar } from './components/navbar';
@@ -19,7 +20,6 @@ import PrivacyPage from './pages/privacy-page';
 
 // Lazy-loaded game routes
 const GuessLogoRoutes = lazy(() => import('./games/guess-logo/routes'));
-const FiveSecondsRoutes = lazy(() => import('./games/five-seconds/routes'));
 
 export default function App() {
   return (
@@ -71,15 +71,12 @@ export function LanguageRoutes() {
               </Suspense>
             )}
           />
-          <Route path="/five-seconds" element={<FiveSecondsRoute />}>
-            <Route
-              index
-              element={(
-                <Suspense fallback={<FiveSecondsSkeleton />}>
-                  <FiveSecondsRoutes />
-                </Suspense>
-              )}
-            />
+          <Route
+            path="/five-seconds/*"
+            element={<FiveSecondsRoute />}
+          >
+            <Route index element={<FiveSecondsPageContent />} />
+            <Route path="*" element={<FiveSecondsNotFound />} />
           </Route>
 
           {/* Fallback: Not Found */}
