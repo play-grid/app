@@ -11,11 +11,12 @@ export function Switch({
   ref?: React.RefObject<React.ComponentRef<typeof SwitchPrimitive.Root> | null>;
 }) {
   const { i18n } = useTranslation();
+  const dir = typeof i18n.dir === 'function' ? i18n.dir() : document.documentElement.dir;
 
   return (
     <SwitchPrimitive.Root
       ref={ref}
-      dir={i18n.dir()}
+      dir={dir}
       className={cn(
         'peer inline-flex shrink-0 cursor-pointer items-center',
         'transition-colors focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50',

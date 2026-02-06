@@ -10,7 +10,7 @@ const SelectValue = SelectPrimitive.Value;
 
 function SelectTrigger({ ref, className, children, ...props }: React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger> & { ref?: React.RefObject<React.ElementRef<typeof SelectPrimitive.Trigger> | null> }) {
   const { i18n } = useTranslation();
-  const isRTL = i18n.dir() === 'rtl';
+  const isRTL = typeof i18n.dir === 'function' ? i18n.dir() === 'rtl' : document.documentElement.dir === 'rtl';
 
   return (
     <SelectPrimitive.Trigger
@@ -62,7 +62,7 @@ SelectScrollDownButton.displayName = SelectPrimitive.ScrollDownButton.displayNam
 
 function SelectContent({ ref, className, children, position = 'popper', ...props }: React.ComponentPropsWithoutRef<typeof SelectPrimitive.Content> & { ref?: React.RefObject<React.ElementRef<typeof SelectPrimitive.Content> | null> }) {
   const { i18n } = useTranslation();
-  const isRTL = i18n.dir() === 'rtl';
+  const isRTL = typeof i18n.dir === 'function' ? i18n.dir() === 'rtl' : document.documentElement.dir === 'rtl';
 
   return (
     <SelectPrimitive.Portal>
@@ -98,7 +98,7 @@ SelectContent.displayName = SelectPrimitive.Content.displayName;
 
 function SelectLabel({ ref, className, ...props }: React.ComponentPropsWithoutRef<typeof SelectPrimitive.Label> & { ref?: React.RefObject<React.ElementRef<typeof SelectPrimitive.Label> | null> }) {
   const { i18n } = useTranslation();
-  const isRTL = i18n.dir() === 'rtl';
+  const isRTL = typeof i18n.dir === 'function' ? i18n.dir() === 'rtl' : document.documentElement.dir === 'rtl';
 
   return (
     <SelectPrimitive.Label
@@ -116,7 +116,7 @@ SelectLabel.displayName = SelectPrimitive.Label.displayName;
 
 function SelectItem({ ref, className, children, ...props }: React.ComponentPropsWithoutRef<typeof SelectPrimitive.Item> & { ref?: React.RefObject<React.ElementRef<typeof SelectPrimitive.Item> | null> }) {
   const { i18n } = useTranslation();
-  const isRTL = i18n.dir() === 'rtl';
+  const isRTL = typeof i18n.dir === 'function' ? i18n.dir() === 'rtl' : document.documentElement.dir === 'rtl';
 
   return (
     <SelectPrimitive.Item

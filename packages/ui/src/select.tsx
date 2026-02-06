@@ -27,12 +27,13 @@ export function SelectTrigger({ ref, className, children, ...props }: React.Comp
 
 export function SelectContent({ ref, children, className, position = 'popper', ...props }: React.ComponentPropsWithoutRef<typeof SelectPrimitive.Content> & { ref?: React.RefObject<React.ElementRef<typeof SelectPrimitive.Content> | null> }) {
   const { i18n } = useTranslation();
+  const dir = typeof i18n.dir === 'function' ? i18n.dir() : document.documentElement.dir;
 
   return (
     <SelectPrimitive.Portal>
       <SelectPrimitive.Content
         ref={ref}
-        dir={i18n.dir()}
+        dir={dir}
         position={position}
         className={cn(
           'relative z-50 min-w-32 overflow-hidden',

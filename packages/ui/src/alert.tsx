@@ -8,13 +8,14 @@ export function Alert({
   ...props
 }: React.ComponentProps<'div'> & { ref?: React.RefObject<HTMLDivElement | null> }) {
   const { i18n } = useTranslation();
+  const dir = typeof i18n.dir === 'function' ? i18n.dir() : document.documentElement.dir;
 
   return (
     <div
       ref={ref}
       data-slot="alert"
       role="alert"
-      dir={i18n.dir()}
+      dir={dir}
       className={cn(
         'relative w-full grid items-start',
         'grid-cols-[0_1fr] has-[>svg]:grid-cols-[auto_1fr] gap-y-0.5 has-[>svg]:gap-x-3',
