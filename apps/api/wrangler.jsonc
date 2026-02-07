@@ -18,7 +18,7 @@
 			"name": "playgrid-api-staging",
 			 "routes": [
 				{
-				"pattern":"api.staging.playgird.mohdalaa.com",
+				"pattern":"api.staging.playgrid.mohdalaa.com",
       			"custom_domain": true
 				}
 			 ],
@@ -72,14 +72,14 @@
 				"LOG_LEVEL": "info",
 				"NODE_ENV": "staging",
 				"R2_PUBLIC_URL": "https://r2.playgrid.mohdalaa.com",
-				"API_URL": "https://api.staging.playgird.mohdalaa.com"
+				"API_URL": "https://api.staging.playgrid.mohdalaa.com"
 			}
 		},
 		"production": {
 			"name": "playgrid-api-production",
 			"routes": [
 				{
-				"pattern": "api.playgird.mohdalaa.com",
+				"pattern": "api.playgrid.mohdalaa.com",
       			"custom_domain": true
 				}
 			 ],
