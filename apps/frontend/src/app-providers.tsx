@@ -1,4 +1,3 @@
-// import type { PostHogConfig } from '../../../node_modules/.pnpm/posthog-js@1.321.2/node_modules/posthog-js';
 import { AuthUIProvider } from '@daveyplate/better-auth-ui';
 import { PostHogProvider } from '@posthog/react';
 
@@ -76,18 +75,20 @@ function AppProviders() {
     </QueryProvider>
   );
 }
-const options: Partial<any> = {
-  api_host: env.VITE_PUBLIC_POSTHOG_HOST,
-  defaults: '2025-05-24',
-  capture_exceptions: true,
-  debug: import.meta.env.MODE === 'development',
-};
 
 export default function Root() {
   return (
     <PostHogProvider
       apiKey={env.VITE_PUBLIC_POSTHOG_KEY}
-      options={options}
+      options={{
+      api_host: env.VITE_PUBLIC_POSTHOG_HOST,
+      defaults: '2025-05-24',
+      capture_exceptions: true,
+      autocapture:false,
+      capture_pageview:true,
+      capture_pageleave:true,
+      debug: import.meta.env.MODE === 'development'
+    }}
     >
       <BrowserRouter>
         <I18nReadyProvider>
