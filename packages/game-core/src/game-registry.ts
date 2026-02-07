@@ -38,7 +38,7 @@ export function registerGame<
   TActionSchema extends z.ZodType<BaseAction>,
 >(
   definition: GameDefinition<TStateSchema, TActionSchema>,
-  effectHandlerFactory: EffectHandlerFactory = (_apiUrl, _mode) => [],
+  effectHandlerFactory: EffectHandlerFactory = (_mode) => [],
 ): void {
   const gameId = definition.meta.id;
 

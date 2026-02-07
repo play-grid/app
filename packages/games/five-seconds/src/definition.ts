@@ -47,4 +47,4 @@ export const fiveSecondsGame = createGameDefinition({
   customReducer: fiveSecondsGameReducer,
 });
 
-registerGame(fiveSecondsGame, apiUrl => createFiveSecondsEffects(apiUrl));
+registerGame(fiveSecondsGame, createFiveSecondsEffects);

@@ -28,7 +28,7 @@ function isErrorResponse(
   return 'code' in data && data.code === 'NO_QUESTIONS_FOUND';
 }
 
-export function createFetchQuestionsEffect(apiUrl: string): GameEffect {
+export function createFetchQuestionsEffect(): GameEffect {
   let isFetching = false;
 
   return async (
@@ -79,7 +79,7 @@ export function createFetchQuestionsEffect(apiUrl: string): GameEffect {
             difficulty: gameState.settings.difficulty === 'all' ? undefined : gameState.settings.difficulty,
           };
 
-          const url = new URL(`/api/games/five-seconds/questions/batch`);
+          const url = new URL(`/api/games/five-seconds/questions/batch`, ctx.apiUrl || window.location.origin);
           Object.entries(query).forEach(([key, value]) => {
             if (value !== undefined) {
               if (Array.isArray(value)) {
@@ -162,7 +162,7 @@ export function createFetchQuestionsEffect(apiUrl: string): GameEffect {
             difficulty: gameState.settings.difficulty === 'all' ? undefined : gameState.settings.difficulty,
           };
 
-          const url = new URL(`${apiUrl}/api/games/five-seconds/questions/random`);
+          const url = new URL(`/api/games/five-seconds/questions/random`, ctx.apiUrl || window.location.origin);
           Object.entries(query).forEach(([key, value]) => {
             if (value !== undefined) {
               if (Array.isArray(value)) {
@@ -341,6 +341,6 @@ export function createTimerEffect(): GameEffect {
   };
 }
 
-export function createFiveSecondsEffects(apiUrl: string): GameEffect[] {
-  return [createFetchQuestionsEffect(apiUrl), createTimerEffect()];
+export function createFiveSecondsEffects(): GameEffect[] {
+  return [createFetchQuestionsEffect(), createTimerEffect()];
 }

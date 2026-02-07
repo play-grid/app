@@ -13,4 +13,4 @@ export type GameEffect = (
   context: GameEffectContext,
 ) => Promise<BaseAction | null>;
 
-export type EffectHandlerFactory = (apiUrl: string, mode?: 'local' | 'multiplayer') => GameEffect[];
+export type EffectHandlerFactory = (apiUrl?: string, mode?: 'local' | 'multiplayer') => GameEffect[];
