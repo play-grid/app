@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
 import { useGameNavigation } from '@/hooks/use-game-navigation';
+import { useAnalytics } from '@/hooks/use-analytics';
 import { getLocalizedName } from '@/utils/language-utils';
 import { Button } from './ui/button';
 import { Skeleton } from './ui/skeleton';
@@ -15,16 +16,34 @@ interface GameCardProps {
 
 export function GameCard({ game, onPlay }: GameCardProps) {
   const { currentLanguage } = useGameNavigation();
+  const { trackGameSelected } = useAnalytics();
   const name = getLocalizedName(game.name, currentLanguage);
 
   const { t } = useTranslation();
-  const handleClick = () => {
+  
+  const handleCardClick = () => {
+    trackGameSelected({
+      game_id: game.id,
+      game_version: game.version,
+      min_players: game.minPlayers,
+      max_players: game.maxPlayers,
+      language: currentLanguage,
+    });
+  };
+
+  const handlePlayClick = () => {
+    trackGameSelected({
+      game_id: game.id,
+      game_version: game.version,
+      language: currentLanguage,
+      action: 'play_button_clicked',
+    });
     onPlay?.(game.id);
   };
 
   return (
-    <Link to={game.id}>
-      <Card className="w-full aspect-9/10 p-0 border border-borders overflow-hidden rounded-4xl cursor-pointer group game-card-animate">
+    <Link to={game.id} onClick={handleCardClick}>
+      <Card className="w-full aspect-9/10 p-0 border border-borders overflow-hidden rounded-4xl cursor-pointer group game-card-animate" data-analytics={`game-card-${game.id}`}>
         <div className="relative h-full w-full">
           {game.imageUrl && (
             <img
@@ -39,8 +58,9 @@ export function GameCard({ game, onPlay }: GameCardProps) {
               {name}
             </h2>
             <Button
-              onClick={handleClick}
+              onClick={handlePlayClick}
               className="flex items-center justify-center gap-2 bg-white text-black font-semibold px-6 py-2 rounded-lg hover:bg-gray-200 hover:shadow-lg hover:shadow-black/30 transition-all duration-300 w-full group-hover:scale-105"
+              data-analytics={`play-button-${game.id}`}
             >
               {t('home.playNow')}
               <ChevronRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />

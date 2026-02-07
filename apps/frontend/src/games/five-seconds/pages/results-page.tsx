@@ -3,7 +3,9 @@ import {
   useFiveSecondsState,
 } from '@guess-logo/five-seconds';
 import { Award, Medal, RotateCcw, Trophy } from 'lucide-react';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useAnalytics } from '@/hooks/use-analytics';
 import { Button } from '../components/ui/button';
 import { Card } from '../components/ui/card';
 
@@ -11,10 +13,20 @@ export function ResultsPage() {
   const { t } = useTranslation();
   const { players } = useFiveSecondsState();
   const { resetGame } = useFiveSecondsActions();
+  const { trackGameComplete } = useAnalytics();
 
   // Sort players by score
   const sortedPlayers = Object.values(players).sort((a, b) => b.score - a.score);
   const winner = sortedPlayers[0];
+  useEffect(() => {
+    trackGameComplete({
+      game_id: 'five-seconds',
+      winner_id: winner?.id,
+      final_scores: sortedPlayers.map(p => ({ id: p.id, name: p.name, score: p.score })),
+      total_players: sortedPlayers.length,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const getPositionIcon = (index: number) => {
     switch (index) {

@@ -2,6 +2,7 @@ import { useFiveSecondsActions, useFiveSecondsState } from '@guess-logo/five-sec
 import { ArrowLeft, RotateCcw } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useAnalytics } from '@/hooks/use-analytics';
 import { AnsweringView } from '../components/answering-view';
 import { PlayerScores } from '../components/player-scores';
 import { PreTurnView } from '../components/pre-turn-view';
@@ -32,6 +33,7 @@ export function GameplayPage() {
     turnState,
     votingState,
     questionError,
+    phase,
   } = state;
 
   const {
@@ -44,6 +46,7 @@ export function GameplayPage() {
   } = useFiveSecondsActions();
 
   const { t } = useTranslation();
+  const { trackTurnStart, trackTurnComplete, trackVoteSubmit, trackGameComplete, trackGameReset } = useAnalytics();
   const hasProcessedVotingRef = useRef(false);
   const [isResetConfirmOpen, setIsResetConfirmOpen] = useState(false);
 
@@ -106,9 +109,22 @@ export function GameplayPage() {
 
       const processVotingEnd = async () => {
         try {
+          trackTurnComplete({
+            game_id: 'five-seconds',
+            round_number: turnState?.roundNumber,
+            turn_number: turnState?.turnNumber,
+            player_id: currentPlayer.id,
+          });
+
           // Check if any player has reached the points to win
           const maxScore = Math.max(...Object.values(players).map(p => p.score));
           if (maxScore >= settings.pointsToWin) {
+            trackGameComplete({
+              game_id: 'five-seconds',
+              winner_id: currentPlayer.id,
+              final_scores: Object.values(players).map(p => ({ id: p.id, name: p.name, score: p.score })),
+              total_players: Object.keys(players).length,
+            });
             await endGame();
             return;
           }
@@ -125,20 +141,38 @@ export function GameplayPage() {
 
       processVotingEnd();
     }
-  }, [isVotingFinished, currentPlayer.id, turnState, tallyVotes, endGame, currentPlayer, players, settings.pointsToWin]);
+  }, [isVotingFinished, currentPlayer.id, turnState, tallyVotes, endGame, currentPlayer, players, settings.pointsToWin, trackTurnComplete, trackGameComplete]);
 
   const handleStartTurn = useCallback(async () => {
+    trackTurnStart({
+      game_id: 'five-seconds',
+      round_number: turnState?.roundNumber,
+      turn_number: turnState?.turnNumber,
+      player_id: currentPlayer?.id,
+    });
     await startTurn();
-  }, [startTurn]);
+  }, [startTurn, turnState, currentPlayer, trackTurnStart]);
 
   const handleVote = useCallback((isValid: boolean) => {
+    trackVoteSubmit({
+      game_id: 'five-seconds',
+      round_number: turnState?.roundNumber,
+      voter_id: currentVoter?.id,
+      current_player_id: currentPlayer?.id,
+      is_valid: isValid,
+    });
     submitVote(isValid);
-  }, [submitVote]);
+  }, [submitVote, trackVoteSubmit, turnState, currentPlayer, currentVoter]);
 
   const handleResetGame = useCallback(() => {
+    trackGameReset({
+      game_id: 'five-seconds',
+      reason: 'manual_reset',
+      current_phase: phase,
+    });
     resetGame();
     setIsResetConfirmOpen(false);
-  }, [resetGame]);
+  }, [resetGame, trackGameReset, phase]);
 
   return (
     <div className="min-h-screen flex flex-col p-4 md:p-8">

@@ -15,6 +15,7 @@ import {
 import { toast } from 'sonner';
 import BackButton from '@/components/back-button';
 import { RoomHeader } from '@/features/room/room-stats-header';
+import { useAnalytics } from '@/hooks/use-analytics';
 // import { useClearSession } from '@/features/room/use-session-cleanup';
 import { GameInstructions } from '../components/game-instructions';
 // import { GameRoomModal } from '../components/game-room-modal';
@@ -34,6 +35,7 @@ export function FiveSecondsLobby() {
   // const { settings } = useFiveSecondsState();
   const { players } = useFiveSecondsState();
   const { startGame } = useFiveSecondsActions();
+  const { trackGameModeSelected, trackGameStart } = useAnalytics();
   useUrlSyncedSettingsOnly();
   const [searchParams] = useSearchParams();
   // const clearSession = useClearSession();
@@ -49,6 +51,21 @@ export function FiveSecondsLobby() {
     }
     return false;
   });
+
+  const handleStartGame = async () => {
+    trackGameModeSelected('five-seconds', mode as 'local' | 'multiplayer', {
+      ...(roomId && { room_id: roomId || undefined }),
+      player_count: Object.keys(players).length,
+    });
+
+    trackGameStart({
+      game_id: 'five-seconds',
+      game_mode: mode as 'local' | 'multiplayer',
+      player_count: Object.keys(players).length,
+    });
+
+    await startGame();
+  };
 
   const canStartGame = () => {
     const playerCount = Object.keys(players).length;
@@ -156,7 +173,7 @@ export function FiveSecondsLobby() {
               <Button
                 size="lg"
                 className="w-full text-lg font-semibold"
-                onClick={startGame}
+                onClick={handleStartGame}
                 disabled={!canStartGame()}
               >
                 <Play className="w-5 h-5 mr-2" />
