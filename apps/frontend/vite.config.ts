@@ -18,7 +18,6 @@ export default defineConfig(({ mode }) => {
       outDir: 'dist',
       assetsDir: 'assets',
       target: 'es2022',
-      sourcemap:  true,
       minify: mode === 'production',
     },
     server: {
