@@ -1,7 +1,7 @@
 # Architecture Overview: Monorepo Structure (Post-Refactor)
 
 **Version**: 2.0
-**Date**: Feb 6, 2026
+**Date**: Feb 7, 2026
 **Status**: Target Architecture
 
 ## Dependency Graph
@@ -165,6 +165,14 @@ import type { router } from '@guess-logo/api/routes'; // ❌ Points to source
 // packages/api-contracts/src/index.ts
 import type { router } from '@guess-logo/api/routes'; // Imports compiled output
 export type RouterType = typeof router;
+
+// packages/api-contracts/tsconfig.json
+{
+  "compilerOptions": {
+    "declaration": true, // Generates .d.ts files
+    "types": ["node"]
+  }
+}
 
 // packages/api-client/index.ts
 import type { RouterType } from '@guess-logo/api-contracts'; // ✅
@@ -335,15 +343,30 @@ turbo run build
 
 ## Deployment Considerations
 
-### Cloudflare Workers (API)
+### Unified Cloudflare Workers Deployment
+The API and frontend are deployed together as a single Cloudflare Worker:
+
+- **API Route Handling**: Hono handles all API routes
+- **Frontend Serving**: Static assets served from `apps/frontend/dist/` using Cloudflare Workers assets binding
+- **Single Domain**: Both frontend and API served from same domain (no `api.` subdomain)
+- **Relative URLs**: Production uses relative URLs (`''`), development uses `http://localhost:8787`
+
+**Environment URLs:**
+- **Development**: `http://localhost:8787` (API and frontend together)
+- **Staging**: `https://staging.playgrid.mohadalaa.com`
+- **Production**: `https://playgrid.mohadalaa.com`
+
+### API Build
 - Build output: `dist/` folder
 - Dependencies: No path mappings, all compiled
 - Runtime: Node.js compatibility mode
+- Frontend assets: Built from `apps/frontend/` and served via assets binding
 
-### Vite (Frontend)
-- Build output: `.next/` or `dist/`
+### Frontend Build
+- Build output: `dist/` folder (served by API worker)
 - Dependencies: All packages via workspace protocol
 - Runtime: Browser
+- API communication: Uses relative URLs in production
 
 ### Durable Objects
 - Build output: Included in API build

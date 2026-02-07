@@ -5,9 +5,19 @@
 PlayGrid is a multiplayer-capable game platform built as a monorepo. It separates game logic (pure reducers), networking (adapters), and UI (React) into distinct layers, supporting both **local (client-authoritative)** and **multiplayer (server-authoritative)** modes.
 
 **Three-Tier Stack:**
-- **Frontend** (`apps/frontend`): React UI, abstracted via Game Adapter
+- **Frontend** (`apps/frontend`): React UI, abstracted via Game Adapter (served by API worker)
 - **Shared Logic** (`packages/game-core` + `packages/games`): Game definitions, reducers, schemas
-- **Backend** (`apps/api`): Cloudflare Workers + Durable Objects (multiplayer authority)
+- **Backend** (`apps/api`): Cloudflare Workers + Durable Objects (multiplayer authority) + Frontend serving
+
+**Unified Deployment:**
+The frontend and API are deployed together as a single Cloudflare Worker. The API serves both:
+- API routes via Hono
+- Frontend static assets from `apps/frontend/dist/`
+
+This unified deployment enables:
+- Relative URLs in production (no CORS issues)
+- Single domain for both frontend and API
+- Simplified deployment pipeline
 
 ---
 
@@ -57,9 +67,9 @@ Individual games extend this with custom rules.
 
 ### Local Mode (Client-Authoritative)
 
-- Reducer runs entirely on client (Zustand store)
+- Reducer runs entirely on client (managed by Game Adapter using Zustand store - see [Game Adapter](#game-adapter-abstraction-layer))
 - Instant feedback, no network latency
-- Effect handlers optional (can use TanStack Query for caching)
+- Effect handlers run on client
 - **Flow:** UI → Adapter → Reducer → Local State → UI Re-render
 
 ### Multiplayer Mode (Server-Authoritative)
@@ -73,7 +83,7 @@ Individual games extend this with custom rules.
 
 ## Side Effects System
 
-Effects handle asynchronous operations *after* the reducer updates state. They run on the server in multiplayer mode, and can be client-side (or use TanStack Query) in local mode.
+Effects handle asynchronous operations *after* the reducer updates state. They run on the server in multiplayer mode, and can be client-side in local mode.
 
 **Effect Handler Contract:**
 - **Input**: Previous action, new state, HTTP client, context
@@ -261,4 +271,4 @@ UI Re-render
 
 ---
 
-**Last Updated:** Feb 6, 2026
+**Last Updated:** Feb 7, 2026

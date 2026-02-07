@@ -7,10 +7,10 @@
     "lint:fix": "turbo run lint:fix",
     "build": "turbo run build",
     "check-types": "turbo run check-types",
-    "test:e2e": "pnpm --filter @guess-logo/frontend test:e2e",
-    "deploy": "pnpm deploy:frontend && pnpm deploy:api",
-    "deploy:frontend": "pnpm --filter frontend build && cd apps/frontend && pnpm wrangler pages deploy",
-    "deploy:api": "pnpm --filter api deploy",
+    "test:e2e": "pnpm --filter=@guess-logo/frontend test:e2e",
+    "deploy": "pnpm deploy:staging && pnpm deploy:production",
+    "deploy:staging": "pnpm --filter=@guess-logo/api deploy --env staging",
+    "deploy:production": "pnpm --filter=@guess-logo/api deploy --env production",
     "prepare": "husky"
   },
   "devDependencies": {

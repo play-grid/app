@@ -1,7 +1,7 @@
 # Quick Reference: Architecture Patterns
 
 **Version**: 2.0
-**Date**: Feb 6, 2026
+**Date**: Feb 7, 2026
 
 ## Creating a New Game
 
@@ -183,7 +183,8 @@ import { createGameEffectHandlers } from '@guess-logo/game-core';
 import { useMyGameStore } from '@guess-logo/my-game/hooks';
 
 export function useMyGame() {
-  const apiUrl = 'https://api.example.com';
+  // API URL: Use full URL in dev, relative URL in production (same domain)
+  const apiUrl = import.meta.env.DEV ? 'http://localhost:8787' : '';
 
   // Create HTTP client
   const honoClient = hcWithType(apiUrl);
