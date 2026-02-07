@@ -1,6 +1,7 @@
 import { hcWithType } from '@guess-logo/api-client';
-import { env } from '@/env';
 
-const client = hcWithType(env.VITE_API_URL);
+const apiBase = import.meta.env.DEV ? 'http://localhost:8787' : '';
+
+const client = hcWithType(apiBase);
 
 export default client;

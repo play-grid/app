@@ -35,3 +35,13 @@ export function getAllowedOrigins(allowedOriginsEnv: string): string[] {
     .filter(Boolean);
   return origins;
 }
+
+export function isOriginAllowed(origin: string, allowedOrigins: string[]): boolean {
+  if (!origin)
+    return false;
+
+  // Allow localhost in dev/staging (adjust ports if needed)
+  const isLocalhost = /^https?:\/\/localhost(?::\d+)?$/.test(origin);
+
+  return allowedOrigins.includes(origin) || isLocalhost;
+}

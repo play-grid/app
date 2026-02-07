@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "build:staging": "VITE_API_URL=https://api.staging.playgrid.mohdalaa.com vite build",
+    "build:staging": "vite build",
     "lint": "eslint .",
     "lint:fix": "eslint --fix",
     "preview": "vite preview",

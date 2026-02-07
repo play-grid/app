@@ -6,7 +6,14 @@ import {
   createNativeWSClient,
 } from '@guess-logo/game-core';
 import { createJSONStorage } from 'zustand/middleware';
-import { env } from '@/env';
+
+
+function getApiBase(): string {
+  if (import.meta.env.DEV) {    
+  return 'http://localhost:8787';
+}
+return ''; 
+}
 
 export function createGameAdapter<
   TStateSchema extends z.ZodType<BaseGameState>,
@@ -26,12 +33,11 @@ export function createGameAdapter<
   type State = z.infer<TStateSchema>;
   type Action = z.infer<TActionSchema>;
 
-  const apiUrl = env.VITE_API_URL;
-  const apiHost = new URL(apiUrl).host;
-  const httpProtocol = new URL(apiUrl).protocol;
+  const apiBase = getApiBase();
 
   if (options.mode === 'local') {
-    const effects = createGameEffectHandlers(definition.meta.id, apiUrl, 'local');
+    
+    const effects = createGameEffectHandlers(definition.meta.id, apiBase, 'local');
 
     return createLocalAdapter<State, Action>(
       options.initialState,
@@ -43,13 +49,20 @@ export function createGameAdapter<
         partialize: options.partialize,
       },
       effects,
-      apiUrl,
+      apiBase, 
     );
   }
 
   if (options.mode === 'multiplayer' && options.roomId && options.playerId && options.credentials) {
-    const wsProtocol = httpProtocol === 'https:' ? 'wss' : 'ws';
-    const wsUrl = `${wsProtocol}://${apiHost}/api/game-room/${options.roomId}/ws?playerId=${encodeURIComponent(options.playerId)}&credentials=${encodeURIComponent(options.credentials)}`;
+    
+    const wsProtocol = import.meta.env.DEV ? 'ws' : 'wss'; 
+    const wsPath = `/api/game-room/${options.roomId}/ws?playerId=${encodeURIComponent(
+      options.playerId,
+    )}&credentials=${encodeURIComponent(options.credentials)}`;
+
+    const wsUrl = apiBase
+      ? `${wsProtocol}://${new URL(apiBase).host}${wsPath}` 
+      : wsPath.startsWith('/') ? wsPath : `/${wsPath}`;     
 
     return createNativeWSClient<TStateSchema, TActionSchema>({
       websocketUrl: wsUrl,
@@ -59,5 +72,5 @@ export function createGameAdapter<
     });
   }
 
-  throw new Error('Invalid adapter config: multiplayer mode requires roomId');
+  throw new Error('Invalid adapter config: multiplayer mode requires roomId, playerId, credentials');
 }

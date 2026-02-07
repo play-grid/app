@@ -13,7 +13,7 @@ import { pinoLogger } from '@/middlewares/pino-logger';
 import { posthogMiddleware } from '@/middlewares/posthog-middleware';
 import { rateLimit } from '@/middlewares/rate-limter';
 import { logger } from '@/utils/logger';
-import { isAllowedOrigin } from '@/utils/origin';
+import { getAllowedOrigins, isOriginAllowed } from '@/utils/origin';
 import { createAuth } from '../auth';
 import { BASE_PATH } from './constants';
 import { clearRequestContext, setRequestContext } from './context-manager';
@@ -21,6 +21,7 @@ import createRouter from './create-router';
 
 export default function createApp(): AppOpenAPI {
   const app = createRouter();
+  app.basePath(BASE_PATH);
 
   let envValidated = false;
   app.use('*', async (c, next) => {
@@ -46,17 +47,28 @@ export default function createApp(): AppOpenAPI {
 
   app.use('*', async (c, next) => {
     const origin = c.req.header('Origin') || '';
-    const allowed = isAllowedOrigin(c);
+    const allowedOrigins = getAllowedOrigins(c.env.ALLOWED_ORIGINS);
+    const isAllowed = isOriginAllowed(origin, allowedOrigins);
 
-    const handler = cors({
-      origin: () => (allowed ? origin : undefined),
+    const corsHandler = cors({
+      origin: (requestOrigin) => {
+        return isAllowed ? requestOrigin : null;
+      },
       allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
       allowHeaders: ['Content-Type', 'Authorization'],
       credentials: true,
       maxAge: 600,
     });
 
-    return handler(c, next);
+    // Handle the request with cors middleware
+    const response = await corsHandler(c, next);
+
+    // Optional: Add Vary: Origin for better caching when origin varies
+    if (response && isAllowed) {
+      response.headers.append('Vary', 'Origin');
+    }
+
+    return response;
   });
 
   const isWebSocketUpgrade = (c: Context<AppEnv, '*'>) => {

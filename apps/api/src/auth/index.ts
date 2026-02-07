@@ -17,7 +17,7 @@ import { ac, adminRole, creatorRole, playerRole } from './permissions';
 function createAuth(c?: Context<AppEnv>) {
   // Use actual DB for runtime, empty object for CLI
   const db = c ? drizzle(c.env.GAME_HUB_DB, { schema, logger: true }) : ({} as any);
-  const trustedOrigins = getAllowedOrigins(c?.env?.ALLOWED_ORIGINS || '');
+  const trustedOrigins = getAllowedOrigins(c?.env.ALLOWED_ORIGINS || '');
 
   return betterAuth({
     ...withCloudflare(

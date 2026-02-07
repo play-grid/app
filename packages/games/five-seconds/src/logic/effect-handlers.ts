@@ -79,7 +79,7 @@ export function createFetchQuestionsEffect(apiUrl: string): GameEffect {
             difficulty: gameState.settings.difficulty === 'all' ? undefined : gameState.settings.difficulty,
           };
 
-          const url = new URL(`${apiUrl}/api/games/five-seconds/questions/batch`);
+          const url = new URL(`/api/games/five-seconds/questions/batch`);
           Object.entries(query).forEach(([key, value]) => {
             if (value !== undefined) {
               if (Array.isArray(value)) {
