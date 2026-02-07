@@ -12,9 +12,10 @@ export function SelectTrigger({ ref, className, children, ...props }: React.Comp
   return (
     <SelectPrimitive.Trigger
       ref={ref}
-      
+
       className={cn(
-        'flex h-10 w-full items-center justify-between px-3 text-sm outline-none',
+        'flex h-10 w-full items-center rtl:flex-row-reverse justify-between px-3 text-sm outline-none',
+        'rtl:mr-2 ltr:ml-2',
         className,
       )}
       {...props}
@@ -30,7 +31,6 @@ export function SelectContent({ ref, children, className, position = 'popper', .
     <SelectPrimitive.Portal>
       <SelectPrimitive.Content
         ref={ref}
-        
         position={position}
         className={cn(
           'relative z-50 min-w-32 overflow-hidden',
@@ -53,7 +53,7 @@ export function SelectItem({ ref, children, className, ...props }: React.Compone
     <SelectPrimitive.Item
       ref={ref}
       className={cn(
-        'flex w-full cursor-pointer select-none items-center justify-between py-2 px-3 text-left rtl:text-right',
+        'flex rtl:flex-row-reverse w-full cursor-pointer select-none items-center justify-between py-2 px-3 text-right',
         className,
       )}
       {...props}
