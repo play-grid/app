@@ -9,6 +9,7 @@ import BackButton from '@/components/back-button';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useGameNavigation } from '@/hooks/use-game-navigation';
+import { useAnalytics } from '@/hooks/use-analytics';
 import { logger } from '@/utils/logger';
 import { GameSetup } from '../components/game-setup';
 import { logoItemsQueryOptions } from '../hooks/use-logo-items';
@@ -40,6 +41,7 @@ export default function GameSetupPage() {
   const { navigate } = useGameNavigation('guess-logo');
   const { i18n, t } = useTranslation();
   const queryClient = useQueryClient();
+  const { trackGameStart } = useAnalytics();
   const [isStarting, setIsStarting] = useState(false);
 
   // Zustand stores
@@ -130,7 +132,7 @@ export default function GameSetupPage() {
       logger.debug('Fetching logo lists...');
       await queryClient.ensureQueryData(logoListsQueryOptions(selectedSet, true));
 
-      // Get available lists and validate the current list ID
+      // Get available lists and validate current list ID
       const logoListsData = queryClient.getQueryData(['logo-lists', selectedSet]) as any[];
       let listToUse = selectedList;
 
@@ -138,7 +140,7 @@ export default function GameSetupPage() {
         throw new Error(`No lists available for ${selectedSet}`);
       }
 
-      // Validate if current list ID is valid for the selected set
+      // Validate if current list ID is valid for selected set
       if (!isValidListId(selectedList, selectedSet, logoListsData)) {
         logger.debug(`Current list ID "${selectedList}" is invalid for ${selectedSet}, using first available list`);
         listToUse = logoListsData[0].id;
@@ -153,6 +155,17 @@ export default function GameSetupPage() {
       await queryClient.ensureQueryData(
         logoItemsQueryOptions(selectedSet, listToUse, language, gridConfig.totalLogos, false, true),
       );
+
+      // Track game start
+      trackGameStart({
+        game_id: 'guess-logo',
+        game_mode: 'local',
+        player_count: 2,
+        selected_set: selectedSet,
+        selected_grid: selectedGrid,
+        grid_total_logos: gridConfig.totalLogos,
+        room_id: undefined,
+      });
 
       const navigationPath = `/${selectedSet}/${listToUse}/${selectedGrid}/${encodedPlayerA}/${encodedPlayerB}`;
       logger.debug('Navigating to:', navigationPath);
@@ -173,6 +186,14 @@ export default function GameSetupPage() {
     if (savedGameInfo) {
       const encodedPlayerA = encodeURIComponent(savedGameInfo.playerA);
       const encodedPlayerB = encodeURIComponent(savedGameInfo.playerB);
+
+      trackGameStart({
+        game_id: 'guess-logo',
+        game_mode: 'local',
+        player_count: 2,
+        resumed: true,
+        room_id: undefined,
+      });
 
       navigate(
         `/${savedGameInfo.selectedSet}/${savedGameInfo.selectedList}/${savedGameInfo.selectedGrid}/${encodedPlayerA}/${encodedPlayerB}`,

@@ -1,10 +1,12 @@
 import type { SupportedLanguage } from '@guess-logo/shared/types';
 import type { FooterAttribution, FooterLogoSet } from '../lib/footer-attribution';
 import type { LogoSetKey } from '../lib/logo-data';
+import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
 import { useGameNavigation } from '@/hooks/use-game-navigation';
+import { useAnalytics } from '@/hooks/use-analytics';
 import { GameHeader } from '../components/game-header';
 import { GameInstructions } from '../components/game-instructions';
 import { GridSizeSlider } from '../components/grid-size-slider';
@@ -25,6 +27,7 @@ export default function GamePlayPage() {
   const { navigate } = useGameNavigation('guess-logo');
   const { t, i18n } = useTranslation();
   const { changeLogoList } = useLogoListChanger();
+  const { trackGridSizeChange, trackListChange, trackTurnSwitch, trackGameReset, trackGameComplete } = useAnalytics();
 
   const routeParams = useGameRouteParams({ enabled: true });
   const { loadAttempted, clearGameState } = useGameRoomPersistence({
@@ -49,6 +52,7 @@ export default function GamePlayPage() {
     togglePlayerALogo,
     togglePlayerBLogo,
     selectedList,
+    selectedGrid,
   } = useGameStore();
 
   const logoSet = routeParams.logoSet || 'companies';
@@ -67,10 +71,64 @@ export default function GamePlayPage() {
   );
 
   const handleResetGame = () => {
+    trackGameReset({
+      game_id: 'guess-logo',
+      reason: 'manual_reset',
+      current_phase: 'playing',
+    });
     clearGameState();
     resetGame();
     navigate('/');
   };
+
+  const handleSwitchTurn = () => {
+    trackTurnSwitch({
+      game_id: 'guess-logo',
+      player_id: currentPlayer === 'A' ? playerA.id : playerB.id,
+    });
+    switchTurn();
+  };
+
+  const handleListChange = (newList: string) => {
+    trackListChange({
+      game_id: 'guess-logo',
+      from_list: selectedList,
+      to_list: newList,
+    });
+    changeLogoList(newList);
+  };
+
+  const setGridCols = useGameStore(state => state.setGridCols);
+  const handleGridSizeChange = (newSize: number) => {
+    trackGridSizeChange({
+      game_id: 'guess-logo',
+      from_size: `${selectedGrid}`,
+      to_size: `${newSize}x6`,
+    });
+    setGridCols(newSize);
+  };
+
+  const hasTrackedWinnerRef = useRef(false);
+
+  // Track game completion when a winner is found
+  useEffect(() => {
+    const winner = playerA.winner || playerB.winner;
+    const winningPlayer = playerA.winner ? playerA : playerB.winner ? playerB : null;
+
+    if (winner && winningPlayer && !hasTrackedWinnerRef.current) {
+      hasTrackedWinnerRef.current = true;
+      trackGameComplete({
+        game_id: 'guess-logo',
+        winner_id: winningPlayer.id,
+        final_scores: [
+          { id: playerA.id, name: playerA.name, score: playerA.logos.length },
+          { id: playerB.id, name: playerB.name, score: playerB.logos.length },
+        ],
+        total_players: 2,
+      });
+    }
+  }, [playerA.winner, playerB.winner, playerA, playerB, trackGameComplete]);
+
   const gameError = useGameError({
     fetchError: error,
     isValidRoute: routeParams.isValidRoute,
@@ -131,15 +189,15 @@ export default function GamePlayPage() {
           gridConfig={gridConfig}
           availableLists={availableLists || []}
           selectedList={selectedList}
-          onListChange={changeLogoList}
-          onSwitchTurn={switchTurn}
+          onListChange={handleListChange}
+          onSwitchTurn={handleSwitchTurn}
           onResetGame={handleResetGame}
           onShuffle={shuffleLogosHook}
         />
 
         {/* Grid Size Control */}
         <div className="max-w-sm mx-auto bg-card rounded-2xl shadow-sm border border-border p-6">
-          <GridSizeSlider />
+          <GridSizeSlider onSizeChange={handleGridSizeChange} />
         </div>
 
         {listIsEmpty
