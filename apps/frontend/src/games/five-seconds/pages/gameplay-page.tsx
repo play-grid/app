@@ -325,7 +325,7 @@ export function GameplayPage() {
                                 totalTime={settings.timePerTurn}
                                 currentQuestion={question}
                               />
-                          )
+                            )
                           : null}
           </Card>
         </div>

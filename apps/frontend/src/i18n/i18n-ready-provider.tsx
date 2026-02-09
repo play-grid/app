@@ -1,5 +1,5 @@
-import { Suspense, useEffect, useState } from 'react';
 import type { ReactNode } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { i18nInitPromise } from './config';
 
 interface I18nReadyProviderProps {

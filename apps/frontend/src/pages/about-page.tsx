@@ -49,7 +49,7 @@ export default function AboutPage() {
             {t('about.developer_label')}
           </h2>
           <a
-            href='https://mohdalaa.com/'
+            href="https://mohdalaa.com/"
             target="_blank"
             rel="noopener noreferrer"
             className="cursor-pointer"

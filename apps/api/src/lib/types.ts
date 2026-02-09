@@ -21,7 +21,7 @@ export interface CloudflareBindings {
   };
   GAME_SESSION: DurableObjectNamespace<GameSessionObject>;
   GAME_HUB_DB: D1Database;
-  BETTER_AUTH_URL:string;
+  BETTER_AUTH_URL: string;
   ALLOWED_ORIGINS: string;
   API_URL: string;
   R2_PUBLIC_URL: string;

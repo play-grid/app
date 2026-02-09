@@ -72,8 +72,8 @@ export function Navbar({
   ref,
   className,
   navigationLinks = defaultNavigationLinks,
-  signInText = 'Sign In',
-  ctaText = 'Get Started',
+  _signInText = 'Sign In',
+  _ctaText = 'Get Started',
   onSignInClick,
   onCtaClick,
   ...props

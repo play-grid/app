@@ -46,10 +46,6 @@ jobs:
     if: needs.detect-changes.outputs.frontend == 'true'
     runs-on: blacksmith-2vcpu-ubuntu-2404
     
-    defaults:
-      run:
-        working-directory: apps/frontend
-    
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -67,10 +63,10 @@ jobs:
         run: pnpm install --frozen-lockfile
       
       - name: Run ESLint
-        run: pnpm lint
+        run: pnpm turbo run lint --filter @guess-logo/frontend
       
       - name: Run TypeScript type check
-        run: pnpm tsc --noEmit
+        run: pnpm turbo run check-types --filter @guess-logo/frontend
       
       - name: Create check summary
         if: always()
@@ -154,10 +150,6 @@ jobs:
     if: needs.detect-changes.outputs.api == 'true'
     runs-on: blacksmith-2vcpu-ubuntu-2404
     
-    defaults:
-      run:
-        working-directory: apps/api
-    
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -175,13 +167,13 @@ jobs:
         run: pnpm install --frozen-lockfile
       
       - name: Run ESLint
-        run: pnpm lint
+        run: pnpm turbo run lint --filter @guess-logo/api
       
       - name: Run TypeScript type check
-        run: pnpm tsc --noEmit
+        run: pnpm turbo run check-types --filter @guess-logo/api
       
       - name: Run unit tests
-        run: pnpm test:all
+        run: pnpm turbo run test:all --filter @guess-logo/api
         continue-on-error: true
       
       - name: Create check summary

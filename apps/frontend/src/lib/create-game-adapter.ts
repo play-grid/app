@@ -7,12 +7,11 @@ import {
 } from '@guess-logo/game-core';
 import { createJSONStorage } from 'zustand/middleware';
 
-
 function getApiBase(): string {
-  if (import.meta.env.DEV) {    
-  return 'http://localhost:8787';
-}
-return ''; 
+  if (import.meta.env.DEV) {
+    return 'http://localhost:8787';
+  }
+  return '';
 }
 
 export function createGameAdapter<
@@ -36,7 +35,6 @@ export function createGameAdapter<
   const apiBase = getApiBase();
 
   if (options.mode === 'local') {
-    
     const effects = createGameEffectHandlers(definition.meta.id, apiBase, 'local');
 
     return createLocalAdapter<State, Action>(
@@ -49,20 +47,19 @@ export function createGameAdapter<
         partialize: options.partialize,
       },
       effects,
-      apiBase, 
+      apiBase,
     );
   }
 
   if (options.mode === 'multiplayer' && options.roomId && options.playerId && options.credentials) {
-    
-    const wsProtocol = import.meta.env.DEV ? 'ws' : 'wss'; 
+    const wsProtocol = import.meta.env.DEV ? 'ws' : 'wss';
     const wsPath = `/api/game-room/${options.roomId}/ws?playerId=${encodeURIComponent(
       options.playerId,
     )}&credentials=${encodeURIComponent(options.credentials)}`;
 
     const wsUrl = apiBase
-      ? `${wsProtocol}://${new URL(apiBase).host}${wsPath}` 
-      : wsPath.startsWith('/') ? wsPath : `/${wsPath}`;     
+      ? `${wsProtocol}://${new URL(apiBase).host}${wsPath}`
+      : wsPath.startsWith('/') ? wsPath : `/${wsPath}`;
 
     return createNativeWSClient<TStateSchema, TActionSchema>({
       websocketUrl: wsUrl,

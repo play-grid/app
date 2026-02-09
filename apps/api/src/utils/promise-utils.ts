@@ -9,7 +9,7 @@ export async function processInChunks<T, R>(
     const chunkPromises = chunk.map((item, chunkIndex) => processor(item, i + chunkIndex));
     const chunkResults = await Promise.all(chunkPromises);
     results = results.concat(chunkResults);
-    
+
     if (i + chunkSize < items.length) {
       await new Promise(resolve => setTimeout(resolve, 100));
     }

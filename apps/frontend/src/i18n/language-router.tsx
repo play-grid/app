@@ -18,7 +18,8 @@ export function LanguageRouter({ children }: LanguageRouterProps) {
 
   // This effect handles the language change based on the URL
   useEffect(() => {
-    if (!i18nInstance) return;
+    if (!i18nInstance)
+      return;
 
     const pathSegments = location.pathname.split('/').filter(Boolean);
     const firstSegment = pathSegments[0];
@@ -38,7 +39,8 @@ export function LanguageRouter({ children }: LanguageRouterProps) {
 
   // Use useLayoutEffect to synchronously update the DOM's direction
   useLayoutEffect(() => {
-    if (!i18nInstance) return;
+    if (!i18nInstance)
+      return;
 
     const dir = typeof i18nInstance.dir === 'function' ? i18nInstance.dir() : 'ltr';
     document.documentElement.dir = dir;

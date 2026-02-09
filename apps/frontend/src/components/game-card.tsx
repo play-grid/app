@@ -3,8 +3,8 @@ import { ChevronRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
-import { useGameNavigation } from '@/hooks/use-game-navigation';
 import { useAnalytics } from '@/hooks/use-analytics';
+import { useGameNavigation } from '@/hooks/use-game-navigation';
 import { getLocalizedName } from '@/utils/language-utils';
 import { Button } from './ui/button';
 import { Skeleton } from './ui/skeleton';
@@ -20,7 +20,7 @@ export function GameCard({ game, onPlay }: GameCardProps) {
   const name = getLocalizedName(game.name, currentLanguage);
 
   const { t } = useTranslation();
-  
+
   const handleCardClick = () => {
     trackGameSelected({
       game_id: game.id,

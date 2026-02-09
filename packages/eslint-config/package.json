@@ -13,6 +13,7 @@
     "@antfu/eslint-config": "^6.2.0"
   },
   "devDependencies": {
+    "@eslint-react/eslint-plugin": "catalog:",
     "eslint-plugin-format": "^1.1.0"
   }
 }

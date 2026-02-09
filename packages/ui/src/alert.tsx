@@ -1,6 +1,5 @@
 import { cn } from '@guess-logo/ui';
 import * as React from 'react';
-import { useTranslation } from 'react-i18next';
 
 export function Alert({
   ref,

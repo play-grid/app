@@ -81,14 +81,14 @@ export default function Root() {
     <PostHogProvider
       apiKey={env.VITE_PUBLIC_POSTHOG_KEY}
       options={{
-      api_host: env.VITE_PUBLIC_POSTHOG_HOST,
-      defaults: '2025-05-24',
-      capture_exceptions: true,
-      autocapture:false,
-      capture_pageview:true,
-      capture_pageleave:true,
-      debug: import.meta.env.MODE === 'development'
-    }}
+        api_host: env.VITE_PUBLIC_POSTHOG_HOST,
+        defaults: '2025-05-24',
+        capture_exceptions: true,
+        autocapture: false,
+        capture_pageview: true,
+        capture_pageleave: true,
+        debug: import.meta.env.MODE === 'development',
+      }}
     >
       <BrowserRouter>
         <I18nReadyProvider>

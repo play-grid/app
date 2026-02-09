@@ -1,7 +1,6 @@
 import { cn } from '@guess-logo/ui';
 import * as SwitchPrimitive from '@radix-ui/react-switch';
 import * as React from 'react';
-import { useTranslation } from 'react-i18next';
 
 export function Switch({
   ref,
@@ -10,8 +9,6 @@ export function Switch({
 }: React.ComponentPropsWithoutRef<typeof SwitchPrimitive.Root> & {
   ref?: React.RefObject<React.ComponentRef<typeof SwitchPrimitive.Root> | null>;
 }) {
-  const { i18n } = useTranslation();
-
   return (
     <SwitchPrimitive.Root
       ref={ref}

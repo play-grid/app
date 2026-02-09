@@ -8,7 +8,6 @@ export const SelectGroup = SelectPrimitive.Group;
 export const SelectValue = SelectPrimitive.Value;
 
 export function SelectTrigger({ ref, className, children, ...props }: React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger> & { ref?: React.RefObject<React.ComponentRef<typeof SelectPrimitive.Trigger> | null> }) {
-  
   return (
     <SelectPrimitive.Trigger
       ref={ref}
@@ -26,7 +25,6 @@ export function SelectTrigger({ ref, className, children, ...props }: React.Comp
 }
 
 export function SelectContent({ ref, children, className, position = 'popper', ...props }: React.ComponentPropsWithoutRef<typeof SelectPrimitive.Content> & { ref?: React.RefObject<React.ElementRef<typeof SelectPrimitive.Content> | null> }) {
-
   return (
     <SelectPrimitive.Portal>
       <SelectPrimitive.Content

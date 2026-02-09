@@ -1,15 +1,15 @@
-import { useCallback } from 'react';
-import { usePostHog } from '@posthog/react';
 import type {
   AnalyticsEvent,
-  GameProperties,
-  TurnProperties,
-  VoteProperties,
   GameCompletionProperties,
+  GameProperties,
   GameResetProperties,
   GridChangeProperties,
   ListChangeProperties,
+  TurnProperties,
+  VoteProperties,
 } from '@/lib/analytics-types';
+import { usePostHog } from '@posthog/react';
+import { useCallback } from 'react';
 
 export function useAnalytics() {
   const posthog = usePostHog();
@@ -38,16 +38,16 @@ export function useAnalytics() {
   }, [capture]);
 
   const trackGameQuit = useCallback((props: Pick<GameProperties, 'game_id'>) => {
-    capture({ 
-      event: 'game_quit', 
-      properties: { game_id: props.game_id } 
+    capture({
+      event: 'game_quit',
+      properties: { game_id: props.game_id },
     });
   }, [capture]);
 
   const trackGameModeSelected = useCallback((
     game_id: string,
     mode: 'local' | 'multiplayer',
-    properties?: Partial<GameProperties>
+    properties?: Partial<GameProperties>,
   ) => {
     capture({
       event: 'game_mode_selected',

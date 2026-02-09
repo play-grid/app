@@ -8,8 +8,8 @@ import { toast } from 'sonner';
 import BackButton from '@/components/back-button';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { useGameNavigation } from '@/hooks/use-game-navigation';
 import { useAnalytics } from '@/hooks/use-analytics';
+import { useGameNavigation } from '@/hooks/use-game-navigation';
 import { logger } from '@/utils/logger';
 import { GameSetup } from '../components/game-setup';
 import { logoItemsQueryOptions } from '../hooks/use-logo-items';
@@ -93,7 +93,7 @@ export default function GameSetupPage() {
         }
       }
     }
-    catch (error) {
+    catch {
     }
 
     setResumeCheckComplete(true);
