@@ -441,7 +441,7 @@
   "enter-room-code-or-link": "أدخل كود الغرفة أو الصق الرابط...",
    "default-room-name": "غرفتي للعب",
    "room-title-optional": "عنوان الغرفة (اختياري)",
-   "leave-empty-to-start": "اتركه فارغاً لبدء فوري",
+   "leave-empty-to-start": "اتركه فارغا لبدء فوري",
    "room-of": "غرفة {{hostName}}",
    "validation": {
      "name": {

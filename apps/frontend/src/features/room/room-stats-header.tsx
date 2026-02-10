@@ -1,8 +1,8 @@
 import { AlertCircle, Globe, Zap } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { CopyButton } from '@/components/copy-button';
-import { Badge } from '@/components/ui/badge';
-import { Card } from '@/components/ui/card';
+import { Badge } from '../../games/five-seconds/components/ui/badge';
+import { Card } from '../../games/five-seconds/components/ui/card';
 import { useRoomStats } from './use-room';
 
 interface RoomStatsHeaderProps {
@@ -34,7 +34,7 @@ export function RoomHeader({
   if (mode === 'multiplayer' && roomId) {
     if (isError) {
       return (
-        <Card className="border-destructive/50 bg-destructive/5 p-3">
+        <Card variant="default" className="border-destructive/50 bg-destructive/5 p-3">
           <div className="flex items-center gap-2">
             <AlertCircle className="h-4 w-4 text-destructive shrink-0" />
             <span className="text-xs text-destructive">
@@ -58,17 +58,16 @@ export function RoomHeader({
 
     if (room) {
       return (
-        <Card className="border-primary/20 bg-linear-to-r from-primary/5 to-transparent p-4">
+        <Card className="bg-primary/40 p-4">
           <div className="flex items-center justify-between gap-4">
             <div className="flex-1 min-w-0">
-              <p className="text-xs text-muted-foreground mb-2">
+              <p className="text-xs text-foreground mb-2">
                 {t('mode.online')}
               </p>
               <div className="flex items-center gap-2 mt-2 justify-center">
-                <code className="text-2xl font-mono font-bold text-primary px-3 py-1.5 rounded">
+                <code className="text-2xl font-mono font-bold text-foreground px-3 py-1.5">
                   {roomId}
                 </code>
-
                 <CopyButton text={roomId!} />
               </div>
             </div>

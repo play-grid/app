@@ -15,7 +15,7 @@ export function GameRoomModal({ trigger, ...roomFlowProps }: GameRoomModalProps)
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
-      <DialogContent className="sm:max-w-[500px] p-6 flex flex-col">
+      <DialogContent className="sm:max-w-125 p-6 flex flex-col">
         <DialogHeader>
           <DialogTitle>{t('play-online')}</DialogTitle>
           <DialogDescription>{t('room.dialog.description')}</DialogDescription>

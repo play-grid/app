@@ -11,14 +11,14 @@ import { useForm, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { CopyButton } from '@/components/copy-button';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Item, ItemContent, ItemDescription, ItemGroup, ItemTitle } from '@/components/ui/item';
-import { Label } from '@/components/ui/label';
-import { Spinner } from '@/components/ui/spinner';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useSession } from '@/hooks/auth-hooks';
 import { cn } from '@/lib/utils';
+import { Button } from '../../games/five-seconds/components/ui/button';
+import { Input } from '../../games/five-seconds/components/ui/input';
+import { Label } from '../../games/five-seconds/components/ui/label';
+import { Spinner } from '../../games/five-seconds/components/ui/spinner';
 import { JoinRoomForm } from './join-room-form';
 import { useCreateRoom } from './use-room';
 
@@ -120,7 +120,7 @@ export function RoomFlow({
 
                   {/* Loading content */}
                   <div className="flex-1 flex items-center justify-center">
-                    <Spinner className="text-primary" />
+                    <Spinner className="text-foreground" />
                   </div>
 
                   {/* Placeholder for button area to maintain consistent height */}
@@ -132,7 +132,7 @@ export function RoomFlow({
                   <div className="space-y-4">
                     {/* Success State - kept as is */}
                     <div className="text-center py-4">
-                      <div className="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-3">
+                      <div className="w-12 h-12 bg-green-100 flex items-center justify-center mx-auto mb-3">
                         <Check className="w-6 h-6 text-green-600" />
                       </div>
                       <p className="font-semibold text-primary text-lg">{t('room-created')}</p>
@@ -144,7 +144,7 @@ export function RoomFlow({
                       </div>
                     )}
                     <div className="space-y-3">
-                      <div className="bg-primary/5 border-2 border-primary/20 rounded-lg p-4">
+                      <div className="bg-primary/5 border-2 border-primary/20 p-4">
                         <Label htmlFor="room-code" className="text-sm font-medium mb-2 block">
                           {t('room-code')}
                         </Label>
@@ -160,7 +160,7 @@ export function RoomFlow({
                           {t('room-url')}
                         </Label>
                         <div
-                          className="relative group bg-primary/5 border-2 border-primary/20 rounded-lg p-4 cursor-pointer hover:bg-primary/10 hover:border-primary/30 transition-all duration-200 active:scale-[0.99]"
+                          className="relative group bg-primary/5 border-2 border-primary/20 p-4 cursor-pointer hover:bg-primary/10 hover:border-primary/30 transition-all duration-200 active:scale-[0.99]"
                           onClick={() => handleCopy(roomUrl, 'url')}
                         >
                           <div className="flex items-center justify-between gap-3">
@@ -218,7 +218,7 @@ export function RoomFlow({
                       <div className="flex gap-2">
                         <div
                           className={cn(
-                            'flex-1 h-1 rounded-full cursor-pointer transition-colors',
+                            'flex-1 h-1 cursor-pointer transition-colors',
                             createStep >= 1 ? 'bg-primary hover:bg-primary/70' : 'bg-muted',
                           )}
                           onClick={() => setCreateStep(1)}
@@ -226,13 +226,13 @@ export function RoomFlow({
                         <button
                           type="submit"
                           className={cn(
-                            'flex-1 h-1 rounded-full cursor-pointer transition-colors',
+                            'flex-1 h-1 cursor-pointer transition-colors',
                             createStep >= 2 ? 'bg-primary hover:bg-primary/70' : 'bg-muted',
                           )}
                         />
                       </div>
                     </div>
-                    <div className="flex-1 overflow-y-auto min-h-0 px-2">
+                    <div className="flex-1 overflow-y-auto min-h-0 px-3 py-3">
                       {/* STEP 1: Basic Info */}
                       {createStep === 1 && (
                         <div className="space-y-4">

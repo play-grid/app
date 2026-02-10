@@ -5,10 +5,11 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { useSession } from '@/hooks/auth-hooks';
+//TODO: update these to work in all games
+import { Button } from '../../games/five-seconds/components/ui/button';
+import { Input } from '../../games/five-seconds/components/ui/input';
+import { Label } from '../../games/five-seconds/components/ui/label';
 import { useJoinRoom } from './use-room';
 
 interface JoinRoomFormProps {
@@ -60,7 +61,7 @@ export function JoinRoomForm({ gameType, onRoomJoined, onDialogClose }: JoinRoom
 
   return (
     <form onSubmit={joinForm.handleSubmit(handleJoinSubmit)} className="flex-1 flex flex-col min-h-0">
-      <div className="flex-1 space-y-4 overflow-y-auto min-h-0">
+      <div className="flex-1 space-y-4 overflow-y-auto min-h-0 p-3">
         <div className="space-y-2">
           <Label htmlFor="player-name">{t('your-name')}</Label>
           <Input
