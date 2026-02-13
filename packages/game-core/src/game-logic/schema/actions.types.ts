@@ -151,6 +151,16 @@ export const ResetGameActionSchema = z.object({
 
 export type ResetGameAction = z.infer<typeof ResetGameActionSchema>;
 
+export const SubPhaseTimerStartedActionSchema = z.object({
+  type: z.literal('SUB_PHASE_TIMER_STARTED'),
+  payload: z.object({
+    phase: z.string(),
+    endsAt: z.number(),
+  }),
+});
+
+export type SubPhaseTimerStartedAction = z.infer<typeof SubPhaseTimerStartedActionSchema>;
+
 export const GameActionSchema = z.discriminatedUnion('type', [
   SetPhaseActionSchema,
   StartGameActionSchema,
@@ -170,5 +180,6 @@ export const GameActionSchema = z.discriminatedUnion('type', [
   SetGamePhaseSchemaAction,
   ReorderPlayersActionSchema,
   NextRoundActionSchema,
+  SubPhaseTimerStartedActionSchema,
 ]);
 export type GameAction = z.infer<typeof GameActionSchema>;

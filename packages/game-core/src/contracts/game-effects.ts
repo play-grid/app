@@ -5,7 +5,7 @@ export interface GameEffectContext {
   state: BaseGameState;
   action: BaseAction;
   apiUrl: string;
-  ctx: any;
+  ctx: any; // TODO : make this strongly typed with generics make consumer decide what's the type for it depending on the adapter
   dispatch?: (action: BaseAction) => Promise<void>;
 }
 

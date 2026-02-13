@@ -1,12 +1,14 @@
 # Refactoring Documentation Index
 
-**Last Updated**: Feb 7, 2026
+**Last Updated**: Feb 10, 2026
 
 ## Overview
 
-This directory contains comprehensive documentation for breaking circular dependencies and refactoring the monorepo architecture.
+This directory contains comprehensive documentation for breaking circular dependencies, refactoring monorepo architecture, and improving phase management systems.
 
-## Problem Statement
+## Problem Statements
+
+### 1. Circular Dependencies & Architectural Issues
 
 The current monorepo has a critical circular dependency chain:
 
@@ -14,14 +16,39 @@ The current monorepo has a critical circular dependency chain:
 api-client → api/routes (via path mapping to source) → api → five-seconds → api-client
 ```
 
-### Key Issues
-
+**Key Issues:**
 1. **Circular Dependencies**: Breaks build order and modularity
 2. **Path Mapping to Source**: Fragile, breaks in production builds
 3. **Wrong Direction Coupling**: API imports from game packages, games import API client
 4. **Mixed Concerns**: Game logic depends on infrastructure (HTTP client)
 
+**Related Docs:**
+- [PROBLEM_STATEMENT.md](../PROBLEM_STATEMENT.md) - Full problem description
+- [ADR 002](../decisions/002-break-circular-dependencies.md) - Decision to break cycles
+
+### 2. Inconsistent Sub-Phase Management
+
+Games with sub-phases (e.g., Five Seconds: reading → answering → voting) implement timer and phase transitions inconsistently between local and online modes.
+
+**Key Issues:**
+1. **Inconsistent Timer Mechanisms**: Local uses `setTimeout()`, online uses `ctx.ctx.storage.setAlarm()`
+2. **Manual Phase Tracking**: Alarm handler must manually inspect state to determine transition
+3. **Code Duplication**: Timer logic duplicated across local and online modes
+4. **Bug-Prone Architecture**: Recent reading timer bug demonstrates fragility
+5. **Not Reusable Across Games**: Each game must implement sub-phase system manually
+
+**Related Docs:**
+- [problems/003-inconsistent-sub-phase-management.md](./problems/003-inconsistent-sub-phase-management.md) - Full problem description
+- [problems/003-solution-sub-phase-timers.md](./problems/003-solution-sub-phase-timers.md) - Proposed solution (simple configuration-based approach)
+
 ## Documentation Structure
+
+### 🚨 Problem Statements
+
+| Document | Description | Status |
+|----------|-------------|--------|
+| [PROBLEM_STATEMENT.md](../PROBLEM_STATEMENT.md) | Circular dependencies and architectural issues | Identified |
+| [problems/003-inconsistent-sub-phase-management.md](./problems/003-inconsistent-sub-phase-management.md) | Inconsistent sub-phase management between local and online modes | Identified |
 
 ### 📋 Architecture Decision Records (ADRs)
 
@@ -41,21 +68,23 @@ api-client → api/routes (via path mapping to source) → api → five-seconds 
 
 | Document | Description | Estimated Time |
 |----------|-------------|----------------|
-| [002-implementation-plan.md](../refactoring/002-implementation-plan.md) | Step-by-step implementation guide | 8-12 hours |
+| [002-implementation-plan.md](../refactoring/002-implementation-plan.md) | Step-by-step implementation guide for breaking circular dependencies | 8-12 hours |
 
 ## Quick Links
 
 ### For Developers
-- **Start Here**: [Quick Reference](./quick-reference.md) - How to work with the new architecture
+- **Start Here**: [Quick Reference](./quick-reference.md) - How to work with new architecture
 - **Big Picture**: [Architecture Overview v2](./monorepo-structure-v2.md) - Complete system design
 
 ### For Architects/Tech Leads
 - **Decision**: [ADR 002](../decisions/002-break-circular-dependencies.md) - Why we're refactoring
 - **Plan**: [Implementation Plan](../refactoring/002-implementation-plan.md) - Detailed steps
+- **Sub-Phase Proposal**: [003-inconsistent-sub-phase-management.md](./problems/003-inconsistent-sub-phase-management.md) - Unified phase management solution
 
 ### For Managers
 - **Rationale**: [ADR 002](../decisions/002-break-circular-dependencies.md) - Problem and solution
 - **Timeline**: [Implementation Plan](../refactoring/002-implementation-plan.md) - Phase breakdown
+- **Sub-Phase Benefits**: [003-inconsistent-sub-phase-management.md](./problems/003-inconsistent-sub-phase-management.md) - DX and maintainability improvements
 
 ## Refactoring Phases
 
@@ -143,6 +172,7 @@ Benefits:
 
 ## Success Criteria
 
+### Circular Dependencies Refactoring
 - [ ] No circular dependencies (verified with dependency graph tool)
 - [ ] All path mappings removed or point to compiled packages
 - [ ] Game packages don't import api-client directly
@@ -150,6 +180,14 @@ Benefits:
 - [ ] All builds succeed
 - [ ] All tests pass
 - [ ] Manual testing confirms functionality unchanged
+
+### Sub-Phase Management System
+- [ ] Five Seconds game uses sub-phase system
+- [ ] Local and online modes behave identically
+- [ ] No manual timer code in game packages
+- [ ] Type-safe phase transitions
+- [ ] Easy to add new games with sub-phases
+- [ ] All tests pass (including existing tests)
 
 ## Rollback Plan
 
@@ -203,3 +241,4 @@ If issues arise after deployment:
 | Version | Date | Changes |
 |---------|------|---------|
 | 1.0 | Feb 6, 2026 | Initial documentation |
+| 1.1 | Feb 10, 2026 | Added problem documentation for inconsistent sub-phase management (003) |
