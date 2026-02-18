@@ -36,6 +36,8 @@ export interface GameSessionMetadata {
  * HTTP Endpoints (/init, /join, /stats) → GameSessionObject → GameSessionManager → Game Definition
  * WebSocket Messages → GameSessionRouter → GameSessionManager → Game Definition
  */
+const PENDING_ACTION_KEY = 'sub_phase_pending_action';
+
 export class GameSessionObject extends DurableObject<AppEnv['Bindings']> {
   private manager: GameSessionManager | null = null;
   private router: GameSessionRouter | null = null;
@@ -77,10 +79,31 @@ export class GameSessionObject extends DurableObject<AppEnv['Bindings']> {
   }
 
   async alarm() {
-    logger.debug('[GameSessionObject] Alarm triggered, dispatching TIMES_UP');
+    logger.info('[GameSessionObject] 🚨 ALARM TRIGGERED');
     await this.ensureInitialized();
+
     if (this.manager) {
-      await this.manager.dispatchAction({ type: 'TIMES_UP' });
+      const actionType = await this.ctx.storage.get<string>(PENDING_ACTION_KEY);
+      const allStorage = await this.ctx.storage.list();
+      
+      logger.info(`[GameSessionObject] 🔍 Alarm check - PENDING_ACTION_KEY value: "${actionType}", all keys: [${Array.from(allStorage.keys()).join(', ')}]`);
+
+      if (actionType) {
+        logger.info(`[GameSessionObject] ✅ Found pending action: ${actionType}`);
+        // CRITICAL: Delete the pending key BEFORE dispatching to prevent the effect
+        // from storing a new action and then having it immediately deleted
+        await this.ctx.storage.delete(PENDING_ACTION_KEY);
+        logger.info(`[GameSessionObject] ✅ Pending key deleted, now dispatching action: ${actionType}`);
+        await this.manager.dispatchAction({ type: actionType });
+        logger.info(`[GameSessionObject] ✅ Action dispatched successfully: ${actionType}`);
+      }
+      else {
+        logger.error('[GameSessionObject] ❌ Alarm triggered but NO pending action found!');
+        logger.error(`[GameSessionObject] ❌ This means the timer effect didn't store the action properly`);
+      }
+    }
+    else {
+      logger.error('[GameSessionObject] ❌ Alarm triggered but manager not initialized!');
     }
   }
 

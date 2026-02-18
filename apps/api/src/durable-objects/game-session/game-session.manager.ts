@@ -243,12 +243,15 @@ export class GameSessionManager {
    */
   private async executeEffects(action: any, depth: number): Promise<void> {
     if (this.effectHandlers.length === 0) {
-      logger.debug('[GameSessionManager] No effects registered');
       return;
     }
 
-    logger.debug(`[GameSessionManager] ===== STARTING EFFECT EXECUTION =====`);
-    logger.debug(`[GameSessionManager] Running ${this.effectHandlers.length} effect(s) for action: ${action.type}`);
+    // Only log for timer-related actions
+    const isTimerAction = ['START_TURN', 'START_ANSWERING', 'TIMES_UP', 'SUB_PHASE_TIMER_STARTED'].includes(action.type);
+    
+    if (isTimerAction) {
+      logger.info(`[TimerDebug] ===== EFFECT EXECUTION for ${action.type} =====`);
+    }
 
     const context = {
       state: this.currentState,
@@ -259,25 +262,17 @@ export class GameSessionManager {
         this.dispatchAction(followUpAction, undefined, depth + 1),
     };
 
-    logger.debug(`[GameSessionManager] Effect context created:`, {
-      actionType: action.type,
-      apiUrl: this.apiUrl,
-      stateKeys: Object.keys(this.currentState),
-    });
-
     // Run all effects in parallel
-    logger.debug(`[GameSessionManager] Invoking ${this.effectHandlers.length} effect handler(s)...`);
     const results = await Promise.allSettled(
       this.effectHandlers.map((effectHandler, index) => {
-        logger.debug(`[GameSessionManager] Invoking effect handler #${index}...`);
         return effectHandler(context).catch((err) => {
-          logger.error(`[GameSessionManager] Effect handler #${index} threw error:`, err);
+          if (isTimerAction) {
+            logger.error(`[TimerDebug] Effect handler #${index} threw error:`, err);
+          }
           throw err;
         });
       }),
     );
-
-    logger.debug(`[GameSessionManager] All effects completed. Processing results...`);
 
     const followUpActions: any[] = [];
 
@@ -286,37 +281,27 @@ export class GameSessionManager {
       const result = results[i];
 
       if (result.status === 'rejected') {
-        logger.error(
-          `[GameSessionManager] ❌ Effect #${i} REJECTED for action ${action.type}:`,
-          result.reason,
-        );
-        logger.error(`[GameSessionManager] Rejection reason type:`, result.reason?.constructor?.name);
-        logger.error(`[GameSessionManager] Rejection message:`, result.reason?.message || 'No message');
+        if (isTimerAction) {
+          logger.error(`[TimerDebug] ❌ Effect #${i} REJECTED for action ${action.type}:`, result.reason);
+        }
         continue;
       }
-
-      logger.debug(`[GameSessionManager] ✅ Effect #${i} FULFILLED for action ${action.type}`);
 
       const followUpAction = result.value;
 
-      if (followUpAction === null) {
-        logger.debug(`[GameSessionManager] Effect #${i} returned null (no follow-up action)`);
+      if (followUpAction === null || followUpAction === undefined) {
         continue;
       }
 
-      if (followUpAction === undefined) {
-        logger.warn(`[GameSessionManager] Effect #${i} returned undefined (should return null instead)`);
-        continue;
+      if (isTimerAction) {
+        logger.info(`[TimerDebug] ✅ Effect #${i} returned follow-up action: ${followUpAction.type}`);
       }
-
-      logger.info(
-        `[GameSessionManager] ✅ Effect #${i} returned follow-up action: ${followUpAction.type}`,
-      );
-      logger.debug(`[GameSessionManager] Follow-up action payload:`, followUpAction);
       followUpActions.push(followUpAction);
     }
 
-    logger.debug(`[GameSessionManager] ===== EFFECT EXECUTION COMPLETE =====`);
+    if (isTimerAction) {
+      logger.info(`[TimerDebug] ===== EFFECT EXECUTION COMPLETE for ${action.type} =====`);
+    }
 
     // Dispatch all collected follow-up actions
     for (const followUpAction of followUpActions) {
