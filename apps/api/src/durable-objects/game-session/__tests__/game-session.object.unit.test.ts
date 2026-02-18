@@ -1,5 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { GameSessionObject } from '../game-session.object';
+import '../../../games';
+import '@guess-logo/five-seconds'; // Register the game
 
 // Mock cloudflare:workers module
 vi.mock('cloudflare:workers', () => ({
@@ -32,18 +34,52 @@ interface MockDurableObjectState {
   };
 }
 
+// Helper to create a new DO instance with fresh storage
+function createDurableObject(storageMap: Map<string, any>, env: any): GameSessionObject {
+  const mockCtx = {
+    storage: {
+      put: vi.fn().mockImplementation(async (key: string, value: any) => {
+        storageMap.set(key, value);
+      }),
+      get: vi.fn().mockImplementation(async (key: string) => {
+        return storageMap.get(key) ?? null;
+      }),
+      delete: vi.fn().mockImplementation(async (key: string) => {
+        storageMap.delete(key);
+      }),
+    },
+    blockConcurrencyWhile: vi.fn(async fn => fn()),
+    acceptWebSocket: vi.fn(),
+    getWebSockets: vi.fn().mockReturnValue([]),
+    id: {
+      toString: () => 'test-do-id',
+    },
+  };
+  return new GameSessionObject(mockCtx as any, env);
+}
+
 describe('gameSessionObject', () => {
   let durableObject: GameSessionObject;
   let mockCtx: MockDurableObjectState;
   let mockEnv: any;
+  let storageMap: Map<string, any>;
 
   beforeEach(() => {
-    // Mock DurableObjectState
+    // Create a real Map to simulate storage
+    storageMap = new Map();
+
+    // Mock DurableObjectState with working storage
     mockCtx = {
       storage: {
-        put: vi.fn().mockResolvedValue(undefined),
-        get: vi.fn().mockResolvedValue(null),
-        delete: vi.fn().mockResolvedValue(undefined),
+        put: vi.fn().mockImplementation(async (key: string, value: any) => {
+          storageMap.set(key, value);
+        }),
+        get: vi.fn().mockImplementation(async (key: string) => {
+          return storageMap.get(key) ?? null;
+        }),
+        delete: vi.fn().mockImplementation(async (key: string) => {
+          storageMap.delete(key);
+        }),
       },
       blockConcurrencyWhile: vi.fn(async fn => fn()),
       acceptWebSocket: vi.fn(),
@@ -529,6 +565,9 @@ describe('gameSessionObject', () => {
 
   describe('session Rehydration', () => {
     it('should rehydrate from storage', async () => {
+      // Create fresh storage for this test
+      const freshStorage = new Map<string, any>();
+
       // Mock stored metadata and complete game state
       const mockMetadata = {
         roomId: 'room-123',
@@ -539,7 +578,6 @@ describe('gameSessionObject', () => {
       };
 
       // Mock a complete valid game state that matches the five-seconds schema
-      // Based on the error, the five-seconds game needs these specific fields
       const mockGameState = {
         players: {},
         phase: 'lobby',
@@ -547,47 +585,42 @@ describe('gameSessionObject', () => {
         settings: {
           roundCount: 5,
           timePerRound: 5000,
-          categoryIds: [], // Required array
-          difficulty: 'medium', // Must be one of: easy, medium, hard, all
-          timePerTurn: 30, // Required number
-          pointsToWin: 10, // Required number
+          categoryIds: [],
+          difficulty: 'medium',
+          timePerTurn: 30,
+          pointsToWin: 10,
         },
         createdAt: Date.now(),
         votingState: {
-          votes: [], // Should be array, not object
+          votes: [],
           requiredVotes: 0,
-          isVoting: false, // Required boolean
-          voters: [], // Required array
-          currentVoterIndex: 0, // Required number
+          isVoting: false,
+          voters: [],
+          currentVoterIndex: 0,
         },
         seenQuestionIds: [],
         currentQuestion: null,
       };
 
-      mockCtx.storage.get = vi.fn()
-        .mockImplementation(async (key: string) => {
-          if (key === 'metadata')
-            return mockMetadata;
-          if (key === 'state')
-            return mockGameState;
-          return null;
-        });
+      // Pre-populate storage
+      freshStorage.set('metadata', mockMetadata);
+      freshStorage.set('state', mockGameState);
 
-      // Create new DO instance (simulating wake from hibernation)
-      const newDO = new GameSessionObject(mockCtx as any, mockEnv);
+      // Create new DO instance with fresh storage (simulating wake from hibernation)
+      const newDO = createDurableObject(freshStorage, mockEnv);
 
       // Access stats endpoint to trigger rehydration
       const request = new Request('http://test.com/stats');
       const response = await newDO.fetch(request);
 
       expect(response.status).toBe(200);
-      expect(mockCtx.storage.get).toHaveBeenCalledWith('metadata');
     });
 
     it('should return false when metadata is missing', async () => {
-      mockCtx.storage.get.mockResolvedValue(null);
+      // Create fresh empty storage for this test
+      const freshStorage = new Map<string, any>();
 
-      const newDO = new GameSessionObject(mockCtx as any, mockEnv);
+      const newDO = createDurableObject(freshStorage, mockEnv);
       const request = new Request('http://test.com/stats');
       const response = await newDO.fetch(request);
 

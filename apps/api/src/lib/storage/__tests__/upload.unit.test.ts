@@ -37,7 +37,7 @@ describe('uploadFile', () => {
         },
       );
       expect(result).toMatchObject({
-        url: expect.stringMatching(/^https:\/\/pub-9df3c09e2c264f328b6770ef318b615e\.r2\.dev\/marketing\/banner\/[a-f0-9-]+.jpg$/),
+        url: expect.stringMatching(/^https:\/\/r2\.playgrid\.mohdalaa\.com\/marketing\/banner\/[a-f0-9-]+.jpg$/),
         key: expect.stringMatching(/^marketing\/banner\/[a-f0-9-]+.jpg$/),
         size: 1024 * 1024,
         type: 'image/jpeg',
