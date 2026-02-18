@@ -1,13 +1,12 @@
 import { useFiveSecondsActions, useFiveSecondsState } from '@guess-logo/five-seconds';
 import { ArrowLeft, RotateCcw } from 'lucide-react';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAnalytics } from '@/hooks/use-analytics';
 import { AnsweringView } from '../components/answering-view';
 import { PlayerScores } from '../components/player-scores';
 import { PreTurnView } from '../components/pre-turn-view';
 import { ReadingView } from '../components/reading-view';
-
 import { RoundInfo } from '../components/round-info';
 import { Button } from '../components/ui/button';
 import { Card } from '../components/ui/card';
@@ -70,25 +69,23 @@ export function GameplayPage() {
   };
 
   const currentPlayer = players[turnState?.currentPlayerId || ''];
-  const [timeLeft, setTimeLeft] = useState(settings.timePerTurn);
+
+  // Derived time left — no useState needed since turnTimerEndsAt is in store
+  const timeLeft = state.turnTimerEndsAt
+    ? Math.max(0, Math.ceil((state.turnTimerEndsAt - Date.now()) / 1000))
+    : settings.timePerTurn;
+
+  // Force re-render every 500ms while timer is active so timeLeft stays current
+  const [, forceUpdate] = useReducer(x => x + 1, 0);
 
   useEffect(() => {
-    if (state.turnTimerEndsAt) {
-      const interval = setInterval(() => {
-        const remaining = Math.max(0, Math.ceil((state.turnTimerEndsAt! - Date.now()) / 1000));
-        setTimeLeft(remaining);
-      }, 500);
+    if (!state.turnTimerEndsAt)
+      return;
 
-      return () => clearInterval(interval);
-    }
-    else {
-      // Safe state synchronization: `timeLeft` is not a dependency of this effect,
-      // so this update cannot cause a feedback loop or re-run.
-      // eslint-disable-next-line react-hooks-extra/no-direct-set-state-in-use-effect
-      setTimeLeft(settings.timePerTurn);
-    }
-  }, [state.turnTimerEndsAt, settings.timePerTurn]);
-
+    const interval = setInterval(forceUpdate, 500);
+    return () => clearInterval(interval);
+  }, [state.turnTimerEndsAt]);
+  
   const gamePhase = useMemo(() => {
     if (votingState?.isVoting)
       return 'voting';
@@ -116,7 +113,6 @@ export function GameplayPage() {
             player_id: currentPlayer.id,
           });
 
-          // Check if any player has reached the points to win
           const maxScore = Math.max(...Object.values(players).map(p => p.score));
           if (maxScore >= settings.pointsToWin) {
             trackGameComplete({
@@ -141,7 +137,7 @@ export function GameplayPage() {
 
       processVotingEnd();
     }
-  }, [isVotingFinished, currentPlayer.id, turnState, tallyVotes, endGame, currentPlayer, players, settings.pointsToWin, trackTurnComplete, trackGameComplete]);
+  }, [isVotingFinished, currentPlayer, turnState, tallyVotes, endGame, players, settings.pointsToWin, trackTurnComplete, trackGameComplete]);
 
   const handleStartTurn = useCallback(async () => {
     trackTurnStart({

@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useSession } from '@/hooks/auth-hooks';
-//TODO: update these to work in all games
+// TODO: update these to work in all games
 import { Button } from '../../games/five-seconds/components/ui/button';
 import { Input } from '../../games/five-seconds/components/ui/input';
 import { Label } from '../../games/five-seconds/components/ui/label';
