@@ -5,8 +5,6 @@ import type {
   FiveSecondsGameState,
   LoadQuestionsAction,
   SetQuestionAction,
-  StartReadingTimerAction,
-  StartTurnTimerAction,
 } from './schema';
 import { logger } from '../logger';
 
@@ -240,107 +238,6 @@ export function createFetchQuestionsEffect(): GameEffect {
   };
 }
 
-export function createTimerEffect(): GameEffect {
-  let localTimerId: ReturnType<typeof setTimeout> | undefined;
-
-  return async (
-    ctx: GameEffectContext,
-  ): Promise<StartTurnTimerAction | StartReadingTimerAction | null> => {
-    const action = ctx.action as FiveSecondsAction;
-    const gameState = ctx.state as FiveSecondsGameState;
-    const isServer = !!ctx.ctx?.storage;
-
-    const stopTimerActions = ['START_VOTING', 'NEXT_TURN', 'END_GAME', 'RESET_GAME', 'TALLY_VOTES'];
-    if (stopTimerActions.includes(action.type)) {
-      logger.debug(`[TimerEffect] Stopping timer due to: ${action.type}`);
-
-      if (isServer) {
-        await ctx.ctx.storage.deleteAlarm();
-      }
-      else if (localTimerId) {
-        clearTimeout(localTimerId);
-        localTimerId = undefined;
-      }
-
-      return null;
-    }
-
-    // Start reading timer on START_TURN
-    if (action.type === 'START_TURN') {
-      const readingDuration = gameState.readingTime * 1000;
-      const endsAt = Date.now() + readingDuration;
-      const currentDispatch = ctx.dispatch;
-
-      logger.debug(`[TimerEffect] Starting reading timer for ${readingDuration}ms (${isServer ? 'SERVER' : 'LOCAL'})`);
-
-      if (isServer) {
-        await ctx.ctx.storage.setAlarm(endsAt);
-      }
-      else {
-        if (localTimerId) {
-          clearTimeout(localTimerId);
-        }
-
-        localTimerId = setTimeout(async () => {
-          logger.debug('[TimerEffect] Reading timer expired, dispatching START_ANSWERING');
-
-          if (currentDispatch) {
-            await currentDispatch({ type: 'START_ANSWERING' });
-          }
-          else {
-            logger.error('[TimerEffect] No dispatch function available in local mode!');
-          }
-
-          localTimerId = undefined;
-        }, readingDuration);
-      }
-
-      return {
-        type: 'START_READING_TIMER',
-        payload: { endsAt },
-      };
-    }
-
-    // Start answering timer on START_ANSWERING
-    if (action.type === 'START_ANSWERING') {
-      const turnDuration = gameState.settings.timePerTurn * 1000;
-      const endsAt = Date.now() + turnDuration;
-      const currentDispatch = ctx.dispatch;
-
-      logger.debug(`[TimerEffect] Starting answering timer for ${turnDuration}ms (${isServer ? 'SERVER' : 'LOCAL'})`);
-
-      if (isServer) {
-        await ctx.ctx.storage.setAlarm(endsAt);
-      }
-      else {
-        if (localTimerId) {
-          clearTimeout(localTimerId);
-        }
-
-        localTimerId = setTimeout(async () => {
-          logger.debug('[TimerEffect] Answering timer expired, dispatching TIMES_UP');
-
-          if (currentDispatch) {
-            await currentDispatch({ type: 'TIMES_UP' });
-          }
-          else {
-            logger.error('[TimerEffect] No dispatch function available in local mode!');
-          }
-
-          localTimerId = undefined;
-        }, turnDuration);
-      }
-
-      return {
-        type: 'START_TURN_TIMER',
-        payload: { endsAt },
-      };
-    }
-
-    return null;
-  };
-}
-
 export function createFiveSecondsEffects(): GameEffect[] {
-  return [createFetchQuestionsEffect(), createTimerEffect()];
+  return [createFetchQuestionsEffect()];
 }

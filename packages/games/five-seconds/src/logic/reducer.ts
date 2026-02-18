@@ -30,6 +30,9 @@ export function fiveSecondsGameReducer(
     case 'END_GAME':
       return produce(state, clearEphemeralState);
 
+    case 'RESET_GAME':
+      return produce(state, clearEphemeralState);
+
     case 'ADD_SEEN_QUESTION_ID':
       return produce(state, (draft) => {
         addSeenQuestionId(draft, action.payload);
@@ -95,6 +98,11 @@ export function fiveSecondsGameReducer(
     case 'TIMES_UP':
       return produce(state, (draft) => {
         timesUp(draft);
+      });
+
+    case 'SUB_PHASE_TIMER_STARTED':
+      return produce(state, (draft) => {
+        draft.turnTimerEndsAt = action.payload.endsAt;
       });
 
     case 'FETCH_QUESTIONS_ERROR':

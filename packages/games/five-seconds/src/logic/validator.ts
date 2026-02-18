@@ -98,12 +98,20 @@ export function validateFiveSecondsAction(
       break;
     case 'START_GAME':
     case 'END_GAME':
-    case 'RESET_GAME':
     case 'SET_PHASE':
       // These are always allowed (host permissions checked elsewhere if needed)
       break;
 
-    // Effect-triggered actions - always allowed (server-side only)
+    case 'RESET_GAME':
+      // Only host can reset the game
+      if (playerId && state.players[playerId] && !state.players[playerId].isHost) {
+        return {
+          valid: false,
+          reason: 'Only the host can reset the game',
+        };
+      }
+      break;
+      // Effect-triggered actions - always allowed (server-side only)
     case 'TIMES_UP':
     case 'LOAD_QUESTIONS':
     case 'SET_QUESTION':

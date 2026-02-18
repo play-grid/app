@@ -1,10 +1,10 @@
-import { createGameDefinition, registerGame } from '@guess-logo/game-core';
+import { createGameDefinition, createSubPhaseTimerEffect, registerGame } from '@guess-logo/game-core';
 import { createFiveSecondsEffects } from './logic/effect-handlers';
 import { fiveSecondsGameReducer } from './logic/reducer';
 import { FiveSecondsActionSchema, FiveSecondsGameStateSchema } from './logic/schema';
+import { fiveSecondsSubPhases } from './logic/sub-phases';
 import { validateFiveSecondsAction } from './logic/validator';
 
-// Feature flag to disable custom questions functionality entirely
 export const ENABLE_CUSTOM_QUESTIONS_FEATURE = false;
 
 export const fiveSecondsGame = createGameDefinition({
@@ -47,4 +47,7 @@ export const fiveSecondsGame = createGameDefinition({
   customReducer: fiveSecondsGameReducer,
 });
 
-registerGame(fiveSecondsGame, createFiveSecondsEffects);
+registerGame(fiveSecondsGame, () => [
+  ...createFiveSecondsEffects(),
+  createSubPhaseTimerEffect(fiveSecondsSubPhases),
+]);
