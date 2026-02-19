@@ -23,9 +23,7 @@ export class NativeWSClient<
 
   constructor(config: NativeWSClientAdapterConfig<TStateSchema, TActionSchema>) {
     this.config = config;
-    logger.info(`[NativeWSClient] Constructor called for URL: ${config.websocketUrl}`);
     this.currentState = config.initialState;
-    logger.info({ websocketUrl: config.websocketUrl }, '[NativeWSClient] Connecting to');
     this.websocket = new WebSocket(config.websocketUrl);
 
     this.websocket.addEventListener('open', () => {

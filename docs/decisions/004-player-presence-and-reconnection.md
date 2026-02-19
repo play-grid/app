@@ -1,8 +1,8 @@
-# ADR 003: Player Presence and Reconnection
+# ADR 004: Player Presence and Reconnection
 
-**Status:** Proposed  
-**Date:** Feb 18, 2026  
-**Author:** TBD
+**Status:** OBSOLETE
+**Date:** Feb 18, 2026
+**Resolution:** The root cause was premature WebSocket closure due to React component lifecycle issues, not player presence/credential problems. See [Problem 005](../problems/005-websocket-premature-closure.md) for the actual fix.
 
 ---
 

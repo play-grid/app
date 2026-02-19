@@ -2,10 +2,10 @@ import type { ReactNode } from 'react';
 import type z from 'zod';
 import { difficultySchema, fiveSecondsGame, FiveSecondsGameStateSchema } from '@guess-logo/five-seconds';
 import { AdapterProvider } from '@guess-logo/game-core';
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import { Outlet, useSearchParams } from 'react-router-dom';
 import { useRoomSession } from '@/features/room/room-store';
-import { destroyAdapter, getOrCreateAdapter } from '@/lib/adapter-instance';
+import { getOrCreateAdapter } from '@/lib/adapter-instance';
 import './index.css';
 
 export function FiveSecondsLayout({ children }: { children?: ReactNode }) {
@@ -85,12 +85,6 @@ export function FiveSecondsLayout({ children }: { children?: ReactNode }) {
       identifier,
     );
   }, [roomId, mode, session, validatedInitialState]);
-
-  useEffect(() => {
-    return () => {
-      destroyAdapter();
-    };
-  }, []);
 
   return (
     <AdapterProvider adapter={adapter}>

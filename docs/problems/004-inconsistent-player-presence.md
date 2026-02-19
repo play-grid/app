@@ -1,10 +1,14 @@
 # Problem: Inconsistent Player Presence and Room Membership Behavior During Connection Interruptions
 
-**Status:** Identified
+**Status:** SUPERSEDED
 **Date:** Feb 18, 2026
-**Related Issues:**
-- [System Context](./SYSTEM_CONTEXT.md) - Durable Objects as authoritative session manager
-- [Constraint: game-core Must Be Agnostic](./CONSTRAINTS/game-core-agnostic.md) - Platform vs game logic separation
+**Resolution:** The actual issue was caused by premature WebSocket closure due to React component lifecycle problems. See [Problem 005: WebSocket Connections Closed Prematurely](./005-websocket-premature-closure.md) for the root cause and fix.
+
+This document described a different set of symptoms (ghost players, credential expiration) that were not the actual cause of the connection failures. The three-layer architecture described here remains valid design, but the immediate problem was simpler.
+
+---
+
+**Original Problem Description (archived for reference):**
 
 ---
 
