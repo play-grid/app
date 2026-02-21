@@ -3,6 +3,7 @@ import { ArrowLeft, RotateCcw } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAnalytics } from '@/hooks/use-analytics';
+import { useIsCurrentUser } from '@/features/room/use-player-identity';
 import { AnsweringView } from '../components/answering-view';
 import { PlayerScores } from '../components/player-scores';
 import { PreTurnView } from '../components/pre-turn-view';
@@ -85,7 +86,9 @@ export function GameplayPage() {
     const interval = setInterval(forceUpdate, 500);
     return () => clearInterval(interval);
   }, [state.turnTimerEndsAt]);
-  
+
+  const isCurrentUserTurn = useIsCurrentUser(currentPlayer?.id || '');
+
   const gamePhase = useMemo(() => {
     if (votingState?.isVoting)
       return 'voting';
@@ -301,7 +304,7 @@ export function GameplayPage() {
                       </div>
                     )
                   : gamePhase === 'pre-turn' && question && isValidQuestion(question)
-                    ? <PreTurnView currentPlayerName={currentPlayer?.name || ''} onStartTurn={handleStartTurn} />
+                    ? <PreTurnView currentPlayerName={currentPlayer?.name || ''} onStartTurn={handleStartTurn} isCurrentUserTurn={isCurrentUserTurn} />
                     : gamePhase === 'reading' && question && isValidQuestion(question)
                       ? <ReadingView currentQuestion={question} />
                       : gamePhase === 'voting' && !isVotingFinished && question && isValidQuestion(question) && votingState

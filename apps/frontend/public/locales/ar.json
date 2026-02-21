@@ -270,6 +270,7 @@
       "playerTurn": "دور {{name}}",
       "getReady": "استعد للإجابة!",
       "startTurn": "ابدأ الدور",
+      "waitingForPlayerTurn": "انتظار دور {{name}}...",
       "nameThree": "عدد ثلاثة",
       "round": "الجولة {{number}}",
       "pleaseVote": "{{name}}، من فضلك قم بالتصويت!",

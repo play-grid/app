@@ -1,8 +1,7 @@
 import type { FiveSecondsPlayer, Question, VotingState } from '@guess-logo/five-seconds';
 import { Clock, ThumbsDown, ThumbsUp, Users } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { useRoomSession } from '@/features/room/room-store';
-import { useGameMode } from '@/hooks/use-game-mode';
+import { useIsCurrentUser } from '@/features/room/use-player-identity';
 import { QuestionInfo } from './question-info';
 import { Button } from './ui/button';
 import { Progress } from './ui/progress';
@@ -23,10 +22,8 @@ export function VotingView({
   onVote,
 }: VotingViewProps) {
   const { t } = useTranslation();
-  const { session } = useRoomSession();
-  const { isMultiplayer } = useGameMode();
   const votingProgress = (votingState.votes.length / votingState.voters.length) * 100;
-  const isCurrentUserVoter = !isMultiplayer || (currentVoter && session?.playerId === currentVoter.id);
+  const isCurrentUserVoter = useIsCurrentUser(currentVoter?.id || '');
 
   return (
     <div className="space-y-8">

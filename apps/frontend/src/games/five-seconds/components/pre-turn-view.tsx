@@ -5,9 +5,10 @@ import { Button } from './ui/button';
 interface PreTurnViewProps {
   currentPlayerName: string;
   onStartTurn: () => void;
+  isCurrentUserTurn: boolean;
 }
 
-export function PreTurnView({ currentPlayerName, onStartTurn }: PreTurnViewProps) {
+export function PreTurnView({ currentPlayerName, onStartTurn, isCurrentUserTurn }: PreTurnViewProps) {
   const { t } = useTranslation();
   return (
     <div className="text-center space-y-6">
@@ -15,12 +16,18 @@ export function PreTurnView({ currentPlayerName, onStartTurn }: PreTurnViewProps
         <h2 className="text-3xl font-bold">
           {t('fiveSecondsGame.gameplay.playerTurn', { name: currentPlayerName })}
         </h2>
-        <p className="text-muted-foreground">{t('fiveSecondsGame.gameplay.getReady')}</p>
+        <p className="text-muted-foreground">
+          {isCurrentUserTurn
+            ? t('fiveSecondsGame.gameplay.getReady')
+            : t('fiveSecondsGame.gameplay.waitingForPlayerTurn', { name: currentPlayerName })}
+        </p>
       </div>
-      <Button size="lg" onClick={onStartTurn} className="text-xl px-8 py-6">
-        {t('fiveSecondsGame.gameplay.startTurn')}
-        <ArrowRight className="w-6 h-6 ml-2" />
-      </Button>
+      {isCurrentUserTurn && (
+        <Button size="lg" onClick={onStartTurn} className="text-xl px-8 py-6">
+          {t('fiveSecondsGame.gameplay.startTurn')}
+          <ArrowRight className="w-6 h-6 ml-2" />
+        </Button>
+      )}
     </div>
   );
 }

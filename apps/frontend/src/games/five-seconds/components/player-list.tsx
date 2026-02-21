@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import { z } from 'zod';
 import { useRoomPermissions } from '@/context/room-permissions';
-import { useRoomSession } from '@/features/room/room-store';
+import { useCurrentUserId } from '@/features/room/use-player-identity';
 import { useGameMode } from '@/hooks/use-game-mode';
 import { cn } from '@/lib/utils';
 import { Badge } from './ui/badge';
@@ -33,7 +33,8 @@ export function PlayerList() {
   const { players } = useFiveSecondsState();
   const { addPlayer, removePlayer } = useFiveSecondsActions();
   const permissions = useRoomPermissions(players);
-  const { session } = useRoomSession();
+  const { isMultiplayer } = useGameMode();
+  const currentUserId = useCurrentUserId();
 
   const [playerName, setPlayerName] = useState('');
   const [exiting, setExiting] = useState<string[]>([]);
@@ -41,7 +42,10 @@ export function PlayerList() {
 
   const [validationError, setValidationError] = useState<string>('');
 
-  const { isMultiplayer } = useGameMode();
+  const isNotCurrentUser = (playerId: string) => {
+    if (!isMultiplayer) return false;
+    return playerId !== currentUserId;
+  };
 
   const validatePlayerName = (name: string): boolean => {
     const playerNameSchema = createPlayerNameSchema(t);
@@ -236,7 +240,7 @@ export function PlayerList() {
                     </div>
                   </div>
 
-                  {(!isMultiplayer || (permissions.canKickPlayers && player.id !== session?.playerId)) && (
+                  {(permissions.canKickPlayers && isNotCurrentUser(player.id)) && (
                     <Button
                       size="sm"
                       variant="destructive"
@@ -248,7 +252,7 @@ export function PlayerList() {
                     </Button>
                   )}
 
-                  {!permissions.canKickPlayers && isMultiplayer && player.id !== session?.playerId && (
+                  {!permissions.canKickPlayers && isNotCurrentUser(player.id) && (
                     <Button
                       size="sm"
                       variant="outline"

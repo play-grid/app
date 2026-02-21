@@ -270,6 +270,7 @@
       "playerTurn": "{{name}}'s Turn",
       "getReady": "Get ready to answer!",
       "startTurn": "Start Turn",
+      "waitingForPlayerTurn": "Waiting for {{name}} to start their turn...",
       "nameThree": "Name three",
       "round": "Round {{number}}",
       "pleaseVote": "{{name}}, please vote!",
