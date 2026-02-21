@@ -21,6 +21,21 @@ export const initGameSessionSchema = z.object({
 export const joinGameSessionSchema = z.object({
   playerName: z.string().min(1).max(25),
   playerId: z.string().optional(),
+  inviteToken: z.string().optional(),
+});
+
+/**
+ * Schema for generating an invite token (DO internal API)
+ */
+export const generateInviteSchema = z.object({
+  expiresInMinutes: z.number().int().min(1).max(168).optional(),
+});
+
+/**
+ * Schema for revoking an invite token (DO internal API)
+ */
+export const revokeInviteSchema = z.object({
+  inviteToken: z.string(),
 });
 
 // RESPONSE SCHEMAS (Output from DO endpoints)
@@ -76,6 +91,32 @@ export const validateCredentialsResponseSchema = z.object({
 });
 
 /**
+ * Schema for Durable Object generate invite response (/generate-invite endpoint)
+ */
+export const generateInviteResponseSchema = z.object({
+  inviteToken: z.string(),
+  inviteUrl: z.string(),
+  expiresAt: z.string(),
+  expiresInMinutes: z.number().int(),
+});
+
+/**
+ * Schema for Durable Object validate invite response (/validate-invite endpoint)
+ */
+export const validateInviteResponseSchema = z.object({
+  valid: z.boolean(),
+  roomId: z.string().optional(),
+  expiresAt: z.string().optional(),
+});
+
+/**
+ * Schema for Durable Object revoke invite response (/revoke-invite endpoint)
+ */
+export const revokeInviteResponseSchema = z.object({
+  success: z.boolean(),
+});
+
+/**
  * Schema for DO error responses
  */
 export const gameSessionErrorSchema = z.object({
@@ -87,10 +128,15 @@ export const gameSessionErrorSchema = z.object({
 // Request types
 export type InitGameSessionInput = z.infer<typeof initGameSessionSchema>;
 export type JoinGameSessionInput = z.infer<typeof joinGameSessionSchema>;
+export type GenerateInviteInput = z.infer<typeof generateInviteSchema>;
+export type RevokeInviteInput = z.infer<typeof revokeInviteSchema>;
 
 // Response types
 export type InitGameSessionResponse = z.infer<typeof initGameSessionResponseSchema>;
 export type JoinGameSessionResponse = z.infer<typeof joinGameSessionResponseSchema>;
 export type GameSessionStatsResponse = z.infer<typeof gameSessionStatsResponseSchema>;
 export type ValidateCredentialsResponse = z.infer<typeof validateCredentialsResponseSchema>;
+export type GenerateInviteResponse = z.infer<typeof generateInviteResponseSchema>;
+export type ValidateInviteResponse = z.infer<typeof validateInviteResponseSchema>;
+export type RevokeInviteResponse = z.infer<typeof revokeInviteResponseSchema>;
 export type GameSessionError = z.infer<typeof gameSessionErrorSchema>;

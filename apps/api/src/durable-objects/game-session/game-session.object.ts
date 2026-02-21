@@ -10,7 +10,14 @@ import { ZodError } from 'zod';
 import { logger } from '@/utils/logger';
 import { GameSessionManager } from './game-session.manager';
 import { createGameSessionRouter } from './game-session.router';
-import { initGameSessionSchema, joinGameSessionSchema } from './schemas';
+import {
+  generateInviteResponseSchema,
+  generateInviteSchema,
+  initGameSessionSchema,
+  joinGameSessionSchema,
+  revokeInviteSchema,
+  validateInviteResponseSchema,
+} from './schemas';
 import '../../games';
 
 export interface GameSessionMetadata {
@@ -73,6 +80,18 @@ export class GameSessionObject extends DurableObject<AppEnv['Bindings']> {
 
     if (url.pathname === '/validate-credentials') {
       return this.handleValidateCredentials(request);
+    }
+
+    if (url.pathname === '/generate-invite') {
+      return this.handleGenerateInvite(request);
+    }
+
+    if (url.pathname === '/validate-invite') {
+      return this.handleValidateInvite(request);
+    }
+
+    if (url.pathname === '/revoke-invite') {
+      return this.handleRevokeInvite(request);
     }
 
     return new Response('Not found', { status: 404 });
@@ -378,12 +397,26 @@ export class GameSessionObject extends DurableObject<AppEnv['Bindings']> {
 
       await this.ctx.storage.put('state', this.manager.getState());
 
+      const inviteToken = crypto.randomUUID();
+      const inviteExpiresInMinutes = 60;
+      const inviteExpiresAt = Date.now() + inviteExpiresInMinutes * 60 * 1000;
+      const inviteData = {
+        roomId: this.metadata.roomId,
+        expiresAt: inviteExpiresAt,
+        createdAt: Date.now(),
+        createdBy: this.metadata.createdBy,
+      };
+      await this.ctx.storage.put(`invites:${inviteToken}`, inviteData);
+
       return new Response(
         JSON.stringify({
           success: true,
           roomId: this.metadata.roomId,
           hostPlayer,
           credentials,
+          inviteToken,
+          inviteExpiresInMinutes,
+          inviteExpiresAt,
           currentState: this.manager.getState(),
         }),
         { headers: { 'Content-Type': 'application/json' } },
@@ -429,6 +462,29 @@ export class GameSessionObject extends DurableObject<AppEnv['Bindings']> {
           JSON.stringify({ error: 'Room is full' }),
           { status: 400 },
         );
+      }
+
+      const inviteToken = validatedInput.inviteToken;
+      if (inviteToken) {
+        const inviteData = await this.ctx.storage.get<{ roomId: string; expiresAt: number; createdAt: number; createdBy?: string }>(`invites:${inviteToken}`);
+        if (!inviteData) {
+          return new Response(
+            JSON.stringify({ error: 'Invalid invite token' }),
+            { status: 400 },
+          );
+        }
+        if (inviteData.expiresAt < Date.now()) {
+          return new Response(
+            JSON.stringify({ error: 'Expired invite token' }),
+            { status: 400 },
+          );
+        }
+        if (inviteData.roomId !== this.metadata.roomId) {
+          return new Response(
+            JSON.stringify({ error: 'Invite token does not match this room' }),
+            { status: 400 },
+          );
+        }
       }
 
       const playerId = validatedInput.playerId || crypto.randomUUID();
@@ -571,6 +627,173 @@ export class GameSessionObject extends DurableObject<AppEnv['Bindings']> {
       logger.error(error, '[GameSessionObject] Validate credentials error:');
       return new Response(
         JSON.stringify({ error: 'Failed to validate credentials' }),
+        { status: 500 },
+      );
+    }
+  }
+
+  /**
+   * Generate a new invite token for the room
+   */
+  private async handleGenerateInvite(request: Request): Promise<Response> {
+    try {
+      await this.ensureInitialized();
+
+      if (!this.metadata || !this.manager) {
+        return new Response(
+          JSON.stringify({ error: 'Room not found' }),
+          { status: 404 },
+        );
+      }
+
+      const body = await request.json();
+      const validatedInput = generateInviteSchema.parse(body);
+
+      const inviteToken = crypto.randomUUID();
+      const inviteExpiresInMinutes = validatedInput.expiresInMinutes || 60;
+      const inviteExpiresAt = Date.now() + inviteExpiresInMinutes * 60 * 1000;
+
+      const inviteData = {
+        roomId: this.metadata.roomId,
+        expiresAt: inviteExpiresAt,
+        createdAt: Date.now(),
+        createdBy: this.metadata.createdBy,
+      };
+      await this.ctx.storage.put(`invites:${inviteToken}`, inviteData);
+
+      const apiUrl = this.env?.API_URL || this.env?.API_URL?.replace('/api', '') || 'http://localhost:5173';
+      const inviteUrl = `${apiUrl}/${this.metadata.gameType}?mode=multiplayer&invite=${inviteToken}`;
+
+      const response = {
+        inviteToken,
+        inviteUrl,
+        expiresAt: new Date(inviteExpiresAt).toISOString(),
+        expiresInMinutes: inviteExpiresInMinutes,
+      };
+
+      return new Response(
+        JSON.stringify(response),
+        { headers: { 'Content-Type': 'application/json' } },
+      );
+    }
+    catch (error) {
+      logger.error(error, '[GameSessionObject] Generate invite error:');
+      if (error instanceof ZodError) {
+        return new Response(
+          JSON.stringify({ error: 'Invalid request data', details: error.issues }),
+          { status: 400 },
+        );
+      }
+      return new Response(
+        JSON.stringify({ error: 'Failed to generate invite' }),
+        { status: 500 },
+      );
+    }
+  }
+
+  /**
+   * Validate an invite token
+   */
+  private async handleValidateInvite(request: Request): Promise<Response> {
+    try {
+      await this.ensureInitialized();
+
+      if (!this.metadata || !this.manager) {
+        return new Response(
+          JSON.stringify({ error: 'Room not found' }),
+          { status: 404 },
+        );
+      }
+
+      const url = new URL(request.url);
+      const inviteToken = url.searchParams.get('token');
+
+      if (!inviteToken) {
+        return new Response(
+          JSON.stringify({ error: 'Missing invite token' }),
+          { status: 400 },
+        );
+      }
+
+      const inviteData = await this.ctx.storage.get<{ roomId: string; expiresAt: number; createdAt: number; createdBy?: string }>(`invites:${inviteToken}`);
+
+      if (!inviteData) {
+        return new Response(
+          JSON.stringify({ valid: false }),
+          { headers: { 'Content-Type': 'application/json' } },
+        );
+      }
+
+      if (inviteData.expiresAt < Date.now()) {
+        return new Response(
+          JSON.stringify({ valid: false }),
+          { headers: { 'Content-Type': 'application/json' } },
+        );
+      }
+
+      const response = {
+        valid: true,
+        roomId: inviteData.roomId,
+        expiresAt: new Date(inviteData.expiresAt).toISOString(),
+      };
+
+      return new Response(
+        JSON.stringify(response),
+        { headers: { 'Content-Type': 'application/json' } },
+      );
+    }
+    catch (error) {
+      logger.error(error, '[GameSessionObject] Validate invite error:');
+      return new Response(
+        JSON.stringify({ error: 'Failed to validate invite' }),
+        { status: 500 },
+      );
+    }
+  }
+
+  /**
+   * Revoke an invite token
+   */
+  private async handleRevokeInvite(request: Request): Promise<Response> {
+    try {
+      await this.ensureInitialized();
+
+      if (!this.metadata || !this.manager) {
+        return new Response(
+          JSON.stringify({ error: 'Room not found' }),
+          { status: 404 },
+        );
+      }
+
+      const body = await request.json();
+      const validatedInput = revokeInviteSchema.parse(body);
+
+      const inviteData = await this.ctx.storage.get(`invites:${validatedInput.inviteToken}`);
+
+      if (!inviteData) {
+        return new Response(
+          JSON.stringify({ success: false, error: 'Invite token not found' }),
+          { status: 404, headers: { 'Content-Type': 'application/json' } },
+        );
+      }
+
+      await this.ctx.storage.delete(`invites:${validatedInput.inviteToken}`);
+
+      return new Response(
+        JSON.stringify({ success: true }),
+        { headers: { 'Content-Type': 'application/json' } },
+      );
+    }
+    catch (error) {
+      logger.error(error, '[GameSessionObject] Revoke invite error:');
+      if (error instanceof ZodError) {
+        return new Response(
+          JSON.stringify({ error: 'Invalid request data', details: error.issues }),
+          { status: 400 },
+        );
+      }
+      return new Response(
+        JSON.stringify({ error: 'Failed to revoke invite' }),
         { status: 500 },
       );
     }
