@@ -1,158 +1,90 @@
-/* TODO : ,STILL NOT FINISHED */
-
-/*
-   Pixel Dialog Animations
-   Philosophy:
-   - Snap, not smooth
-   - Steps, not easing
-   - No scale, no blur, no filters
-   - Frame-based thinking
-   Overlay
-*/
+/* ─── Overlay ─── */
 
 [data-slot='dialog-overlay'] {
-  animation: pixel-overlay-in 80ms steps(1);
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+  animation: overlay-in 150ms steps(3) forwards;
 }
 
-@keyframes pixel-overlay-in {
-  0% {
-    opacity: 0;
-  }
-  100% {
+@keyframes overlay-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Closed state: let animation run, then hide */
+[data-slot='dialog-overlay'][data-state='closed'] {
+  animation: overlay-out 120ms steps(3) forwards;
+  /* NO display: none here! */
+}
+
+@keyframes overlay-out {
+  from { 
     opacity: 1;
+    pointer-events: auto;
+  }
+  to   { 
+    opacity: 0;
+    pointer-events: none;  /* Prevent clicks after hidden */
   }
 }
 
-/*   Dialog Content – Open
-*/
+/* ─── Content ─── */
 
 [data-slot='dialog-content'] {
-  animation: pixel-content-pop 120ms steps(1);
+  position: relative;
+  left: unset;
+  top: unset;
+  transform: none;
+  animation: dialog-open 120ms steps(5) forwards;
 }
 
-@keyframes pixel-content-pop {
-  0% {
-    opacity: 0;
-    transform: translate(-50%, calc(-50% + 8px));
-  }
-  100% {
-    opacity: 1;
-    transform: translate(-50%, -50%);
-  }
+@keyframes dialog-open {
+  0%   { transform: scaleY(0.01); }
+  25%  { transform: scaleY(0.30); }
+  50%  { transform: scaleY(0.60); }
+  75%  { transform: scaleY(0.80); }
+  100% { transform: scaleY(1.00); }
 }
-
-/*   Dialog Content – Close
-*/
 
 [data-slot='dialog-content'][data-state='closed'] {
-  animation: pixel-content-kill 90ms steps(1) forwards;
+  animation: dialog-close 120ms steps(5) forwards;
 }
 
-@keyframes pixel-content-kill {
-  0% {
-    opacity: 1;
-    transform: translate(-50%, -50%);
-  }
-  100% {
-    opacity: 0;
-    transform: translate(-50%, calc(-50% - 8px));
-  }
+@keyframes dialog-close {
+  0%   { transform: scaleY(1.00); }
+  25%  { transform: scaleY(0.80); }
+  50%  { transform: scaleY(0.60); }
+  75%  { transform: scaleY(0.30); }
+  100% { transform: scaleY(0.01); }
 }
 
-/*   Micro Jitter (Utility)
-   Use on:
-   - wrong answer
-   - timer end
-   - warning states
-*/
+/* ─── Inner: counter-scale ─── */
 
-.pixel-jitter {
-  animation: pixel-jitter 60ms steps(1);
+[data-slot='dialog-inner'] {
+  transform-origin: center center;
+  animation: inner-open 120ms steps(5) forwards;
 }
 
-@keyframes pixel-jitter {
-  0% {
-    transform: translate(-50%, -50%);
-  }
-  50% {
-    transform: translate(calc(-50% + 1px), -50%);
-  }
-  100% {
-    transform: translate(-50%, -50%);
-  }
+@keyframes inner-open {
+  0%   { transform: scaleY(100); }
+  25%  { transform: scaleY(3.50); }
+  50%  { transform: scaleY(1.67); }
+  75%  { transform: scaleY(1.25); }
+  100% { transform: scaleY(1.00); }
 }
 
-/*   Flicker (Utility)
-   Use on:
-   - question appear
-   - reveal moment
-*/
-
-.pixel-flicker {
-  animation: pixel-flicker 90ms steps(1);
+[data-slot='dialog-content'][data-state='closed'] [data-slot='dialog-inner'] {
+  animation: inner-close 120ms steps(5) forwards;
 }
 
-@keyframes pixel-flicker {
-  0% {
-    opacity: 0;
-  }
-  40% {
-    opacity: 1;
-  }
-  60% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
+@keyframes inner-close {
+  0%   { transform: scaleY(1.00); }
+  25%  { transform: scaleY(1.25); }
+  50%  { transform: scaleY(1.67); }
+  75%  { transform: scaleY(3.50); }
+  100% { transform: scaleY(100); }
 }
-
-/*   Shake (Error Feedback)
-*/
-
-.pixel-shake {
-  animation: pixel-shake 80ms steps(1);
-}
-
-@keyframes pixel-shake {
-  0% {
-    transform: translate(-50%, -50%);
-  }
-  25% {
-    transform: translate(calc(-50% - 2px), -50%);
-  }
-  50% {
-    transform: translate(calc(-50% + 2px), -50%);
-  }
-  75% {
-    transform: translate(calc(-50% - 1px), -50%);
-  }
-  100% {
-    transform: translate(-50%, -50%);
-  }
-}
-
-/*   Freeze Effect
-   Use by toggling class briefly (100ms)
-*/
-
-.pixel-freeze {
-  animation: pixel-freeze 100ms steps(1);
-}
-
-@keyframes pixel-freeze {
-  0% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-/*
-   Notes:
-   - Do NOT add easing
-   - Do NOT add scale()
-   - Keep movements <= 8px
-   - Use classes sparingly, timing is the magic
-   */

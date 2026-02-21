@@ -1,30 +1,19 @@
 import { cn } from '@guess-logo/ui';
-import {
-  Dialog as PrimitiveDialog,
-  DialogClose as PrimitiveDialogClose,
-  DialogContent as PrimitiveDialogContent,
-  DialogDescription as PrimitiveDialogDescription,
-  DialogFooter as PrimitiveDialogFooter,
-  DialogHeader as PrimitiveDialogHeader,
-  DialogOverlay as PrimitiveDialogOverlay,
-  DialogPortal as PrimitiveDialogPortal,
-  DialogTitle as PrimitiveDialogTitle,
-  DialogTrigger as PrimitiveDialogTrigger,
-} from '@guess-logo/ui/dialog';
+import * as DialogPrimitive from '@radix-ui/react-dialog';
 import { X } from 'lucide-react';
 import * as React from 'react';
-// TODO: import './dialog-animations.css';
+import './dialog-animations.css';
 
-// Re-exporting these directly to avoid name collisions and logic duplication
-export const Dialog = PrimitiveDialog;
-export const DialogTrigger = PrimitiveDialogTrigger;
-export const DialogPortal = PrimitiveDialogPortal;
-export const DialogClose = PrimitiveDialogClose;
-
-export function DialogOverlay({ className, ...props }: React.ComponentProps<typeof PrimitiveDialogOverlay>) {
+export function DialogOverlay({ className, ...props }: React.ComponentProps<typeof DialogPrimitive.Overlay>) {
   return (
-    <PrimitiveDialogOverlay
-      className={cn('bg-foreground backdrop-blur-[2px] ', className)}
+    <DialogPrimitive.Overlay
+      data-slot="dialog-overlay"
+      className={cn(
+        // Overlay owns centering — fixed, full viewport, flex center
+        'fixed inset-0 z-50 flex items-center justify-center',
+        'bg-foreground/20 backdrop-blur-[1px]',
+        className,
+      )}
       {...props}
     />
   );
@@ -35,63 +24,71 @@ export function DialogContent({
   children,
   showCloseButton = true,
   ...props
-}: React.ComponentProps<typeof PrimitiveDialogContent> & {
+}: React.ComponentProps<typeof DialogPrimitive.Content> & {
   showCloseButton?: boolean;
 }) {
   return (
-    <PrimitiveDialogContent
-      data-slot="dialog-content"
-      className={cn(
-        'bg-popover text-popover-foreground p-6',
-        'shadow-xl border-none',
-        className,
-      )}
-      {...props}
-    >
-      {children}
-      {showCloseButton && (
-        <PrimitiveDialogClose
-          data-slot="dialog-close"
-          className="pixel-destructive shadow-md absolute top-4 right-4 p-1 cursor-pointer rtl:right-auto rtl:left-4"
+    <DialogPrimitive.Portal>
+      <DialogOverlay>
+        <DialogPrimitive.Content
+          data-slot="dialog-content"
+          className={cn(
+            'relative z-50',
+            'w-full max-w-[calc(100%-2rem)] sm:max-w-lg',
+            'bg-popover text-popover-foreground',
+            'shadow-xl',
+            className,
+          )}
+          {...props}
         >
-          <X className="h-4 w-4" />
-          <span className="sr-only">Close</span>
-        </PrimitiveDialogClose>
-      )}
-    </PrimitiveDialogContent>
+          <div data-slot="dialog-inner" className="p-6">
+            {children}
+            {showCloseButton && (
+              <DialogPrimitive.Close
+                data-slot="dialog-close"
+                className="pixel-destructive shadow-md absolute top-4 right-4 p-1 cursor-pointer rtl:right-auto rtl:left-4"
+              >
+                <X className="h-4 w-4" />
+                <span className="sr-only">Close</span>
+              </DialogPrimitive.Close>
+            )}
+          </div>
+        </DialogPrimitive.Content>
+      </DialogOverlay>
+    </DialogPrimitive.Portal>
   );
 }
 
-export function DialogHeader({ className, ...props }: React.ComponentProps<typeof PrimitiveDialogHeader>) {
+export function DialogHeader({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   return (
-    <PrimitiveDialogHeader
+    <div
       className={cn('mb-4 space-y-2', className)}
       {...props}
     />
   );
 }
 
-export function DialogFooter({ className, ...props }: React.ComponentProps<typeof PrimitiveDialogFooter>) {
+export function DialogFooter({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   return (
-    <PrimitiveDialogFooter
+    <div
       className={cn('mt-6 gap-3', className)}
       {...props}
     />
   );
 }
 
-export function DialogTitle({ className, ...props }: React.ComponentProps<typeof PrimitiveDialogTitle>) {
+export function DialogTitle({ className, ...props }: React.ComponentProps<typeof DialogPrimitive.Title>) {
   return (
-    <PrimitiveDialogTitle
+    <DialogPrimitive.Title
       className={cn('pixel-font text-2xl text-foreground uppercase tracking-tight', className)}
       {...props}
     />
   );
 }
 
-export function DialogDescription({ className, ...props }: React.ComponentProps<typeof PrimitiveDialogDescription>) {
+export function DialogDescription({ className, ...props }: React.ComponentProps<typeof DialogPrimitive.Description>) {
   return (
-    <PrimitiveDialogDescription
+    <DialogPrimitive.Description
       className={cn('pixel-font-sm text-muted-foreground', className)}
       {...props}
     />
