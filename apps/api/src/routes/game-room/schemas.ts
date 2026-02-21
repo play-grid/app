@@ -57,6 +57,7 @@ export const createGameRoomInputSchema = createGameRoomBaseSchema.transform(
 export const joinGameRoomSchema = z.object({
   playerName: PlayerSchema.shape.name,
   playerId: PlayerSchema.shape.id.optional(),
+  inviteToken: z.string().optional(),
 });
 
 /**
@@ -81,6 +82,9 @@ export const createGameRoomResponseSchema = gameRoomResponseSchema.extend({
   hostPlayer: PlayerSchema.optional().describe('The host player that was auto-joined'),
   credentials: z.string().optional().describe('Short-lived credential token for host WebSocket authentication'),
   initialGameState: z.any().optional().describe('The initial game state with host player'),
+  inviteToken: z.string().optional().describe('Invite token for sharing the room'),
+  inviteExpiresInMinutes: z.number().int().optional().describe('Invite token expiry time in minutes'),
+  inviteExpiresAt: z.string().optional().describe('Invite token expiry timestamp'),
 });
 
 /**
@@ -142,3 +146,34 @@ export type JoinGameRoomValues = z.infer<typeof joinGameRoomSchema>;
 export type JoinRoomFormValues = z.infer<typeof joinRoomFormSchema>;
 export type JoinGameRoomResponse = z.infer<typeof joinGameRoomResponseSchema>;
 export type RoomStatsResponse = z.infer<typeof roomStatsResponseSchema>;
+
+export const generateInviteSchema = z.object({
+  expiresInMinutes: z.number().int().min(1).max(168).optional(),
+});
+
+export const generateInviteResponseSchema = z.object({
+  inviteToken: z.string(),
+  inviteUrl: z.string(),
+  expiresAt: z.string(),
+  expiresInMinutes: z.number().int(),
+});
+
+export const validateInviteResponseSchema = z.object({
+  valid: z.boolean(),
+  roomId: z.string().optional(),
+  expiresAt: z.string().optional(),
+});
+
+export const revokeInviteResponseSchema = z.object({
+  success: z.boolean(),
+});
+
+export const revokeInviteSchema = z.object({
+  inviteToken: z.string(),
+});
+
+export type GenerateInviteResponse = z.infer<typeof generateInviteResponseSchema>;
+export type ValidateInviteResponse = z.infer<typeof validateInviteResponseSchema>;
+export type RevokeInviteResponse = z.infer<typeof revokeInviteResponseSchema>;
+export type GenerateInviteValues = z.infer<typeof generateInviteSchema>;
+export type RevokeInviteValues = z.infer<typeof revokeInviteSchema>;

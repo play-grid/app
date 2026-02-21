@@ -1,17 +1,22 @@
 import type { AppRouteHandler } from '../../lib/types';
 import type {
   CreateRoute,
+  GenerateInviteRoute,
   GetRoomStatsRoute,
   JoinRoute,
+  RevokeInviteRoute,
+  ValidateInviteRoute,
   WebSocketUpgradeRoute,
 } from './game-room.routes';
-import type { CreateGameRoomResponse, JoinGameRoomResponse } from './schemas';
+import type { CreateGameRoomResponse, GenerateInviteResponse, JoinGameRoomResponse, RevokeInviteResponse, ValidateInviteResponse } from './schemas';
 import {
   getGameDefinition,
   isGameRegistered,
 } from '@guess-logo/game-core';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import {
+  generateInviteResponseSchema as doGenerateInviteResponseSchema,
+  validateInviteResponseSchema as doValidateInviteResponseSchema,
   gameSessionStatsResponseSchema,
   initGameSessionResponseSchema,
   joinGameSessionResponseSchema,
@@ -105,6 +110,9 @@ export const create: AppRouteHandler<CreateRoute> = async (c) => {
     const credentials = initData.credentials;
     const initialGameState = initData.currentState;
     const currentPlayers = hostPlayer ? 1 : 0;
+    const inviteToken = (initData as any).inviteToken;
+    const inviteExpiresInMinutes = (initData as any).inviteExpiresInMinutes;
+    const inviteExpiresAt = (initData as any).inviteExpiresAt;
 
     // Construct WebSocket URL for gameplay
     const host = c.req.header('host') || 'localhost:8787';
@@ -123,7 +131,10 @@ export const create: AppRouteHandler<CreateRoute> = async (c) => {
       websocketUrl,
       hostPlayer,
       credentials,
-      initialGameState, // Now correctly passes the game state with host player
+      initialGameState,
+      inviteToken,
+      inviteExpiresInMinutes,
+      inviteExpiresAt,
     };
 
     return c.json(response, HttpStatusCodes.CREATED);
@@ -156,6 +167,7 @@ export const join: AppRouteHandler<JoinRoute> = async (c) => {
       body: JSON.stringify({
         playerName: body.playerName,
         playerId: body.playerId,
+        inviteToken: body.inviteToken,
       }),
     });
 
@@ -328,6 +340,149 @@ export const websocketUpgrade: AppRouteHandler<WebSocketUpgradeRoute> = async (
     logger.error(error, '[GameRoom] WebSocket upgrade error:');
     return c.json(
       { error: 'Failed to establish WebSocket connection' },
+      HttpStatusCodes.INTERNAL_SERVER_ERROR,
+    );
+  }
+};
+
+/**
+ * Generate an invite token for the room
+ */
+export const generateInvite: AppRouteHandler<GenerateInviteRoute> = async (c) => {
+  try {
+    const { id: roomId } = c.req.valid('param');
+    const body = c.req.valid('json') || {};
+
+    const id = c.env.GAME_SESSION.idFromName(roomId);
+    const stub = c.env.GAME_SESSION.get(id);
+
+    const response = await stub.fetch('http://internal/generate-invite', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        expiresInMinutes: body.expiresInMinutes,
+      }),
+    });
+
+    if (response.status === HttpStatusCodes.NOT_FOUND) {
+      return c.json(
+        { error: 'Game room not found' },
+        HttpStatusCodes.NOT_FOUND,
+      );
+    }
+
+    if (!response.ok) {
+      throw new Error('Failed to generate invite');
+    }
+
+    const rawData = await response.json();
+    const data = doGenerateInviteResponseSchema.parse(rawData);
+
+    const inviteResponse: GenerateInviteResponse = {
+      inviteToken: data.inviteToken,
+      inviteUrl: data.inviteUrl,
+      expiresAt: data.expiresAt,
+      expiresInMinutes: data.expiresInMinutes,
+    };
+
+    return c.json(inviteResponse, HttpStatusCodes.OK);
+  }
+  catch (error) {
+    logger.error(error, '[GameRoom] Generate invite error:');
+    return c.json(
+      { error: 'Failed to generate invite' },
+      HttpStatusCodes.INTERNAL_SERVER_ERROR,
+    );
+  }
+};
+
+/**
+ * Validate an invite token
+ */
+export const validateInvite: AppRouteHandler<ValidateInviteRoute> = async (c) => {
+  try {
+    const { id: roomId, token: inviteToken } = c.req.valid('param');
+
+    const id = c.env.GAME_SESSION.idFromName(roomId);
+    const stub = c.env.GAME_SESSION.get(id);
+
+    const response = await stub.fetch(`http://internal/validate-invite?token=${encodeURIComponent(inviteToken)}`, {
+      method: 'GET',
+    });
+
+    if (response.status === HttpStatusCodes.NOT_FOUND) {
+      return c.json(
+        { error: 'Game room not found' },
+        HttpStatusCodes.NOT_FOUND,
+      );
+    }
+
+    if (!response.ok) {
+      throw new Error('Failed to validate invite');
+    }
+
+    const rawData = await response.json();
+    const data = doValidateInviteResponseSchema.parse(rawData);
+
+    const validateResponse: ValidateInviteResponse = {
+      valid: data.valid,
+      roomId: data.roomId,
+      expiresAt: data.expiresAt,
+    };
+
+    return c.json(validateResponse, HttpStatusCodes.OK);
+  }
+  catch (error) {
+    logger.error(error, '[GameRoom] Validate invite error:');
+    return c.json(
+      { error: 'Failed to validate invite' },
+      HttpStatusCodes.INTERNAL_SERVER_ERROR,
+    );
+  }
+};
+
+/**
+ * Revoke an invite token
+ */
+export const revokeInvite: AppRouteHandler<RevokeInviteRoute> = async (c) => {
+  try {
+    const { id: roomId } = c.req.valid('param');
+    const body = c.req.valid('json');
+
+    const id = c.env.GAME_SESSION.idFromName(roomId);
+    const stub = c.env.GAME_SESSION.get(id);
+
+    const response = await stub.fetch('http://internal/revoke-invite', {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        inviteToken: body.inviteToken,
+      }),
+    });
+
+    if (response.status === HttpStatusCodes.NOT_FOUND) {
+      return c.json(
+        { error: 'Game room not found' },
+        HttpStatusCodes.NOT_FOUND,
+      );
+    }
+
+    if (!response.ok) {
+      throw new Error('Failed to revoke invite');
+    }
+
+    const rawData = await response.json() as unknown;
+    const data = rawData as { success: boolean };
+    const revokeResponse: RevokeInviteResponse = {
+      success: data.success,
+    };
+
+    return c.json(revokeResponse, HttpStatusCodes.OK);
+  }
+  catch (error) {
+    logger.error(error, '[GameRoom] Revoke invite error:');
+    return c.json(
+      { error: 'Failed to revoke invite' },
       HttpStatusCodes.INTERNAL_SERVER_ERROR,
     );
   }

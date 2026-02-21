@@ -11,12 +11,10 @@ import { logger } from '@/utils/logger';
 import { GameSessionManager } from './game-session.manager';
 import { createGameSessionRouter } from './game-session.router';
 import {
-  generateInviteResponseSchema,
   generateInviteSchema,
   initGameSessionSchema,
   joinGameSessionSchema,
   revokeInviteSchema,
-  validateInviteResponseSchema,
 } from './schemas';
 import '../../games';
 
