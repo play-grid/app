@@ -13,6 +13,7 @@ import BackButton from '@/components/back-button';
 import { RoomHeader } from '@/features/room/room-stats-header';
 import { useClearSession } from '@/features/room/use-session-cleanup';
 import { useAnalytics } from '@/hooks/use-analytics';
+import { useRoomPermissions } from '@/context/room-permissions';
 import { useGameMode } from '@/hooks/use-game-mode';
 import { FEATURE_FLAGS } from '@/lib/constants';
 import { GameInstructions } from '../components/game-instructions';
@@ -23,6 +24,7 @@ import { Button } from '../components/ui/button';
 import { Card } from '../components/ui/card';
 import { Dialog, DialogContent, DialogTrigger } from '../components/ui/dialog';
 import { useUrlSyncedSettingsOnly } from '../hooks/use-url-synced-settings';
+import { cn } from '@/lib/utils';
 
 const FIRST_VISIT_KEY = 'FIVE_SECONDS_FIRST_VISIT';
 
@@ -36,6 +38,7 @@ export function FiveSecondsLobby() {
   useUrlSyncedSettingsOnly();
   const { mode, roomId } = useGameMode();
   const clearSession = useClearSession();
+  const permissions = useRoomPermissions(players);
 
   const [isInstructionsOpen, setIsInstructionsOpen] = useState(() => {
     const hasVisited = localStorage.getItem(FIRST_VISIT_KEY);
@@ -170,9 +173,11 @@ export function FiveSecondsLobby() {
             <div className="flex flex-col sm:flex-row gap-4">
               <Button
                 size="lg"
-                className="w-full text-lg font-semibold"
+                className={cn('w-full text-lg font-semibold', {
+                  'opacity-50': !permissions.canStartGame,
+                })}
                 onClick={handleStartGame}
-                disabled={!canStartGame()}
+                disabled={!permissions.canStartGame}
               >
                 <Play className="w-5 h-5 mr-2" />
                 {t('fiveSecondsGame.lobby.startGame')}

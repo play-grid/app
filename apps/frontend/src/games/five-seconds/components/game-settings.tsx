@@ -10,22 +10,17 @@ import { useQueryClient } from '@tanstack/react-query';
 import { lazy, Suspense, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
 import { useRoomPermissions } from '@/context/room-permissions';
 import { cn } from '@/lib/utils';
 import { logger } from '@/utils/logger';
-
 import { useCategories } from '../hooks/use-categories';
+
 import { getCategoryById } from '../services/category.service';
 import { useCustomQuestionsStore } from '../stores/custom-questions-store';
 import { getLocalizedCategoryName } from '../utils/category-utils';
 import { Button } from './ui/button';
-
 import { Label } from './ui/label';
+
 import {
   Select,
   SelectContent,
@@ -35,6 +30,12 @@ import {
 } from './ui/select';
 import { Spinner } from './ui/spinner';
 import { Switch } from './ui/switch';
+import {
+  Tooltip as PrimitiveTooltip,
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from './ui/tooltip';
 
 const BulkImportDialog = lazy(() => import('./bulk-import-dialog').then(m => ({ default: m.BulkImportDialog })));
 
