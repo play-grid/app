@@ -4,6 +4,7 @@ import { queryOptions, useMutation, useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useRoomSession } from '@/features/room/room-store';
+import { useGameMode } from '@/hooks/use-game-mode';
 import { createGameRoom, getRoomById, joinGameRoom } from './room-service';
 
 interface UseCreateRoomProps {
@@ -78,23 +79,25 @@ export function useJoinRoom({ onSuccess }: UseJoinRoomProps = {}) {
 }
 
 interface UseRoomStatsOptions {
-  mode: string;
   roomId?: Room['id'] | null;
 }
 
-export function roomStatsQueryOptions(mode: string, roomId?: Room['id'] | null) {
+export function roomStatsQueryOptions(roomId?: Room['id'] | null) {
   return queryOptions({
     queryKey: ['room', roomId],
     queryFn: () => getRoomById(roomId!),
-    enabled: mode === 'multiplayer' && !!roomId,
     retry: 2,
     retryDelay: attemptIndex => Math.min(1000 * 2 ** attemptIndex, 10000),
     refetchInterval: 5000,
   });
 }
 
-export function useRoomStats({ mode, roomId }: UseRoomStatsOptions) {
-  const query = useQuery(roomStatsQueryOptions(mode, roomId));
+export function useRoomStats({ roomId }: UseRoomStatsOptions) {
+  const { mode } = useGameMode();
+  const query = useQuery({
+    ...roomStatsQueryOptions(roomId),
+    enabled: mode === 'multiplayer' && !!roomId,
+  });
 
   return {
     room: query.data,

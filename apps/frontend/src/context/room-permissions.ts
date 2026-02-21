@@ -1,5 +1,6 @@
 import type { Player } from '@guess-logo/game-core';
 import { useMemo } from 'react';
+import { useGameMode } from '@/hooks/use-game-mode';
 import { useRoomSession } from '../features/room/room-store';
 
 interface RoomPermissions {
@@ -13,13 +14,12 @@ interface RoomPermissions {
 }
 
 export function useRoomPermissions(players: Record<string, Player>): RoomPermissions {
+  const { canUseMultiplayerFeatures } = useGameMode();
   const { session } = useRoomSession();
 
   return useMemo(() => {
-    const isMultiplayer = !!session?.playerId;
-
-    // In local mode, there's no session, so permissions are open as everyone is a host.
-    if (!isMultiplayer) {
+    // In local mode, permissions are open as everyone is a host.
+    if (!canUseMultiplayerFeatures) {
       return {
         canManagePlayers: true,
         canEditSettings: true,
@@ -32,7 +32,7 @@ export function useRoomPermissions(players: Record<string, Player>): RoomPermiss
     }
 
     const isInRoom = true;
-    const currentPlayer = players[session.playerId!];
+    const currentPlayer = session?.playerId ? players[session.playerId] : undefined;
     const isHost = currentPlayer?.isHost || false;
 
     return {
@@ -44,13 +44,13 @@ export function useRoomPermissions(players: Record<string, Player>): RoomPermiss
       isHost,
       isInRoom,
     };
-  }, [session?.playerId, players]);
+  }, [canUseMultiplayerFeatures, session?.playerId, players]);
 }
 
 export function useRoomPermissionsBasic(): Pick<RoomPermissions, 'isInRoom'> {
-  const { session } = useRoomSession();
+  const { canUseMultiplayerFeatures } = useGameMode();
 
   return useMemo(() => ({
-    isInRoom: !!session?.playerId,
-  }), [session?.playerId]);
+    isInRoom: canUseMultiplayerFeatures,
+  }), [canUseMultiplayerFeatures]);
 }

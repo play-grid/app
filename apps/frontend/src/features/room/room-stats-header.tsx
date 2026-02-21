@@ -1,22 +1,21 @@
 import { AlertCircle, Globe, Zap } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { CopyButton } from '@/components/copy-button';
+import { useGameMode } from '@/hooks/use-game-mode';
 import { Badge } from '../../games/five-seconds/components/ui/badge';
 import { Card } from '../../games/five-seconds/components/ui/card';
 import { useRoomStats } from './use-room';
 
 interface RoomStatsHeaderProps {
-  mode: string;
   roomId?: string | null;
 }
 
 export function RoomHeader({
-  mode,
   roomId,
 }: RoomStatsHeaderProps) {
   const { t } = useTranslation();
+  const { mode } = useGameMode();
   const { room, isLoading, isError, error } = useRoomStats({
-    mode,
     roomId: roomId ?? undefined,
   });
 

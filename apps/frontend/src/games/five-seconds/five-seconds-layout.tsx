@@ -5,16 +5,14 @@ import { AdapterProvider } from '@guess-logo/game-core';
 import { useMemo } from 'react';
 import { Outlet, useSearchParams } from 'react-router-dom';
 import { useRoomSession } from '@/features/room/room-store';
+import { useGameMode } from '@/hooks/use-game-mode';
 import { getOrCreateAdapter } from '@/lib/adapter-instance';
 import './index.css';
 
 export function FiveSecondsLayout({ children }: { children?: ReactNode }) {
   const [searchParams] = useSearchParams();
   const { session } = useRoomSession();
-
-  const roomId = searchParams.get('room');
-  const mode = (roomId && searchParams.get('mode') === 'multiplayer') ? 'multiplayer' : 'local';
-
+  const { roomId, canUseMultiplayerFeatures } = useGameMode();
   const urlDifficulty = searchParams.get('difficulty');
   const urlCategories = searchParams.get('categories');
 
@@ -50,12 +48,9 @@ export function FiveSecondsLayout({ children }: { children?: ReactNode }) {
   }, [urlDifficulty, urlCategories, session?.initialGameState]);
 
   const adapter = useMemo(() => {
-    const hasValidSession = session?.roomId === roomId && session?.credentials;
-    const isMultiplayer = mode === 'multiplayer' && roomId && hasValidSession;
+    const identifier = canUseMultiplayerFeatures ? `multiplayer-${roomId}` : 'local';
 
-    const identifier = isMultiplayer ? `multiplayer-${roomId}` : 'local';
-
-    if (isMultiplayer) {
+    if (canUseMultiplayerFeatures && session?.playerId && session?.credentials) {
       return getOrCreateAdapter(
         fiveSecondsGame,
         {
@@ -84,7 +79,7 @@ export function FiveSecondsLayout({ children }: { children?: ReactNode }) {
       },
       identifier,
     );
-  }, [roomId, mode, session, validatedInitialState]);
+  }, [roomId, canUseMultiplayerFeatures, session, validatedInitialState]);
 
   return (
     <AdapterProvider adapter={adapter}>

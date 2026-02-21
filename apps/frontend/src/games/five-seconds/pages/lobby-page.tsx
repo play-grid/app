@@ -7,15 +7,13 @@ import {
 import { Earth, Info, Play, Settings, Zap } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  useNavigate,
-  useSearchParams,
-} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import BackButton from '@/components/back-button';
 import { RoomHeader } from '@/features/room/room-stats-header';
 import { useClearSession } from '@/features/room/use-session-cleanup';
 import { useAnalytics } from '@/hooks/use-analytics';
+import { useGameMode } from '@/hooks/use-game-mode';
 import { FEATURE_FLAGS } from '@/lib/constants';
 import { GameInstructions } from '../components/game-instructions';
 import { GameRoomModal } from '../components/game-room-modal';
@@ -36,11 +34,8 @@ export function FiveSecondsLobby() {
   const { startGame } = useFiveSecondsActions();
   const { trackGameModeSelected, trackGameStart } = useAnalytics();
   useUrlSyncedSettingsOnly();
-  const [searchParams] = useSearchParams();
+  const { mode, roomId } = useGameMode();
   const clearSession = useClearSession();
-
-  const mode = searchParams.get('mode') || 'local';
-  const roomId = searchParams.get('room');
 
   const [isInstructionsOpen, setIsInstructionsOpen] = useState(() => {
     const hasVisited = localStorage.getItem(FIRST_VISIT_KEY);
@@ -108,7 +103,6 @@ export function FiveSecondsLobby() {
             {t('fiveSecondsGame.lobby.subtitle')}
           </p>
           <RoomHeader
-            mode={mode}
             roomId={roomId}
           />
 
