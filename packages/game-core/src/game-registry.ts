@@ -3,7 +3,7 @@ import type { z } from 'zod';
 import type { BaseAction, GameDefinition, GameMeta } from './contracts/game-definition';
 import type { EffectHandlerFactory, GameEffect } from './contracts/game-effects';
 import type { BaseGameState } from './game-logic/schema/state.types';
-import { createGameContract } from './adapters/multiplayer/contracts/base.contract';
+import { createGameContract } from './adapters/multiplayer/contracts/base.thin-contract';
 import { logger } from './utils/logger';
 
 /**

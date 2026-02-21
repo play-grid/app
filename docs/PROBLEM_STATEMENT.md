@@ -11,7 +11,7 @@
 
 ## Overview
 
-The guess-logo (PlayGrid) monorepo has several architectural issues that create technical debt and fragility. These issues impact build reliability, maintainability, and ability to scale the platform.
+The (PlayGrid) monorepo has several architectural issues that create technical debt and fragility. These issues impact build reliability, maintainability, and ability to scale the platform.
 
 ---
 

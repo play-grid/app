@@ -6,125 +6,22 @@ settings:
 
 catalogs:
   default:
-    '@eslint-react/eslint-plugin':
-      specifier: 2.7.4
-      version: 2.7.4
-    '@tailwindcss/vite':
-      specifier: ^4.1.17
-      version: 4.1.18
-    '@tanstack/react-query':
-      specifier: 5.90.12
-      version: 5.90.12
     '@types/node':
       specifier: 24.10.1
       version: 24.10.1
-    eslint:
-      specifier: ^9.39.2
-      version: 9.39.2
-    hono:
-      specifier: ^4.9.5
-      version: 4.11.7
     immer:
       specifier: ^10.2.0
       version: 10.2.0
-    tailwindcss:
-      specifier: ^4.1.17
-      version: 4.1.18
     typescript:
       specifier: ^5.9.3
       version: 5.9.3
-    wrangler:
-      specifier: ^4.46.0
-      version: 4.63.0
     zod:
       specifier: ^4.1.12
       version: 4.3.6
-  frontend:
-    '@hookform/resolvers':
-      specifier: ^5.2.2
-      version: 5.2.2
-    '@iconify-json/solar':
-      specifier: ^1.2.5
-      version: 1.2.5
-    '@iconify/react':
-      specifier: ^6.0.2
-      version: 6.0.2
-    '@radix-ui/react-checkbox':
-      specifier: ^1.3.3
-      version: 1.3.3
-    '@radix-ui/react-dialog':
-      specifier: 1.1.15
-      version: 1.1.15
-    '@radix-ui/react-direction':
-      specifier: ^1.1.1
-      version: 1.1.1
-    '@radix-ui/react-icons':
-      specifier: ^1.3.2
-      version: 1.3.2
-    '@radix-ui/react-label':
-      specifier: ^2.1.8
-      version: 2.1.8
-    '@radix-ui/react-navigation-menu':
-      specifier: ^1.2.14
-      version: 1.2.14
-    '@radix-ui/react-popover':
-      specifier: ^1.1.15
-      version: 1.1.15
-    '@radix-ui/react-progress':
-      specifier: ^1.1.8
-      version: 1.1.8
-    '@radix-ui/react-select':
-      specifier: ^2.2.6
-      version: 2.2.6
-    '@radix-ui/react-separator':
-      specifier: ^1.1.8
-      version: 1.1.8
-    '@radix-ui/react-slider':
-      specifier: ^1.3.6
-      version: 1.3.6
-    '@radix-ui/react-slot':
-      specifier: 1.2.4
-      version: 1.2.4
-    '@radix-ui/react-switch':
-      specifier: ^1.1.9
-      version: 1.2.6
-    '@radix-ui/react-tabs':
-      specifier: ^1.1.13
-      version: 1.1.13
-    '@radix-ui/react-tooltip':
-      specifier: ^1.2.8
-      version: 1.2.8
-    '@redux-devtools/extension':
-      specifier: ^3.3.0
-      version: 3.3.0
-    lucide-react:
-      specifier: ^0.539.0
-      version: 0.539.0
-    next-themes:
-      specifier: ^0.4.6
-      version: 0.4.6
-    react-i18next:
-      specifier: ^15.7.4
-      version: 15.7.4
-    sonner:
-      specifier: ^2.0.7
-      version: 2.0.7
-    tailwind-merge:
-      specifier: ^3.3.1
-      version: 3.4.0
   react19:
     '@types/react':
       specifier: ^19.2.6
       version: 19.2.13
-    '@types/react-dom':
-      specifier: ^19.2.2
-      version: 19.2.3
-    react:
-      specifier: 19.2.0
-      version: 19.2.0
-    react-dom:
-      specifier: 19.2.0
-      version: 19.2.0
 
 overrides:
   esbuild: 0.25.9
@@ -765,15 +662,6 @@ importers:
       '@guess-logo/shared':
         specifier: workspace:*
         version: link:../shared
-      '@orpc/client':
-        specifier: ^1.10.1
-        version: 1.13.4(@opentelemetry/api@1.9.0)
-      '@orpc/contract':
-        specifier: ^1.10.1
-        version: 1.13.4(@opentelemetry/api@1.9.0)
-      '@orpc/experimental-durable-iterator':
-        specifier: ^1.10.1
-        version: 1.13.4(@opentelemetry/api@1.9.0)(typescript@5.9.3)(ws@8.19.0)
       immer:
         specifier: 'catalog:'
         version: 10.2.0
@@ -782,23 +670,17 @@ importers:
         version: 1.1.11
       react:
         specifier: catalog:react19
-        version: 19.2.0
-      xstate:
-        specifier: ^5.23.0
-        version: 5.26.0
+        version: 19.2.4
       zod:
         specifier: 'catalog:'
         version: 4.3.6
       zustand:
         specifier: ^5.0.8
-        version: 5.0.11(@types/react@19.2.13)(immer@10.2.0)(react@19.2.0)(use-sync-external-store@1.6.0(react@19.2.0))
+        version: 5.0.11(@types/react@19.2.13)(immer@10.2.0)(react@19.2.4)(use-sync-external-store@1.6.0(react@19.2.4))
     devDependencies:
       '@guess-logo/logger':
         specifier: workspace:*
         version: link:../logger
-      '@orpc/server':
-        specifier: ^1.12.2
-        version: 1.13.4(@opentelemetry/api@1.9.0)(ws@8.19.0)
       '@types/node':
         specifier: 'catalog:'
         version: 24.10.1
@@ -2247,60 +2129,6 @@ packages:
   '@opentelemetry/semantic-conventions@1.39.0':
     resolution: {integrity: sha512-R5R9tb2AXs2IRLNKLBJDynhkfmx7mX0vi8NkhZb3gUkPWHn6HXk5J8iQ/dql0U3ApfWym4kXXmBDRGO+oeOfjg==}
     engines: {node: '>=14'}
-
-  '@orpc/client@1.13.4':
-    resolution: {integrity: sha512-s13GPMeoooJc5Th2EaYT5HMFtWG8S03DUVytYfJv8pIhP87RYKl94w52A36denH6r/B4LaAgBeC9nTAOslK+Og==}
-
-  '@orpc/contract@1.13.4':
-    resolution: {integrity: sha512-TIxyaF67uOlihCRcasjHZxguZpbqfNK7aMrDLnhoufmQBE4OKvguNzmrOFHgsuM0OXoopX0Nuhun1ccaxKP10A==}
-
-  '@orpc/experimental-durable-iterator@1.13.4':
-    resolution: {integrity: sha512-PAjC1WwiyE7PZCvIiygn/qRNE2KMiTAv+x5XUasaJA8i3q56IVCIzcJzxOHwXax4C8ZEIlgMMMJGMI25xJLoEw==}
-
-  '@orpc/interop@1.13.4':
-    resolution: {integrity: sha512-h8HWMSTSUYTtfN9ytGJD/MLMgWaUJOg8Z1Bq7fycnj74DVib0NLGIItoCquJkSzgZ7Otc+s1l0/2NPOViTyl9Q==}
-
-  '@orpc/server@1.13.4':
-    resolution: {integrity: sha512-noGqSP53KpH+2UvCpIoOCMPn5LY5UIB674ijzSZ2LYHT0EUNGpOgYd5Rab09VUAaG2NejwJc9VvWztFW3Op08w==}
-    peerDependencies:
-      crossws: '>=0.3.4'
-      ws: '>=8.18.1'
-    peerDependenciesMeta:
-      crossws:
-        optional: true
-      ws:
-        optional: true
-
-  '@orpc/shared@1.13.4':
-    resolution: {integrity: sha512-TYt9rLG/BUkNQBeQ6C1tEiHS/Seb8OojHgj9GlvqyjHJhMZx5qjsIyTW6RqLPZJ4U2vgK6x4Her36+tlFCKJug==}
-    peerDependencies:
-      '@opentelemetry/api': '>=1.9.0'
-    peerDependenciesMeta:
-      '@opentelemetry/api':
-        optional: true
-
-  '@orpc/standard-server-aws-lambda@1.13.4':
-    resolution: {integrity: sha512-iTJK6DiwLufVZtflLAxx5GCNQLo3NhNuQQgVtFavpx5xgCTuRb1dKNjHAoVCkF2lyqUFxv4AON2ZOSvuCCCzpw==}
-
-  '@orpc/standard-server-fastify@1.13.4':
-    resolution: {integrity: sha512-+E40iAD2IY/Vgg7FAE9aM2kQOL73LwJikkMiiD8G08kAEp1By9N7W5ejxXYiRcTVRF0j9vgvNSwhf4aSJmxp8g==}
-    peerDependencies:
-      fastify: '>=5.6.1'
-    peerDependenciesMeta:
-      fastify:
-        optional: true
-
-  '@orpc/standard-server-fetch@1.13.4':
-    resolution: {integrity: sha512-/zmKwnuxfAXbppJpgr1CMnQX3ptPlYcDzLz1TaVzz9VG/Xg58Ov3YhabS2Oi1utLVhy5t4kaCppUducAvoKN+A==}
-
-  '@orpc/standard-server-node@1.13.4':
-    resolution: {integrity: sha512-4sVTsoI1xBmKEqmcxPRGKqf/Egbtr83Lg8yLiUrt5YdjOAYENiahWyU51itL21VPdAdMFDoDdUC9aCpikyQCaw==}
-
-  '@orpc/standard-server-peer@1.13.4':
-    resolution: {integrity: sha512-UfqnTLqevjCKUk4cmImOG8cQUwANpV1dp9e9u2O1ki6BRBsg/zlXFg6G2N6wP0zr9ayIiO1d2qJdH55yl/1BNw==}
-
-  '@orpc/standard-server@1.13.4':
-    resolution: {integrity: sha512-ZOzgfVp6XUg+wVYw+gqesfRfGPtQbnBIrIiSnFMtZF+6ncmFJeF2Shc4RI2Guqc0Qz25juy8Ogo4tX3YqysOcg==}
 
   '@paralleldrive/cuid2@2.3.1':
     resolution: {integrity: sha512-XO7cAxhnTZl0Yggq6jOgjiOHhbgcO4NqFqwSmQpjK3b6TEE6Uj/jfSk6wzYyemh3+I0sHirKSetjQwn5cZktFw==}
@@ -6897,9 +6725,6 @@ packages:
     resolution: {integrity: sha512-VXJjc87FScF88uafS3JllDgvAm+c/Slfz06lorj2uAY34rlUu0Nt+v8wreiImcrgAjjIHp1rXpTDlLOGw29WwQ==}
     engines: {node: '>=18'}
 
-  openapi-types@12.1.3:
-    resolution: {integrity: sha512-N4YtSYJqghVu4iek2ZUvcN/0aqH1kRDuNqzcycDxhOUpg7GdvLa2F3DgS6yBNhInhv2r/6I0Flkn7CqL8+nIcw==}
-
   openapi3-ts@4.5.0:
     resolution: {integrity: sha512-jaL+HgTq2Gj5jRcfdutgRGLosCy/hT8sQf6VOy+P+g36cZOjI1iukdPnijC+4CmeRzg/jEllJUboEic2FhxhtQ==}
 
@@ -7230,10 +7055,6 @@ packages:
 
   ra-language-english@5.14.1:
     resolution: {integrity: sha512-E6Pl3nTQjg0MXqJu253jLnAZexYjVx7J3m3YjTh9Khdptyrvlb9Svcn585AGaFmaNCfL/utrNZrRXdiOZvVshQ==}
-
-  radash@12.1.1:
-    resolution: {integrity: sha512-h36JMxKRqrAxVD8201FrCpyeNuUY9Y5zZwujr20fFO77tpUtGa6EZzfKw/3WaiBX95fq7+MpsuMLNdSnORAwSA==}
-    engines: {node: '>=14.18.0'}
 
   rc@1.2.8:
     resolution: {integrity: sha512-y3bGgqKj3QBdxLbLkomlohkvsA8gdAiUQlSBJnBhfn+BPxg4bc62d8TcBW15wavDfgexCgccckhcZvywyQYPOw==}
@@ -8530,9 +8351,6 @@ packages:
 
   xmlchars@2.2.0:
     resolution: {integrity: sha512-JZnDKK8B0RCDw84FNdDAIpZK+JuJw+s7Lz8nksI7SIuU3UXJJslUthsi+uWBUYOwPFwW7W7PRLRfUKpxjtjFCw==}
-
-  xstate@5.26.0:
-    resolution: {integrity: sha512-Fvi9VBoqHgsGYLU2NTag8xDTWtKqUC0+ue7EAhBNBb06wf620QEy05upBaEI1VLMzIn63zugLV8nHb69ZUWYAA==}
 
   y18n@5.0.8:
     resolution: {integrity: sha512-0pfFzegeDWJHJIAmTLRP2DwHjdF5s7jo9tuztdQxAhINCdvS+3nGINqPd00AphqJR/0LhANUS6/+7SCb98YOfA==}
@@ -9852,112 +9670,6 @@ snapshots:
       '@opentelemetry/semantic-conventions': 1.39.0
 
   '@opentelemetry/semantic-conventions@1.39.0': {}
-
-  '@orpc/client@1.13.4(@opentelemetry/api@1.9.0)':
-    dependencies:
-      '@orpc/shared': 1.13.4(@opentelemetry/api@1.9.0)
-      '@orpc/standard-server': 1.13.4(@opentelemetry/api@1.9.0)
-      '@orpc/standard-server-fetch': 1.13.4(@opentelemetry/api@1.9.0)
-      '@orpc/standard-server-peer': 1.13.4(@opentelemetry/api@1.9.0)
-    transitivePeerDependencies:
-      - '@opentelemetry/api'
-
-  '@orpc/contract@1.13.4(@opentelemetry/api@1.9.0)':
-    dependencies:
-      '@orpc/client': 1.13.4(@opentelemetry/api@1.9.0)
-      '@orpc/shared': 1.13.4(@opentelemetry/api@1.9.0)
-      '@standard-schema/spec': 1.1.0
-      openapi-types: 12.1.3
-    transitivePeerDependencies:
-      - '@opentelemetry/api'
-
-  '@orpc/experimental-durable-iterator@1.13.4(@opentelemetry/api@1.9.0)(typescript@5.9.3)(ws@8.19.0)':
-    dependencies:
-      '@orpc/client': 1.13.4(@opentelemetry/api@1.9.0)
-      '@orpc/contract': 1.13.4(@opentelemetry/api@1.9.0)
-      '@orpc/server': 1.13.4(@opentelemetry/api@1.9.0)(ws@8.19.0)
-      '@orpc/shared': 1.13.4(@opentelemetry/api@1.9.0)
-      partysocket: 1.1.11
-      valibot: 1.2.0(typescript@5.9.3)
-    transitivePeerDependencies:
-      - '@opentelemetry/api'
-      - crossws
-      - fastify
-      - typescript
-      - ws
-
-  '@orpc/interop@1.13.4': {}
-
-  '@orpc/server@1.13.4(@opentelemetry/api@1.9.0)(ws@8.19.0)':
-    dependencies:
-      '@orpc/client': 1.13.4(@opentelemetry/api@1.9.0)
-      '@orpc/contract': 1.13.4(@opentelemetry/api@1.9.0)
-      '@orpc/interop': 1.13.4
-      '@orpc/shared': 1.13.4(@opentelemetry/api@1.9.0)
-      '@orpc/standard-server': 1.13.4(@opentelemetry/api@1.9.0)
-      '@orpc/standard-server-aws-lambda': 1.13.4(@opentelemetry/api@1.9.0)
-      '@orpc/standard-server-fastify': 1.13.4(@opentelemetry/api@1.9.0)
-      '@orpc/standard-server-fetch': 1.13.4(@opentelemetry/api@1.9.0)
-      '@orpc/standard-server-node': 1.13.4(@opentelemetry/api@1.9.0)
-      '@orpc/standard-server-peer': 1.13.4(@opentelemetry/api@1.9.0)
-      cookie: 1.1.1
-    optionalDependencies:
-      ws: 8.19.0
-    transitivePeerDependencies:
-      - '@opentelemetry/api'
-      - fastify
-
-  '@orpc/shared@1.13.4(@opentelemetry/api@1.9.0)':
-    dependencies:
-      radash: 12.1.1
-      type-fest: 5.4.3
-    optionalDependencies:
-      '@opentelemetry/api': 1.9.0
-
-  '@orpc/standard-server-aws-lambda@1.13.4(@opentelemetry/api@1.9.0)':
-    dependencies:
-      '@orpc/shared': 1.13.4(@opentelemetry/api@1.9.0)
-      '@orpc/standard-server': 1.13.4(@opentelemetry/api@1.9.0)
-      '@orpc/standard-server-fetch': 1.13.4(@opentelemetry/api@1.9.0)
-      '@orpc/standard-server-node': 1.13.4(@opentelemetry/api@1.9.0)
-    transitivePeerDependencies:
-      - '@opentelemetry/api'
-
-  '@orpc/standard-server-fastify@1.13.4(@opentelemetry/api@1.9.0)':
-    dependencies:
-      '@orpc/shared': 1.13.4(@opentelemetry/api@1.9.0)
-      '@orpc/standard-server': 1.13.4(@opentelemetry/api@1.9.0)
-      '@orpc/standard-server-node': 1.13.4(@opentelemetry/api@1.9.0)
-    transitivePeerDependencies:
-      - '@opentelemetry/api'
-
-  '@orpc/standard-server-fetch@1.13.4(@opentelemetry/api@1.9.0)':
-    dependencies:
-      '@orpc/shared': 1.13.4(@opentelemetry/api@1.9.0)
-      '@orpc/standard-server': 1.13.4(@opentelemetry/api@1.9.0)
-    transitivePeerDependencies:
-      - '@opentelemetry/api'
-
-  '@orpc/standard-server-node@1.13.4(@opentelemetry/api@1.9.0)':
-    dependencies:
-      '@orpc/shared': 1.13.4(@opentelemetry/api@1.9.0)
-      '@orpc/standard-server': 1.13.4(@opentelemetry/api@1.9.0)
-      '@orpc/standard-server-fetch': 1.13.4(@opentelemetry/api@1.9.0)
-    transitivePeerDependencies:
-      - '@opentelemetry/api'
-
-  '@orpc/standard-server-peer@1.13.4(@opentelemetry/api@1.9.0)':
-    dependencies:
-      '@orpc/shared': 1.13.4(@opentelemetry/api@1.9.0)
-      '@orpc/standard-server': 1.13.4(@opentelemetry/api@1.9.0)
-    transitivePeerDependencies:
-      - '@opentelemetry/api'
-
-  '@orpc/standard-server@1.13.4(@opentelemetry/api@1.9.0)':
-    dependencies:
-      '@orpc/shared': 1.13.4(@opentelemetry/api@1.9.0)
-    transitivePeerDependencies:
-      - '@opentelemetry/api'
 
   '@paralleldrive/cuid2@2.3.1':
     dependencies:
@@ -13418,6 +13130,10 @@ snapshots:
     optionalDependencies:
       supports-color: 8.1.1
 
+  debug@4.4.3:
+    dependencies:
+      ms: 2.1.3
+
   debug@4.4.3(supports-color@8.1.1):
     dependencies:
       ms: 2.1.3
@@ -14708,7 +14424,7 @@ snapshots:
   http-proxy-agent@7.0.2:
     dependencies:
       agent-base: 7.1.4
-      debug: 4.4.3(supports-color@8.1.1)
+      debug: 4.4.3
     transitivePeerDependencies:
       - supports-color
 
@@ -14721,7 +14437,7 @@ snapshots:
   https-proxy-agent@7.0.6:
     dependencies:
       agent-base: 7.1.4
-      debug: 4.4.3(supports-color@8.1.1)
+      debug: 4.4.3
     transitivePeerDependencies:
       - supports-color
 
@@ -15814,8 +15530,6 @@ snapshots:
     dependencies:
       mimic-function: 5.0.1
 
-  openapi-types@12.1.3: {}
-
   openapi3-ts@4.5.0:
     dependencies:
       yaml: 2.8.2
@@ -16239,8 +15953,6 @@ snapshots:
       - react-hook-form
       - react-router
       - react-router-dom
-
-  radash@12.1.1: {}
 
   rc@1.2.8:
     dependencies:
@@ -17334,6 +17046,7 @@ snapshots:
   valibot@1.2.0(typescript@5.9.3):
     optionalDependencies:
       typescript: 5.9.3
+    optional: true
 
   validate-npm-package-name@5.0.0:
     dependencies:
@@ -17721,8 +17434,6 @@ snapshots:
 
   xmlchars@2.2.0: {}
 
-  xstate@5.26.0: {}
-
   y18n@5.0.8: {}
 
   yallist@3.1.1: {}
@@ -17793,5 +17504,12 @@ snapshots:
       immer: 10.2.0
       react: 19.2.0
       use-sync-external-store: 1.6.0(react@19.2.0)
+
+  zustand@5.0.11(@types/react@19.2.13)(immer@10.2.0)(react@19.2.4)(use-sync-external-store@1.6.0(react@19.2.4)):
+    optionalDependencies:
+      '@types/react': 19.2.13
+      immer: 10.2.0
+      react: 19.2.4
+      use-sync-external-store: 1.6.0(react@19.2.4)
 
   zwitch@2.0.4: {}

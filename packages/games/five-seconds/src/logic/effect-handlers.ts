@@ -36,7 +36,21 @@ export function createFetchQuestionsEffect(): GameEffect {
     const gameState = ctx.state as FiveSecondsGameState;
     const isServer = !!ctx.ctx?.storage;
 
-    const triggerActions = ['FETCH_QUESTION', 'START_GAME', 'START_TURN', 'NEXT_TURN', 'TALLY_VOTES'];
+    // logger.debug(`[FetchQuestionsEffect] ========================================`);
+    // logger.debug(`[FetchQuestionsEffect] ACTION: ${action.type}`);
+    // logger.debug(`[FetchQuestionsEffect] Phase: ${gameState.phase}, TurnPhase: ${gameState.turnState?.phase}`);
+    // logger.debug(`[FetchQuestionsEffect] Has currentQuestion: ${!!gameState.currentQuestion}`);
+    // logger.debug(`[FetchQuestionsEffect] Buffer size: ${gameState.questions.length}`);
+    // logger.debug(`[FetchQuestionsEffect] isFetching: ${isFetching}`);
+    // logger.debug(`[FetchQuestionsEffect] ========================================`);
+
+    // if (gameState.phase === 'results' || gameState.phase === 'lobby') {
+    //   logger.debug(`[FetchQuestionsEffect] Skipping - game in ${gameState.phase} phase`);
+    //   return null;
+    // }
+
+    // FIX: Don't trigger on FETCH_QUESTION itself to prevent infinite loop
+    const triggerActions = ['START_GAME', 'START_TURN', 'NEXT_TURN', 'TALLY_VOTES'];
 
     if (!triggerActions.includes(action.type)) {
       return null;

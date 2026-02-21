@@ -102,7 +102,7 @@ export class GameSessionRouter {
       if (requestId) {
         setTimeout(() => {
           this.processingRequests.delete(requestId);
-          logger.debug(`[GameSessionRouter] Cleaned up request: ${requestId}`);
+          // logger.debug(`[GameSessionRouter] Cleaned up request: ${requestId}`);
         }, this.REQUEST_TIMEOUT);
       }
     }

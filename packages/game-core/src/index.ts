@@ -1,7 +1,7 @@
 export * from './adapters/index';
 
-export { createGameContract } from './adapters/multiplayer/contracts/base.contract';
-export type { GameContract } from './adapters/multiplayer/contracts/base.contract';
+// export { createGameContract } from './adapters/multiplayer/contracts/base.contract';
+// export type { GameContract } from './adapters/multiplayer/contracts/base.contract';
 
 export * from './contracts/game-definition';
 export * from './contracts/game-effects';

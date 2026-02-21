@@ -257,6 +257,7 @@ export function clearEphemeralState(draft: Draft<FiveSecondsGameState>): void {
   draft.currentQuestion = null;
   draft.questions = [];
   draft.questionError = null;
+  draft.turnState = undefined;
   draft.turnTimerEndsAt = null;
   draft.readingTime = 0;
   draft.readingTimerEndsAt = null;
