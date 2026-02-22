@@ -1,6 +1,6 @@
 # Refactoring Documentation Index
 
-**Last Updated**: Feb 10, 2026
+**Last Updated**: Feb 22, 2026
 
 ## Overview
 
@@ -56,6 +56,7 @@ Games with sub-phases (e.g., Five Seconds: reading → answering → voting) imp
 |----------|-------------|--------|
 | [001-explicit-dataprovider.md](../decisions/001-explicit-dataprovider.md) | Explicit data provider pattern for admin panel | Accepted |
 | [002-break-circular-dependencies.md](../decisions/002-break-circular-dependencies.md) | High-level decision to break circular dependencies | Proposed |
+| [005-data-provider-abstraction-layer.md](../decisions/005-data-provider-abstraction-layer.md) | Data provider abstraction layer for CRUD & fetchers | Proposed |
 
 ### 🏗️ Architecture Documents
 

@@ -1,0 +1,50 @@
+{
+  "name": "@guess-logo/data-provider",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./crud": {
+      "types": "./dist/crud/index.d.ts",
+      "import": "./dist/crud/index.js",
+      "default": "./dist/crud/index.js"
+    },
+    "./fetchers": {
+      "types": "./dist/fetchers/index.d.ts",
+      "import": "./dist/fetchers/index.js",
+      "default": "./dist/fetchers/index.js"
+    },
+    "./admin": {
+      "types": "./dist/admin/index.d.ts",
+      "import": "./dist/admin/index.js",
+      "default": "./dist/admin/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "check-types": "tsc --noEmit",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
+  },
+  "dependencies": {
+    "zod": "catalog:",
+    "drizzle-orm": "catalog:",
+    "stoker": "catalog:"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "typescript": "catalog:",
+    "eslint": "catalog:"
+  },
+  "peerDependencies": {
+    "hono": "catalog:",
+    "@hono/zod-openapi": "catalog:"
+  }
+}
