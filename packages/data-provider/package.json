@@ -42,6 +42,7 @@
     "stoker": "catalog:"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^4.20251107.0",
     "@types/node": "catalog:",
     "typescript": "catalog:",
     "eslint": "catalog:",
