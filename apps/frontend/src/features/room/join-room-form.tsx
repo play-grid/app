@@ -3,7 +3,7 @@ import type { Room } from '@guess-logo/shared/schemas';
 import { joinRoomFormSchema } from '@guess-logo/api/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useSearchParams } from 'react-router-dom';
@@ -52,7 +52,6 @@ export function JoinRoomForm({ gameType, onRoomJoined, onDialogClose }: JoinRoom
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { user } = useSession();
-  const [inviteToken, setInviteToken] = useState<string | undefined>(undefined);
   const [_, setIsValidatingInvite] = useState(false);
 
   const inviteFromUrl = searchParams.get('invite');
@@ -62,6 +61,8 @@ export function JoinRoomForm({ gameType, onRoomJoined, onDialogClose }: JoinRoom
     roomId: roomIdFromUrl,
     token: inviteFromUrl,
   });
+
+  const inviteToken = (inviteFromUrl && roomIdFromUrl && isInviteValid) ? inviteFromUrl : undefined;
 
   const { mutate: joinGameRoomMutation, isError: isJoiningError } = useMutation({
     mutationFn: async ({ roomId, playerName, inviteToken }: { roomId: string; playerName: string; inviteToken?: string }) => {
@@ -82,16 +83,6 @@ export function JoinRoomForm({ gameType, onRoomJoined, onDialogClose }: JoinRoom
       roomId: searchParams.get('room') || '',
     },
   });
-
-  useEffect(() => {
-    if (inviteFromUrl && roomIdFromUrl && isInviteValid) {
-      setInviteToken(inviteFromUrl ?? undefined);
-      joinForm.setValue('roomId', roomIdFromUrl);
-    }
-    else if (roomIdFromUrl && !inviteFromUrl) {
-      joinForm.setValue('roomId', roomIdFromUrl);
-    }
-  }, [inviteFromUrl, roomIdFromUrl, isInviteValid, joinForm]);
 
   const handleJoinSubmit = async (values: JoinRoomFormValues) => {
     const roomId = extractRoomId(values.roomId);

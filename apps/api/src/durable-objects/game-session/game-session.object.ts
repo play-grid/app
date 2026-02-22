@@ -102,7 +102,7 @@ export class GameSessionObject extends DurableObject<AppEnv['Bindings']> {
     if (this.manager) {
       const actionType = await this.ctx.storage.get<string>(PENDING_ACTION_KEY);
       const allStorage = await this.ctx.storage.list();
-      
+
       logger.info(`[GameSessionObject] 🔍 Alarm check - PENDING_ACTION_KEY value: "${actionType}", all keys: [${Array.from(allStorage.keys()).join(', ')}]`);
 
       if (actionType) {

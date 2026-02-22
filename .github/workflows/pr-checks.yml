@@ -62,8 +62,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
       
-      - name: Run ESLint
-        run: pnpm turbo run lint --filter @guess-logo/frontend
+      - name: Run ESLint and format
+        run: pnpm turbo run lint:fix --filter @guess-logo/frontend
       
       - name: Run TypeScript type check
         run: pnpm turbo run check-types --filter @guess-logo/frontend
@@ -167,7 +167,7 @@ jobs:
         run: pnpm install --frozen-lockfile
       
       - name: Run ESLint
-        run: pnpm turbo run lint --filter @guess-logo/api
+        run: pnpm turbo run lint:fix --filter @guess-logo/api
       
       - name: Run TypeScript type check
         run: pnpm turbo run check-types --filter @guess-logo/api

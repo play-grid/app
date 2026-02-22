@@ -248,7 +248,7 @@ export class GameSessionManager {
 
     // Only log for timer-related actions
     const isTimerAction = ['START_TURN', 'START_ANSWERING', 'TIMES_UP', 'SUB_PHASE_TIMER_STARTED'].includes(action.type);
-    
+
     if (isTimerAction) {
       logger.info(`[TimerDebug] ===== EFFECT EXECUTION for ${action.type} =====`);
     }

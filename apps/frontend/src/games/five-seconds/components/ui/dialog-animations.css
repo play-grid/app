@@ -11,8 +11,12 @@
 }
 
 @keyframes overlay-in {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 /* Closed state: let animation run, then hide */
@@ -22,13 +26,13 @@
 }
 
 @keyframes overlay-out {
-  from { 
+  from {
     opacity: 1;
     pointer-events: auto;
   }
-  to   { 
+  to {
     opacity: 0;
-    pointer-events: none;  /* Prevent clicks after hidden */
+    pointer-events: none; /* Prevent clicks after hidden */
   }
 }
 
@@ -43,11 +47,21 @@
 }
 
 @keyframes dialog-open {
-  0%   { transform: scaleY(0.01); }
-  25%  { transform: scaleY(0.30); }
-  50%  { transform: scaleY(0.60); }
-  75%  { transform: scaleY(0.80); }
-  100% { transform: scaleY(1.00); }
+  0% {
+    transform: scaleY(0.01);
+  }
+  25% {
+    transform: scaleY(0.3);
+  }
+  50% {
+    transform: scaleY(0.6);
+  }
+  75% {
+    transform: scaleY(0.8);
+  }
+  100% {
+    transform: scaleY(1);
+  }
 }
 
 [data-slot='dialog-content'][data-state='closed'] {
@@ -55,11 +69,21 @@
 }
 
 @keyframes dialog-close {
-  0%   { transform: scaleY(1.00); }
-  25%  { transform: scaleY(0.80); }
-  50%  { transform: scaleY(0.60); }
-  75%  { transform: scaleY(0.30); }
-  100% { transform: scaleY(0.01); }
+  0% {
+    transform: scaleY(1);
+  }
+  25% {
+    transform: scaleY(0.8);
+  }
+  50% {
+    transform: scaleY(0.6);
+  }
+  75% {
+    transform: scaleY(0.3);
+  }
+  100% {
+    transform: scaleY(0.01);
+  }
 }
 
 /* ─── Inner: counter-scale ─── */
@@ -70,11 +94,21 @@
 }
 
 @keyframes inner-open {
-  0%   { transform: scaleY(100); }
-  25%  { transform: scaleY(3.50); }
-  50%  { transform: scaleY(1.67); }
-  75%  { transform: scaleY(1.25); }
-  100% { transform: scaleY(1.00); }
+  0% {
+    transform: scaleY(100);
+  }
+  25% {
+    transform: scaleY(3.5);
+  }
+  50% {
+    transform: scaleY(1.67);
+  }
+  75% {
+    transform: scaleY(1.25);
+  }
+  100% {
+    transform: scaleY(1);
+  }
 }
 
 [data-slot='dialog-content'][data-state='closed'] [data-slot='dialog-inner'] {
@@ -82,9 +116,19 @@
 }
 
 @keyframes inner-close {
-  0%   { transform: scaleY(1.00); }
-  25%  { transform: scaleY(1.25); }
-  50%  { transform: scaleY(1.67); }
-  75%  { transform: scaleY(3.50); }
-  100% { transform: scaleY(100); }
+  0% {
+    transform: scaleY(1);
+  }
+  25% {
+    transform: scaleY(1.25);
+  }
+  50% {
+    transform: scaleY(1.67);
+  }
+  75% {
+    transform: scaleY(3.5);
+  }
+  100% {
+    transform: scaleY(100);
+  }
 }

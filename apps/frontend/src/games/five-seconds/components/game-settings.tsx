@@ -31,7 +31,6 @@ import {
 import { Spinner } from './ui/spinner';
 import { Switch } from './ui/switch';
 import {
-  Tooltip as PrimitiveTooltip,
   Tooltip,
   TooltipContent,
   TooltipTrigger,

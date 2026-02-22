@@ -43,7 +43,8 @@ export function PlayerList() {
   const [validationError, setValidationError] = useState<string>('');
 
   const isNotCurrentUser = (playerId: string) => {
-    if (!isMultiplayer) return false;
+    if (!isMultiplayer)
+      return false;
     return playerId !== currentUserId;
   };
 

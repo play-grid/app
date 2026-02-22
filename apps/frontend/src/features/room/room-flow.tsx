@@ -163,41 +163,41 @@ export function RoomFlow({
                           <CopyButton text={room.id} variant="outline" />
                         </div>
                       </div>
-                       <div>
-                         <Label htmlFor="room-url" className="text-sm font-medium mb-2 block">
-                           {t('room-url')}
-                         </Label>
-                         <div className="flex gap-2">
-                           <div
-                             className="relative group bg-primary/5 border-2 border-primary/20 p-4 cursor-pointer hover:bg-primary/10 hover:border-primary/30 transition-all duration-200 active:scale-[0.99] flex-1"
-                             onClick={() => handleCopy(roomUrl, 'url')}
-                           >
-                             <div className="flex items-center justify-between gap-3">
-                               <span className="font-mono text-sm text-primary truncate flex-1">
-                                 {roomUrl}
-                               </span>
-                               <div className="shrink-0">
-                                 {copied === 'url'
-                                   ? (
-                                       <div className="flex items-center gap-1.5 text-green-600 animate-in fade-in duration-200">
-                                         <Check className="h-4 w-4" />
-                                         <span className="text-xs font-medium">{t('copied')}</span>
-                                       </div>
-                                     )
-                                   : (
-                                       <div className="flex items-center gap-1.5 text-muted-foreground group-hover:text-primary transition-colors">
-                                         <Copy className="h-4 w-4" />
-                                         <span className="text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity">
-                                           {t('copy-url')}
-                                         </span>
-                                       </div>
-                                     )}
-                               </div>
-                             </div>
-                           </div>
-                           <QRCodeDisplay inviteUrl={roomUrl} expiresAt={inviteExpiresAt} />
-                         </div>
-                       </div>
+                      <div>
+                        <Label htmlFor="room-url" className="text-sm font-medium mb-2 block">
+                          {t('room-url')}
+                        </Label>
+                        <div className="flex gap-2">
+                          <div
+                            className="relative group bg-primary/5 border-2 border-primary/20 p-4 cursor-pointer hover:bg-primary/10 hover:border-primary/30 transition-all duration-200 active:scale-[0.99] flex-1"
+                            onClick={() => handleCopy(roomUrl, 'url')}
+                          >
+                            <div className="flex items-center justify-between gap-3">
+                              <span className="font-mono text-sm text-primary truncate flex-1">
+                                {roomUrl}
+                              </span>
+                              <div className="shrink-0">
+                                {copied === 'url'
+                                  ? (
+                                      <div className="flex items-center gap-1.5 text-green-600 animate-in fade-in duration-200">
+                                        <Check className="h-4 w-4" />
+                                        <span className="text-xs font-medium">{t('copied')}</span>
+                                      </div>
+                                    )
+                                  : (
+                                      <div className="flex items-center gap-1.5 text-muted-foreground group-hover:text-primary transition-colors">
+                                        <Copy className="h-4 w-4" />
+                                        <span className="text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity">
+                                          {t('copy-url')}
+                                        </span>
+                                      </div>
+                                    )}
+                              </div>
+                            </div>
+                          </div>
+                          <QRCodeDisplay inviteUrl={roomUrl} expiresAt={inviteExpiresAt} />
+                        </div>
+                      </div>
                     </div>
                     <Button
                       onClick={() => {

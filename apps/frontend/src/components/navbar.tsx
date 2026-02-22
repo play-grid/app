@@ -30,7 +30,7 @@ function HamburgerIcon({ className, ...props }: React.SVGAttributes<SVGElement>)
     >
       <path
         d="M4 12L20 12"
-        className="origin-center -translate-y-[7px] transition-all duration-300 ease-[cubic-bezier(.5,.85,.25,1.1)] group-aria-expanded:translate-x-0 group-aria-expanded:translate-y-0 group-aria-expanded:rotate-[315deg]"
+        className="origin-center -translate-y-1.75 transition-all duration-300 ease-[cubic-bezier(.5,.85,.25,1.1)] group-aria-expanded:translate-x-0 group-aria-expanded:translate-y-0 group-aria-expanded:rotate-[315deg]"
       />
       <path
         d="M4 12H20"
@@ -38,7 +38,7 @@ function HamburgerIcon({ className, ...props }: React.SVGAttributes<SVGElement>)
       />
       <path
         d="M4 12H20"
-        className="origin-center translate-y-[7px] transition-all duration-300 ease-[cubic-bezier(.5,.85,.25,1.1)] group-aria-expanded:translate-y-0 group-aria-expanded:rotate-[135deg]"
+        className="origin-center translate-y-1.75 transition-all duration-300 ease-[cubic-bezier(.5,.85,.25,1.1)] group-aria-expanded:translate-y-0 group-aria-expanded:rotate-[135deg]"
       />
     </svg>
   );
@@ -72,12 +72,8 @@ export function Navbar({
   ref,
   className,
   navigationLinks = defaultNavigationLinks,
-  _signInText = 'Sign In',
-  _ctaText = 'Get Started',
-  onSignInClick,
-  onCtaClick,
   ...props
-}: NavbarProps & { ref?: React.RefObject<HTMLElement | null> }) {
+}: NavbarProps & { ref?: React.Ref<HTMLElement> }) {
   const [isMobile, setIsMobile] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const containerRef = useRef<HTMLElement>(null);
@@ -89,6 +85,7 @@ export function Navbar({
     const checkWidth = () => {
       if (containerRef.current) {
         const width = containerRef.current.offsetWidth;
+        // eslint-disable-next-line react-hooks-extra/no-direct-set-state-in-use-effect
         setIsMobile(width < 768);
       }
     };
@@ -233,6 +230,7 @@ export function Navbar({
               {navigationLinks.map((link, index) => (
 
                 <NavLink
+                  // eslint-disable-next-line react/no-array-index-key
                   key={index}
                   to={`/${lang}${link.href === '/' ? '' : link.href}`}
                   end

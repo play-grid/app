@@ -2,8 +2,8 @@ import { useFiveSecondsActions, useFiveSecondsState } from '@guess-logo/five-sec
 import { ArrowLeft, RotateCcw } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useAnalytics } from '@/hooks/use-analytics';
 import { useIsCurrentUser } from '@/features/room/use-player-identity';
+import { useAnalytics } from '@/hooks/use-analytics';
 import { AnsweringView } from '../components/answering-view';
 import { PlayerScores } from '../components/player-scores';
 import { PreTurnView } from '../components/pre-turn-view';
