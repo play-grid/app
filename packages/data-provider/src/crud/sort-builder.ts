@@ -1,4 +1,3 @@
-import type { SortParams } from '../types';
 import { asc, desc } from 'drizzle-orm';
 
 export type SortFields = Record<string, any>;

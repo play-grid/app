@@ -31,7 +31,10 @@
     "build": "tsc",
     "check-types": "tsc --noEmit",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "test": "vitest run",
+    "test:unit": "vitest run --exclude \"**/*.integration.test.ts\"",
+    "test:integration": "vitest run --exclude \"**/*.unit.test.ts\""
   },
   "dependencies": {
     "zod": "catalog:",
@@ -41,7 +44,8 @@
   "devDependencies": {
     "@types/node": "catalog:",
     "typescript": "catalog:",
-    "eslint": "catalog:"
+    "eslint": "catalog:",
+    "vitest": "catalog:"
   },
   "peerDependencies": {
     "hono": "catalog:",

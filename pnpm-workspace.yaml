@@ -21,6 +21,7 @@ catalog:
   tailwindcss: ^4.1.17
   typescript: ^5.9.3
   vite: 7.1.12
+  vitest: ^4.0.18
   wrangler: ^4.46.0
   zod: ^4.1.12
 
