@@ -18,7 +18,6 @@ export interface CRUDHandlerOptions<_T extends Table> {
   searchFields?: string[];
   filterMap?: Record<string, (value: any) => any>;
   sortFields?: Record<string, any>;
-  relations?: Record<string, any>;
   softDelete?: boolean;
   deleteField?: string;
 }
@@ -101,11 +100,9 @@ export function createCRUDHandlers<
 
         const pagination = createPaginationMeta(total, { page, limit });
 
-        const parsedData = data.map((item: unknown) => outputSchema.parse(item));
-
         return c.json(
           {
-            data: parsedData,
+            data: data as TData[],
             pagination,
           } satisfies PaginationResponse<TData>,
           HttpStatusCodes.OK,
@@ -137,9 +134,7 @@ export function createCRUDHandlers<
           return c.json({ error: 'Not found' }, HttpStatusCodes.NOT_FOUND);
         }
 
-        const parsedItem = outputSchema.parse(item);
-
-        return c.json(parsedItem, HttpStatusCodes.OK);
+        return c.json(item as TData, HttpStatusCodes.OK);
       }
       catch {
         return c.json(
@@ -156,9 +151,7 @@ export function createCRUDHandlers<
       try {
         const [newItem] = await db.insert(table).values(input).returning();
 
-        const parsedItem = outputSchema.parse(newItem);
-
-        return c.json(parsedItem, HttpStatusCodes.CREATED);
+        return c.json(newItem as TData, HttpStatusCodes.CREATED);
       }
       catch (error) {
         return c.json(
@@ -187,9 +180,7 @@ export function createCRUDHandlers<
           return c.json({ error: 'Not found' }, HttpStatusCodes.NOT_FOUND);
         }
 
-        const parsedItem = outputSchema.parse(updatedItem);
-
-        return c.json(parsedItem, HttpStatusCodes.OK);
+        return c.json(updatedItem as TData, HttpStatusCodes.OK);
       }
       catch (error) {
         return c.json(
