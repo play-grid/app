@@ -40,6 +40,7 @@
     "@guess-logo/shared": "workspace:*",
     "zod": "catalog:",
     "drizzle-orm": "catalog:",
+    "drizzle-zod": "catalog:",
     "stoker": "catalog:"
   },
   "devDependencies": {
@@ -51,6 +52,7 @@
   },
   "peerDependencies": {
     "hono": "catalog:",
-    "@hono/zod-openapi": "catalog:"
+    "@hono/zod-openapi": "catalog:",
+    "@hono/zod-validator": "catalog:"
   }
 }

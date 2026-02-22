@@ -59,7 +59,7 @@
     "better-auth-cloudflare": "^0.2.8",
     "drizzle-cuid2": "^2.1.0",
     "drizzle-orm": "^0.44.7",
-    "drizzle-zod": "^0.8.3",
+    "drizzle-zod": "catalog:",
     "hono": "catalog:",
     "hono-pino": "^0.10.3",
     "hono-rate-limiter": "^0.4.2",
