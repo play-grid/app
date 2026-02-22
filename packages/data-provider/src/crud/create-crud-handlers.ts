@@ -5,11 +5,14 @@ import type {
   PaginationResponse,
 } from '../types';
 
-import { eq, sql } from 'drizzle-orm';
+import { and, eq, sql } from 'drizzle-orm';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
-import { applyFilters } from './filter-builder';
 import { applyPagination, createPaginationMeta } from './pagination-builder';
 import { applySorting } from './sort-builder';
+
+function getTableColumn<T extends Table>(table: T, columnName: string): any {
+  return (table as Record<string, any>)[columnName];
+}
 
 export interface CRUDHandlerOptions<_T extends Table> {
   searchFields?: string[];
@@ -44,6 +47,31 @@ export function createCRUDHandlers<
     deleteField = 'deletedAt',
   } = options;
 
+  const buildWhereConditions = (search?: string, filters?: Record<string, any>) => {
+    const conditions: any[] = [];
+
+    if (softDelete) {
+      conditions.push(eq(getTableColumn(table, deleteField), null));
+    }
+
+    if (search && searchFields.length > 0) {
+      const searchConditions = searchFields.map((field: string) =>
+        sql`lower(${getTableColumn(table, field)}) like ${`%${search.toLowerCase()}%`}`,
+      );
+      conditions.push(sql`(${sql.join(searchConditions, sql` or `)})`);
+    }
+
+    if (filters) {
+      for (const [key, value] of Object.entries(filters)) {
+        if (value !== undefined && value !== null && filterMap[key]) {
+          conditions.push(filterMap[key](value));
+        }
+      }
+    }
+
+    return conditions.length > 0 ? and(...conditions) : undefined;
+  };
+
   return {
     list: async (c: any) => {
       const db = c.get('db');
@@ -53,32 +81,20 @@ export function createCRUDHandlers<
       try {
         let queryBuilder = db.select().from(table);
 
-        if (softDelete) {
-          queryBuilder = queryBuilder.where(eq((table as any)[deleteField], null));
+        const whereCondition = buildWhereConditions(search, filters);
+        if (whereCondition) {
+          queryBuilder = queryBuilder.where(whereCondition);
         }
-
-        if (search && searchFields.length > 0) {
-          const searchConditions = searchFields.map((field: string) =>
-            sql`lower(${(table as any)[field]}) like ${`%${search.toLowerCase()}%`}`,
-          );
-          queryBuilder = queryBuilder.where(sql`(${sql.join(searchConditions, sql` or `)})`);
-        }
-
-        const filteredQuery = applyFilters(queryBuilder, filters, filterMap);
 
         const sortedQuery = sort && sortFields[sort]
-          ? applySorting(filteredQuery, sort, order, sortFields as any)
-          : filteredQuery;
+          ? applySorting(queryBuilder, sort, order, sortFields)
+          : queryBuilder;
 
         const paginatedQuery = applyPagination(sortedQuery, { page, limit });
 
         const data = await paginatedQuery;
 
         const countQuery = db.select({ count: sql<number>`count(*)` }).from(table);
-
-        const whereCondition = softDelete
-          ? eq((table as any)[deleteField], null)
-          : undefined;
 
         const countResult = await countQuery.where(whereCondition);
         const total = countResult[0]?.count || 0;
@@ -108,13 +124,14 @@ export function createCRUDHandlers<
       const { id } = c.req.valid('param');
 
       try {
-        let queryBuilder = db.select().from(table).where(eq((table as any).id, id)).limit(1);
+        const whereCondition = softDelete
+          ? and(
+              eq(getTableColumn(table, 'id'), id),
+              eq(getTableColumn(table, deleteField), null),
+            )
+          : eq(getTableColumn(table, 'id'), id);
 
-        if (softDelete) {
-          queryBuilder = queryBuilder.where(eq((table as any)[deleteField], null));
-        }
-
-        const [item] = await queryBuilder;
+        const [item] = await db.select().from(table).where(whereCondition).limit(1);
 
         if (!item) {
           return c.json({ error: 'Not found' }, HttpStatusCodes.NOT_FOUND);
@@ -157,13 +174,14 @@ export function createCRUDHandlers<
       const input = c.req.valid('json');
 
       try {
-        let queryBuilder = db.update(table).set(input).where(eq((table as any).id, id));
+        const whereCondition = softDelete
+          ? and(
+              eq(getTableColumn(table, 'id'), id),
+              eq(getTableColumn(table, deleteField), null),
+            )
+          : eq(getTableColumn(table, 'id'), id);
 
-        if (softDelete) {
-          queryBuilder = queryBuilder.where(eq((table as any)[deleteField], null));
-        }
-
-        const [updatedItem] = await queryBuilder.returning();
+        const [updatedItem] = await db.update(table).set(input).where(whereCondition).returning();
 
         if (!updatedItem) {
           return c.json({ error: 'Not found' }, HttpStatusCodes.NOT_FOUND);
@@ -187,10 +205,15 @@ export function createCRUDHandlers<
 
       try {
         if (softDelete) {
+          const whereCondition = and(
+            eq(getTableColumn(table, 'id'), id),
+            eq(getTableColumn(table, deleteField), null),
+          );
+
           const [deletedItem] = await db
             .update(table)
             .set({ [deleteField]: new Date() })
-            .where(eq((table as any).id, id))
+            .where(whereCondition)
             .returning();
 
           if (!deletedItem) {
@@ -200,7 +223,7 @@ export function createCRUDHandlers<
           return c.json(deletedItem, HttpStatusCodes.OK);
         }
 
-        const [deletedItem] = await db.delete(table).where(eq((table as any).id, id)).returning();
+        const [deletedItem] = await db.delete(table).where(eq(getTableColumn(table, 'id'), id)).returning();
 
         if (!deletedItem) {
           return c.json({ error: 'Not found' }, HttpStatusCodes.NOT_FOUND);
