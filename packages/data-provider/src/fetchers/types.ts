@@ -1,4 +1,6 @@
-export type Fetcher<TData> = (language: string) => Promise<TData>;
+import type { SupportedLanguage } from '@guess-logo/shared/types';
+
+export type Fetcher<TData> = (language: SupportedLanguage) => Promise<TData>;
 
 export interface KVCache {
   get: (key: string) => Promise<string | null>;

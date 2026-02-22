@@ -1,3 +1,4 @@
+import type { SupportedLanguage } from '@guess-logo/shared/types';
 import type { Fetcher, KVCache } from './types';
 
 export interface CachedFetcherOptions {
@@ -10,7 +11,7 @@ export function createCachedFetcher<TData>(
   fetcher: Fetcher<TData>,
   options: CachedFetcherOptions,
 ): Fetcher<TData> {
-  return async (language: string) => {
+  return async (language: SupportedLanguage) => {
     const cacheKey = `${options.cacheKey}:${language}`;
     const cached = await options.cache.get(cacheKey);
 
@@ -24,3 +25,5 @@ export function createCachedFetcher<TData>(
     return data;
   };
 }
+
+export type { KVCache };

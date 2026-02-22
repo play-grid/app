@@ -90,7 +90,9 @@ export function createFetcherRegistry<TData, TFamily extends string>(
       catalog[family] = {
         variants: Array.from(variants.keys()),
         defaultTtl: config.defaultTtl,
-        ...firstRegistration?.metadata,
+        ...Object.fromEntries(
+          Object.entries(firstRegistration?.metadata ?? {}).filter(([k, v]) => v !== undefined && k !== 'lastUpdated'),
+        ),
       };
     });
 
