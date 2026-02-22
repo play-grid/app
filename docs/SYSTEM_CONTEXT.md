@@ -265,8 +265,9 @@ UI Re-render
 
 - [Architecture Overview v2](./monorepo-structure-v2.md) - Detailed package structure and dependencies
 - [Quick Reference](./quick-reference.md) - Developer patterns and code examples
+- [UI Component Architecture: Primitives + Skins](./architecture/ui-component-architecture.md) - Two-layer UI pattern for pluggable games
 - [Constraint: game-core Must Be Agnostic](./CONSTRAINTS/game-core-agnostic.md) - Rule that game-core must not contain game-specific logic
-- [ADR 002: Breaking Circular Dependencies](../decisions/002-break-circular-dependencies.md) - Current refactoring work
+- [ADR 002: Breaking Circular Dependencies](./decisions/002-break-circular-dependencies.md) - Current refactoring work
 - [Dependency Comparison](./dependency-comparison.md) - Visual comparison of v1 vs v2 architecture
 
 ---

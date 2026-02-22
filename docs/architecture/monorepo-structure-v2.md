@@ -398,6 +398,7 @@ The API and frontend are deployed together as a single Cloudflare Worker:
 
 - [ADR 002: Breaking Circular Dependencies](../decisions/002-break-circular-dependencies.md)
 - [Implementation Plan](../refactoring/002-implementation-plan.md)
+- [UI Component Architecture: Primitives + Skins](./ui-component-architecture.md) - Two-layer UI pattern
 - [Turbo](https://turbo.build/repo/docs)
 - [Hono](https://hono.dev/docs)
 - [Zod](https://zod.dev)
