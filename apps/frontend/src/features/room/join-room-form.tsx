@@ -2,6 +2,8 @@ import type { JoinRoomFormValues } from '@guess-logo/api/schemas';
 import type { Room } from '@guess-logo/shared/schemas';
 import { joinRoomFormSchema } from '@guess-logo/api/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useSearchParams } from 'react-router-dom';
@@ -10,7 +12,8 @@ import { useSession } from '@/hooks/auth-hooks';
 import { Button } from '../../games/five-seconds/components/ui/button';
 import { Input } from '../../games/five-seconds/components/ui/input';
 import { Label } from '../../games/five-seconds/components/ui/label';
-import { useJoinRoom } from './use-room';
+import { joinGameRoom } from './room-service';
+import { useValidateInvite } from './use-room';
 
 interface JoinRoomFormProps {
   gameType: string;
@@ -31,13 +34,39 @@ function extractRoomId(value: string): string {
   return value.trim();
 }
 
+function extractInviteToken(value: string): string | undefined {
+  try {
+    const url = new URL(value);
+    const inviteToken = url.searchParams.get('invite');
+    if (inviteToken) {
+      return inviteToken;
+    }
+  }
+  catch {
+  }
+  return undefined;
+}
+
 export function JoinRoomForm({ gameType, onRoomJoined, onDialogClose }: JoinRoomFormProps) {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { user } = useSession();
+  const [inviteToken, setInviteToken] = useState<string | undefined>(undefined);
+  const [_, setIsValidatingInvite] = useState(false);
 
-  const { mutate: joinRoom, isError: isJoiningError } = useJoinRoom({
+  const inviteFromUrl = searchParams.get('invite');
+  const roomIdFromUrl = searchParams.get('room');
+
+  const { isValid: isInviteValid } = useValidateInvite({
+    roomId: roomIdFromUrl,
+    token: inviteFromUrl,
+  });
+
+  const { mutate: joinGameRoomMutation, isError: isJoiningError } = useMutation({
+    mutationFn: async ({ roomId, playerName, inviteToken }: { roomId: string; playerName: string; inviteToken?: string }) => {
+      return joinGameRoom(roomId, { playerName, inviteToken });
+    },
     onSuccess: (room: Room) => {
       onRoomJoined(room);
       onDialogClose();
@@ -54,9 +83,22 @@ export function JoinRoomForm({ gameType, onRoomJoined, onDialogClose }: JoinRoom
     },
   });
 
-  const handleJoinSubmit = (values: JoinRoomFormValues) => {
+  useEffect(() => {
+    if (inviteFromUrl && roomIdFromUrl && isInviteValid) {
+      setInviteToken(inviteFromUrl ?? undefined);
+      joinForm.setValue('roomId', roomIdFromUrl);
+    }
+    else if (roomIdFromUrl && !inviteFromUrl) {
+      joinForm.setValue('roomId', roomIdFromUrl);
+    }
+  }, [inviteFromUrl, roomIdFromUrl, isInviteValid, joinForm]);
+
+  const handleJoinSubmit = async (values: JoinRoomFormValues) => {
     const roomId = extractRoomId(values.roomId);
-    joinRoom({ roomId, playerName: values.playerName });
+    const extractedInviteToken = extractInviteToken(values.roomId) || inviteToken;
+    setIsValidatingInvite(true);
+    joinGameRoomMutation({ roomId, playerName: values.playerName, inviteToken: extractedInviteToken });
+    setIsValidatingInvite(false);
   };
 
   return (

@@ -7,6 +7,8 @@ interface RoomSession {
   playerName: string;
   credentials: string;
   initialGameState?: any;
+  inviteToken?: string | null;
+  inviteExpiresAt?: string | null;
 }
 
 interface RoomSessionState {
@@ -47,6 +49,8 @@ export const useRoomSessionStore = create<RoomSessionState>()(
               playerId: state.session.playerId,
               playerName: state.session.playerName,
               credentials: state.session.credentials,
+              inviteToken: state.session.inviteToken,
+              inviteExpiresAt: state.session.inviteExpiresAt,
             }
           : null,
       }),

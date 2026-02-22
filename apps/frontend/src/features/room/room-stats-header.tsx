@@ -1,9 +1,13 @@
-import { AlertCircle, Globe, Zap } from 'lucide-react';
+import { AlertCircle, Globe, QrCode, Zap } from 'lucide-react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CopyButton } from '@/components/copy-button';
+import { QRCodeDisplay } from '@/components/qrcode-display';
+import { Button } from '@/games/five-seconds/components/ui/button';
 import { useGameMode } from '@/hooks/use-game-mode';
 import { Badge } from '../../games/five-seconds/components/ui/badge';
 import { Card } from '../../games/five-seconds/components/ui/card';
+import { useRoomSession } from './room-store';
 import { useRoomStats } from './use-room';
 
 interface RoomStatsHeaderProps {
@@ -13,11 +17,23 @@ interface RoomStatsHeaderProps {
 export function RoomHeader({
   roomId,
 }: RoomStatsHeaderProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { mode } = useGameMode();
-  const { room, isLoading, isError, error } = useRoomStats({
+  const { session } = useRoomSession();
+  const [showInviteOptions, setShowInviteOptions] = useState(false);
+  const { room, isPending, isError, error } = useRoomStats({
     roomId: roomId ?? undefined,
   });
+
+  const gameType = room?.gameType || 'five-seconds';
+  const inviteToken = session?.inviteToken;
+  const inviteExpiresAt = session?.inviteExpiresAt ?? undefined;
+
+  const inviteUrl = inviteToken
+    ? `${window.location.origin}/${i18n.language}/${gameType}?mode=multiplayer&room=${roomId}&invite=${inviteToken}`
+    : roomId
+      ? `${window.location.origin}/${i18n.language}/${gameType}?mode=multiplayer&room=${roomId}`
+      : '';
 
   if (mode === 'local') {
     return (
@@ -44,7 +60,7 @@ export function RoomHeader({
       );
     }
 
-    if (isLoading) {
+    if (isPending) {
       return (
         <div className="flex items-center gap-2">
           <Badge variant="outline" className="gap-1.5 animate-pulse">
@@ -58,32 +74,63 @@ export function RoomHeader({
     if (room) {
       return (
         <Card className="bg-primary/40 p-4">
-          <div className="flex items-center justify-between gap-4">
-            <div className="flex-1 min-w-0">
-              <p className="text-xs text-foreground mb-2">
-                {t('mode.online')}
-              </p>
-              <div className="flex items-center gap-2 mt-2 justify-center">
-                <code className="text-2xl font-mono font-bold text-foreground px-3 py-1.5">
-                  {roomId}
-                </code>
-                <CopyButton text={roomId!} />
+          <div className="space-y-3">
+            <div className="flex items-center justify-between gap-4">
+              <div className="flex-1 min-w-0">
+                <p className="text-xs text-foreground mb-2">
+                  {t('mode.online')}
+                </p>
+                <div className="flex items-center gap-2 mt-2 justify-center">
+                  <code className="text-2xl font-mono font-bold text-foreground px-3 py-1.5">
+                    {roomId}
+                  </code>
+                  <CopyButton text={roomId!} />
+                </div>
+              </div>
+
+              <div className="flex flex-col gap-2 shrink-0">
+                <Badge variant="outline" className="justify-center">
+                  {room.currentPlayers}
+                  /
+                  {room.maxPlayers}
+                </Badge>
+                <Badge
+                  variant={room.status === 'active' ? 'default' : 'secondary'}
+                  className="justify-center capitalize"
+                >
+                  {room.status}
+                </Badge>
               </div>
             </div>
-
-            <div className="flex flex-col gap-2 shrink-0">
-              <Badge variant="outline" className="justify-center">
-                {room.currentPlayers}
-                /
-                {room.maxPlayers}
-              </Badge>
-              <Badge
-                variant={room.status === 'active' ? 'default' : 'secondary'}
-                className="justify-center capitalize"
-              >
-                {room.status}
-              </Badge>
-            </div>
+            {showInviteOptions
+              ? (
+                  <div className="space-y-2 pt-2 border-t border-primary/20">
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="text-xs text-foreground">{t('invite-link')}</span>
+                      <div className="flex items-center gap-1">
+                        <CopyButton text={inviteUrl} variant="ghost" size="sm" />
+                        <QRCodeDisplay inviteUrl={inviteUrl} expiresAt={inviteExpiresAt} />
+                      </div>
+                    </div>
+                    {inviteExpiresAt && (
+                      <p className="text-xs text-muted-foreground">
+                        Expires:
+                        {' '}
+                        {new Date(inviteExpiresAt).toLocaleString()}
+                      </p>
+                    )}
+                  </div>
+                )
+              : (
+                  <Button
+                    type="button"
+                    onClick={() => setShowInviteOptions(true)}
+                    className="w-full text-sm text-primary hover:text-primary/80 flex items-center justify-center gap-2 transition-colors"
+                  >
+                    <QrCode className="h-4 w-4" />
+                    {t('show-invite-options')}
+                  </Button>
+                )}
           </div>
         </Card>
       );

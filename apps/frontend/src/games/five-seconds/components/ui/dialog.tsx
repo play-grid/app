@@ -4,6 +4,12 @@ import { X } from 'lucide-react';
 import * as React from 'react';
 import './dialog-animations.css';
 
+const Dialog = DialogPrimitive.Root;
+const DialogClose = DialogPrimitive.Close;
+const DialogTrigger = DialogPrimitive.Trigger;
+
+export { Dialog, DialogClose, DialogTrigger };
+
 export function DialogOverlay({ className, ...props }: React.ComponentProps<typeof DialogPrimitive.Overlay>) {
   return (
     <DialogPrimitive.Overlay

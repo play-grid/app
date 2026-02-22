@@ -6,11 +6,13 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 
 interface GameRoomModalProps extends Omit<RoomFlowProps, 'onClose'> {
   trigger: React.ReactNode;
+  defaultOpen?: boolean;
+  defaultTab?: 'create-room' | 'join-room';
 }
 
-export function GameRoomModal({ trigger, ...roomFlowProps }: GameRoomModalProps) {
+export function GameRoomModal({ trigger, defaultOpen = false, defaultTab = 'create-room', ...roomFlowProps }: GameRoomModalProps) {
   const { t } = useTranslation();
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(defaultOpen);
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -20,7 +22,7 @@ export function GameRoomModal({ trigger, ...roomFlowProps }: GameRoomModalProps)
           <DialogTitle>{t('play-online')}</DialogTitle>
           <DialogDescription>{t('room.dialog.description')}</DialogDescription>
         </DialogHeader>
-        <RoomFlow {...roomFlowProps} onClose={() => setOpen(false)} />
+        <RoomFlow {...roomFlowProps} defaultTab={defaultTab} onClose={() => setOpen(false)} />
       </DialogContent>
     </Dialog>
   );

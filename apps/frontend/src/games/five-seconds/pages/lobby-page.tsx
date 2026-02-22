@@ -7,15 +7,16 @@ import {
 import { Earth, Info, Play, Settings, Zap } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { toast } from 'sonner';
 import BackButton from '@/components/back-button';
+import { useRoomPermissions } from '@/context/room-permissions';
 import { RoomHeader } from '@/features/room/room-stats-header';
 import { useClearSession } from '@/features/room/use-session-cleanup';
 import { useAnalytics } from '@/hooks/use-analytics';
-import { useRoomPermissions } from '@/context/room-permissions';
 import { useGameMode } from '@/hooks/use-game-mode';
 import { FEATURE_FLAGS } from '@/lib/constants';
+import { cn } from '@/lib/utils';
 import { GameInstructions } from '../components/game-instructions';
 import { GameRoomModal } from '../components/game-room-modal';
 import { GameSettings } from '../components/game-settings';
@@ -24,7 +25,6 @@ import { Button } from '../components/ui/button';
 import { Card } from '../components/ui/card';
 import { Dialog, DialogContent, DialogTrigger } from '../components/ui/dialog';
 import { useUrlSyncedSettingsOnly } from '../hooks/use-url-synced-settings';
-import { cn } from '@/lib/utils';
 
 const FIRST_VISIT_KEY = 'FIVE_SECONDS_FIRST_VISIT';
 
@@ -32,6 +32,7 @@ export function FiveSecondsLobby() {
   const { t } = useTranslation();
   const { i18n } = useTranslation();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { settings, players } = useFiveSecondsState();
   const { startGame } = useFiveSecondsActions();
   const { trackGameModeSelected, trackGameStart } = useAnalytics();
@@ -39,6 +40,10 @@ export function FiveSecondsLobby() {
   const { mode, roomId } = useGameMode();
   const clearSession = useClearSession();
   const permissions = useRoomPermissions(players);
+
+  const inviteParam = searchParams.get('invite');
+  const roomParam = searchParams.get('room');
+  const hasInviteParams = !!(inviteParam || roomParam);
 
   const [isInstructionsOpen, setIsInstructionsOpen] = useState(() => {
     const hasVisited = localStorage.getItem(FIRST_VISIT_KEY);
@@ -133,6 +138,8 @@ export function FiveSecondsLobby() {
                               {t('play-online')}
                             </Button>
                           )}
+                          defaultOpen={hasInviteParams}
+                          defaultTab={inviteParam ? 'join-room' : 'create-room'}
                           gameType="five-seconds"
                           gameSettings={settings}
                           onRoomCreated={handleRoomCreated}
