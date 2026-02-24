@@ -1,5 +1,4 @@
 import type { Table } from 'drizzle-orm';
-import type { DrizzleD1Database } from 'drizzle-orm/d1';
 
 import type { StatItemInput, StatItemTransformer, SyncResult } from '../types';
 import { and, eq } from 'drizzle-orm';
@@ -20,7 +19,21 @@ export async function runSync<TRaw, TTable extends Table>(
   options: SyncOptions<TTable>,
 ): Promise<SyncResult> {
   const startTime = Date.now();
-  const rawItems = await transformer.fetch();
+
+  let rawItems: TRaw[];
+  try {
+    rawItems = await transformer.fetch();
+  }
+  catch (err) {
+    console.error(`Fetch failed for ${transformer.category}:`, err);
+    return {
+      inserted: 0,
+      updated: 0,
+      skipped: 0,
+      errors: 1,
+      duration: Date.now() - startTime,
+    };
+  }
 
   let inserted = 0;
   let updated = 0;
@@ -28,6 +41,16 @@ export async function runSync<TRaw, TTable extends Table>(
   let errors = 0;
 
   const table = options.table;
+
+  if (!rawItems || (Array.isArray(rawItems) && rawItems.length === 0)) {
+    return {
+      inserted,
+      updated,
+      skipped,
+      errors: 0,
+      duration: Date.now() - startTime,
+    };
+  }
 
   for (const raw of rawItems) {
     let inputs: StatItemInput[];

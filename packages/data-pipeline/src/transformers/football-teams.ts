@@ -24,11 +24,11 @@ export function createFootballTeamsTransformer(config: FootballTeamsTransformerC
     transform(standing) {
       const base = {
         entity: 'team',
-        externalId: String(standing.team.id),
+        externalId: String(standing.team?.id),
         category: 'football',
-        name: standing.team.name,
-        imageUrl: standing.team.logo,
-        hint: standing.league.name,
+        name: standing.team?.name ?? 'Unknown Team',
+        imageUrl: standing.team?.logo,
+        hint: standing.league?.name,
         source: 'api-sports',
       };
 
@@ -36,13 +36,13 @@ export function createFootballTeamsTransformer(config: FootballTeamsTransformerC
         {
           ...base,
           metricType: 'position',
-          value: standing.rank,
+          value: standing.rank ?? 0,
           unit: 'league position',
         },
         {
           ...base,
           metricType: 'wins',
-          value: standing.all.win,
+          value: standing.all?.win ?? 0,
           unit: 'wins this season',
         },
       ];

@@ -495,3 +495,98 @@ apps/api/
 - `metricType` must be part of every game query filter or you get mixed metrics in one comparison round — easy to forget
 - 300 pending items after a sync requires active admin review; stale content if admin doesn't log in
 - Alpha Vantage eliminated for companies — need a replacement API with better burst limits before building that transformer
+
+---
+
+## Testing Strategy
+
+### Philosophy: Test Behavior, Not Implementation
+
+Tests should verify **what the system does** (sync data from API to database), not **how** it does it (specific method calls). This higher-level approach:
+- Catches integration issues between components
+- Allows implementation changes without breaking tests
+- Verifies actual database state (the source of truth)
+- Focuses on user-facing behavior
+
+### Test Priority
+
+**Phase 1: Critical** (Must have, prevents production bugs)
+1. **End-to-End Pipeline Tests** - Test complete flow: fetch → transform → database
+2. **API Edge Case Tests** - Test empty responses, null values, malformed data
+3. **Regression Tests** - Document and test bugs we've found to prevent reoccurrence
+
+**Phase 2: Important** (Improves robustness)
+4. Transformer Contract Tests - Verify all transformers follow interface
+5. Property-Based Tests - Generate random inputs to find edge cases
+
+### Test Structure
+
+```
+packages/data-pipeline/src/
+├── integration/
+│   ├── pipeline.test.ts          ← E2E: fetch → transform → database
+│   ├── edge-cases.test.ts       ← API failures, malformed data
+│   ├── regression.test.ts        ← Bugs we've found
+│   └── contract.test.ts         ← Transformer interface compliance
+└── (existing unit tests remain)
+```
+
+### Key Testing Patterns
+
+1. **Mock HTTP layer** - Use `vi.stubGlobal('fetch')` to simulate API responses without network calls
+2. **Verify database state** - After sync, query database to verify actual data (not just return values)
+3. **Test failure scenarios** - What happens when APIs return garbage, when database fails, etc.
+4. **Don't test internals** - Don't assert that specific methods were called; test outcomes instead
+5. **Regression documentation** - Each bug gets a test case explaining what failed and why
+
+### Example Critical Test
+
+```typescript
+// integration/pipeline.test.ts
+
+it('should sync football players from API to database', async () => {
+  // Mock API response (realistic data structure)
+  vi.stubGlobal('fetch', vi.fn(() =>
+    Promise.resolve({
+      ok: true,
+      json: () => Promise.resolve({ response: mockPlayersData }),
+    })
+  ));
+
+  // Run sync
+  const result = await runSync(footballPlayersTransformer, db);
+
+  // Verify high-level expectations
+  expect(result.inserted).toBeGreaterThan(0);
+  expect(result.errors).toBe(0);
+
+  // Verify database state (source of truth)
+  const dbItems = await db.select().from(statItemsTable);
+  expect(dbItems.some(i => i.category === 'football' && i.entity === 'player')).toBe(true);
+});
+```
+
+### Regression Test Example
+
+Bug: Empty standings array caused crash (`data.response[0].standings[0]` was undefined)
+
+```typescript
+// integration/regression.test.ts
+
+describe('Bug: Empty standings array caused crash', () => {
+  it('should handle standings endpoint returning empty response', async () => {
+    vi.stubGlobal('fetch', vi.fn(() =>
+      Promise.resolve({
+        ok: true,
+        json: () => Promise.resolve({ response: [{ league: { name: 'League' }, standings: [] }] }),
+      })
+    ));
+
+    const result = await runSync(footballTeamsTransformer, db);
+
+    // Should handle gracefully, not crash
+    expect(result.errors).toBe(0);
+    expect(result.inserted).toBe(0);
+  });
+});
+```

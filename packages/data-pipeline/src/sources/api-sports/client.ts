@@ -28,6 +28,14 @@ export class APISportsClient extends ExternalAPIBase {
         response: APISportsPlayer[];
       }>(`/players/topscorers?league=${leagueId}&season=${options.season}`);
 
+      if (!data || !data.response) {
+        throw new Error('Invalid response structure: missing response property');
+      }
+
+      if (!Array.isArray(data.response)) {
+        throw new TypeError('Invalid response structure: response is not an array');
+      }
+
       players.push(...data.response.slice(0, options.limit));
     }
 
@@ -48,7 +56,17 @@ export class APISportsClient extends ExternalAPIBase {
         }>;
       }>(`/standings?league=${leagueId}&season=${options.season}`);
 
-      standings.push(...data.response[0].standings[0]);
+      if (!data?.response) {
+        throw new Error('Invalid response structure: missing response property');
+      }
+
+      if (!Array.isArray(data.response) || data.response.length === 0) {
+        continue;
+      }
+
+      if (data.response[0]?.standings?.[0]) {
+        standings.push(...data.response[0].standings[0]);
+      }
     }
 
     return standings;

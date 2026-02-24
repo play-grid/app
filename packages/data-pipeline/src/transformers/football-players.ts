@@ -24,10 +24,10 @@ export function createFootballPlayersTransformer(config: FootballPlayersTransfor
     transform(player) {
       const base = {
         entity: 'player',
-        externalId: String(player.player.id),
+        externalId: String(player.player?.id),
         category: 'football',
-        name: player.player.name,
-        imageUrl: player.player.photo,
+        name: player.player?.name ?? 'Unknown Player',
+        imageUrl: player.player?.photo,
         hint: player.statistics[0]?.team?.name,
         source: 'api-sports',
       };

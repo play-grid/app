@@ -1,6 +1,6 @@
-import { describe, expect, it, beforeEach, vi } from 'vitest';
+import type { StatItemInput, StatItemTransformer } from './types';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { runSync } from './sync/run-sync';
-import type { StatItemTransformer, StatItemInput } from './types';
 
 describe('runSync', () => {
   const mockDb = {
