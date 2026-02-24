@@ -15,15 +15,18 @@ export const statItemsTable = sqliteTable('stat_items', {
   externalId: text('external_id'),
   category: text('category').notNull(),
   name: text('name').notNull(),
+  nameAr: text('name_ar'),
 
   metricType: text('metric_type').notNull(),
   value: real('value').notNull(),
   unit: text('unit').notNull(),
+  unitAr: text('unit_ar'),
 
   imageKey: text('image_key'),
   imageUrl: text('image_url'),
 
   hint: text('hint'),
+  hintAr: text('hint_ar'),
 
   source: text('source').notNull(),
   status: text('status').notNull().default('pending'),

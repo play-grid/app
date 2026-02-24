@@ -22,11 +22,14 @@
 		"R2_PUBLIC_URL": "https://r2.playgrid.mohdalaa.com"
 	},
 	// FRONTEND
-	 "assets": {
+ 	 "assets": {
     		"directory": "../frontend/dist",
 		"not_found_handling": "single-page-application",
 		"binding": "ASSETS"
   	},
+	"ai": {
+		"binding": "AI"
+	},
 	"env": {
 		"staging": {
 			"name": "playgrid-api-staging",
@@ -94,7 +97,10 @@
 				"LOG_LEVEL": "info",
 				"NODE_ENV": "staging",
 				"R2_PUBLIC_URL": "https://r2.playgrid.mohdalaa.com",
-				"API_URL": "https://staging.playgrid.mohdalaa.com"
+				"API_URL": "https://staging.playgrid.mohadalaa.com"
+			},
+			"ai": {
+				"binding": "AI"
 			}
 		},
 		"production": {

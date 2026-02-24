@@ -13,6 +13,7 @@ export interface CloudflareBindings {
   LOGO_CACHE: KVNamespace;
   QUESTIONS: KVNamespace;
   PLAY_GRID_BUCKET: R2Bucket;
+  AI: Ai;
   Variables: {
     userId?: string;
     user?: User;

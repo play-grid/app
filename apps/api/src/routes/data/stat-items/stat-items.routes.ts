@@ -3,7 +3,16 @@ import { createRoute, z } from '@hono/zod-openapi';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import { jsonContent } from 'stoker/openapi/helpers';
 
-const statItemResponseSchema = gameStatItemSchema.openapi('StatItem');
+const statItemResponseSchema = gameStatItemSchema.pick({
+  id: true,
+  entity: true,
+  name: true,
+  metricType: true,
+  value: true,
+  unit: true,
+  imageUrl: true,
+  hint: true,
+}).openapi('StatItem');
 
 export const getStatItems = createRoute({
   path: '/stat-items',
@@ -26,6 +35,9 @@ export const getStatItems = createRoute({
       }),
       excludeIds: z.array(z.string()).optional().openapi({
         description: 'IDs to exclude from results',
+      }),
+      lang: z.enum(['en', 'ar']).default('en').openapi({
+        description: 'Language for the response. Arabic items will be translated on first request and cached.',
       }),
     }),
   },
