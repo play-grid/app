@@ -35,7 +35,7 @@ export async function getSportRegionsService(db: DB) {
       en: region.name_en,
       ar: region.name_ar,
     },
-    teamsCount: region.teamsCount,
+    teamsCount: region.teamsCount || 0,
   }));
 }
 
@@ -65,7 +65,7 @@ export async function getLeaguesInRegion(db: DB, regionId: string) {
       return league.teams.map(team => ({
         id: team.id,
         name: team.name,
-        imageUrl: team.logo,
+        imageUrl: team.logoUrl,
       }));
     },
   }));
@@ -89,7 +89,7 @@ export async function getTeamsInLeague(db: DB, regionId: string, leagueId: strin
   return league.teams.map(team => ({
     id: team.id,
     name: team.name,
-    imageUrl: team.logo,
+    imageUrl: team.logoUrl,
   }));
 }
 
@@ -97,7 +97,7 @@ export async function getAllTeamsInRegion(db: DB, regionId: string) {
   const allTeams = await db.select({
     id: schema.teams.id,
     name: schema.teams.name,
-    imageUrl: schema.teams.logo,
+    imageUrl: schema.teams.logoUrl,
   })
     .from(schema.teams)
     .innerJoin(schema.leagues, eq(schema.teams.leagueId, schema.leagues.id))
@@ -110,7 +110,7 @@ export async function getAllSportTeamsInCountry(db: DB, countryId: string) {
   const allTeams = await db.select({
     id: schema.teams.id,
     name: schema.teams.name,
-    imageUrl: schema.teams.logo,
+    imageUrl: schema.teams.logoUrl,
   })
     .from(schema.teams)
     .innerJoin(schema.leagues, eq(schema.teams.leagueId, schema.leagues.id))
@@ -138,7 +138,7 @@ export async function getAllTeamsInCustomList(db: DB, listId: string) {
       .map(item => ({
         id: item.team.id,
         name: item.team.name,
-        imageUrl: item.team.logo,
+        imageUrl: item.team.logoUrl,
       }));
   }
   catch (error) {
@@ -152,7 +152,7 @@ export async function getAllSportTeams(db: DB) {
   return allTeams.map(team => ({
     id: team.id,
     name: team.name,
-    imageUrl: team.logo,
+    imageUrl: team.logoUrl,
   }));
 }
 
@@ -162,7 +162,7 @@ export async function getAvailableCountries(db: DB) {
     teamsCount: sql<number>`count(${schema.teams.id})`.mapWith(Number),
   })
     .from(schema.leagues)
-    .leftJoin(schema.teams, eq(schema.leagues.id, schema.teams.leagueId))
+    .leftJoin(schema.teams, eq(schema.leagues.id, sql`${schema.teams.leagueId}`))
     .groupBy(schema.leagues.country)
     .orderBy(desc(sql`count(${schema.teams.id})`));
 
@@ -217,7 +217,7 @@ export async function getAllSportLists(db: DB) {
       return league.teams.map(team => ({
         id: team.id,
         name: team.name,
-        imageUrl: team.logo,
+        imageUrl: team.logoUrl,
       }));
     },
   }));

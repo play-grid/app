@@ -7,6 +7,8 @@ import {
   sqliteTable,
   text,
 } from 'drizzle-orm/sqlite-core';
+import { countriesTable } from './countries.tables';
+import { teamsTable } from './teams.tables';
 
 export const statItemsTable = sqliteTable('stat_items', {
   id: cuid2('id').defaultRandom().primaryKey(),
@@ -22,8 +24,10 @@ export const statItemsTable = sqliteTable('stat_items', {
   unit: text('unit').notNull(),
   unitAr: text('unit_ar'),
 
-  imageKey: text('image_key'),
   imageUrl: text('image_url'),
+  teamId: text('team_id').references(() => teamsTable.id),
+  playerId: text('player_id'),
+  countryId: text('country_id').references(() => countriesTable.id),
 
   hint: text('hint'),
   hintAr: text('hint_ar'),
