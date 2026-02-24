@@ -138,6 +138,22 @@ async function upsertStatItem<TTable extends Table>(
     return 'skipped';
   }
 
+  const existingRecord = existing[0];
+  const shouldUpdate
+    = existingRecord.value !== input.value
+      || existingRecord.imageUrl !== input.imageUrl
+      || existingRecord.hint !== input.hint
+      || existingRecord.unit !== input.unit;
+
+  if (!shouldUpdate) {
+    await db.update(table)
+      .set({
+        lastSyncedAt: new Date(),
+      })
+      .where(eq(getTableColumn('id'), existingRecord.id));
+    return 'skipped';
+  }
+
   await db.update(table)
     .set({
       entity: input.entity,
