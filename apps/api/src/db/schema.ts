@@ -1,4 +1,5 @@
 import * as bannersSchemas from '@/db/banners.tables';
+import * as countriesSchema from '@/db/countries.tables';
 import * as statItemsSchema from '@/db/stat-items.tables';
 import * as teamsSchema from '@/db/teams.tables';
 import * as fiveSecondsQuestionsSchema from '@/routes/games/five-seconds/five-seconds.tables';
@@ -7,6 +8,7 @@ import * as authSchema from './auth.schema';
 
 export * from './auth.schema';
 export * from '@/db/banners.tables';
+export * from '@/db/countries.tables';
 export * from '@/db/stat-items.tables';
 export * from '@/db/teams.tables';
 export * from '@/routes/games/five-seconds/five-seconds.tables';
@@ -19,5 +21,5 @@ export const schema = {
   ...bannersSchemas,
   ...statItemsSchema,
   ...teamsSchema,
-
+  ...countriesSchema,
 } as const;

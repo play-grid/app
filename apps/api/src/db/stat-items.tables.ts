@@ -24,6 +24,7 @@ export const statItemsTable = sqliteTable('stat_items', {
   unit: text('unit').notNull(),
   unitAr: text('unit_ar'),
 
+  imageKey: text('image_key'),
   imageUrl: text('image_url'),
   teamId: text('team_id').references(() => teamsTable.id),
   playerId: text('player_id'),
