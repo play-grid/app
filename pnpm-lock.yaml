@@ -371,6 +371,12 @@ importers:
 
   apps/api:
     dependencies:
+      '@guess-logo/data-pipeline':
+        specifier: workspace:*
+        version: link:../../packages/data-pipeline
+      '@guess-logo/data-provider':
+        specifier: workspace:*
+        version: link:../../packages/data-provider
       '@guess-logo/five-seconds':
         specifier: workspace:*
         version: link:../../packages/games/five-seconds

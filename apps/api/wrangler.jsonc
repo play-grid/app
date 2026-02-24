@@ -3,8 +3,16 @@
 	"main": "src/app.ts",
 	"compatibility_date": "2025-09-01",
 	"compatibility_flags": [
-		"nodejs_compat"
-	],
+ 		"nodejs_compat"
+ 	],
+	"triggers": {
+		"crons": [
+			{
+				"pattern": "0 2 * * 1",
+				"handler": "/cron/sync-football"
+			}
+		]
+	},
 	"workers_dev": true,
 	"vars": {
 		"BETTER_AUTH_URL":"http://localhost:5173",
@@ -22,6 +30,14 @@
 	"env": {
 		"staging": {
 			"name": "playgrid-api-staging",
+			"triggers": {
+				"crons": [
+					{
+						"pattern": "0 2 * * 1",
+						"handler": "/cron/sync-football"
+					}
+				]
+			},
 			 "routes": [
 				{
 				"pattern":"staging.playgrid.mohdalaa.com",
@@ -83,6 +99,14 @@
 		},
 		"production": {
 			"name": "playgrid-api-production",
+			"triggers": {
+				"crons": [
+					{
+						"pattern": "0 2 * * 1",
+						"handler": "/cron/sync-football"
+					}
+				]
+			},
 			"routes": [
 				{
 				"pattern": "playgrid.mohdalaa.com",
