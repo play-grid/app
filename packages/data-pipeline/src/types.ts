@@ -1,16 +1,6 @@
-export interface StatItemInput {
-  entityType: string;
-  externalId?: string;
-  category: string;
-  name: string;
-  metricType: string;
-  value: number;
-  unit: string;
-  imageKey?: string;
-  imageUrl?: string;
-  hint?: string;
-  source: string;
-}
+import type { StatItemInput } from './schemas';
+
+export { StatItemInput } from './schemas';
 
 export interface StatItemTransformer<TRaw> {
   source: string;

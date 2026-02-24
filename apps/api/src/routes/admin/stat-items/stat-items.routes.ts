@@ -185,5 +185,17 @@ export const bulkUpdateStatus = createRoute({
       }),
       'Status update result',
     ),
+    [HttpStatusCodes.BAD_REQUEST]: jsonContent(
+      z.object({ error: z.string() }),
+      'Invalid request',
+    ),
   },
 });
+
+export type ListStatItemsRoute = typeof listStatItems;
+export type GetStatItemByIdRoute = typeof getStatItemById;
+export type CreateStatItemRoute = typeof createStatItem;
+export type UpdateStatItemRoute = typeof updateStatItem;
+export type DeleteStatItemRoute = typeof deleteStatItem;
+export type UpdateStatItemStatusRoute = typeof updateStatItemStatus;
+export type BulkUpdateStatusRoute = typeof bulkUpdateStatus;

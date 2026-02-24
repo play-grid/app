@@ -1,6 +1,6 @@
-import type { AppRouteHandler } from '@/lib/types';
 import type { GetStatItemsRoute } from './stat-items.routes';
-import { and, eq, inArray, not, sql } from 'drizzle-orm';
+import type { AppRouteHandler } from '@/lib/types';
+import { and, eq, inArray, isNull, not, sql } from 'drizzle-orm';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 
 import { getDB } from '@/db';
@@ -21,7 +21,7 @@ export const getStatItemsHandler: AppRouteHandler<GetStatItemsRoute> = async (c)
   }
 
   filters.push(eq(statItemsTable.status, status));
-  filters.push(eq(statItemsTable.deletedAt, null));
+  filters.push(isNull(statItemsTable.deletedAt));
 
   if (excludeIds.length > 0) {
     filters.push(not(inArray(statItemsTable.id, excludeIds)));

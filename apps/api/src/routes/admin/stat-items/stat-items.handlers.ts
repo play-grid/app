@@ -9,16 +9,11 @@ import type {
   UpdateStatItemStatusRoute,
 } from './stat-items.routes';
 import type { AppRouteHandler } from '@/lib/types';
-import { and, asc, count, desc, eq, inArray } from 'drizzle-orm';
+import { and, asc, count, desc, eq, inArray, isNull } from 'drizzle-orm';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import { z } from 'zod';
 import { getDB } from '@/db';
 import { statItemsTable } from '@/db/schema';
-import {
-  createStatItemSchema,
-  statItemOutputSchema,
-  updateStatItemSchema,
-} from './stat-items.schemas';
 
 export const listStatItemsHandler: AppRouteHandler<ListStatItemsRoute> = async (c) => {
   const db = getDB(c);
@@ -43,7 +38,7 @@ export const listStatItemsHandler: AppRouteHandler<ListStatItemsRoute> = async (
     whereConditions.push(eq(statItemsTable.source, source));
   }
 
-  whereConditions.push(eq(statItemsTable.deletedAt, null));
+  whereConditions.push(isNull(statItemsTable.deletedAt));
 
   let orderBy;
   if (sort === 'value') {
@@ -200,7 +195,7 @@ export const bulkUpdateStatusHandler: AppRouteHandler<BulkUpdateStatusRoute> = a
     const result = await db
       .update(statItemsTable)
       .set({ status, updatedAt: new Date() })
-      .where(and(inArray(statItemsTable.id, ids), eq(statItemsTable.deletedAt, null)))
+      .where(and(inArray(statItemsTable.id, ids), isNull(statItemsTable.deletedAt)))
       .returning();
 
     return c.json({ updated: result.length }, HttpStatusCodes.OK);

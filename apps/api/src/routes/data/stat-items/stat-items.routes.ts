@@ -1,17 +1,9 @@
+import { gameStatItemSchema } from '@guess-logo/data-pipeline';
 import { createRoute, z } from '@hono/zod-openapi';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import { jsonContent } from 'stoker/openapi/helpers';
 
-const statItemResponseSchema = z.object({
-  id: z.string(),
-  entity: z.string(),
-  name: z.string(),
-  metricType: z.string(),
-  value: z.number(),
-  unit: z.string(),
-  imageUrl: z.string().nullable().optional(),
-  hint: z.string().nullable().optional(),
-}).openapi('StatItem');
+const statItemResponseSchema = gameStatItemSchema.openapi('StatItem');
 
 export const getStatItems = createRoute({
   path: '/stat-items',
