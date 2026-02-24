@@ -48,6 +48,8 @@
     }
   },
   "dependencies": {
+    "@guess-logo/data-pipeline": "workspace:*",
+    "@guess-logo/data-provider": "workspace:*",
     "@guess-logo/five-seconds": "workspace:*",
     "@guess-logo/game-core": "workspace:*",
     "@guess-logo/guess-logo": "workspace:*",

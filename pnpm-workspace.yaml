@@ -17,6 +17,7 @@ catalog:
   'drizzle-orm': ^0.44.7
   'drizzle-zod': ^0.8.3
   eslint: ^9.39.2
+  '@hono/zod-validator': ^0.7.6
   hono: ^4.9.5
   immer: ^10.2.0
   tailwindcss: ^4.1.17
