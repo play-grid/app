@@ -54,5 +54,28 @@ export const syncFootballTeams = createRoute({
   },
 });
 
+export const syncCountries = createRoute({
+  path: '/sync/countries',
+  method: 'post',
+  operationId: 'syncCountries',
+  tags: ['Admin Sync'],
+  security: [{ Bearer: [] }],
+  responses: {
+    [HttpStatusCodes.OK]: jsonContent(
+      syncResponseSchema,
+      'Sync result',
+    ),
+    [HttpStatusCodes.UNAUTHORIZED]: jsonContent(
+      z.object({ error: z.string() }),
+      'Unauthorized',
+    ),
+    [HttpStatusCodes.INTERNAL_SERVER_ERROR]: jsonContent(
+      z.object({ error: z.string() }),
+      'Sync failed',
+    ),
+  },
+});
+
 export type SyncFootballPlayersRoute = typeof syncFootballPlayers;
 export type SyncFootballTeamsRoute = typeof syncFootballTeams;
+export type SyncCountriesRoute = typeof syncCountries;

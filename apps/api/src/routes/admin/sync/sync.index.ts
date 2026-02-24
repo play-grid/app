@@ -4,6 +4,7 @@ import * as routes from './sync.routes';
 
 const router = createRouter()
   .openapi(routes.syncFootballPlayers, handlers.syncFootballPlayersHandler)
-  .openapi(routes.syncFootballTeams, handlers.syncFootballTeamsHandler);
+  .openapi(routes.syncFootballTeams, handlers.syncFootballTeamsHandler)
+  .openapi(routes.syncCountries, handlers.syncCountriesHandler);
 
 export default router;
