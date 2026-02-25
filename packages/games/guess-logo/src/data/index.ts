@@ -1,8 +1,7 @@
 /* eslint-disable import/first */
 
 // --- Companies ---
-export { default as companies } from './companies/companies.json';
-export { default as saudiCompanies } from './companies/saudi-companies.json';
+// Migrated to database - use /data/stat-items endpoint
 
 // --- Countries ---
 export { default as regionOverrides } from './countries/region-overrides.json';

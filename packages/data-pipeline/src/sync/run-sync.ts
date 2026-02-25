@@ -56,7 +56,7 @@ export async function runSync<TRaw, TTable extends Table>(
     let inputs: StatItemInput[];
 
     try {
-      inputs = transformer.transform(raw);
+      inputs = await transformer.transform(raw);
     }
     catch (err) {
       errors++;

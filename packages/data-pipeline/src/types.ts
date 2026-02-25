@@ -6,7 +6,7 @@ export interface StatItemTransformer<TRaw> {
   source: string;
   category: string;
   fetch: () => Promise<TRaw[]>;
-  transform: (raw: TRaw) => StatItemInput[];
+  transform: (raw: TRaw) => StatItemInput[] | Promise<StatItemInput[]>;
 }
 
 export interface SyncResult {

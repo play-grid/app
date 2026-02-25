@@ -76,6 +76,40 @@ export const syncCountries = createRoute({
   },
 });
 
+export const syncCompanies = createRoute({
+  path: '/sync/companies',
+  method: 'post',
+  operationId: 'syncCompanies',
+  tags: ['Admin Sync'],
+  security: [{ Bearer: [] }],
+  request: {
+    body: {
+      content: {
+        'application/json': {
+          schema: z.object({
+            listId: z.enum(['companies', 'saudi']).default('companies'),
+          }),
+        },
+      },
+    },
+  },
+  responses: {
+    [HttpStatusCodes.OK]: jsonContent(
+      syncResponseSchema,
+      'Sync result',
+    ),
+    [HttpStatusCodes.UNAUTHORIZED]: jsonContent(
+      z.object({ error: z.string() }),
+      'Unauthorized',
+    ),
+    [HttpStatusCodes.INTERNAL_SERVER_ERROR]: jsonContent(
+      z.object({ error: z.string() }),
+      'Sync failed',
+    ),
+  },
+});
+
 export type SyncFootballPlayersRoute = typeof syncFootballPlayers;
 export type SyncFootballTeamsRoute = typeof syncFootballTeams;
 export type SyncCountriesRoute = typeof syncCountries;
+export type SyncCompaniesRoute = typeof syncCompanies;

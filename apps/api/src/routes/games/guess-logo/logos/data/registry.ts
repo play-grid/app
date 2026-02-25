@@ -1,6 +1,6 @@
 import type { LogoSetKey } from '@guess-logo/guess-logo';
 import type { SupportedLanguage } from '@guess-logo/shared/types';
-import { fetchCompaniesGeneral, fetchSaudiCompanies } from './companies/fetchers';
+import { fetchCompaniesFromDB } from './companies/fetchers-from-db';
 import { fetchGdpCountries, fetchPopulationCountries } from './countries/fetchers';
 import { fetchDramaMovies, fetchFamilyMovies, fetchTopRatedMovies } from './movies/fetchers';
 
@@ -10,8 +10,8 @@ type FetcherRegistry = Partial<Record<LogoSetKey, Record<string, Fetcher>>>;
 
 const REGISTRY: FetcherRegistry = {
   companies: {
-    companies: fetchCompaniesGeneral,
-    saudi: fetchSaudiCompanies,
+    companies: lang => fetchCompaniesFromDB('companies', lang),
+    saudi: lang => fetchCompaniesFromDB('saudi-companies', lang),
   },
   countries: {
     'countries': fetchGdpCountries,
