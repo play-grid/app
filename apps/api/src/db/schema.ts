@@ -1,4 +1,5 @@
 import * as bannersSchemas from '@/db/banners.tables';
+import * as companiesSchema from '@/db/companies.tables';
 import * as countriesSchema from '@/db/countries.tables';
 import * as statItemsSchema from '@/db/stat-items.tables';
 import * as teamsSchema from '@/db/teams.tables';
@@ -8,6 +9,7 @@ import * as authSchema from './auth.schema';
 
 export * from './auth.schema';
 export * from '@/db/banners.tables';
+export * from '@/db/companies.tables';
 export * from '@/db/countries.tables';
 export * from '@/db/stat-items.tables';
 export * from '@/db/teams.tables';
@@ -22,4 +24,5 @@ export const schema = {
   ...statItemsSchema,
   ...teamsSchema,
   ...countriesSchema,
+  ...companiesSchema,
 } as const;
