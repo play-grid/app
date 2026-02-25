@@ -4,9 +4,7 @@
 // Migrated to database - use /data/stat-items endpoint
 
 // --- Countries ---
-export { default as regionOverrides } from './countries/region-overrides.json';
-export { default as topGdpCountryNamesAr } from './countries/top-gdp-country-names-ar.json';
-export { default as topGdpCountryNames } from './countries/top-gdp-country-names.json';
+// Migrated to database - use /data/stat-items endpoint
 
 // --- Logo Overrides ---
 export { default as logoOverrides } from './logo-overrides.json';

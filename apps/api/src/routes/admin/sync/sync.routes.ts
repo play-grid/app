@@ -60,6 +60,17 @@ export const syncCountries = createRoute({
   operationId: 'syncCountries',
   tags: ['Admin Sync'],
   security: [{ Bearer: [] }],
+  request: {
+    body: {
+      content: {
+        'application/json': {
+          schema: z.object({
+            listId: z.enum(['top-gdp', 'top-population']).optional(),
+          }),
+        },
+      },
+    },
+  },
   responses: {
     [HttpStatusCodes.OK]: jsonContent(
       syncResponseSchema,

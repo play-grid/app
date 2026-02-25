@@ -2,154 +2,118 @@ import type { Country } from '../sources/api-countries';
 import type { StatItemTransformer } from '../types';
 import { APICountriesClient } from '../sources/api-countries';
 
-const TOP_GDP_COUNTRIES = [
-  'United States',
-  'China',
-  'Germany',
-  'Japan',
-  'India',
-  'United Kingdom',
-  'France',
-  'Italy',
-  'Brazil',
-  'Ghana',
-  'Libya',
-  'Tunisia',
-  'Jordan',
-  'Lebanon',
-  'Syria',
-  'Mauritania',
-  'Djibouti',
-  'Comoros',
-  'Somalia',
-  'Yemen',
-  'Canada',
-  'Russia',
-  'Mexico',
-  'Australia',
-  'Palestine',
-  'Bahrain',
-  'Spain',
-  'Indonesia',
-  'Netherlands',
-  'Turkey',
-  'Saudi Arabia',
-  'Switzerland',
-  'Poland',
-  'Argentina',
-  'Belgium',
-  'Sweden',
-  'Ireland',
-  'Thailand',
-  'United Arab Emirates',
-  'Austria',
-  'Singapore',
-  'Norway',
-  'Bangladesh',
-  'Philippines',
-  'Vietnam',
-  'Denmark',
-  'Iran',
-  'Malaysia',
-  'Egypt',
-  'Hong Kong',
-  'South Africa',
-  'Nigeria',
-  'Colombia',
-  'Romania',
-  'Pakistan',
-  'Chile',
-  'Finland',
-  'Portugal',
-  'Peru',
-  'Kazakhstan',
-  'New Zealand',
-  'Iraq',
-  'Algeria',
-  'Greece',
-  'Qatar',
-  'Hungary',
-  'Ukraine',
-  'Kuwait',
-  'Ethiopia',
-  'Morocco',
-  'Slovakia',
-  'Dominican Republic',
-  'Ecuador',
-  'Sudan',
-  'Oman',
-  'Kenya',
-  'Guatemala',
-  'Bulgaria',
-  'Uzbekistan',
-  'Costa Rica',
-  'Luxembourg',
-  'Angola',
-  'Croatia',
-  'Sri Lanka',
-  'Panama',
-  'Serbia',
-  'Lithuania',
-  'Tanzania',
-  'Uruguay',
-];
+export interface CountriesTransformerConfig {
+  listId?: 'top-gdp' | 'top-population';
+  fetchCountries: () => Promise<Country[]>;
+  translationService: {
+    translateText: (text: string, targetLang: 'ar' | 'en') => Promise<string>;
+  };
+}
 
-export function createCountriesTransformer(config?: { baseUrl?: string }): StatItemTransformer<Country> {
-  const client = new APICountriesClient(config);
+export function createCountriesTransformer(config: CountriesTransformerConfig): StatItemTransformer<Country> {
+  const client = new APICountriesClient();
 
   return {
     source: 'restcountries',
     category: 'countries',
 
     async fetch() {
-      const allCountries = await client.getAllCountries();
-      return allCountries.filter((country: Country) =>
-        TOP_GDP_COUNTRIES.some(name =>
-          country.name.common === name
-          || country.altSpellings?.includes(name),
-        ),
-      );
+      if (config.listId === 'top-population') {
+        const allCountries = await client.getAllCountries();
+        return allCountries.sort((a, b) => (b.population || 0) - (a.population || 0));
+      }
+      return await config.fetchCountries();
     },
 
-    transform(country) {
+    async transform(country) {
       const base = {
         entity: 'country',
         externalId: country.cca2,
         category: 'countries',
         name: country.name.common,
-        nameAr: country.translations?.ara?.common,
         imageUrl: country.flags?.png,
         source: 'restcountries',
       };
+
+      let nameAr = country.translations?.ara?.common;
+      let regionAr: string | null = null;
+      let capitalAr: string | null = null;
+      let currencyAr: string | null = null;
+
+      if (!nameAr) {
+        nameAr = await config.translationService.translateText(country.name.common, 'ar');
+      }
+
+      if (country.region) {
+        regionAr = await config.translationService.translateText(country.region, 'ar');
+      }
+
+      if (country.capital && country.capital[0]) {
+        capitalAr = await config.translationService.translateText(country.capital[0], 'ar');
+      }
+
+      if (country.currencies) {
+        const currencyCodes = Object.keys(country.currencies);
+        if (currencyCodes.length > 0) {
+          currencyAr = await config.translationService.translateText(currencyCodes[0], 'ar');
+        }
+      }
 
       const items: any[] = [];
 
       if (country.population) {
         items.push({
           ...base,
+          nameAr,
           metricType: 'population',
           value: country.population,
           unit: 'people',
+          unitAr: 'ناس',
+          hint: regionAr || country.region,
+          hintAr: regionAr,
         });
       }
 
       if (country.area) {
         items.push({
           ...base,
+          nameAr,
           metricType: 'area',
           value: country.area,
           unit: 'km²',
+          unitAr: 'كيلومتر مربع',
+          hint: regionAr || country.region,
+          hintAr: regionAr,
         });
       }
 
       if (country.capital && country.capital[0]) {
         items.push({
           ...base,
+          nameAr,
           metricType: 'capital',
           value: 1,
           unit: country.capital[0],
-          hint: `Capital city`,
+          unitAr: capitalAr || country.capital[0],
+          hint: regionAr || country.region,
+          hintAr: regionAr,
         });
+      }
+
+      if (country.currencies) {
+        const currencyCodes = Object.keys(country.currencies);
+        if (currencyCodes.length > 0) {
+          items.push({
+            ...base,
+            nameAr,
+            metricType: 'currency',
+            value: 1,
+            unit: currencyCodes[0],
+            unitAr: currencyAr || currencyCodes[0],
+            hint: regionAr || country.region,
+            hintAr: regionAr,
+          });
+        }
       }
 
       return items;
@@ -157,4 +121,3 @@ export function createCountriesTransformer(config?: { baseUrl?: string }): StatI
   };
 }
 
-export const countriesTransformer = createCountriesTransformer();
