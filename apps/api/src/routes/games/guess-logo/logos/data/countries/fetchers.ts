@@ -1,47 +1,32 @@
 import type { CountryLogo } from '@guess-logo/guess-logo';
 import type { SupportedLanguage } from '@guess-logo/shared/types';
+import type { Context } from 'hono';
+import type { AppEnv } from '@/lib/types';
 import { LOGO_SET_TYPE_MAP } from '@guess-logo/guess-logo';
+import { fetchStatItems } from '@/services/stat-items.service';
 
-interface StatItemResponse {
-  id: string;
-  name: string;
-  nameAr: string | null;
-  imageUrl: string | null;
-  hint: string | null;
-  hintAr: string | null;
-  metricType: string;
-  value: number;
-  unit: string;
-  unitAr: string | null;
+export async function fetchGdpCountries(language: SupportedLanguage, c: Context<AppEnv>): Promise<CountryLogo[]> {
+  return fetchCountriesFromDB('population', language, c);
 }
 
-interface StatItemsAPIResponse {
-  items: StatItemResponse[];
-}
-
-export async function fetchGdpCountries(language: SupportedLanguage): Promise<CountryLogo[]> {
-  return fetchCountriesFromDB('population', language);
-}
-
-export async function fetchPopulationCountries(language: SupportedLanguage): Promise<CountryLogo[]> {
-  return fetchCountriesFromDB('population', language);
+export async function fetchPopulationCountries(language: SupportedLanguage, c: Context<AppEnv>): Promise<CountryLogo[]> {
+  return fetchCountriesFromDB('population', language, c);
 }
 
 async function fetchCountriesFromDB(
   metricType: string,
   language: SupportedLanguage,
+  c: Context<AppEnv>,
 ): Promise<CountryLogo[]> {
-  const baseUrl = '/data/stat-items';
-  const url = `${baseUrl}?category=countries&metricType=${metricType}&lang=${language}&status=approved&limit=1000`;
+  const items = await fetchStatItems(c, {
+    category: 'countries',
+    metricType,
+    lang: language,
+    status: 'approved',
+    limit: 1000,
+  });
 
-  const response = await fetch(url);
-  if (!response.ok) {
-    throw new Error(`Failed to fetch countries: ${response.statusText}`);
-  }
-
-  const data = await response.json() as StatItemsAPIResponse;
-
-  return data.items.map((item, index) => ({
+  return items.map((item, index) => ({
     id: index,
     name: language === 'ar' ? item.nameAr || item.name : item.name,
     originalName: item.name,
@@ -50,7 +35,7 @@ async function fetchCountriesFromDB(
     countryData: {
       name: language === 'ar' ? item.nameAr || item.name : item.name,
       region: language === 'ar' ? item.hintAr || item.hint || '' : (item.hint || ''),
-      currency: language === 'ar' ? item.unitAr || item.unit : (item.unit || ''),
+      currency: language === 'ar' ? item.unitAr || item.unit || '' : (item.unit || ''),
     },
   })).filter(logo => logo.imageUrl);
 }

@@ -1,5 +1,7 @@
 import type { MoviePosterLogo } from '@guess-logo/guess-logo';
 import type { SupportedLanguage } from '@guess-logo/shared/types';
+import type { Context } from 'hono';
+import type { AppEnv } from '@/lib/types';
 import { LOGO_SET_TYPE_MAP } from '@guess-logo/guess-logo';
 import { TMDB } from 'tmdb-ts';
 import { getEnv } from '@/lib/context-manager';
@@ -9,6 +11,7 @@ import { getBaseOptions } from '../../services/movies/utils/get-base-options';
 
 export async function fetchTopRatedMovies(
   language: SupportedLanguage,
+  _c: Context<AppEnv>,
 ): Promise<MoviePosterLogo[]> {
   const env = getEnv();
   const tmdb = new TMDB(env.TMDB_API_KEY);
@@ -43,6 +46,7 @@ export async function fetchTopRatedMovies(
 
 export async function fetchFamilyMovies(
   language: SupportedLanguage,
+  _c: Context<AppEnv>,
 ): Promise<MoviePosterLogo[]> {
   const env = getEnv();
   const tmdb = new TMDB(env.TMDB_API_KEY);
@@ -77,6 +81,7 @@ export async function fetchFamilyMovies(
 
 export async function fetchDramaMovies(
   language: SupportedLanguage,
+  _c: Context<AppEnv>,
 ): Promise<MoviePosterLogo[]> {
   const env = getEnv();
   const tmdb = new TMDB(env.TMDB_API_KEY);

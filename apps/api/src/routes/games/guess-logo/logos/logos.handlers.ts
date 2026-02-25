@@ -61,7 +61,7 @@ export const getLogosBySetAndList: AppRouteHandler<GetLogosBySetAndListRoute> = 
         return c.json({ error: 'Not found' }, HttpStatusCodes.NOT_FOUND);
       }
 
-      const rawLogos = await fetcher(language as SupportedLanguage);
+      const rawLogos = await fetcher(language as SupportedLanguage, c);
 
       allLogos = await applyLogoOverrides(rawLogos, set, list, overrides);
 
