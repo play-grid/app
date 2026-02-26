@@ -21,4 +21,4 @@ export { useGameActions } from './react/hooks/use-game-actions';
 export * from './react/hooks/use-game-state';
 export * from './sub-phases';
 
-export { composeReducers } from './utils/reducer-utils';
+export { composeReducers, getPlayerIndex } from './utils/reducer-utils';

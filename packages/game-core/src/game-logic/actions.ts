@@ -6,6 +6,8 @@ import type {
   TurnState,
 } from './schema/state.types';
 
+import { getPlayerIndex } from '../utils/reducer-utils';
+
 export function initTurnState<T extends BaseGameState>(
   state: T,
   options?: {
@@ -24,7 +26,7 @@ export function initTurnState<T extends BaseGameState>(
 
   let startIndex = 0;
   if (startingPlayerId) {
-    const idx = order.indexOf(startingPlayerId);
+    const idx = getPlayerIndex(order, startingPlayerId);
     if (idx !== -1)
       startIndex = idx;
   }
@@ -156,7 +158,7 @@ export function setCurrentPlayer<T extends BaseGameState>(
     return state;
 
   const { playerOrder } = turnState;
-  const newIndex = playerOrder.indexOf(playerId);
+  const newIndex = getPlayerIndex(playerOrder, playerId);
 
   if (newIndex === -1)
     return state;
@@ -230,7 +232,7 @@ export function nextRound<T extends BaseGameState>(
 
   let startIndex = 0;
   if (startingPlayerId) {
-    const idx = playerOrder.indexOf(startingPlayerId);
+    const idx = getPlayerIndex(playerOrder, startingPlayerId);
     if (idx !== -1)
       startIndex = idx;
   }
@@ -258,7 +260,7 @@ export function removePlayerFromTurnOrder<T extends BaseGameState>(
     return state;
 
   const { playerOrder, currentPlayerIndex } = turnState;
-  const removeIndex = playerOrder.indexOf(playerId);
+  const removeIndex = getPlayerIndex(playerOrder, playerId);
 
   if (removeIndex === -1)
     return state;

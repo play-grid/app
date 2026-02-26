@@ -1,6 +1,10 @@
 import type { GameAction } from '../game-logic/schema/actions.types';
 import type { BaseGameState } from '../game-logic/schema/state.types';
 
+export function getPlayerIndex(playerOrder: string[], playerId: string): number {
+  return playerOrder.indexOf(playerId);
+}
+
 /**
  * Composes multiple reducers into a single reducer.
  *

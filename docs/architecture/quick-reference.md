@@ -1,49 +1,131 @@
 # Quick Reference: Architecture Patterns
 
-**Version**: 2.0
-**Date**: Feb 7, 2026
+**Version**: 2.1
+**Date**: Feb 26, 2026
+**What's New**: Updated game creation patterns based on codebase analysis (five-seconds as reference)
 
 ## Creating a New Game
 
-### 1. Define Game Schemas (in shared)
+### 1. Define Game Schemas
 
 ```typescript
-// packages/shared/types/games/my-game.schema.ts
+// packages/games/my-game/src/logic/schema.ts
+import {
+  BaseGameStateSchema,
+  GameActionSchema,
+  PlayerSchema,
+} from '@guess-logo/game-core';
 import { z } from 'zod';
 
-export const gameStateSchema = z.object({
-  score: z.number(),
-  currentPlayer: z.string(),
-  phase: z.enum(['setup', 'playing', 'ended']),
+export const MyGameSettingsSchema = z.object({
+  difficulty: z.enum(['easy', 'medium', 'hard']),
+  maxScore: z.number(),
 });
 
-export const gameActionSchema = z.discriminatedUnion('type', [
-  z.object({ type: z.literal('START_GAME') }),
-  z.object({ type: z.literal('SUBMIT_ANSWER'), payload: z.object({ answer: z.string() }) }),
+export const MyGameGameStateSchema = BaseGameStateSchema.extend({
+  settings: MyGameSettingsSchema,
+  players: z.record(z.string(), PlayerSchema),
+  score: z.number(),
+});
+
+export const SubmitAnswerActionSchema = z.object({
+  type: z.literal('SUBMIT_ANSWER'),
+  payload: z.object({
+    answer: z.string(),
+    playerId: z.string(),
+  }),
+});
+
+export const MyGameCustomActionSchema = z.discriminatedUnion('type', [
+  SubmitAnswerActionSchema,
 ]);
 
-export type GameState = z.infer<typeof gameStateSchema>;
-export type GameAction = z.infer<typeof gameActionSchema>;
+export const MyGameActionSchema = z.discriminatedUnion('type', [
+  ...GameActionSchema.options,
+  ...MyGameCustomActionSchema.options,
+]);
+
+export type MyGameGameState = z.infer<typeof MyGameGameStateSchema>;
+export type MyGameAction = z.infer<typeof MyGameActionSchema>;
+export type SubmitAnswerAction = z.infer<typeof SubmitAnswerActionSchema>;
 ```
 
-### 2. Re-export from Game Package
+### 2. Create Pure Action Functions
 
 ```typescript
-// packages/games/my-game/src/schema.ts
-export {
-  gameStateSchema,
-  gameActionSchema,
-  type GameState,
-  type GameAction,
-} from '@guess-logo/shared/types/games/my-game.schema';
+// packages/games/my-game/src/logic/actions.ts
+import type { Draft } from 'immer';
+import type { MyGameGameState, SubmitAnswerAction } from './schema';
+
+export function submitAnswer(
+  draft: Draft<MyGameGameState>,
+  payload: SubmitAnswerAction['payload'],
+): void {
+  const { answer, playerId } = payload;
+
+  if (!draft.turnState || draft.turnState.currentPlayerId !== playerId) {
+    return;
+  }
+
+  const player = draft.players[playerId];
+  if (!player) {
+    return;
+  }
+
+  if (answer === 'correct') {
+    player.score += 10;
+    draft.score += 10;
+  }
+}
+
+export function clearGameContent(draft: Draft<MyGameGameState>): void {
+  draft.score = 0;
+  Object.values(draft.players).forEach(player => {
+    player.score = 0;
+  });
+}
 ```
 
-### 3. Create Game Definition
+### 3. Create Reducer with Pure Action Functions
+
+```typescript
+// packages/games/my-game/src/logic/reducer.ts
+import type { MyGameAction, MyGameGameState } from './schema';
+import { produce } from 'immer';
+import { clearGameContent, submitAnswer } from './actions';
+
+export function myGameReducer(
+  state: MyGameGameState,
+  action: MyGameAction,
+): MyGameGameState {
+  switch (action.type) {
+    case 'START_GAME':
+      return produce(state, clearGameContent);
+
+    case 'END_GAME':
+      return produce(state, clearGameContent);
+
+    case 'RESET_GAME':
+      return produce(state, clearGameContent);
+
+    case 'SUBMIT_ANSWER':
+      return produce(state, (draft) => {
+        submitAnswer(draft, action.payload);
+      });
+
+    default:
+      return state;
+  }
+}
+```
+
+### 4. Create Game Definition
 
 ```typescript
 // packages/games/my-game/src/definition.ts
 import { createGameDefinition, registerGame } from '@guess-logo/game-core';
-import { gameStateSchema, gameActionSchema } from './schema';
+import { MyGameActionSchema, MyGameGameStateSchema } from './logic/schema';
+import { myGameReducer } from './logic/reducer';
 
 export const myGame = createGameDefinition({
   meta: {
@@ -56,49 +138,48 @@ export const myGame = createGameDefinition({
     maxPlayers: 4,
   },
 
-  stateSchema: gameStateSchema,
-  actionSchema: gameActionSchema,
+  stateSchema: MyGameGameStateSchema,
+  actionSchema: MyGameActionSchema,
 
   initialState: {
+    phase: 'lobby',
+    players: {},
+    hostId: '',
+    createdAt: Date.now(),
+    settings: {
+      difficulty: 'medium',
+      maxScore: 100,
+    },
     score: 0,
-    currentPlayer: '',
-    phase: 'setup',
   },
 
-  validator: (action, state) => {
-    // Validate action
-    return { valid: true };
-  },
-
-  customReducer: (state, action) => {
-    // Handle state transitions
-    return state;
-  },
+  customReducer: myGameReducer,
 });
 
-// Register without HTTP client (if not needed)
 registerGame(myGame);
 ```
 
-### 4. Create Effect Handlers (with HTTP)
+### 5. Create Effect Handlers (with HTTP)
 
 ```typescript
-// packages/games/my-game/src/logic/effects.ts
+// packages/games/my-game/src/logic/effect-handlers.ts
 import type { GameEffect, GameEffectContext, HttpClient } from '@guess-logo/game-core';
-import type { GameState, GameAction } from '../schema';
+import type { MyGameAction, MyGameGameState } from './schema';
 
-export function createFetchDataEffect(
+export function createFetchQuestionsEffect(
   httpClient: HttpClient,
   apiUrl: string,
 ): GameEffect {
   return async (ctx: GameEffectContext) => {
-    const action = ctx.action as GameAction;
-    const state = ctx.state as GameState;
+    const action = ctx.action as MyGameAction;
+    const state = ctx.state as MyGameGameState;
 
     if (action.type !== 'START_GAME') return null;
 
     try {
-      const url = new URL(`${apiUrl}/api/games/my-game/data`);
+      const url = new URL(`${apiUrl}/api/games/my-game/questions`);
+      url.searchParams.set('category', state.settings.difficulty);
+
       const res = await httpClient.get(url.toString());
 
       if (!res.ok) {
@@ -108,13 +189,13 @@ export function createFetchDataEffect(
       const data = await res.json();
 
       return {
-        type: 'LOAD_DATA',
-        payload: data,
+        type: 'LOAD_QUESTIONS',
+        payload: { questions: data },
       };
     } catch (error) {
       return {
-        type: 'ERROR',
-        payload: { message: 'Failed to load data' },
+        type: 'FETCH_ERROR',
+        payload: { message: 'Failed to load questions', canRetry: true },
       };
     }
   };
@@ -125,38 +206,65 @@ export function createMyGameEffects(
   apiUrl: string,
 ): GameEffect[] {
   return [
-    createFetchDataEffect(httpClient, apiUrl),
+    createFetchQuestionsEffect(httpClient, apiUrl),
   ];
 }
 ```
 
-### 5. Register with Effect Handlers
+### 6. Register with Effect Handlers
 
 ```typescript
 // packages/games/my-game/src/definition.ts
 import { createGameDefinition, registerGame } from '@guess-logo/game-core';
-import { createMyGameEffects } from './logic/effects';
+import { createMyGameEffects } from './logic/effect-handlers';
+import { MyGameActionSchema, MyGameGameStateSchema } from './logic/schema';
+import { myGameReducer } from './logic/reducer';
 
 export const myGame = createGameDefinition({
-  // ... as before
+  meta: {
+    id: 'my-game',
+    version: '1.0.0',
+    name: { en: 'My Game', ar: 'لعبتي' },
+    description: { en: 'Description', ar: 'وصف' },
+    imageUrl: '/assets/games/my-game/thumbnail.jpg',
+    minPlayers: 1,
+    maxPlayers: 4,
+  },
+
+  stateSchema: MyGameGameStateSchema,
+  actionSchema: MyGameActionSchema,
+
+  initialState: {
+    phase: 'lobby',
+    players: {},
+    hostId: '',
+    createdAt: Date.now(),
+    settings: {
+      difficulty: 'medium',
+      maxScore: 100,
+    },
+    score: 0,
+  },
+
+  customReducer: myGameReducer,
 });
 
-// Register with effect handlers
 registerGame(myGame, (httpClient, apiUrl) => createMyGameEffects(httpClient, apiUrl));
 ```
 
-### 6. Add Game to API Routes
+### 7. Add Game to API Routes
 
 ```typescript
-// apps/api/src/routes/games/my-game/data/index.ts
+// apps/api/src/routes/games/my-game/questions/index.ts
 import createRouter from '@/lib/create-router';
-import * as handlers from './data.handlers';
-import * as routes from './data.routes';
+import * as handlers from './questions.handlers';
+import * as routes from './questions.routes';
 
 export const myGameRoutes = createRouter()
-  .openapi(routes.getData, handlers.getData);
+  .openapi(routes.getQuestions, handlers.getQuestions);
 
 // apps/api/src/routes/games/index.ts
+import { fiveSecondsRoutes } from './five-seconds';
 import { myGameRoutes } from './my-game';
 
 export const gamesRouter = createRouter()
@@ -164,10 +272,11 @@ export const gamesRouter = createRouter()
   .route('/my-game', myGameRoutes);
 ```
 
-### 7. Import Game in API
+### 8. Import Game in API
 
 ```typescript
 // apps/api/src/app.ts
+import '@guess-logo/five-seconds';
 import '@guess-logo/my-game';
 ```
 
@@ -277,46 +386,179 @@ export const getData: AppRouteHandler<GetDataRoute> = async (c) => {
 
 ## Common Patterns
 
-### Import from Shared (Preferred)
+### Always Extend GameActionSchema
 
 ```typescript
-// ✅ Correct: Import from shared
-import { gameStateSchema } from '@guess-logo/shared/types/games/my-game.schema';
+// ✅ Correct: Include core game actions
+export const MyGameActionSchema = z.discriminatedUnion('type', [
+  ...GameActionSchema.options,
+  ...MyGameCustomActionSchema.options,
+]);
 
-// ❌ Avoid: Import from game package in API
-import { gameStateSchema } from '@guess-logo/my-game';
+// ❌ Wrong: Missing core actions
+export const MyGameActionSchema = z.discriminatedUnion('type', [
+  ...MyGameCustomActionSchema.options,
+]);
 ```
 
-### Use Dependency Injection for HTTP
+### Use turnState for Turn Management
 
 ```typescript
-// ✅ Correct: Inject HttpClient
-export function createEffect(httpClient: HttpClient, apiUrl: string): GameEffect {
-  const res = await httpClient.get(apiUrl + '/endpoint');
+// ✅ Correct: Access turn state through turnState
+export function submitAnswer(
+  draft: Draft<MyGameGameState>,
+  payload: SubmitAnswerAction['payload'],
+): void {
+  const currentPlayerId = draft.turnState?.currentPlayerId;
+  const playerOrder = draft.turnState?.playerOrder;
+
+  // Use turnState properties
 }
 
-// ❌ Avoid: Create HTTP client in game package
-import hcWithType from '@guess-logo/api-client';
-const client = hcWithType(apiUrl);
-```
-
-### Type-Safe API Calls
-
-```typescript
-import hcWithType from '@guess-logo/api-client';
-
-const client = hcWithType(apiUrl);
-
-// ✅ Type-safe: Routes are inferred
-const res = await client.api.games['my-game'].data.$get();
-
-// ✅ Type-safe: Query parameters validated
-const res2 = await client.api.games['my-game'].data.$get({
-  query: { filter: 'active' }
+// ❌ Wrong: Using root level playerOrder/currentPlayerId
+export const MyGameGameStateSchema = BaseGameStateSchema.extend({
+  playerOrder: z.array(z.string()), // Don't add this!
+  currentPlayerId: z.string(),      // Don't add this!
 });
 ```
 
+### Split Reducer into Pure Functions
+
+```typescript
+// ✅ Correct: Pure action functions
+export function submitAnswer(
+  draft: Draft<MyGameGameState>,
+  payload: SubmitAnswerAction['payload'],
+): void {
+  // Pure function: only mutates state
+  if (draft.turnState?.currentPlayerId === payload.playerId) {
+    draft.players[payload.playerId].score += 10;
+  }
+}
+
+// ❌ Wrong: Monolithic reducer with inline logic
+export function myGameReducer(
+  state: MyGameGameState,
+  action: MyGameAction,
+): MyGameGameState {
+  return produce(state, (draft) => {
+    // Hundreds of lines of inline logic
+    switch (action.type) {
+      case 'SUBMIT_ANSWER':
+        // 50 lines of logic here
+        break;
+      // More actions...
+    }
+  });
+}
+```
+
+### Always Use createGameDefinition
+
+```typescript
+// ✅ Correct: Use factory function
+export const myGame = createGameDefinition({
+  meta: { /* ... */ },
+  stateSchema: MyGameGameStateSchema,
+  actionSchema: MyGameActionSchema,
+  initialState: { /* ... */ },
+  customReducer: myGameReducer,
+});
+
+registerGame(myGame);
+
+// ❌ Wrong: Manual game definition object this is does not make the composing for reducers 
+export const statClashGame = {
+  meta: { /* ... */ },
+  stateSchema: StatClashGameStateSchema,
+  actionSchema: StatClashActionSchema,
+  initialState: createInitialState('', 'Player', 'solo'),
+  initialStateFactory: createInitialState,
+  validator: validateStatClashAction,
+  reducer: statClashReducer,
+};
+```
+
 ## Troubleshooting
+
+### Action Type Errors: Core Actions Missing
+
+**Problem**: GameActionSchema doesn't include core actions like START_GAME
+
+```typescript
+Error: Type 'START_GAME' is not assignable to type 'MyGameAction'
+```
+
+**Solution**: Extend GameActionSchema with spread operator
+
+```typescript
+// ❌ Wrong: Missing core actions
+export const MyGameActionSchema = z.discriminatedUnion('type', [
+  SubmitAnswerActionSchema,
+]);
+
+// ✅ Correct: Include core actions
+export const MyGameActionSchema = z.discriminatedUnion('type', [
+  ...GameActionSchema.options,
+  SubmitAnswerActionSchema,
+]);
+```
+
+### Turn Management Errors: playerOrder Not Found
+
+**Problem**: Accessing root level playerOrder instead of turnState.playerOrder
+
+```typescript
+Error: Cannot read property 'playerOrder' of undefined
+```
+
+**Solution**: Use turnState for all turn-related properties
+
+```typescript
+// ❌ Wrong: Adding playerOrder to root state
+export const MyGameGameStateSchema = BaseGameStateSchema.extend({
+  playerOrder: z.array(z.string()),
+  currentPlayerId: z.string(),
+});
+
+// ✅ Correct: Use turnState from BaseGameStateSchema
+const currentPlayerId = draft.turnState?.currentPlayerId;
+const playerOrder = draft.turnState?.playerOrder;
+```
+
+### Reducer Complexity: Hard to Test and Maintain
+
+**Problem**: Monolithic reducer with hundreds of lines
+
+**Solution**: Split into pure action functions
+
+```typescript
+// ❌ Wrong: All logic inline in reducer
+export function myGameReducer(state, action) {
+  return produce(state, (draft) => {
+    switch (action.type) {
+      case 'SUBMIT_ANSWER':
+        // 50 lines of logic here
+        break;
+      case 'NEXT_TURN':
+        // 40 lines of logic here
+        break;
+    }
+  });
+}
+
+// ✅ Correct: Pure action functions
+export function submitAnswer(draft, payload) {
+  // Testable, reusable function
+}
+
+export function myGameReducer(state, action) {
+  switch (action.type) {
+    case 'SUBMIT_ANSWER':
+      return produce(state, (draft) => submitAnswer(draft, action.payload));
+  }
+}
+```
 
 ### Build Errors: Cannot Find Module
 
@@ -357,7 +599,7 @@ import hcWithType from '@guess-logo/api-client';
 import { createHonoHttpClient } from '@guess-logo/game-core/adapters';
 
 const honoClient = hcWithType(apiUrl);
-const httpClient = createHonoHttpClient(honoClient); // ← Create adapter
+const httpClient = createHonoHttpClient(honoClient);
 const effects = createGameEffectHandlers('my-game', httpClient, apiUrl, 'local');
 ```
 
@@ -387,30 +629,137 @@ const effects = createGameEffectHandlers('my-game', httpClient, apiUrl, 'local')
 ## File Structure Template
 
 ```
-packages/shared/types/games/
-  └── my-game.schema.ts        # Game schemas (source of truth)
-
 packages/games/my-game/
   ├── src/
-  │   ├── definition.ts        # Game definition + registration
-  │   ├── schema.ts            # Re-exports from shared
+  │   ├── definition.ts                    # Game definition + registration
   │   ├── logic/
-  │   │   ├── reducer.ts       # State transitions
-  │   │   ├── actions.ts       # Action creators
-  │   │   ├── effects.ts       # Side effects (with HttpClient)
-  │   │   └── validators.ts    # Action validators
+  │   │   ├── schema.ts                    # Game schemas (extends GameActionSchema)
+  │   │   ├── reducer.ts                   # Main reducer (switch statement)
+  │   │   ├── actions.ts                   # Pure action functions
+  │   │   ├── effect-handlers.ts           # Side effects (with HttpClient)
+  │   │   └── validator.ts                 # Action validators (optional)
   │   └── hooks/
-  │       ├── use-my-game.ts   # React hooks
+  │       ├── use-my-game-state.ts         # React hooks for state
+  │       ├── use-my-game-actions.ts       # React hooks for dispatch
   │       └── index.ts
-  ├── package.json             # No api-client dependency!
-  └── tsconfig.json            # No path mappings!
+  ├── package.json                         # No api-client dependency!
+  └── tsconfig.json                        # No path mappings!
 
 apps/api/src/routes/games/my-game/
-  ├── data/
-  │   ├── data.routes.ts       # Route definitions (uses shared schemas)
-  │   ├── data.handlers.ts     # Route handlers
+  ├── questions/
+  │   ├── questions.routes.ts              # Route definitions
+  │   ├── questions.handlers.ts            # Route handlers
   │   └── index.ts
   └── index.ts
+```
+
+## Common Anti-Patterns to Avoid
+
+### 1. Not Using createGameDefinition Factory
+
+**Problem:** Manually creating game definition objects
+```typescript
+// ❌ Wrong: Manual object creation (from stat-clash)
+export const statClashGame = {
+  meta: { /* ... */ },
+  stateSchema: StatClashGameStateSchema,
+  actionSchema: StatClashActionSchema,
+  initialState: createInitialState('', 'Player', 'solo'),
+  initialStateFactory: createInitialState,
+  validator: validateStatClashAction,
+  reducer: statClashReducer,
+};
+```
+
+**Solution:** Always use createGameDefinition for consistency
+```typescript
+// ✅ Correct: Use factory function
+export const myGame = createGameDefinition({
+  meta: { /* ... */ },
+  stateSchema: MyGameGameStateSchema,
+  actionSchema: MyGameActionSchema,
+  initialState: { /* ... */ },
+  customReducer: myGameReducer,
+});
+```
+
+### 2. Not Extending GameActionSchema
+
+**Problem:** Missing core game actions (START_GAME, END_GAME, etc.)
+```typescript
+// ❌ Wrong: Missing core actions (from stat-clash)
+export const StatClashActionSchema = z.discriminatedUnion('type', [
+  StartGameActionSchema,
+  RequestStatItemsActionSchema,
+  GuessHigherActionSchema,
+  // Missing core actions!
+]);
+```
+
+**Solution:** Always spread GameActionSchema.options
+```typescript
+// ✅ Correct: Include core actions
+export const MyGameActionSchema = z.discriminatedUnion('type', [
+  ...GameActionSchema.options,
+  SubmitAnswerActionSchema,
+]);
+```
+
+### 3. Using Root Level playerOrder/currentPlayerId
+
+**Problem:** Adding turn state properties to root instead of using turnState
+```typescript
+// ❌ Wrong: Root level turn management (from stat-clash)
+export const StatClashGameStateSchema = BaseGameStateSchema.extend({
+  playerOrder: z.array(z.string()).default([]),
+  currentPlayerId: z.string().nullable().default(null),
+});
+```
+
+**Solution:** Use turnState from BaseGameStateSchema
+```typescript
+// ✅ Correct: Use turnState
+const currentPlayerId = draft.turnState?.currentPlayerId;
+const playerOrder = draft.turnState?.playerOrder;
+```
+
+### 4. Monolithic Reducer Functions
+
+**Problem:** All reducer logic inline in one large function
+```typescript
+// ❌ Wrong: All logic inline in reducer
+export function statClashReducer(state, action) {
+  return produce(state, (draft) => {
+    switch (action.type) {
+      case 'START_GAME':
+        // 30 lines of inline logic
+        break;
+      case 'GUESS_HIGHER':
+        // 90 lines of inline logic!
+        break;
+    }
+  });
+}
+```
+
+**Solution:** Extract pure action functions (five-seconds pattern)
+```typescript
+// ✅ Correct: Pure action functions
+export function startTurn(draft: Draft<FiveSecondsGameState>): void {
+  // Testable, reusable function
+  const currentPlayerId = draft.turnState.currentPlayerId;
+  // ...
+}
+
+export function fiveSecondsGameReducer(
+  state: FiveSecondsGameState,
+  action: FiveSecondsAction,
+): FiveSecondsGameState {
+  switch (action.type) {
+    case 'START_TURN':
+      return produce(state, startTurn);
+  }
+}
 ```
 
 ## Build Commands
@@ -431,6 +780,24 @@ pnpm lint
 # Test
 pnpm test
 ```
+
+---
+
+## Key Changes from Previous Pattern
+
+This guide reflects the latest best practices after analyzing existing games. Key differences:
+
+| Old Pattern | New Pattern | Reason |
+|------------|-------------|---------|
+| Manual game definition objects | `createGameDefinition` factory | Consistency and proper composition |
+| Custom action schemas only | Extend `GameActionSchema` | Include core game actions automatically |
+| Root `playerOrder`/`currentPlayerId` | Use `turnState.playerOrder`/`turnState.currentPlayerId` | Centralized turn management in game-core |
+| Inline reducer logic | Pure action functions | Testability, reusability, maintainability |
+
+**Reference Games:**
+- ✅ Five Seconds: Follows all best practices correctly
+- ❌ Stat Clash: Uses old patterns (manual definition, root playerOrder)
+- ❌ Guess Logo: Missing GameActionSchema extension
 
 ---
 
