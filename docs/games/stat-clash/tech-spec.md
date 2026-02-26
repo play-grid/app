@@ -137,7 +137,7 @@ export const StatClashPlayerSchema = z.object({
 });
 
 export const StatClashGameStateSchema = BaseGameStateSchema.extend({
-  phase: z.enum(['lobby', 'playing', 'game-over']),
+  phase: z.enum(['lobby', 'playing', 'results']),
   settings: StatClashSettingsSchema,
   players: z.record(z.string(), StatClashPlayerSchema),
 
@@ -256,7 +256,7 @@ case 'GUESS_HIGHER': {
     draft.currentPlayerId = nextPlayerId;
 
     if (isGameComplete(draft)) {
-      draft.phase = 'game-over';
+      draft.phase = 'results';
       draft.currentRound = null;
       break;
     }
@@ -265,7 +265,7 @@ case 'GUESS_HIGHER': {
     draft.streak = player.streak;
     draft.score = player.score;
     if (!correct) {
-      draft.phase = 'game-over';
+      draft.phase = 'results';
       draft.currentRound = null;
       break;
     }
@@ -274,7 +274,7 @@ case 'GUESS_HIGHER': {
   // Select next pair (same for all modes)
   const nextPair = selectPair(draft.availableItems, { ... });
   draft.currentRound = nextPair ? buildRound(nextPair, draft.settings) : null;
-  if (!nextPair) draft.phase = 'game-over';
+  if (!nextPair) draft.phase = 'results';
 }
 ```
 
@@ -675,7 +675,7 @@ No join flow, no credentials, no playerId.
    → getEffectiveDifficulty('easy', 3) → still 'easy'
 3. If streak reaches 5: getEffectiveDifficulty('easy', 5) → 'medium'
    → next pair must have 15–40% diff for football
-4. If pool exhausted: phase → 'game-over' with "You beat the category!" reason
+4. If pool exhausted: phase → 'results' with "You beat the category!" reason
 ```
 
 ### Session Start (Screen Mode / Remote — Multiplayer)

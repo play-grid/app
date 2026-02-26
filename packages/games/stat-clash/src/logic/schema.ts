@@ -1,6 +1,19 @@
-import type { GameStatItem } from '@guess-logo/data-pipeline';
-import { BaseGameStateSchema } from '@guess-logo/game-core';
+import { BaseGameStateSchema, GameActionSchema, PlayerSchema } from '@guess-logo/game-core';
 import { z } from 'zod';
+
+export interface GameStatItem {
+  id: string;
+  entity: string;
+  name: string;
+  nameAr: string | null;
+  metricType: string;
+  value: number;
+  unit: string;
+  unitAr: string | null;
+  imageUrl: string | null;
+  hint: string | null;
+  hintAr: string | null;
+}
 
 export const StatClashSettingsSchema = z.object({
   mode: z.enum(['solo', 'hotseat', 'screen', 'remote']),
@@ -55,10 +68,16 @@ export const StatClashHistoryItemSchema = z.object({
 
 export type StatClashHistoryItem = z.infer<typeof StatClashHistoryItemSchema>;
 
+export const StatClashPlayerSchema = PlayerSchema.extend({
+  streak: z.number().default(0),
+  roundsPlayed: z.number().default(0),
+});
+
+export type StatClashPlayer = z.infer<typeof StatClashPlayerSchema>;
+
 export const StatClashGameStateSchema = BaseGameStateSchema.extend({
   settings: StatClashSettingsSchema,
-  playerOrder: z.array(z.string()).default([]),
-  currentPlayerId: z.string().nullable().default(null),
+  players: z.record(z.string(), StatClashPlayerSchema),
   currentRound: StatClashRoundSchema.nullable().default(null),
   recentRounds: z.array(StatClashHistoryItemSchema).default([]),
   availableItems: z.array(z.custom<GameStatItem>()).default([]),
@@ -72,10 +91,7 @@ export const StatClashGameStateSchema = BaseGameStateSchema.extend({
 
 export type StatClashGameState = z.infer<typeof StatClashGameStateSchema>;
 
-export const StartGameActionSchema = z.object({
-  type: z.literal('START_GAME'),
-  payload: StatClashSettingsSchema,
-});
+// ─── Action Schemas ───────────────────────────────────────────────────────────
 
 export const RequestStatItemsActionSchema = z.object({
   type: z.literal('REQUEST_STAT_ITEMS'),
@@ -121,7 +137,6 @@ export const RemoveHotseatPlayerActionSchema = z.object({
 });
 
 export const StatClashCustomActionSchema = z.discriminatedUnion('type', [
-  StartGameActionSchema,
   RequestStatItemsActionSchema,
   StatItemsFetchedActionSchema,
   GuessHigherActionSchema,
@@ -131,12 +146,12 @@ export const StatClashCustomActionSchema = z.discriminatedUnion('type', [
 ]);
 
 export const StatClashActionSchema = z.discriminatedUnion('type', [
+  ...GameActionSchema.options,
   ...StatClashCustomActionSchema.options,
 ]);
 
 export type StatClashAction = z.infer<typeof StatClashActionSchema>;
 
-export type StartGameAction = z.infer<typeof StartGameActionSchema>;
 export type RequestStatItemsAction = z.infer<typeof RequestStatItemsActionSchema>;
 export type StatItemsFetchedAction = z.infer<typeof StatItemsFetchedActionSchema>;
 export type GuessHigherAction = z.infer<typeof GuessHigherActionSchema>;
