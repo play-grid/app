@@ -1,0 +1,26 @@
+{
+  "name": "@guess-logo/stat-clash",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "prebuild": "rm -rf dist",
+    "build": "tsc -p tsconfig.build.json"
+  },
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "dependencies": {
+    "@guess-logo/game-core": "workspace:*",
+    "@guess-logo/logger": "workspace:*",
+    "@guess-logo/shared": "workspace:*",
+    "react": "catalog:react19",
+    "immer": "catalog:",
+    "zod": "catalog:",
+    "hono": "catalog:"
+  },
+  "devDependencies": {
+    "@types/react": "catalog:react19",
+    "typescript": "catalog:"
+  }
+}
