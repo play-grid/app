@@ -1,10 +1,9 @@
 import { createGameDefinition, registerGame } from '@guess-logo/game-core';
 import { createStatClashEffects } from './logic/effect-handlers';
+import { createInitialState } from './logic/initial-state';
 import { statClashReducer } from './logic/reducer';
 import { StatClashActionSchema, StatClashGameStateSchema } from './logic/schema';
 import { validateStatClashAction } from './logic/validator';
-
-const now = Date.now();
 
 export const statClashGame = createGameDefinition({
   meta: {
@@ -21,27 +20,7 @@ export const statClashGame = createGameDefinition({
   },
   stateSchema: StatClashGameStateSchema,
   actionSchema: StatClashActionSchema,
-  initialState: {
-    phase: 'lobby',
-    settings: {
-      mode: 'solo',
-      category: 'mixed',
-      metricType: undefined,
-      difficulty: 'medium',
-      timeLimit: undefined,
-      streakGoal: undefined,
-      roundsPerPlayer: 10,
-    },
-    players: {},
-    hostId: '',
-    createdAt: now,
-    lastActivityAt: now,
-    currentRound: null,
-    recentRounds: [],
-    availableItems: [],
-    usedItemIds: [],
-    error: null,
-  },
+  initialState: createInitialState('', '', 'solo'),
   validator: validateStatClashAction,
   customReducer: statClashReducer,
 });

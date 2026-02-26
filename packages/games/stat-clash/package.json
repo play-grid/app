@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "prebuild": "rm -rf dist",
-    "build": "tsc -p tsconfig.build.json"
+    "build": "tsc -p tsconfig.build.json",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "exports": {
     ".": "./dist/index.js"
@@ -21,6 +23,7 @@
   },
   "devDependencies": {
     "@types/react": "catalog:react19",
-    "typescript": "catalog:"
+    "typescript": "catalog:",
+    "vitest": "catalog:"
   }
 }
