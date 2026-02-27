@@ -25,4 +25,4 @@ export const statClashGame = createGameDefinition({
   customReducer: statClashReducer,
 });
 
-registerGame(statClashGame, () => createStatClashEffects());
+registerGame(statClashGame, (apiUrl) => createStatClashEffects(apiUrl));

@@ -389,6 +389,9 @@ importers:
       '@guess-logo/shared':
         specifier: workspace:*
         version: link:../../packages/shared
+      '@guess-logo/stat-clash':
+        specifier: workspace:*
+        version: link:../../packages/games/stat-clash
       '@hono/zod-openapi':
         specifier: ^1.1.0
         version: 1.2.1(hono@4.11.7)(zod@4.3.6)
@@ -510,6 +513,9 @@ importers:
       '@guess-logo/shared':
         specifier: workspace:*
         version: link:../../packages/shared
+      '@guess-logo/stat-clash':
+        specifier: workspace:*
+        version: link:../../packages/games/stat-clash
       '@guess-logo/ui':
         specifier: workspace:*
         version: link:../../packages/ui

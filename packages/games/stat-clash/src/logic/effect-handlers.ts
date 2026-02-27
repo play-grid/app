@@ -2,7 +2,25 @@ import type { GameEffect, GameEffectContext } from '@guess-logo/game-core';
 import type { StatClashAction, StatClashErrorAction, StatItemsFetchedAction } from '../logic/schema';
 import { logger } from '../logger';
 
-export function createFetchStatItemsEffect(): GameEffect {
+export interface HttpClient {
+  get: (path: string, params?: Record<string, string>) => Promise<Response>;
+}
+
+export function createHttpClient(apiUrl: string): HttpClient {
+  const baseUrl = apiUrl || (typeof window !== 'undefined' ? window.location.origin : '');
+
+  return {
+    get: async (path, params = {}) => {
+      const url = new URL(path, baseUrl);
+      for (const [key, value] of Object.entries(params)) {
+        url.searchParams.set(key, value);
+      }
+      return fetch(url.toString());
+    },
+  };
+}
+
+export function createFetchStatItemsEffect(httpClient: HttpClient): GameEffect {
   return async (ctx: GameEffectContext): Promise<StatItemsFetchedAction | StatClashErrorAction | null> => {
     const action = ctx.action as StatClashAction;
 
@@ -19,7 +37,7 @@ export function createFetchStatItemsEffect(): GameEffect {
       if (metricType)
         params.set('metricType', metricType);
 
-      if (!ctx.apiUrl) {
+      if (!ctx.apiUrl && typeof window === 'undefined') {
         logger.error('[FetchStatItemsEffect] ctx.apiUrl is not set');
         return {
           type: 'STAT_ITEMS_FETCHED',
@@ -30,10 +48,9 @@ export function createFetchStatItemsEffect(): GameEffect {
         };
       }
 
-      const url = new URL(`/api/data/stat-items?${params}`, ctx.apiUrl);
-      logger.debug(`[FetchStatItemsEffect] Fetching items from: ${url.toString()}`);
-
-      const res = await fetch(url.toString());
+      const queryParams = Object.fromEntries(params.entries());
+      logger.debug(`[FetchStatItemsEffect] Fetching items with params: ${JSON.stringify(queryParams)}`);
+      const res = await httpClient.get('/api/data/stat-items', queryParams);
 
       if (!res.ok) {
         const errorText = await res.text().catch(() => `HTTP ${res.status}`);
@@ -84,6 +101,6 @@ export function createFetchStatItemsEffect(): GameEffect {
   };
 }
 
-export function createStatClashEffects(): GameEffect[] {
-  return [createFetchStatItemsEffect()];
+export function createStatClashEffects(apiUrl = ''): GameEffect[] {
+  return [createFetchStatItemsEffect(createHttpClient(apiUrl))];
 }

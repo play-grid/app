@@ -4,6 +4,8 @@ import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { FiveSecondsRoute } from '@/games/five-seconds/five-seconds-route';
 import { FiveSecondsNotFound, FiveSecondsPageContent } from '@/games/five-seconds/routes';
 import { GuessLogoSkeleton } from '@/games/guess-logo/components/guess-logo-skeleton';
+import { StatClashNotFound, StatClashPageContent } from '@/games/stat-clash/routes';
+import { StatClashRoute } from '@/games/stat-clash/stat-clash-route';
 import { Footer } from './components/footer';
 import { Navbar } from './components/navbar';
 import ErrorBoundary from './context/error-boundry';
@@ -45,7 +47,9 @@ export default function App() {
 export function LanguageRoutes() {
   const location = useLocation();
 
-  const isNavAndFooterVisible = !location.pathname.includes('/guess-logo') && !location.pathname.includes('/five-seconds');
+  const isNavAndFooterVisible = !location.pathname.includes('/guess-logo')
+    && !location.pathname.includes('/five-seconds')
+    && !location.pathname.includes('/stat-clash');
   return (
     <>
       {isNavAndFooterVisible && <Navbar className="mb-3" />}
@@ -76,6 +80,13 @@ export function LanguageRoutes() {
           >
             <Route index element={<FiveSecondsPageContent />} />
             <Route path="*" element={<FiveSecondsNotFound />} />
+          </Route>
+          <Route
+            path="/stat-clash/*"
+            element={<StatClashRoute />}
+          >
+            <Route index element={<StatClashPageContent />} />
+            <Route path="*" element={<StatClashNotFound />} />
           </Route>
 
           {/* Fallback: Not Found */}

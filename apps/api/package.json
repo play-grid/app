@@ -5,7 +5,8 @@
   "types": "dist/index.d.ts",
   "version": "0.2.0",
   "scripts": {
-    "dev": "wrangler dev",
+    "dev": "wrangler dev --local",
+    "dev:remote": "wrangler dev --remote",
     "deploy:production": "wrangler deploy --env production",
     "test": "vitest run --exclude \"**/*.integration.test.ts\"",
     "test:unit": "vitest run --exclude \"**/*.integration.test.ts\"",
@@ -54,6 +55,7 @@
     "@guess-logo/game-core": "workspace:*",
     "@guess-logo/guess-logo": "workspace:*",
     "@guess-logo/shared": "workspace:*",
+    "@guess-logo/stat-clash": "workspace:*",
     "@hono/zod-openapi": "^1.1.0",
     "@paralleldrive/cuid2": "^3.0.4",
     "@scalar/hono-api-reference": "^0.9.16",

@@ -25,6 +25,7 @@
     "@guess-logo/game-core": "workspace:*",
     "@guess-logo/guess-logo": "workspace:*",
     "@guess-logo/shared": "workspace:*",
+    "@guess-logo/stat-clash": "workspace:*",
     "@guess-logo/ui": "workspace:*",
     "@hookform/resolvers": "catalog:frontend",
     "@posthog/react": "^1.5.2",

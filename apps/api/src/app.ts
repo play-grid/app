@@ -2,6 +2,7 @@
 import './games';
 import '@guess-logo/five-seconds';
 import '@guess-logo/guess-logo';
+import '@guess-logo/stat-clash';
 import { registerRoutes } from '@/routes';
 import configureOpenAPI from './lib/configure-open-api';
 import createApp from './lib/create-app';
