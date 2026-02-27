@@ -11,15 +11,11 @@ export function Step4MetricType() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const state = useStatClashState();
-  const { startGame } = useStatClashActions();
+  const { updateSettings, startGame } = useStatClashActions();
   const [metricType, setMetricType] = useState('');
 
   const handleContinue = () => {
-    const settings = {
-      ...state.settings,
-      metricType: metricType.trim() || undefined,
-    };
-    startGame(settings);
+    updateSettings({ metricType: metricType.trim() || undefined });
     navigate('review', { replace: true });
   };
 

@@ -3,11 +3,13 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../../components/ui/button';
 import { Card } from '../../components/ui/card';
+import { useStatClashActions } from '../../hooks/use-stat-clash-actions';
 
 export function Step5ReviewSolo() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const state = useStatClashState();
+  const { startGame } = useStatClashActions();
 
   return (
     <div className="stat-clash-shell px-4 py-6 md:px-6">
@@ -44,7 +46,14 @@ export function Step5ReviewSolo() {
             )}
           </div>
 
-          <Button onClick={() => navigate('../gameplay', { replace: true })} size="lg" fullWidth>
+          <Button
+            onClick={() => {
+              startGame(state.settings);
+              navigate('../gameplay', { replace: true });
+            }}
+            size="lg"
+            fullWidth
+          >
             {t('statClashGame.lobby.startGame', { mode: t('statClashGame.lobby.startGameModes.solo') })}
           </Button>
         </Card>

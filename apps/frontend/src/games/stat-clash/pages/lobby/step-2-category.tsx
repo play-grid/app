@@ -18,7 +18,7 @@ export function Step2Category() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const state = useStatClashState();
-  const { startGame } = useStatClashActions();
+  const { updateSettings } = useStatClashActions();
   const [selectedCategory, setSelectedCategory] = useState<Category>(state.settings.category);
 
   const categories: { value: Category; label: string }[] = [
@@ -29,11 +29,7 @@ export function Step2Category() {
   ];
 
   const handleContinue = () => {
-    const settings = {
-      ...state.settings,
-      category: selectedCategory,
-    };
-    startGame(settings);
+    updateSettings({ category: selectedCategory });
     navigate('difficulty', { replace: true });
   };
 

@@ -18,7 +18,7 @@ export function Step3Difficulty() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const state = useStatClashState();
-  const { startGame } = useStatClashActions();
+  const { updateSettings } = useStatClashActions();
   const [selectedDifficulty, setSelectedDifficulty] = useState<Difficulty>(state.settings.difficulty);
 
   const difficulties: { value: Difficulty; label: string }[] = [
@@ -28,11 +28,7 @@ export function Step3Difficulty() {
   ];
 
   const handleContinue = () => {
-    const settings = {
-      ...state.settings,
-      difficulty: selectedDifficulty,
-    };
-    startGame(settings);
+    updateSettings({ difficulty: selectedDifficulty });
     navigate('metric-type', { replace: true });
   };
 

@@ -11,6 +11,13 @@ import type {
 import { buildRound, selectPair } from './pair-selector';
 import { getNextPlayer, isGameComplete } from './turn-manager';
 
+export function updateSettings(
+  draft: Draft<StatClashGameState>,
+  payload: Record<string, unknown>,
+): void {
+  Object.assign(draft.settings, payload);
+}
+
 export function startGame(
   draft: Draft<StatClashGameState>,
   payload: any,

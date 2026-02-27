@@ -7,6 +7,7 @@ import {
   removeHotseatPlayer,
   setError,
   startGame,
+  updateSettings,
 } from './actions';
 
 export function statClashReducer(
@@ -19,6 +20,10 @@ export function statClashReducer(
     switch (action.type) {
       case 'START_GAME':
         startGame(draft, action.payload as any);
+        break;
+
+      case 'UPDATE_SETTINGS':
+        updateSettings(draft, action.payload as any);
         break;
 
       case 'STAT_ITEMS_FETCHED':
