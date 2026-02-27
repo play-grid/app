@@ -86,6 +86,9 @@ export function LanguageRoutes() {
             element={<StatClashRoute />}
           >
             <Route index element={<StatClashPageContent />} />
+            <Route path="lobby/*" element={<StatClashPageContent />} />
+            <Route path="gameplay" element={<StatClashPageContent />} />
+            <Route path="results" element={<StatClashPageContent />} />
             <Route path="*" element={<StatClashNotFound />} />
           </Route>
 

@@ -158,3 +158,8 @@ export type GuessHigherAction = z.infer<typeof GuessHigherActionSchema>;
 export type StatClashErrorAction = z.infer<typeof StatClashErrorActionSchema>;
 export type AddHotseatPlayerAction = z.infer<typeof AddHotseatPlayerActionSchema>;
 export type RemoveHotseatPlayerAction = z.infer<typeof RemoveHotseatPlayerActionSchema>;
+
+export type GameMode = StatClashSettings['mode'];
+export type Category = StatClashSettings['category'];
+export type Difficulty = StatClashSettings['difficulty'];
+export type GuessDirection = StatClashRound['higherSide'];

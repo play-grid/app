@@ -13,6 +13,7 @@
     "./input": "./src/input.tsx",
     "./label": "./src/label.tsx",
     "./list": "./src/list.tsx",
+    "./player-list": "./src/player-list.tsx",
     "./popover": "./src/popover.tsx",
     "./progress": "./src/progress.tsx",
     "./select": "./src/select.tsx",
