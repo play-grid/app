@@ -51,7 +51,7 @@ export function Step6ReviewHotseat() {
             </div>
 
             <div>
-              <h3 className="font-semibold mb-2">Players</h3>
+              <h3 className="font-semibold mb-2">{t('statClashGame.lobby.steps.players')}</h3>
               <div className="space-y-1">
                 {players.map((player) => (
                   <div key={player.id} className="flex justify-between text-sm">

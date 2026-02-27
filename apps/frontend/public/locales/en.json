@@ -37,6 +37,10 @@
     "fiveSeconds": {
       "title": "Five Seconds Game",
       "description": "A fast-paced game where you have 5 seconds to name 3 things in a given category."
+    },
+    "statClash": {
+      "title": "Stat Clash",
+      "description": "Pick a mode, tune difficulty, and guess which side is higher."
     }
   },
   "about": {
@@ -350,6 +354,99 @@
       "customQuestions": {
         "title": "Added Questions"
       }
+  },
+    "statClashGame": {
+      "lobby": {
+        "title": "Stat Clash",
+        "description": "Pick a mode, tune difficulty, and guess which side is higher.",
+        "gameMode": "Game Mode",
+        "gameModeDesc": "Solo and Hotseat are ready. Screen and Remote come next.",
+        "mode": {
+          "solo": "Solo",
+          "hotseat": "Hotseat",
+          "screenMode": "Screen Mode",
+          "screenModeDesc": "TV display + phone controllers",
+          "remote": "Remote",
+          "remoteDesc": "Play across different devices"
+        },
+        "roundSetup": "Round Setup",
+        "roundSetupDesc": "These values are sent in START_GAME and REQUEST_STAT_ITEMS.",
+        "category": "Category",
+        "categories": {
+          "mixed": "Mixed",
+          "football": "Football",
+          "companies": "Companies",
+          "countries": "Countries"
+        },
+        "difficulty": "Difficulty",
+        "difficultyOptions": {
+          "easy": "Easy",
+          "medium": "Medium",
+          "hard": "Hard"
+        },
+        "optionalMetricType": "Optional metric type",
+        "metricTypePlaceholder": "e.g. goals, population, market-cap",
+        "startGame": "Start {{mode}}",
+        "startGameModes": {
+          "hotseat": "Hotseat",
+          "solo": "Solo"
+        },
+        "minPlayersRequired": "Add at least 2 players to start Hotseat.",
+        "steps": {
+          "back": "Back",
+          "next": "Next",
+          "skip": "Skip",
+          "select": "Select",
+          "reviewTitle": "Ready to Start?",
+          "reviewSolo": "Your Solo Game",
+          "reviewHotseat": "Your Hotseat Game",
+          "players": "Players"
+        },
+        "modeDescription": {
+          "solo": "Challenge yourself to beat your high score",
+          "hotseat": "Take turns with friends on the same device"
+        }
+      },
+     "hotseatSetup": {
+       "title": "Hotseat Players",
+       "description": "Add at least one extra player to start hotseat.",
+       "playerNamePlaceholder": "Enter player name",
+       "add": "Add",
+       "player": "Player",
+       "host": "Host",
+       "roundsPerPlayer": "Rounds per player"
+     },
+     "gameplay": {
+       "preparingRound": "Preparing round...",
+       "fetchingItems": "Fetching and matching items.",
+       "passingTurnOrder": "Passing turn order:",
+       "player": "Player"
+     },
+     "gameBoard": {
+       "leftIsHigher": "Left Is Higher",
+       "rightIsHigher": "Right Is Higher"
+     },
+     "itemCard": {
+       "left": "Left",
+       "right": "Right",
+       "noImage": "No image",
+       "hiddenValue": "Hidden value"
+     },
+     "streakBar": {
+       "currentRun": "Current run",
+       "currentTurn": "Current turn: {{playerName}}",
+       "streak": "Streak:",
+       "score": "Score:"
+     },
+     "results": {
+       "gameOver": "Game Over",
+       "soloEnding": "Nice run. Ready for another one?",
+       "hotseatEnding": "Round limit reached. Final standings below.",
+       "streak": "Streak:",
+       "rounds": "Rounds:",
+       "playAgain": "Play Again",
+       "backToLobby": "Back To Lobby"
+     }
   },
   "gameRules": {
     "yourTurn": "Your Turn",

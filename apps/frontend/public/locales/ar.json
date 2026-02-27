@@ -37,6 +37,10 @@
     "fiveSeconds": {
       "title": "لعبة خمس ثواني",
       "description": "لعبة سريعة حيث لديك 5 ثواني لتسمية 3 أشياء في فئة معينة."
+    },
+    "statClash": {
+      "title": "تحدي الإحصائيات",
+      "description": "اختر الوضع، عدّل الصعوبة، وخمن أي جانب أعلى."
     }
   },
   "about": {
@@ -350,6 +354,99 @@
       "customQuestions": {
         "title": "الأسئلة المضافة"
       }
+   },
+    "statClashGame": {
+      "lobby": {
+        "title": "تحدي الإحصائيات",
+        "description": "اختر الوضع، عدّل الصعوبة، وخمن أي جانب أعلى.",
+        "gameMode": "وضع اللعبة",
+        "gameModeDesc": "اللعب الفردي واللعب المشترك جاهزان. وضع الشاشة واللعب عن بعد قادمان.",
+        "mode": {
+          "solo": "لعب فردي",
+          "hotseat": "لعب مشترك",
+          "screenMode": "وضع الشاشة",
+          "screenModeDesc": "عرض التلفاز + تحكم من الهاتف",
+          "remote": "اللعب عن بعد",
+          "remoteDesc": "العب عبر أجهزة مختلفة"
+        },
+        "roundSetup": "إعداد الجولات",
+        "roundSetupDesc": "هذه القيم تُرسل في START_GAME و REQUEST_STAT_ITEMS.",
+        "category": "الفئة",
+        "categories": {
+          "mixed": "مختلط",
+          "football": "كرة القدم",
+          "companies": "الشركات",
+          "countries": "الدول"
+        },
+        "difficulty": "الصعوبة",
+        "difficultyOptions": {
+          "easy": "سهل",
+          "medium": "وسط",
+          "hard": "صعب"
+        },
+        "optionalMetricType": "نوع القياس (اختياري)",
+        "metricTypePlaceholder": "مثلًا: الأهداف، السكان، القيمة السوقية",
+        "startGame": "ابدأ {{mode}}",
+        "startGameModes": {
+          "hotseat": "اللعب المشترك",
+          "solo": "اللعب الفردي"
+        },
+        "minPlayersRequired": "أضف 2 لاعبين على الأقل لبدء اللعب المشترك.",
+        "steps": {
+          "back": "رجوع",
+          "next": "التالي",
+          "skip": "تخطي",
+          "select": "اختيار",
+          "reviewTitle": "جاهز للبدء؟",
+          "reviewSolo": "لعبتك الفردية",
+          "reviewHotseat": "لعبتك المشتركة",
+          "players": "اللاعبون"
+        },
+        "modeDescription": {
+          "solo": "تحدى نفسك لكسر أعلى نتيجة لك",
+          "hotseat": "تناوب مع أصدقائك على نفس الجهاز"
+        }
+      },
+     "hotseatSetup": {
+       "title": "لاعبو اللعب المشترك",
+       "description": "أضف لاعبًا إضافيًا واحدًا على الأقل لبدء اللعب المشترك.",
+       "playerNamePlaceholder": "أدخل اسم اللاعب",
+       "add": "إضافة",
+       "player": "لاعب",
+       "host": "المضيف",
+       "roundsPerPlayer": "الجولات لكل لاعب"
+     },
+     "gameplay": {
+       "preparingRound": "جاري تحضير الجولة...",
+       "fetchingItems": "جاري جلب ومطابقة العناصر.",
+       "passingTurnOrder": "ترتيب دور المرور:",
+       "player": "لاعب"
+     },
+     "gameBoard": {
+       "leftIsHigher": "اليسار أعلى",
+       "rightIsHigher": "اليمين أعلى"
+     },
+     "itemCard": {
+       "left": "يسار",
+       "right": "يمين",
+       "noImage": "لا توجد صورة",
+       "hiddenValue": "قيمة مخفية"
+     },
+     "streakBar": {
+       "currentRun": "التشغيل الحالي",
+       "currentTurn": "الدور الحالي: {{playerName}}",
+       "streak": "التواصل:",
+       "score": "النقاط:"
+     },
+     "results": {
+       "gameOver": "انتهت اللعبة",
+       "soloEnding": "محاولة جيدة. هل أنت مستعد لمحاولة أخرى؟",
+       "hotseatEnding": "وصلنا إلى حد الجولات. الترتيب النهائي أدناه.",
+       "streak": "التواصل:",
+       "rounds": "الجولات:",
+       "playAgain": "العب مرة أخرى",
+       "backToLobby": "العودة إلى الردهة"
+     }
    },
   "gameRules": {
     "yourTurn": "دورك",
