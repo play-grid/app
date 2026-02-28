@@ -44,7 +44,9 @@ export function GameOverScreen({ state, onPlayAgain, onBackToLobby }: GameOverSc
                 {t('statClashGame.results.streak')}
                 {player.streak}
                 {' '}
-                · {t('statClashGame.results.rounds')}
+                ·
+                {' '}
+                {t('statClashGame.results.rounds')}
                 {player.roundsPlayed}
               </p>
             </div>

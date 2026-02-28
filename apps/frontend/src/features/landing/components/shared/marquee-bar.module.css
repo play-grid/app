@@ -1,0 +1,53 @@
+.root {
+  overflow: hidden;
+  height: 58px;
+  display: flex;
+  align-items: center;
+  background: var(--accent);
+  position: relative;
+}
+
+.sep {
+  display: none; /* visual sep handled by border-top in parent */
+}
+
+.track {
+  display: flex;
+  animation: scroll 22s linear infinite;
+  white-space: nowrap;
+}
+
+.item {
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.92);
+  padding: 0 32px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.dot {
+  width: 3px;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .track {
+    animation: none;
+  }
+}

@@ -32,15 +32,17 @@ export function createInitialState(
       },
     },
     hostId,
-    turnState: playerOrder.length > 0 ? {
-      playerOrder,
-      currentPlayerIndex: 0,
-      currentPlayerId: hostId,
-      direction: 'forward',
-      roundNumber: 1,
-      turnNumber: 0,
-      skipsRemaining: 0,
-    } : undefined,
+    turnState: playerOrder.length > 0
+      ? {
+          playerOrder,
+          currentPlayerIndex: 0,
+          currentPlayerId: hostId,
+          direction: 'forward',
+          roundNumber: 1,
+          turnNumber: 0,
+          skipsRemaining: 0,
+        }
+      : undefined,
     currentRound: null,
     recentRounds: [],
     availableItems: [],

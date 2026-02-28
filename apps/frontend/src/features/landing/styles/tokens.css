@@ -1,0 +1,46 @@
+/* ═══════════════════════════════════
+   DESIGN TOKENS
+═══════════════════════════════════ */
+:root {
+  /* Accent */
+  --accent: #e07d2a;
+  --accent-dim: #c4691f;
+  --accent-light: rgba(224, 125, 42, 0.1);
+
+  /* Typography */
+  --font-display: 'Syne', sans-serif;
+  --font-mono: 'DM Mono', monospace;
+  --font-arabic: 'Noto Kufi Arabic', sans-serif;
+
+  /* Radii */
+  --radius-none: 0px;
+
+  /* Transitions */
+  --t-theme: background 0.45s ease, color 0.45s ease, border-color 0.35s ease;
+}
+
+/* ─── LIGHT (default) ─── */
+[data-theme='light'] {
+  --bg: #f0ebe0;
+  --bg-mid: #e8e2d6;
+  --bg-raised: #ece7db;
+  --fg: #1a1714;
+  --fg-mid: #3d3830;
+  --fg-muted: rgba(26, 23, 20, 0.42);
+  --border: rgba(26, 23, 20, 0.1);
+  --border-strong: rgba(26, 23, 20, 0.18);
+  --shadow: rgba(26, 23, 20, 0.07);
+}
+
+/* ─── DARK ─── */
+[data-theme='dark'] {
+  --bg: #0d0c0b;
+  --bg-mid: #161410;
+  --bg-raised: #1c1a16;
+  --fg: #f0ebe0;
+  --fg-mid: #c8c2b4;
+  --fg-muted: rgba(240, 235, 224, 0.38);
+  --border: rgba(240, 235, 224, 0.08);
+  --border-strong: rgba(240, 235, 224, 0.15);
+  --shadow: rgba(0, 0, 0, 0.28);
+}

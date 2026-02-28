@@ -1,4 +1,4 @@
-import { type DataProvider } from 'ra-core';
+import type { DataProvider } from 'ra-core';
 import { hcWithType } from '@guess-logo/api-client';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8787';
@@ -17,7 +17,7 @@ const routeMap: Record<
     delete: () => any;
   }>
 > = {
-  questions: {
+  'questions': {
     getList: () => client.api.admin.questions.$get,
     getOne: () => client.api.admin.questions[':id'].$get,
     create: () => client.api.admin.questions.$post,
@@ -27,19 +27,18 @@ const routeMap: Record<
   'question-feedback': {
     getList: () => (client.api.admin)['question-feedback'].$get,
   },
-  banners: {
+  'banners': {
     getList: () => client.api.admin.banners.$get,
     getOne: () => (client.api.admin).banners[':id'].$get,
     create: () => (client.api.admin).banners.$post,
     update: () => (client.api.admin).banners[':id'].$patch,
     delete: () => (client.api.admin).banners[':id'].$delete,
   },
-  categories: {
+  'categories': {
     getList: () => (client.api.admin).categories.$get,
     getOne: () => (client.api.admin).categories[':id'].$get,
   },
 };
-
 
 async function getListHandler(
   resource: ResourceType,
@@ -47,7 +46,7 @@ async function getListHandler(
     pagination?: { page: number; perPage: number };
     sort?: { field: string; order: 'ASC' | 'DESC' };
     filter?: Record<string, any>;
-  }
+  },
 ) {
   const { page = 1, perPage = 20 } = params.pagination || {};
   const { filter = {}, sort } = params;
@@ -67,7 +66,7 @@ async function getListHandler(
       page: page.toString(),
       limit: perPage.toString(),
       ...filter,
-      
+
       _t: Date.now().toString(),
     };
 
@@ -83,7 +82,7 @@ async function getListHandler(
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
       throw new Error(
-        errorData.message || `Failed to fetch ${resource} list`
+        errorData.message || `Failed to fetch ${resource} list`,
       );
     }
 
@@ -93,7 +92,8 @@ async function getListHandler(
       data: data.data || data[resource] || [],
       total: data.pagination?.total || data.total || 0,
     };
-  } catch (error) {
+  }
+  catch (error) {
     console.error(`Data provider error (getList ${resource}):`, error);
     throw error;
   }
@@ -101,7 +101,7 @@ async function getListHandler(
 
 async function getOneHandler(
   resource: ResourceType,
-  params: { id: string | number }
+  params: { id: string | number },
 ) {
   try {
     const resourceConfig = routeMap[resource];
@@ -121,15 +121,16 @@ async function getOneHandler(
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
       throw new Error(
-        errorData.message || `Failed to fetch ${resource} with id ${params.id}`
+        errorData.message || `Failed to fetch ${resource} with id ${params.id}`,
       );
     }
 
     const data = await response.json();
     const recordData = data.data !== undefined ? data.data : data;
-    
+
     return { data: recordData };
-  } catch (error) {
+  }
+  catch (error) {
     console.error(`Data provider error (getOne ${resource}):`, error);
     throw error;
   }
@@ -137,7 +138,7 @@ async function getOneHandler(
 
 async function createHandler(
   resource: ResourceType,
-  params: { data: Record<string, any> }
+  params: { data: Record<string, any> },
 ) {
   try {
     const resourceConfig = routeMap[resource];
@@ -160,7 +161,8 @@ async function createHandler(
           if (value.rawFile instanceof File) {
             // Handle file uploads
             formPayload[key] = value.rawFile;
-          } else {
+          }
+          else {
             formPayload[key] = value;
           }
         }
@@ -169,7 +171,8 @@ async function createHandler(
       response = await endpoint({
         form: formPayload,
       });
-    } else {
+    }
+    else {
       response = await endpoint({
         json: params.data,
       });
@@ -178,15 +181,16 @@ async function createHandler(
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
       throw new Error(
-        errorData.message || `Failed to create ${resource}`
+        errorData.message || `Failed to create ${resource}`,
       );
     }
 
     const data = await response.json();
     const recordData = data.data !== undefined ? data.data : data;
-    
+
     return { data: recordData };
-  } catch (error) {
+  }
+  catch (error) {
     console.error(`Data provider error (create ${resource}):`, error);
     throw error;
   }
@@ -194,7 +198,7 @@ async function createHandler(
 
 async function updateHandler(
   resource: ResourceType,
-  params: { id: string | number; data: Record<string, any>; previousData?: Record<string, any> }
+  params: { id: string | number; data: Record<string, any>; previousData?: Record<string, any> },
 ) {
   try {
     const resourceConfig = routeMap[resource];
@@ -217,7 +221,8 @@ async function updateHandler(
           if (value.rawFile instanceof File) {
             // Handle file uploads
             formPayload[key] = value.rawFile;
-          } else {
+          }
+          else {
             formPayload[key] = value;
           }
         }
@@ -227,7 +232,8 @@ async function updateHandler(
         param: { id: params.id.toString() },
         form: formPayload,
       });
-    } else {
+    }
+    else {
       response = await endpoint({
         param: { id: params.id.toString() },
         json: params.data,
@@ -237,15 +243,16 @@ async function updateHandler(
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
       throw new Error(
-        errorData.message || `Failed to update ${resource}`
+        errorData.message || `Failed to update ${resource}`,
       );
     }
 
     const data = await response.json();
     const recordData = data.data !== undefined ? data.data : data;
-    
+
     return { data: recordData };
-  } catch (error) {
+  }
+  catch (error) {
     console.error(`Data provider error (update ${resource}):`, error);
     throw error;
   }
@@ -253,7 +260,7 @@ async function updateHandler(
 
 async function deleteHandler(
   resource: ResourceType,
-  params: { id: string | number; previousData?: any }
+  params: { id: string | number; previousData?: any },
 ) {
   try {
     const resourceConfig = routeMap[resource];
@@ -273,52 +280,45 @@ async function deleteHandler(
     if (!response.ok) {
       const contentType = response.headers?.get?.('content-type');
       let errorData: any = {};
-      
+
       if (contentType?.includes('application/json')) {
         errorData = await response.json().catch(() => ({}));
       }
-      
+
       throw new Error(
-        errorData.error || errorData.message || `Failed to delete ${resource}`
+        errorData.error || errorData.message || `Failed to delete ${resource}`,
       );
     }
 
-    
     const contentType = response.headers?.get?.('content-type');
     if (contentType?.includes('application/json')) {
       const data = await response.json();
       const recordData = data.data !== undefined ? data.data : data;
-      
-      
-      
+
       return { data: recordData };
     }
 
-    
-    
-    return { 
-      data: params.previousData 
+    return {
+      data: params.previousData
         ? { ...params.previousData, deletedAt: new Date().toISOString() }
-        : { id: params.id, deletedAt: new Date().toISOString() }
+        : { id: params.id, deletedAt: new Date().toISOString() },
     };
-  } catch (error) {
+  }
+  catch (error) {
     console.error(`Data provider error (delete ${resource}):`, error);
     throw error;
   }
 }
 
-
-
-
-// STUB implementation 
+// STUB implementation
 async function getManyHandler(
   resource: ResourceType,
-  params: { ids: (string | number)[] }
+  params: { ids: (string | number)[] },
 ) {
   const data = await Promise.all(
-    params.ids.map((id) => getOneHandler(resource, { id }))
+    params.ids.map(id => getOneHandler(resource, { id })),
   );
-  return { data: data.map((d) => d.data) };
+  return { data: data.map(d => d.data) };
 }
 
 async function getManyReferenceHandler(
@@ -329,7 +329,7 @@ async function getManyReferenceHandler(
     pagination?: { page: number; perPage: number };
     sort?: { field: string; order: 'ASC' | 'DESC' };
     filter?: Record<string, any>;
-  }
+  },
 ) {
   return getListHandler(resource, {
     pagination: params.pagination,
@@ -343,29 +343,29 @@ async function updateManyHandler(
   params: {
     ids: (string | number)[];
     data: Record<string, any>;
-  }
+  },
 ) {
   const results = await Promise.all(
-    params.ids.map((id) =>
-      updateHandler(resource, { id, data: params.data })
-    )
+    params.ids.map(id =>
+      updateHandler(resource, { id, data: params.data }),
+    ),
   );
-  return { data: results.map((r) => r.data) };
+  return { data: results.map(r => r.data) };
 }
 
 async function deleteManyHandler(
   resource: ResourceType,
-  params: { ids: (string | number)[]; previousData?: any[] }
+  params: { ids: (string | number)[]; previousData?: any[] },
 ) {
   const results = await Promise.all(
     params.ids.map((id, index) =>
       deleteHandler(resource, {
         id,
         previousData: params.previousData?.[index],
-      })
-    )
+      }),
+    ),
   );
-  return { data: results.map((r) => r.data) };
+  return { data: results.map(r => r.data) };
 }
 
 const dataProvider: DataProvider = {

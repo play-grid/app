@@ -1,0 +1,58 @@
+.root {
+  padding: 130px 52px;
+  border-top: 1px solid var(--border);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.ghost {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-arabic);
+  font-size: clamp(80px, 15vw, 180px);
+  font-weight: 900;
+  color: var(--border);
+  pointer-events: none;
+  user-select: none;
+}
+
+.badge {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.title {
+  font-size: clamp(38px, 7vw, 88px);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 0.9;
+  margin-bottom: 48px;
+  position: relative;
+}
+
+.actions {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  position: relative;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 600px) {
+  .root {
+    padding: 96px 24px;
+  }
+  .actions {
+    flex-direction: column;
+    align-items: center;
+  }
+}

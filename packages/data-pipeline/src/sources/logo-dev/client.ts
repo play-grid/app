@@ -27,7 +27,8 @@ export class LogoDevClient extends ExternalAPIBase {
 
   async getLogoUrl(companyName: string): Promise<string | null> {
     const results = await this.searchCompany(companyName);
-    if (!results || results.length === 0) return null;
+    if (!results || results.length === 0)
+      return null;
 
     const isDomain = companyName.includes('.');
     const target = isDomain

@@ -162,7 +162,8 @@ export function startTurn(draft: Draft<FiveSecondsGameState>): void {
       draft.readingTimerEndsAt = null;
       draft.turnTimerEndsAt = null;
       logger.debug(`[FiveSeconds] Turn started for player: ${currentPlayerId} (${currentPlayer.name}), reading time: ${readingTime}s`);
-    } else {
+    }
+    else {
       draft.readingTime = 2;
       draft.readingTimerEndsAt = null;
       logger.debug(`[FiveSeconds] Turn started for player: ${currentPlayerId} (${currentPlayer.name}), no question found`);

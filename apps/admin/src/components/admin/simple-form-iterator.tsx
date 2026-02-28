@@ -176,10 +176,7 @@ export interface SimpleFormIteratorProps extends Partial<UseFieldArrayReturn> {
  *
  * // Typically used internally by SimpleFormIterator
  */
-export const SimpleFormIteratorItem = React.forwardRef<
-  HTMLLIElement,
-  SimpleFormIteratorItemProps
->((props, ref) => {
+export function SimpleFormIteratorItem({ ref, ...props }: SimpleFormIteratorItemProps & { ref?: React.RefObject<HTMLLIElement | null> }) {
   const {
     children,
     disabled,
@@ -214,8 +211,8 @@ export const SimpleFormIteratorItem = React.forwardRef<
     return disableRemove && disableRemove(record);
   };
 
-  const label =
-    typeof getItemLabel === 'function' ? getItemLabel(index) : getItemLabel;
+  const label
+    = typeof getItemLabel === 'function' ? getItemLabel(index) : getItemLabel;
 
   const { children: _children, ...rest } = props;
 
@@ -249,7 +246,7 @@ export const SimpleFormIteratorItem = React.forwardRef<
       </li>
     </SimpleFormIteratorItemBase>
   );
-});
+}
 
 SimpleFormIteratorItem.displayName = 'SimpleFormIteratorItem';
 

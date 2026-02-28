@@ -1,0 +1,50 @@
+.root {
+  position: relative;
+}
+
+.sep {
+  height: 1px;
+  background: var(--border);
+  border: none;
+}
+
+.inner {
+  padding: 32px 52px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-weight: 800;
+  font-size: 1.1rem;
+  letter-spacing: -0.03em;
+  font-family: var(--font-display);
+}
+
+.logo em {
+  font-style: normal;
+  color: var(--accent);
+}
+
+.copy {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  color: var(--fg-muted);
+  letter-spacing: 0.08em;
+}
+
+.arabic {
+  font-family: var(--font-arabic);
+  font-size: 0.9rem;
+  color: var(--fg-muted);
+}
+
+@media (max-width: 600px) {
+  .inner {
+    flex-direction: column;
+    gap: 12px;
+    text-align: center;
+    padding: 28px 24px;
+  }
+}

@@ -1,4 +1,3 @@
-import { useStatClashState } from '@guess-logo/stat-clash';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -10,8 +9,7 @@ import { useStatClashActions } from '../../hooks/use-stat-clash-actions';
 export function Step4MetricType() {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const state = useStatClashState();
-  const { updateSettings, startGame } = useStatClashActions();
+  const { updateSettings } = useStatClashActions();
   const [metricType, setMetricType] = useState('');
 
   const handleContinue = () => {

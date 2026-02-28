@@ -1,30 +1,32 @@
-import { 
-  List, 
-  DataTable, 
-  TextField, 
-  DateField,
+import {
   ColumnsButton,
+  DataTable,
+  DateField,
   ExportButton,
-} from "@/components/admin";
+  List,
+  TextField,
+} from '@/components/admin';
 
-const QuestionFeedbackActions = () => (
+function QuestionFeedbackActions() {
+  return (
     <div className="flex items-center gap-2">
       <ColumnsButton />
       <ExportButton />
     </div>
-);
+  );
+}
 
-export const ListQuestionFeedback = () => {
+export function ListQuestionFeedback() {
   return (
-    <List  actions={<QuestionFeedbackActions />}>
+    <List actions={<QuestionFeedbackActions />}>
       <DataTable>
         <DataTable.Col label="Question">
           <TextField source="questionText" />
         </DataTable.Col>
-        <DataTable.Col label='Type'>
+        <DataTable.Col label="Type">
           <TextField source="type" />
         </DataTable.Col>
-        <DataTable.Col label='Comment'>
+        <DataTable.Col label="Comment">
           <TextField source="comment" />
         </DataTable.Col>
         <DataTable.Col label="createdAt">
@@ -33,4 +35,4 @@ export const ListQuestionFeedback = () => {
       </DataTable>
     </List>
   );
-};
+}

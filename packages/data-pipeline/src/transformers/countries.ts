@@ -120,4 +120,3 @@ export function createCountriesTransformer(config: CountriesTransformerConfig): 
     },
   };
 }
-

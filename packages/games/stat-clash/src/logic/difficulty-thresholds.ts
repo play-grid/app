@@ -19,9 +19,11 @@ export function getEffectiveDifficulty(
   baseDifficulty: 'easy' | 'medium' | 'hard',
   streak: number,
 ): 'easy' | 'medium' | 'hard' {
-  if (streak >= 10) return 'hard';
+  if (streak >= 10)
+    return 'hard';
   if (streak >= 5) {
-    if (baseDifficulty === 'easy') return 'medium';
+    if (baseDifficulty === 'easy')
+      return 'medium';
     return 'hard';
   }
   return baseDifficulty;

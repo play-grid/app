@@ -1,0 +1,53 @@
+.root {
+  position: relative;
+}
+
+.sep {
+  height: 1px;
+  background: var(--border);
+  border: none;
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 0 52px;
+  height: 44px;
+  background: var(--bg-mid);
+  border-bottom: 1px solid var(--border);
+  transition: background 0.45s;
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+.value {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.value::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  background: var(--accent);
+  border-radius: 50%;
+}
+
+@media (max-width: 768px) {
+  .inner {
+    padding: 0 24px;
+  }
+}

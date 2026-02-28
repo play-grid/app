@@ -1,12 +1,12 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
-import { Plus, Trash2 } from 'lucide-react';
 import { useStatClashState } from '@guess-logo/stat-clash';
-import { useStatClashActions } from '../../../hooks/use-stat-clash-actions';
-import { Card } from '../../../components/ui/card';
+import { Plus, Trash2 } from 'lucide-react';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '../../../components/ui/button';
+import { Card } from '../../../components/ui/card';
 import { Input } from '../../../components/ui/input';
+import { useStatClashActions } from '../../../hooks/use-stat-clash-actions';
 
 export function Step2HotseatPlayers() {
   const { t } = useTranslation();
@@ -48,7 +48,7 @@ export function Step2HotseatPlayers() {
           <div className="flex gap-2">
             <Input
               value={name}
-              onChange={(e) => setName(e.target.value)}
+              onChange={e => setName(e.target.value)}
               placeholder={t('statClashGame.hotseatSetup.playerNamePlaceholder')}
               onKeyDown={(e) => {
                 if (e.key === 'Enter') {
@@ -64,7 +64,7 @@ export function Step2HotseatPlayers() {
           </div>
 
           <div className="space-y-2">
-            {players.map((player) => (
+            {players.map(player => (
               <div key={player.id} className="flex items-center justify-between rounded-md border border-border/70 bg-background/70 px-3 py-2">
                 <div>
                   <p className="font-medium">{player.name || t('statClashGame.hotseatSetup.player')}</p>

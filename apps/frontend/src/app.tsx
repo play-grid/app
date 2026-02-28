@@ -18,6 +18,7 @@ import HomePage from './pages/home-page';
 import LegalPage from './pages/legal-page';
 import NotFoundPage from './pages/not-found-page';
 import PrivacyPage from './pages/privacy-page';
+import LandingPage from './features/landing/landing';
 
 // Lazy-loaded game routes
 const GuessLogoRoutes = lazy(() => import('./games/guess-logo/routes'));
@@ -49,7 +50,8 @@ export function LanguageRoutes() {
 
   const isNavAndFooterVisible = !location.pathname.includes('/guess-logo')
     && !location.pathname.includes('/five-seconds')
-    && !location.pathname.includes('/stat-clash');
+    && !location.pathname.includes('/stat-clash')
+    && !location.pathname.includes('/landing');
   return (
     <>
       {isNavAndFooterVisible && <Navbar className="mb-3" />}
@@ -57,6 +59,9 @@ export function LanguageRoutes() {
         <Routes>
           {/* Home page for language prefix */}
           <Route path="/" element={<HomePage />} />
+
+          {/* Landing page */}
+          <Route path="/landing" element={<LandingPage />} />
 
           {/* About page */}
           <Route path="/about" element={<AboutPage />} />

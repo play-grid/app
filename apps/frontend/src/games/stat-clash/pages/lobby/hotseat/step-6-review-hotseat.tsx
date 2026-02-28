@@ -1,8 +1,8 @@
-import { useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 import { useStatClashState } from '@guess-logo/stat-clash';
-import { Card } from '../../../components/ui/card';
+import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '../../../components/ui/button';
+import { Card } from '../../../components/ui/card';
 
 export function Step6ReviewHotseat() {
   const { t } = useTranslation();
@@ -53,7 +53,7 @@ export function Step6ReviewHotseat() {
             <div>
               <h3 className="font-semibold mb-2">{t('statClashGame.lobby.steps.players')}</h3>
               <div className="space-y-1">
-                {players.map((player) => (
+                {players.map(player => (
                   <div key={player.id} className="flex justify-between text-sm">
                     <span>{player.name}</span>
                     {player.id === state.hostId && <span className="text-muted-foreground">{t('statClashGame.hotseatSetup.host')}</span>}

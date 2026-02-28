@@ -1,3 +1,4 @@
+import { required } from 'ra-core';
 import {
   AutocompleteInput,
   Create,
@@ -5,10 +6,9 @@ import {
   SelectInput,
   SimpleForm,
   TextInput,
-} from "@/components/admin";
-import { required } from "ra-core";
+} from '@/components/admin';
 
-export const CreateQuestions = () => {
+export function CreateQuestions() {
   return (
     <Create redirect="list">
       <SimpleForm>
@@ -32,12 +32,12 @@ export const CreateQuestions = () => {
           label="Difficulty"
           validate={[required()]}
           choices={[
-            { id: "easy", name: "Easy" },
-            { id: "medium", name: "Medium" },
-            { id: "hard", name: "Hard" },
+            { id: 'easy', name: 'Easy' },
+            { id: 'medium', name: 'Medium' },
+            { id: 'hard', name: 'Hard' },
           ]}
         />
       </SimpleForm>
     </Create>
   );
-};
+}

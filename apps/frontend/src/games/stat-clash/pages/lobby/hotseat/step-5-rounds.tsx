@@ -1,11 +1,11 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 import { useStatClashState } from '@guess-logo/stat-clash';
-import { useStatClashActions } from '../../../hooks/use-stat-clash-actions';
-import { Card } from '../../../components/ui/card';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '../../../components/ui/button';
+import { Card } from '../../../components/ui/card';
 import { Input } from '../../../components/ui/input';
+import { useStatClashActions } from '../../../hooks/use-stat-clash-actions';
 
 export function Step5HotseatRounds() {
   const { t } = useTranslation();
@@ -42,7 +42,7 @@ export function Step5HotseatRounds() {
             min={1}
             max={20}
             value={roundsPerPlayer}
-            onChange={(e) => setRoundsPerPlayer(Math.max(1, Math.min(20, Number(e.target.value || 1))))}
+            onChange={e => setRoundsPerPlayer(Math.max(1, Math.min(20, Number(e.target.value || 1))))}
             className="text-lg"
           />
           <Button onClick={handleContinue} size="lg" fullWidth>

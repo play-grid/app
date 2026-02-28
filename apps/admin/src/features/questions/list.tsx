@@ -1,44 +1,46 @@
 import {
-  List,
-  DataTable,
-  DateField,
-  EditButton,
-  DeleteButton,
   ColumnsButton,
   CreateButton,
+  DataTable,
+  DateField,
+  DeleteButton,
+  EditButton,
   ExportButton,
-} from "@/components/admin";
-import { FilterableField } from "./FilterableField";
+  List,
+} from '@/components/admin';
+import { FilterableField } from './FilterableField';
 
-const QuestionsActions = () => (
-  <div className="flex items-center gap-2">
-    <ColumnsButton />
-    <CreateButton />
-    <ExportButton />
-  </div>
-);
+function QuestionsActions() {
+  return (
+    <div className="flex items-center gap-2">
+      <ColumnsButton />
+      <CreateButton />
+      <ExportButton />
+    </div>
+  );
+}
 
-export const ListQuestions = () => {
+export function ListQuestions() {
   return (
     <List actions={<QuestionsActions />} sort={{ field: 'createdAt', order: 'DESC' }}>
       <DataTable>
         <DataTable.Col label="Question" source="text" />
-        <DataTable.Col label='Category'>
+        <DataTable.Col label="Category">
           <FilterableField source="categoryNameEn" filterSource="categoryId" />
         </DataTable.Col>
 
         <DataTable.NumberCol label="Feedbacks" source="feedbackCount" />
-        
+
         <DataTable.Col label="Difficulty" source="difficulty" />
         <DataTable.Col label="Created At">
-          <DateField 
-            source="createdAt" 
+          <DateField
+            source="createdAt"
             options={{
               weekday: 'long',
               year: 'numeric',
               month: 'long',
-              day: 'numeric'
-            }} 
+              day: 'numeric',
+            }}
           />
         </DataTable.Col>
 
@@ -51,4 +53,4 @@ export const ListQuestions = () => {
       </DataTable>
     </List>
   );
-};
+}

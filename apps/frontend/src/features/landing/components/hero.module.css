@@ -1,0 +1,164 @@
+.root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 120px 52px 88px;
+  position: relative;
+  overflow: hidden;
+}
+
+.ticker {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-60%);
+  font-family: var(--font-arabic);
+  font-weight: 900;
+  font-size: clamp(100px, 17vw, 210px);
+  color: var(--border);
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+  letter-spacing: 0.02em;
+  will-change: transform;
+}
+
+.chips {
+  position: absolute;
+  bottom: 88px;
+  right: 52px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-end;
+}
+
+.chip {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border: 1px solid var(--border);
+  color: var(--fg-muted);
+  background: var(--bg-raised);
+  white-space: nowrap;
+  transition: var(--t-theme);
+}
+
+.chipHot {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-light);
+}
+
+.content {
+  position: relative;
+  z-index: 2;
+}
+
+.badge {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  padding: 5px 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 32px;
+  width: fit-content;
+}
+
+.badgeDot {
+  width: 5px;
+  height: 5px;
+  background: var(--accent);
+  border-radius: 50%;
+  animation: blink 2s infinite;
+  flex-shrink: 0;
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.2;
+  }
+}
+
+.title {
+  font-size: clamp(52px, 9vw, 118px);
+  font-weight: 800;
+  line-height: 0.88;
+  letter-spacing: -0.04em;
+  margin-bottom: 36px;
+}
+
+.title em {
+  font-style: normal;
+  color: var(--accent);
+}
+
+.sub {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--fg-muted);
+  max-width: 520px;
+  line-height: 1.85;
+  margin-bottom: 52px;
+}
+
+.scrollPrompt {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+.scrollLine {
+  width: 56px;
+  height: 1px;
+  background: var(--border-strong);
+  position: relative;
+  overflow: hidden;
+  display: block;
+}
+
+.scrollLine::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: var(--accent);
+  animation: scan 2s ease-in-out infinite;
+}
+
+@keyframes scan {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .root {
+    padding: 100px 24px 72px;
+  }
+  .chips {
+    display: none;
+  }
+}
