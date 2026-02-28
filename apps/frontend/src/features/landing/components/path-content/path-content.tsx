@@ -1,7 +1,7 @@
 import type { PathData } from '../../path-data';
 import { useGSAP } from '@gsap/react';
 import { gsap } from 'gsap';
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 import { CtaSection } from '../shared/cta-section';
 import { Footer } from '../shared/footer';
 import { MarqueeBar } from '../shared/marquee-bar';
@@ -36,8 +36,8 @@ export const PathContent: React.FC<PathContentProps> = ({ data }) => {
       <MarqueeBar />
       <StatsStrip />
       <CtaSection
-        ghostWord={data.ctaGhostWord}
-        title={data.ctaTitle}
+        ghostWordKey={data.ctaGhostWordKey}
+        titleKey={data.ctaTitleKey}
       />
       <Footer />
     </div>

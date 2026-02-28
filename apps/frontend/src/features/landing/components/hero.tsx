@@ -2,11 +2,13 @@ import { useGSAP } from '@gsap/react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import React, { useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import styles from './hero.module.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export const Hero: React.FC = () => {
+  const { t } = useTranslation();
   const rootRef = useRef<HTMLElement>(null);
   const tickerRef = useRef<HTMLParagraphElement>(null);
 
@@ -59,39 +61,34 @@ export const Hero: React.FC = () => {
         aria-hidden="true"
         lang="ar"
       >
-        العب معاً
+        {t('landing.hero.ticker')}
       </p>
 
       {/* status chips */}
       <aside className={styles.chips} aria-label="Platform highlights">
-        <span className={`${styles.chip} ${styles.chipHot}`}>● Coming Soon</span>
-        <span className={styles.chip}>Arabic-First Platform</span>
-        <span className={styles.chip}>Multiplayer · No-Code · Live</span>
+        <span className={`${styles.chip} ${styles.chipHot}`}>{t('landing.hero.chipComingSoon')}</span>
+        <span className={styles.chip}>{t('landing.hero.chipArabicFirst')}</span>
+        <span className={styles.chip}>{t('landing.hero.chipMultiplayer')}</span>
       </aside>
 
       {/* main content */}
       <div className={styles.content}>
-        <div className={styles.badge} data-animate aria-label="Platform tagline">
+        {/* <div className={styles.badge} data-animate aria-label="Platform tagline">
           <span className={styles.badgeDot} aria-hidden="true" />
-          Multiplayer Arabic Games, Reimagined
-        </div>
+          {t('landing.hero.badge')}
+        </div> */}
 
         <h1 className={styles.title} data-animate>
-          Play.
-          <br />
-          Create.
-          <br />
-          <em>Connect.</em>
+          {t('landing.hero.title')}
         </h1>
 
         <p className={styles.sub} data-animate>
-          The complete ecosystem where families, friends, and creators thrive
-          together — fast, seamless, and endlessly fun. Scroll to find your place.
+          {t('landing.hero.sub')}
         </p>
 
         <div className={styles.scrollPrompt} data-animate aria-hidden="true">
           <span className={styles.scrollLine} />
-          Who are you?
+          {t('landing.hero.scrollPrompt')}
         </div>
       </div>
     </section>

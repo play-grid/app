@@ -563,5 +563,197 @@
     "errorDetails": "Error Details",
     "showStackTrace": "Show Stack Trace",
     "devMessage": "An error occurred"
+  },
+  "landing": {
+    "nav": {
+      "logo": "Play Grid",
+      "switchPath": "← Switch Path",
+      "switchPathTooltip": "Go back and choose a different path",
+      "switchToDark": "Switch to dark mode",
+      "switchToLight": "Switch to light mode",
+      "darkMode": "Dark mode",
+      "lightMode": "Light mode",
+      "play": "Play →"
+    },
+    "hero": {
+      "ticker": "Play together",
+      "chipComingSoon": "● Coming Soon",
+      "chipArabicFirst": "Arabic-First Platform",
+      "chipMultiplayer": "Multiplayer · No-Code · Live",
+      "badge": "Multiplayer Arabic Games, Reimagined",
+      "title": "Play. Create. Connect.",
+      "sub": "The complete ecosystem where families, friends, and creators thrive together — fast, seamless, and endlessly fun. Scroll to find your place.",
+      "scrollPrompt": "Who are you?"
+    },
+    "gateway": {
+      "ariaLabel": "Choose your path",
+      "divider": "or",
+      "player": {
+        "num": "01 —",
+        "eyebrow": "For Players",
+        "label": "I want to play.",
+        "desc": "Instant fun, no friction. Join games in one tap — trivia, \"Who's Most Likely,\" storytelling, memory challenges, and more.",
+        "features": [
+          "No account required",
+          "Phone as controller",
+          "Online or same room"
+        ],
+        "cta": "Enter as Player →"
+      },
+      "creator": {
+        "num": "02 —",
+        "eyebrow": "For Creators",
+        "label": "I want to create.",
+        "desc": "Build, publish, earn. Turn your PowerPoint or Canva into a live multiplayer game — zero code, zero servers, full control.",
+        "features": [
+          "No-code game builder",
+          "Import from PowerPoint / Canva",
+          "Track plays & earnings"
+        ],
+        "cta": "Enter as Creator →"
+      }
+    },
+    "pathBar": {
+      "nowViewing": "Now viewing:",
+      "player": "Player Experience",
+      "creator": "Creator Experience"
+    },
+    "gameModes": {
+      "sectionTag": "Game Library",
+      "sectionTitle": "Every session, a new story.",
+      "modes": [
+        {
+          "num": "01",
+          "title": "Trivia Battles",
+          "desc": "Fast-paced knowledge duels across culture, history, sports, and pop. Buzzer in and beat the room.",
+          "tag": "Competitive"
+        },
+        {
+          "num": "02",
+          "title": "Who's Most Likely",
+          "desc": "Vote for who in your group matches each wild scenario. Chaos, laughter, and revelations.",
+          "tag": "Social"
+        },
+        {
+          "num": "03",
+          "title": "Story Chains",
+          "desc": "Collaborative storytelling where each player adds a twist. No two games are ever the same.",
+          "tag": "Creative"
+        },
+        {
+          "num": "04",
+          "title": "Memory Challenges",
+          "desc": "Test recall against friends in rapid-fire rounds. Train your brain without even noticing.",
+          "tag": "Cognitive"
+        }
+      ]
+    },
+    "beforeAfter": {
+      "sectionTag": "The Creator Story",
+      "headline": "You already made game. We just made it multiplayer.",
+      "body": "You've built perfect trivia night in PowerPoint — great questions, tight design. But, delivery falls flat. No live state. No synchronized screens. No real drama. PlayGrid bridges that gap in seconds.",
+      "steps": [
+        {
+          "num": "01",
+          "title": "Upload Your Content",
+          "desc": "Import from PowerPoint, Canva, or build directly in the no-code editor."
+        },
+        {
+          "num": "02",
+          "title": "Configure & Publish",
+          "desc": "Set rules, timers, categories. Hit publish — your game is live instantly."
+        },
+        {
+          "num": "03",
+          "title": "Watch It Run Live",
+          "desc": "Real-time multiplayer, state sync, polished UX — all handled by PlayGrid."
+        }
+      ],
+      "liveGame": {
+        "liveLabel": "LIVE · 12 PLAYERS",
+        "question": "When was the Kingdom of Saudi Arabia unified?",
+        "answers.0": "1932",
+        "answers.1": "1902",
+        "answers.2": "1952",
+        "answers.3": "1872"
+      },
+      "beforeLabel": "Before — Static Slides",
+      "gameLabel": "First Question 1.",
+      "afterLabel": "After — Live Multiplayer",
+      "transformArrow": "PlayGrid Transform"
+    },
+    "features": {
+      "player": {
+        "featTag": "Player Features",
+        "featTitle": "Play anywhere, instantly.",
+        "features": [
+          {
+            "icon": "⚡",
+            "name": "Instant Join",
+            "desc": "No accounts. No forms. Click a link, enter a name — you're in. Maximum fun from second zero."
+          },
+          {
+            "icon": "📱",
+            "name": "Phone Controller",
+            "desc": "Your phone becomes the controller. One big screen becomes the stage for the whole room."
+          },
+          {
+            "icon": "🎮",
+            "name": "Diverse Library",
+            "desc": "Trivia, storytelling, memory, \"Who's Most Likely\" — every session feels completely different."
+          }
+        ]
+      },
+      "creator": {
+        "featTag": "Creator Tools",
+        "featTitle": "Your content, reimagined live.",
+        "features": [
+          {
+            "icon": "🧱",
+            "name": "No-Code Builder",
+            "desc": "Templates, forms, dropdowns — if you can build in PowerPoint, you can build here. No dev needed."
+          },
+          {
+            "icon": "📦",
+            "name": "Seamless Import",
+            "desc": "Import existing PowerPoint or Canva games instantly. Upgrade content without rebuilding anything."
+          },
+          {
+            "icon": "📊",
+            "name": "Creator Dashboard",
+            "desc": "Full admin panel. Track plays, ratings, engagement. Complete control over your games and audience."
+          }
+        ]
+      }
+    },
+    "stats": {
+      "setupTime": "Setup Time",
+      "clickToJoin": "Click to Join",
+      "sessions": "Sessions",
+      "arabicFirst": "Arabic First"
+    },
+    "marquee": {
+      "ariaLabel": "Upcoming features",
+      "items": [
+        "Coming Soon",
+        "Full Multiplayer Support",
+        "Instant Join & Play",
+        "Arabic-First Platform",
+        "Creator Monetization",
+        "No-Code Builder"
+      ]
+    },
+    "cta": {
+      "badge": "Join Waitlist",
+      "playerTitle": "Ready to Play?",
+      "creatorTitle": "Ready to Create?",
+      "earlyAccess": "Get Early Access →",
+      "playNow": "Play Now"
+    },
+    "footer": {
+      "logo": "Play Grid",
+      "copy": "© 2026 PlayGrid. All rights reserved.",
+      "arabic": "Play together"
+    }
   }
 }

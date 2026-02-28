@@ -1,18 +1,20 @@
 import { useGSAP } from '@gsap/react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import React, { useRef } from 'react';
+import { useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import styles from './cta-section.module.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
 interface CtaSectionProps {
-  ghostWord: string;
-  title: string;
+  ghostWordKey: string;
+  titleKey: string;
 }
 
-export const CtaSection: React.FC<CtaSectionProps> = ({ ghostWord, title }) => {
+export const CtaSection: React.FC<CtaSectionProps> = ({ ghostWordKey, titleKey }) => {
+  const { t } = useTranslation();
   const rootRef = useRef<HTMLElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
 
@@ -35,19 +37,14 @@ export const CtaSection: React.FC<CtaSectionProps> = ({ ghostWord, title }) => {
 
   return (
     <section id="cta" ref={rootRef} className={styles.root}>
-      <p className={styles.ghost} aria-hidden="true">{ghostWord}</p>
-      <p className={styles.badge}>Join the Waitlist</p>
+      <p className={styles.ghost} aria-hidden="true">{t(ghostWordKey)}</p>
+      <p className={styles.badge}>{t('landing.cta.badge')}</p>
       <h2 ref={titleRef} className={styles.title}>
-        {title.split('\n').map((line, i, arr) => (
-          <React.Fragment key={line}>
-            {line}
-            {i < arr.length - 1 && <br />}
-          </React.Fragment>
-        ))}
+        {t(titleKey)}
       </h2>
       <div className={styles.actions}>
-        <Link to="/play" className="btn-primary">Get Early Access →</Link>
-        <Link to="/play" className="btn-outline">Play Now</Link>
+        <Link to="/play" className="btn-primary">{t('landing.cta.earlyAccess')}</Link>
+        <Link to="/play" className="btn-outline">{t('landing.cta.playNow')}</Link>
       </div>
     </section>
   );

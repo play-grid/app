@@ -4,6 +4,7 @@ import * as Separator from '@radix-ui/react-separator';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import React, { useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import styles from './gateway.module.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -15,14 +16,14 @@ interface GatewayProps {
 interface HalfProps {
   id: string;
   side: 'left' | 'right';
-  num: string;
-  eyebrow: string;
-  label: string;
-  desc: string;
-  features: string[];
-  ctaLabel: string;
+  numKey: string;
+  eyebrowKey: string;
+  labelKey: string;
+  descKey: string;
+  featuresKey: string;
+  ctaLabelKey: string;
   ctaVariant: 'player' | 'creator';
-  ghostWord: string;
+  ghostWordKey: string;
   lang: string;
   onClick: () => void;
 }
@@ -30,17 +31,18 @@ interface HalfProps {
 const GatewayHalf: React.FC<HalfProps> = ({
   id,
   side,
-  num,
-  eyebrow,
-  label,
-  desc,
-  features,
-  ctaLabel,
+  numKey,
+  eyebrowKey,
+  labelKey,
+  descKey,
+  featuresKey,
+  ctaLabelKey,
   ctaVariant,
-  ghostWord,
+  ghostWordKey,
   lang,
   onClick,
 }) => {
+  const { t } = useTranslation();
   const halfRef = useRef<HTMLDivElement>(null);
   const labelRef = useRef<HTMLHeadingElement>(null);
 
@@ -78,28 +80,28 @@ const GatewayHalf: React.FC<HalfProps> = ({
       onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && onClick()}
       role="button"
       tabIndex={0}
-      aria-label={`Enter as ${eyebrow}`}
+      aria-label={`Enter as ${t(eyebrowKey)}`}
     >
       {/* fill on hover */}
       <div className={styles.fill} aria-hidden="true" />
 
       {/* ghost Arabic letter */}
       <p className={styles.ghost} aria-hidden="true" lang={lang}>
-        {ghostWord}
+        {t(ghostWordKey)}
       </p>
 
       <div className={styles.halfContent}>
-        <p className={styles.num}>{num}</p>
-        <p className={styles.eyebrow}>{eyebrow}</p>
+        <p className={styles.num}>{t(numKey)}</p>
+        <p className={styles.eyebrow}>{t(eyebrowKey)}</p>
         <h2 ref={labelRef} className={styles.label}>
-          {label.split('<br/>').map(text => (
+          {t(labelKey).split('<br/>').map(text => (
             <React.Fragment key={text}>
               {text}
               <br />
             </React.Fragment>
           ))}
         </h2>
-        <p className={styles.desc}>{desc}</p>
+        <p className={styles.desc}>{t(descKey)}</p>
 
         <button
           className={`${styles.cta} ${styles[`cta_${ctaVariant}`]}`}
@@ -110,11 +112,11 @@ const GatewayHalf: React.FC<HalfProps> = ({
           tabIndex={-1}
           aria-hidden="true"
         >
-          {ctaLabel}
+          {t(ctaLabelKey)}
         </button>
 
-        <ul className={styles.feats} aria-label={`${eyebrow} features`}>
-          {features.map(f => (
+        <ul className={styles.feats} aria-label={`${t(eyebrowKey)} features`}>
+          {t(featuresKey, { returnObjects: true }).map((f: string) => (
             <li key={f} className={styles.feat}>
               <span className={styles.featDot} aria-hidden="true" />
               {f}
@@ -127,6 +129,7 @@ const GatewayHalf: React.FC<HalfProps> = ({
 };
 
 export const Gateway: React.FC<GatewayProps> = ({ onChoose }) => {
+  const { t } = useTranslation();
   const rootRef = useRef<HTMLElement>(null);
 
   // Scroll-reveal the two halves
@@ -156,7 +159,7 @@ export const Gateway: React.FC<GatewayProps> = ({ onChoose }) => {
       id="gateway"
       ref={rootRef}
       className={styles.root}
-      aria-label="Choose your path"
+      aria-label={t('landing.gateway.ariaLabel')}
     >
       <Separator.Root
         decorative
@@ -168,24 +171,20 @@ export const Gateway: React.FC<GatewayProps> = ({ onChoose }) => {
         {/* vertical divider */}
         <div className={styles.dividerWrap} aria-hidden="true">
           <div className={styles.dividerLine} />
-          <span className={styles.dividerOr}>or</span>
+          <span className={styles.dividerOr}>{t('landing.gateway.divider')}</span>
         </div>
 
         <GatewayHalf
           id="gw-player"
           side="left"
-          num="01 —"
-          eyebrow="For Players"
-          label="I want<br/>to play."
-          desc="Instant fun, no friction. Join games in one tap — trivia, &quot;Who's Most Likely,&quot; storytelling, memory challenges, and more."
-          features={[
-            'No account required',
-            'Phone as controller',
-            'Online or same room',
-          ]}
-          ctaLabel="Enter as Player →"
+          numKey="landing.gateway.player.num"
+          eyebrowKey="landing.gateway.player.eyebrow"
+          labelKey="landing.gateway.player.label"
+          descKey="landing.gateway.player.desc"
+          featuresKey="landing.gateway.player.features"
+          ctaLabelKey="landing.gateway.player.cta"
           ctaVariant="player"
-          ghostWord="العب"
+          ghostWordKey="landing.cta.playerTitle"
           lang="ar"
           onClick={() => onChoose('player')}
         />
@@ -193,18 +192,14 @@ export const Gateway: React.FC<GatewayProps> = ({ onChoose }) => {
         <GatewayHalf
           id="gw-creator"
           side="right"
-          num="02 —"
-          eyebrow="For Creators"
-          label="I want<br/>to create."
-          desc="Build, publish, earn. Turn your PowerPoint or Canva into a live multiplayer game — zero code, zero servers, full control."
-          features={[
-            'No-code game builder',
-            'Import from PowerPoint / Canva',
-            'Track plays & earnings',
-          ]}
-          ctaLabel="Enter as Creator →"
+          numKey="landing.gateway.creator.num"
+          eyebrowKey="landing.gateway.creator.eyebrow"
+          labelKey="landing.gateway.creator.label"
+          descKey="landing.gateway.creator.desc"
+          featuresKey="landing.gateway.creator.features"
+          ctaLabelKey="landing.gateway.creator.cta"
           ctaVariant="creator"
-          ghostWord="اصنع"
+          ghostWordKey="landing.cta.creatorTitle"
           lang="ar"
           onClick={() => onChoose('creator')}
         />

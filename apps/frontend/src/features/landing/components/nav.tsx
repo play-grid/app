@@ -3,7 +3,8 @@ import type { Theme } from '@/components/theme-provider';
 import * as Switch from '@radix-ui/react-switch';
 import * as Tooltip from '@radix-ui/react-tooltip';
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import styles from './nav.module.css';
 
@@ -20,6 +21,7 @@ export const Nav: React.FC<NavProps> = ({
   activePath,
   onSwitchPath,
 }) => {
+  const { t } = useTranslation();
   const [solid, setSolid] = useState(false);
   const navRef = useRef<HTMLElement>(null);
 
@@ -38,8 +40,7 @@ export const Nav: React.FC<NavProps> = ({
       >
         {/* Logo */}
         <Link to="/" className={styles.logo} aria-label="PlayGrid home">
-          Play
-          <em>Grid</em>
+          {t('landing.nav.logo')}
         </Link>
 
         {/* Right side */}
@@ -53,12 +54,12 @@ export const Nav: React.FC<NavProps> = ({
                   onClick={onSwitchPath}
                   aria-label="Switch to the other path"
                 >
-                  ← Switch Path
+                  {t('landing.nav.switchPath')}
                 </button>
               </Tooltip.Trigger>
               <Tooltip.Portal>
                 <Tooltip.Content className={styles.tooltip} sideOffset={6}>
-                  Go back and choose a different path
+                  {t('landing.nav.switchPathTooltip')}
                   <Tooltip.Arrow className={styles.tooltipArrow} />
                 </Tooltip.Content>
               </Tooltip.Portal>
@@ -71,7 +72,7 @@ export const Nav: React.FC<NavProps> = ({
               <div className={styles.themeWrap}>
                 <VisuallyHidden.Root>
                   <label htmlFor="theme-switch">
-                    {theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'}
+                    {theme === 'light' ? t('landing.nav.switchToDark') : t('landing.nav.switchToLight')}
                   </label>
                 </VisuallyHidden.Root>
                 <Switch.Root
@@ -79,7 +80,7 @@ export const Nav: React.FC<NavProps> = ({
                   className={styles.switchRoot}
                   checked={theme === 'dark'}
                   onCheckedChange={onThemeToggle}
-                  aria-label={theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'}
+                  aria-label={theme === 'light' ? t('landing.nav.switchToDark') : t('landing.nav.switchToLight')}
                 >
                   <span className={styles.switchIconLeft} aria-hidden="true">☀</span>
                   <Switch.Thumb className={styles.switchThumb} />
@@ -89,7 +90,7 @@ export const Nav: React.FC<NavProps> = ({
             </Tooltip.Trigger>
             <Tooltip.Portal>
               <Tooltip.Content className={styles.tooltip} sideOffset={6}>
-                {theme === 'light' ? 'Dark mode' : 'Light mode'}
+                {theme === 'light' ? t('landing.nav.darkMode') : t('landing.nav.lightMode')}
                 <Tooltip.Arrow className={styles.tooltipArrow} />
               </Tooltip.Content>
             </Tooltip.Portal>
@@ -97,7 +98,7 @@ export const Nav: React.FC<NavProps> = ({
 
           {/* CTA */}
           <Link to="/play" className={styles.cta}>
-            Play →
+            {t('landing.nav.play')}
           </Link>
         </div>
       </nav>

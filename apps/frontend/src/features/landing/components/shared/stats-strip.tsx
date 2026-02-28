@@ -1,13 +1,15 @@
 import { useGSAP } from '@gsap/react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import React, { useRef } from 'react';
-import { STATS } from '../../path-data';
+import { useRef } from 'react';
+import { useTranslation } from 'react-i18next';
+import { GAME_MODE_STATS, STATS_KEYS } from '../../path-data';
 import styles from './stats-strip.module.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export const StatsStrip: React.FC = () => {
+  const { t } = useTranslation();
   const rootRef = useRef<HTMLDListElement>(null);
 
   useGSAP(() => {
@@ -33,15 +35,19 @@ export const StatsStrip: React.FC = () => {
 
   return (
     <dl ref={rootRef} className={styles.root}>
-      {STATS.map(({ num, unit, label }) => (
-        <div key={label} className={styles.stat}>
-          <dt className={styles.label}>{label}</dt>
-          <dd className={styles.number}>
-            {num}
-            {unit && <span className={styles.unit}>{unit}</span>}
-          </dd>
-        </div>
-      ))}
+      {STATS_KEYS.map((key, index) => {
+        const { num, unit } = GAME_MODE_STATS[index];
+        const label = t(key);
+        return (
+          <div key={key} className={styles.stat}>
+            <dt className={styles.label}>{label}</dt>
+            <dd className={styles.number}>
+              {num}
+              {unit && <span className={styles.unit}>{unit}</span>}
+            </dd>
+          </div>
+        );
+      })}
     </dl>
   );
 };

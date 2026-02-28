@@ -3,6 +3,7 @@ import { useGSAP } from '@gsap/react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import React, { useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import styles from './features.module.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -12,6 +13,7 @@ interface FeaturesProps {
 }
 
 export const Features: React.FC<FeaturesProps> = ({ data }) => {
+  const { t } = useTranslation();
   const rootRef = useRef<HTMLElement>(null);
 
   useGSAP(() => {
@@ -32,23 +34,29 @@ export const Features: React.FC<FeaturesProps> = ({ data }) => {
     );
   }, { scope: rootRef, dependencies: [data.key] });
 
+  const features = t(data.featuresKey, { returnObjects: true }) as Array<{
+    icon: string;
+    name: string;
+    desc: string;
+  }>;
+
   return (
     <section
       ref={rootRef}
       className={styles.root}
       aria-labelledby="feat-heading"
     >
-      <p className="section-tag">{data.featTag}</p>
+      <p className="section-tag">{t(data.featTagKey)}</p>
       <h2 id="feat-heading" className="section-title">
-        {data.featTitle.replace(',', ', ')}
+        {t(data.featTitleKey)}
       </h2>
 
       <ul className={styles.grid} role="list">
-        {data.features.map((f, i) => (
+        {features.map((f, i) => (
           <li
             key={f.name}
             className={styles.card}
-            style={i === data.features.length - 1 ? { borderRight: 'none' } : undefined}
+            style={i === features.length - 1 ? { borderRight: 'none' } : undefined}
           >
             <div className={styles.icon} aria-hidden="true">{f.icon}</div>
             <h3 className={styles.name}>{f.name}</h3>
