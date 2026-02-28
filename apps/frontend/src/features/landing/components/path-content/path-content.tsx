@@ -1,7 +1,10 @@
 import type { PathData } from '../../path-data';
+
 import { useGSAP } from '@gsap/react';
 import { gsap } from 'gsap';
-import { useRef } from 'react';
+
+import { useRef, useState } from 'react';
+
 import { BeforeAfter } from '../creator/before-after';
 import { GameModes } from '../player/game-modes';
 import { CtaSection } from '../shared/cta-section';
@@ -11,6 +14,8 @@ import { StatsStrip } from '../shared/stats-strip';
 import { Features } from './features';
 import { PathBar } from './path-bar';
 
+import { WaitlistDialog } from '@/features/waitlist/waitlist-dialog';
+
 interface PathContentProps {
   data: PathData;
   onNavigateToCreator?: () => void;
@@ -18,6 +23,10 @@ interface PathContentProps {
 
 export function PathContent({ data, onNavigateToCreator }: PathContentProps) {
   const rootRef = useRef<HTMLDivElement>(null);
+  const [waitlistOpen, setWaitlistOpen] = useState(false);
+
+  const handleWaitlistOpen = () => setWaitlistOpen(true);
+  const handleWaitlistClose = () => setWaitlistOpen(false);
 
   // Entrance animation when path is chosen
   useGSAP(() => {
@@ -39,8 +48,11 @@ export function PathContent({ data, onNavigateToCreator }: PathContentProps) {
       <CtaSection
         ghostWordKey={data.ctaGhostWordKey}
         titleKey={data.ctaTitleKey}
+        pathType={data.key}
+        onWaitlistOpen={handleWaitlistOpen}
       />
       <Footer />
+      <WaitlistDialog open={waitlistOpen} onClose={handleWaitlistClose} />
     </div>
   );
 };

@@ -118,7 +118,9 @@ export function Nav({
 
           {/* CTA */}
           <Link to={`/${currentLanguage}/play`} className={styles.cta}>
-            ▶ <span>{t('landing.nav.play')}</span>
+            ▶
+            {' '}
+            <span>{t('landing.nav.play')}</span>
           </Link>
         </div>
       </nav>

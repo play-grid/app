@@ -754,7 +754,19 @@
       "playerTitle": "Ready to Play?",
       "creatorTitle": "Ready to Create?",
       "earlyAccess": "Get Early Access →",
-      "playNow": "Play Now"
+      "playNow": "Play Now",
+      "joinWaitlist": "Join Waitlist",
+      "waitlistDialog": {
+        "title": "Get Early Access",
+        "subtitle": "Be the first to create games with our no-code builder",
+        "email": "Email address",
+        "emailPlaceholder": "you@example.com",
+        "submit": "Join Now",
+        "submitting": "Joining...",
+        "success": "You're on the list! We'll be in touch soon.",
+        "error": "Something went wrong. Please try again.",
+        "close": "Close"
+      }
     },
     "footer": {
       "logo": "Play Grid",

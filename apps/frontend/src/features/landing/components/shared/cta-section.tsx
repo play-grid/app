@@ -1,10 +1,16 @@
+import type { PathKey } from '../../path-data';
+
 import { useGSAP } from '@gsap/react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
 import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+
 import { Link } from 'react-router-dom';
+
 import { useGameNavigation } from '@/hooks/use-game-navigation';
+
 import styles from './cta-section.module.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -12,9 +18,11 @@ gsap.registerPlugin(ScrollTrigger);
 interface CtaSectionProps {
   ghostWordKey: string;
   titleKey: string;
+  pathType?: PathKey;
+  onWaitlistOpen?: () => void;
 }
 
-export function CtaSection({ ghostWordKey, titleKey }: CtaSectionProps) {
+export function CtaSection({ ghostWordKey, titleKey, pathType, onWaitlistOpen }: CtaSectionProps) {
   const { t } = useTranslation();
   const { currentLanguage } = useGameNavigation();
   const rootRef = useRef<HTMLElement>(null);
@@ -37,6 +45,9 @@ export function CtaSection({ ghostWordKey, titleKey }: CtaSectionProps) {
     );
   }, { scope: rootRef });
 
+  const isCreator = pathType === 'creator';
+  const buttonText = isCreator ? t(ghostWordKey) : t('landing.cta.playNow');
+
   return (
     <section id="cta" ref={rootRef} className={styles.root}>
       <p className={styles.ghost} aria-hidden="true">{t(ghostWordKey)}</p>
@@ -45,8 +56,21 @@ export function CtaSection({ ghostWordKey, titleKey }: CtaSectionProps) {
         {t(titleKey)}
       </h2>
       <div className={styles.actions}>
-        {/* <Link to={`/${currentLanguage}/play`} className="btn-primary">{t('landing.cta.earlyAccess')}</Link> */}
-        <Link to={`/${currentLanguage}/play`} className="btn-primary">{t('landing.cta.playNow')}</Link>
+        {isCreator
+          ? (
+            <button
+              type="button"
+              onClick={onWaitlistOpen}
+              className="btn-primary"
+            >
+              {buttonText}
+            </button>
+            )
+          : (
+            <Link to={`/${currentLanguage}/play`} className="btn-primary">
+              {buttonText}
+            </Link>
+            )}
       </div>
     </section>
   );

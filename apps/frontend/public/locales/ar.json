@@ -758,7 +758,19 @@
       "playerTitle": "جاهز للعب؟",
       "creatorTitle": "جاهز للإنشاء؟",
       "earlyAccess": "احصل على الوصول المبكر →",
-      "playNow": "العب الآن"
+      "playNow": "العب الآن",
+      "joinWaitlist": "انضم لقائمة الانتظار",
+      "waitlistDialog": {
+        "title": "احصل على وصول مبكر",
+        "subtitle": "كن أول من يصنع ألعاب باستخدام منشئ الألعاب بدون برمجة",
+        "email": "عنوان البريد الإلكتروني",
+        "emailPlaceholder": "you@example.com",
+        "submit": "انضم الآن",
+        "submitting": "جاري الانضمام...",
+        "success": "أنت في القائمة! سنتواصل معك قريباً.",
+        "error": "حدث خطأ ما. يرجى المحاولة مرة أخرى.",
+        "close": "إغلاق"
+      }
     },
     "footer": {
       "logo": "Play Grid",

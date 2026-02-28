@@ -45,7 +45,7 @@ export const PATHS: Record<PathKey, PathData> = {
   creator: {
     key: 'creator',
     pathBarLabelKey: 'landing.pathBar.creator',
-    ctaGhostWordKey: 'landing.cta.creatorTitle',
+    ctaGhostWordKey: 'landing.cta.joinWaitlist',
     ctaTitleKey: 'landing.cta.creatorTitle',
     featTagKey: 'landing.features.creator.featTag',
     featTitleKey: 'landing.features.creator.featTitle',
