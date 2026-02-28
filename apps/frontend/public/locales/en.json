@@ -645,6 +645,12 @@
           "title": "Memory Challenges",
           "desc": "Test recall against friends in rapid-fire rounds. Train your brain without even noticing.",
           "tag": "Cognitive"
+        },
+        {
+          "num": "04",
+          "title": "Your game could be next",
+          "desc": "Join the game creation",
+          "tag": ""
         }
       ]
     },

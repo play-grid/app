@@ -97,6 +97,15 @@ export default function LandingPage() {
     tl.to(contentRef.current, { opacity: 0, y: 16, duration: 0.3, ease: 'power2.in' });
   }, [setGwRefs]);
 
+  const handleNavigateToCreator = useCallback(() => {
+    if (appState === 'player') {
+      handleSwitchPath();
+      setTimeout(() => handleChoose('creator'), 400);
+    } else {
+      handleChoose('creator');
+    }
+  }, [appState, handleChoose, handleSwitchPath]);
+
   const isPathActive = appState === 'player' || appState === 'creator';
   const pathData = isPathActive ? PATHS[appState] : null;
 
@@ -123,7 +132,7 @@ export default function LandingPage() {
 
         {isPathActive && pathData && (
           <div ref={contentRef}>
-            <PathContent data={pathData} />
+            <PathContent data={pathData} onNavigateToCreator={handleNavigateToCreator} />
           </div>
         )}
       </main>

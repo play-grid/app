@@ -8,7 +8,7 @@ import styles from './before-after.module.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const LiveGame: React.FC = () => {
+function LiveGame() {
   const { t } = useTranslation();
   const [selected, setSelected] = useState(0);
 
@@ -51,7 +51,7 @@ const LiveGame: React.FC = () => {
   );
 };
 
-export const BeforeAfter: React.FC = () => {
+export function BeforeAfter() {
   const { t } = useTranslation();
   const rootRef = useRef<HTMLElement>(null);
   const copyRef = useRef<HTMLDivElement>(null);

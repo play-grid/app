@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { MARQUEE_KEY } from '../../path-data';
 import styles from './marquee-bar.module.css';
 
-export const MarqueeBar: React.FC = () => {
+export function MarqueeBar() {
   const { t } = useTranslation();
   const items = t(MARQUEE_KEY, { returnObjects: true }) as string[];
   const doubledItems = [...items, ...items];

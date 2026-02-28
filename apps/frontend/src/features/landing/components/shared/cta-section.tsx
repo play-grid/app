@@ -14,7 +14,7 @@ interface CtaSectionProps {
   titleKey: string;
 }
 
-export const CtaSection: React.FC<CtaSectionProps> = ({ ghostWordKey, titleKey }) => {
+export function CtaSection({ ghostWordKey, titleKey }: CtaSectionProps) {
   const { t } = useTranslation();
   const { currentLanguage } = useGameNavigation();
   const rootRef = useRef<HTMLElement>(null);
@@ -45,8 +45,8 @@ export const CtaSection: React.FC<CtaSectionProps> = ({ ghostWordKey, titleKey }
         {t(titleKey)}
       </h2>
       <div className={styles.actions}>
-        <Link to={`/${currentLanguage}/play`} className="btn-primary">{t('landing.cta.earlyAccess')}</Link>
-        <Link to={`/${currentLanguage}/play`} className="btn-outline">{t('landing.cta.playNow')}</Link>
+        {/* <Link to={`/${currentLanguage}/play`} className="btn-primary">{t('landing.cta.earlyAccess')}</Link> */}
+        <Link to={`/${currentLanguage}/play`} className="btn-primary">{t('landing.cta.playNow')}</Link>
       </div>
     </section>
   );

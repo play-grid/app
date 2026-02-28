@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { useGameNavigation } from '@/hooks/use-game-navigation';
+import { Logo } from './logo';
 import styles from './nav.module.css';
 
 interface NavProps {
@@ -16,12 +17,12 @@ interface NavProps {
   onSwitchPath: () => void;
 }
 
-export const Nav: React.FC<NavProps> = ({
+export function Nav({
   theme,
   onThemeToggle,
   activePath,
   onSwitchPath,
-}) => {
+}: NavProps) {
   const { t } = useTranslation();
   const { currentLanguage, changeLanguage } = useGameNavigation();
   const [solid, setSolid] = useState(false);
@@ -41,9 +42,7 @@ export const Nav: React.FC<NavProps> = ({
         aria-label="Main navigation"
       >
         {/* Logo */}
-        <Link to="/" className={styles.logo} aria-label="PlayGrid home">
-          {t('landing.nav.logo')}
-        </Link>
+        <Logo to="/" aria-label="PlayGrid home" />
 
         {/* Right side */}
         <div className={styles.right}>
@@ -119,7 +118,7 @@ export const Nav: React.FC<NavProps> = ({
 
           {/* CTA */}
           <Link to={`/${currentLanguage}/play`} className={styles.cta}>
-            {t('landing.nav.play')}
+            ▶ <span>{t('landing.nav.play')}</span>
           </Link>
         </div>
       </nav>

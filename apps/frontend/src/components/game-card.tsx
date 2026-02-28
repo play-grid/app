@@ -60,7 +60,7 @@ export function GameCard({ game, onPlay }: GameCardProps) {
             </h2>
             <Button
               onClick={handlePlayClick}
-              className="flex items-center justify-center gap-2 bg-white text-black font-semibold px-6 py-2 rounded-lg hover:bg-gray-200 hover:shadow-lg hover:shadow-black/30 transition-all duration-300 w-full group-hover:scale-105"
+              className="flex text-bold items-center justify-center gap-2 bg-white text-black font-semibold px-6 py-2 rounded-lg hover:bg-gray-200 hover:shadow-lg hover:shadow-black/30 transition-all duration-300 w-full group-hover:scale-105"
               data-analytics={`play-button-${game.id}`}
             >
               {t('home.playNow')}

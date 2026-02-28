@@ -9,6 +9,7 @@ import {
   NavigationMenuList,
 } from '@/components/ui/navigation-menu';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import { Logo } from '@/features/landing/components/logo';
 import { cn } from '@/lib/utils';
 import { Badge } from './ui/badge';
 
@@ -155,12 +156,9 @@ export function Navbar({
               <NavLink
                 to={`/${lang}/play`}
                 end
-                className="flex flex-col items-start"
+                className="flex items-center"
               >
-                <span className="font-bold text-xl sm:text-2xl">PlayGrid</span>
-                <Badge variant="secondary" className="text-xs">
-                  {t('home.early-beta')}
-                </Badge>
+                <Logo />
               </NavLink>
             </TooltipTrigger>
             <TooltipContent className="max-w-xs">
@@ -180,7 +178,7 @@ export function Navbar({
                       end
                       className={({ isActive }) =>
                         cn(
-                          'inline-flex h-9 items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none no-underline',
+                          'inline-flex h-9 items-center justify-center rounded-xs px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none no-underline',
                           isActive
                             ? 'bg-accent text-accent-foreground'
                             : 'text-foreground/80',

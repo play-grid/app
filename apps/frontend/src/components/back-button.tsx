@@ -7,7 +7,7 @@ function BackButton() {
   const navigate = useNavigate();
   const { i18n } = useTranslation('common');
   return (
-    <Button variant="outline" onClick={() => navigate('/')}>
+    <Button variant="outline" className='rounded-xs' onClick={() => navigate('/play')}>
       {i18n.language === 'en' ? <ArrowLeftIcon className="size-4" /> : <ArrowRightIcon className="size-4" />}
     </Button>
   );

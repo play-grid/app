@@ -94,10 +94,12 @@
 }
 
 .title {
-  font-size: clamp(52px, 9vw, 118px);
+  font-size: clamp(52px, 6vw, 118px);
   font-weight: 800;
   line-height: 0.88;
-  letter-spacing: -0.04em;
+  max-width: clamp(300px,700px,850px);
+  /* letter-spacing: 4em; */
+  line-height: 1.2;
   margin-bottom: 36px;
 }
 
@@ -108,7 +110,7 @@
 
 .sub {
   font-family: var(--font-mono);
-  font-size: 0.85rem;
+  font-size: 1rem;
   color: var(--fg-muted);
   max-width: 520px;
   line-height: 1.85;

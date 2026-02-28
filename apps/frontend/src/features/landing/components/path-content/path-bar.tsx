@@ -7,7 +7,7 @@ interface PathBarProps {
   data: PathData;
 }
 
-export const PathBar: React.FC<PathBarProps> = ({ data }) => {
+export function PathBar({ data }: PathBarProps) {
   const { t } = useTranslation();
   return (
     <div className={styles.root} role="status" aria-live="polite">

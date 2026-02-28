@@ -2,7 +2,7 @@ import type { PathData } from '../../path-data';
 import { useGSAP } from '@gsap/react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import styles from './features.module.css';
 
@@ -12,7 +12,7 @@ interface FeaturesProps {
   data: PathData;
 }
 
-export const Features: React.FC<FeaturesProps> = ({ data }) => {
+export function Features({ data }: FeaturesProps) {
   const { t } = useTranslation();
   const rootRef = useRef<HTMLElement>(null);
 

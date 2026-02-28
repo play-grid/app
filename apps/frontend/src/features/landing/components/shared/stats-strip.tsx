@@ -8,7 +8,7 @@ import styles from './stats-strip.module.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
-export const StatsStrip: React.FC = () => {
+export function StatsStrip() {
   const { t } = useTranslation();
   const rootRef = useRef<HTMLDListElement>(null);
 

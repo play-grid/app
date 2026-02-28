@@ -7,7 +7,7 @@ import styles from './hero.module.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
-export const Hero: React.FC = () => {
+export function Hero() {
   const { t } = useTranslation();
   const rootRef = useRef<HTMLElement>(null);
   const tickerRef = useRef<HTMLParagraphElement>(null);

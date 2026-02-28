@@ -1,5 +1,5 @@
 import { SUPPORTED_LANGUAGES } from '@guess-logo/shared/types';
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense, useEffect } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { FiveSecondsRoute } from '@/games/five-seconds/five-seconds-route';
 import { FiveSecondsNotFound, FiveSecondsPageContent } from '@/games/five-seconds/routes';
@@ -41,9 +41,23 @@ export default function App() {
   );
 }
 
-// function NeverResolve() {
-//   throw new Promise(() => {});
-// }
+function SmartLandingRoute() {
+  const location = useLocation();
+  const lang = location.pathname.split('/')[1] || 'en';
+
+  useEffect(() => {
+    const hasVisitedPlay = localStorage.getItem('hasVisitedPlay');
+    const referrer = document.referrer;
+
+    const isDirectVisit = !referrer || !referrer.includes(window.location.hostname);
+
+    if (hasVisitedPlay === 'true' && isDirectVisit) {
+      window.location.href = `/${lang}/play`;
+    }
+  }, [lang]);
+
+  return <LandingPage />;
+}
 
 export function LanguageRoutes() {
   const location = useLocation();
@@ -62,7 +76,7 @@ export function LanguageRoutes() {
       <ErrorBoundary>
         <Routes>
           {/* Landing page for language prefix */}
-          <Route path="/" element={<LandingPage />} />
+          <Route path="/" element={<SmartLandingRoute />} />
 
           {/* Games platform */}
           <Route path="/play" element={<HomePage />} />

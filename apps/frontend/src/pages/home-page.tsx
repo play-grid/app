@@ -1,4 +1,5 @@
 // import { UserButton } from '@daveyplate/better-auth-ui';
+import { useEffect } from 'react';
 import { GameCard, SkeletonGameCard } from '@/components/game-card';
 import SiteCustomizations from '@/components/site-about';
 import { BannersCarousel } from '@/features/banners';
@@ -11,6 +12,10 @@ function HomePage() {
 
   const { data: banners = [] } = useBanners();
   const { showBanners } = getBannerFeatureFlag();
+
+  useEffect(() => {
+    localStorage.setItem('hasVisitedPlay', 'true');
+  }, []);
 
   const skeletonCards = Array.from({ length: 2 }, (_, i) => (
     <SkeletonGameCard key={i} />

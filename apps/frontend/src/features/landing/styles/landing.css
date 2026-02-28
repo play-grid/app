@@ -28,9 +28,12 @@ body {
   color: var(--fg);
   font-family: var(--font-display);
   overflow-x: hidden;
-  cursor: none;
   transition: var(--t-theme);
   min-height: 100vh;
+}
+
+.landing-page {
+  cursor: none;
 }
 
 .landing-page {

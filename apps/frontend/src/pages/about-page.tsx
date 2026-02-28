@@ -29,7 +29,7 @@ export default function AboutPage() {
         <li>{t('about.p2')}</li>
         <li>{t('about.p3')}</li>
         <li>{t('about.p4')}</li>
-        <h2 className="mt-8 mb-3 text-2xl font-bold">{t('about.subtitle2')}</h2>
+        <h2 className="mt-8 mb-3 text-2xl tracking-wider font-bold">{t('about.subtitle2')}</h2>
         <li>{t('about.p5')}</li>
         <div>
           <h2 className="text-sm font-medium text-muted-foreground mb-1">
