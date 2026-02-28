@@ -6,6 +6,7 @@ import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
+import { useGameNavigation } from '@/hooks/use-game-navigation';
 import styles from './nav.module.css';
 
 interface NavProps {
@@ -22,6 +23,7 @@ export const Nav: React.FC<NavProps> = ({
   onSwitchPath,
 }) => {
   const { t } = useTranslation();
+  const { currentLanguage, changeLanguage } = useGameNavigation();
   const [solid, setSolid] = useState(false);
   const navRef = useRef<HTMLElement>(null);
 
@@ -96,8 +98,27 @@ export const Nav: React.FC<NavProps> = ({
             </Tooltip.Portal>
           </Tooltip.Root>
 
+          {/* Language toggle */}
+          <Tooltip.Root>
+            <Tooltip.Trigger asChild>
+              <button
+                className={styles.langBtn}
+                onClick={() => changeLanguage(currentLanguage === 'en' ? 'ar' : 'en')}
+                aria-label={currentLanguage === 'en' ? t('landing.nav.switchToArabic') : t('landing.nav.switchToEnglish')}
+              >
+                <span className={styles.langIcon}>{currentLanguage === 'en' ? 'عربي' : 'EN'}</span>
+              </button>
+            </Tooltip.Trigger>
+            <Tooltip.Portal>
+              <Tooltip.Content className={styles.tooltip} sideOffset={6}>
+                {currentLanguage === 'en' ? t('landing.nav.switchToArabicTooltip') : t('landing.nav.switchToEnglishTooltip')}
+                <Tooltip.Arrow className={styles.tooltipArrow} />
+              </Tooltip.Content>
+            </Tooltip.Portal>
+          </Tooltip.Root>
+
           {/* CTA */}
-          <Link to="/play" className={styles.cta}>
+          <Link to={`/${currentLanguage}/play`} className={styles.cta}>
             {t('landing.nav.play')}
           </Link>
         </div>

@@ -64,7 +64,8 @@ export interface NavbarProps extends React.HTMLAttributes<HTMLElement> {
 
 // Default navigation links
 const defaultNavigationLinks: NavbarNavLink[] = [
-  { href: '/', label: 'home.navLinks.home' },
+  { href: '', label: 'home.navLinks.home' },
+  { href: '/play', label: 'home.navLinks.games' },
   { href: '/about', label: 'home.navLinks.about' },
 ];
 
@@ -152,7 +153,7 @@ export function Navbar({
           <Tooltip>
             <TooltipTrigger asChild>
               <NavLink
-                to={`/${lang}`}
+                to={`/${lang}/play`}
                 end
                 className="flex flex-col items-start"
               >

@@ -4,6 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
+import { useGameNavigation } from '@/hooks/use-game-navigation';
 import styles from './cta-section.module.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -15,6 +16,7 @@ interface CtaSectionProps {
 
 export const CtaSection: React.FC<CtaSectionProps> = ({ ghostWordKey, titleKey }) => {
   const { t } = useTranslation();
+  const { currentLanguage } = useGameNavigation();
   const rootRef = useRef<HTMLElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
 
@@ -43,8 +45,8 @@ export const CtaSection: React.FC<CtaSectionProps> = ({ ghostWordKey, titleKey }
         {t(titleKey)}
       </h2>
       <div className={styles.actions}>
-        <Link to="/play" className="btn-primary">{t('landing.cta.earlyAccess')}</Link>
-        <Link to="/play" className="btn-outline">{t('landing.cta.playNow')}</Link>
+        <Link to={`/${currentLanguage}/play`} className="btn-primary">{t('landing.cta.earlyAccess')}</Link>
+        <Link to={`/${currentLanguage}/play`} className="btn-outline">{t('landing.cta.playNow')}</Link>
       </div>
     </section>
   );

@@ -21,7 +21,7 @@ export default function GuessLogoRoutes() {
           <NotFoundPage
             titleKey="notFound.guessLogo.title"
             messageKey="notFound.guessLogo.message"
-            backTo={`/${lang}/guess-logo`}
+            backTo={`/play/${lang}/guess-logo`}
             backToTextKey="notFound.guessLogo.backTo"
           />
         )}

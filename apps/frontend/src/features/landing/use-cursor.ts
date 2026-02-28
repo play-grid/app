@@ -16,7 +16,7 @@ export function useCursor() {
 
     const onMove = (e: MouseEvent) => {
       mouse.current = { x: e.clientX, y: e.clientY };
-      gsap.to(dot, { x: e.clientX, y: e.clientY, duration: 0.07, overwrite: true });
+      gsap.to(dot, { left: e.clientX, top: e.clientY, duration: 0.07, overwrite: true });
     };
 
     const onOver = (e: MouseEvent) => {
@@ -29,7 +29,7 @@ export function useCursor() {
     const tick = () => {
       ring.current.x += (mouse.current.x - ring.current.x) * 0.11;
       ring.current.y += (mouse.current.y - ring.current.y) * 0.11;
-      gsap.set(ringEl, { x: ring.current.x, y: ring.current.y });
+      gsap.set(ringEl, { left: ring.current.x, top: ring.current.y });
       rafRef.current = requestAnimationFrame(tick);
     };
 

@@ -38,11 +38,12 @@ export function GameCard({ game, onPlay }: GameCardProps) {
       language: currentLanguage,
       action: 'play_button_clicked',
     });
+
     onPlay?.(game.id);
   };
 
   return (
-    <Link to={game.id} onClick={handleCardClick}>
+    <Link to={`/play/${game.id}`} onClick={handleCardClick}>
       <Card className="w-full aspect-9/10 p-0 border border-borders overflow-hidden rounded-4xl cursor-pointer group game-card-animate" data-analytics={`game-card-${game.id}`}>
         <div className="relative h-full w-full">
           {game.imageUrl && (

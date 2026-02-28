@@ -31,7 +31,7 @@ export function StatClashNotFound() {
 
   return (
     <StatClashLayout>
-      <NotFoundPage backTo={`/${lang}/stat-clash`} />
+      <NotFoundPage backTo={`/play/${lang}/stat-clash`} />
     </StatClashLayout>
   );
 }

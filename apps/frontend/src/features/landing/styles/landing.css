@@ -11,18 +11,26 @@
 
 /* ═══════════════════════════════════
    GLOBAL RESET & BASE
-═══════════════════════════════════ */
-*,
-*::before,
-*::after {
+════════════════════════════════════ */
+.landing-page *,
+.landing-page *::before,
+.landing-page *::after {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
 }
 
 html {
   scroll-behavior: smooth;
   font-size: 16px;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-display);
+  overflow-x: hidden;
+  cursor: none;
+  transition: var(--t-theme);
+  min-height: 100vh;
 }
 
 .landing-page {

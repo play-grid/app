@@ -47,21 +47,25 @@ export default function App() {
 
 export function LanguageRoutes() {
   const location = useLocation();
+  const lang = location.pathname.split('/')[1] || 'en';
 
-  const isNavAndFooterVisible = !location.pathname.includes('/guess-logo')
-    && !location.pathname.includes('/five-seconds')
-    && !location.pathname.includes('/stat-clash')
-    && !location.pathname.includes('/landing');
+  const isNavAndFooterVisible = location.pathname === `/${lang}/play`
+    || location.pathname.startsWith(`/${lang}/about`)
+    || location.pathname.startsWith(`/${lang}/legal`)
+    || location.pathname.startsWith(`/${lang}/privacy`)
+    || location.pathname.match(/^\/\w+\/\w+$/)
+    || location.pathname.match(/^\/\w+\/account\//);
+
   return (
     <>
       {isNavAndFooterVisible && <Navbar className="mb-3" />}
       <ErrorBoundary>
         <Routes>
-          {/* Home page for language prefix */}
-          <Route path="/" element={<HomePage />} />
+          {/* Landing page for language prefix */}
+          <Route path="/" element={<LandingPage />} />
 
-          {/* Landing page */}
-          <Route path="/landing" element={<LandingPage />} />
+          {/* Games platform */}
+          <Route path="/play" element={<HomePage />} />
 
           {/* About page */}
           <Route path="/about" element={<AboutPage />} />
@@ -72,7 +76,7 @@ export function LanguageRoutes() {
 
           {/* Game-specific routes */}
           <Route
-            path="/guess-logo/*"
+            path="/play/guess-logo/*"
             element={(
               <Suspense fallback={<GuessLogoSkeleton />}>
                 <GuessLogoRoutes />
@@ -80,14 +84,14 @@ export function LanguageRoutes() {
             )}
           />
           <Route
-            path="/five-seconds/*"
+            path="/play/five-seconds/*"
             element={<FiveSecondsRoute />}
           >
             <Route index element={<FiveSecondsPageContent />} />
             <Route path="*" element={<FiveSecondsNotFound />} />
           </Route>
           <Route
-            path="/stat-clash/*"
+            path="/play/stat-clash/*"
             element={<StatClashRoute />}
           >
             <Route index element={<StatClashPageContent />} />
