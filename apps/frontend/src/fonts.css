@@ -1,4 +1,12 @@
 @font-face {
+  font-family: 'Syne';
+  font-style: normal;
+  font-weight: 400 800;
+  src: url('/assets/fonts/Syne-VariableFont_wght.ttf') format('truetype');
+  font-display: swap;
+}
+
+@font-face {
   font-family: 'Amiri';
   font-style: normal;
   font-weight: 400;
@@ -83,5 +91,77 @@
   font-style: normal;
   font-weight: 700;
   src: url('/assets/fonts/PixelAE-Bold.woff2') format('woff2');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Ping';
+  font-style: normal;
+  font-weight: 100 900;
+  src: url('/assets/fonts/ping/ping-ar-lt-thin.otf') format('opentype');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Ping';
+  font-style: normal;
+  font-weight: 100;
+  src: url('/assets/fonts/ping/ping-ar-lt-hairline.otf') format('opentype');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Ping';
+  font-style: normal;
+  font-weight: 200;
+  src: url('/assets/fonts/ping/ping-ar-lt-thin.otf') format('opentype');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Ping';
+  font-style: normal;
+  font-weight: 300;
+  src: url('/assets/fonts/ping/ping-ar-lt-light.otf') format('opentype');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Ping';
+  font-style: normal;
+  font-weight: 400;
+  src: url('/assets/fonts/ping/ping-ar-lt-regular.otf') format('opentype');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Ping';
+  font-style: normal;
+  font-weight: 500;
+  src: url('/assets/fonts/ping/ping-ar-lt-medium.otf') format('opentype');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Ping';
+  font-style: normal;
+  font-weight: 700;
+  src: url('/assets/fonts/ping/ping-ar-lt-bold.otf') format('opentype');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Ping';
+  font-style: normal;
+  font-weight: 800;
+  src: url('/assets/fonts/ping/ping-ar-lt-heavy.otf') format('opentype');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Ping';
+  font-style: normal;
+  font-weight: 900;
+  src: url('/assets/fonts/ping/ping-ar-lt-black.otf') format('opentype');
   font-display: swap;
 }

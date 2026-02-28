@@ -1,4 +1,15 @@
 /* ═══════════════════════════════════
+   FONT FACE - SYNE (ENGLISH ONLY)
+═══════════════════════════════════ */
+@font-face {
+  font-family: 'Syne';
+  font-style: normal;
+  font-weight: 400 800;
+  src: url('/assets/fonts/Syne-VariableFont_wght.ttf') format('truetype');
+  font-display: swap;
+}
+
+/* ═══════════════════════════════════
    GLOBAL RESET & BASE
 ═══════════════════════════════════ */
 *,
@@ -14,14 +25,12 @@ html {
   font-size: 16px;
 }
 
-body {
-  background: var(--bg);
-  color: var(--fg);
+.landing-page {
   font-family: var(--font-display);
-  overflow-x: hidden;
-  cursor: none;
-  transition: var(--t-theme);
-  min-height: 100vh;
+}
+
+.landing-page:lang(ar) {
+  font-family: var(--font-arabic);
 }
 
 /* ─── custom cursor ─── */
@@ -33,9 +42,9 @@ body {
   border-radius: 50%;
   pointer-events: none;
   z-index: 9999;
-  transform: translate(-50%, -50%);
+  margin: -5px 0 0 -5px;
   transition: background 0.3s;
-  will-change: transform;
+  will-change: left, top;
 }
 
 .cursor-ring {
@@ -46,14 +55,14 @@ body {
   border-radius: 50%;
   pointer-events: none;
   z-index: 9998;
-  transform: translate(-50%, -50%);
+  margin: -17px 0 0 -17px;
   opacity: 0.5;
   transition:
     width 0.25s,
     height 0.25s,
     opacity 0.25s,
     border-color 0.3s;
-  will-change: transform;
+  will-change: left, top;
 }
 
 .cursor-ring.expanded {

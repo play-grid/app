@@ -8,9 +8,9 @@
   --accent-light: rgba(224, 125, 42, 0.1);
 
   /* Typography */
-  --font-display: 'Syne', sans-serif;
+  --font-display: var(--font-sans-en);
   --font-mono: 'DM Mono', monospace;
-  --font-arabic: 'Noto Kufi Arabic', sans-serif;
+  --font-arabic: var(--font-sans-ar);
 
   /* Radii */
   --radius-none: 0px;

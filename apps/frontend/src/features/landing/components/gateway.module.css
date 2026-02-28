@@ -125,14 +125,15 @@
   z-index: 0;
   font-family: var(--font-arabic);
   font-weight: 900;
-  color: var(--border);
+  color: var(--fg);
+  opacity: 0.08;
   user-select: none;
   font-size: clamp(90px, 13vw, 170px);
   bottom: 40px;
-  transition: color 0.3s;
+  transition: opacity 0.3s;
 }
 .half:hover .ghost {
-  color: rgba(240, 235, 224, 0.07);
+  opacity: 0.04;
 }
 .left .ghost {
   right: -16px;

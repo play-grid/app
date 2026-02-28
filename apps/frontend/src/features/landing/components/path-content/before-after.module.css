@@ -146,7 +146,8 @@
   font-family: var(--font-arabic);
   font-size: 0.8rem;
   font-weight: 900;
-  color: var(--fg-muted);
+  color: var(--fg);
+  opacity: 0.42;
 }
 
 .bar {

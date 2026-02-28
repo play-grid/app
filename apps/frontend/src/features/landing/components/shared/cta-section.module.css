@@ -15,7 +15,8 @@
   font-family: var(--font-arabic);
   font-size: clamp(80px, 15vw, 180px);
   font-weight: 900;
-  color: var(--border);
+  color: var(--fg);
+  opacity: 0.08;
   pointer-events: none;
   user-select: none;
 }

@@ -9,6 +9,7 @@ import { Nav } from './components/nav';
 import { PathContent } from './components/path-content/path-content';
 import { PATHS } from './path-data';
 import { useCursor } from './use-cursor';
+import '@/features/landing/styles/landing.css';
 
 type AppState = 'gateway' | 'player' | 'creator';
 
@@ -112,7 +113,7 @@ export default function LandingPage() {
         onSwitchPath={handleSwitchPath}
       />
 
-      <main>
+      <main className="landing-page">
 
         <Hero />
 

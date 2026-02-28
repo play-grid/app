@@ -89,15 +89,15 @@
 
   --font-display: 'Syne', sans-serif;
   --font-mono: 'DM Mono', monospace;
-  --font-arabic: 'Noto Kufi Arabic', sans-serif;
+  --font-arabic: 'Ping', 'Noto Kufi Arabic', sans-serif;
 
   --radius-none: 0px;
 
   --t-theme: background 0.45s ease, color 0.45s ease, border-color 0.35s ease;
   /* Font family CSS custom properties */
-  --font-sans-en: 'Geist', sans-serif;
+  --font-sans-en: 'Syne', 'Geist', sans-serif;
   --font-serif-en: 'Playfair Display', serif;
-  --font-sans-ar: 'Rubik', sans-serif;
+  --font-sans-ar: 'Ping', 'Rubik', sans-serif;
   --font-serif-ar: 'Amiri', serif;
   --font-family-sans: var(--font-sans-en);
 }
@@ -261,6 +261,15 @@
   :lang(ar) {
     --font-family-sans: var(--font-sans-ar);
     --font-family-serif: var(--font-serif-ar);
+  }
+
+  /* Landing page fonts */
+  .landing-page {
+    font-family: var(--font-display);
+  }
+
+  .landing-page:lang(ar) {
+    font-family: var(--font-arabic);
   }
 
   /* Alternative approach - direct element targeting */

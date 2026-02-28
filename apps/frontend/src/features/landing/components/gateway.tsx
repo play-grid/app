@@ -94,7 +94,7 @@ const GatewayHalf: React.FC<HalfProps> = ({
         <p className={styles.num}>{t(numKey)}</p>
         <p className={styles.eyebrow}>{t(eyebrowKey)}</p>
         <h2 ref={labelRef} className={styles.label}>
-          {t(labelKey).split('<br/>').map(text => (
+          {(t(labelKey) as string).split('<br/>').map(text => (
             <React.Fragment key={text}>
               {text}
               <br />
@@ -116,7 +116,7 @@ const GatewayHalf: React.FC<HalfProps> = ({
         </button>
 
         <ul className={styles.feats} aria-label={`${t(eyebrowKey)} features`}>
-          {t(featuresKey, { returnObjects: true }).map((f: string) => (
+          {(t(featuresKey, { returnObjects: true }) as string[]).map((f: string) => (
             <li key={f} className={styles.feat}>
               <span className={styles.featDot} aria-hidden="true" />
               {f}
