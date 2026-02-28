@@ -8,7 +8,6 @@ import {
   redirect,
   useNavigate,
 } from 'react-router-dom';
-import { MobileWarningNotifier } from '@/components/mobile-warning-notifier';
 import { NetworkStatusNotifier } from '@/components/network-status-notifier';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from '@/components/ui/sonner';
@@ -63,7 +62,6 @@ function AppProviders() {
                   }}
                 >
                   <Toaster richColors />
-                  <MobileWarningNotifier />
                   <NetworkStatusNotifier />
                   <App />
                 </AuthUIProvider>

@@ -9,6 +9,7 @@ import { StatClashRoute } from '@/games/stat-clash/stat-clash-route';
 import { Footer } from './components/footer';
 import { Navbar } from './components/navbar';
 import ErrorBoundary from './context/error-boundry';
+import LandingPage from './features/landing/landing';
 import { LanguageLayout } from './i18n/language-layout';
 import { LanguageRouter } from './i18n/language-router';
 import AboutPage from './pages/about-page';
@@ -18,7 +19,6 @@ import HomePage from './pages/home-page';
 import LegalPage from './pages/legal-page';
 import NotFoundPage from './pages/not-found-page';
 import PrivacyPage from './pages/privacy-page';
-import LandingPage from './features/landing/landing';
 
 // Lazy-loaded game routes
 const GuessLogoRoutes = lazy(() => import('./games/guess-logo/routes'));
