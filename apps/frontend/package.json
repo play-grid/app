@@ -25,6 +25,7 @@
     "@guess-logo/five-seconds": "workspace:*",
     "@guess-logo/game-core": "workspace:*",
     "@guess-logo/guess-logo": "workspace:*",
+    "@guess-logo/image-generator": "workspace:*",
     "@guess-logo/shared": "workspace:*",
     "@guess-logo/stat-clash": "workspace:*",
     "@guess-logo/ui": "workspace:*",

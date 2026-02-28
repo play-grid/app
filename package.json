@@ -8,7 +8,7 @@
     "build": "turbo run build",
     "check-types": "turbo run check-types",
     "test:e2e": "pnpm --filter=@guess-logo/frontend test:e2e",
-    "test":"turbo run test",
+    "test": "turbo run test",
     "deploy": "pnpm deploy:staging && pnpm deploy:production",
     "deploy:staging": "pnpm --filter=@guess-logo/api deploy --env staging",
     "deploy:production": "pnpm --filter=@guess-logo/api deploy:production",

@@ -1,0 +1,28 @@
+{
+  "name": "@guess-logo/image-generator",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "prebuild": "rm -rf dist",
+    "build": "tsc -p tsconfig.build.json && mkdir -p dist/assets/fonts && cp -r src/assets/fonts/* dist/assets/fonts/",
+    "generate": "tsx src/generate.ts"
+  },
+  "exports": {
+    ".": "./dist/index.js",
+    "./generate": "./dist/generate.js",
+    "./generate.js": "./dist/generate.js"
+  },
+  "dependencies": {
+    "@takumi-rs/image-response": "latest",
+    "react": "catalog:react19",
+    "react-dom": "catalog:react19"
+  },
+  "devDependencies": {
+    "@types/react": "catalog:react19",
+    "@types/node": "catalog:",
+    "tsx": "^4.21.0",
+    "typescript": "catalog:",
+    "vite": "catalog:"
+  }
+}

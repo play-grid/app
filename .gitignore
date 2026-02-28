@@ -33,3 +33,6 @@ AGENTS.md
 GEMINI.md
 .turbo
 opencode.json
+
+# Image generator output (test builds only, production in apps/frontend/public/og)
+packages/image-generator/output
