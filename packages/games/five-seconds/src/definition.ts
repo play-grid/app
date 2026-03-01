@@ -1,4 +1,4 @@
-import { createGameDefinition, createSubPhaseTimerEffect, registerGame } from '@guess-logo/game-core';
+import { createGameDefinition, createSubPhaseTimerEffect, registerGame } from '@playgrid/game-core';
 import { createFiveSecondsEffects } from './logic/effect-handlers';
 import { fiveSecondsGameReducer } from './logic/reducer';
 import { FiveSecondsActionSchema, FiveSecondsGameStateSchema } from './logic/schema';

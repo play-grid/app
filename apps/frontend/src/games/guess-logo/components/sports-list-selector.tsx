@@ -1,4 +1,4 @@
-import type { SupportedLanguage } from '@guess-logo/shared/types';
+import type { SupportedLanguage } from '@playgrid/shared/types';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import {

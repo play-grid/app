@@ -5,6 +5,7 @@ import { gsap } from 'gsap';
 
 import { useRef, useState } from 'react';
 
+import { WaitlistDialog } from '@/features/waitlist/waitlist-dialog';
 import { BeforeAfter } from '../creator/before-after';
 import { GameModes } from '../player/game-modes';
 import { CtaSection } from '../shared/cta-section';
@@ -12,9 +13,8 @@ import { Footer } from '../shared/footer';
 import { MarqueeBar } from '../shared/marquee-bar';
 import { StatsStrip } from '../shared/stats-strip';
 import { Features } from './features';
-import { PathBar } from './path-bar';
 
-import { WaitlistDialog } from '@/features/waitlist/waitlist-dialog';
+import { PathBar } from './path-bar';
 
 interface PathContentProps {
   data: PathData;

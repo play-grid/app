@@ -1,6 +1,6 @@
 import type { FiveSecondsGameState, VotingState } from '../logic/schema';
 import type { Question } from '../schema';
-import { useGameState } from '@guess-logo/game-core';
+import { useGameState } from '@playgrid/game-core';
 
 /**
  * Five Seconds specific state selectors.

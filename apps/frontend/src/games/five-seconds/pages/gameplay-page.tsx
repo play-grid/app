@@ -1,4 +1,4 @@
-import { useFiveSecondsActions, useFiveSecondsState } from '@guess-logo/five-seconds';
+import { useFiveSecondsActions, useFiveSecondsState } from '@playgrid/five-seconds';
 import { ArrowLeft, RotateCcw } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';

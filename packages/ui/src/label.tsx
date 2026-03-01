@@ -1,4 +1,4 @@
-import { cn } from '@guess-logo/ui';
+import { cn } from '@playgrid/ui';
 import * as LabelPrimitive from '@radix-ui/react-label';
 import * as React from 'react';
 

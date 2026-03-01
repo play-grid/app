@@ -214,7 +214,7 @@ When building React Native app, the same analytics system can be used with minim
 // Install: pnpm add posthog-react-native
 
 // Import same types
-import type { GameProperties } from '@guess-logo/lib/analytics-types';
+import type { GameProperties } from '@playgrid/lib/analytics-types';
 
 // Use same event names
 trackGameStart({

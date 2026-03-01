@@ -1,4 +1,4 @@
-import { cn } from '@guess-logo/ui';
+import { cn } from '@playgrid/ui';
 
 function Skeleton({ className, ...props }: React.ComponentProps<'div'>) {
   return (

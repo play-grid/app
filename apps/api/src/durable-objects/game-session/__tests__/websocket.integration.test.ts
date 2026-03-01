@@ -1,4 +1,4 @@
-import { getGameDefinition } from '@guess-logo/game-core';
+import { getGameDefinition } from '@playgrid/game-core';
 import { describe, expect, it } from 'vitest';
 import { GameSessionManager } from '../game-session.manager';
 import '../../../games';

@@ -1,7 +1,7 @@
 import {
   useFiveSecondsActions,
   useFiveSecondsState,
-} from '@guess-logo/five-seconds';
+} from '@playgrid/five-seconds';
 import { Award, Medal, RotateCcw, Trophy } from 'lucide-react';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';

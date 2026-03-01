@@ -1,9 +1,9 @@
-import type { CreateRoomFormValues } from '@guess-logo/api/schemas';
-import type { Room } from '@guess-logo/shared/schemas';
+import type { CreateRoomFormValues } from '@playgrid/api/schemas';
+import type { Room } from '@playgrid/shared/schemas';
 import type { ReactNode } from 'react';
-import { createGameRoomBaseSchema } from '@guess-logo/api/schemas';
-import { AltArrowLeftIcon, AltArrowRightIcon } from '@guess-logo/ui/icons';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { createGameRoomBaseSchema } from '@playgrid/api/schemas';
+import { AltArrowLeftIcon, AltArrowRightIcon } from '@playgrid/ui/icons';
 import { DirectionProvider } from '@radix-ui/react-direction';
 import { Check, ChevronDown, Copy, Globe, Lock } from 'lucide-react';
 import { useState } from 'react';

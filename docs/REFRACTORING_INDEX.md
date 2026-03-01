@@ -156,11 +156,11 @@ Benefits:
 
 ### New Packages
 
-- `@guess-logo/api-contracts` - API router types (extracted from API build output)
+- `@playgrid/api-contracts` - API router types (extracted from API build output)
 
 ### New Patterns
 
-- **Shared Schemas**: All game data schemas in `@guess-logo/shared/types/games/`
+- **Shared Schemas**: All game data schemas in `@playgrid/shared/types/games/`
 - **Dependency Injection**: HTTP client injected into effect handlers
 - **Contract Pattern**: API types exported via separate package
 

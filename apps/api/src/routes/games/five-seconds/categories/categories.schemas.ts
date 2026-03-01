@@ -1,6 +1,6 @@
 import type { z } from 'zod';
 
-import { categoryBaseSchema } from '@guess-logo/shared/schemas';
+import { categoryBaseSchema } from '@playgrid/shared/schemas';
 
 export const gameCategorySchema = categoryBaseSchema.describe('Game Category');
 

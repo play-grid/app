@@ -1,4 +1,4 @@
-import type { Question } from '@guess-logo/five-seconds';
+import type { Question } from '@playgrid/five-seconds';
 import { Timer } from 'lucide-react';
 import { useEffect } from 'react';
 import { useFiveSecondsSounds } from '../hooks/use-five-seconds-sounds';

@@ -1,4 +1,4 @@
-import type { RouterType } from '@guess-logo/api-contracts';
+import type { RouterType } from '@playgrid/api-contracts';
 import { hc } from 'hono/client';
 
 export type Client = ReturnType<typeof hc<RouterType>>;

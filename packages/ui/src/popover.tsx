@@ -1,4 +1,4 @@
-import { cn } from '@guess-logo/ui';
+import { cn } from '@playgrid/ui';
 import * as PopoverPrimitive from '@radix-ui/react-popover';
 import * as React from 'react';
 

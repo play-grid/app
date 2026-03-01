@@ -58,18 +58,18 @@ export function CtaSection({ ghostWordKey, titleKey, pathType, onWaitlistOpen }:
       <div className={styles.actions}>
         {isCreator
           ? (
-            <button
-              type="button"
-              onClick={onWaitlistOpen}
-              className="btn-primary"
-            >
-              {buttonText}
-            </button>
+              <button
+                type="button"
+                onClick={onWaitlistOpen}
+                className="btn-primary"
+              >
+                {buttonText}
+              </button>
             )
           : (
-            <Link to={`/${currentLanguage}/play`} className="btn-primary">
-              {buttonText}
-            </Link>
+              <Link to={`/${currentLanguage}/play`} className="btn-primary">
+                {buttonText}
+              </Link>
             )}
       </div>
     </section>

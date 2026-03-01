@@ -1,5 +1,5 @@
-import { cn } from '@guess-logo/ui';
-import { Tooltip as PrimitiveTooltip, TooltipContent as PrimitiveTooltipContent, TooltipProvider as PrimitiveTooltipProvider, TooltipTrigger as PrimitiveTooltipTrigger } from '@guess-logo/ui/tooltip';
+import { cn } from '@playgrid/ui';
+import { Tooltip as PrimitiveTooltip, TooltipContent as PrimitiveTooltipContent, TooltipProvider as PrimitiveTooltipProvider, TooltipTrigger as PrimitiveTooltipTrigger } from '@playgrid/ui/tooltip';
 import * as React from 'react';
 import './tooltip-animations.css';
 

@@ -1,4 +1,4 @@
-import type { GameEffect, GameEffectContext } from '@guess-logo/game-core';
+import type { GameEffect, GameEffectContext } from '@playgrid/game-core';
 import type {
   FetchQuestionsErrorAction,
   FiveSecondsAction,

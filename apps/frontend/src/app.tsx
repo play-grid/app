@@ -1,4 +1,4 @@
-import { SUPPORTED_LANGUAGES } from '@guess-logo/shared/types';
+import { SUPPORTED_LANGUAGES } from '@playgrid/shared/types';
 import { lazy, Suspense, useEffect } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { FiveSecondsRoute } from '@/games/five-seconds/five-seconds-route';

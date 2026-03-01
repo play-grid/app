@@ -1,6 +1,6 @@
 import type {
   SupportedLanguage,
-} from '@guess-logo/shared/types';
+} from '@playgrid/shared/types';
 import type { LogoSetKey } from '../lib/logo-data';
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';

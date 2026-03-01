@@ -1,5 +1,5 @@
 import process from 'node:process';
-import { APICountriesClient } from '@guess-logo/data-pipeline';
+import { APICountriesClient } from '@playgrid/data-pipeline';
 import Database from 'better-sqlite3';
 import { drizzle } from 'drizzle-orm/better-sqlite3';
 import { countriesTable } from '@/db/schema';

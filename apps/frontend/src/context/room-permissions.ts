@@ -1,4 +1,4 @@
-import type { Player } from '@guess-logo/game-core';
+import type { Player } from '@playgrid/game-core';
 import { useMemo } from 'react';
 import { useGameMode } from '@/hooks/use-game-mode';
 import { useRoomSession } from '../features/room/room-store';

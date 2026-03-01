@@ -1,5 +1,5 @@
 {
-  "name": "@guess-logo/eslint-config",
+  "name": "@playgrid/eslint-config",
   "version": "1.0.0",
   "type": "module",
   "exports": {

@@ -30,7 +30,7 @@
 │  │ NONE ❌         │        │ - game-core     │        │              │ │
 │  │                 │        │ - shared        │        │              │
 │  │ BUT imports:    │        │ - logger        │        │              │ │
-│  │ @guess-logo/    │        │                 │        │              │ │
+│  │ @playgrid/    │        │                 │        │              │ │
 │  │ api/routes      │        │ peerDeps:       │        │              │ │
 │  │ (via tsconfig   │        │ - api-client ❌ │        │              │ │
 │  │  path mapping   │        │                 │        │              │ │
@@ -264,13 +264,13 @@ shared             ❌              ❌           ─────    ❌        
 
 ```typescript
 // apps/api/src/routes/games/five-seconds/questions/questions.schemas.ts
-import { baseQuestionSchema } from '@guess-logo/five-seconds';
+import { baseQuestionSchema } from '@playgrid/five-seconds';
 // ^ Depends on game package ❌
 
 // packages/games/five-seconds/package.json
 {
   "peerDependencies": {
-    "@guess-logo/api-client": "workspace:*" // Depends on api-client ❌
+    "@playgrid/api-client": "workspace:*" // Depends on api-client ❌
   }
 }
 ```
@@ -281,17 +281,17 @@ import { baseQuestionSchema } from '@guess-logo/five-seconds';
 
 ```typescript
 // apps/api/src/routes/games/five-seconds/questions/questions.schemas.ts
-import { baseQuestionSchema } from '@guess-logo/shared/types/games/five-seconds.schema';
+import { baseQuestionSchema } from '@playgrid/shared/types/games/five-seconds.schema';
 // ^ Imports from shared ✅
 
 // packages/games/five-seconds/src/schema.ts
-export { baseQuestionSchema } from '@guess-logo/shared/types/games/five-seconds.schema';
+export { baseQuestionSchema } from '@playgrid/shared/types/games/five-seconds.schema';
 // ^ Re-exports from shared ✅
 
 // packages/games/five-seconds/package.json
 {
   "dependencies": {
-    "@guess-logo/shared": "workspace:*" // Only depends on shared ✅
+    "@playgrid/shared": "workspace:*" // Only depends on shared ✅
   }
 }
 ```

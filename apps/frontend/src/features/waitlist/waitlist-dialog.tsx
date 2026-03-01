@@ -72,7 +72,7 @@ export function WaitlistDialog({ open, onClose }: WaitlistDialogProps) {
           <div className={styles.content}>
             {success
               ? (
-                <div className={styles.success}>
+                  <div className={styles.success}>
                     <span className={styles.successIcon}>🎉</span>
                     <p className={styles.successMessage}>{t('landing.cta.waitlistDialog.success')}</p>
                   </div>

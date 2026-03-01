@@ -1,4 +1,4 @@
-import type { DBdifficulty } from '@guess-logo/five-seconds';
+import type { DBdifficulty } from '@playgrid/five-seconds';
 
 export function normalizeDifficulty(diff: string): DBdifficulty {
   const normalized = diff.toLowerCase().trim();

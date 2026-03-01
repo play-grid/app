@@ -1,5 +1,5 @@
-import type { SupportedLanguage } from '@guess-logo/shared/types';
-import { SUPPORTED_LANGUAGES } from '@guess-logo/shared/types';
+import type { SupportedLanguage } from '@playgrid/shared/types';
+import { SUPPORTED_LANGUAGES } from '@playgrid/shared/types';
 
 export function isValidLanguage(lang: string): lang is SupportedLanguage {
   return SUPPORTED_LANGUAGES.includes(lang as SupportedLanguage);

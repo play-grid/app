@@ -1,4 +1,4 @@
-import type { RawLeague } from '@guess-logo/shared/types';
+import type { RawLeague } from '@playgrid/shared/types';
 
 // Lazy loader for custom lists
 export async function loadCustomList(listId: string): Promise<RawLeague[]> {

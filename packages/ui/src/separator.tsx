@@ -1,4 +1,4 @@
-import { cn } from '@guess-logo/ui';
+import { cn } from '@playgrid/ui';
 import * as SeparatorPrimitive from '@radix-ui/react-separator';
 
 import * as React from 'react';

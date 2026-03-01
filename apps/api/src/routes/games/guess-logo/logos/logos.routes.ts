@@ -1,5 +1,5 @@
-import { ListMetadataSchema, LogoContentSchema, LogoQuerySchema, LogoSetKeySchema } from '@guess-logo/guess-logo';
 import { createRoute, z } from '@hono/zod-openapi';
+import { ListMetadataSchema, LogoContentSchema, LogoQuerySchema, LogoSetKeySchema } from '@playgrid/guess-logo';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import { jsonContent } from 'stoker/openapi/helpers';
 

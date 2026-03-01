@@ -1,4 +1,4 @@
-import type { DBDifficulty, Difficulty, Question } from '@guess-logo/shared/schemas';
+import type { DBDifficulty, Difficulty, Question } from '@playgrid/shared/schemas';
 import {
   baseQuestionSchema,
   categoryBaseSchema,
@@ -7,7 +7,7 @@ import {
 
   difficultySchema,
 
-} from '@guess-logo/shared/schemas';
+} from '@playgrid/shared/schemas';
 import { z } from 'zod';
 
 export {

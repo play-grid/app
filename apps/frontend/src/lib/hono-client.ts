@@ -1,4 +1,4 @@
-import { hcWithType } from '@guess-logo/api-client';
+import { hcWithType } from '@playgrid/api-client';
 
 const apiBase = import.meta.env.DEV ? 'http://localhost:8787' : '';
 

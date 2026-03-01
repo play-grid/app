@@ -1,5 +1,5 @@
 {
-  "name": "@guess-logo/games",
+  "name": "@playgrid/games",
   "type": "module",
   "version": "0.2.0",
   "private": true,
@@ -9,9 +9,9 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@guess-logo/api-client": "workspace:*",
-    "@guess-logo/eslint-config": "workspace:*",
-    "@guess-logo/logger": "workspace:*",
+    "@playgrid/api-client": "workspace:*",
+    "@playgrid/eslint-config": "workspace:*",
+    "@playgrid/logger": "workspace:*",
     "zod": "catalog:"
   },
   "devDependencies": {

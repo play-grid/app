@@ -1,5 +1,5 @@
-import { GameMetaSchema } from '@guess-logo/shared/schemas';
 import { createRoute } from '@hono/zod-openapi';
+import { GameMetaSchema } from '@playgrid/shared/schemas';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import { jsonContent } from 'stoker/openapi/helpers';
 

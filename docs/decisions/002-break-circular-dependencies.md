@@ -10,16 +10,16 @@ The current monorepo has a critical circular dependency chain:
 
 ```
 api-client
-  ├─ imports: '@guess-logo/api/routes' (via tsconfig path mapping to source)
+  ├─ imports: '@playgrid/api/routes' (via tsconfig path mapping to source)
   └─ depends on: apps/api/src/routes/index.ts
          ↓
 apps/api
-  ├─ dependencies: @guess-logo/five-seconds, @guess-logo/guess-logo
+  ├─ dependencies: @playgrid/five-seconds, @playgrid/guess-logo
   └─ imports schemas from game packages
          ↓
-@guess-logo/five-seconds
-  ├─ peerDependency: @guess-logo/api-client
-  └─ effect-handlers.ts imports: import hcWithType from '@guess-logo/api-client'
+@playgrid/five-seconds
+  ├─ peerDependency: @playgrid/api-client
+  └─ effect-handlers.ts imports: import hcWithType from '@playgrid/api-client'
          ↓
 ⬆️ BACK TO api-client ⬆️
 ```
@@ -41,17 +41,17 @@ Move data schemas from game packages to shared layer:
 
 **Before:**
 ```
-@guess-logo/five-seconds/src/schema.ts (baseQuestionSchema, categoryBaseSchema)
+@playgrid/five-seconds/src/schema.ts (baseQuestionSchema, categoryBaseSchema)
   ↓ imported by
 apps/api/src/routes/games/five-seconds/questions/questions.schemas.ts
 ```
 
 **After:**
 ```
-@guess-logo/shared/types/games/five-seconds.schema.ts
+@playgrid/shared/types/games/five-seconds.schema.ts
   ↓ imported by
 apps/api/src/routes/games/five-seconds/questions/questions.schemas.ts
-@guess-logo/five-seconds/src/schema.ts (re-exports from shared)
+@playgrid/five-seconds/src/schema.ts (re-exports from shared)
 ```
 
 ### Phase 2: Create api-contracts Package
@@ -60,19 +60,19 @@ Extract router type to separate package:
 
 **Before:**
 ```
-@guess-logo/api-client/index.ts
-  ├─ imports: type { router } from '@guess-logo/api/routes'
+@playgrid/api-client/index.ts
+  ├─ imports: type { router } from '@playgrid/api/routes'
   └─ path mapping points to: ../../apps/api/src/routes/index.ts
 ```
 
 **After:**
 ```
-@guess-logo/api-contracts/index.ts
+@playgrid/api-contracts/index.ts
   └─ exports: type { RouterType } from './router-type.generated.ts'
      (generated from compiled API output)
 
-@guess-logo/api-client/index.ts
-  └─ imports: type { RouterType } from '@guess-logo/api-contracts'
+@playgrid/api-client/index.ts
+  └─ imports: type { RouterType } from '@playgrid/api-contracts'
 ```
 
 ### Phase 3: Dependency Injection for HTTP Client
@@ -81,8 +81,8 @@ Remove `api-client` from game packages, inject via factory:
 
 **Before:**
 ```typescript
-// @guess-logo/five-seconds/src/logic/effect-handlers.ts
-import hcWithType from '@guess-logo/api-client';
+// @playgrid/five-seconds/src/logic/effect-handlers.ts
+import hcWithType from '@playgrid/api-client';
 
 export function createFetchQuestionsEffect(apiUrl: string): GameEffect {
   const client = hcWithType(apiUrl); // ❌ Game creates HTTP client
@@ -92,7 +92,7 @@ export function createFetchQuestionsEffect(apiUrl: string): GameEffect {
 
 **After:**
 ```typescript
-// @guess-logo/five-seconds/src/logic/effect-handlers.ts
+// @playgrid/five-seconds/src/logic/effect-handlers.ts
 export interface HttpClient {
   get: (url: string, query?: any) => Promise<Response>;
 }
@@ -105,7 +105,7 @@ export function createFetchQuestionsEffect(
   // ...
 }
 
-// @guess-logo/api/src/app.ts or game-session.object.ts
+// @playgrid/api/src/app.ts or game-session.object.ts
 const client = hcWithType(apiUrl);
 const effects = createFiveSecondsEffects(client, apiUrl);
 ```
@@ -119,7 +119,7 @@ All imports use proper package exports:
 // packages/api-client/tsconfig.json
 {
   "paths": {
-    "@guess-logo/api/routes": ["../../apps/api/src/routes/index.ts"]
+    "@playgrid/api/routes": ["../../apps/api/src/routes/index.ts"]
   }
 }
 ```
@@ -162,7 +162,7 @@ All imports use proper package exports:
 
 1. **Breaking Changes**: Requires coordinated update across packages
 2. **Initial Effort**: ~8-12 hours of refactoring work
-3. **Additional Package**: `@guess-logo/api-contracts` adds complexity
+3. **Additional Package**: `@playgrid/api-contracts` adds complexity
 4. **Indirection**: HTTP client adds one level of abstraction
 
 ### Migration Path

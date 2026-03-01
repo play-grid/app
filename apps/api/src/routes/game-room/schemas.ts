@@ -1,5 +1,5 @@
-import { getRegisteredGameIds, PlayerSchema } from '@guess-logo/game-core';
-import { RoomSchema } from '@guess-logo/shared/schemas';
+import { getRegisteredGameIds, PlayerSchema } from '@playgrid/game-core';
+import { RoomSchema } from '@playgrid/shared/schemas';
 import { z } from 'zod';
 
 /**

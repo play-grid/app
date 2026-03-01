@@ -1,5 +1,5 @@
-import { cn } from '@guess-logo/ui';
-import { Switch as PrimitiveSwitch, SwitchThumb as PrimitiveSwitchThumb } from '@guess-logo/ui/switch';
+import { cn } from '@playgrid/ui';
+import { Switch as PrimitiveSwitch, SwitchThumb as PrimitiveSwitchThumb } from '@playgrid/ui/switch';
 import * as React from 'react';
 
 function Switch({

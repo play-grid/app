@@ -1,7 +1,7 @@
 // badge.tsx
 import type { VariantProps } from 'class-variance-authority';
 import type * as React from 'react';
-import { cn } from '@guess-logo/ui';
+import { cn } from '@playgrid/ui';
 import { cva } from 'class-variance-authority';
 import './badge.css';
 

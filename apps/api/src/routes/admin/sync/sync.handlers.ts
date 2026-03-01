@@ -1,6 +1,6 @@
 import type { SyncCompaniesRoute, SyncCountriesRoute, SyncFootballPlayersRoute, SyncFootballTeamsRoute } from './sync.routes';
 import type { AppRouteHandler } from '@/lib/types';
-import { APICountriesClient, createCompaniesTransformer, createCountriesTransformer, createFootballPlayersTransformer, createFootballTeamsTransformer, runSync } from '@guess-logo/data-pipeline';
+import { APICountriesClient, createCompaniesTransformer, createCountriesTransformer, createFootballPlayersTransformer, createFootballTeamsTransformer, runSync } from '@playgrid/data-pipeline';
 import { eq } from 'drizzle-orm';
 
 import * as HttpStatusCodes from 'stoker/http-status-codes';

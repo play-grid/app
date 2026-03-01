@@ -1,4 +1,4 @@
-import type { SupportedLanguage } from '@guess-logo/shared/types';
+import type { SupportedLanguage } from '@playgrid/shared/types';
 import type { Context } from 'hono';
 
 import type { AppEnv } from '@/lib/types';

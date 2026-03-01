@@ -1,4 +1,4 @@
-import type { GameMode } from '@guess-logo/stat-clash';
+import type { GameMode } from '@playgrid/stat-clash';
 import { Monitor, Smartphone, Users, UserSquare2 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '../ui/button';

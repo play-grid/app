@@ -1,11 +1,11 @@
-import type { SupportedLanguage } from '@guess-logo/shared/types';
+import type { SupportedLanguage } from '@playgrid/shared/types';
 import {
   difficultySchema,
   ENABLE_CUSTOM_QUESTIONS_FEATURE,
   useFiveSecondsActions,
   useFiveSecondsState,
-} from '@guess-logo/five-seconds';
-import { ClockIcon, TrophyIcon, UploadIcon } from '@guess-logo/ui/icons';
+} from '@playgrid/five-seconds';
+import { ClockIcon, TrophyIcon, UploadIcon } from '@playgrid/ui/icons';
 import { useQueryClient } from '@tanstack/react-query';
 import { lazy, Suspense, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';

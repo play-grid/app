@@ -1,4 +1,4 @@
-import type { SupportedLanguage } from '@guess-logo/shared/types';
+import type { SupportedLanguage } from '@playgrid/shared/types';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { addLanguageToPath, removeLanguageFromPath } from '../utils/language-utils';

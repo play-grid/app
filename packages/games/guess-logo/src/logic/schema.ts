@@ -1,4 +1,4 @@
-import { BaseGameStateSchema, GameActionSchema, PlayerSchema } from '@guess-logo/game-core';
+import { BaseGameStateSchema, GameActionSchema, PlayerSchema } from '@playgrid/game-core';
 import z from 'zod';
 import { LogoContentSchema, LogoSetKeySchema } from '../base.schema';
 

@@ -1,4 +1,4 @@
-import type { GameMeta } from '@guess-logo/game-core';
+import type { GameMeta } from '@playgrid/game-core';
 import { ChevronRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';

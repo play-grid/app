@@ -1,4 +1,4 @@
-import type { GameMeta } from '@guess-logo/shared/schemas';
+import type { GameMeta } from '@playgrid/shared/schemas';
 import { queryOptions, useQuery } from '@tanstack/react-query';
 import client from '@/lib/hono-client';
 

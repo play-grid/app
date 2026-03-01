@@ -1,1 +1,1 @@
-export { getRegisteredGameIds, isGameRegistered } from '@guess-logo/game-core';
+export { getRegisteredGameIds, isGameRegistered } from '@playgrid/game-core';

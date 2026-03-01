@@ -1,6 +1,6 @@
-import type { Question } from '@guess-logo/five-seconds';
-import type { SupportedLanguage } from '@guess-logo/shared/types';
-import { useFiveSecondsState } from '@guess-logo/five-seconds';
+import type { Question } from '@playgrid/five-seconds';
+import type { SupportedLanguage } from '@playgrid/shared/types';
+import { useFiveSecondsState } from '@playgrid/five-seconds';
 import { Info } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';

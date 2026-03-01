@@ -1,4 +1,4 @@
-import { cn } from '@guess-logo/ui';
+import { cn } from '@playgrid/ui';
 import {
   Select as PrimitiveSelect,
   SelectContent as PrimitiveSelectContent,
@@ -11,7 +11,7 @@ import {
   SelectGroup,
   SelectIcon,
   SelectValue,
-} from '@guess-logo/ui/select';
+} from '@playgrid/ui/select';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import * as React from 'react';
 

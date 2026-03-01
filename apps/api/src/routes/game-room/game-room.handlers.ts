@@ -12,7 +12,7 @@ import type { CreateGameRoomResponse, GenerateInviteResponse, JoinGameRoomRespon
 import {
   getGameDefinition,
   isGameRegistered,
-} from '@guess-logo/game-core';
+} from '@playgrid/game-core';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import {
   generateInviteResponseSchema as doGenerateInviteResponseSchema,

@@ -1,4 +1,4 @@
-import { useStatClashState } from '@guess-logo/stat-clash';
+import { useStatClashState } from '@playgrid/stat-clash';
 import BackButton from '@/components/back-button';
 import { GameBoard } from '../components/game/game-board';
 import { useStatClashActions } from '../hooks/use-stat-clash-actions';

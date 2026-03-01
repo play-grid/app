@@ -1,4 +1,4 @@
-import type { SupportedLanguage, SupportedRegion } from '@guess-logo/shared/types';
+import type { SupportedLanguage, SupportedRegion } from '@playgrid/shared/types';
 import type { LanguageOption, PageOption } from 'tmdb-ts';
 
 // This object acts as a type-safe mapping from language codes to region codes.

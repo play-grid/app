@@ -1,8 +1,8 @@
-import type { CompanyLogo } from '@guess-logo/guess-logo';
-import type { SupportedLanguage } from '@guess-logo/shared/types';
+import type { CompanyLogo } from '@playgrid/guess-logo';
+import type { SupportedLanguage } from '@playgrid/shared/types';
 import type { Context } from 'hono';
 import type { AppEnv } from '@/lib/types';
-import { LOGO_SET_TYPE_MAP } from '@guess-logo/guess-logo';
+import { LOGO_SET_TYPE_MAP } from '@playgrid/guess-logo';
 import { fetchStatItems } from '@/services/stat-items.service';
 
 export async function fetchCompaniesFromDB(

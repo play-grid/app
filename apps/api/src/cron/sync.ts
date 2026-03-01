@@ -1,5 +1,5 @@
 import type { AppEnv } from '@/lib/types';
-import { createFootballPlayersTransformer, createFootballTeamsTransformer, runSync } from '@guess-logo/data-pipeline';
+import { createFootballPlayersTransformer, createFootballTeamsTransformer, runSync } from '@playgrid/data-pipeline';
 import { Hono } from 'hono';
 import { getDB } from '@/db';
 import { statItemsTable } from '@/db/schema';

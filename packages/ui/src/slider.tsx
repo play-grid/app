@@ -1,4 +1,4 @@
-import { cn } from '@guess-logo/ui';
+import { cn } from '@playgrid/ui';
 import * as SliderPrimitive from '@radix-ui/react-slider';
 
 import * as React from 'react';

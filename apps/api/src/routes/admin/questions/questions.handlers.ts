@@ -1,4 +1,4 @@
-import type { DBDifficulty } from '@guess-logo/five-seconds';
+import type { DBDifficulty } from '@playgrid/five-seconds';
 import type {
   CreateQuestionsRoute,
   DeleteQuestionsRoute,

@@ -1,5 +1,5 @@
-import type { Category, Difficulty, GameMode } from '@guess-logo/stat-clash';
-import { useStatClashState } from '@guess-logo/stat-clash';
+import type { Category, Difficulty, GameMode } from '@playgrid/stat-clash';
+import { useStatClashState } from '@playgrid/stat-clash';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { HotseatSetup } from '../components/lobby/hotseat-setup';

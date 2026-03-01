@@ -1,5 +1,5 @@
-import { cn } from '@guess-logo/ui';
-import { Input as PrimitiveInput } from '@guess-logo/ui/input';
+import { cn } from '@playgrid/ui';
+import { Input as PrimitiveInput } from '@playgrid/ui/input';
 import * as React from 'react';
 
 export function Input({

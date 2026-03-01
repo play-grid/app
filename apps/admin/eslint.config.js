@@ -1,4 +1,4 @@
-import createConfig from '@guess-logo/eslint-config/create-config';
+import createConfig from '@playgrid/eslint-config/create-config';
 //  @ts-check
 import { tanstackConfig } from '@tanstack/eslint-config';
 import query from '@tanstack/eslint-plugin-query';

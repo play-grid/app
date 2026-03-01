@@ -1,4 +1,4 @@
-import type { SupportedLanguage } from '@guess-logo/shared/types';
+import type { SupportedLanguage } from '@playgrid/shared/types';
 import type { LogoSetKey } from '../lib/logo-data';
 import type { Player } from '../stores/game-state-store';
 import {
@@ -10,7 +10,7 @@ import {
   TrophyIcon,
   UsersIcon,
   VideoIcon,
-} from '@guess-logo/ui/icons';
+} from '@playgrid/ui/icons';
 import { useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';

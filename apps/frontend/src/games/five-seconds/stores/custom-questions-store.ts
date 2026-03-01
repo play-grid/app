@@ -1,5 +1,5 @@
-import type { Question } from '@guess-logo/five-seconds';
-import { ENABLE_CUSTOM_QUESTIONS_FEATURE } from '@guess-logo/five-seconds';
+import type { Question } from '@playgrid/five-seconds';
+import { ENABLE_CUSTOM_QUESTIONS_FEATURE } from '@playgrid/five-seconds';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';

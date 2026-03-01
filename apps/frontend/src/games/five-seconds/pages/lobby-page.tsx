@@ -1,9 +1,9 @@
-import type { Room } from '@guess-logo/shared/schemas';
+import type { Room } from '@playgrid/shared/schemas';
 import {
   FIVE_SECONDS_GAME_OPTIONS,
   useFiveSecondsActions,
   useFiveSecondsState,
-} from '@guess-logo/five-seconds';
+} from '@playgrid/five-seconds';
 import { Earth, Info, Play, Settings, Zap } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';

@@ -10,7 +10,7 @@ import type {
   GetSportTeamsRoute,
 } from './sports.routes';
 import type { AppRouteHandler } from '@/lib/types';
-import { shuffleArray } from '@guess-logo/shared/utils';
+import { shuffleArray } from '@playgrid/shared/utils';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import { getDB } from '@/db';
 import { logger } from '@/utils/logger';

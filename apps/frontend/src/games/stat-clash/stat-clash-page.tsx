@@ -1,4 +1,4 @@
-import { useStatClashState } from '@guess-logo/stat-clash';
+import { useStatClashState } from '@playgrid/stat-clash';
 import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { StatClashGameRoutes, StatClashLobbyRoutes } from './routes';

@@ -130,30 +130,30 @@ Games receive HTTP clients via factory functions rather than importing them dire
 registerGame(game, (httpClient, apiUrl) => createEffects(httpClient, apiUrl));
 
 // ❌ Avoid: Direct import
-import hcWithType from '@guess-logo/api-client';
+import hcWithType from '@playgrid/api-client';
 const client = hcWithType(apiUrl);
 ```
 
 ### Shared Schemas
-Game data schemas live in `@guess-logo/shared/types/games/` and are imported by both API and games.
+Game data schemas live in `@playgrid/shared/types/games/` and are imported by both API and games.
 
 ```typescript
 // ✅ Correct: Import from shared
-import { gameStateSchema } from '@guess-logo/shared/types/games/my-game.schema';
+import { gameStateSchema } from '@playgrid/shared/types/games/my-game.schema';
 
 // ❌ Avoid: API imports from games
-import { gameStateSchema } from '@guess-logo/my-game';
+import { gameStateSchema } from '@playgrid/my-game';
 ```
 
 ### Contract Pattern
-API types are extracted to `@guess-logo/api-contracts` package to break circular dependencies.
+API types are extracted to `@playgrid/api-contracts` package to break circular dependencies.
 
 ```typescript
 // ✅ Correct: Import from contracts
-import type { RouterType } from '@guess-logo/api-contracts';
+import type { RouterType } from '@playgrid/api-contracts';
 
 // ❌ Avoid: Import via path mapping
-import type { router } from '@guess-logo/api/routes';
+import type { router } from '@playgrid/api/routes';
 ```
 
 ## 📊 Current Package Structure

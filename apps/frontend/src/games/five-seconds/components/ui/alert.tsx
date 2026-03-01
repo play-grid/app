@@ -1,10 +1,10 @@
 import type { VariantProps } from 'class-variance-authority';
-import { cn } from '@guess-logo/ui';
+import { cn } from '@playgrid/ui';
 import {
   Alert as PrimitiveAlert,
   AlertDescription as PrimitiveAlertDescription,
   AlertTitle as PrimitiveAlertTitle,
-} from '@guess-logo/ui/alert';
+} from '@playgrid/ui/alert';
 import { cva } from 'class-variance-authority';
 import * as React from 'react';
 import './alert.css';

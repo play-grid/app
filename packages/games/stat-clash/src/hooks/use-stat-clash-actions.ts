@@ -1,5 +1,5 @@
 import type { StatClashAction } from 'src/logic/schema';
-import { useDispatch, useGameActions } from '@guess-logo/game-core';
+import { useDispatch, useGameActions } from '@playgrid/game-core';
 import { useCallback } from 'react';
 
 export function useStatClashActions() {

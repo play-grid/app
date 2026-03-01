@@ -1,1 +1,1 @@
-export { useStatClashActions } from '@guess-logo/stat-clash';
+export { useStatClashActions } from '@playgrid/stat-clash';

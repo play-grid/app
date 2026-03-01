@@ -1,5 +1,5 @@
 {
-  "name": "@guess-logo/data-pipeline",
+  "name": "@playgrid/data-pipeline",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -40,8 +40,8 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@guess-logo/data-provider": "workspace:*",
-    "@guess-logo/logger": "workspace:*",
+    "@playgrid/data-provider": "workspace:*",
+    "@playgrid/logger": "workspace:*",
     "zod": "catalog:",
     "drizzle-orm":"catalog:"
   },

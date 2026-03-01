@@ -1,5 +1,5 @@
 {
-  "name": "@guess-logo/api-contracts",
+  "name": "@playgrid/api-contracts",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -12,7 +12,7 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@guess-logo/api": "workspace:*"
+    "@playgrid/api": "workspace:*"
   },
   "peerDependencies": {
     "hono": "catalog:"

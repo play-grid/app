@@ -1,5 +1,5 @@
 import type { GuessLogoGameState } from '../logic/schema';
-import { useGameState } from '@guess-logo/game-core';
+import { useGameState } from '@playgrid/game-core';
 
 export function useGuessLogoState(): GuessLogoGameState {
   return useGameState<GuessLogoGameState>();

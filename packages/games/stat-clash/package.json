@@ -1,5 +1,5 @@
 {
-  "name": "@guess-logo/stat-clash",
+  "name": "@playgrid/stat-clash",
   "version": "0.0.1",
   "private": true,
   "type": "module",
@@ -13,9 +13,9 @@
     ".": "./dist/index.js"
   },
   "dependencies": {
-    "@guess-logo/game-core": "workspace:*",
-    "@guess-logo/logger": "workspace:*",
-    "@guess-logo/shared": "workspace:*",
+    "@playgrid/game-core": "workspace:*",
+    "@playgrid/logger": "workspace:*",
+    "@playgrid/shared": "workspace:*",
     "react": "catalog:react19",
     "immer": "catalog:",
     "zod": "catalog:",

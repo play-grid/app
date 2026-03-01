@@ -1,10 +1,10 @@
-import type { BaseAction, BaseGameState, GameDefinition } from '@guess-logo/game-core';
+import type { BaseAction, BaseGameState, GameDefinition } from '@playgrid/game-core';
 import type z from 'zod';
 import {
   createGameEffectHandlers,
   createLocalAdapter,
   createNativeWSClient,
-} from '@guess-logo/game-core';
+} from '@playgrid/game-core';
 import { createJSONStorage } from 'zustand/middleware';
 
 function getApiBase(): string {

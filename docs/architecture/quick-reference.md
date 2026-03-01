@@ -14,7 +14,7 @@ import {
   BaseGameStateSchema,
   GameActionSchema,
   PlayerSchema,
-} from '@guess-logo/game-core';
+} from '@playgrid/game-core';
 import { z } from 'zod';
 
 export const MyGameSettingsSchema = z.object({
@@ -123,7 +123,7 @@ export function myGameReducer(
 
 ```typescript
 // packages/games/my-game/src/definition.ts
-import { createGameDefinition, registerGame } from '@guess-logo/game-core';
+import { createGameDefinition, registerGame } from '@playgrid/game-core';
 import { MyGameActionSchema, MyGameGameStateSchema } from './logic/schema';
 import { myGameReducer } from './logic/reducer';
 
@@ -163,7 +163,7 @@ registerGame(myGame);
 
 ```typescript
 // packages/games/my-game/src/logic/effect-handlers.ts
-import type { GameEffect, GameEffectContext, HttpClient } from '@guess-logo/game-core';
+import type { GameEffect, GameEffectContext, HttpClient } from '@playgrid/game-core';
 import type { MyGameAction, MyGameGameState } from './schema';
 
 export function createFetchQuestionsEffect(
@@ -215,7 +215,7 @@ export function createMyGameEffects(
 
 ```typescript
 // packages/games/my-game/src/definition.ts
-import { createGameDefinition, registerGame } from '@guess-logo/game-core';
+import { createGameDefinition, registerGame } from '@playgrid/game-core';
 import { createMyGameEffects } from './logic/effect-handlers';
 import { MyGameActionSchema, MyGameGameStateSchema } from './logic/schema';
 import { myGameReducer } from './logic/reducer';
@@ -276,8 +276,8 @@ export const gamesRouter = createRouter()
 
 ```typescript
 // apps/api/src/app.ts
-import '@guess-logo/five-seconds';
-import '@guess-logo/my-game';
+import '@playgrid/five-seconds';
+import '@playgrid/my-game';
 ```
 
 ## Using Games in Frontend
@@ -286,10 +286,10 @@ import '@guess-logo/my-game';
 
 ```typescript
 // apps/frontend/src/games/my-game/use-my-game.tsx
-import hcWithType from '@guess-logo/api-client';
-import { createHonoHttpClient } from '@guess-logo/game-core/adapters';
-import { createGameEffectHandlers } from '@guess-logo/game-core';
-import { useMyGameStore } from '@guess-logo/my-game/hooks';
+import hcWithType from '@playgrid/api-client';
+import { createHonoHttpClient } from '@playgrid/game-core/adapters';
+import { createGameEffectHandlers } from '@playgrid/game-core';
+import { useMyGameStore } from '@playgrid/my-game/hooks';
 
 export function useMyGame() {
   // API URL: Use full URL in dev, relative URL in production (same domain)
@@ -342,7 +342,7 @@ export function useMyGame() {
 import { createRoute, z } from '@hono/zod-openapi';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import { jsonContent } from 'stoker/openapi/helpers';
-import { gameStateSchema } from '@guess-logo/shared/types/games/my-game.schema';
+import { gameStateSchema } from '@playgrid/shared/types/games/my-game.schema';
 
 const tags = ['My Game'];
 
@@ -565,17 +565,17 @@ export function myGameReducer(state, action) {
 **Problem**: Import from source file instead of compiled package
 
 ```bash
-Error: Cannot find module '@guess-logo/api/routes'
+Error: Cannot find module '@playgrid/api/routes'
 ```
 
-**Solution**: Import from `@guess-logo/api-contracts` instead
+**Solution**: Import from `@playgrid/api-contracts` instead
 
 ```typescript
 // ❌ Wrong
-import type { router } from '@guess-logo/api/routes';
+import type { router } from '@playgrid/api/routes';
 
 // ✅ Correct
-import type { RouterType } from '@guess-logo/api-contracts';
+import type { RouterType } from '@playgrid/api-contracts';
 ```
 
 ### Type Errors: HttpClient Not Defined
@@ -585,7 +585,7 @@ import type { RouterType } from '@guess-logo/api-contracts';
 **Solution**: Import from game-core contracts
 
 ```typescript
-import type { HttpClient } from '@guess-logo/game-core/contracts/http-client';
+import type { HttpClient } from '@playgrid/game-core/contracts/http-client';
 ```
 
 ### Runtime Error: httpClient.get is not a function
@@ -595,8 +595,8 @@ import type { HttpClient } from '@guess-logo/game-core/contracts/http-client';
 **Solution**: Create adapter before injection
 
 ```typescript
-import hcWithType from '@guess-logo/api-client';
-import { createHonoHttpClient } from '@guess-logo/game-core/adapters';
+import hcWithType from '@playgrid/api-client';
+import { createHonoHttpClient } from '@playgrid/game-core/adapters';
 
 const honoClient = hcWithType(apiUrl);
 const httpClient = createHonoHttpClient(honoClient);
@@ -618,13 +618,13 @@ const effects = createGameEffectHandlers('my-game', httpClient, apiUrl, 'local')
 
 | What You Need | Import From |
 |---------------|-------------|
-| Game state/action schemas | `@guess-logo/shared/types/games/[game-name].schema` |
-| Game definition factory | `@guess-logo/game-core` |
-| HttpClient interface | `@guess-logo/game-core/contracts/http-client` |
-| Hono HTTP client adapter | `@guess-logo/game-core/adapters` |
-| Type-safe API client | `@guess-logo/api-client` |
-| API router types | `@guess-logo/api-contracts` |
-| Game-specific hooks | `@guess-logo/[game-name]/hooks` |
+| Game state/action schemas | `@playgrid/shared/types/games/[game-name].schema` |
+| Game definition factory | `@playgrid/game-core` |
+| HttpClient interface | `@playgrid/game-core/contracts/http-client` |
+| Hono HTTP client adapter | `@playgrid/game-core/adapters` |
+| Type-safe API client | `@playgrid/api-client` |
+| API router types | `@playgrid/api-contracts` |
+| Game-specific hooks | `@playgrid/[game-name]/hooks` |
 
 ## File Structure Template
 
@@ -769,7 +769,7 @@ export function fiveSecondsGameReducer(
 pnpm build
 
 # Build specific package
-pnpm --filter @guess-logo/my-game build
+pnpm --filter @playgrid/my-game build
 
 # Type check
 pnpm check-types

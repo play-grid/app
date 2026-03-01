@@ -1,11 +1,11 @@
-import type { LogoContent, LogoSetKey } from '@guess-logo/guess-logo';
-import type { SupportedLanguage } from '@guess-logo/shared/types';
+import type { LogoContent, LogoSetKey } from '@playgrid/guess-logo';
+import type { SupportedLanguage } from '@playgrid/shared/types';
 import type {
   GetLogoListsRoute,
   GetLogosBySetAndListRoute,
 } from './logos.routes';
 import type { AppRouteHandler } from '@/lib/types';
-import { shuffleArray } from '@guess-logo/shared/utils';
+import { shuffleArray } from '@playgrid/shared/utils';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import { logger } from '@/utils/logger';
 import { getLogoListsMetadata } from './data/metadata';

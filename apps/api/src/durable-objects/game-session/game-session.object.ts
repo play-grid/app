@@ -4,7 +4,7 @@ import {
   createGameEffectHandlers,
   getGameDefinition,
   isGameRegistered,
-} from '@guess-logo/game-core';
+} from '@playgrid/game-core';
 import { DurableObject } from 'cloudflare:workers';
 import { ZodError } from 'zod';
 import { logger } from '@/utils/logger';

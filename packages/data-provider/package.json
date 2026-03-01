@@ -1,5 +1,5 @@
 {
-  "name": "@guess-logo/data-provider",
+  "name": "@playgrid/data-provider",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -37,7 +37,7 @@
     "test:integration": "vitest run --exclude \"**/*.unit.test.ts\""
   },
   "dependencies": {
-    "@guess-logo/shared": "workspace:*",
+    "@playgrid/shared": "workspace:*",
     "zod": "catalog:",
     "drizzle-orm": "catalog:",
     "drizzle-zod": "catalog:",

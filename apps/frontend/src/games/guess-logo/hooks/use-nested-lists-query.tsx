@@ -1,4 +1,4 @@
-import type { LogoSetKey } from '@guess-logo/guess-logo';
+import type { LogoSetKey } from '@playgrid/guess-logo';
 import type { UseQueryOptions } from '@tanstack/react-query';
 import type { LogoListMetadata } from '../components/sports-list-selector';
 import { useQuery } from '@tanstack/react-query';

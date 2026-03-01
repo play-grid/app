@@ -2,8 +2,8 @@ import { Link } from 'react-router-dom';
 import styles from './nav.module.css';
 
 interface LogoProps {
-  to?: string;
-  className?: string;
+  'to'?: string;
+  'className'?: string;
   'aria-label'?: string;
 }
 
@@ -14,7 +14,8 @@ export function Logo({
 }: LogoProps) {
   return (
     <Link to={to} className={`${styles.logo} ${className || ''}`} aria-label={ariaLabel}>
-      Play<em>Grid</em>
+      Play
+      <em>Grid</em>
     </Link>
   );
 };

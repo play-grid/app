@@ -1,8 +1,8 @@
-import type { MoviePosterLogo } from '@guess-logo/guess-logo';
-import type { SupportedLanguage } from '@guess-logo/shared/types';
+import type { MoviePosterLogo } from '@playgrid/guess-logo';
+import type { SupportedLanguage } from '@playgrid/shared/types';
 import type { Context } from 'hono';
 import type { AppEnv } from '@/lib/types';
-import { LOGO_SET_TYPE_MAP } from '@guess-logo/guess-logo';
+import { LOGO_SET_TYPE_MAP } from '@playgrid/guess-logo';
 import { TMDB } from 'tmdb-ts';
 import { getEnv } from '@/lib/context-manager';
 import { logger } from '@/utils/logger';

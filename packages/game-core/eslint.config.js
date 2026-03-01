@@ -1,3 +1,3 @@
-import base from '@guess-logo/eslint-config';
+import base from '@playgrid/eslint-config';
 
 export default base;

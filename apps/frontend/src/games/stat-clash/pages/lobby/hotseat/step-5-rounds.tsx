@@ -1,4 +1,4 @@
-import { useStatClashState } from '@guess-logo/stat-clash';
+import { useStatClashState } from '@playgrid/stat-clash';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';

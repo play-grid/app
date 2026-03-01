@@ -1,4 +1,4 @@
-import { cn } from '@guess-logo/ui';
+import { cn } from '@playgrid/ui';
 import * as ProgressPrimitive from '@radix-ui/react-progress';
 import * as React from 'react';
 

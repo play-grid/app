@@ -1,5 +1,5 @@
 {
-  "name": "@guess-logo/guess-logo",
+  "name": "@playgrid/guess-logo",
   "version": "0.0.1",
   "private": true,
   "type": "module",
@@ -11,8 +11,8 @@
     ".": "./dist/index.js"
   },
   "dependencies": {
-    "@guess-logo/game-core": "workspace:*",
-    "@guess-logo/shared": "workspace:*",
+    "@playgrid/game-core": "workspace:*",
+    "@playgrid/shared": "workspace:*",
     "react": "catalog:react19",
     "immer": "catalog:",
     "zod": "catalog:"

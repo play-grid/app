@@ -1,6 +1,6 @@
-// TODO: split this this is a game-specific routes file
-import { ListMetadataSchema, LogoQuerySchema, SportsLogoSchema } from '@guess-logo/guess-logo';
 import { createRoute, z } from '@hono/zod-openapi';
+// TODO: split this this is a game-specific routes file
+import { ListMetadataSchema, LogoQuerySchema, SportsLogoSchema } from '@playgrid/guess-logo';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import { jsonContent } from 'stoker/openapi/helpers';
 

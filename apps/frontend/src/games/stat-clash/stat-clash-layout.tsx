@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
-import { AdapterProvider } from '@guess-logo/game-core';
-import { statClashGame } from '@guess-logo/stat-clash';
+import { AdapterProvider } from '@playgrid/game-core';
+import { statClashGame } from '@playgrid/stat-clash';
 import { useMemo } from 'react';
 import { Outlet } from 'react-router-dom';
 import { useRoomSession } from '@/features/room/room-store';

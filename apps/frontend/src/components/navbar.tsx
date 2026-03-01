@@ -11,7 +11,6 @@ import {
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { Logo } from '@/features/landing/components/logo';
 import { cn } from '@/lib/utils';
-import { Badge } from './ui/badge';
 
 // Hamburger icon component
 function HamburgerIcon({ className, ...props }: React.SVGAttributes<SVGElement>) {

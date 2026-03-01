@@ -1,4 +1,4 @@
-import { localeRecordSchema } from '@guess-logo/shared/schemas';
+import { localeRecordSchema } from '@playgrid/shared/schemas';
 import z from 'zod';
 
 // Logos it self

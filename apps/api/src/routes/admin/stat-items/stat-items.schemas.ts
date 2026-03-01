@@ -1,4 +1,4 @@
-import { statItemInsertSchema, statItemSelectSchema } from '@guess-logo/data-pipeline';
+import { statItemInsertSchema, statItemSelectSchema } from '@playgrid/data-pipeline';
 import { z } from 'zod';
 import { adminListQuerySchema, paginationSchema } from '../shared-schemas';
 

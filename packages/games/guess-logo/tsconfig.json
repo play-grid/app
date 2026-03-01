@@ -8,7 +8,7 @@
     "resolveJsonModule": true,
     "baseUrl": ".",
     "paths": {
-      "@guess-logo/api/routes": ["../../apps/api/src/routes/index.ts"]
+      "@playgrid/api/routes": ["../../apps/api/src/routes/index.ts"]
     }
   },
   "include": ["src/**/*", "index.ts", "**/*.json"]

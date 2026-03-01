@@ -1,4 +1,4 @@
-import type { Room } from '@guess-logo/shared/schemas';
+import type { Room } from '@playgrid/shared/schemas';
 import type {
   CreateRoomResponse,
   GenerateInviteResponse,

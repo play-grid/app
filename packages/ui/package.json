@@ -1,5 +1,5 @@
 {
-  "name": "@guess-logo/ui",
+  "name": "@playgrid/ui",
   "private": true,
   "type": "module",
   "exports": {
@@ -60,7 +60,7 @@
     "next-themes": "catalog:frontend"
   },
   "devDependencies": {
-    "@guess-logo/eslint-config": "workspace:*",
+    "@playgrid/eslint-config": "workspace:*",
     "@types/react": "catalog:react19",
     "eslint": "catalog:",
     "react": "catalog:react19",

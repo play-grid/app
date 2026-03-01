@@ -1,5 +1,5 @@
 {
-  "name": "@guess-logo/game-core",
+  "name": "@playgrid/game-core",
   "type": "module",
   "version": "0.2.0",
   "private": true,
@@ -51,8 +51,8 @@
     }
   },
   "dependencies": {
-    "@guess-logo/eslint-config": "workspace:*",
-    "@guess-logo/shared": "workspace:*",
+    "@playgrid/eslint-config": "workspace:*",
+    "@playgrid/shared": "workspace:*",
     "immer": "catalog:",
     "partysocket": "^1.1.6",
     "zod": "catalog:",
@@ -62,7 +62,7 @@
     "react": "catalog:react19"
   },
   "devDependencies": {
-    "@guess-logo/logger": "workspace:*",
+    "@playgrid/logger": "workspace:*",
     "@types/node": "catalog:",
     "@types/react": "catalog:react19",
     "typescript": "catalog:",

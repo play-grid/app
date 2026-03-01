@@ -181,7 +181,7 @@ export class GameSessionObject extends DurableObject<AppEnv['Bindings']> {
 ```typescript
 // packages/games/five-seconds/src/logic/sub-phases.ts
 
-import type { SubPhaseConfig } from '@guess-logo/game-core';
+import type { SubPhaseConfig } from '@playgrid/game-core';
 import type { FiveSecondsGameState } from './schema';
 
 export const fiveSecondsSubPhases: SubPhaseConfig<FiveSecondsGameState> = {
@@ -211,8 +211,8 @@ export const fiveSecondsSubPhases: SubPhaseConfig<FiveSecondsGameState> = {
 ```typescript
 // packages/games/five-seconds/src/definition.ts
 
-import { createGameDefinition, registerGame } from '@guess-logo/game-core';
-import { createSubPhaseTimerEffect } from '@guess-logo/game-core';
+import { createGameDefinition, registerGame } from '@playgrid/game-core';
+import { createSubPhaseTimerEffect } from '@playgrid/game-core';
 import { fiveSecondsSubPhases } from './logic/sub-phases';
 
 export const fiveSecondsGame = createGameDefinition({

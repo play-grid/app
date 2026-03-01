@@ -1,4 +1,4 @@
-import { createGameDefinition, registerGame } from '@guess-logo/game-core';
+import { createGameDefinition, registerGame } from '@playgrid/game-core';
 import { createStatClashEffects } from './logic/effect-handlers';
 import { createInitialState } from './logic/initial-state';
 import { statClashReducer } from './logic/reducer';

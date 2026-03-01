@@ -1,4 +1,4 @@
-import type { SupportedLanguage } from '@guess-logo/shared/types';
+import type { SupportedLanguage } from '@playgrid/shared/types';
 import { TMDB } from 'tmdb-ts';
 import { getEnv } from '@/lib/context-manager';
 import { logger } from '@/utils/logger';

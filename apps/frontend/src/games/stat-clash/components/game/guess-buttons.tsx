@@ -1,4 +1,4 @@
-import type { GuessDirection } from '@guess-logo/stat-clash';
+import type { GuessDirection } from '@playgrid/stat-clash';
 import { ArrowBigLeft, ArrowBigRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '../ui/button';

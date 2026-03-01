@@ -1,4 +1,4 @@
-import { createGameDefinition, registerGame } from '@guess-logo/game-core';
+import { createGameDefinition, registerGame } from '@playgrid/game-core';
 import { guessLogoGameReducer } from './logic/reducer';
 import { GuessLogoActionSchema, GuessLogoGameStateSchema } from './logic/schema';
 

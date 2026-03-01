@@ -1,3 +1,3 @@
-import createConfig from '@guess-logo/eslint-config/create-config';
+import createConfig from '@playgrid/eslint-config/create-config';
 
 export default await createConfig({ react: true });

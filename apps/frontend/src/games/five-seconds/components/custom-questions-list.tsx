@@ -1,4 +1,4 @@
-import { TrashIcon } from '@guess-logo/ui/icons';
+import { TrashIcon } from '@playgrid/ui/icons';
 import { useTranslation } from 'react-i18next';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useCustomQuestionsStore } from '../stores/custom-questions-store';

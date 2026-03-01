@@ -1,6 +1,6 @@
-import { cn } from '@guess-logo/ui';
+import { cn } from '@playgrid/ui';
 
-import { Progress as ProgressPrimitive } from '@guess-logo/ui/progress';
+import { Progress as ProgressPrimitive } from '@playgrid/ui/progress';
 import * as React from 'react';
 
 export function Progress({

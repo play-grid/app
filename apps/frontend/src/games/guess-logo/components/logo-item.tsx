@@ -1,5 +1,5 @@
-import type { LogoItem } from '@guess-logo/shared/types';
-import { containsArabic } from '@guess-logo/shared/utils';
+import type { LogoItem } from '@playgrid/shared/types';
+import { containsArabic } from '@playgrid/shared/utils';
 import { Trophy, X } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';

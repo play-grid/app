@@ -97,7 +97,7 @@
   font-size: clamp(52px, 6vw, 118px);
   font-weight: 800;
   line-height: 0.88;
-  max-width: clamp(300px,700px,850px);
+  max-width: clamp(300px, 700px, 850px);
   /* letter-spacing: 4em; */
   line-height: 1.2;
   margin-bottom: 36px;

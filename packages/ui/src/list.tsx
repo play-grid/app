@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { cn } from '@guess-logo/ui';
+import { cn } from '@playgrid/ui';
 
 export interface ListGroupProps {
   children: ReactNode;

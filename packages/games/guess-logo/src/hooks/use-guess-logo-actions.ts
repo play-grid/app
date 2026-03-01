@@ -1,6 +1,6 @@
 import type { LogoContent } from '../base.schema';
 import type { GuessLogoAction } from '../logic';
-import { useDispatch, useGameActions } from '@guess-logo/game-core';
+import { useDispatch, useGameActions } from '@playgrid/game-core';
 import { useCallback } from 'react';
 
 export function useGuessLogoActions() {

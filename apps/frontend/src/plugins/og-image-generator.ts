@@ -2,7 +2,7 @@
 import type { Plugin } from 'vite';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { generateOGImages } from '@guess-logo/image-generator/generate';
+import { generateOGImages } from '@playgrid/image-generator/generate';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

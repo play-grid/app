@@ -101,7 +101,8 @@ export default function LandingPage() {
     if (appState === 'player') {
       handleSwitchPath();
       setTimeout(() => handleChoose('creator'), 400);
-    } else {
+    }
+    else {
       handleChoose('creator');
     }
   }, [appState, handleChoose, handleSwitchPath]);

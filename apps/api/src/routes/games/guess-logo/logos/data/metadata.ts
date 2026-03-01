@@ -1,4 +1,4 @@
-import type { ListMetadata, LogoSetKey } from '@guess-logo/guess-logo';
+import type { ListMetadata, LogoSetKey } from '@playgrid/guess-logo';
 
 const METADATA: Record<LogoSetKey, ListMetadata[]> = {
   companies: [

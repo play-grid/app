@@ -94,7 +94,7 @@ export {
   type Difficulty,
   type DBDifficulty,
   type Question,
-} from '@guess-logo/shared';
+} from '@playgrid/shared';
 
 // Add game-specific extensions
 export const questionWithCategorySchema = baseQuestionSchema.extend({
@@ -110,7 +110,7 @@ export type QuestionWithCategory = z.infer<typeof questionWithCategorySchema>;
 **Edit:** `apps/api/src/routes/games/five-seconds/questions/questions.schemas.ts`
 
 ```typescript
-import { baseQuestionSchema } from '@guess-logo/shared'; // Changed from @guess-logo/five-seconds
+import { baseQuestionSchema } from '@playgrid/shared'; // Changed from @playgrid/five-seconds
 import { z } from 'zod';
 
 // Rest of file unchanged
@@ -120,7 +120,7 @@ import { z } from 'zod';
 
 ```typescript
 import type { z } from 'zod';
-import { categoryBaseSchema } from '@guess-logo/shared'; // Changed from @guess-logo/five-seconds
+import { categoryBaseSchema } from '@playgrid/shared'; // Changed from @playgrid/five-seconds
 
 export const gameCategorySchema = categoryBaseSchema.describe('Game Category');
 
@@ -129,7 +129,7 @@ export type GameCategory = z.infer<typeof gameCategorySchema>;
 
 ### Step 1.7: Update Guess Logo Schemas
 
-Follow same pattern for any schemas in `@guess-logo/guess-logo` that API imports.
+Follow same pattern for any schemas in `@playgrid/guess-logo` that API imports.
 
 ---
 
@@ -149,7 +149,7 @@ pnpm init
 
 ```json
 {
-  "name": "@guess-logo/api-contracts",
+  "name": "@playgrid/api-contracts",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -189,13 +189,13 @@ pnpm init
 
 ```typescript
 // Import from COMPILED API output, not source!
-import type { router } from '@guess-logo/api/routes';
+import type { router } from '@playgrid/api/routes';
 
 // Re-export the router type
 export type RouterType = typeof router;
 ```
 
-**Important:** This imports from `@guess-logo/api`'s compiled output via its `package.json` exports:
+**Important:** This imports from `@playgrid/api`'s compiled output via its `package.json` exports:
 ```json
 "exports": {
   "./routes": {
@@ -210,7 +210,7 @@ export type RouterType = typeof router;
 **Edit:** `packages/api-client/index.ts`
 
 ```typescript
-import type { RouterType } from '@guess-logo/api-contracts';
+import type { RouterType } from '@playgrid/api-contracts';
 import { hc } from 'hono/client';
 
 export type Client = ReturnType<typeof hc<RouterType>>;
@@ -228,7 +228,7 @@ export default hcWithType;
 
 ```json
 {
-  "name": "@guess-logo/api-client",
+  "name": "@playgrid/api-client",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -236,7 +236,7 @@ export default hcWithType;
     ".": "./index.ts"
   },
   "dependencies": {
-    "@guess-logo/api-contracts": "workspace:*"
+    "@playgrid/api-contracts": "workspace:*"
   },
   "peerDependencies": {
     "hono": "catalog:"
@@ -265,7 +265,7 @@ export default hcWithType;
 ```json
 {
   "scripts": {
-    "build": "pnpm --filter @guess-logo/shared build && pnpm --filter @guess-logo/api-contracts build && pnpm --filter @guess-logo/api build && turbo run build --filter='!@guess-logo/shared' --filter='!@guess-logo/api-contracts' --filter='!@guess-logo/api'"
+    "build": "pnpm --filter @playgrid/shared build && pnpm --filter @playgrid/api-contracts build && pnpm --filter @playgrid/api build && turbo run build --filter='!@playgrid/shared' --filter='!@playgrid/api-contracts' --filter='!@playgrid/api'"
   }
 }
 ```
@@ -349,16 +349,16 @@ export function createGameEffectHandlers(
 ```json
 {
   "dependencies": {
-    "@guess-logo/game-core": "workspace:*",
-    "@guess-logo/logger": "workspace:*",
-    "@guess-logo/shared": "workspace:*",
+    "@playgrid/game-core": "workspace:*",
+    "@playgrid/logger": "workspace:*",
+    "@playgrid/shared": "workspace:*",
     "react": "catalog:react19",
     "immer": "catalog:",
     "zod": "catalog:",
     "hono": "catalog:"
   },
   "peerDependencies": {
-    // REMOVE: "@guess-logo/api-client": "workspace:*"
+    // REMOVE: "@playgrid/api-client": "workspace:*"
   },
   "devDependencies": {
     "@types/react": "catalog:react19",
@@ -372,8 +372,8 @@ export function createGameEffectHandlers(
 **Edit:** `packages/games/five-seconds/src/logic/effect-handlers.ts`
 
 ```typescript
-import type { GameEffect, GameEffectContext } from '@guess-logo/game-core';
-import type { HttpClient } from '@guess-logo/game-core/contracts/http-client'; // Import interface
+import type { GameEffect, GameEffectContext } from '@playgrid/game-core';
+import type { HttpClient } from '@playgrid/game-core/contracts/http-client'; // Import interface
 import type {
   FetchQuestionsErrorAction,
   FiveSecondsAction,
@@ -385,7 +385,7 @@ import type {
 } from './schema';
 import { logger } from '../logger';
 
-// REMOVE: import hcWithType from '@guess-logo/api-client';
+// REMOVE: import hcWithType from '@playgrid/api-client';
 
 function getQuestionsNeeded(state: FiveSecondsGameState): number {
   const currentBuffered = state.questions.length;
@@ -636,7 +636,7 @@ export function createFiveSecondsEffects(
 **Edit:** `packages/games/five-seconds/src/definition.ts`
 
 ```typescript
-import { createGameDefinition, registerGame, type HttpClient } from '@guess-logo/game-core';
+import { createGameDefinition, registerGame, type HttpClient } from '@playgrid/game-core';
 import { createFiveSecondsEffects } from './logic/effect-handlers';
 import { fiveSecondsGameReducer } from './logic/reducer';
 import { FiveSecondsActionSchema, FiveSecondsGameStateSchema } from './logic/schema';
@@ -735,9 +735,9 @@ export * from './hono-http-client';
 **Edit:** `apps/api/src/durable-objects/game-session/game-session.object.ts`
 
 ```typescript
-import { createGameEffectHandlers } from '@guess-logo/game-core';
-import hcWithType from '@guess-logo/api-client';
-import { createHonoHttpClient } from '@guess-logo/game-core/adapters';
+import { createGameEffectHandlers } from '@playgrid/game-core';
+import hcWithType from '@playgrid/api-client';
+import { createHonoHttpClient } from '@playgrid/game-core/adapters';
 
 // ...
 
@@ -758,9 +758,9 @@ const effectHandlers = createGameEffectHandlers(
 **Edit:** `apps/frontend/src/games/five-seconds/hooks/use-five-seconds-actions.ts` (or similar)
 
 ```typescript
-import hcWithType from '@guess-logo/api-client';
-import { createHonoHttpClient } from '@guess-logo/game-core/adapters';
-import { createGameEffectHandlers } from '@guess-logo/game-core';
+import hcWithType from '@playgrid/api-client';
+import { createHonoHttpClient } from '@playgrid/game-core/adapters';
+import { createGameEffectHandlers } from '@playgrid/game-core';
 
 // In your hook:
 const honoClient = hcWithType(apiUrl);
@@ -809,7 +809,7 @@ const effectHandlers = createGameEffectHandlers(
 ### Step 4.3: Verify No Other Path Mappings to Source
 
 ```bash
-grep -r "@guess-logo/api" packages/*/tsconfig.json
+grep -r "@playgrid/api" packages/*/tsconfig.json
 ```
 
 Ensure no results point to source files.

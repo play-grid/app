@@ -25,7 +25,7 @@ export function createFetchStatItemsEffect(
 }
 
 // ❌ WRONG (Five Seconds anti-pattern — do not repeat):
-import hcWithType from '@guess-logo/api-client'; // circular!
+import hcWithType from '@playgrid/api-client'; // circular!
 ```
 
 ### Decision 2: Explicit Command Pattern (State ≠ Intent)
@@ -102,9 +102,9 @@ packages/games/stat-clash/
 ```
 
 **Dependency rules (enforced):**
-- ✅ May import from `@guess-logo/game-core`
+- ✅ May import from `@playgrid/game-core`
 - ✅ May import from `zod`, `immer`
-- ❌ Must NOT import from `@guess-logo/api-client`
+- ❌ Must NOT import from `@playgrid/api-client`
 - ❌ Must NOT import from `apps/api`
 - ❌ Must NOT path-map to any source file outside this package
 

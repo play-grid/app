@@ -61,9 +61,9 @@ interface GameAdapter {
 ### Frontend
 ```bash
 pnpm install
-pnpm --filter @guess-logo/frontend dev
-pnpm --filter @guess-logo/frontend build
-pnpm --filter @guess-logo/frontend lint:fix
+pnpm --filter @playgrid/frontend dev
+pnpm --filter @playgrid/frontend build
+pnpm --filter @playgrid/frontend lint:fix
 ```
 
 ### Backend

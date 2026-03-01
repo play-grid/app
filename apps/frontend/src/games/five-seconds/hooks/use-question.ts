@@ -1,6 +1,6 @@
-import type { FiveSecondsAction } from '@guess-logo/five-seconds';
-import { useFiveSecondsActions, useFiveSecondsState } from '@guess-logo/five-seconds';
-import { useDispatch } from '@guess-logo/game-core';
+import type { FiveSecondsAction } from '@playgrid/five-seconds';
+import { useFiveSecondsActions, useFiveSecondsState } from '@playgrid/five-seconds';
+import { useDispatch } from '@playgrid/game-core';
 import { useCallback, useEffect } from 'react';
 import { useCustomQuestionsStore } from '../stores/custom-questions-store';
 import { normalizeDifficulty } from '../utils/difficulty-utils';

@@ -1,4 +1,4 @@
-import { cn } from '@guess-logo/ui';
+import { cn } from '@playgrid/ui';
 import * as TooltipPrimitive from '@radix-ui/react-tooltip';
 
 import * as React from 'react';

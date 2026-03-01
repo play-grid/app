@@ -1,5 +1,5 @@
-import type { LogoSetKey } from '@guess-logo/guess-logo';
-import type { SupportedLanguage } from '@guess-logo/shared/types';
+import type { LogoSetKey } from '@playgrid/guess-logo';
+import type { SupportedLanguage } from '@playgrid/shared/types';
 import type { Context } from 'hono';
 import type { AppEnv } from '@/lib/types';
 import { fetchCompaniesFromDB } from './companies/fetchers-from-db';

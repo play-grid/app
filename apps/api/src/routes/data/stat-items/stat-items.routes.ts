@@ -1,5 +1,5 @@
-import { gameStatItemSchema } from '@guess-logo/data-pipeline';
 import { createRoute, z } from '@hono/zod-openapi';
+import { gameStatItemSchema } from '@playgrid/data-pipeline';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import { jsonContent } from 'stoker/openapi/helpers';
 

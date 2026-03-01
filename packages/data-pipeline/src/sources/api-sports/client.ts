@@ -1,5 +1,5 @@
 import type { APISportsPlayer, APISportsStanding } from './types';
-import { ExternalAPIBase } from '@guess-logo/data-provider/fetchers';
+import { ExternalAPIBase } from '@playgrid/data-provider/fetchers';
 
 export class APISportsClient extends ExternalAPIBase {
   protected buildHeaders(inputHeaders?: HeadersInit): Headers {

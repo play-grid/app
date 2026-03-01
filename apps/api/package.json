@@ -1,5 +1,5 @@
 {
-  "name": "@guess-logo/api",
+  "name": "@playgrid/api",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -49,13 +49,13 @@
     }
   },
   "dependencies": {
-    "@guess-logo/data-pipeline": "workspace:*",
-    "@guess-logo/data-provider": "workspace:*",
-    "@guess-logo/five-seconds": "workspace:*",
-    "@guess-logo/game-core": "workspace:*",
-    "@guess-logo/guess-logo": "workspace:*",
-    "@guess-logo/shared": "workspace:*",
-    "@guess-logo/stat-clash": "workspace:*",
+    "@playgrid/data-pipeline": "workspace:*",
+    "@playgrid/data-provider": "workspace:*",
+    "@playgrid/five-seconds": "workspace:*",
+    "@playgrid/game-core": "workspace:*",
+    "@playgrid/guess-logo": "workspace:*",
+    "@playgrid/shared": "workspace:*",
+    "@playgrid/stat-clash": "workspace:*",
     "@hono/zod-openapi": "^1.1.0",
     "@paralleldrive/cuid2": "^3.0.4",
     "@scalar/hono-api-reference": "^0.9.16",
@@ -76,8 +76,8 @@
   "devDependencies": {
     "@cloudflare/vitest-pool-workers": "^0.10.5",
     "@cloudflare/workers-types": "^4.20251107.0",
-    "@guess-logo/eslint-config": "workspace:*",
-    "@guess-logo/logger": "workspace:*",
+    "@playgrid/eslint-config": "workspace:*",
+    "@playgrid/logger": "workspace:*",
     "@types/better-sqlite3": "^7.6.13",
     "@types/node": "catalog:",
     "better-sqlite3": "^12.4.1",

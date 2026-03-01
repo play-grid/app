@@ -1,4 +1,4 @@
-import type { BaseAction, BaseGameState, GameDefinition } from '@guess-logo/game-core';
+import type { BaseAction, BaseGameState, GameDefinition } from '@playgrid/game-core';
 import type z from 'zod';
 
 import { createGameAdapter } from './create-game-adapter';

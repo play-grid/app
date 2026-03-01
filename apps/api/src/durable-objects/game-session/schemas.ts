@@ -1,4 +1,4 @@
-import { PlayerSchema } from '@guess-logo/game-core';
+import { PlayerSchema } from '@playgrid/game-core';
 import { z } from 'zod';
 
 // REQUEST SCHEMAS (Input to DO endpoints)

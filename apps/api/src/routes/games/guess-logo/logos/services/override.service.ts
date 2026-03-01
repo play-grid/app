@@ -1,4 +1,4 @@
-import type { LogoContent } from '@guess-logo/guess-logo';
+import type { LogoContent } from '@playgrid/guess-logo';
 import { getEnv } from '@/lib/context-manager';
 
 export interface LogoOverrideSets {
@@ -43,6 +43,6 @@ export async function getLogoOverrides(): Promise<LogoOverrides> {
   }
 
   // Fallback to imported overrides
-  const { logoOverrides } = await import('@guess-logo/guess-logo');
+  const { logoOverrides } = await import('@playgrid/guess-logo');
   return logoOverrides as LogoOverrides;
 }

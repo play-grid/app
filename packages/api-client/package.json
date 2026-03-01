@@ -1,5 +1,5 @@
 {
-  "name": "@guess-logo/api-client",
+  "name": "@playgrid/api-client",
   "type": "module",
   "version": "0.1.0",
   "private": true,
@@ -7,7 +7,7 @@
     ".": "./src/index.ts"
   },
   "dependencies": {
-    "@guess-logo/api-contracts": "workspace:*"
+    "@playgrid/api-contracts": "workspace:*"
   },
   "peerDependencies": {
     "hono": "catalog:"

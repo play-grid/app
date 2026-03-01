@@ -12,14 +12,14 @@
 ├─────────────────────────────────────────────────────────────────────┤
 │                                                                      │
 │  ┌──────────────────┐    ┌──────────────────┐    ┌───────────────┐ │
-│  │   @guess-logo/   │    │   @guess-logo/   │    │    admin      │ │
+│  │   @playgrid/   │    │   @playgrid/   │    │    admin      │ │
 │  │    frontend      │    │      api         │    │               │ │
 │  └────────┬─────────┘    └────────┬─────────┘    └───────┬───────┘ │
 │           │                       │                      │         │
 │           │ imports               │ imports              │ imports │
 │           ▼                       ▼                      ▼         │
 │  ┌──────────────────┐    ┌──────────────────┐    ┌───────────────┐ │
-│  │ @guess-logo/     │    │ @guess-logo/     │    │ @guess-logo/  │ │
+│  │ @playgrid/     │    │ @playgrid/     │    │ @playgrid/  │ │
 │  │  api-client      │    │  api-contracts   │    │  api-client   │ │
 │  └──────────────────┘    └──────────────────┘    └───────────────┘ │
 │                                                                      │
@@ -52,7 +52,7 @@
 │  ├─────────────────────────────────────────────────────────────┤   │
 │  │                                                               │   │
 │  │  ┌──────────────────┐    ┌──────────────────┐                │   │
-│  │  │  @guess-logo/    │    │  @guess-logo/    │                │   │
+│  │  │  @playgrid/    │    │  @playgrid/    │                │   │
 │  │  │   five-seconds   │    │   guess-logo     │                │   │
 │  │  │                  │    │                  │                │   │
 │  │  │ - logic/         │    │ - logic/         │                │   │
@@ -67,7 +67,7 @@
 │  ├─────────────────────────────────────────────────────────────┤   │
 │  │                                                               │   │
 │  │  ┌──────────────────┐    ┌──────────────────┐                │   │
-│  │  │ @guess-logo/     │    │ @guess-logo/     │                │   │
+│  │  │ @playgrid/     │    │ @playgrid/     │                │   │
 │  │  │       ui         │    │     logger       │                │   │
 │  │  └──────────────────┘    └──────────────────┘                │   │
 │  │                                                               │   │
@@ -102,8 +102,8 @@ Games → game-core (uses contracts/adapters)
 
 | Package | Purpose | Dependencies |
 |---------|---------|--------------|
-| `@guess-logo/frontend` | React Vite app - game UI | All game packages, api-client, ui, shared |
-| `@guess-logo/api` | Hono backend on Cloudflare Workers | api-contracts, shared |
+| `@playgrid/frontend` | React Vite app - game UI | All game packages, api-client, ui, shared |
+| `@playgrid/api` | Hono backend on Cloudflare Workers | api-contracts, shared |
 | `admin` | Admin panel for content management | api-client |
 
 ### Packages Layer
@@ -112,23 +112,23 @@ Games → game-core (uses contracts/adapters)
 
 | Package | Purpose | Dependencies |
 |---------|---------|--------------|
-| `@guess-logo/shared` | Shared types, schemas, utilities | None (pure) |
-| `@guess-logo/game-core` | Game contracts, adapters, state management | shared |
-| `@guess-logo/api-contracts` | API router types | @guess-logo/api (after build) |
+| `@playgrid/shared` | Shared types, schemas, utilities | None (pure) |
+| `@playgrid/game-core` | Game contracts, adapters, state management | shared |
+| `@playgrid/api-contracts` | API router types | @playgrid/api (after build) |
 
 #### Game Implementations
 
 | Package | Purpose | Dependencies |
 |---------|---------|--------------|
-| `@guess-logo/five-seconds` | Five Seconds Q&A game | game-core, shared |
-| `@guess-logo/guess-logo` | Guess the Logo game | game-core, shared |
+| `@playgrid/five-seconds` | Five Seconds Q&A game | game-core, shared |
+| `@playgrid/guess-logo` | Guess the Logo game | game-core, shared |
 
 #### UI & Utilities
 
 | Package | Purpose | Dependencies |
 |---------|---------|--------------|
-| `@guess-logo/ui` | Shared UI components | None |
-| `@guess-logo/logger` | Pino logging | None |
+| `@playgrid/ui` | Shared UI components | None |
+| `@playgrid/logger` | Pino logging | None |
 
 ## Key Architectural Patterns
 
@@ -137,7 +137,7 @@ Games → game-core (uses contracts/adapters)
 **Before:** API imports from game packages
 ```typescript
 // apps/api/src/routes/games/five-seconds/questions/questions.schemas.ts
-import { baseQuestionSchema } from '@guess-logo/five-seconds'; // ❌ Wrong direction
+import { baseQuestionSchema } from '@playgrid/five-seconds'; // ❌ Wrong direction
 ```
 
 **After:** Both import from shared
@@ -146,10 +146,10 @@ import { baseQuestionSchema } from '@guess-logo/five-seconds'; // ❌ Wrong dire
 export const baseQuestionSchema = z.object({ ... });
 
 // apps/api/src/routes/games/five-seconds/questions/questions.schemas.ts
-import { baseQuestionSchema } from '@guess-logo/shared'; // ✅
+import { baseQuestionSchema } from '@playgrid/shared'; // ✅
 
 // packages/games/five-seconds/src/schema.ts
-export { baseQuestionSchema } from '@guess-logo/shared'; // ✅ Re-export
+export { baseQuestionSchema } from '@playgrid/shared'; // ✅ Re-export
 ```
 
 ### 2. Contract Pattern
@@ -157,13 +157,13 @@ export { baseQuestionSchema } from '@guess-logo/shared'; // ✅ Re-export
 **Before:** api-client imports from source
 ```typescript
 // packages/api-client/index.ts
-import type { router } from '@guess-logo/api/routes'; // ❌ Points to source
+import type { router } from '@playgrid/api/routes'; // ❌ Points to source
 ```
 
 **After:** api-client imports from contracts package
 ```typescript
 // packages/api-contracts/src/index.ts
-import type { router } from '@guess-logo/api/routes'; // Imports compiled output
+import type { router } from '@playgrid/api/routes'; // Imports compiled output
 export type RouterType = typeof router;
 
 // packages/api-contracts/tsconfig.json
@@ -175,7 +175,7 @@ export type RouterType = typeof router;
 }
 
 // packages/api-client/index.ts
-import type { RouterType } from '@guess-logo/api-contracts'; // ✅
+import type { RouterType } from '@playgrid/api-contracts'; // ✅
 ```
 
 ### 3. Dependency Injection Pattern
@@ -183,7 +183,7 @@ import type { RouterType } from '@guess-logo/api-contracts'; // ✅
 **Before:** Games create HTTP clients
 ```typescript
 // packages/games/five-seconds/src/logic/effect-handlers.ts
-import hcWithType from '@guess-logo/api-client'; // ❌ Game imports infrastructure
+import hcWithType from '@playgrid/api-client'; // ❌ Game imports infrastructure
 
 export function createFetchQuestionsEffect(apiUrl: string): GameEffect {
   const client = hcWithType(apiUrl);
@@ -200,7 +200,7 @@ export interface HttpClient {
 }
 
 // packages/games/five-seconds/src/logic/effect-handlers.ts
-import type { HttpClient } from '@guess-logo/game-core/contracts/http-client';
+import type { HttpClient } from '@playgrid/game-core/contracts/http-client';
 
 export function createFetchQuestionsEffect(
   httpClient: HttpClient, // ✅ Injected
@@ -211,8 +211,8 @@ export function createFetchQuestionsEffect(
 }
 
 // apps/api/src/durable-objects/game-session/game-session.object.ts
-import hcWithType from '@guess-logo/api-client';
-import { createHonoHttpClient } from '@guess-logo/game-core/adapters';
+import hcWithType from '@playgrid/api-client';
+import { createHonoHttpClient } from '@playgrid/game-core/adapters';
 
 const honoClient = hcWithType(apiUrl);
 const httpClient = createHonoHttpClient(honoClient);
@@ -223,20 +223,20 @@ const effects = createGameEffectHandlers('five-seconds', httpClient, apiUrl, 'mu
 
 ```bash
 # Phase 1: Shared infrastructure (no dependencies)
-pnpm --filter @guess-logo/shared build
+pnpm --filter @playgrid/shared build
 
 # Phase 2: Game core (depends on shared)
-pnpm --filter @guess-logo/game-core build
+pnpm --filter @playgrid/game-core build
 
 # Phase 3: API (depends on shared, game packages)
-pnpm --filter @guess-logo/api build
+pnpm --filter @playgrid/api build
 
 # Phase 4: API contracts (depends on compiled API)
-pnpm --filter @guess-logo/api-contracts build
+pnpm --filter @playgrid/api-contracts build
 
 # Phase 5: Games (depends on shared, game-core)
-pnpm --filter @guess-logo/five-seconds build
-pnpm --filter @guess-logo/guess-logo build
+pnpm --filter @playgrid/five-seconds build
+pnpm --filter @playgrid/guess-logo build
 
 # Phase 6: Everything else (api-client, frontend, admin)
 turbo run build
@@ -379,7 +379,7 @@ The API and frontend are deployed together as a single Cloudflare Worker:
 1. Game packages: Effect handler factories now receive `HttpClient` parameter
 2. API: Must create `HttpClient` and inject into `createGameEffectHandlers`
 3. Frontend: Must create `HttpClient` and inject into game hooks
-4. API routes: Import schemas from `@guess-logo/shared` instead of game packages
+4. API routes: Import schemas from `@playgrid/shared` instead of game packages
 
 ### Migration Checklist
 - [ ] Update game effect handler signatures

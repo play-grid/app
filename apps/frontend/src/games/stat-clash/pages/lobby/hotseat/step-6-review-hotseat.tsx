@@ -1,4 +1,4 @@
-import { useStatClashState } from '@guess-logo/stat-clash';
+import { useStatClashState } from '@playgrid/stat-clash';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../../../components/ui/button';

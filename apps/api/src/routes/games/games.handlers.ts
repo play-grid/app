@@ -1,6 +1,6 @@
 import type { AppRouteHandler } from '../../lib/types';
 import type { ListGamesMetaRoute } from './games.routes';
-import { getGameDefinition, getRegisteredGameIds } from '@guess-logo/game-core';
+import { getGameDefinition, getRegisteredGameIds } from '@playgrid/game-core';
 
 export const listGamesHandler: AppRouteHandler<ListGamesMetaRoute> = (
   c,

@@ -1,5 +1,5 @@
 import type { ComponentProps } from 'react';
-import { Input as PrimitiveInput } from '@guess-logo/ui/input';
+import { Input as PrimitiveInput } from '@playgrid/ui/input';
 import { cn } from '@/lib/utils';
 
 export function Input({ className, ...props }: ComponentProps<typeof PrimitiveInput>) {

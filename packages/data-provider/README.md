@@ -1,4 +1,4 @@
-# @guess-logo/data-provider
+# @playgrid/data-provider
 
 A lightweight package providing reusable CRUD handlers and cached external data fetchers for Hono APIs with Drizzle ORM.
 
@@ -38,7 +38,7 @@ The original ADR (docs/decisions/005-data-provider-abstraction-layer.md) propose
 ### CRUD Handlers
 
 ```typescript
-import { createCRUDHandlers } from '@guess-logo/data-provider';
+import { createCRUDHandlers } from '@playgrid/data-provider';
 import { statItemsTable } from '@/db/schema';
 
 const handlers = createCRUDHandlers(statItemsTable, outputSchema, {
@@ -62,7 +62,7 @@ app.delete('/items/:id', handlers.delete);
 ### Status Transitions (Approve/Reject)
 
 ```typescript
-import { createStatusHandlers } from '@guess-logo/data-provider';
+import { createStatusHandlers } from '@playgrid/data-provider';
 
 const statusHandlers = createStatusHandlers({
   table: statItemsTable,
@@ -81,7 +81,7 @@ app.post('/items/bulk-approve', statusHandlers['bulk-approve']);
 ### Fetchers with Caching
 
 ```typescript
-import { createFetcherRegistry, createCachedFetcher } from '@guess-logo/data-provider';
+import { createFetcherRegistry, createCachedFetcher } from '@playgrid/data-provider';
 
 const registry = createFetcherRegistry<StatItem, 'stats'>({
   cacheNamespace: 'stats',
@@ -101,7 +101,7 @@ const data = await fetcher('en'); // Supports multi-language
 ### Admin Routes
 
 ```typescript
-import { createAdminRoutes } from '@guess-logo/data-provider';
+import { createAdminRoutes } from '@playgrid/data-provider';
 
 const adminRoutes = createAdminRoutes({
   handlers: crudHandlers,
@@ -139,7 +139,7 @@ src/
 - **zod** — Runtime validation
 - **stoker** — HTTP status codes
 - **hono** (peer) — Web framework for routes
-- **@guess-logo/shared** — Common types (SupportedLanguage)
+- **@playgrid/shared** — Common types (SupportedLanguage)
 
 ## Architecture
 
@@ -218,8 +218,8 @@ app.route('/admin/players', routes);
 ## Build/Test
 
 ```bash
-pnpm --filter @guess-logo/data-provider check-types  # Type check
-pnpm --filter @guess-logo/data-provider test         # Run all tests
-pnpm --filter @guess-logo/data-provider test:unit    # Unit tests only
-pnpm --filter @guess-logo/data-provider test:integration # Integration tests only
+pnpm --filter @playgrid/data-provider check-types  # Type check
+pnpm --filter @playgrid/data-provider test         # Run all tests
+pnpm --filter @playgrid/data-provider test:unit    # Unit tests only
+pnpm --filter @playgrid/data-provider test:integration # Integration tests only
 ```

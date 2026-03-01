@@ -1,5 +1,5 @@
-import type { StatClashGameState } from '@guess-logo/stat-clash';
-import { useStatClashState } from '@guess-logo/stat-clash';
+import type { StatClashGameState } from '@playgrid/stat-clash';
+import { useStatClashState } from '@playgrid/stat-clash';
 import BackButton from '@/components/back-button';
 import { GameOverScreen } from '../components/results/game-over-screen';
 import { useStatClashActions } from '../hooks/use-stat-clash-actions';

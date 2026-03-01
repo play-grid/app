@@ -1,4 +1,4 @@
-import type { ValidationContext, ValidationResult } from '@guess-logo/game-core';
+import type { ValidationContext, ValidationResult } from '@playgrid/game-core';
 import type { StatClashAction, StatClashGameState } from './schema';
 
 export function validateStatClashAction(

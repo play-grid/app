@@ -1,3 +1,3 @@
-import { createBaseLogger } from '@guess-logo/logger';
+import { createBaseLogger } from '@playgrid/logger';
 
 export const logger = createBaseLogger('five-seconds');

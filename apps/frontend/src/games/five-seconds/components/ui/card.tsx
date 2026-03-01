@@ -1,5 +1,5 @@
-import type { ExtractVariants } from '@guess-logo/ui/utils';
-import { cn } from '@guess-logo/ui';
+import type { ExtractVariants } from '@playgrid/ui/utils';
+import { cn } from '@playgrid/ui';
 import {
   Card as PrimitiveCard,
   CardAction as PrimitiveCardAction,
@@ -8,7 +8,7 @@ import {
   CardFooter as PrimitiveCardFooter,
   CardHeader as PrimitiveCardHeader,
   CardTitle as PrimitiveCardTitle,
-} from '@guess-logo/ui/card';
+} from '@playgrid/ui/card';
 
 import { cva } from 'class-variance-authority';
 import * as React from 'react';

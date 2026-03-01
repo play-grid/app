@@ -1,5 +1,5 @@
-import type { DBdifficulty } from '@guess-logo/five-seconds';
-import { difficultySchema } from '@guess-logo/five-seconds';
+import type { DBdifficulty } from '@playgrid/five-seconds';
+import { difficultySchema } from '@playgrid/five-seconds';
 import { X } from 'lucide-react';
 import { useState } from 'react';
 

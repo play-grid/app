@@ -1,3 +1,3 @@
-import type { router } from '@guess-logo/api/routes';
+import type { router } from '@playgrid/api/routes';
 
 export type RouterType = typeof router;

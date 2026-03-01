@@ -1,6 +1,6 @@
 // apps/api/src/durable-objects/game-session/game-session.manager.ts
 
-import type { BaseGameState, GameDefinition, GameEffect } from '@guess-logo/game-core';
+import type { BaseGameState, GameDefinition, GameEffect } from '@playgrid/game-core';
 import { ZodError } from 'zod';
 import { logger } from '@/utils/logger';
 

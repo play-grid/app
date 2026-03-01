@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import type z from 'zod';
-import { difficultySchema, fiveSecondsGame, FiveSecondsGameStateSchema } from '@guess-logo/five-seconds';
-import { AdapterProvider } from '@guess-logo/game-core';
+import { difficultySchema, fiveSecondsGame, FiveSecondsGameStateSchema } from '@playgrid/five-seconds';
+import { AdapterProvider } from '@playgrid/game-core';
 import { useMemo } from 'react';
 import { Outlet, useSearchParams } from 'react-router-dom';
 import { useRoomSession } from '@/features/room/room-store';

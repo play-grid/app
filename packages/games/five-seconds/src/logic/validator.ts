@@ -1,4 +1,4 @@
-import type { ValidationContext, ValidationResult } from '@guess-logo/game-core';
+import type { ValidationContext, ValidationResult } from '@playgrid/game-core';
 import type { FiveSecondsGameState } from './schema';
 import { ENABLE_CUSTOM_QUESTIONS_FEATURE } from '../definition';
 

@@ -1,4 +1,4 @@
-import { cn } from '@guess-logo/ui';
+import { cn } from '@playgrid/ui';
 
 import { Loader2Icon } from 'lucide-react';
 

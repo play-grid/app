@@ -2,7 +2,7 @@ import {
   BaseGameStateSchema,
   GameActionSchema,
   PlayerSchema,
-} from '@guess-logo/game-core';
+} from '@playgrid/game-core';
 import { z } from 'zod';
 import { baseQuestionSchema, difficultySchema } from '../schema';
 

@@ -36,17 +36,17 @@ api-client → api/routes (via path mapping to source) → api → five-seconds 
 ### Where This Occurs
 
 **Path Mappings to Source:**
-- `packages/api-client/tsconfig.json` maps `@guess-logo/api/routes` to `../../apps/api/src/routes/index.ts` (SOURCE)
-- `packages/games/five-seconds/tsconfig.json` maps `@guess-logo/api/routes` to same source file
-- `packages/games/guess-logo/tsconfig.json` maps `@guess-logo/api/routes` to same source file
+- `packages/api-client/tsconfig.json` maps `@playgrid/api/routes` to `../../apps/api/src/routes/index.ts` (SOURCE)
+- `packages/games/five-seconds/tsconfig.json` maps `@playgrid/api/routes` to same source file
+- `packages/games/guess-logo/tsconfig.json` maps `@playgrid/api/routes` to same source file
 
 **Peer Dependencies:**
-- `packages/games/five-seconds/package.json` has `@guess-logo/api-client` as peerDependency
+- `packages/games/five-seconds/package.json` has `@playgrid/api-client` as peerDependency
 - `packages/games/five-seconds/src/logic/effect-handlers.ts` imports from api-client
 
 **API Imports Games:**
-- `apps/api/src/routes/games/five-seconds/questions/questions.schemas.ts` imports from `@guess-logo/five-seconds`
-- `apps/api/src/routes/games/five-seconds/categories/categories.schemas.ts` imports from `@guess-logo/five-seconds`
+- `apps/api/src/routes/games/five-seconds/questions/questions.schemas.ts` imports from `@playgrid/five-seconds`
+- `apps/api/src/routes/games/five-seconds/categories/categories.schemas.ts` imports from `@playgrid/five-seconds`
 
 ### Related Documentation
 
@@ -67,7 +67,7 @@ Multiple TypeScript configuration files map imports to source files instead of c
 {
   "compilerOptions": {
     "paths": {
-      "@guess-logo/api/routes": ["../../apps/api/src/routes/index.ts"]
+      "@playgrid/api/routes": ["../../apps/api/src/routes/index.ts"]
       //                                ^^^^^ SOURCE FILE, not compiled output!
     }
   }
@@ -145,7 +145,7 @@ Game packages contain logic that mixes game rules with infrastructure concerns.
 
 ```typescript
 // packages/games/five-seconds/src/logic/effect-handlers.ts
-import hcWithType from '@guess-logo/api-client'; // Infrastructure concern
+import hcWithType from '@playgrid/api-client'; // Infrastructure concern
 
 export function createFetchQuestionsEffect(apiUrl: string): GameEffect {
   const client = hcWithType(apiUrl); // Creates HTTP client directly

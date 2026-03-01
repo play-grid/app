@@ -1,4 +1,4 @@
-import type { SubPhaseConfig } from '@guess-logo/game-core';
+import type { SubPhaseConfig } from '@playgrid/game-core';
 import type { FiveSecondsGameState } from './schema';
 
 export const fiveSecondsSubPhases: SubPhaseConfig<FiveSecondsGameState> = {

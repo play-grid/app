@@ -66,7 +66,7 @@ function Button({ className, asChild = false, ...props }) {
 **Example (Five Seconds Button Skin):**
 ```typescript
 // apps/frontend/src/games/five-seconds/components/ui/button.tsx
-import { Button as PrimitiveButton } from '@guess-logo/ui/button';
+import { Button as PrimitiveButton } from '@playgrid/ui/button';
 import { cva } from 'class-variance-authority';
 
 const buttonVariants = cva(
@@ -127,9 +127,9 @@ export function Button({ className, variant, size, ...props }) {
 4. Export from `packages/ui/package.json` for easy importing
 5. **Do not:** Add variants, game-specific styling, or CVA
 
-### Creating a New Game Skin at `@guess-logo/frontend/src/games[game]`
+### Creating a New Game Skin at `@playgrid/frontend/src/games[game]`
 
-1. Import primitive from `@guess-logo/ui/[component]`
+1. Import primitive from `@playgrid/ui/[component]`
 2. Define CVA variants for visual states
 3. Apply game-specific classes (fonts, colors, effects)
 4. Optionally add game-specific CSS file
@@ -155,7 +155,7 @@ function Input({ className, type, ...props }) {
 }
 
 // apps/frontend/src/games/[game]/components/ui/input.tsx
-import { Input as PrimitiveInput } from '@guess-logo/ui/input';
+import { Input as PrimitiveInput } from '@playgrid/ui/input';
 
 export function Input({ className, ...props }) {
   return (
@@ -220,7 +220,7 @@ export type ExtractVariants<T extends (...args: any[]) => any> = VariantProps<T>
 ### Usage in Game Skins
 
 ```typescript
-import type { ExtractVariants } from '@guess-logo/ui/utils';
+import type { ExtractVariants } from '@playgrid/ui/utils';
 
 const buttonVariants = cva('...', {
   variants: {

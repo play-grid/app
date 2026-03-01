@@ -1,6 +1,6 @@
-import type { ExtractVariants } from '@guess-logo/ui/utils';
-import { cn } from '@guess-logo/ui';
-import { Button as PrimitiveButton } from '@guess-logo/ui/button';
+import type { ExtractVariants } from '@playgrid/ui/utils';
+import { cn } from '@playgrid/ui';
+import { Button as PrimitiveButton } from '@playgrid/ui/button';
 import { cva } from 'class-variance-authority';
 import * as React from 'react';
 import './button.css';

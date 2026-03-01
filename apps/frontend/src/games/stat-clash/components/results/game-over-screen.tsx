@@ -1,4 +1,4 @@
-import type { StatClashGameState } from '@guess-logo/stat-clash';
+import type { StatClashGameState } from '@playgrid/stat-clash';
 import { RotateCcw } from 'lucide-react';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';

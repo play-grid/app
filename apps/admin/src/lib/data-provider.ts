@@ -1,5 +1,5 @@
 import type { DataProvider } from 'ra-core';
-import { hcWithType } from '@guess-logo/api-client';
+import { hcWithType } from '@playgrid/api-client';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8787';
 

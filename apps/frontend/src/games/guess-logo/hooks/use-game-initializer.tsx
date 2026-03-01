@@ -1,4 +1,4 @@
-import type { SupportedLanguage } from '@guess-logo/shared/types';
+import type { SupportedLanguage } from '@playgrid/shared/types';
 import type { LogoSetKey } from '../lib/logo-data';
 import { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';

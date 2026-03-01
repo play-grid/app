@@ -2,7 +2,7 @@
 // Handles all display logic for sports lists
 // Decouples UI concerns from data structures
 
-import type { SupportedLanguage } from '@guess-logo/shared/types';
+import type { SupportedLanguage } from '@playgrid/shared/types';
 import type { SportsListId } from '../../types/sports-list-types';
 import type { CustomSportList, SportCountry, SportLeague, SportRegion } from './sports-service';
 

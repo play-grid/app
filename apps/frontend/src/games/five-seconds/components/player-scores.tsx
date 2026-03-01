@@ -1,4 +1,4 @@
-import type { FiveSecondsPlayer } from '@guess-logo/five-seconds';
+import type { FiveSecondsPlayer } from '@playgrid/five-seconds';
 import { Trophy } from 'lucide-react';
 import { Card } from './ui/card';
 
@@ -36,7 +36,7 @@ export function PlayerScores({ players, currentPlayerId }: PlayerScoresProps) {
 }
 
 // STILL NEED WORKING
-// import type { FiveSecondsPlayer } from '@guess-logo/five-seconds';
+// import type { FiveSecondsPlayer } from '@playgrid/five-seconds';
 // import { Trophy, Zap } from 'lucide-react';
 // import { useState } from 'react';
 

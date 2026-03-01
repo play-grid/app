@@ -1,4 +1,4 @@
-import type { GuessDirection } from '@guess-logo/stat-clash';
+import type { GuessDirection } from '@playgrid/stat-clash';
 import { useTranslation } from 'react-i18next';
 import { Card } from '../ui/card';
 

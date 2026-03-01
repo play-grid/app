@@ -1,4 +1,4 @@
-import type { LocaleRecord, SupportedLanguage } from '@guess-logo/shared/types';
+import type { LocaleRecord, SupportedLanguage } from '@playgrid/shared/types';
 
 import type { LogoItem } from '../../stores/game-state-store';
 

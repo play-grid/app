@@ -1,8 +1,8 @@
-import type { GameMeta } from '@guess-logo/shared/schemas';
+import type { GameMeta } from '@playgrid/shared/schemas';
 import type { z } from 'zod';
 import type { GameAction } from '../game-logic/schema/actions.types';
 import type { BaseGameState } from '../game-logic/schema/state.types';
-import { GameMetaSchema } from '@guess-logo/shared/schemas';
+import { GameMetaSchema } from '@playgrid/shared/schemas';
 
 export { GameMetaSchema };
 export type { GameMeta };

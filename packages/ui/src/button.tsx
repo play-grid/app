@@ -1,4 +1,4 @@
-import { cn } from '@guess-logo/ui';
+import { cn } from '@playgrid/ui';
 import { Slot } from '@radix-ui/react-slot';
 
 import * as React from 'react';

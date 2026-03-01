@@ -93,7 +93,7 @@ export function createLocalAdapter<TState, TAction>(
 ### games/* (Game Implementation Layer)
 ```typescript
 // packages/games/five-seconds/src/definition.ts
-import { createGameDefinition, registerGame } from '@guess-logo/game-core';
+import { createGameDefinition, registerGame } from '@playgrid/game-core';
 
 // ✅ CORRECT: Game-specific logic in game package
 export const fiveSecondsGame = createGameDefinition({

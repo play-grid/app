@@ -1,4 +1,4 @@
-import { baseQuestionSchema } from '@guess-logo/shared/schemas';
+import { baseQuestionSchema } from '@playgrid/shared/schemas';
 import { z } from 'zod';
 
 const parseStringArray = z

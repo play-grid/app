@@ -1,5 +1,5 @@
 {
-  "name": "@guess-logo/logger",
+  "name": "@playgrid/logger",
   "version": "1.0.0",
   "type": "module",
   "exports": {

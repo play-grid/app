@@ -1,4 +1,4 @@
-import type { LogoSetKey, Player } from '@guess-logo/shared/types';
+import type { LogoSetKey, Player } from '@playgrid/shared/types';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';

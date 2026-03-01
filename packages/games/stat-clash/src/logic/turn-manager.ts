@@ -1,4 +1,4 @@
-import { getPlayerIndex } from '@guess-logo/game-core';
+import { getPlayerIndex } from '@playgrid/game-core';
 
 export function getNextPlayer(
   playerOrder: string[],

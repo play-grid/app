@@ -1,4 +1,4 @@
-import type { FiveSecondsPlayer, Question, VotingState } from '@guess-logo/five-seconds';
+import type { FiveSecondsPlayer, Question, VotingState } from '@playgrid/five-seconds';
 import { Clock, ThumbsDown, ThumbsUp, Users } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useIsCurrentUser } from '@/features/room/use-player-identity';

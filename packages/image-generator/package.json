@@ -1,5 +1,5 @@
 {
-  "name": "@guess-logo/image-generator",
+  "name": "@playgrid/image-generator",
   "version": "0.1.0",
   "private": true,
   "type": "module",

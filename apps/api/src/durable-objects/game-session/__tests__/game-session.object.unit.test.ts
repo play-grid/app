@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { GameSessionObject } from '../game-session.object';
 import '../../../games';
-import '@guess-logo/five-seconds'; // Register the game
+import '@playgrid/five-seconds'; // Register the game
 
 // Mock cloudflare:workers module
 vi.mock('cloudflare:workers', () => ({

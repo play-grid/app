@@ -1,10 +1,10 @@
-import { cn } from '@guess-logo/ui';
+import { cn } from '@playgrid/ui';
 import {
   Popover as PrimitivePopover,
   PopoverAnchor as PrimitivePopoverAnchor,
   PopoverContent as PrimitivePopoverContent,
   PopoverTrigger as PrimitivePopoverTrigger,
-} from '@guess-logo/ui/popover';
+} from '@playgrid/ui/popover';
 import * as React from 'react';
 import './popover-animations.css';
 

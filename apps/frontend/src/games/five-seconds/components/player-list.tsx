@@ -1,8 +1,8 @@
 import {
   useFiveSecondsActions,
   useFiveSecondsState,
-} from '@guess-logo/five-seconds';
-import { UsersIcon } from '@guess-logo/ui/icons';
+} from '@playgrid/five-seconds';
+import { UsersIcon } from '@playgrid/ui/icons';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';

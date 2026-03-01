@@ -1,7 +1,7 @@
-import type { JoinRoomFormValues } from '@guess-logo/api/schemas';
-import type { Room } from '@guess-logo/shared/schemas';
-import { joinRoomFormSchema } from '@guess-logo/api/schemas';
+import type { JoinRoomFormValues } from '@playgrid/api/schemas';
+import type { Room } from '@playgrid/shared/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { joinRoomFormSchema } from '@playgrid/api/schemas';
 import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';

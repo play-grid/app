@@ -1,5 +1,5 @@
-import type { GetRandomQuestionResponse } from '@guess-logo/api/schemas';
-import type { Difficulty, Question } from '@guess-logo/five-seconds';
+import type { GetRandomQuestionResponse } from '@playgrid/api/schemas';
+import type { Difficulty, Question } from '@playgrid/five-seconds';
 import client from '@/lib/hono-client';
 
 export class NoQuestionsFoundError extends Error {

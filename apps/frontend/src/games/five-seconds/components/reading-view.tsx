@@ -1,4 +1,4 @@
-import type { Question } from '@guess-logo/five-seconds';
+import type { Question } from '@playgrid/five-seconds';
 import { Eye } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { QuestionInfo } from './question-info';

@@ -1,4 +1,4 @@
-import type { GameMode } from '@guess-logo/stat-clash';
+import type { GameMode } from '@playgrid/stat-clash';
 import { Flame, Trophy } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Card } from '../ui/card';

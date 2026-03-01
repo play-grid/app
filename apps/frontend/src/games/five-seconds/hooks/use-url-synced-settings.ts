@@ -2,7 +2,7 @@ import {
   difficultySchema,
   useFiveSecondsActions,
   useFiveSecondsState,
-} from '@guess-logo/five-seconds';
+} from '@playgrid/five-seconds';
 import { useEffect, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 

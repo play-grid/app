@@ -1,5 +1,5 @@
-import type { categoryBaseSchema } from '@guess-logo/five-seconds';
-import type { SupportedLanguage } from '@guess-logo/shared/types';
+import type { categoryBaseSchema } from '@playgrid/five-seconds';
+import type { SupportedLanguage } from '@playgrid/shared/types';
 import type { z } from 'zod';
 
 export type Category = z.infer<typeof categoryBaseSchema>;

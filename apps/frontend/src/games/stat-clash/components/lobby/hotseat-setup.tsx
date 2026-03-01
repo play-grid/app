@@ -1,6 +1,6 @@
-import type { StatClashGameState } from '@guess-logo/stat-clash';
-import type { PlayerListConfig } from '@guess-logo/ui/player-list';
-import { PlayerList } from '@guess-logo/ui/player-list';
+import type { StatClashGameState } from '@playgrid/stat-clash';
+import type { PlayerListConfig } from '@playgrid/ui/player-list';
+import { PlayerList } from '@playgrid/ui/player-list';
 import { useTranslation } from 'react-i18next';
 import { Input } from '../ui/input';
 
