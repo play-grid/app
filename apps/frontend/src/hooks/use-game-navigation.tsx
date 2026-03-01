@@ -13,7 +13,7 @@ export function useGameNavigation(defaultGameId: string = 'guess-logo') {
     options: { replace?: boolean; gameId?: string } = {},
   ) => {
     const gameId = options.gameId || defaultGameId;
-    const gamePath = `/${gameId}${path.startsWith('/') ? path : `/${path}`}`;
+    const gamePath = `/play/${gameId}${path.startsWith('/') ? path : `/${path}`}`;
     const pathWithLanguage = addLanguageToPath(gamePath, i18n.language as any);
     navigate(pathWithLanguage, options);
   };
