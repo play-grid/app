@@ -1,12 +1,12 @@
 import type { MiddlewareHandler } from 'hono';
-import type { AppEnv } from '@/lib/types';
+import type { AppEnv, AuthSession } from '@/lib/types';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import { createAuth } from '@/auth';
 
 export function protect(): MiddlewareHandler<AppEnv> {
   return async (c, next) => {
     const auth = createAuth(c);
-    const session = await auth.api.getSession({ headers: c.req.raw.headers });
+    const session = await auth.api.getSession({ headers: c.req.raw.headers }) as AuthSession | null;
 
     if (!session || !session.user) {
       return c.json(

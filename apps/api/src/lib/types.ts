@@ -1,11 +1,17 @@
 import type { OpenAPIHono, RouteConfig, RouteHandler } from '@hono/zod-openapi';
 
-import type { Session, User } from 'better-auth/types';
+import type { Session, User as BetterAuthUser } from 'better-auth/types';
 import type { PinoLogger } from 'hono-pino';
 import type { GameSessionObject } from '../durable-objects/game-session/game-session.object';
 import type { BASE_PATH } from './constants';
-import type { auth } from '@/auth';
 import type { Env } from '@/env';
+
+export interface User extends BetterAuthUser {
+  role: string;
+  username: string;
+  displayUsername: string;
+  isAnonymous: boolean;
+}
 
 // Cloudflare-specific bindings only
 export interface CloudflareBindings {
@@ -34,9 +40,14 @@ export type FullBindings = Env & CloudflareBindings;
 export interface AppEnv {
   Bindings: FullBindings;
   Variables: {
-    user: typeof auth.$Infer.Session.user | null;
-    session: typeof auth.$Infer.Session.session | null;
+    user: User | null;
+    session: Session | null;
   };
+}
+
+export interface AuthSession {
+  user: User;
+  session: Session;
 }
 
 // eslint-disable-next-line ts/no-empty-object-type

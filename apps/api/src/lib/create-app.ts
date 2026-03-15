@@ -1,6 +1,6 @@
 import type { Context } from 'hono';
 
-import type { AppEnv, AppOpenAPI } from './types';
+import type { AppEnv, AppOpenAPI, AuthSession } from './types';
 import { cache } from 'hono/cache';
 import { cors } from 'hono/cors';
 import { etag } from 'hono/etag';
@@ -98,7 +98,7 @@ export default function createApp(): AppOpenAPI {
     rateLimiter: c => c.env.RATE_LIMITER,
     getRateLimitKey: async (c) => {
       const auth = createAuth(c);
-      const session = await auth.api.getSession({ headers: c.req.raw.headers });
+      const session = await auth.api.getSession({ headers: c.req.raw.headers }) as AuthSession | null;
       const ip = c.req.header('cf-connecting-ip') ?? c.req.header('x-forwarded-for') ?? 'anonymous';
       const userPart = session ? session.user.id : 'anon';
       return `${userPart}:${ip}`;
@@ -108,7 +108,7 @@ export default function createApp(): AppOpenAPI {
   app.use('*', posthogMiddleware);
   app.use('*', async (c, next) => {
     const auth = createAuth(c);
-    const session = await auth.api.getSession({ headers: c.req.raw.headers });
+    const session = await auth.api.getSession({ headers: c.req.raw.headers }) as AuthSession | null;
 
     if (!session) {
       c.set('user', null);
