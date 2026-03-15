@@ -17,6 +17,7 @@
   "devDependencies": {
     "@turbo/gen": "^2.7.1",
     "@types/node": "catalog:",
+    "@types/minimatch": "6.0.0",
     "eslint": "catalog:",
     "husky": "^9.1.7",
     "lint-staged": "^16.2.7",
