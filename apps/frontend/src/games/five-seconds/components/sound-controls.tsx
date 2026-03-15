@@ -1,6 +1,4 @@
-import { Music, Music2, Volume2, VolumeX } from 'lucide-react';
-import { useEffect } from 'react';
-import { useFiveSecondsSounds } from '../hooks/use-five-seconds-sounds';
+import { Volume2, VolumeX } from 'lucide-react';
 import { useSoundStore } from '../stores/sound-store';
 import { Button } from './ui/button';
 
@@ -9,23 +7,11 @@ interface SoundControlsProps {
 }
 
 export function SoundControls({ className }: SoundControlsProps) {
-  const { isSoundEnabled, isMusicEnabled, toggleSound, toggleMusic } = useSoundStore();
-  const { playMusic, stopMusic } = useFiveSecondsSounds();
-
-  // Handle background music
-  useEffect(() => {
-    if (isMusicEnabled) {
-      playMusic();
-    }
-    else {
-      stopMusic();
-    }
-    return () => stopMusic();
-  }, [isMusicEnabled, playMusic, stopMusic]);
+  const { isSoundEnabled, toggleSound } = useSoundStore();
 
   return (
     <div className={`flex gap-2 ${className}`}>
-      <Button
+      {/* <Button
         variant="outline"
         size="sm"
         onClick={toggleMusic}
@@ -34,7 +20,7 @@ export function SoundControls({ className }: SoundControlsProps) {
       >
         {isMusicEnabled ? <Music2 className="w-4 h-4 text-primary" /> : <Music className="w-4 h-4 text-muted-foreground" />}
         <span className="hidden sm:inline">Music</span>
-      </Button>
+      </Button> */}
       <Button
         variant="outline"
         size="sm"
