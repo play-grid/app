@@ -17,11 +17,14 @@ export const EnvSchema = z.object({
   LOG_LEVEL: z.enum(['fatal', 'error', 'warn', 'info', 'debug', 'trace', 'silent']),
   POSTHOG_HOST: z.string(),
   POSTHOG_PUBLIC_KEY: z.string(),
+  VITE_PUBLIC_POSTHOG_KEY: z.string().optional(),
+  VITE_PUBLIC_POSTHOG_HOST: z.string().optional(),
+  VITE_BUCKET_URL: z.string().optional(),
   // BETTER_AUTH_URL: z.string(),
   BETTER_AUTH_SECRET: z.string(),
   APP_NAME: z.string(),
   R2_PUBLIC_URL: z.string(),
-});
+}).passthrough();
 
 export type Env = z.infer<typeof EnvSchema>;
 
@@ -43,6 +46,9 @@ export function validateEnv(envVars: Record<string, unknown>): Env {
       CLOUDFLARE_DATABASE_ID: 'mock_cloudflare_database_id',
       POSTHOG_HOST: 'mock_POSTHOG_HOST',
       POSTHOG_PUBLIC_KEY: 'mock_POSTHOG_PUBLIC_KEY',
+      VITE_PUBLIC_POSTHOG_KEY: 'mock_vite_posthog_key',
+      VITE_PUBLIC_POSTHOG_HOST: 'mock_vite_posthog_host',
+      VITE_BUCKET_URL: 'https://test-bucket-url.com',
       BETTER_AUTH_SECRET: 'mock_better_auth_secret',
       APP_NAME: 'mock_app_name',
       R2_PUBLIC_URL: 'https://test-public-url.com',

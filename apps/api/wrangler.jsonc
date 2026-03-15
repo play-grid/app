@@ -6,13 +6,15 @@
   		"nodejs_compat"
   	],
  	"workers_dev": true,
-	"vars": {
-		"BETTER_AUTH_URL":"http://localhost:5173",
- 		"ALLOWED_ORIGINS": "http://localhost:5173,http://localhost:4173,https://guess-logo.pages.dev,https://games.mohadalaa.com,https://playgrid.mohadalaa.com,https://staging.playgrid.mohdalaa.com",
-		"API_URL": "http://localhost:8787",
-		"LOG_LEVEL": "debug",
-		"R2_PUBLIC_URL": "https://r2.playgrid.mohdalaa.com"
-	},
+ 	"vars": {
+ 		"BETTER_AUTH_URL":"http://localhost:5173",
+   		"ALLOWED_ORIGINS": "http://localhost:5173,http://localhost:4173,https://guess-logo.pages.dev,https://games.mohadalaa.com,https://playgrid.mohadalaa.com,https://staging.playgrid.mohdalaa.com",
+ 		"API_URL": "http://localhost:8787",
+ 		"VITE_PUBLIC_POSTHOG_HOST":"https://us.i.posthog.com",
+ 		"VITE_BUCKET_URL":"https://r2.playgrid.mohdalaa.com",
+ 		"LOG_LEVEL": "debug",
+ 		"R2_PUBLIC_URL": "https://r2.playgrid.mohdalaa.com"
+ 	},
 	// FRONTEND
  	 "assets": {
     		"directory": "../frontend/dist",
@@ -75,14 +77,16 @@
 					}
 				}
 			],
-			"vars": {
-				"BETTER_AUTH_URL":"https://staging.playgrid.mohadalaa.com",
-				"ALLOWED_ORIGINS": "https://staging.guess-logo.pages.dev,https://games.mohadalaa.com",
-				"LOG_LEVEL": "info",
-				"NODE_ENV": "staging",
-				"R2_PUBLIC_URL": "https://r2.playgrid.mohdalaa.com",
-				"API_URL": "https://staging.playgrid.mohadalaa.com"
-			},
+ 			"vars": {
+ 				"BETTER_AUTH_URL":"https://staging.playgrid.mohdalaa.com",
+ 				"ALLOWED_ORIGINS": "https://staging.guess-logo.pages.dev,https://games.mohadalaa.com",
+ 				"VITE_PUBLIC_POSTHOG_HOST":"https://us.i.posthog.com",
+ 				"VITE_BUCKET_URL":"https://r2.playgrid.mohdalaa.com",
+ 				"LOG_LEVEL": "info",
+ 				"NODE_ENV": "staging",
+ 				"R2_PUBLIC_URL": "https://r2.playgrid.mohdalaa.com",
+ 				"API_URL": "https://staging.playgrid.mohdalaa.com"
+ 			},
 			"ai": {
 				"binding": "AI"
 			}
@@ -139,15 +143,16 @@
 					}
 				}
 			],
-			"vars": {
-				"BETTER_AUTH_URL": "https://playgrid.mohdalaa.com",
-				"ALLOWED_ORIGINS": "https://playgrid.mohdalaa.com",
-				"VITE_PUBLIC_POSTHOG_HOST":"https://us.i.posthog.com",
-				"LOG_LEVEL": "warn",
-				"NODE_ENV": "production",
-				"R2_PUBLIC_URL": "https://r2.playgrid.mohdalaa.com",
-				"API_URL": "https://playgrid.mohdalaa.com"
-			}
+ 			"vars": {
+ 				"BETTER_AUTH_URL": "https://playgrid.mohadalaa.com",
+ 				"ALLOWED_ORIGINS": "https://playgrid.mohadalaa.com",
+ 				"VITE_PUBLIC_POSTHOG_HOST":"https://us.i.posthog.com",
+ 				"VITE_BUCKET_URL":"https://r2.playgrid.mohdalaa.com",
+ 				"LOG_LEVEL": "warn",
+ 				"NODE_ENV": "production",
+ 				"R2_PUBLIC_URL": "https://r2.playgrid.mohdalaa.com",
+ 				"API_URL": "https://playgrid.mohadalaa.com"
+ 			}
 		}
 	},
 	"durable_objects": {
