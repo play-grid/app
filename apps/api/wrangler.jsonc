@@ -2,18 +2,10 @@
 	"name": "playgrid-api",
 	"main": "src/app.ts",
 	"compatibility_date": "2025-09-01",
-	"compatibility_flags": [
- 		"nodejs_compat"
- 	],
-	"triggers": {
-		"crons": [
-			{
-				"pattern": "0 2 * * 1",
-				"handler": "/cron/sync-football"
-			}
-		]
-	},
-	"workers_dev": true,
+ 	"compatibility_flags": [
+  		"nodejs_compat"
+  	],
+ 	"workers_dev": true,
 	"vars": {
 		"BETTER_AUTH_URL":"http://localhost:5173",
  		"ALLOWED_ORIGINS": "http://localhost:5173,http://localhost:4173,https://guess-logo.pages.dev,https://games.mohadalaa.com,https://playgrid.mohadalaa.com,https://staging.playgrid.mohdalaa.com",
@@ -30,18 +22,10 @@
 	"ai": {
 		"binding": "AI"
 	},
-	"env": {
-		"staging": {
-			"name": "playgrid-api-staging",
-			"triggers": {
-				"crons": [
-					{
-						"pattern": "0 2 * * 1",
-						"handler": "/cron/sync-football"
-					}
-				]
-			},
-			 "routes": [
+ 	"env": {
+ 		"staging": {
+ 			"name": "playgrid-api-staging",
+ 			"routes": [
 				{
 				"pattern":"staging.playgrid.mohdalaa.com",
       			"custom_domain": true
@@ -103,17 +87,9 @@
 				"binding": "AI"
 			}
 		},
-		"production": {
-			"name": "playgrid-api-production",
-			"triggers": {
-				"crons": [
-					{
-						"pattern": "0 2 * * 1",
-						"handler": "/cron/sync-football"
-					}
-				]
-			},
-			"routes": [
+ 	"production": {
+ 			"name": "playgrid-api-production",
+ 			"routes": [
 				{
 				"pattern": "playgrid.mohdalaa.com",
       			"custom_domain": true
