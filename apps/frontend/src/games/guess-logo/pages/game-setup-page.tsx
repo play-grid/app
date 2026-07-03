@@ -51,7 +51,6 @@ export default function GameSetupPage() {
     selectedList,
     playerA,
     playerB,
-    isUpdatingList,
     setSelectedSet,
     setSelectedGrid,
     setPlayerAName,
@@ -105,9 +104,6 @@ export default function GameSetupPage() {
     setSavedGameInfo,
     setResumeCheckComplete,
   ]);
-
-  // Get logos for validation
-  const canStart = true;
 
   const handleStartGame = async () => {
     try {
@@ -263,8 +259,7 @@ export default function GameSetupPage() {
           playerB={playerB}
           onPlayerANameChange={setPlayerAName}
           onPlayerBNameChange={setPlayerBName}
-          canStart={canStart}
-          isUpdating={isUpdatingList || isStarting}
+          isUpdating={isStarting}
           onStartGame={handleStartGame}
         />
       </div>

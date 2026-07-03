@@ -1,8 +1,8 @@
 import type { SupportedLanguage } from '@playgrid/shared/types';
 import type { LogoSetKey } from '../lib/logo-data';
-import type { LogoItem } from '../stores/game-state-store';
+import type { LogoItem } from '../stores/game-state.types';
 import { useQueryClient } from '@tanstack/react-query';
-import { fetchLogos } from '../services/logo-query-service';
+import { fetchLogos } from '../services/unified-logo-service';
 import { useGameStore } from '../stores/game-state-store';
 
 export function useShuffleLogos(

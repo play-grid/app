@@ -1,6 +1,6 @@
 import type { OpenAPIHono, RouteConfig, RouteHandler } from '@hono/zod-openapi';
 
-import type { Session, User as BetterAuthUser } from 'better-auth/types';
+import type { User as BetterAuthUser, Session } from 'better-auth/types';
 import type { PinoLogger } from 'hono-pino';
 import type { GameSessionObject } from '../durable-objects/game-session/game-session.object';
 import type { BASE_PATH } from './constants';

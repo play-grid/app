@@ -1,4 +1,4 @@
-import type { Player } from '../stores/game-state-store';
+import type { Player } from '../stores/game-state.types';
 import { Badge } from '@/components/ui/badge';
 import { useGameStore } from '../stores/game-state-store';
 import { LogoItemComponent } from './logo-item';

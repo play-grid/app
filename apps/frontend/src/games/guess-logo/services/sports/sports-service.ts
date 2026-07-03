@@ -1,6 +1,6 @@
 import type { LocaleRecord, SupportedLanguage } from '@playgrid/shared/types';
 
-import type { LogoItem } from '../../stores/game-state-store';
+import type { LogoItem } from '../../stores/game-state.types';
 
 import client from '@/lib/hono-client';
 

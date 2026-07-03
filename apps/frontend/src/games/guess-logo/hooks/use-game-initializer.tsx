@@ -22,7 +22,6 @@ export interface GameInitializerResult {
 export function useGameInitializer(config: GameInitializerConfig): GameInitializerResult {
   const { i18n } = useTranslation();
   const {
-    playerA,
     gameInitialized,
     initializeGame,
     selectedList,
@@ -51,10 +50,10 @@ export function useGameInitializer(config: GameInitializerConfig): GameInitializ
   useEffect(() => {
     if (
       config.enabled
-      && logoItemsSliced.length > 0
       && !gameInitialized
       && config.loadAttempted
-      && playerA.logos.length === 0
+      && !isLoading
+      && logoItemsSliced.length > 0
     ) {
       initializeGame(logoItemsSliced);
     }
@@ -63,7 +62,7 @@ export function useGameInitializer(config: GameInitializerConfig): GameInitializ
     logoItemsSliced,
     gameInitialized,
     config.loadAttempted,
-    playerA.logos.length,
+    isLoading,
     initializeGame,
   ]);
 

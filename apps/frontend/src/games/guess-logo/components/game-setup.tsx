@@ -1,6 +1,6 @@
 import type { SupportedLanguage } from '@playgrid/shared/types';
 import type { LogoSetKey } from '../lib/logo-data';
-import type { Player } from '../stores/game-state-store';
+import type { Player } from '../stores/game-state.types';
 import {
   BasketballIcon,
   BuildingsIcon,
@@ -35,7 +35,6 @@ interface GameSetupProps {
   onPlayerANameChange: (name: string) => void;
   onPlayerBNameChange: (name: string) => void;
   onStartGame: () => void;
-  canStart: boolean;
   isUpdating: boolean;
 }
 
@@ -82,7 +81,6 @@ export function GameSetup({
   onPlayerANameChange,
   onPlayerBNameChange,
   onStartGame,
-  canStart,
   isUpdating,
 }: GameSetupProps) {
   const [attemptedStart, setAttemptedStart] = useState(false);
@@ -98,8 +96,7 @@ export function GameSetup({
 
   const canStartGame
     = playerAValidation.success
-      && playerBValidation.success
-      && canStart;
+      && playerBValidation.success;
 
   function handleStartGame() {
     setAttemptedStart(true);

@@ -1,7 +1,7 @@
 import type { SupportedLanguage } from '@playgrid/shared/types';
 import type { LogoListMetadata } from '../components/sports-list-selector';
 import type { LogoSetKey } from '../lib/logo-data';
-import type { LogoItem } from '../stores/game-state-store';
+import type { LogoItem } from '../stores/game-state.types';
 import client from '@/lib/hono-client';
 import { parseSportsListIdOrThrow, serializeSportsListId } from '../types/sports-list-types';
 import {

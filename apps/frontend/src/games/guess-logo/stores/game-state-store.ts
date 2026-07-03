@@ -1,19 +1,12 @@
-import type {
-  SupportedLanguage,
-} from '@playgrid/shared/types';
 import type { LogoSetKey } from '../lib/logo-data';
+import type { LogoItem, Player } from './game-state.types';
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
-import { fetchLogos } from '../services/logo-query-service';
 
-export interface LogoCountryData {
-  name: string;
-  region: string;
-  currency: string;
-}
+export type { LogoItem, Player } from './game-state.types';
 
-export interface SharedGameState {
+export interface GameState {
   selectedSet: LogoSetKey;
   selectedList: string;
   selectedGrid: string;
@@ -21,64 +14,26 @@ export interface SharedGameState {
   playerB: Player;
   gameStarted: boolean;
   gameInitialized: boolean;
-}
-export interface LogoItem {
-  id: string | number;
-  name: string;
-  originalName?: string;
-  imageUrl: string;
-  eliminated: boolean;
-  countryData?: LogoCountryData;
-  type?: string;
-}
-export interface Player {
-  id: string;
-  name: string;
-  logos: LogoItem[];
-  winner: LogoItem | null;
-  activeCount: number;
-}
-
-export interface GameState extends SharedGameState {
-  // Game Status
-  isUpdatingList: boolean;
-  isUpdatingLogos: boolean;
-  error: string | null;
   listIsEmpty: boolean;
+  gridCols: number;
 
   // Actions
   setGameLogos: (logos: LogoItem[]) => void;
   setSelectedSet: (set: LogoSetKey) => void;
   setSelectedList: (listId: string) => void;
-  updateLogosForList: (
-    listId: string,
-    logoSet: LogoSetKey,
-    language: SupportedLanguage,
-    count: number,
-  ) => Promise<void>;
   setSelectedGrid: (grid: string) => void;
   setPlayerAName: (name: string) => void;
   setPlayerBName: (name: string) => void;
-  shuffleLogos: (language: SupportedLanguage) => Promise<void>;
-  clearError: () => void;
-
-  // Game Initialization
   initializeGame: (logos: LogoItem[]) => void;
   resetGame: () => void;
-  startNewGame: () => void;
 
   // Logo Management
   togglePlayerALogo: (logoId: string | number) => void;
   togglePlayerBLogo: (logoId: string | number) => void;
 
-  // Computed helpers
+  // Helpers
   getPlayerStats: (logos: LogoItem[]) => { activeCount: number; winner: LogoItem | null };
-  canStartGame: (hasLogos: boolean) => boolean;
 
-  // Server state sync
-  applyServerState: (gameState: Partial<SharedGameState>) => void;
-
-  gridCols: number;
   setGridCols: (cols: number) => void;
 }
 
@@ -102,7 +57,6 @@ export const useGameStore = create<GameState>()(
   devtools(
     persist(
       immer((set, get) => ({
-        // Initial state
         selectedSet: 'companies',
         selectedList: 'companies',
         selectedGrid: '8x6',
@@ -110,106 +64,31 @@ export const useGameStore = create<GameState>()(
         playerB: initialPlayerB,
         gameStarted: false,
         gameInitialized: false,
-        isUpdatingList: false,
-        isUpdatingLogos: false,
-        error: null,
         listIsEmpty: false,
         gridCols: 4,
-
-        clearError: () => set({ error: null }),
 
         setGridCols: (cols) => {
           set({ gridCols: cols });
         },
 
-        updateLogosForList: async (listId, logoSet, language, count) => {
-          const { gameInitialized, selectedList, selectedSet: currentSet } = get();
-          if (gameInitialized && selectedList === listId && currentSet === logoSet) {
-            return;
-          }
-          set({ isUpdatingLogos: true, error: null, listIsEmpty: false });
-          try {
-            if (!listId) {
-              // If there's no list ID, it's not an error, just nothing to display.
-              set({ gameInitialized: false, playerA: { ...get().playerA, logos: [] }, playerB: { ...get().playerB, logos: [] } });
-              return;
-            }
-
-            const fetchedLogos = await fetchLogos(logoSet, listId, language, count, false);
-
-            if (fetchedLogos.length === 0) {
-              set({
-                listIsEmpty: true,
-                gameInitialized: false,
-                playerA: { ...get().playerA, logos: [] },
-                playerB: { ...get().playerB, logos: [] },
-              });
-              return;
-            }
-
-            const logos: LogoItem[] = fetchedLogos.map(logo => ({
-              id: logo.id,
-              name: logo.name,
-              originalName: 'originalName' in logo ? logo.originalName : undefined,
-              imageUrl: logo.imageUrl,
-              eliminated: false,
-              countryData: 'countryData' in logo ? logo.countryData : undefined,
-              type: logo.type,
-            }));
-
-            // Instead of calling initializeGame from within set callback,
-            // we'll inline the logic here to avoid nested set calls
-            set((state) => {
-              const { getPlayerStats } = get();
-
-              // Initialize logos directly without calling another action
-              const stats = getPlayerStats(logos);
-              // Initialize both players with the same logos
-              state.playerA = {
-                ...state.playerA,
-                logos: [...logos],
-                ...stats,
-              };
-
-              state.playerB = {
-                ...state.playerB,
-                logos: [...logos],
-                ...stats,
-              };
-
-              // Update other game state
-              state.selectedList = listId;
-              state.gameStarted = true;
-              state.gameInitialized = true;
-            });
-          }
-          catch (error) {
-            console.error('Failed to update logos for list', error);
-            set({ error: (error as Error).message || 'Failed to fetch logos.' });
-          }
-          finally {
-            set({ isUpdatingLogos: false });
-          }
-        },
-
         setSelectedSet: (selectedSet) => {
           set((state) => {
             state.selectedSet = selectedSet;
-            // Reset to empty string - will be populated when fetching lists
             state.selectedList = '';
             state.playerA.logos = [];
             state.playerB.logos = [];
             state.gameInitialized = false;
+            state.listIsEmpty = false;
           });
         },
 
         setSelectedList: selectedList =>
           set((state) => {
             state.selectedList = selectedList;
-            // Clear logos and reset game initialization to force a refetch
             state.playerA.logos = [];
             state.playerB.logos = [];
             state.gameInitialized = false;
+            state.listIsEmpty = false;
           }),
 
         setSelectedGrid: selectedGrid =>
@@ -246,75 +125,14 @@ export const useGameStore = create<GameState>()(
 
             state.gameStarted = true;
             state.gameInitialized = true;
+            state.listIsEmpty = logos.length === 0;
           }),
 
-        shuffleLogos: async (language) => {
-          const state = get();
-          if (!state.gameInitialized) {
-            return;
-          }
-
-          set({ isUpdatingLogos: true });
-
-          try {
-            const queryClient = (window as any).__REACT_QUERY_CLIENT__;
-            if (!queryClient) {
-              throw new Error('Query client not available');
-            }
-
-            const currentCount = state.playerA.logos.length;
-            const allLogos = await queryClient.fetchQuery({
-              queryKey: ['logo-items', state.selectedSet, state.selectedList, language, 100],
-              queryFn: async () => {
-                const { fetchLogos } = await import('../services/logo-query-service');
-                return fetchLogos(state.selectedSet, state.selectedList, language, 100, false);
-              },
-              staleTime: 30 * 60 * 1000,
-            });
-
-            if (!allLogos || allLogos.length === 0) {
-              throw new Error('No logos available to shuffle');
-            }
-
-            const shuffled = [...allLogos].sort(() => Math.random() - 0.5);
-            const newLogos = shuffled.slice(0, currentCount).map((logo, index) => ({
-              id: index,
-              name: logo.name,
-              imageUrl: logo.imageUrl,
-              eliminated: false,
-              countryData: logo.countryData,
-              type: logo.type,
-            }));
-
-            const { getPlayerStats } = get();
-            const stats = getPlayerStats(newLogos);
-
-            set((s) => {
-              s.playerA.logos = [...newLogos];
-              s.playerA.activeCount = stats.activeCount;
-              s.playerA.winner = stats.winner;
-
-              s.playerB.logos = [...newLogos];
-              s.playerB.activeCount = stats.activeCount;
-              s.playerB.winner = stats.winner;
-            });
-          }
-          catch (error) {
-            console.error('Failed to shuffle logos', error);
-          }
-          finally {
-            set({ isUpdatingLogos: false });
-          }
-        },
-        // Game management
         initializeGame: initialLogos =>
           set((state) => {
             const { getPlayerStats } = get();
-
-            // initialLogos should already be in LogoItem format
             const stats = getPlayerStats(initialLogos);
 
-            // Initialize both players with the same logos
             state.playerA = {
               ...state.playerA,
               logos: [...initialLogos],
@@ -326,46 +144,30 @@ export const useGameStore = create<GameState>()(
               logos: [...initialLogos],
               ...stats,
             };
-            // Don't reset selectedList here - keep it for saving
+
             state.gameStarted = true;
             state.gameInitialized = true;
+            state.listIsEmpty = initialLogos.length === 0;
           }),
 
         resetGame: () =>
           set((state) => {
             state.playerA = {
               ...initialPlayerA,
-              name: state.playerA.name, // Keep the name
+              name: state.playerA.name,
             };
             state.playerB = {
               ...initialPlayerB,
-              name: state.playerB.name, // Keep the name
+              name: state.playerB.name,
             };
             state.gameStarted = false;
             state.gameInitialized = false;
             state.selectedSet = 'companies';
             state.selectedList = 'companies';
             state.selectedGrid = '8x6';
+            state.listIsEmpty = false;
           }),
 
-        startNewGame: () =>
-          set((state) => {
-            state.playerA = {
-              ...state.playerA,
-              logos: [],
-              winner: null,
-              activeCount: 0,
-            };
-            state.playerB = {
-              ...state.playerB,
-              logos: [],
-              winner: null,
-              activeCount: 0,
-            };
-            state.gameInitialized = false;
-          }),
-
-        // Logo actions
         togglePlayerALogo: logoId =>
           set((state) => {
             const { getPlayerStats } = get();
@@ -374,7 +176,6 @@ export const useGameStore = create<GameState>()(
               logo.id === logoId ? { ...logo, eliminated: !logo.eliminated } : logo,
             );
 
-            // Update stats
             const stats = getPlayerStats(state.playerA.logos);
             state.playerA.activeCount = stats.activeCount;
             state.playerA.winner = stats.winner;
@@ -388,13 +189,11 @@ export const useGameStore = create<GameState>()(
               logo.id === logoId ? { ...logo, eliminated: !logo.eliminated } : logo,
             );
 
-            // Update stats
             const stats = getPlayerStats(state.playerB.logos);
             state.playerB.activeCount = stats.activeCount;
             state.playerB.winner = stats.winner;
           }),
 
-        // Helper functions
         getPlayerStats: (logos) => {
           const activeLogos = logos.filter(logo => !logo.eliminated);
           return {
@@ -402,18 +201,6 @@ export const useGameStore = create<GameState>()(
             winner: activeLogos.length === 1 && logos.length > 0 ? activeLogos[0] : null,
           };
         },
-
-        canStartGame: (hasLogos) => {
-          const { playerA, playerB } = get();
-          const playerAValid = playerA.name.trim().length >= 2 && playerA.name.trim().length <= 20;
-          const playerBValid = playerB.name.trim().length >= 2 && playerB.name.trim().length <= 20;
-          return playerAValid && playerBValid && hasLogos;
-        },
-
-        applyServerState: (newGameState: Partial<GameState>) =>
-          set((state) => {
-            Object.assign(state, newGameState);
-          }),
       })),
       {
         name: 'logo-guessing-game-storage',

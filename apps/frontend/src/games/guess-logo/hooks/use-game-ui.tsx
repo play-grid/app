@@ -12,7 +12,7 @@ export function useGameUI({
   error,
 }: GameUIConfig) {
   const { t } = useTranslation();
-  const { gameInitialized, playerA, playerB } = useGameStore();
+  const { playerA, playerB } = useGameStore();
 
   if (error) {
     return {
@@ -23,7 +23,7 @@ export function useGameUI({
     };
   }
 
-  if (isLocalLoading || !gameInitialized) {
+  if (isLocalLoading) {
     return {
       showError: false,
       errorMessage: '',
