@@ -44,7 +44,7 @@ export function PlayerList() {
 
   const isNotCurrentUser = (playerId: string) => {
     if (!isMultiplayer)
-      return false;
+      return true;
     return playerId !== currentUserId;
   };
 

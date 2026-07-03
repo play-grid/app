@@ -30,9 +30,9 @@ export function RoomHeader({
   const inviteExpiresAt = session?.inviteExpiresAt ?? undefined;
 
   const inviteUrl = inviteToken
-    ? `${window.location.origin}/${i18n.language}/${gameType}?mode=multiplayer&room=${roomId}&invite=${inviteToken}`
+    ? `${window.location.origin}/${i18n.language}/play/${gameType}?mode=multiplayer&room=${roomId}&invite=${inviteToken}`
     : roomId
-      ? `${window.location.origin}/${i18n.language}/${gameType}?mode=multiplayer&room=${roomId}`
+      ? `${window.location.origin}/${i18n.language}/play/${gameType}?mode=multiplayer&room=${roomId}`
       : '';
 
   if (mode === 'local') {

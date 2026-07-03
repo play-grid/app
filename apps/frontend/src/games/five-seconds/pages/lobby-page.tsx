@@ -80,13 +80,13 @@ export function FiveSecondsLobby() {
 
   const handleRoomCreated = (room: Room) => {
     navigate(
-      `/${i18n.language}/five-seconds?mode=multiplayer&room=${room.id}&host=true`,
+      `/${i18n.language}/play/five-seconds?mode=multiplayer&room=${room.id}&host=true`,
       { replace: true },
     );
   };
 
   const handleRoomJoined = (room: Room) => {
-    navigate(`/${i18n.language}/five-seconds?mode=multiplayer&room=${room.id}`, {
+    navigate(`/${i18n.language}/play/five-seconds?mode=multiplayer&room=${room.id}`, {
       replace: true,
     });
   };
@@ -94,7 +94,7 @@ export function FiveSecondsLobby() {
   const switchToLocalMode = () => {
     clearSession();
     localStorage.removeItem('five-seconds-game:v1');
-    window.location.assign(`/${i18n.language}/five-seconds?mode=local`);
+    window.location.assign(`/${i18n.language}/play/five-seconds?mode=local`);
   };
 
   return (

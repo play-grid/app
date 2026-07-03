@@ -70,8 +70,8 @@ export function RoomFlow({
 
   const roomUrl = room
     ? room.inviteToken
-      ? `${window.location.origin}/${i18n.language}/${gameType}?mode=multiplayer&room=${room.id}&invite=${(room as any).inviteToken}`
-      : `${window.location.origin}/${i18n.language}/${gameType}?mode=multiplayer&room=${room.id}`
+      ? `${window.location.origin}/${i18n.language}/play/${gameType}?mode=multiplayer&room=${room.id}&invite=${(room as any).inviteToken}`
+      : `${window.location.origin}/${i18n.language}/play/${gameType}?mode=multiplayer&room=${room.id}`
     : '';
   const inviteExpiresAt = room?.inviteExpiresAt;
   const isRTL = i18n.language === 'ar';
@@ -203,7 +203,7 @@ export function RoomFlow({
                       onClick={() => {
                         onClose();
                         const lang = i18n.language;
-                        navigate(`/${lang}/${gameType}?mode=multiplayer&room=${room.id}&host=true`);
+                        navigate(`/${lang}/play/${gameType}?mode=multiplayer&room=${room.id}&host=true`);
                       }}
                       className="w-full"
                     >

@@ -72,7 +72,7 @@ export function JoinRoomForm({ gameType, onRoomJoined, onDialogClose }: JoinRoom
       onRoomJoined(room);
       onDialogClose();
       const lang = i18n.language;
-      navigate(`/${lang}/${gameType}?mode=multiplayer&room=${room.id}&host=false`);
+      navigate(`/${lang}/play/${gameType}?mode=multiplayer&room=${room.id}&host=false`);
     },
   });
 

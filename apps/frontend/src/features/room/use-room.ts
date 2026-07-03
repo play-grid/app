@@ -43,7 +43,7 @@ export function useCreateRoom({ onSuccess }: UseCreateRoomProps = {}) {
       onSuccess?.(data);
       const gameType = data.gameType;
       const lang = i18n.language;
-      navigate(`/${lang}/${gameType}?mode=multiplayer&room=${data.id}&host=true`);
+      navigate(`/${lang}/play/${gameType}?mode=multiplayer&room=${data.id}&host=true`);
     },
   });
 }
