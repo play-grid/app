@@ -143,7 +143,7 @@ export function PlayerList() {
     = isMaxPlayersReached || !playerName.trim() || !!validationError;
 
   return (
-    <Card className="p-6 space-y-6">
+    <Card className="p-6 space-y-6 min-w-0">
       {/* Header */}
       <div className="flex items-center gap-3">
         <UsersIcon className="w-6 h-6" aria-hidden="true" />

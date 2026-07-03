@@ -14,7 +14,6 @@ export function SelectTrigger({ ref, className, children, ...props }: React.Comp
 
       className={cn(
         'flex h-10 w-full items-center rtl:flex-row-reverse justify-between px-3 text-sm outline-none',
-        'rtl:mr-2 ltr:ml-2',
         className,
       )}
       {...props}

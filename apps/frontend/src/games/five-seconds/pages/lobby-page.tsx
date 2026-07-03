@@ -166,12 +166,12 @@ export function FiveSecondsLobby() {
           </div>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-6">
+        <div className="grid md:grid-cols-2 gap-6 overflow-hidden">
           {/* Players Section */}
           <PlayerList />
 
           {/* Settings Section */}
-          <Card className="p-6 space-y-6 border-border">
+          <Card className="p-6 space-y-6 border-border min-w-0">
             <div className="flex items-center gap-3">
               <Settings className="w-6 h-6 text-foreground" />
               <h2 className="text-2xl font-bold">

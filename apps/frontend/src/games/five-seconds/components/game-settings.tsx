@@ -208,13 +208,13 @@ export function GameSettings() {
         </Label>
         <div className="flex items-center gap-4">
           <ClockIcon className="w-5 h-5" />
-          <div className="flex gap-2 flex-1">
+          <div className="grid grid-cols-3 gap-2 flex-1">
             {[5, 10, 15].map(time => (
               <Button
                 key={time}
                 variant={settings.timePerTurn === time ? 'default' : 'outline'}
                 onClick={() => updateSettings({ timePerTurn: time })}
-                className="flex-1"
+                className="w-full"
               >
                 {t('fiveSecondsGame.lobby.timeUnit', { time })}
               </Button>
@@ -230,7 +230,7 @@ export function GameSettings() {
         </Label>
         <div className="flex items-center gap-4">
           <TrophyIcon className="w-5 h-5" />
-          <div className="flex gap-2 flex-1">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 flex-1">
             {[5, 10, 15, 20].map(points => (
               <Button
                 key={points}
@@ -238,7 +238,7 @@ export function GameSettings() {
                   settings.pointsToWin === points ? 'default' : 'outline'
                 }
                 onClick={() => updateSettings({ pointsToWin: points })}
-                className="flex-1"
+                className="w-full"
               >
                 {t('fiveSecondsGame.lobby.pointsUnit', { count: points, points })}
               </Button>
