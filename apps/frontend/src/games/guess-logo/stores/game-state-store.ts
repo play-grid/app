@@ -19,7 +19,6 @@ export interface SharedGameState {
   selectedGrid: string;
   playerA: Player;
   playerB: Player;
-  currentPlayer: 'A' | 'B';
   gameStarted: boolean;
   gameInitialized: boolean;
 }
@@ -60,8 +59,6 @@ export interface GameState extends SharedGameState {
   setSelectedGrid: (grid: string) => void;
   setPlayerAName: (name: string) => void;
   setPlayerBName: (name: string) => void;
-  setCurrentPlayer: (player: 'A' | 'B') => void;
-  switchTurn: () => void;
   shuffleLogos: (language: SupportedLanguage) => Promise<void>;
   clearError: () => void;
 
@@ -111,7 +108,6 @@ export const useGameStore = create<GameState>()(
         selectedGrid: '8x6',
         playerA: initialPlayerA,
         playerB: initialPlayerB,
-        currentPlayer: 'A',
         gameStarted: false,
         gameInitialized: false,
         isUpdatingList: false,
@@ -185,7 +181,6 @@ export const useGameStore = create<GameState>()(
               state.selectedList = listId;
               state.gameStarted = true;
               state.gameInitialized = true;
-              state.currentPlayer = 'A';
             });
           }
           catch (error) {
@@ -230,11 +225,6 @@ export const useGameStore = create<GameState>()(
         setPlayerBName: name =>
           set((state) => {
             state.playerB.name = name;
-          }),
-
-        setCurrentPlayer: player =>
-          set((state) => {
-            state.currentPlayer = player;
           }),
 
         setGameLogos: (logos: LogoItem[]) =>
@@ -316,11 +306,6 @@ export const useGameStore = create<GameState>()(
             set({ isUpdatingLogos: false });
           }
         },
-        switchTurn: () =>
-          set((state) => {
-            state.currentPlayer = state.currentPlayer === 'A' ? 'B' : 'A';
-          }),
-
         // Game management
         initializeGame: initialLogos =>
           set((state) => {
@@ -344,7 +329,6 @@ export const useGameStore = create<GameState>()(
             // Don't reset selectedList here - keep it for saving
             state.gameStarted = true;
             state.gameInitialized = true;
-            state.currentPlayer = 'A';
           }),
 
         resetGame: () =>
@@ -359,7 +343,6 @@ export const useGameStore = create<GameState>()(
             };
             state.gameStarted = false;
             state.gameInitialized = false;
-            state.currentPlayer = 'A';
             state.selectedSet = 'companies';
             state.selectedList = 'companies';
             state.selectedGrid = '8x6';
@@ -380,7 +363,6 @@ export const useGameStore = create<GameState>()(
               activeCount: 0,
             };
             state.gameInitialized = false;
-            state.currentPlayer = 'A';
           }),
 
         // Logo actions
@@ -441,7 +423,6 @@ export const useGameStore = create<GameState>()(
           selectedGrid: state.selectedGrid,
           playerA: state.playerA,
           playerB: state.playerB,
-          currentPlayer: state.currentPlayer,
           gameStarted: state.gameStarted,
           gameInitialized: state.gameInitialized,
           gridCols: state.gridCols,

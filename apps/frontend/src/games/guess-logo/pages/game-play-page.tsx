@@ -27,7 +27,7 @@ export default function GamePlayPage() {
   const { navigate } = useGameNavigation('guess-logo');
   const { t, i18n } = useTranslation();
   const { changeLogoList } = useLogoListChanger();
-  const { trackGridSizeChange, trackListChange, trackTurnSwitch, trackGameReset, trackGameComplete } = useAnalytics();
+  const { trackGridSizeChange, trackListChange, trackGameReset, trackGameComplete } = useAnalytics();
 
   const routeParams = useGameRouteParams({ enabled: true });
   const { loadAttempted, clearGameState } = useGameRoomPersistence({
@@ -44,10 +44,8 @@ export default function GamePlayPage() {
 
   const {
     resetGame,
-    currentPlayer,
     playerA,
     playerB,
-    switchTurn,
     listIsEmpty,
     togglePlayerALogo,
     togglePlayerBLogo,
@@ -79,14 +77,6 @@ export default function GamePlayPage() {
     clearGameState();
     resetGame();
     navigate('/');
-  };
-
-  const handleSwitchTurn = () => {
-    trackTurnSwitch({
-      game_id: 'guess-logo',
-      player_id: currentPlayer === 'A' ? playerA.id : playerB.id,
-    });
-    switchTurn();
   };
 
   const handleListChange = (newList: string) => {
@@ -183,14 +173,12 @@ export default function GamePlayPage() {
         {/* Game Header */}
         <GameHeader
           selectedSet={logoSet as LogoSetKey}
-          currentPlayer={currentPlayer}
           playerA={playerA}
           playerB={playerB}
           gridConfig={gridConfig}
           availableLists={availableLists || []}
           selectedList={selectedList}
           onListChange={handleListChange}
-          onSwitchTurn={handleSwitchTurn}
           onResetGame={handleResetGame}
           onShuffle={shuffleLogosHook}
         />

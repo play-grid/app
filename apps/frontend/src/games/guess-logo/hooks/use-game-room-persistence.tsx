@@ -16,7 +16,6 @@ export function useGameRoomPersistence(config: GameRoomPersistenceConfig) {
   const {
     playerA,
     playerB,
-    currentPlayer,
     gameInitialized,
     selectedList,
     gameStarted,
@@ -80,9 +79,8 @@ export function useGameRoomPersistence(config: GameRoomPersistenceConfig) {
     const gameState = {
       playerA,
       playerB,
-      currentPlayer,
       selectedSet: config.logoSet,
-      selectedList, // Add this line
+      selectedList,
       selectedGrid: config.gridSize,
       gameStarted,
       gameInitialized,
@@ -92,7 +90,6 @@ export function useGameRoomPersistence(config: GameRoomPersistenceConfig) {
     const currentStateHash = JSON.stringify({
       playerAEliminated: playerA.logos.map(l => ({ id: l.id, eliminated: l.eliminated })),
       playerBEliminated: playerB.logos.map(l => ({ id: l.id, eliminated: l.eliminated })),
-      currentPlayer,
       selectedList,
       gameStarted,
       gameInitialized,
@@ -120,7 +117,6 @@ export function useGameRoomPersistence(config: GameRoomPersistenceConfig) {
     config.enabled,
     playerA,
     playerB,
-    currentPlayer,
     config.logoSet,
     config.gridSize,
     gameStarted,

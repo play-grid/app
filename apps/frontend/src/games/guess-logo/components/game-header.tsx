@@ -4,7 +4,20 @@ import type { Player } from '../stores/game-state-store';
 import type { LogoListMetadata } from './sports-list-selector';
 import { GridIcon, RefreshIcon, RestartIcon, TrophyIcon } from '@playgrid/ui/icons';
 import { useQueryClient } from '@tanstack/react-query';
+import { AlertTriangle } from 'lucide-react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogMedia,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
@@ -25,12 +38,10 @@ import { SportsListSelector } from './sports-list-selector';
 
 interface GameHeaderProps {
   selectedSet: LogoSetKey;
-  currentPlayer: 'A' | 'B';
   playerA: Player;
   playerB: Player;
   gridConfig: GridConfiguration;
   availableLists: LogoListMetadata[];
-  onSwitchTurn: () => void;
   onResetGame: () => void;
   onStartNewGame?: () => void;
   onListChange: (value: string) => void;
@@ -40,15 +51,12 @@ interface GameHeaderProps {
 
 export function GameHeader({
   selectedSet,
-  currentPlayer,
   playerA,
   playerB,
   gridConfig,
   availableLists,
   selectedList,
-  onSwitchTurn,
   onResetGame,
-  // onStartNewGame,
   onListChange,
   onShuffle,
 }: GameHeaderProps) {
@@ -56,8 +64,14 @@ export function GameHeader({
   const queryClient = useQueryClient();
   const language = i18n.language as 'en' | 'ar';
 
+  const [showShuffleConfirm, setShowShuffleConfirm] = useState(false);
+  const [showListConfirm, setShowListConfirm] = useState(false);
+  const [pendingListId, setPendingListId] = useState<string | null>(null);
+
   const winner = playerA.winner || playerB.winner;
   const winningPlayer = playerA.winner ? playerA : playerB.winner ? playerB : null;
+
+  const hasProgress = playerA.logos.length > 0 && (playerA.activeCount < playerA.logos.length || playerB.activeCount < playerB.logos.length);
 
   function prefetchLogos(listId: string) {
     if (!listId || listId === selectedList)
@@ -92,57 +106,30 @@ export function GameHeader({
       {/* Main Header Card */}
       <div className="bg-card border border-border rounded-lg shadow-sm p-3 md:p-4">
         {/* Top Section: Players & Progress */}
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 mb-3 md:mb-4 pb-3 md:pb-4 border-b border-border">
-          {/* Players Row - Stacks on mobile, side-by-side on tablet+ */}
-          <div className="flex items-center justify-between sm:justify-start sm:flex-1 gap-3">
-            {/* Player A */}
-            <div className="flex items-center gap-2 md:gap-3 flex-1 sm:flex-initial">
-              <div className={`w-2.5 h-2.5 md:w-3 md:h-3 rounded-full shrink-0 ${currentPlayer === 'A' ? 'bg-primary animate-pulse' : 'bg-muted'}`} />
-              <div className="min-w-0">
-                <p className="font-semibold text-xs md:text-sm truncate">{playerA.name}</p>
-                <p className="text-[10px] md:text-xs text-muted-foreground whitespace-nowrap">
-                  {playerA.activeCount}
-                  /
-                  {gridConfig.totalLogos}
-                  {' '}
-                  {t('remaining')}
-                </p>
-              </div>
-            </div>
-
-            {/* Center: Turn Indicator - Shows on mobile between players */}
-            <Badge
-              variant={currentPlayer === 'A' ? 'default' : 'secondary'}
-              className="px-2 md:px-4 py-1 md:py-1.5 text-[10px] md:text-sm font-semibold whitespace-nowrap flex-shrink-0 sm:hidden"
-            >
-              {currentPlayer === 'A' ? playerA.name : playerB.name}
-            </Badge>
-
-            {/* Player B */}
-            <div className="flex items-center gap-2 md:gap-3 flex-1 sm:flex-initial">
-              <div className="min-w-0 sm:order-2">
-                <p className="font-semibold text-xs md:text-sm text-left sm:text-right truncate">{playerB.name}</p>
-                <p className="text-[10px] md:text-xs text-muted-foreground text-left sm:text-right whitespace-nowrap">
-                  {playerB.activeCount}
-                  /
-                  {gridConfig.totalLogos}
-                  {' '}
-                  {t('remaining')}
-                </p>
-              </div>
-              <div className={`w-2.5 h-2.5 md:w-3 md:h-3 rounded-full shrink-0 sm:order-1 ${currentPlayer === 'B' ? 'bg-primary animate-pulse' : 'bg-muted'}`} />
-            </div>
+        <div className="flex items-center justify-between gap-3 mb-3 md:mb-4 pb-3 md:pb-4 border-b border-border">
+          {/* Player A */}
+          <div className="flex items-center gap-2 md:gap-3 min-w-0">
+            <p className="font-semibold text-xs md:text-sm truncate">{playerA.name}</p>
+            <p className="text-[10px] md:text-xs text-muted-foreground whitespace-nowrap">
+              {playerA.activeCount}
+              /
+              {gridConfig.totalLogos}
+              {' '}
+              {t('remaining')}
+            </p>
           </div>
 
-          {/* Center: Turn Indicator - Hidden on mobile, shows on tablet+ */}
-          <Badge
-            variant={currentPlayer === 'A' ? 'default' : 'secondary'}
-            className="hidden sm:flex px-4 py-1.5 text-sm font-semibold whitespace-nowrap"
-          >
-            {i18n.language === 'ar'
-              ? `${t('current-turn-player')} ${currentPlayer === 'A' ? playerA.name : playerB.name}`
-              : t('current-turn-player', { name: currentPlayer === 'A' ? playerA.name : playerB.name })}
-          </Badge>
+          {/* Player B */}
+          <div className="flex items-center gap-2 md:gap-3 min-w-0 text-right">
+            <p className="font-semibold text-xs md:text-sm truncate">{playerB.name}</p>
+            <p className="text-[10px] md:text-xs text-muted-foreground whitespace-nowrap">
+              {playerB.activeCount}
+              /
+              {gridConfig.totalLogos}
+              {' '}
+              {t('remaining')}
+            </p>
+          </div>
         </div>
 
         {/* Bottom Section: Game Info & Controls */}
@@ -172,13 +159,32 @@ export function GameHeader({
                     <SportsListSelector
                       regions={availableLists}
                       selectedListId={selectedList}
-                      onListChange={onListChange}
+                      onListChange={(value) => {
+                        if (hasProgress) {
+                          setPendingListId(value);
+                          setShowListConfirm(true);
+                        }
+                        else {
+                          onListChange(value);
+                        }
+                      }}
                       onHoverList={prefetchLogos}
                     />
                   </div>
                 )
               : (
-                  <Select value={selectedList} onValueChange={onListChange}>
+                  <Select
+                    value={selectedList}
+                    onValueChange={(value) => {
+                      if (hasProgress) {
+                        setPendingListId(value);
+                        setShowListConfirm(true);
+                      }
+                      else {
+                        onListChange(value);
+                      }
+                    }}
+                  >
                     <SelectTrigger className="w-full md:w-[240px]">
                       <SelectValue placeholder={t('choose-list')} />
                     </SelectTrigger>
@@ -200,21 +206,12 @@ export function GameHeader({
           {/* Right: Action Buttons with tooltips */}
           <TooltipProvider>
             <div className="flex items-center gap-2">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={onSwitchTurn}
-                className="text-xs md:text-sm"
-              >
-                {t('switch-turn')}
-              </Button>
-
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Button
                     variant="ghost"
                     size="sm"
-                    onClick={onShuffle}
+                    onClick={() => setShowShuffleConfirm(true)}
                   >
                     <RefreshIcon className="w-4 h-4" />
                   </Button>
@@ -260,6 +257,61 @@ export function GameHeader({
           </TooltipProvider>
         </div>
       </div>
+
+      {/* Shuffle Confirmation Dialog */}
+      <AlertDialog open={showShuffleConfirm} onOpenChange={setShowShuffleConfirm}>
+        <AlertDialogContent size="sm">
+          <AlertDialogHeader>
+            <AlertDialogMedia>
+              <AlertTriangle className="text-destructive" />
+            </AlertDialogMedia>
+            <AlertDialogTitle>{t('confirm-shuffle-title', 'Shuffle Logos?')}</AlertDialogTitle>
+            <AlertDialogDescription>
+              {t('confirm-shuffle-desc', 'This will randomly replace all logos and reset all progress for both players. This action cannot be undone.')}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>{t('cancel', 'Cancel')}</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => {
+                onShuffle?.();
+                setShowShuffleConfirm(false);
+              }}
+            >
+              {t('confirm-shuffle-action', 'Shuffle')}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      {/* List Change Confirmation Dialog */}
+      <AlertDialog open={showListConfirm} onOpenChange={setShowListConfirm}>
+        <AlertDialogContent size="sm">
+          <AlertDialogHeader>
+            <AlertDialogMedia>
+              <AlertTriangle className="text-destructive" />
+            </AlertDialogMedia>
+            <AlertDialogTitle>{t('confirm-list-change-title', 'Change Logo List?')}</AlertDialogTitle>
+            <AlertDialogDescription>
+              {t('confirm-list-change-desc', 'This will replace all logos and reset all progress for both players. This action cannot be undone.')}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>{t('cancel', 'Cancel')}</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => {
+                if (pendingListId) {
+                  onListChange(pendingListId);
+                }
+                setShowListConfirm(false);
+                setPendingListId(null);
+              }}
+            >
+              {t('confirm-list-change-action', 'Change')}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }

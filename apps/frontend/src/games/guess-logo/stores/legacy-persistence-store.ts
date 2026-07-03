@@ -7,9 +7,8 @@ import { logger } from '@/utils/logger';
 export interface SavedGameState {
   playerA: Player;
   playerB: Player;
-  currentPlayer: 'A' | 'B';
   selectedSet: LogoSetKey;
-  selectedList: string; // Added selectedList
+  selectedList: string;
   selectedGrid: string;
   gameStarted: boolean;
   gameInitialized: boolean;
@@ -66,7 +65,6 @@ function isValidGameState(state: any): state is SavedGameState {
     && state.playerB
     && typeof state.playerB.name === 'string'
     && Array.isArray(state.playerB.logos)
-    && (state.currentPlayer === 'A' || state.currentPlayer === 'B')
     && typeof state.selectedSet === 'string'
     && typeof state.selectedList === 'string' // Added validation
     && typeof state.selectedGrid === 'string'
