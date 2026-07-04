@@ -1,8 +1,8 @@
-import type { LogoSetKey } from '../lib/logo-data';
+import type { LogoSetKey } from '@playgrid/guess-logo';
+import { LogoSetKeySchema } from '@playgrid/guess-logo';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useGameNavigation } from '@/hooks/use-game-navigation';
-import { logoSets } from '../lib/logo-data';
 import { useGameStore } from '../stores/game-state-store';
 
 export interface GameRouteParams {
@@ -41,7 +41,7 @@ export function useGameRouteParams({ enabled }: { enabled: boolean }): GameRoute
   const playerBName = decodeURIComponent(params.playerB || 'Player B');
 
   // Validate route
-  const isValidRoute = Boolean(logoSets[logoSet]);
+  const isValidRoute = LogoSetKeySchema.safeParse(logoSet).success;
 
   // Set URL params in store on mount or when params change
   useEffect(() => {

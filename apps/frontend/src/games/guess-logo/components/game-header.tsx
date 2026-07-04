@@ -1,5 +1,5 @@
+import type { LogoSetKey } from '@playgrid/guess-logo';
 import type { GridConfiguration } from '../lib/grid-configurations';
-import type { LogoSetKey } from '../lib/logo-data';
 import type { Player } from '../stores/game-state.types';
 import type { LogoListMetadata } from './sports-list-selector';
 import { GridIcon, RefreshIcon, RestartIcon, TrophyIcon } from '@playgrid/ui/icons';

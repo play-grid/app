@@ -137,7 +137,7 @@ export async function seedD1Sports(
                 .insert(schema.teams)
                 .values({
                   name: team.name,
-                  logo: team.logo ?? null,
+                  logoUrl: team.logo ?? '',
                   leagueId,
                 })
                 .onConflictDoNothing();
@@ -221,7 +221,7 @@ export async function seedD1Sports(
             .insert(schema.teams)
             .values({
               name: team.name,
-              logo: team.logo ?? null,
+              logoUrl: team.logo ?? '',
               leagueId,
             })
             .returning({ id: schema.teams.id });

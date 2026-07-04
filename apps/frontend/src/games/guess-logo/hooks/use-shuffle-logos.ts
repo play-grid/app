@@ -1,5 +1,5 @@
+import type { LogoSetKey } from '@playgrid/guess-logo';
 import type { SupportedLanguage } from '@playgrid/shared/types';
-import type { LogoSetKey } from '../lib/logo-data';
 import type { LogoItem } from '../stores/game-state.types';
 import { useQueryClient } from '@tanstack/react-query';
 import { fetchLogos } from '../services/unified-logo-service';

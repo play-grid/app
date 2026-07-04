@@ -13,7 +13,7 @@ type FetcherRegistry = Partial<Record<LogoSetKey, Record<string, Fetcher>>>;
 const REGISTRY: FetcherRegistry = {
   companies: {
     companies: (lang, c) => fetchCompaniesFromDB('companies', lang, c),
-    saudi: (lang, c) => fetchCompaniesFromDB('saudi-companies', lang, c),
+    saudi: (lang, c) => fetchCompaniesFromDB('saudi', lang, c),
   },
   countries: {
     'countries': (lang, c) => fetchGdpCountries(lang, c),

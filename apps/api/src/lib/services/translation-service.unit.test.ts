@@ -56,12 +56,9 @@ describe('translationService', () => {
   });
 
   describe('translateBatch', () => {
-    it('should translate multiple requests in parallel', async () => {
+    it('should translate multiple requests in a single batched AI call', async () => {
       const mockAI = {
-        run: vi.fn()
-          .mockResolvedValueOnce({ translated_text: 'مرحبا' })
-          .mockResolvedValueOnce({ translated_text: 'عالم' })
-          .mockResolvedValueOnce({ translated_text: 'ترحيب' }),
+        run: vi.fn().mockResolvedValue({ translated_text: 'مرحبا\nعالم\nترحيب' }),
       } as any;
 
       const service = new TranslationService(mockAI);
@@ -78,7 +75,12 @@ describe('translationService', () => {
       expect(results[0].translatedText).toBe('مرحبا');
       expect(results[1].translatedText).toBe('عالم');
       expect(results[2].translatedText).toBe('ترحيب');
-      expect(mockAI.run).toHaveBeenCalledTimes(3);
+      expect(mockAI.run).toHaveBeenCalledTimes(1);
+      expect(mockAI.run).toHaveBeenCalledWith('@cf/meta/m2m100-1.2b', {
+        text: 'Hello\nWorld\nWelcome',
+        source_lang: 'en',
+        target_lang: 'ar',
+      });
     });
 
     it('should return empty array for empty input', async () => {
@@ -110,11 +112,7 @@ describe('translationService', () => {
   describe('translateStatItemFields', () => {
     it('should translate stat item name and unit fields', async () => {
       const mockAI = {
-        run: vi.fn()
-          .mockResolvedValueOnce({ translated_text: 'الطول' })
-          .mockResolvedValueOnce({ translated_text: 'سنتيمتر' })
-          .mockResolvedValueOnce({ translated_text: 'الوزن' })
-          .mockResolvedValueOnce({ translated_text: 'كيلوغرام' }),
+        run: vi.fn().mockResolvedValue({ translated_text: 'الطول\nسنتيمتر\nالوزن\nكيلوغرام' }),
       } as any;
 
       const service = new TranslationService(mockAI);
@@ -135,18 +133,12 @@ describe('translationService', () => {
         nameAr: 'الوزن',
         unitAr: 'كيلوغرام',
       });
-      expect(mockAI.run).toHaveBeenCalledTimes(4);
+      expect(mockAI.run).toHaveBeenCalledTimes(1);
     });
 
     it('should translate stat item name, unit, and hint fields', async () => {
       const mockAI = {
-        run: vi.fn()
-          .mockResolvedValueOnce({ translated_text: 'الطول' })
-          .mockResolvedValueOnce({ translated_text: 'سنتيمتر' })
-          .mockResolvedValueOnce({ translated_text: 'قاس من الرأس إلى القدمين' })
-          .mockResolvedValueOnce({ translated_text: 'الوزن' })
-          .mockResolvedValueOnce({ translated_text: 'كيلوغرام' })
-          .mockResolvedValueOnce({ translated_text: 'قاس كتلة الجسم' }),
+        run: vi.fn().mockResolvedValue({ translated_text: 'الطول\nسنتيمتر\nقاس من الرأس إلى القدمين\nالوزن\nكيلوغرام\nقاس كتلة الجسم' }),
       } as any;
 
       const service = new TranslationService(mockAI);
@@ -169,19 +161,12 @@ describe('translationService', () => {
         unitAr: 'كيلوغرام',
         hintAr: 'قاس كتلة الجسم',
       });
-      expect(mockAI.run).toHaveBeenCalledTimes(6);
+      expect(mockAI.run).toHaveBeenCalledTimes(1);
     });
 
     it('should handle items without hints', async () => {
       const mockAI = {
-        run: vi.fn()
-          .mockResolvedValueOnce({ translated_text: 'الطول' })
-          .mockResolvedValueOnce({ translated_text: 'سنتيمتر' })
-          .mockResolvedValueOnce({ translated_text: 'الوزن' })
-          .mockResolvedValueOnce({ translated_text: 'كيلوغرام' })
-          .mockResolvedValueOnce({ translated_text: 'العمر' })
-          .mockResolvedValueOnce({ translated_text: 'سنة' })
-          .mockResolvedValueOnce({ translated_text: 'قاس بالسنوات' }),
+        run: vi.fn().mockResolvedValue({ translated_text: 'الطول\nسنتيمتر\nالوزن\nكيلوغرام\nالعمر\nسنة\nقاس بالسنوات' }),
       } as any;
 
       const service = new TranslationService(mockAI);
@@ -208,14 +193,12 @@ describe('translationService', () => {
         unitAr: 'سنة',
         hintAr: 'قاس بالسنوات',
       });
-      expect(mockAI.run).toHaveBeenCalledTimes(7);
+      expect(mockAI.run).toHaveBeenCalledTimes(1);
     });
 
     it('should translate to English when targetLang is en', async () => {
       const mockAI = {
-        run: vi.fn()
-          .mockResolvedValueOnce({ translated_text: 'Height' })
-          .mockResolvedValueOnce({ translated_text: 'Centimeter' }),
+        run: vi.fn().mockResolvedValue({ translated_text: 'Height\nCentimeter' }),
       } as any;
 
       const service = new TranslationService(mockAI);
@@ -229,7 +212,7 @@ describe('translationService', () => {
         unitAr: 'Centimeter',
       });
       expect(mockAI.run).toHaveBeenCalledWith('@cf/meta/m2m100-1.2b', {
-        text: 'الطول',
+        text: 'الطول\nسنتيمتر',
         source_lang: 'en',
         target_lang: 'en',
       });

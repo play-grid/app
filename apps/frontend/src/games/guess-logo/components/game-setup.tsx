@@ -1,5 +1,5 @@
+import type { LogoSetKey } from '@playgrid/guess-logo';
 import type { SupportedLanguage } from '@playgrid/shared/types';
-import type { LogoSetKey } from '../lib/logo-data';
 import type { Player } from '../stores/game-state.types';
 import {
   BasketballIcon,

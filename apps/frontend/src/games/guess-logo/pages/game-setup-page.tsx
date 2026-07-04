@@ -1,5 +1,5 @@
+import type { LogoSetKey } from '@playgrid/guess-logo';
 import type { SupportedLanguage } from '@playgrid/shared/types';
-import type { LogoSetKey } from '../lib/logo-data';
 import { useQueryClient } from '@tanstack/react-query';
 import { Play, Trash2 } from 'lucide-react';
 import { useEffect, useState } from 'react';

@@ -139,6 +139,9 @@
 					}
 				}
 			],
+			"ai": {
+				"binding": "AI"
+			},
 			"vars": {
 				"BETTER_AUTH_URL": "https://playgrid.mohdalaa.com",
 				"ALLOWED_ORIGINS": "https://playgrid.mohdalaa.com",

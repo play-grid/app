@@ -1,5 +1,5 @@
+import type { LogoSetKey } from '@playgrid/guess-logo';
 import type { SupportedLanguage } from '@playgrid/shared/types';
-import type { LogoSetKey } from '../lib/logo-data';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { renderHook } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';

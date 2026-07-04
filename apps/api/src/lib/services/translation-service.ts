@@ -21,21 +21,17 @@ export class TranslationService {
     }
 
     try {
-      const results = await Promise.all(
-        requests.map(async (request) => {
-          const response = await this.ai.run('@cf/meta/m2m100-1.2b', {
-            text: request.text,
-            source_lang: request.sourceLang,
-            target_lang: request.targetLang,
-          }) as { translated_text: string };
+      const batchText = requests.map(r => r.text).join('\n');
+      const response = await this.ai.run('@cf/meta/m2m100-1.2b', {
+        text: batchText,
+        source_lang: requests[0].sourceLang,
+        target_lang: requests[0].targetLang,
+      }) as { translated_text: string };
 
-          return {
-            translatedText: response.translated_text,
-          };
-        }),
-      );
-
-      return results;
+      const translatedLines = response.translated_text.split('\n');
+      return requests.map((_, i) => ({
+        translatedText: translatedLines[i] || '',
+      }));
     }
     catch (error) {
       console.error('Translation error:', error);

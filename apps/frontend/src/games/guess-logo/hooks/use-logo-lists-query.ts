@@ -1,5 +1,5 @@
+import type { LogoSetKey } from '@playgrid/guess-logo';
 import type { LogoListMetadata } from '../components/sports-list-selector';
-import type { LogoSetKey } from '../lib/logo-data';
 import { queryOptions, useQuery } from '@tanstack/react-query';
 import { fetchLogoLists } from '../services/unified-logo-service';
 

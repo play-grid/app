@@ -1,6 +1,6 @@
+import type { LogoSetKey } from '@playgrid/guess-logo';
 import type { SupportedLanguage } from '@playgrid/shared/types';
 import type { FooterAttribution, FooterLogoSet } from '../lib/footer-attribution';
-import type { LogoSetKey } from '../lib/logo-data';
 import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';

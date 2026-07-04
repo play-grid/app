@@ -1,4 +1,4 @@
-import type { LogoSetKey } from '../lib/logo-data';
+import type { LogoSetKey } from '@playgrid/guess-logo';
 import { useEffect, useRef } from 'react';
 import { useGameStore } from '../stores/game-state-store';
 import { usePersistenceStore } from '../stores/legacy-persistence-store';

@@ -6,6 +6,7 @@ import { and, eq, inArray, isNull, not, sql } from 'drizzle-orm';
 import { getDB } from '@/db';
 import { statItemsTable } from '@/db/schema';
 import { TranslationService } from '@/lib/services/translation-service';
+import { logger } from '@/utils/logger';
 
 interface StatItem {
   id: string;
@@ -84,32 +85,37 @@ export async function fetchStatItems(
 
   if (needsTranslation.length > 0) {
     const translationService = new TranslationService(c.env.AI);
-    const translated = await translationService.translateStatItemFields(
-      needsTranslation.map(i => ({ name: i.name, unit: i.unit, hint: i.hint })),
-      'ar',
-    );
+    try {
+      const translated = await translationService.translateStatItemFields(
+        needsTranslation.map(i => ({ name: i.name, unit: i.unit, hint: i.hint })),
+        'ar',
+      );
 
-    await Promise.all(
-      translated.map((t, index) =>
-        db
-          .update(statItemsTable)
-          .set({
-            nameAr: t.nameAr || null,
-            unitAr: t.unitAr || null,
-            hintAr: t.hintAr || null,
-          })
-          .where(eq(statItemsTable.id, needsTranslation[index].id)),
-      ),
-    );
+      await Promise.all(
+        translated.map((t, index) =>
+          db
+            .update(statItemsTable)
+            .set({
+              nameAr: t.nameAr || null,
+              unitAr: t.unitAr || null,
+              hintAr: t.hintAr || null,
+            })
+            .where(eq(statItemsTable.id, needsTranslation[index].id)),
+        ),
+      );
 
-    items.forEach((item) => {
-      const translationIndex = needsTranslation.findIndex(t => t.id === item.id);
-      if (translationIndex !== -1) {
-        item.nameAr = translated[translationIndex].nameAr || item.nameAr;
-        item.unitAr = translated[translationIndex].unitAr || item.unitAr;
-        item.hintAr = translated[translationIndex].hintAr || item.hintAr;
-      }
-    });
+      items.forEach((item) => {
+        const translationIndex = needsTranslation.findIndex(t => t.id === item.id);
+        if (translationIndex !== -1) {
+          item.nameAr = translated[translationIndex].nameAr || item.nameAr;
+          item.unitAr = translated[translationIndex].unitAr || item.unitAr;
+          item.hintAr = translated[translationIndex].hintAr || item.hintAr;
+        }
+      });
+    }
+    catch (error) {
+      logger.warn(error, 'Translation failed, falling back to English names');
+    }
   }
 
   return items;

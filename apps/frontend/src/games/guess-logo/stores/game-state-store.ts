@@ -1,4 +1,4 @@
-import type { LogoSetKey } from '../lib/logo-data';
+import type { LogoSetKey } from '@playgrid/guess-logo';
 import type { LogoItem, Player } from './game-state.types';
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';

@@ -5,6 +5,7 @@ import Database from 'better-sqlite3';
 
 import { drizzle } from 'drizzle-orm/better-sqlite3';
 import { logger } from '@/utils/logger';
+import { seedD1Companies } from './shared/seed-companies';
 import { seedD1FiveSecondsCategories } from './shared/seed-five-seconds-categories';
 import { seedD1Questions } from './shared/seed-questions';
 import { seedD1Sports } from './shared/seed-sports';
@@ -28,6 +29,7 @@ async function main() {
   await seedD1Sports(db);
   await seedD1FiveSecondsCategories(db);
   await seedD1Questions(db);
+  await seedD1Companies(db);
 
   sqlite.close();
   logger.info('Database seeded and closed.');
