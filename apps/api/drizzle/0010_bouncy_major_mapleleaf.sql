@@ -1,0 +1,1 @@
+CREATE UNIQUE INDEX `idx_companies_list_name` ON `companies` (`list_id`,`name_en`);

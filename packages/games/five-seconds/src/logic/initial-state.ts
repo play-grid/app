@@ -20,6 +20,7 @@ export const FIVE_SECONDS_GAME_OPTIONS = {
 export const FIVE_SECONDS_CUSTOM_STATE = {
   votingState: null as VotingState | null,
   seenQuestionIds: [] as string[],
+  customSeenQuestionIds: [] as string[],
   questionError: null,
   readingTime: 0,
   readingTimerEndsAt: null as number | null,

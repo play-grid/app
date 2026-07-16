@@ -56,6 +56,11 @@ export function createFetchQuestionsEffect(): GameEffect {
       return null;
     }
 
+    // Custom questions are handled client-side by the useQuestion hook
+    if (gameState.settings.useCustomQuestions) {
+      return null;
+    }
+
     try {
       if (isServer) {
         if (!gameState.currentQuestion) {
@@ -149,11 +154,6 @@ export function createFetchQuestionsEffect(): GameEffect {
         }
       }
       else {
-        // For local mode with custom questions, skip API fetch (handled by useQuestion hook)
-        if (gameState.settings.useCustomQuestions) {
-          return null;
-        }
-
         if (gameState.currentQuestion) {
           return null;
         }

@@ -36,6 +36,7 @@ export const FiveSecondsGameStateSchema = BaseGameStateSchema.extend({
   players: z.record(z.string(), PlayerSchema),
   votingState: VotingStateSchema.nullable(),
   seenQuestionIds: z.array(z.string()),
+  customSeenQuestionIds: z.array(z.string()).default([]),
   currentQuestion: baseQuestionSchema.nullable(),
   questions: z.array(baseQuestionSchema).default([]),
   turnTimerEndsAt: z.number().nullable().default(null),

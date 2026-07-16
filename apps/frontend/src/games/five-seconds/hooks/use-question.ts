@@ -5,20 +5,26 @@ import { useCallback, useEffect } from 'react';
 import { useCustomQuestionsStore } from '../stores/custom-questions-store';
 import { normalizeDifficulty } from '../utils/difficulty-utils';
 
-function getFilteredCustomQuestions(
+export function getFilteredCustomQuestions(
   allQuestions: any[],
   categoryIds: string[],
   difficulty: string,
   excludeIds: string[],
 ) {
-  const normalizedSelectedCategories = categoryIds.map(c => c.trim().toLowerCase());
   const normalizedDifficulty = difficulty.trim().toLowerCase();
+  const isAllDifficulty = normalizedDifficulty === 'all';
+
+  const selectedCategories = categoryIds.length > 0
+    ? categoryIds.map(c => c.trim().toLowerCase())
+    : [...new Set(allQuestions.map((q: any) => q.categoryId?.trim().toLowerCase()).filter(Boolean))];
 
   const filtered = allQuestions
     .filter((q) => {
-      const qCat = q.categoryId.trim().toLowerCase();
+      const qCat = q.categoryId?.trim().toLowerCase();
       const qDiff = normalizeDifficulty(q.difficulty);
-      return normalizedSelectedCategories.includes(qCat) && qDiff === normalizedDifficulty && !excludeIds.includes(q.id);
+      const matchesCategory = selectedCategories.length === 0 || selectedCategories.includes(qCat);
+      const matchesDifficulty = isAllDifficulty || qDiff === normalizedDifficulty;
+      return matchesCategory && matchesDifficulty && !excludeIds.includes(q.id);
     })
     .sort(() => Math.random() - 0.5);
   return filtered;
@@ -32,16 +38,15 @@ export function useQuestion() {
 
   const handleFetchQuestion = useCallback(async () => {
     if (state.settings.useCustomQuestions) {
-      // Use custom questions for local mode
+      const excludeIds = state.customSeenQuestionIds || [];
       const filteredQuestions = getFilteredCustomQuestions(
         customQuestions,
         state.settings.customCategoryIds || [],
         state.settings.difficulty,
-        state.seenQuestionIds,
+        excludeIds,
       );
 
       if (filteredQuestions.length > 0) {
-        // Load multiple questions for buffer if needed
         const questionsNeeded = Math.max(5 - state.questions.length, 0);
         if (questionsNeeded > 0 && state.questions.length < 5) {
           const bufferQuestions = filteredQuestions.slice(0, questionsNeeded);
@@ -52,7 +57,6 @@ export function useQuestion() {
           });
         }
 
-        // Set current question if none exists
         if (!state.currentQuestion && filteredQuestions.length > 0) {
           await dispatch({
             type: 'SET_QUESTION',
@@ -61,13 +65,15 @@ export function useQuestion() {
         }
       }
       else {
-        console.warn('[useQuestion] No questions available after filtering');
+        const isExhausted = customQuestions.length > 0;
+        const message = isExhausted
+          ? 'All custom questions have been used. Please add more questions or switch to server questions.'
+          : 'No custom questions available. Import questions to get started.';
 
-        // Handle no questions available
         await dispatch({
           type: 'FETCH_QUESTIONS_ERROR',
           payload: {
-            message: 'No custom questions available with current settings. Please add questions or change category/difficulty.',
+            message,
             canRetry: false,
             suggestSettingsChange: true,
           },
@@ -75,14 +81,13 @@ export function useQuestion() {
       }
     }
     else {
-      // Use server questions
       await fetchQuestionMultiplayer();
     }
   }, [
     state.settings.useCustomQuestions,
     state.settings.customCategoryIds,
     state.settings.difficulty,
-    state.seenQuestionIds,
+    state.customSeenQuestionIds,
     state.questions.length,
     state.currentQuestion,
     customQuestions,

@@ -5,7 +5,7 @@ const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8787';
 
 const client = hcWithType(API_URL);
 
-type ResourceType = 'questions' | 'question-feedback' | 'categories' | 'banners';
+type ResourceType = 'questions' | 'question-feedback' | 'categories' | 'banners' | 'companies';
 
 const routeMap: Record<
   ResourceType,
@@ -33,6 +33,13 @@ const routeMap: Record<
     create: () => (client.api.admin).banners.$post,
     update: () => (client.api.admin).banners[':id'].$patch,
     delete: () => (client.api.admin).banners[':id'].$delete,
+  },
+  'companies': {
+    getList: () => (client.api.admin).companies.$get,
+    getOne: () => (client.api.admin).companies[':id'].$get,
+    create: () => (client.api.admin).companies.$post,
+    update: () => (client.api.admin).companies[':id'].$patch,
+    delete: () => (client.api.admin).companies[':id'].$delete,
   },
   'categories': {
     getList: () => (client.api.admin).categories.$get,

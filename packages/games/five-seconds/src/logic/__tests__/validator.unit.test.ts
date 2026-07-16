@@ -15,6 +15,8 @@ describe('validateFiveSecondsAction', () => {
       difficulty: 'easy',
       timePerTurn: 5,
       pointsToWin: 10,
+      useCustomQuestions: false,
+      customCategoryIds: [],
     },
     votingState: null,
     seenQuestionIds: [],
@@ -31,7 +33,10 @@ describe('validateFiveSecondsAction', () => {
       phase: 'pre-turn',
       skipsRemaining: 0,
     },
+    customSeenQuestionIds: [],
     questionError: null,
+    readingTime: 0,
+    readingTimerEndsAt: null,
     createdAt: Date.now(),
     startedAt: Date.now(),
     ...overrides,
@@ -278,6 +283,34 @@ describe('validateFiveSecondsAction', () => {
         });
         expect(result.valid).toBe(true);
       });
+    });
+  });
+
+  describe('custom questions feature gate', () => {
+    it('should allow UPDATE_SETTINGS with useCustomQuestions=true when feature flag is enabled', () => {
+      const state = mockState();
+      const result = validateFiveSecondsAction({
+        state,
+        action: {
+          type: 'UPDATE_SETTINGS',
+          payload: { useCustomQuestions: true },
+        },
+        playerId: 'p1',
+      });
+      expect(result.valid).toBe(true);
+    });
+
+    it('should allow UPDATE_SETTINGS with useCustomQuestions=false when feature flag is enabled', () => {
+      const state = mockState();
+      const result = validateFiveSecondsAction({
+        state,
+        action: {
+          type: 'UPDATE_SETTINGS',
+          payload: { useCustomQuestions: false },
+        },
+        playerId: 'p1',
+      });
+      expect(result.valid).toBe(true);
     });
   });
 

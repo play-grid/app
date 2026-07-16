@@ -53,8 +53,8 @@ export const useCustomQuestionsStore = ENABLE_CUSTOM_QUESTIONS_FEATURE
           customCategories: [],
           addQuestions: questions =>
             set((state) => {
-              const existingTexts = new Set(state.customQuestions.map(q => q.text));
-              const newQuestions = questions.filter(q => !existingTexts.has(q.text));
+              const existingTexts = new Set(state.customQuestions.map(q => q.text.toLowerCase()));
+              const newQuestions = questions.filter(q => !existingTexts.has(q.text.toLowerCase()));
               state.customQuestions.push(...newQuestions);
             }),
           updateQuestion: (id, updates) =>

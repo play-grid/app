@@ -14,6 +14,7 @@ import type {
 import { logger } from '../logger';
 
 const MAX_SEEN_QUESTIONS = 400;
+const MAX_CUSTOM_SEEN_QUESTIONS = 200;
 
 function capSeenQuestions(ids: string[]): void {
   if (ids.length > MAX_SEEN_QUESTIONS) {
@@ -23,12 +24,30 @@ function capSeenQuestions(ids: string[]): void {
   }
 }
 
+function capCustomSeenQuestions(ids: string[]): void {
+  if (ids.length > MAX_CUSTOM_SEEN_QUESTIONS) {
+    const toRemove = ids.length - MAX_CUSTOM_SEEN_QUESTIONS;
+    ids.splice(0, toRemove);
+    logger.debug(`[FiveSeconds] Custom seen questions capped at ${MAX_CUSTOM_SEEN_QUESTIONS} (removed ${toRemove} oldest)`);
+  }
+}
+
+function pushSeenId(draft: Draft<FiveSecondsGameState>, id: string): void {
+  if (draft.settings.useCustomQuestions) {
+    draft.customSeenQuestionIds.push(id);
+    capCustomSeenQuestions(draft.customSeenQuestionIds);
+  }
+  else {
+    draft.seenQuestionIds.push(id);
+    capSeenQuestions(draft.seenQuestionIds);
+  }
+}
+
 export function addSeenQuestionId(
   draft: Draft<FiveSecondsGameState>,
   payload: AddSeenQuestionIdAction['payload'],
 ): void {
-  draft.seenQuestionIds.push(payload.id);
-  capSeenQuestions(draft.seenQuestionIds);
+  pushSeenId(draft, payload.id);
 }
 
 export function setQuestion(
@@ -36,9 +55,13 @@ export function setQuestion(
   payload: SetQuestionAction['payload'],
 ): void {
   draft.currentQuestion = payload.question;
-  if (!draft.seenQuestionIds.includes(payload.question.id)) {
-    draft.seenQuestionIds.push(payload.question.id);
-    capSeenQuestions(draft.seenQuestionIds);
+  if (draft.settings.useCustomQuestions) {
+    if (!draft.customSeenQuestionIds.includes(payload.question.id)) {
+      pushSeenId(draft, payload.question.id);
+    }
+  }
+  else if (!draft.seenQuestionIds.includes(payload.question.id)) {
+    pushSeenId(draft, payload.question.id);
   }
   logger.debug(`[FiveSeconds] Current question set: ${payload.question.id} - "${payload.question.text}"`);
 }
@@ -52,9 +75,13 @@ export function loadQuestions(
   if (!draft.currentQuestion && payload.questions.length > 0) {
     draft.currentQuestion = payload.questions[0];
 
-    if (!draft.seenQuestionIds.includes(payload.questions[0].id)) {
-      draft.seenQuestionIds.push(payload.questions[0].id);
-      capSeenQuestions(draft.seenQuestionIds);
+    if (draft.settings.useCustomQuestions) {
+      if (!draft.customSeenQuestionIds.includes(payload.questions[0].id)) {
+        pushSeenId(draft, payload.questions[0].id);
+      }
+    }
+    else if (!draft.seenQuestionIds.includes(payload.questions[0].id)) {
+      pushSeenId(draft, payload.questions[0].id);
     }
   }
 }
@@ -263,6 +290,7 @@ export function clearEphemeralState(draft: Draft<FiveSecondsGameState>): void {
   draft.readingTime = 0;
   draft.readingTimerEndsAt = null;
   draft.votingState = null;
+  draft.customSeenQuestionIds = [];
 }
 
 export function clearQuestionError(draft: Draft<FiveSecondsGameState>): void {

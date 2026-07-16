@@ -5,7 +5,7 @@ import { FiveSecondsActionSchema, FiveSecondsGameStateSchema } from './logic/sch
 import { fiveSecondsSubPhases } from './logic/sub-phases';
 import { validateFiveSecondsAction } from './logic/validator';
 
-export const ENABLE_CUSTOM_QUESTIONS_FEATURE = false;
+export const ENABLE_CUSTOM_QUESTIONS_FEATURE = true;
 
 export const fiveSecondsGame = createGameDefinition({
   meta: {
@@ -36,6 +36,7 @@ export const fiveSecondsGame = createGameDefinition({
     },
     votingState: null,
     seenQuestionIds: [],
+    customSeenQuestionIds: [],
     currentQuestion: null,
     questions: [],
     turnTimerEndsAt: null,

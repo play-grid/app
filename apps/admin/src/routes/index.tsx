@@ -1,4 +1,4 @@
-import { BubbleChatQuestionIcon, Image01Icon, MessageQuestionIcon } from '@hugeicons/core-free-icons';
+import { BubbleChatQuestionIcon, Building04Icon, Image01Icon, MessageQuestionIcon } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { createFileRoute } from '@tanstack/react-router';
 import { Resource } from 'ra-core';
@@ -6,6 +6,9 @@ import { Admin } from '@/components/admin';
 import { CreateBanner } from '@/features/banners/create';
 import { EditBanner } from '@/features/banners/edit';
 import { ListBanners } from '@/features/banners/list';
+import { CreateCompany } from '@/features/companies/create';
+import { EditCompany } from '@/features/companies/edit';
+import { ListCompanies } from '@/features/companies/list';
 import { ListQuestionFeedback } from '@/features/question-feedback/list';
 import { CreateQuestions } from '@/features/questions/create';
 import { EditQuestions } from '@/features/questions/edit';
@@ -15,7 +18,7 @@ import dataProvider from '@/lib/data-provider';
 export const Route = createFileRoute('/')({
   component: App,
 });
-// TODO refactor icons one icons in package/ui and use design tokens
+
 function QuestionIcon() {
   return (
     <HugeiconsIcon
@@ -49,6 +52,17 @@ function BannerIcon() {
   );
 }
 
+function CompanyIcon() {
+  return (
+    <HugeiconsIcon
+      icon={Building04Icon}
+      size={20}
+      color="currentColor"
+      strokeWidth={1.5}
+    />
+  );
+}
+
 function App() {
   return (
     <Admin dataProvider={dataProvider}>
@@ -63,6 +77,13 @@ function App() {
         name="question-feedback"
         list={ListQuestionFeedback}
         icon={QuestionFeedbackIcon}
+      />
+      <Resource
+        name="companies"
+        list={ListCompanies}
+        icon={CompanyIcon}
+        create={CreateCompany}
+        edit={EditCompany}
       />
       <Resource
         name="banners"

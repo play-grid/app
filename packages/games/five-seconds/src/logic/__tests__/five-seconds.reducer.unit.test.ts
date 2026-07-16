@@ -141,7 +141,10 @@ describe('five Seconds Game Reducer', () => {
       },
       turnTimerEndsAt: Date.now() + 5000,
       seenQuestionIds: ['q1', 'q2', 'q3'],
+      customSeenQuestionIds: [],
       currentQuestion: { id: 'q4', text: 'Test question', difficulty: 'medium', categoryId: 'cat1' },
+      readingTime: 0,
+      readingTimerEndsAt: null,
       questions: [
         { id: 'q5', text: 'Buffer question 1', difficulty: 'easy', categoryId: 'cat1' },
         { id: 'q6', text: 'Buffer question 2', difficulty: 'hard', categoryId: 'cat2' },
@@ -216,6 +219,76 @@ describe('five Seconds Game Reducer', () => {
 
       expect(state.questionError).toBeNull();
       expect(state.settings.difficulty).toBe('hard');
+    });
+  });
+
+  describe('customSeenQuestionIds tracking', () => {
+    it('should track seen IDs in customSeenQuestionIds when useCustomQuestions is enabled', () => {
+      const customState: FiveSecondsGameState = {
+        ...initialState,
+        settings: { ...initialState.settings, useCustomQuestions: true },
+      };
+
+      const state = fiveSecondsGameReducer(customState, {
+        type: 'ADD_SEEN_QUESTION_ID',
+        payload: { id: 'custom-q-1' },
+      });
+
+      expect(state.customSeenQuestionIds).toContain('custom-q-1');
+      expect(state.seenQuestionIds).toHaveLength(0);
+    });
+
+    it('should track seen IDs in seenQuestionIds when useCustomQuestions is disabled', () => {
+      const state = fiveSecondsGameReducer(initialState, {
+        type: 'ADD_SEEN_QUESTION_ID',
+        payload: { id: 'server-q-1' },
+      });
+
+      expect(state.seenQuestionIds).toContain('server-q-1');
+      expect(state.customSeenQuestionIds).toHaveLength(0);
+    });
+
+    it('should push custom question IDs to customSeenQuestionIds on SET_QUESTION', () => {
+      const customState: FiveSecondsGameState = {
+        ...initialState,
+        settings: { ...initialState.settings, useCustomQuestions: true },
+      };
+
+      const state = fiveSecondsGameReducer(customState, {
+        type: 'SET_QUESTION',
+        payload: { question: { id: 'cq1', text: 'Custom Q?', difficulty: 'easy', categoryId: 'my-cat' } as any },
+      });
+
+      expect(state.customSeenQuestionIds).toContain('cq1');
+      expect(state.seenQuestionIds).toHaveLength(0);
+    });
+
+    it('should clear customSeenQuestionIds on START_GAME', () => {
+      const stateWithCustomSeen: FiveSecondsGameState = {
+        ...initialState,
+        customSeenQuestionIds: ['cq1', 'cq2'],
+      };
+
+      const state = fiveSecondsGameReducer(stateWithCustomSeen, { type: 'START_GAME' });
+
+      expect(state.customSeenQuestionIds).toHaveLength(0);
+    });
+
+    it('should cap customSeenQuestionIds at 200 items', () => {
+      const customState: FiveSecondsGameState = {
+        ...initialState,
+        settings: { ...initialState.settings, useCustomQuestions: true },
+        customSeenQuestionIds: Array.from({ length: 200 }, (_, i) => `cq${i}`),
+      };
+
+      const state = fiveSecondsGameReducer(customState, {
+        type: 'ADD_SEEN_QUESTION_ID',
+        payload: { id: 'cq200' },
+      });
+
+      expect(state.customSeenQuestionIds).toHaveLength(200);
+      expect(state.customSeenQuestionIds).not.toContain('cq0');
+      expect(state.customSeenQuestionIds).toContain('cq200');
     });
   });
 

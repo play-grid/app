@@ -21,7 +21,7 @@ interface CategoryComboboxProps {
 
 export function CategoryCombobox({ value, onChange, placeholder, categories }: CategoryComboboxProps) {
   const { customCategories: defaultCategories, addCustomCategory } = useCustomQuestionsStore();
-  const displayCategories = categories || defaultCategories;
+  const displayCategories = [...(categories || defaultCategories)].sort((a, b) => a.localeCompare(b));
   const [isCreating, setIsCreating] = useState(false);
   const [newCategory, setNewCategory] = useState('');
   const { t } = useTranslation();

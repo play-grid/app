@@ -56,7 +56,8 @@ export function BulkImportDialog({ children }: BulkImportDialogProps) {
   const [hasImported, setHasImported] = useState(false);
 
   const parsedQuestions = parseBulkText(bulkText, defaultCategory, defaultDifficulty);
-  const { addQuestions, customCategories, addCustomCategory } = useCustomQuestionsStore();
+  const { addQuestions, customCategories, addCustomCategory, customQuestions } = useCustomQuestionsStore();
+  const showBottomPanel = hasImported || customQuestions.length > 0;
 
   const handleImport = () => {
     const questionsNeedingCategory = parsedQuestions.filter(q => !q.categoryId);
@@ -143,7 +144,7 @@ export function BulkImportDialog({ children }: BulkImportDialogProps) {
 
           {/* LEFT COLUMN: EDITOR & SETTINGS */}
           <div className="flex flex-col h-full overflow-hidden border-r">
-            <ScrollArea className="p-6 space-y-6">
+            <ScrollArea className="h-full p-6 space-y-6">
               {/* Format Helper */}
               <Alert>
                 {/* <Info className="h-4 w-4" /> */}
@@ -278,8 +279,7 @@ export function BulkImportDialog({ children }: BulkImportDialogProps) {
 
             {/* FIX: ResizableGroup is always rendered, content is conditional */}
             <ResizablePanelGroup orientation="vertical">
-              {/* Top Panel (Preview) - Always Visible */}
-              <ResizablePanel defaultSize={hasImported ? 50 : 100} minSize={30}>
+              <ResizablePanel defaultSize={showBottomPanel ? 50 : 100} minSize={30}>
                 <ScrollArea className="flex-1 h-full">
                   {parsedQuestions.length === 0
                     ? (
@@ -331,24 +331,23 @@ export function BulkImportDialog({ children }: BulkImportDialogProps) {
                 </ScrollArea>
               </ResizablePanel>
 
-              {/* Bottom Panel (Imported List) - Conditional */}
-              {hasImported && (
-                <>
-                  <ResizableHandle
-                    withHandle
-                    onPointerDown={e => e.stopPropagation()}
-                    onClick={e => e.stopPropagation()}
-                  />
-                  <ResizablePanel defaultSize={50} minSize={30}>
-                    <div className="h-full border-t bg-background overflow-hidden flex flex-col">
-                      <div className="p-4">
-                        <CustomQuestionsList />
-                      </div>
-                    </div>
-                  </ResizablePanel>
-                </>
-              )}
-
+              <ResizableHandle
+                withHandle
+                className={`transition-opacity ${showBottomPanel ? '' : 'opacity-0 pointer-events-none'}`}
+                onPointerDown={e => e.stopPropagation()}
+                onClick={e => e.stopPropagation()}
+              />
+              <ResizablePanel
+                defaultSize={50}
+                minSize={30}
+                className={`transition-opacity ${showBottomPanel ? '' : 'opacity-0 pointer-events-none'}`}
+              >
+                <div className="h-full border-t bg-background overflow-hidden flex flex-col">
+                  <div className="p-4">
+                    <CustomQuestionsList />
+                  </div>
+                </div>
+              </ResizablePanel>
             </ResizablePanelGroup>
           </div>
         </div>
