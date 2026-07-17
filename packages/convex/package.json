@@ -12,6 +12,7 @@
     "build": "echo 'no build'"
   },
   "dependencies": {
+    "@opentelemetry/api": "1.9.0",
     "convex": "^1.42.0",
     "kitcn": "^0.15.15",
     "zod": "^4.1.12"
