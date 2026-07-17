@@ -1,0 +1,22 @@
+{
+  "name": "@playgrid/convex",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "kitcn dev",
+    "codegen": "kitcn codegen",
+    "verify": "kitcn verify",
+    "lint": "echo 'no lint'",
+    "lint:fix": "echo 'no lint'",
+    "check-types": "tsc --noEmit",
+    "build": "echo 'no build'"
+  },
+  "dependencies": {
+    "convex": "^1.42.0",
+    "kitcn": "^0.15.15",
+    "zod": "^4.1.12"
+  },
+  "devDependencies": {
+    "typescript": "catalog:"
+  }
+}
